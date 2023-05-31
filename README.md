@@ -66,5 +66,10 @@ the `CBOR.diagnosticNotation(`_string_`)` method.
 
 Note: the intention with diagnostic notation is not using it as a "wire" format.
 
-Updated: 2023-05-26
+### Implementation Note
+
+The code represents a _Reference Implementation_, not code for inclusion in JavaScript engines.  The latter would most certainly require parts to be rewritten in C/C++
+since "bit-fiddling" using `Number` and `BigInt` have major limitations.
+
+Updated: 2023-05-31
 
