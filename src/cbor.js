@@ -1039,7 +1039,13 @@ class CBOR {
 //   Diagnostic Notation Support  //
 //================================//
 
-  static #DiagnosticNotation = class {
+  static DiagnosticNotation = class {
+
+    static ParserError = class extends Error {
+      constructor(message) {
+        super(message);
+      }
+    }
 
     cborText;
     index;
@@ -1050,6 +1056,7 @@ class CBOR {
       this.sequence = sequence;
       this.index = 0;
     }
+ 
   
     reportError = function(error) {
       // Unsurprisingly, error handling turned out to be the most complex part...
@@ -1087,27 +1094,42 @@ class CBOR {
           lineNumber++;
         }
       }
-      throw SyntaxError(complete + "^\n\nError in line " + lineNumber + ". " + error);
+      throw new CBOR.DiagnosticNotation.ParserError(complete +
+                "^\n\nError in line " + lineNumber + ". " + error);
     }
   
     readToEOF = function() {
-      let cborObject = this.getObject();
-      if (this.index < this.cborText.length) {
-        this.readChar();
-        this.reportError("Unexpected data after token");
+      try {
+        let cborObject = this.getObject();
+        if (this.index < this.cborText.length) {
+          this.readChar();
+          this.reportError("Unexpected data after token");
+        }
+        return cborObject;
+      } catch (e) {
+        if (e instanceof CBOR.DiagnosticNotation.ParserError) {
+          throw e;
+        }
+        this.reportError(e.toString());
       }
-      return cborObject;
     }
 
     readSequenceToEOF = function() {
-      let sequence = [];
-      while (true) {
-        sequence.push(this.getObject());
-        if (this.index < this.cborText.length) {
-          this.scanFor(",");
-        } else {
-          return sequence;
+      try {
+        let sequence = [];
+        while (true) {
+          sequence.push(this.getObject());
+          if (this.index < this.cborText.length) {
+            this.scanFor(",");
+          } else {
+            return sequence;
+          }
         }
+      } catch (e) {
+        if (e instanceof CBOR.DiagnosticNotation.ParserError) {
+          throw e;
+        }
+        this.reportError(e.toString());
       }
     }
 
@@ -1269,13 +1291,12 @@ class CBOR {
         }
         break;
       }
-      try {
         if (floatingPoint) {
           this.testForNonDecimal(prefix);
           let value = Number(token);
           // Implicit overflow is not permitted
           if (!Number.isFinite(value)) {
-            throw RangeError("Floating point value out of range");
+            this.reportError("Floating point value out of range");
           }
           return CBOR.Float(negative ? -value : value);
         }
@@ -1283,7 +1304,7 @@ class CBOR {
           // Do not accept '-', 0xhhh, or leading zeros
           this.testForNonDecimal(prefix);
           if (negative || (token.length > 1 && token.charAt(0) == '0')) {
-            throw TypeError("Tag syntax error");
+            this.reportError("Tag syntax error");
           }
           this.readChar();
           let tagNumber = BigInt(token);
@@ -1291,7 +1312,7 @@ class CBOR {
           if (tagNumber == CBOR.Tag.RESERVED_TAG_COTX) {
             if (!taggedObject instanceof CBOR.Array || taggedObject.size() != 2 ||
                 !taggedObject.get(0) instanceof CBOR.String) {
-              throw SyntaxError("Special tag " + CBOR.Tag.RESERVED_TAG_COTX + " syntax error");
+              this.reportError("Special tag " + CBOR.Tag.RESERVED_TAG_COTX + " syntax error");
             }
           }
           let cborTag = CBOR.Tag(tagNumber, taggedObject);
@@ -1301,9 +1322,6 @@ class CBOR {
         let bigInt = BigInt((prefix == null ? '' : prefix) + token);
         // Clone: slight quirk to get the proper CBOR integer type  
         return CBOR.BigInt(negative ? -bigInt : bigInt).clone();
-      } catch (error) {
-        this.reportError(error.toString());
-      }
     }
 
     testForNonDecimal = function(nonDecimal) {
@@ -1476,9 +1494,9 @@ class CBOR {
 
   static diagnosticNotation = function(cborText, optionalSequenceFlag) {
     if (optionalSequenceFlag) {
-      return new CBOR.#DiagnosticNotation(cborText, true).readSequenceToEOF();
+      return new CBOR.DiagnosticNotation(cborText, true).readSequenceToEOF();
     } else {
-      return new CBOR.#DiagnosticNotation(cborText, false).readToEOF();
+      return new CBOR.DiagnosticNotation(cborText, false).readToEOF();
     }
   }
 
