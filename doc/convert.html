@@ -4,8 +4,9 @@
   <meta name='viewport' content='initial-scale=1.0'/>
   <title>CBOR Signature Format (CSF)</title>
   <link rel='stylesheet' type='text/css' href='style.css'>
-  <script src='../src/cbor-js-api.js'></script>
+  <script src='../src/cbor.js'></script>
   <script>'use strict';
+
 function getRadioValue(name) {
   let ele = document.getElementsByName(name);
   for (var i = 0; i < ele.length; i++) {
@@ -14,20 +15,117 @@ function getRadioValue(name) {
     }
   }
 }
+
+function getBytesFromCborHex(hexAndOptionalComments) {
+  return CBOR.fromHex(hexAndOptionalComments.replaceAll(/#.*(\r|\n|$)/g, '')
+                                            .replaceAll(/( |\n|\r)/g, ''));
+}
+
+function getBytesFromCborSequence(cborObjects) {
+  let cborBytes = new Uint8Array();
+  cborObjects.forEach(o => {
+    cborBytes = CBOR.addArrays(cborBytes, o.encode());
+  });
+  return cborBytes;
+}
+
+function htmlSanitize(text) {
+  return text.replaceAll('&','&amp;')
+             .replaceAll('>', '&gt;')
+             .replaceAll('<', '&lt;')
+             .replaceAll('\n', '<br>')
+             .replaceAll(' ', '&nbsp;');
+}
+
+function getFormattedCbor(selected, cborObjects) {
+  if (selected == 'diag') {
+    let next = false;
+    let diagnosticNotation = '';
+    cborObjects.forEach(o => {
+      if (next) {
+        diagnosticNotation += ',\n';
+      }
+      next = true;
+      diagnosticNotation += o.toString();
+    });
+    return htmlSanitize(diagnosticNotation);
+  } else {
+    let cborBytes = getBytesFromCborSequence(cborObjects);
+    switch (selected) {
+      case 'hexa':
+        return CBOR.toHex(cborBytes);
+
+      case 'cstyle':
+        let hex = CBOR.toHex(cborBytes);
+        let cstyle = '';
+        for (let i = 0; i < hex.length; ) {
+          if (i > 0) {
+            cstyle += ', ';
+          }
+          cstyle += '0x' + hex.charAt(i++) + hex.charAt(i++);
+        }
+        return cstyle;
+
+      default:
+        return CBOR.toBase64Url(cborBytes);
+    }
+  }
+}
+
 async function delayedConvert() {
   document.getElementById('cborout').children[1].innerHTML = 'Working...';
   setTimeout(function() {
     doConvert();
   }, 200);
 }
+
 async function doConvert() {
-  let jsonObject = {cborin: document.getElementById('cborin').children[1].value,selin: getRadioValue('selin'),selout: getRadioValue('selout'),seq: document.getElementById('seq').checked,det: document.getElementById('det').checked,con: document.getElementById('con').checked};
-  let html = 'unknown error';
+  let jsonObject = {cborin: document.getElementById('cborin').children[1].value,
+                    selin: getRadioValue('selin'),
+                    selout: getRadioValue('selout'),
+                    seq: document.getElementById('seq').checked,
+                    det: document.getElementById('det').checked,
+                    con: document.getElementById('con').checked};
+  let html = '';
   try {
-    let object = CBOR.diagnosticNotation(document.getElementById('cborin').children[1].value);
-    html = CBOR.toHex(object.encode());
+    let sequenceFlag = document.getElementById('seq').checked;
+    let deterministicFlag = document.getElementById('det').checked;
+    let constrainedMapFlag = document.getElementById('con').checked;
+    let inData = document.getElementById('cborin').children[1].value;
+    let cborBytes;
+    switch (getRadioValue('selin')) {
+      case 'diag':
+        let parsedDiag = CBOR.diagnosticNotation(inData, sequenceFlag);
+        if (sequenceFlag) {
+          cborBytes = getBytesFromCborSequence(parsedDiag);
+        } else {
+          cborBytes = parsedDiag.encode();
+        }
+        break;
+      case 'cstyle':
+        inData = inData.toLowerCase().replaceAll('0x', '').replaceAll(',', ' ');
+      case 'hexa':
+        cborBytes = getBytesFromCborHex(inData);
+        break;
+      default:
+        cborBytes = CBOR.fromBase64Url(inData);
+    }
+    let cborObjects = [];
+    let object;
+    let decoder = CBOR.initExtended(cborBytes, 
+                                    sequenceFlag, 
+                                    !deterministicFlag,
+                                    constrainedMapFlag);
+    while (object = CBOR.decodeExtended(decoder)) {
+      cborObjects.push(object);
+      if (!sequenceFlag) {
+        break;
+      }
+    }
+    html = getFormattedCbor(getRadioValue('selout'), cborObjects);
   } catch (e) {
-    html = '<span style="color:red;font-weight:bold">' + e + '</span>';
+    let errorMessage = e.toString().replace(/.*Error\: ?/g, '');
+    html = '<span style="color:red;font-weight:bold">' + htmlSanitize(errorMessage) + '</span>';
   }
   document.getElementById('cborout').children[1].innerHTML = html;
 }
@@ -49,14 +147,17 @@ async function doConvert() {
         <td><code>0xhh, 0xhh...</code> notation</td></tr>
     <tr><td><input type='radio' name='selin' value='b64u'></td>
         <td>Base64Url notation</td></tr><tr><td><input type='checkbox' id='seq'></td>
-        <td>Sequence</td></tr><tr><td><input type='checkbox' checked id='det'></td>
+        <td>Sequence</td></tr>
+    <tr><td><input type='checkbox' checked id='det'></td>
         <td>Require <a href='https://cyberphone.github.io/javaapi/org/webpki/cbor/package-summary.html#deterministic-encoding' target='_blank' title='Documentation'>Deterministic Encoding</a> for hex/b64u data</td></tr>
     <tr><td><input type='checkbox' id='con'></td><td>Require <a href='https://cyberphone.github.io/javaapi/org/webpki/cbor/package-summary.html#map-key-constraints' target='_blank' title='Documentation'>Constrained Map Keys</a></td></tr>
     </table>Paste a CBOR object in the text box or try with the default:
       </div><textarea rows='10' maxlength='100000' class='textbox' name='cborin'>{
   5: &#034;data&#034;
 }</textarea></div>
-<div id='cborout' style='padding-top:10pt'><div style='padding-bottom:3pt'><table style='margin-bottom:0.3em;border-spacing:0'><tr><td><input type='radio' name='selout' value='diag'></td><td><a href='https://cyberphone.github.io/javaapi/org/webpki/cbor/package-summary.html#diagnostic-notation' target='_blank' title='Documentation'>Diagnostic Notation</a></td></tr>
+<div id='cborout' style='padding-top:10pt'><div style='padding-bottom:3pt'>
+  <table style='margin-bottom:0.3em;border-spacing:0'>
+  <tr><td><input type='radio' name='selout' value='diag'></td><td><a href='https://cyberphone.github.io/javaapi/org/webpki/cbor/package-summary.html#diagnostic-notation' target='_blank' title='Documentation'>Diagnostic Notation</a></td></tr>
     <tr><td><input type='radio' name='selout' value='hexa' checked></td>
         <td>Hexadecimal notation</td></tr><tr><td><input type='radio' name='selout' value='cstyle'></td>
         <td><code>0xhh, 0xhh...</code> notation</td></tr>

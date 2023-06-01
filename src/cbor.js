@@ -538,7 +538,7 @@ class CBOR {
           // Normal case for parsing.
           let diff = this.#lastEntry.compare(newEntry.encodedKey);
           if (diff >= 0) {
-            throw Error((diff ? "Non-deterministic order: " : "Duplicate: ") + key);
+            throw Error((diff ? "Non-deterministic order for key: " : "Duplicate key: ") + key);
           }
           this.#lastEntry.next = newEntry;
         } else {
@@ -549,7 +549,7 @@ class CBOR {
           for (let entry = this.#root; entry; entry = entry.next) {
             diff = entry.compare(newEntry.encodedKey);
             if (diff == 0) {
-              throw Error("Duplicate: " + key);                      
+              throw Error("Duplicate key: " + key);                      
             }
             if (diff > 0) {
               // New key is (lexicographically) smaller than current entry.
@@ -1282,16 +1282,16 @@ class CBOR {
         if (this.nextChar() == '(') {
           // Do not accept '-', 0xhhh, or leading zeros
           this.testForNonDecimal(prefix);
-          if (negative || (token.length() > 1 && token.charAt(0) == '0')) {
-            this.reportError("Tag syntax error");
+          if (negative || (token.length > 1 && token.charAt(0) == '0')) {
+            throw TypeError("Tag syntax error");
           }
           this.readChar();
           let tagNumber = BigInt(token);
-          let taggedbject = this.getObject();
+          let taggedObject = this.getObject();
           if (tagNumber == CBOR.Tag.RESERVED_TAG_COTX) {
-              if (!taggedbject instanceof CBOR.Array || taggedbject.size() != 2 ||
-                  !taggedbject.get(0) instanceof CBOR.String) {
-                this.reportError("Special tag " + CBOR.Tag.RESERVED_TAG_COTX + " syntax error");
+            if (!taggedObject instanceof CBOR.Array || taggedObject.size() != 2 ||
+                !taggedObject.get(0) instanceof CBOR.String) {
+              throw SyntaxError("Special tag " + CBOR.Tag.RESERVED_TAG_COTX + " syntax error");
             }
           }
           let cborTag = CBOR.Tag(tagNumber, taggedObject);
