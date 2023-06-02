@@ -1629,8 +1629,8 @@ class CBOR {
     if (object instanceof CBOR.#CBORObject) {
       return object;
     }
-    throw TypeError(object ? 
-                    "Argument is not a CBOR object: " + object.constructor.name : "'null'");
+    throw TypeError("Argument is not a CBOR.* object: " + 
+                    (object ? object.constructor.name : 'null'));
   }
 
   static #decodeOneHex(charCode) {
