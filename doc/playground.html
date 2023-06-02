@@ -2,7 +2,7 @@
 <head>
   <link rel='icon' href='webpkiorg.png' sizes='192x192'>
   <meta name='viewport' content='initial-scale=1.0'/>
-  <title>CBOR Signature Format (CSF)</title>
+  <title>CBOR Playground</title>
   <link rel='stylesheet' type='text/css' href='style.css'>
   <script src='../src/cbor.js'></script>
   <script>'use strict';
@@ -72,20 +72,14 @@ function getFormattedCbor(selected, cborObjects) {
   }
 }
 
-async function delayedConvert() {
+async function delayedProcess() {
   document.getElementById('cborout').children[1].innerHTML = 'Working...';
   setTimeout(function() {
-    doConvert();
+    doProcess();
   }, 200);
 }
 
-async function doConvert() {
-  let jsonObject = {cborin: document.getElementById('cborin').children[1].value,
-                    selin: getRadioValue('selin'),
-                    selout: getRadioValue('selout'),
-                    seq: document.getElementById('seq').checked,
-                    det: document.getElementById('det').checked,
-                    con: document.getElementById('con').checked};
+async function doProcess() {
   let html = '';
   try {
     let sequenceFlag = document.getElementById('seq').checked;
@@ -132,8 +126,9 @@ async function doConvert() {
 </script>
 </head>
 <body>
-<div class='header'>CBOR Conversion Utility</div>
-<div style='padding-top:15pt'>This implementation supports the following subset of CBOR
+<div class='header'>CBOR Playground</div>
+<div style='padding-top:15pt'>The current <a href='https://github.com/cyberphone/cbor.js'>cbor.js</a>
+  proposal supports the following subset of CBOR
   primitives: <i>text&nbsp;string</i>, <i>byte&nbsp;string</i>, <i>integer</i>, 
   <i>big&nbsp;integer</i>, <i>floating&nbsp;point</i> (16/32/64 bit), <code>true</code>,
   <code>false</code>, <code>null</code>, and <i>tagged data</i> (CBOR major type 6).</div>
@@ -153,7 +148,8 @@ async function doConvert() {
     <tr><td><input type='checkbox' id='con'></td><td>Require <a href='https://cyberphone.github.io/javaapi/org/webpki/cbor/package-summary.html#map-key-constraints' target='_blank' title='Documentation'>Constrained Map Keys</a></td></tr>
     </table>Paste a CBOR object in the text box or try with the default:
       </div><textarea rows='10' maxlength='100000' class='textbox' name='cborin'>{
-  5: &#034;data&#034;
+  1: &quot;text\nnext&quot;,
+  2: [1.3e50, b64'oQVkZGF0YQ', h'abcdef', true, 0(&quot;2023-06-02T07:53:19Z&quot;)]
 }</textarea></div>
 <div id='cborout' style='padding-top:10pt'><div style='padding-bottom:3pt'>
   <table style='margin-bottom:0.3em;border-spacing:0'>
@@ -162,11 +158,11 @@ async function doConvert() {
         <td>Hexadecimal notation</td></tr><tr><td><input type='radio' name='selout' value='cstyle'></td>
         <td><code>0xhh, 0xhh...</code> notation</td></tr>
     <tr><td><input type='radio' name='selout' value='b64u'></td><td>Base64Url notation</td></tr>
-   ¨</table>Converted result using <a href='https://cyberphone.github.io/javaapi/org/webpki/cbor/package-summary.html#deterministic-encoding' target='_blank' title='Documentation'>Deterministic Encoding</a>:</div>
+   </table>Processed result using <a href='https://cyberphone.github.io/javaapi/org/webpki/cbor/package-summary.html#deterministic-encoding' target='_blank' title='Documentation'>Deterministic Encoding</a>:</div>
   <div class='staticbox'></div>
   </div>
     <div style='display:flex;justify-content:center'>
-      <div class='stdbtn' onclick="delayedConvert()">Convert!</div>
+      <div class='stdbtn' onclick="delayedProcess()">Process!</div>
   </div>
   <div>&nbsp;</div>
 </body>
