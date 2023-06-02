@@ -1,7 +1,8 @@
 # CBOR JavaScript API
 
-This repository holds a JavaScript API _in development_.  The API
-loosely mimics the "JSON" object by _exposing a single global object_,
+This repository contains a
+[CBOR JavaScript API](https://cyberphone.github.io/cbor.js/doc/)
+_in development_.  The API loosely mimics the "JSON" object by _exposing a single global object_,
 unsurprisingly named "CBOR".  The core is based on wrapping CBOR data items
 in type-specific objects.  These objects are used for encoding CBOR data,
 as well as being the result of CBOR decoding.
@@ -11,6 +12,16 @@ with the "CBOR&nbsp;Playground" (https://cbor.me), maintained by the
 [RFC8949](https://www.rfc-editor.org/rfc/rfc8949.html) editor, Carsten&nbsp;Bormann.
 
 <table align='center'><tr><td><i>Note that this API is not ready for external use!</i> 😏</td></tr></table>
+
+### Design Rationale
+
+The proposed API is intended to provide a "baseline" functionality that can easily be implemented
+in standard platforms with an emphasis on advanced systems like _Web browsers_, _mobile phones_, and
+_Web servers_.  This means that the API "by design" does not address JavaScript specific
+constructs like typed arrays beyond `Uint8Array`.  There are also some limitations regarding
+CBOR support: for constrained IoT applications, other solutions _may_ be required.
+However, in _most_ cases, additional processing at the application layer can deal
+with extensions.
 
 ### "CBOR" Components
 - Self-encoding wrapping objects
@@ -48,6 +59,11 @@ console.log('Value=' + map.get(CBOR.Int(1)));
 Value=45.7
 ```
 
+### On-line Testing
+
+On https://cyberphone.github.io/cbor.js/doc/playground.html you will find a simple Web application,
+permitting testing the encoder, decoder, and diagnostic notation implementation.
+
 ### Deterministic Encoding Rules
 
 The JavaScript API implements deterministic encoding based on section 4.2 of [RFC8949](https://www.rfc-editor.org/rfc/rfc8949.html).
@@ -71,5 +87,5 @@ Note: the intention with diagnostic notation is not using it as a "wire" format.
 The code represents a _Reference Implementation_, not code for inclusion in JavaScript engines.  The latter would most certainly require parts to be rewritten in C/C++
 since "bit-fiddling" using `Number` and `BigInt` have major limitations.
 
-Updated: 2023-05-31
+Updated: 2023-06-02
 
