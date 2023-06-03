@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33529.622
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6042AB6F-10A2-4A55-9BC0-527AC72CCC9F}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		test\assertions.js = test\assertions.js
+		test\base64.js = test\base64.js
+		test\blah.js = test\blah.js
+		webverify\build.xml = webverify\build.xml
+		src\cbor.js = src\cbor.js
+		test\clone.js = test\clone.js
+		test\diag.js = test\diag.js
+		test\example.js = test\example.js
+		test\exp2.js = test\exp2.js
+		test\exp3.js = test\exp3.js
+		test\experiments.js = test\experiments.js
+		test\float.js = test\float.js
+		test\float32.js = test\float32.js
+		test\hex.js = test\hex.js
+		webverify\web\index.html = webverify\web\index.html
+		doc\index.html = doc\index.html
+		test\inter.js = test\inter.js
+		test\keyconstraints.js = test\keyconstraints.js
+		LICENSE = LICENSE
+		test\nondeterministic.js = test\nondeterministic.js
+		test\out-of-range.js = test\out-of-range.js
+		doc\playground.html = doc\playground.html
+		README.md = README.md
+		test\sequence.js = test\sequence.js
+		test\tags.js = test\tags.js
+		test\test.js = test\test.js
+		test\utf8.js = test\utf8.js
+		webverify\src\WebVerifier.java = webverify\src\WebVerifier.java
+		webverify\webverify.js = webverify\webverify.js
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BA4CB9CA-42AA-4207-9DBA-E0F30CB74FBB}
+	EndGlobalSection
+EndGlobal
