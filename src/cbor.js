@@ -940,11 +940,7 @@ class CBOR {
         case CBOR.#MT_TAG:
           let taggedObject = this.getObject();
           if (bigN == CBOR.Tag.RESERVED_TAG_COTX) {
-            if (taggedObject.constructor.name != CBOR.Array.name || taggedObject.length != 2 ||
-                taggedObject.get(0).constructor.name != CBOR.String.name) {
-                throw SyntaxError("Tag syntax " +  CBOR.Tag.RESERVED_TAG_COTX +
-                                  "([\"string\", CBOR object]) expected");
-            }
+            CBOR.#checkCOTX(taggedObject);
           }
           return CBOR.Tag(bigN, taggedObject);
 
@@ -1308,10 +1304,7 @@ class CBOR {
           let tagNumber = BigInt(token);
           let taggedObject = this.getObject();
           if (tagNumber == CBOR.Tag.RESERVED_TAG_COTX) {
-            if (taggedObject.constructor.name != CBOR.Array.name|| taggedObject.length != 2 ||
-                taggedObject.get(0).constructor.name != CBOR.String.name) {
-              this.reportError("Special tag " + CBOR.Tag.RESERVED_TAG_COTX + " syntax error");
-            }
+            CBOR.#checkCOTX(taggedObject);
           }
           let cborTag = CBOR.Tag(tagNumber, taggedObject);
           this.scanFor(")");
@@ -1549,6 +1542,16 @@ class CBOR {
       }
     }
     return value;
+  }
+
+  static #checkCOTX = function(taggedObject) {
+    if (taggedObject.constructor.name != CBOR.Array.name ||
+        taggedObject.length != 2 ||
+        taggedObject.get(0).constructor.name != CBOR.String.name) {
+      throw SyntaxError("Tag syntax " +  CBOR.Tag.RESERVED_TAG_COTX +
+                        "([\"string\", CBOR object]) expected");
+    }
+    return taggedObject;
   }
 
   static #finishBigIntAndTag = function(tag, value) {
