@@ -11,17 +11,18 @@ To simplify adoption, the API utilizes a CBOR encoding scheme that is _backward 
 with the "CBOR&nbsp;Playground" (https://cbor.me), maintained by the
 [RFC8949](https://www.rfc-editor.org/rfc/rfc8949.html) editor, Carsten&nbsp;Bormann.
 
-<table align='center'><tr><td><i>Note that this API is not ready for external use!</i> 😏</td></tr></table>
+<table align='center'><tr><td><i>Note that this API is not yet ready for external use!</i> 😏</td></tr></table>
 
 ### Design Rationale
 
 The proposed API is intended to provide a "baseline" functionality that can easily be implemented
-in standard platforms with an emphasis on advanced systems like _Web browsers_, _mobile phones_, and
-_Web servers_.  This means that the API "by design" does not address JavaScript specific
+in standard platforms with an emphasis on computationally advanced systems like 
+_Web browsers_, _mobile phones_, and _Web servers_.
+Due to the desire maintaining interoperability across different platforms,
+the API "by design" does not address JavaScript specific
 constructs like typed arrays beyond `Uint8Array`.  There are also some limitations regarding
-CBOR support: for constrained IoT applications, other solutions _may_ be required.
-However, in _most_ cases, additional processing at the application layer can deal
-with extensions.
+CBOR support. However, in _most_ cases, additional processing at the application layer
+can deal with extensions.
 
 ### "CBOR" Components
 - Self-encoding wrapping objects
