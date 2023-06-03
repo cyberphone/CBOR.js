@@ -818,9 +818,19 @@ class CBOR {
       return cborFloat;
     }
 
+    // Interesting algorithm...
+    // 1. Convert F16 and F32 to their F64 equivalent.
+    // 2. Create a CBOR.Float object using the F64 value as input.
+    // 3. Use the CBOR.Float encode() method to retrieve the proper (preferred) CBOR encoding.
+    // 4. Verify that the encoder returned the same result (binary) as received by the decoder.
+    // Certainly not the most performant solution but this is a reference implementation :)
     recreateF64AndReturn = function(numberOfBytes,
+                                    // Mask: Region reserved for NaN, Infinity, and Exponent
                                     specialNumbers,
+                                    // LSB of Exponent,
                                     significandMsbP1,
+                                    // 2 ^ (Exponent offset + Size of significand - 2)
+                                    // -2 is because the algorithm doesn't normalize subnormals.
                                     divisor) {
       let decoded = this.readBytes(numberOfBytes);
       let sign = false;
@@ -848,6 +858,7 @@ class CBOR {
         if (exponent) {
           // Normal representation, add implicit "1.".
           significand += significandMsbP1;
+          // -1n: Keep fractional point in line with subnormal numbers.
           significand <<= ((exponent / significandMsbP1) - 1n);
         }
         let array = [];
