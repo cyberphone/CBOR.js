@@ -488,7 +488,7 @@ class CBOR {
       return buffer + ']';
     }
 
-    size = function() {
+    get length() {
       return this.#elements.length;
     }
 
@@ -642,7 +642,7 @@ class CBOR {
       this.#missingKey(key);
     }
 
-    size = function() {
+    get length() {
       return this.#numberOfEntries;
     }
 
@@ -940,7 +940,7 @@ class CBOR {
         case CBOR.#MT_TAG:
           let taggedObject = this.getObject();
           if (bigN == CBOR.Tag.RESERVED_TAG_COTX) {
-            if (taggedObject.constructor.name != CBOR.Array.name || taggedObject.size() != 2 ||
+            if (taggedObject.constructor.name != CBOR.Array.name || taggedObject.length != 2 ||
                 taggedObject.get(0).constructor.name != CBOR.String.name) {
                 throw SyntaxError("Tag syntax " +  CBOR.Tag.RESERVED_TAG_COTX +
                                   "([\"string\", CBOR object]) expected");
@@ -1308,7 +1308,7 @@ class CBOR {
           let tagNumber = BigInt(token);
           let taggedObject = this.getObject();
           if (tagNumber == CBOR.Tag.RESERVED_TAG_COTX) {
-            if (taggedObject.constructor.name != CBOR.Array.name|| taggedObject.size() != 2 ||
+            if (taggedObject.constructor.name != CBOR.Array.name|| taggedObject.length != 2 ||
                 taggedObject.get(0).constructor.name != CBOR.String.name) {
               this.reportError("Special tag " + CBOR.Tag.RESERVED_TAG_COTX + " syntax error");
             }
