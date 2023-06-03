@@ -844,18 +844,16 @@ class CBOR {
         }
         // A genuine number
         let exponent = float & specialNumbers;
-        let f64bin = float - exponent;
-        exponent /= significandMsbP1;
+        let significand = float - exponent;
         if (exponent) {
           // Normal representation, add implicit "1.".
-          f64bin += significandMsbP1;
-          exponent--;
+          significand += significandMsbP1;
+          significand <<= ((exponent / significandMsbP1) - 1n);
         }
-        f64bin <<= exponent;
         let array = [];
-        while (f64bin) {
-          array.push(Number(f64bin & 255n));
-          f64bin >>= 8n;
+        while (significand) {
+          array.push(Number(significand & 255n));
+          significand >>= 8n;
         }
         array = array.reverse();
         for (let q = 0; q < array.length; q++) {
