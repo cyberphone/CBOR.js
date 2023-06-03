@@ -63,7 +63,7 @@ Value=45.7
 
 ### On-line Testing
 
-On https://cyberphone.github.io/cbor.js/doc/playground.html you will find a simple Web application,
+On https://cyberphone.github.io/CBOR.js/doc/playground.html you will find a simple Web application,
 permitting testing the encoder, decoder, and diagnostic notation implementation.
 
 ### Deterministic Encoding Rules
