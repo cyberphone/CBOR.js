@@ -587,7 +587,7 @@ class CBOR {
     }
 
     #missingKey = function(key) {
-      throw Error("Missing key: " + key);
+      throw ReferenceError("Missing key: " + key);
     }
 
     #lookup(key, mustExist) {
