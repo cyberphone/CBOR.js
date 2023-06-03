@@ -1,4 +1,4 @@
-# CBOR JavaScript API
+# CBOR.js
 
 This repository contains a
 [CBOR JavaScript API](https://cyberphone.github.io/cbor.js/doc/)
