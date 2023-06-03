@@ -23,6 +23,7 @@ the API "by design" does not address JavaScript specific
 constructs like typed arrays beyond `Uint8Array`.  There are also some limitations regarding
 CBOR support. However, in _most_ cases, additional processing at the application layer
 can deal with extensions.
+See also: [CBOR Everywhere](https://github.com/cyberphone/cbor-everywhere/).
 
 ### "CBOR" Components
 - Self-encoding wrapping objects
@@ -88,5 +89,5 @@ Note: the intention with diagnostic notation is not using it as a "wire" format.
 The code represents a _Reference Implementation_, not code for inclusion in JavaScript engines.  The latter would most certainly require parts to be rewritten in C/C++
 since "bit-fiddling" using `Number` and `BigInt` have major limitations.
 
-Updated: 2023-06-02
+Updated: 2023-06-03
 
