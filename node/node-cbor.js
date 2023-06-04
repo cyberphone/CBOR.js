@@ -7,9 +7,7 @@
 // Author: Anders Rundgren (https://github.com/cyberphone)                     //
 /////////////////////////////////////////////////////////////////////////////////
 
-'use strict';
-
-class CBOR {
+export default class CBOR {
 
   // Super class for all CBOR types.
   static #CBORObject = class {
@@ -708,8 +706,8 @@ class CBOR {
           throw SyntaxError("Tag syntax " +  CBOR.Tag.RESERVED_TAG_COTX +
                             "([\"string\", CBOR object]) expected");
         }
-      } else if (tagNumber == 0) {
-        if (object.constructor.name != CBOR.String.name ||
+      } else if (!tagNumber) {
+        if (object.get(0).constructor.name != CBOR.String.name ||
             !object.getString().match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)((-(\d{2}):(\d{2})|Z)?)$/gm)) {
           throw SyntaxError("Invalid ISO date string");
         }

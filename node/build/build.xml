@@ -1,0 +1,20 @@
+<project name="CBOR Node.js module builder" default="help">
+
+  <!-- set properties for this build -->
+  <property name="src.file" location="../../src/cbor.js"/>
+  <property name="dist.file" location="../node-cbor.js"/>
+
+
+  <target name="help">
+    <echo message="help build"/>
+  </target>
+
+  <target name="build">
+    <copy file="${src.file}" tofile="${dist.file}" overwrite="true"/>
+    <replaceregexp file="${dist.file}"
+    match="\'use.*\n\nclass"
+    replace="export default class"
+    flags="g"/>
+  </target>
+  
+</project>

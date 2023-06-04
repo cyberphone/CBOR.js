@@ -118,7 +118,7 @@ async function doProcess() {
     }
     html = getFormattedCbor(getRadioValue('selout'), cborObjects);
   } catch (e) {
-    let errorMessage = e.toString().replace(/.*Error\: ?/g, '');
+    let errorMessage = e.toString().replace(/.*Error\: \n?/g, '');
     html = '<span style="color:red;font-weight:bold">' + htmlSanitize(errorMessage) + '</span>';
   }
   document.getElementById('cborout').children[1].innerHTML = html;
@@ -127,7 +127,7 @@ async function doProcess() {
 </head>
 <body>
 <div class='header'>CBOR Playground</div>
-<div style='padding-top:15pt'>The current <a href='https://github.com/cyberphone/cbor.js'>cbor.js</a>
+<div style='padding-top:15pt'>The current <a href='https://github.com/cyberphone/CBOR.js'>CBOR.js</a>
   proposal supports the following subset of CBOR
   primitives: <i>text&nbsp;string</i>, <i>byte&nbsp;string</i>, <i>integer</i>, 
   <i>big&nbsp;integer</i>, <i>floating&nbsp;point</i> (16/32/64 bit), <code>true</code>,

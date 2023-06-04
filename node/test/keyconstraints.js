@@ -1,8 +1,8 @@
 // JavaScript source code
-const CBOR = require('../src/cbor.js');
+import CBOR from '../node-cbor.js';
 'use strict';
 
-oneTurn = function(cbor, ok) {
+function oneTurn(cbor, ok) {
   try {
     CBOR.decode(cbor.encode());
   } catch (error) {

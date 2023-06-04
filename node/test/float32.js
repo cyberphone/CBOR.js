@@ -1,9 +1,9 @@
 // JavaScript source code
-const CBOR = require('../src/cbor.js');
+import CBOR from '../node-cbor.js';
  
-float32 = 0;
-float16 = 0;
-runs = 0;
+let float32 = 0;
+let float16 = 0;
+let runs = 0;
     
 function convert(i) {
   try {

@@ -1,7 +1,8 @@
 // Test program for floating point "edge cases"
-const CBOR = require('../src/cbor.js');
+// JavaScript source code
+import CBOR from '../node-cbor.js';
 
-errorCount = 0;
+let errorCount = 0;
 
 function oneTurn(value, expected) {
   let text = value.toString();

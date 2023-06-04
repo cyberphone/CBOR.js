@@ -1,7 +1,6 @@
 // JavaScript source code
-const CBOR = require('../src/cbor.js');
-const assertTrue = require('./assertions.js').assertTrue;
-const assertFalse = require('./assertions.js').assertFalse;
+import CBOR from '../node-cbor.js';
+import { assertTrue, assertFalse } from './assertions.js';
 
 function oneTurn(cborText) {
   let result = CBOR.diagnosticNotation(cborText);

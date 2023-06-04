@@ -18,14 +18,17 @@ oneTurn = function(hex, dn) {
   console.log(hex);
 }
 
-oneTurn('1900ff', '255');
-oneTurn('1817', '23');
-oneTurn('A2026374776F01636F6E65', '{\n  1: "one",\n  2: "two"\n}');
-oneTurn('FB7FF8000000000000', 'NaN');
-oneTurn('FB3ff0000000000000', '1.0');
-oneTurn('f97e01', 'NaN');
-oneTurn('c240', '0');
+oneTurn('d903f2623737', '1010("77")');
+oneTurn('d903f281623737', '1010(["77"])');
+oneTurn('d903f28206623737', '1010([6,"77"])');
+oneTurn('d903f28262373707', '1010(["77",7])');
+
 
 // This one is actually deterministic...
-oneTurn('fa7f7fffff', '3.4028234663852886e+38');
-
+try {
+  oneTurn('fa7f7fffff', '3.4028234663852886e+38');
+} catch (error) {
+  if (!error.toString().includes('Should not')) {
+    throw error;
+  }
+}

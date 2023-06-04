@@ -1,7 +1,6 @@
-// Test program for the hex converters
-const CBOR = require('../src/cbor.js');
-const assertTrue = require('./assertions.js').assertTrue;
-const assertFalse = require('./assertions.js').assertFalse;
+// JavaScript source code
+import CBOR from '../node-cbor.js';
+import { assertTrue, assertFalse } from './assertions.js';
 
 const hex = '0123456789abcdefABCDEF';
 

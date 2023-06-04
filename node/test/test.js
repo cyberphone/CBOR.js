@@ -1,5 +1,5 @@
 // JavaScript source code
-const CBOR = require('../src/cbor.js');
+import CBOR from '../node-cbor.js';
 //console.log (CBOR.hex(CBOR.Array().add(CBOR.String("hi")).encode()));
  console.log (CBOR.Float(4.4).toString());
  console.log (CBOR.toHex(CBOR.BigInt(-0x800000001n).encode()));
