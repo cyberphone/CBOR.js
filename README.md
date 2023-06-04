@@ -15,7 +15,7 @@ with the "CBOR&nbsp;Playground" (https://cbor.me), maintained by the
 
 ### Design Rationale
 
-The proposed API is intended to provide a "baseline" functionality that can easily be implemented
+The proposed API is intended to provide CBOR "baseline" functionality that can easily be implemented
 in standard platforms with an emphasis on computationally advanced systems like 
 _Web browsers_, _mobile phones_, and _Web servers_.
 Due to the desire maintaining interoperability across different platforms,
