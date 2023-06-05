@@ -706,8 +706,8 @@ export default class CBOR {
           throw SyntaxError("Tag syntax " +  CBOR.Tag.RESERVED_TAG_COTX +
                             "([\"string\", CBOR object]) expected");
         }
-      } else if (!tagNumber) {
-        if (object.get(0).constructor.name != CBOR.String.name ||
+      } else if (tagNumber == 0) {
+        if (object.constructor.name != CBOR.String.name ||
             !object.getString().match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)((-(\d{2}):(\d{2})|Z)?)$/gm)) {
           throw SyntaxError("Invalid ISO date string");
         }
@@ -829,18 +829,19 @@ export default class CBOR {
     }
 
     // Interesting algorithm...
-    // 1. Convert F16 and F32 to their F64 equivalent.
-    // 2. Create a CBOR.Float object using the F64 value as input.
-    // 3. Use the CBOR.Float encode() method to retrieve the proper (preferred) CBOR encoding.
-    // 4. Verify that the encoder returned the same result (binary) as received by the decoder.
-    // Certainly not the most performant solution but this is a reference implementation :)
+    // 1. Read the designated F16 or F32 byte string.
+    // 2. Convert the F16 or F32 byte string to their F64 IEEE-754 equivalent (JavaScript Number).
+    // 3. Create a CBOR.Float object using the F64 Number as input. This causes CBOR.Float to
+    //    create an '#encoded' byte string holding the deterministic IEEE-754 representation.
+    // 4. Verify that '#encoded' is equal to the byte string read at step 1.
+    // Certainly not the most performant solution, but hey, this is a "Reference Implementation" :)
     recreateF64AndReturn = function(numberOfBytes,
                                     // Mask: Region reserved for NaN, Infinity, and Exponent
                                     specialNumbers,
                                     // LSB of Exponent,
                                     significandMsbP1,
                                     // 2 ^ (Exponent offset + Size of significand - 2)
-                                    // -2 is because the algorithm doesn't normalize subnormals.
+                                    // -2 is because the algorithm doesn't normalize significands.
                                     divisor) {
       let decoded = this.readBytes(numberOfBytes);
       let sign = false;
@@ -871,17 +872,9 @@ export default class CBOR {
           // -1n: Keep fractional point in line with subnormal numbers.
           significand <<= ((exponent / significandMsbP1) - 1n);
         }
-        let array = [];
-        while (significand) {
-          array.push(Number(significand & 255n));
-          significand >>= 8n;
-        }
-        array = array.reverse();
-        for (let q = 0; q < array.length; q++) {
-          f64 *= 256;
-          f64 += array[q];
-        }
-        f64 /= divisor;
+        // Huge integers shouldn't work but it does.  Not a single bit is ever lost
+        // because the maximum precision is still safely within F64 limits. 
+        f64 = Number(significand) / divisor;
         break;
       }
       if (sign) {
@@ -917,7 +910,7 @@ export default class CBOR {
           return this.recreateF64AndReturn(2, 0x7c00n, 0x400n, 0x1000000);
 
         case CBOR.#MT_FLOAT32:
-          return this.recreateF64AndReturn(4, 0x7f800000n, 0x800000n, 
+          return this.recreateF64AndReturn(4, 0x7f800000n, 0x800000n,
                                            0x20000000000000000000000000000000000000);
 
         case CBOR.#MT_FLOAT64:
@@ -1062,9 +1055,9 @@ export default class CBOR {
     index;
     sequence;
   
-    constructor(cborText, sequence) {
+    constructor(cborText, sequenceFlag) {
       this.cborText = cborText;
-      this.sequence = sequence;
+      this.sequenceFlag = sequenceFlag;
       this.index = 0;
     }
  
@@ -1109,29 +1102,18 @@ export default class CBOR {
                 "^\n\nError in line " + lineNumber + ". " + error);
     }
   
-    readToEOF = function() {
-      try {
-        let cborObject = this.getObject();
-        if (this.index < this.cborText.length) {
-          this.readChar();
-          this.reportError("Unexpected data after token");
-        }
-        return cborObject;
-      } catch (e) {
-        if (e instanceof CBOR.DiagnosticNotation.ParserError) {
-          throw e;
-        }
-        this.reportError(e.toString().replace(/.*Error\: ?/g, ''));
-      }
-    }
-
     readSequenceToEOF = function() {
       try {
         let sequence = [];
         while (true) {
           sequence.push(this.getObject());
           if (this.index < this.cborText.length) {
-            this.scanFor(",");
+            if (this.sequenceFlag) {
+              this.scanFor(",");
+            } else {
+              this.readChar();
+              this.reportError("Unexpected data after token");
+            }
           } else {
             return sequence;
           }
@@ -1140,7 +1122,9 @@ export default class CBOR {
         if (e instanceof CBOR.DiagnosticNotation.ParserError) {
           throw e;
         }
-        this.reportError(e.toString());
+        // The exception apparently came from a deeper layer.
+        // Make it a parser error and remove the original error name.
+        this.reportError(e.toString().replace(/.*Error\: ?/g, ''));
       }
     }
 
@@ -1492,16 +1476,17 @@ export default class CBOR {
     }
   }
 
-///////////////////////////////
-// CBOR.diagnosticNotation() //
-///////////////////////////////
+///////////////////////////////////////
+// CBOR.diagnosticNotation()         //
+// CBOR.diagnosticNotationSequence() //
+///////////////////////////////////////
 
-  static diagnosticNotation = function(cborText, optionalSequenceFlag) {
-    if (optionalSequenceFlag) {
-      return new CBOR.DiagnosticNotation(cborText, true).readSequenceToEOF();
-    } else {
-      return new CBOR.DiagnosticNotation(cborText, false).readToEOF();
-    }
+  static diagnosticNotation = function(cborText) {
+    return new CBOR.DiagnosticNotation(cborText, false).readSequenceToEOF()[0];
+  }
+
+  static diagnosticNotationSequence = function(cborText) {
+    return new CBOR.DiagnosticNotation(cborText, true).readSequenceToEOF();
   }
 
 //================================//

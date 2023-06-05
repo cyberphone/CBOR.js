@@ -874,17 +874,9 @@ class CBOR {
           // -1n: Keep fractional point in line with subnormal numbers.
           significand <<= ((exponent / significandMsbP1) - 1n);
         }
-        let array = [];
-        while (significand) {
-          array.push(Number(significand & 255n));
-          significand >>= 8n;
-        }
-        array = array.reverse();
-        for (let q = 0; q < array.length; q++) {
-          f64 *= 256;
-          f64 += array[q];
-        }
-        f64 /= divisor;
+        // Huge integers shouldn't work but it does.  Not a single bit is ever lost
+        // because the maximum precision is still safely within F64 limits. 
+        f64 = Number(significand) / divisor;
         break;
       }
       if (sign) {
