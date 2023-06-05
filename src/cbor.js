@@ -1064,9 +1064,9 @@ class CBOR {
     index;
     sequence;
   
-    constructor(cborText, sequence) {
+    constructor(cborText, sequenceFlag) {
       this.cborText = cborText;
-      this.sequence = sequence;
+      this.sequenceFlag = sequenceFlag;
       this.index = 0;
     }
  
@@ -1111,29 +1111,18 @@ class CBOR {
                 "^\n\nError in line " + lineNumber + ". " + error);
     }
   
-    readToEOF = function() {
-      try {
-        let cborObject = this.getObject();
-        if (this.index < this.cborText.length) {
-          this.readChar();
-          this.reportError("Unexpected data after token");
-        }
-        return cborObject;
-      } catch (e) {
-        if (e instanceof CBOR.DiagnosticNotation.ParserError) {
-          throw e;
-        }
-        this.reportError(e.toString().replace(/.*Error\: ?/g, ''));
-      }
-    }
-
     readSequenceToEOF = function() {
       try {
         let sequence = [];
         while (true) {
           sequence.push(this.getObject());
           if (this.index < this.cborText.length) {
-            this.scanFor(",");
+            if (this.sequenceFlag) {
+              this.scanFor(",");
+            } else {
+              this.readChar();
+              this.reportError("Unexpected data after token");
+            }
           } else {
             return sequence;
           }
@@ -1142,7 +1131,9 @@ class CBOR {
         if (e instanceof CBOR.DiagnosticNotation.ParserError) {
           throw e;
         }
-        this.reportError(e.toString());
+        // The exception apparently came from a deeper layer.
+        // Make it a parser error and remove the original error name.
+        this.reportError(e.toString().replace(/.*Error\: ?/g, ''));
       }
     }
 
@@ -1494,16 +1485,17 @@ class CBOR {
     }
   }
 
-///////////////////////////////
-// CBOR.diagnosticNotation() //
-///////////////////////////////
+///////////////////////////////////////
+// CBOR.diagnosticNotation()         //
+// CBOR.diagnosticNotationSequence() //
+///////////////////////////////////////
 
-  static diagnosticNotation = function(cborText, optionalSequenceFlag) {
-    if (optionalSequenceFlag) {
-      return new CBOR.DiagnosticNotation(cborText, true).readSequenceToEOF();
-    } else {
-      return new CBOR.DiagnosticNotation(cborText, false).readToEOF();
-    }
+  static diagnosticNotation = function(cborText) {
+    return new CBOR.DiagnosticNotation(cborText, false).readSequenceToEOF()[0];
+  }
+
+  static diagnosticNotationSequence = function(cborText) {
+    return new CBOR.DiagnosticNotation(cborText, true).readSequenceToEOF();
   }
 
 //================================//

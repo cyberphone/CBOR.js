@@ -89,18 +89,19 @@ async function doProcess() {
     let cborBytes;
     switch (getRadioValue('selin')) {
       case 'diag':
-        let parsedDiag = CBOR.diagnosticNotation(inData, sequenceFlag);
-        if (sequenceFlag) {
-          cborBytes = getBytesFromCborSequence(parsedDiag);
-        } else {
-          cborBytes = parsedDiag.encode();
-        }
+        cborBytes = sequenceFlag ?
+           getBytesFromCborSequence(CBOR.diagnosticNotationSequence(inData))
+                                 :
+          CBOR.diagnosticNotation(inData).encode();
         break;
+
       case 'cstyle':
         inData = inData.toLowerCase().replaceAll('0x', '').replaceAll(',', ' ');
+ 
       case 'hexa':
         cborBytes = getBytesFromCborHex(inData);
         break;
+
       default:
         cborBytes = CBOR.fromBase64Url(inData);
     }
@@ -118,6 +119,7 @@ async function doProcess() {
     }
     html = getFormattedCbor(getRadioValue('selout'), cborObjects);
   } catch (e) {
+    // Filter away the Error type. It has no value without the stack trace anyway.
     let errorMessage = e.toString().replace(/.*Error\: \n?/g, '');
     html = '<span style="color:red;font-weight:bold">' + htmlSanitize(errorMessage) + '</span>';
   }
