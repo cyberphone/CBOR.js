@@ -831,18 +831,19 @@ class CBOR {
     }
 
     // Interesting algorithm...
-    // 1. Convert F16 and F32 to their F64 equivalent.
-    // 2. Create a CBOR.Float object using the F64 value as input.
-    // 3. Use the CBOR.Float encode() method to retrieve the proper (preferred) CBOR encoding.
-    // 4. Verify that the encoder returned the same result (binary) as received by the decoder.
-    // Certainly not the most performant solution but this is a reference implementation :)
+    // 1. Read the designated F16 or F32 byte string.
+    // 2. Convert the F16 or F32 byte string to their F64 IEEE-754 equivalent (JavaScript Number).
+    // 3. Create a CBOR.Float object using the F64 Number as input. This causes CBOR.Float to
+    //    create an '#encoded' byte string holding the deterministic IEEE-754 representation.
+    // 4. Verify that '#encoded' is equal to the byte string read at step 1.
+    // Certainly not the most performant solution, but hey, this is a "Reference Implementation" :)
     recreateF64AndReturn = function(numberOfBytes,
                                     // Mask: Region reserved for NaN, Infinity, and Exponent
                                     specialNumbers,
                                     // LSB of Exponent,
                                     significandMsbP1,
                                     // 2 ^ (Exponent offset + Size of significand - 2)
-                                    // -2 is because the algorithm doesn't normalize subnormals.
+                                    // -2 is because the algorithm doesn't normalize significands.
                                     divisor) {
       let decoded = this.readBytes(numberOfBytes);
       let sign = false;
@@ -919,7 +920,7 @@ class CBOR {
           return this.recreateF64AndReturn(2, 0x7c00n, 0x400n, 0x1000000);
 
         case CBOR.#MT_FLOAT32:
-          return this.recreateF64AndReturn(4, 0x7f800000n, 0x800000n, 
+          return this.recreateF64AndReturn(4, 0x7f800000n, 0x800000n,
                                            0x20000000000000000000000000000000000000);
 
         case CBOR.#MT_FLOAT64:
