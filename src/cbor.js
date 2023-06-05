@@ -874,8 +874,9 @@ class CBOR {
           // -1n: Keep fractional point in line with subnormal numbers.
           significand <<= ((exponent / significandMsbP1) - 1n);
         }
-        // Huge integers shouldn't work but it does.  Not a single bit is ever lost
-        // because the maximum precision is still safely within F64 limits. 
+        // Huge integers like 2^150 may look scary.  However, not a single bit is ever lost
+        // because the maximum precision and range are still safely within F64 limits.  The
+        // math is actually a replacement for the broken JavaScript shift operations on Number.
         f64 = Number(significand) / divisor;
         break;
       }
