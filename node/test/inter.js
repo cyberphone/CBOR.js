@@ -1,6 +1,7 @@
-﻿const CBOR = require('../src/cbor.js');
-const prompt = require('prompt-sync')({sigint: true});
-
+﻿// JavaScript source code
+import CBOR from '../node-cbor.js';
+import promptSync from 'prompt-sync';
+const prompt = promptSync();
 'use strict';
 
 while (true) {

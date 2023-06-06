@@ -234,10 +234,12 @@ export default class CBOR {
               f32exp--;
               do {
                 f32signif >>= 1;
-              } while (++f32exp < 0);   
+              } while (++f32exp < 0);
+              // Subnormal F32 cannot be represented by F16, stick to F32.
+              break;
             }
-            // If it is a subnormal F32 or if F16 would lose precision, stick to F32.
-            if (f32exp == 0 || f32signif & 0x1fff) {
+            // If F16 would lose precision, stick to F32.
+            if (f32signif & 0x1fff) {
               break;
             }
             // Arrange for F16.
@@ -261,7 +263,7 @@ export default class CBOR {
                 }
                 f16signif >>= 1;
               } while (++f16exp < 0);
-              // If too small for F16, stick to F32.
+              // Flagged above as non-compliant with F16, stick to F32.
               if (f16signif == 0) {
                 break;
               }
