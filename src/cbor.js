@@ -252,7 +252,7 @@ class CBOR {
             // Finally, is value too small for F16?
             if (f16exp <= 0) {
               if (f16exp <= -11) {
-                // Would lead to shifts beyound the capability of JavaScript 
+                // Would lead to shifts beyond the capability of JavaScript 
                 // but is also outside of F16, stick to F32.
                 break;
               }
