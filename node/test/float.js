@@ -26,7 +26,6 @@ function oneTurn(value, expected) {
   }
   console.log(text + expected + got);
 }
-
 oneTurn(6.10649585723877e-5, 'fa38801000');
 oneTurn(10.559998512268066, 'fa4128f5c1');
 oneTurn(65472.0, 'f97bfe');
@@ -51,6 +50,9 @@ oneTurn(-0.0000609755516052246128, 'fbbf0ff80000000001');
 oneTurn(0.00006103515625, 'f90400');
 oneTurn(0.00006103515625005551, 'fb3f10000000001000');
 oneTurn(1.401298464324817e-45, 'fa00000001');
+oneTurn(1.1754942106924411e-38, 'fa007fffff');
 oneTurn(0.00006109476089477539, 'f90401');
+oneTurn(7.52316384526264e-37, 'fa03800000');
+oneTurn(1.1754943508222875e-38, 'fa00800000');
 
 console.log(errorCount ? "\n\nThere were errors :(" : "\n\n       SUCCESSFUL");
