@@ -232,11 +232,9 @@ class CBOR {
             if (f32exp <= 0) {
               // The implicit "1" becomes explicit using subnormal representation.
               f32signif += 1 << 23;
-              // Always perform at least one turn.
-              f32exp--;
-              do {
-                f32signif >>= 1;
-              } while (++f32exp < 0);
+              // Denormalize by shifting right 1-23 positions.
+              f32signif >>= (1 - f32exp);
+              f32exp = 0;
               // Subnormal F32 cannot be represented by F16, stick to F32.
               break;
             }
@@ -253,22 +251,21 @@ class CBOR {
             }
             // Finally, is value too small for F16?
             if (f16exp <= 0) {
-              // The implicit "1" becomes explicit using subnormal representation.
-              f16signif += 1 << 10;
-              // Always perform at least one turn.
-              f16exp--;
-              do {
-                // Losing bits is not an option.
-                if ((f16signif & 1) != 0) {
-                  f16signif = 0;
-                  break;
-                }
-                f16signif >>= 1;
-              } while (++f16exp < 0);
-              // Flagged above as non-compliant with F16, stick to F32.
-              if (f16signif == 0) {
+              if (f16exp <= -11) {
+                // Would lead to shifts beyound the capability of JavaScript 
+                // but is also outside of F16, stick to F32.
                 break;
               }
+              // The implicit "1" becomes explicit using subnormal representation.
+              f16signif += 1 << 10;
+              let f16signifSave = f16signif;
+              f16signif >>= (1 - f16exp);
+              if (f16signifSave != (f16signif << (1 - f16exp))) {
+                // Losing bits is not an option, stick to F32.
+                break;
+              }
+              // Valid and denormalized F16.
+              f16exp = 0;
             }
             // A rarity, 16 bits turned out being sufficient for representing value.
             this.#tag = CBOR.#MT_FLOAT16;
@@ -281,7 +278,7 @@ class CBOR {
                 f16signif;
                 this.#encoded = CBOR.#int16ToByteArray(f16bin);
           } else {
-            // Converting to F32 returned a truncated result.
+            // Converting value to F32 returned a truncated result.
             // Full 64-bit representation is required.
             this.#tag = CBOR.#MT_FLOAT64;
             this.#encoded = CBOR.#f64ToByteArray(value);
