@@ -12,7 +12,7 @@
 class CBOR {
 
   // Super class for all CBOR types.
-  static #CBORObject = class {
+  static #CborObject = class {
 
     constructor() {}
 
@@ -65,7 +65,7 @@ class CBOR {
     }
 
     equals = function(object) {
-      if (object && object instanceof CBOR.#CBORObject) {
+      if (object && object instanceof CBOR.#CborObject) {
         return CBOR.compareArrays(this.encode(), object.encode()) == 0;
       }
       return false;
@@ -78,6 +78,16 @@ class CBOR {
     // Overridden by CBOR.Int and CBOR.String
     constrainedKeyType = function() {
       return true;
+    }
+
+    toDiagnosticNotation = function(prettyPrint) {
+      let cborPrinter = new CBOR.#CborPrinter(prettyPrint);
+      this.internalToString(cborPrinter);
+      return cborPrinter.buffer;
+    }
+
+    toString = function() {
+      return this.toDiagnosticNotation(true);
     }
  
     #checkTypeAndGetValue = function(className) {
@@ -121,7 +131,7 @@ class CBOR {
 //       CBOR.Int        //
 ///////////////////////////
  
-  static Int = class extends CBOR.#CBORObject {
+  static Int = class extends CBOR.#CborObject {
 
     #value;
 
@@ -143,8 +153,8 @@ class CBOR {
       return CBOR.#encodeTagAndN(tag, n);
     }
 
-    toString = function() {
-      return this.#value.toString();
+    internalToString = function(cborPrinter) {
+      cborPrinter.append(this.#value.toString());
     }
 
     constrainedKeyType = function() {
@@ -160,7 +170,7 @@ class CBOR {
 //     CBOR.BigInt       //
 ///////////////////////////
  
-  static BigInt = class extends CBOR.#CBORObject {
+  static BigInt = class extends CBOR.#CborObject {
 
     #value;
 
@@ -183,8 +193,8 @@ class CBOR {
       return CBOR.#finishBigIntAndTag(tag, value);
     }
 
-    toString = function() {
-      return this.#value.toString();
+    internalToString = function(cborPrinter) {
+      cborPrinter.append(this.#value.toString());
     }
  
     _get = function() {
@@ -196,7 +206,7 @@ class CBOR {
 //      CBOR.Float       //
 ///////////////////////////
  
-  static Float = class extends CBOR.#CBORObject {
+  static Float = class extends CBOR.#CborObject {
 
     #value;
     #encoded;
@@ -303,8 +313,8 @@ class CBOR {
       return CBOR.addArrays(new Uint8Array([this.#tag]), this.#encoded);
     }
 
-    toString = function() {
-      let floatString = this.#value.toString();
+    internalToString = function(cborPrinter) {
+      let floatString = Object.is(this.#value,-0) ? '-0.0' : this.#value.toString();
       // Diagnostic Notation support.
       if (floatString.indexOf('.') < 0) {
         let matches = floatString.match(/\-?\d+/g);
@@ -312,11 +322,15 @@ class CBOR {
           floatString = matches[0] + '.0' + floatString.substring(matches[0].length);
         }
       }
-     return floatString;
+      cborPrinter.append(floatString);
     }
 
     _compare = function(decoded) {
       return CBOR.compareArrays(this.#encoded, decoded);
+    }
+
+    get length() {
+      return this.#encoded.length;
     }
 
     _get = function() {
@@ -328,7 +342,7 @@ class CBOR {
 //     CBOR.String       //
 ///////////////////////////
  
-  static String = class extends CBOR.#CBORObject {
+  static String = class extends CBOR.#CborObject {
 
     #string;
 
@@ -342,25 +356,26 @@ class CBOR {
       return CBOR.addArrays(CBOR.#encodeTagAndN(CBOR.#MT_STRING, utf8.length), utf8);
     }
 
-    toString = function() {
-      let buffer = '"';
+    internalToString = function(cborPrinter) {
+      cborPrinter.append('"');
       for (let q = 0; q < this.#string.length; q++) {
         let c = this.#string.charCodeAt(q);
         if (c <= 0x5c) {
           let escapedCharacter;
           if (escapedCharacter = CBOR.#ESCAPE_CHARACTERS[c]) {
-            buffer += '\\';
+            cborPrinter.append('\\');
             if (escapedCharacter == 1) {
-              buffer += 'u00' + CBOR.#twoHex(c);
+              cborPrinter.append('u00');
+              cborPrinter.append(CBOR.#twoHex(c));
             } else {
-              buffer += escapedCharacter;
+              cborPrinter.append(escapedCharacter);
             }
             continue;
           }
         }
-        buffer += String.fromCharCode(c);
+        cborPrinter.append(String.fromCharCode(c));
       }
-      return buffer + '"';
+      cborPrinter.append('"');
     }
 
     constrainedKeyType = function() {
@@ -376,7 +391,7 @@ class CBOR {
 //      CBOR.Bytes       //
 ///////////////////////////
  
-  static Bytes = class extends CBOR.#CBORObject {
+  static Bytes = class extends CBOR.#CborObject {
 
     #bytes;
 
@@ -389,8 +404,8 @@ class CBOR {
       return CBOR.addArrays(CBOR.#encodeTagAndN(CBOR.#MT_BYTES, this.#bytes.length), this.#bytes);
     }
 
-    toString = function() {
-      return "h'" + CBOR.toHex(this.#bytes) + "'";
+    internalToString = function(cborPrinter) {
+      cborPrinter.append("h'" + CBOR.toHex(this.#bytes) + "'");
     }
 
     _get = function() {
@@ -402,7 +417,7 @@ class CBOR {
 //       CBOR.Bool       //
 ///////////////////////////
  
-  static Bool = class extends CBOR.#CBORObject {
+  static Bool = class extends CBOR.#CborObject {
 
     #bool;
 
@@ -415,8 +430,8 @@ class CBOR {
       return new Uint8Array([this.#bool ? CBOR.#MT_TRUE : CBOR.#MT_FALSE]);
     }
 
-    toString = function() {
-      return this.#bool.toString();
+    internalToString = function(cborPrinter) {
+      cborPrinter.append(this.#bool.toString());
     }
 
     _get = function() {
@@ -428,14 +443,14 @@ class CBOR {
 //      CBOR.Null        //
 ///////////////////////////
  
-  static Null = class extends CBOR.#CBORObject {
+  static Null = class extends CBOR.#CborObject {
     
     encode = function() {
       return new Uint8Array([CBOR.#MT_NULL]);
     }
 
-    toString = function() {
-      return 'null';
+    internalToString = function(cborPrinter) {
+      cborPrinter.append('null');
     }
   }
 
@@ -443,7 +458,7 @@ class CBOR {
 //      CBOR.Array       //
 ///////////////////////////
 
-  static Array = class extends CBOR.#CBORObject {
+  static Array = class extends CBOR.#CborObject {
 
     #elements = [];
 
@@ -474,17 +489,18 @@ class CBOR {
       return encoded;
     }
 
-    toString = function(cborPrinter) {
-      let buffer = '[';
+    internalToString = function(cborPrinter) {
+      cborPrinter.append('[');
       let notFirst = false;
       this.#elements.forEach(object => {
         if (notFirst) {
-          buffer += ', ';
+          cborPrinter.append(',');
+          cborPrinter.space();
         }
         notFirst = true;
-        buffer += object.toString(cborPrinter);
+        object.internalToString(cborPrinter);
       });
-      return buffer + ']';
+      cborPrinter.append(']');
     }
 
     get length() {
@@ -500,7 +516,7 @@ class CBOR {
 //       CBOR.Map        //
 ///////////////////////////
 
-  static Map = class extends CBOR.#CBORObject {
+  static Map = class extends CBOR.#CborObject {
 
     #root;
     #lastEntry;
@@ -658,21 +674,21 @@ class CBOR {
       return encoded;
     }
 
-    toString = function(cborPrinter) {
-      if (cborPrinter == undefined) {
-        cborPrinter = new CBOR.#Printer();
-      }
+    internalToString = function(cborPrinter) {
       let notFirst = false;
-      let buffer = cborPrinter.beginMap();
+      cborPrinter.beginMap();
       for (let entry = this.#root; entry; entry = entry.next) {
         if (notFirst) {
-          buffer += ',';
+          cborPrinter.append(',');
         }
         notFirst = true;
-        buffer += cborPrinter.newlineAndIndent();
-        buffer += entry.key.toString(cborPrinter) + ': ' + entry.value.toString(cborPrinter);
+        cborPrinter.newlineAndIndent();
+        entry.key.internalToString(cborPrinter);
+        cborPrinter.append(':');
+        cborPrinter.space();
+        entry.value.internalToString(cborPrinter);
       }
-      return buffer + cborPrinter.endMap(notFirst);
+      cborPrinter.endMap(notFirst);
     }
 
     _get = function() {
@@ -684,7 +700,7 @@ class CBOR {
 //       CBOR.Tag        //
 ///////////////////////////
 
-  static Tag = class extends CBOR.#CBORObject {
+  static Tag = class extends CBOR.#CborObject {
 
     static RESERVED_TAG_COTX = 1010n;
 
@@ -720,8 +736,11 @@ class CBOR {
                             this.#object.encode());
     }
 
-    toString = function(cborPrinter) {
-      return this.#tagNumber.toString() + '(' + this.#object.toString(cborPrinter) + ')';
+    internalToString = function(cborPrinter) {
+      cborPrinter.append(this.#tagNumber.toString());
+      cborPrinter.append('(');
+      this.#object.internalToString(cborPrinter);
+      cborPrinter.append(')');
     }
 
     getTagNumber = function() {
@@ -1283,6 +1302,12 @@ class CBOR {
             floatingPoint = true;
             continue;
 
+          case '_':
+            if (!prefix) {
+              this.reportError("'_' is only permitted for 0b, 0o, and 0x numbers");
+            }
+            this.readChar();
+
           default:
             continue;
         }
@@ -1310,7 +1335,7 @@ class CBOR {
           return cborTag;
         }
         let bigInt = BigInt((prefix == null ? '' : prefix) + token);
-        // Clone: slight quirk to get the proper CBOR integer type  
+        // Clone: slight quirk to get the optimal CBOR integer type  
         return CBOR.BigInt(negative ? -bigInt : bigInt).clone();
     }
 
@@ -1576,25 +1601,45 @@ class CBOR {
                                           CBOR.Bytes(byteArray).encode());
   }
 
-  static #Printer = class {
+  static #CborPrinter = class {
+
     indentationLevel = 0;
+    buffer = '';
+
+    constructor(prettyPrint) {
+      this.prettyPrint = prettyPrint;
+    }
 
     beginMap = function() {
       this.indentationLevel++;
-      return '{';
+      this.buffer += '{';
+    }
+
+    append = function(string) {
+      this.buffer += string;
+    }
+
+    space = function() {
+      if (this.prettyPrint) {
+        this.buffer += ' ';
+      }
     }
 
     newlineAndIndent = function() {
-      let buffer = '\n';
-      for (let i = 0; i < this.indentationLevel; i++) {
-        buffer += '  ';
+      if (this.prettyPrint) {
+        this.buffer += '\n';
+        for (let i = 0; i < this.indentationLevel; i++) {
+          this.buffer += '  ';
+        }
       }
-      return buffer;
     }
 
     endMap = function(notEmpty) {
       this.indentationLevel--;
-      return notEmpty ? this.newlineAndIndent() + '}' : '}';
+      if (notEmpty) {
+        this.newlineAndIndent();
+      }
+      this.buffer += '}';
     }
   }
   
@@ -1617,7 +1662,7 @@ class CBOR {
   }
 
   static #cborArguentCheck = function(object) {
-    if (object instanceof CBOR.#CBORObject) {
+    if (object instanceof CBOR.#CborObject) {
       return object;
     }
     throw TypeError("Argument is not a CBOR.* object: " + 
