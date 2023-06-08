@@ -717,18 +717,25 @@ class CBOR {
       }
       this.#tagNumber = tagNumber;
       this.#object = CBOR.#cborArguentCheck(object);
-      if (tagNumber == CBOR.RESERVED_TAG_COTX) {
+      if (tagNumber == CBOR.Tag.RESERVED_TAG_COTX) {
         if (object.constructor.name != CBOR.Array.name || object.length != 2 ||
             object.get(0).constructor.name != CBOR.String.name) {
-          throw SyntaxError("Tag syntax " +  CBOR.Tag.RESERVED_TAG_COTX +
-                            "([\"string\", CBOR object]) expected");
+          throw SyntaxError("Invalid COTX object: " + this.#errorInObject());
         }
-      } else if (tagNumber == 0) {
+      } else if (tagNumber == 0n) {
         if (object.constructor.name != CBOR.String.name ||
             !object.getString().match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)((-(\d{2}):(\d{2})|Z)?)$/gm)) {
-          throw SyntaxError("Invalid ISO date string");
+          throw SyntaxError("Invalid ISO date string: " + this.#errorInObject());
         }
       }
+    }
+
+    #errorInObject = function() {
+      let errorString = this.#object.toDiagnosticNotation(false);
+      if (errorString.length > 200) {
+        errorString = errorString.substring(0, 200);
+      }
+      return errorString;
     }
 
     encode = function() {
