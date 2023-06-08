@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang='en'>
 <head>
-  <link rel='icon' href='webpkiorg.png' sizes='192x192'>
-  <meta name='viewport' content='initial-scale=1.0'/>
-  <title>CBOR Playground</title>
-  <link rel='stylesheet' type='text/css' href='style.css'>
-  <script src='../src/cbor.js'></script>
-  <script>'use strict';
+<link rel='icon' href='webpkiorg.png' sizes='192x192'>
+<meta name='viewport' content='initial-scale=1.0'/>
+<title>CBOR Playground</title>
+<link rel='stylesheet' type='text/css' href='style.css'>
+<script src='../src/cbor.js'></script>
+<script>'use strict';
 
 function getRadioValue(name) {
   let ele = document.getElementsByName(name);
@@ -49,26 +49,25 @@ function getFormattedCbor(selected, cborObjects) {
       diagnosticNotation += o.toString();
     });
     return htmlSanitize(diagnosticNotation);
-  } else {
-    let cborBytes = getBytesFromCborSequence(cborObjects);
-    switch (selected) {
-      case 'hexa':
-        return CBOR.toHex(cborBytes);
+  }
+  let cborBytes = getBytesFromCborSequence(cborObjects);
+  switch (selected) {
+    case 'hexa':
+      return CBOR.toHex(cborBytes);
 
-      case 'cstyle':
-        let hex = CBOR.toHex(cborBytes);
-        let cstyle = '';
-        for (let i = 0; i < hex.length; ) {
-          if (i > 0) {
-            cstyle += ', ';
-          }
-          cstyle += '0x' + hex.charAt(i++) + hex.charAt(i++);
+    case 'cstyle':
+      let hex = CBOR.toHex(cborBytes);
+      let cstyle = '';
+      for (let i = 0; i < hex.length; ) {
+        if (i > 0) {
+          cstyle += ', ';
         }
-        return cstyle;
+        cstyle += '0x' + hex.charAt(i++) + hex.charAt(i++);
+      }
+      return cstyle;
 
-      default:
-        return CBOR.toBase64Url(cborBytes);
-    }
+    default:
+      return CBOR.toBase64Url(cborBytes);
   }
 }
 
@@ -156,10 +155,7 @@ async function doProcess() {
           <td>Require <a href='https://cyberphone.github.io/javaapi/org/webpki/cbor/package-summary.html#deterministic-encoding' target='_blank' title='Documentation'>Deterministic Encoding</a> for hex/b64u data</td></tr>
       <tr><td><input type='checkbox' id='con'></td><td>Require <a href='https://cyberphone.github.io/javaapi/org/webpki/cbor/package-summary.html#map-key-constraints' target='_blank' title='Documentation'>Constrained Map Keys</a></td></tr>
       </table>Paste a CBOR object in the text box or try with the default:
-    </div><textarea rows='10' maxlength='100000' class='textbox' id='cborin' name='cborin'>{
-  1: &quot;text\nnext&quot;,
-  2: [5.960465188081798e-8, b64'oQVkZGF0YQ', h'abcdef', true, 0(&quot;2023-06-02T07:53:19Z&quot;)]
-}</textarea></div>
+    </div><textarea rows='10' maxlength='100000' class='textbox' id='cborin' name='cborin'></textarea></div>
 <div style='padding-top:10pt'><div style='padding-bottom:3pt'>
   <table style='margin-bottom:0.3em;border-spacing:0'>
   <tr><td><input type='radio' name='selout' value='diag'></td><td><a href='https://cyberphone.github.io/javaapi/org/webpki/cbor/package-summary.html#diagnostic-notation' target='_blank' title='Documentation'>Diagnostic Notation</a></td></tr>
@@ -172,7 +168,7 @@ async function doProcess() {
   </div>
     <div style='display:flex;justify-content:center'>
       <div class='stdbtn' onclick="delayedProcess()">Process!</div>
-  </div>
+    </div>
   <div>&nbsp;</div>
 </body>
 </html>
