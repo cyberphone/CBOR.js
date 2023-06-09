@@ -1,7 +1,8 @@
 // JavaScript source code
-const CBOR = require('../src/cbor.js');
+import CBOR from '../node-cbor.js';
+import { assertTrue, assertFalse } from './assertions.js';
 
-oneTurn = function(hex, dn) {
+function oneTurn(hex, dn) {
   try {
     CBOR.decode(CBOR.fromHex(hex));
     throw Error("Should not fail on: " + dn);
@@ -12,10 +13,9 @@ oneTurn = function(hex, dn) {
   }
   let decoder = CBOR.initExtended(CBOR.fromHex(hex), false, true, false);
   let object = CBOR.decodeExtended(decoder);
-  if (object.toString() != dn.toString() || !object.equals(CBOR.decode(object.encode()))) {
+  if (object.toString() != dn || !object.equals(CBOR.decode(object.encode()))) {
     throw Error("non match:" + dn);
   }
-  console.log(hex);
 }
 
 oneTurn('1900ff', '255');
