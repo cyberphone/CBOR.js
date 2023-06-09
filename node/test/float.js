@@ -1,5 +1,4 @@
 // Test program for floating point "edge cases"
-// JavaScript source code
 import CBOR from '../node-cbor.js';
 
 let errorCount = 0;

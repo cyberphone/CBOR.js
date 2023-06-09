@@ -1,5 +1,5 @@
 // JavaScript source code
-const CBOR = require('../src/cbor.js');
+import CBOR from '../node-cbor.js';
 
 let cbor = CBOR.Map()
                .set(CBOR.Int(1), CBOR.Float(45.7))

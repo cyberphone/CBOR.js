@@ -718,15 +718,22 @@ export default class CBOR {
       if (tagNumber == CBOR.Tag.RESERVED_TAG_COTX) {
         if (object.constructor.name != CBOR.Array.name || object.length != 2 ||
             object.get(0).constructor.name != CBOR.String.name) {
-          throw SyntaxError("Tag syntax " +  CBOR.Tag.RESERVED_TAG_COTX +
-                            "([\"string\", CBOR object]) expected");
+          this.#errorInObject("Invalid COTX object");
         }
-      } else if (tagNumber == 0) {
+      } else if (tagNumber == 0n) {
         if (object.constructor.name != CBOR.String.name ||
             !object.getString().match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)((-(\d{2}):(\d{2})|Z)?)$/gm)) {
-          throw SyntaxError("Invalid ISO date string");
+          this.#errorInObject("Invalid ISO date string");
         }
       }
+    }
+
+    #errorInObject = function(message) {
+      let errorString = message + ': ' + this.#object.toDiagnosticNotation(false);
+      if (errorString.length > 100) {
+        errorString = errorString.substring(0, 100) + ' ...';
+      }
+      throw SyntaxError(errorString);
     }
 
     encode = function() {
@@ -1081,7 +1088,7 @@ export default class CBOR {
     }
  
   
-    reportError = function(error) {
+    parserError = function(error) {
       // Unsurprisingly, error handling turned out to be the most complex part...
       let start = this.index - 100;
       if (start < 0) {
@@ -1131,7 +1138,7 @@ export default class CBOR {
               this.scanFor(",");
             } else {
               this.readChar();
-              this.reportError("Unexpected data after token");
+              this.parserError("Unexpected data after token");
             }
           } else {
             return sequence;
@@ -1143,7 +1150,7 @@ export default class CBOR {
         }
         // The exception apparently came from a deeper layer.
         // Make it a parser error and remove the original error name.
-        this.reportError(e.toString().replace(/.*Error\: ?/g, ''));
+        this.parserError(e.toString().replace(/.*Error\: ?/g, ''));
       }
     }
 
@@ -1210,7 +1217,7 @@ export default class CBOR {
         case 'b':
           if (this.nextChar() == '3') {
             this.scanFor("32'");
-            this.reportError("b32 not implemented");
+            this.parserError("b32 not implemented");
           }
           this.scanFor("64");
           return this.getBytes(true);
@@ -1256,7 +1263,7 @@ export default class CBOR {
         
         default:
           this.index--;
-          this.reportError("Unexpected character: " + this.toChar(this.readChar()));
+          this.parserError("Unexpected character: " + this.toChar(this.readChar()));
       }
     }
 
@@ -1302,7 +1309,7 @@ export default class CBOR {
 
           case '_':
             if (!prefix) {
-              this.reportError("'_' is only permitted for 0b, 0o, and 0x numbers");
+              this.parserError("'_' is only permitted for 0b, 0o, and 0x numbers");
             }
             this.readChar();
 
@@ -1316,7 +1323,7 @@ export default class CBOR {
           let value = Number(token);
           // Implicit overflow is not permitted
           if (!Number.isFinite(value)) {
-            this.reportError("Floating point value out of range");
+            this.parserError("Floating point value out of range");
           }
           return CBOR.Float(negative ? -value : value);
         }
@@ -1324,7 +1331,7 @@ export default class CBOR {
           // Do not accept '-', 0xhhh, or leading zeros
           this.testForNonDecimal(prefix);
           if (negative || (token.length > 1 && token.charAt(0) == '0')) {
-            this.reportError("Tag syntax error");
+            this.parserError("Tag syntax error");
           }
           this.readChar();
           let tagNumber = BigInt(token);
@@ -1339,7 +1346,7 @@ export default class CBOR {
 
     testForNonDecimal = function(nonDecimal) {
       if (nonDecimal) {
-        this.reportError("Hexadecimal not permitted here");
+        this.parserError("Hexadecimal not permitted here");
       }
     }
 
@@ -1359,7 +1366,7 @@ export default class CBOR {
       [...expected].forEach(c => {
         let actual = this.readChar(); 
         if (c != actual) {
-          this.reportError("Expected: '" + c + "' actual: " + this.toChar(actual));
+          this.parserError("Expected: '" + c + "' actual: " + this.toChar(actual));
         }
       });
     }
@@ -1414,7 +1421,7 @@ export default class CBOR {
                 break;
   
               default:
-                this.reportError("Invalid escape character " + this.toChar(c));
+                this.parserError("Invalid escape character " + this.toChar(c));
             }
             break;
  
@@ -1432,7 +1439,7 @@ export default class CBOR {
           
           default:
             if (c.charCodeAt(0) < 0x20) {
-              this.reportError("Unexpected control character: " + this.toChar(c));
+              this.parserError("Unexpected control character: " + this.toChar(c));
             }
         }
         s += c;
@@ -1465,7 +1472,7 @@ export default class CBOR {
 
     readChar = function() {
       if (this.index >= this.cborText.length) {
-        this.reportError("Unexpected EOF");
+        this.parserError("Unexpected EOF");
       }
       return this.cborText[this.index++];
     }

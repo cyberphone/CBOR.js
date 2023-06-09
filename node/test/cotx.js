@@ -7,7 +7,7 @@ function oneTurn(hex, dn, ok) {
     let cbor = CBOR.decode(CBOR.fromHex(hex));
     assertTrue("Should not execute", ok);
   } catch (error) {
-    assertFalse("Must fail", ok);
+    assertFalse("Must succeed", ok);
   }
 
   try {
@@ -15,16 +15,16 @@ function oneTurn(hex, dn, ok) {
     let object = CBOR.decodeExtended(decoder);
     assertTrue("Should not execute", ok);
     if (object.toString() != dn.toString() || !object.equals(CBOR.decode(object.encode()))) {
-      throw Error("non match:" + dn);
+      throw Error("non match:" + dn + " " + object.toString());
     }
   } catch (error) {
-    assertFalse("Must fail", ok);
+    if (ok) console.log(error.toString());
+    assertFalse("Must succeed", ok);
   }
-  console.log(hex);
 }
 
 oneTurn('d903f2623737', '1010("77")', false);
 oneTurn('d903f281623737', '1010(["77"])', false);
-oneTurn('d903f28206623737', '1010([6,"77"])', false);
-oneTurn('d903f28262373707', '1010(["77",7])', true);
+oneTurn('d903f28206623737', '1010([6, "77"])', false);
+oneTurn('d903f28262373707', '1010(["77", 7])', true);
 

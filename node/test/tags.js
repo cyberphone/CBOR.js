@@ -1,11 +1,10 @@
 // JavaScript source code
-const CBOR = require('../src/cbor.js');
-const assertTrue = require('./assertions.js').assertTrue;
-const assertFalse = require('./assertions.js').assertFalse;
+import CBOR from '../node-cbor.js';
+import { assertTrue, assertFalse } from './assertions.js';
 const TOO_BIG = Number.MAX_SAFE_INTEGER + 1;
 const IN_RANGE =  Number.MAX_SAFE_INTEGER;
 
-cbor = CBOR.Tag(IN_RANGE, CBOR.Map()).encode();
+let cbor = CBOR.Tag(IN_RANGE, CBOR.Map()).encode();
 assertTrue("t1", CBOR.decode(cbor).getTagNumber()== BigInt(IN_RANGE));
 cbor = CBOR.Tag(BigInt(TOO_BIG), CBOR.Map()).encode();
 assertTrue("t2", CBOR.decode(cbor).getTagNumber()== BigInt(TOO_BIG));

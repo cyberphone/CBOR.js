@@ -1,11 +1,15 @@
-// JavaScript source code
-const CBOR = require('../src/cbor.js');
+// transforms.js 
+import CBOR from '../node-cbor.js';
+import { assertTrue, assertFalse } from './assertions.js';
+
+const THREE = "three";
+
 let map = CBOR.Map()
               .set(CBOR.Int(3), CBOR.String("three"))
               .set(CBOR.Int(4), CBOR.String("four"));
 map.getKeys().forEach(element => console.log(element.toString()));
 console.log(map.get(CBOR.Int(4)).toString());
-console.log("size=" + map.size());
+console.log("size=" + map.line);
 console.log(map.remove(CBOR.Int(4)).toString());
 console.log(map.containsKey(CBOR.Int(3)));
 console.log(map.containsKey(CBOR.Int(4)));
@@ -19,4 +23,4 @@ console.log(map.get(CBOR.Int(3)).equals(CBOR.Int(5)));
 console.log(map.get(CBOR.Int(3)).equals(CBOR.String("three")));
 console.log(map.get(CBOR.Int(3)).equals(null));
 console.log(map.get(CBOR.Int(3)).equals("three"));
-console.log("size=" + map.size());
+console.log("size=" + map.length);
