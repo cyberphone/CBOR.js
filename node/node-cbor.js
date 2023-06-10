@@ -888,28 +888,26 @@ export default class CBOR {
         float += BigInt(decoded[i]);
       }
       let f64 = 0.0;
-      while (true) {
-        // The two cases of zero.
-        if (!float) break;
-        // The three cases of numbers that have no/little use.
+      // Catch the two cases of zero.
+      if (float) {
+        // Not zero. Catch the three cases of special/reserved numbers.
         if ((float & specialNumbers) == specialNumbers) {
           f64 = (float == specialNumbers) ? Number.POSITIVE_INFINITY : Number.NaN;
-          break;
+        } else {
+          // A genuine number
+          let exponent = float & specialNumbers;
+          let significand = float - exponent;
+          if (exponent) {
+            // Normal representation, add implicit "1.".
+            significand += significandMsbP1;
+            // -1n: Keep fractional point in line with subnormal numbers.
+            significand <<= ((exponent / significandMsbP1) - 1n);
+          }
+          // Huge integers like 2^150 may look scary.  However, not a single bit is ever lost
+          // because the maximum precision and range are still safely within F64 limits.  The
+          // math is actually a replacement for the broken JavaScript shift operations on Number.
+          f64 = Number(significand) / divisor;
         }
-        // A genuine number
-        let exponent = float & specialNumbers;
-        let significand = float - exponent;
-        if (exponent) {
-          // Normal representation, add implicit "1.".
-          significand += significandMsbP1;
-          // -1n: Keep fractional point in line with subnormal numbers.
-          significand <<= ((exponent / significandMsbP1) - 1n);
-        }
-        // Huge integers like 2^150 may look scary.  However, not a single bit is ever lost
-        // because the maximum precision and range are still safely within F64 limits.  The
-        // math is actually a replacement for the broken JavaScript shift operations on Number.
-        f64 = Number(significand) / divisor;
-        break;
       }
       if (sign) {
         f64 = -f64;
