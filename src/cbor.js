@@ -20,7 +20,7 @@ class CBOR {
       if (this instanceof CBOR.BigInt) {
         // During decoding, integers outside of Number.MAX_SAFE_INTEGER
         // automatically get "BigInt" representation. 
-        throw RangeError("Integer is outside of Number.MAX_SAFE_INTEGER, use getBigInt()");
+        CBOR.#error("Integer is outside of Number.MAX_SAFE_INTEGER, use getBigInt()");
       }
       return this.#checkTypeAndGetValue(CBOR.Int);
     }
@@ -92,10 +92,23 @@ class CBOR {
  
     #checkTypeAndGetValue = function(className) {
       if (!(this instanceof className)) {
-        throw TypeError("Invalid method call for object: CBOR." + this.constructor.name);
+        CBOR.#error("Invalid method call for object: CBOR." + this.constructor.name);
       }
       return this._get();
     }
+  }
+
+  static CborError = class extends Error {
+      constructor(message) {
+        super(message);
+      }
+  }
+
+  static #error = function(message) {
+    if (message.length > 100) {
+      message = message.substring(0, 100) + ' ...';
+    }
+    throw new CBOR.CborError(message);
   }
 
   static #MT_UNSIGNED     = 0x00;
@@ -124,7 +137,7 @@ class CBOR {
       0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 , '\\'];
 
   constructor() {
-    throw Error("CBOR cannot be instantiated");
+    CBOR.#error("CBOR cannot be instantiated");
   }
 
 ///////////////////////////
@@ -470,7 +483,7 @@ class CBOR {
     get = function(index) {
       index = CBOR.#intCheck(index);
       if (index < 0 || index >= this.#elements.length) {
-        throw RangeError("Array index out of range: " + index);
+        CBOR.#error("Array index out of range: " + index);
       }
       return this.#elements[index];
     }
@@ -541,19 +554,19 @@ class CBOR {
     set = function(key, value) {
       let newEntry = new CBOR.Map.Entry(this.#getKey(key), CBOR.#cborArguentCheck(value));
       if (this._constrainedKeys && key.constrainedKeyType()) {
-        throw Error("Constrained key option disallows: " + key.constructor.name);
+        CBOR.#error("Constrained key option disallows: " + key.constructor.name);
       }
       if (this.#root) {
         // Second key etc.
         if (this._constrainedKeys &&
             this.#lastEntry.key.constructor.name != key.constructor.name) {
-          throw Error("Constrained key option disallows mixing types: " + key.constructor.name);
+          CBOR.#error("Constrained key option disallows mixing types: " + key.constructor.name);
         }
         if (this._deterministicMode) {
           // Normal case for parsing.
           let diff = this.#lastEntry.compare(newEntry.encodedKey);
           if (diff >= 0) {
-            throw Error((diff ? "Non-deterministic order for key: " : "Duplicate key: ") + key);
+            CBOR.#error((diff ? "Non-deterministic order for key: " : "Duplicate key: ") + key);
           }
           this.#lastEntry.next = newEntry;
         } else {
@@ -564,7 +577,7 @@ class CBOR {
           for (let entry = this.#root; entry; entry = entry.next) {
             diff = entry.compare(newEntry.encodedKey);
             if (diff == 0) {
-              throw Error("Duplicate key: " + key);                      
+              CBOR.#error("Duplicate key: " + key);                      
             }
             if (diff > 0) {
               // New key is (lexicographically) smaller than current entry.
@@ -602,7 +615,7 @@ class CBOR {
     }
 
     #missingKey = function(key) {
-      throw ReferenceError("Missing key: " + key);
+      CBOR.#error("Missing key: " + key);
     }
 
     #lookup(key, mustExist) {
@@ -713,7 +726,7 @@ class CBOR {
         tagNumber = BigInt(CBOR.#intCheck(tagNumber));
       }
       if (tagNumber < 0n || tagNumber >= 0x10000000000000000n) {
-        throw RangeError("Tag value is out of range");
+        CBOR.#error("Tag value is out of range");
       }
       this.#tagNumber = tagNumber;
       this.#object = CBOR.#cborArguentCheck(object);
@@ -731,11 +744,7 @@ class CBOR {
     }
 
     #errorInObject = function(message) {
-      let errorString = message + ': ' + this.#object.toDiagnosticNotation(false);
-      if (errorString.length > 100) {
-        errorString = errorString.substring(0, 100) + ' ...';
-      }
-      throw SyntaxError(errorString);
+      CBOR.#error(message + ': ' + this.#object.toDiagnosticNotation(false));
     }
 
     encode = function() {
@@ -776,14 +785,13 @@ class CBOR {
 
     apply(target, thisArg, argumentsList) {
       if (argumentsList.length != this.numberOfArguments) {
-        throw SyntaxError("CBOR." + target.name + " expects " +
-                          this.numberOfArguments + " argument(s)");
+        CBOR.#error("CBOR." + target.name + " expects " + this.numberOfArguments + " argument(s)");
       }
       return new target(...argumentsList);
     }
 
     construct(target, args) {
-      throw SyntaxError("CBOR." + target.name + " does not permit \"new\"");
+      CBOR.#error("CBOR." + target.name + " does not permit \"new\"");
     }
   }
 
@@ -821,7 +829,7 @@ class CBOR {
         if (this.sequenceFlag && this.atFirstByte) {
           return CBOR.#MT_NULL;
         }
-        throw Error("Reading past end of buffer");
+        CBOR.#error("Reading past end of buffer");
       }
       this.atFirstByte = false;
       return this.cbor[this.counter++];
@@ -837,12 +845,12 @@ class CBOR {
     }
 
     unsupportedTag = function(tag) {
-      throw Error("Unsupported tag: " + CBOR.#twoHex(tag));
+      CBOR.#error("Unsupported tag: " + CBOR.#twoHex(tag));
     }
 
     rangeLimitedBigInt = function(value) {
       if (value > 0xffffffffn) {
-        throw RangeError("Length limited to 0xffffffff");
+        CBOR.#error("Length limited to 0xffffffff");
       }
       return Number(value);
     }
@@ -850,7 +858,7 @@ class CBOR {
     compareAndReturn = function(decoded, f64) {
       let cborFloat = CBOR.Float(f64);
       if (cborFloat._compare(decoded) && this.deterministicMode) {
-        throw Error("Non-deterministic encoding of: " + f64);
+        CBOR.#error("Non-deterministic encoding of: " + f64);
       }
       return cborFloat;
     }
@@ -922,7 +930,7 @@ class CBOR {
           let byteArray = this.getObject().getBytes();
           if ((byteArray.length == 0 || byteArray[0] == 0 || byteArray.length <= 8) && 
               this.deterministicMode) {
-            throw Error("Non-deterministic big integer encoding");
+            CBOR.#error("Non-deterministic big integer encoding");
           }
           let value = 0n;
           byteArray.forEach(byte => {
@@ -973,7 +981,7 @@ class CBOR {
         // N is zero, a shorter variant should have been used.
         // In addition, N must be > 23. 
         if ((bigN < 24n || !(mask & bigN)) && this.deterministicMode) {
-          throw Error("Non-deterministic N encoding for tag: 0x" + CBOR.#twoHex(tag));
+          CBOR.#error("Non-deterministic N encoding for tag: 0x" + CBOR.#twoHex(tag));
         }
       }
       // N successfully decoded, now switch on major type (upper three bits).
@@ -1034,7 +1042,7 @@ class CBOR {
         return null;
       }
     } else if (decoder.counter < decoder.cbor.length) {
-      throw Error("Unexpected data encountered after CBOR object");
+      CBOR.#error("Unexpected data encountered after CBOR object");
     }
     return object;
   }
@@ -1554,12 +1562,12 @@ class CBOR {
     if (byteArray instanceof Uint8Array) {
       return byteArray;
     }
-    throw TypeError("Argument is not an 'Uint8Array'");
+    CBOR.#error("Argument is not an 'Uint8Array'");
   }
 
   static #typeCheck = function(object, type) {
     if (typeof object != type) {
-      throw TypeError("Argument is not a '" + type + "'");
+      CBOR.#error("Argument is not a '" + type + "'");
     }
     return object;
   }
@@ -1567,11 +1575,8 @@ class CBOR {
   static #intCheck = function(value) {
     CBOR.#typeCheck(value, 'number');
     if (!Number.isSafeInteger(value)) {
-      if (Number.isInteger(value)) {
-        throw RangeError("Argument is outside of Number.MAX_SAFE_INTEGER");
-      } else {
-        throw TypeError("Argument is not an integer");
-      }
+      CBOR.#error(Number.isInteger(value) ? "Argument is outside of Number.MAX_SAFE_INTEGER" :
+                  "Argument is not an integer");
     }
     return value;
   }
@@ -1672,15 +1677,14 @@ class CBOR {
     if (object instanceof CBOR.#CborObject) {
       return object;
     }
-    throw TypeError("Argument is not a CBOR.* object: " + 
-                    (object ? object.constructor.name : 'null'));
+    CBOR.#error("Argument is not a CBOR.* object: " + (object ? object.constructor.name : 'null'));
   }
 
   static #decodeOneHex(charCode) {
     if (charCode >= 0x30 && charCode <= 0x39) return charCode - 0x30;
     if (charCode >= 0x61 && charCode <= 0x66) return charCode - 0x57;
     if (charCode >= 0x41 && charCode <= 0x46) return charCode - 0x37;
-    throw SyntaxError("Bad hex character: " + String.fromCharCode(charCode));
+    CBOR.#error("Bad hex character: " + String.fromCharCode(charCode));
   }
 
 //================================//
@@ -1723,7 +1727,7 @@ class CBOR {
   static fromHex = function (hexString) {
     let length = hexString.length;
     if (length & 1) {
-      throw SyntaxError("Uneven number of characters in hex string");
+      CBOR.#error("Uneven number of characters in hex string");
     }
     let result = new Uint8Array(length >> 1);
     for (let q = 0; q < length; q += 2) {
