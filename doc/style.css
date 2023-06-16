@@ -1,6 +1,6 @@
 body {
   margin:10pt;
-  font-size:8pt;
+  font-size:10pt;
   font-family:Verdana,'Bitstream Vera Sans','DejaVu Sans',Arial,'Liberation Sans';
 }
 
@@ -8,6 +8,15 @@ a {
   color:#007fff;
   text-decoration:none;
   outline:none;
+}
+
+h3 {
+  font-size: 1.3em;
+  font-weight:600;
+}
+
+h5 {
+  font-size: 1.1em;
 }
 
 li {
@@ -120,6 +129,91 @@ li {
 .multibtn {
   margin-top:12pt;
   text-align:center;
+}
+
+
+.webpkitable {
+  display: inline-block;
+  border-collapse: collapse;
+  box-shadow: 0.2em 0.2em 0.2em #d0d0d0;
+  margin: 1em 1em 1em 0;
+}
+
+.webpkitable td {
+  background-color: #fffdf2;
+  padding: 0.4em 0.5em;
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+}
+
+.webpkitable th {
+  padding: 0.4em 0.5em;
+  background-color: #f8f8f8;
+  text-align: center;
+  font-family: sans-serif;
+  font-size: 1.1em;
+  font-weight: bolder;
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+}
+
+.webpkisvg, .webpkibox, .webpkicomment, .webpkihexbox {
+  display: inline-block;
+  box-shadow: 0.2em 0.2em 0.2em #d0d0d0;
+  border-width: 1px;
+  border-style: solid;
+  border-color: black';
+}
+
+.webpkicomment {
+  padding: 0.5em 1em;
+  background-color: #fafffa
+}
+
+.webpkilistspacing {
+  padding-bottom: 0.7em;
+}
+
+.webpkibox, .webpkihexbox {
+  padding: 0.8em 1em;
+  font-family: "Noto Mono",monospace;
+  margin: 0 1em 1em 0;
+}
+
+.webpkisvg {
+  margin: 0 1em 1em 0;
+}
+
+.webpkibox {
+  white-space: nowrap;
+}
+
+.webpkifloat {
+  overflow-x: auto;
+}
+
+.webpkihexbox {
+  word-break: break-all;
+}
+
+.webpkicode {
+  color: maroon;
+}
+
+.webpkihighlite {
+  background: black;
+  color: white;
+}
+
+.webpkisuper {
+  font-size: 0.8em;
+  position: relative;
+  bottom: 0.5em;
+  left: 0.1em;
+  display: inline-block;
+  padding: 0.3em 0.1em 0 0;
 }
 
 @media (max-width:768px) {
