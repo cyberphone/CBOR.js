@@ -1,3 +1,5 @@
+![Saturn is great](https://cyberphone.github.io/CBOR.js/doc/cbor.js.svg)
+
 # CBOR.js
 
 This repository contains a
