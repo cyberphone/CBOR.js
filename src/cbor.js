@@ -89,10 +89,17 @@ class CBOR {
     toString = function() {
       return this.toDiagnosticNotation(true);
     }
+
+    get length() {
+      if (!this._getLength) {
+        CBOR.#error("CBOR." + this.constructor.name + " does not have a 'length' property");
+      }
+      return this._getLength();
+    }
  
     #checkTypeAndGetValue = function(className) {
       if (!(this instanceof className)) {
-        CBOR.#error("Invalid method call for object: CBOR." + this.constructor.name);
+        CBOR.#error("Invalid method call for CBOR." + this.constructor.name);
       }
       return this._get();
     }
@@ -342,7 +349,7 @@ class CBOR {
       return CBOR.compareArrays(this.#encoded, decoded);
     }
 
-    get length() {
+    _getLength = function() {
       return this.#encoded.length;
     }
 
@@ -516,7 +523,7 @@ class CBOR {
       cborPrinter.append(']');
     }
 
-    get length() {
+    _getLength = function() {
       return this.#elements.length;
     }
 
@@ -670,7 +677,7 @@ class CBOR {
       this.#missingKey(key);
     }
 
-    get length() {
+    _getLength = function() {
       return this.#numberOfEntries;
     }
 

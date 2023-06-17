@@ -1,7 +1,6 @@
 // JavaScript source code
-const CBOR = require('../src/cbor.js');
-const assertTrue = require('./assertions.js').assertTrue;
-const assertFalse = require('./assertions.js').assertFalse;
+import CBOR from '../node-cbor.js';
+import { assertTrue, assertFalse } from './assertions.js';
 const TOO_BIG = Number.MAX_SAFE_INTEGER + 1;
 const IN_RANGE =  Number.MAX_SAFE_INTEGER;
 
