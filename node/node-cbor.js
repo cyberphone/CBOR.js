@@ -104,9 +104,9 @@ export default class CBOR {
   }
 
   static CborError = class extends Error {
-      constructor(message) {
-        super(message);
-      }
+    constructor(message) {
+      super(message);
+    }
   }
 
   static #error = function(message) {
@@ -544,16 +544,16 @@ export default class CBOR {
 
     static Entry = class {
 
-       constructor(key, value) {
-         this.key = key;
-         this.encodedKey = key.encode();
-         this.value = value;
-         this.next = null;
-       }
+      constructor(key, value) {
+        this.key = key;
+        this.encodedKey = key.encode();
+        this.value = value;
+        this.next = null;
+      }
 
-       compare = function(encodedKey) {
-         return CBOR.compareArrays(this.encodedKey, encodedKey);
-       }
+      compare = function(encodedKey) {
+        return CBOR.compareArrays(this.encodedKey, encodedKey);
+      }
     }
 
     set = function(key, value) {
@@ -1331,30 +1331,30 @@ export default class CBOR {
         }
         break;
       }
-        if (floatingPoint) {
-          this.testForNonDecimal(prefix);
-          let value = Number(token);
-          // Implicit overflow is not permitted
-          if (!Number.isFinite(value)) {
-            this.parserError("Floating point value out of range");
-          }
-          return CBOR.Float(negative ? -value : value);
+      if (floatingPoint) {
+        this.testForNonDecimal(prefix);
+        let value = Number(token);
+        // Implicit overflow is not permitted
+        if (!Number.isFinite(value)) {
+          this.parserError("Floating point value out of range");
         }
-        if (this.nextChar() == '(') {
-          // Do not accept '-', 0xhhh, or leading zeros
-          this.testForNonDecimal(prefix);
-          if (negative || (token.length > 1 && token.charAt(0) == '0')) {
-            this.parserError("Tag syntax error");
-          }
-          this.readChar();
-          let tagNumber = BigInt(token);
-          let cborTag = CBOR.Tag(tagNumber, this.getObject());
-          this.scanFor(")");
-          return cborTag;
+        return CBOR.Float(negative ? -value : value);
+      }
+      if (this.nextChar() == '(') {
+        // Do not accept '-', 0xhhh, or leading zeros
+        this.testForNonDecimal(prefix);
+        if (negative || (token.length > 1 && token.charAt(0) == '0')) {
+          this.parserError("Tag syntax error");
         }
-        let bigInt = BigInt((prefix == null ? '' : prefix) + token);
-        // Clone: slight quirk to get the optimal CBOR integer type  
-        return CBOR.BigInt(negative ? -bigInt : bigInt).clone();
+        this.readChar();
+        let tagNumber = BigInt(token);
+        let cborTag = CBOR.Tag(tagNumber, this.getObject());
+        this.scanFor(")");
+        return cborTag;
+      }
+      let bigInt = BigInt((prefix == null ? '' : prefix) + token);
+      // Clone: slight quirk to get the optimal CBOR integer type  
+      return CBOR.BigInt(negative ? -bigInt : bigInt).clone();
     }
 
     testForNonDecimal = function(nonDecimal) {
@@ -1696,15 +1696,15 @@ export default class CBOR {
 
   static addArrays = function(a, b) {
     let result = new Uint8Array(a.length + b.length);
-      let q = 0;
-      while (q < a.length) {
-        result[q] = a[q++];
-      }
-      for (let i = 0; i < b.length; i++) {
-        result[q + i] = b[i];
-      }
-      return result;
+    let q = 0;
+    while (q < a.length) {
+      result[q] = a[q++];
     }
+    for (let i = 0; i < b.length; i++) {
+      result[q + i] = b[i];
+    }
+    return result;
+  }
 
   static array
 
