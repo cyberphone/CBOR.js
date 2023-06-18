@@ -79,7 +79,7 @@ export default class CBOR {
     }
 
     toDiagnosticNotation = function(prettyPrint) {
-      let cborPrinter = new CBOR.#CborPrinter(prettyPrint);
+      let cborPrinter = new CBOR.#CborPrinter(CBOR.#typeCheck(prettyPrint, 'boolean'));
       this.internalToString(cborPrinter);
       return cborPrinter.buffer;
     }
