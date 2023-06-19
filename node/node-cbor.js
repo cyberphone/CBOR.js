@@ -12,7 +12,11 @@ export default class CBOR {
   // Super class for all CBOR types.
   static #CborObject = class {
 
-    constructor() {}
+    #readFlag;
+
+    constructor() {
+      this.#readFlag = false;
+    }
 
     getInt = function() {
       if (this instanceof CBOR.BigInt) {
@@ -45,7 +49,7 @@ export default class CBOR {
 
     getBigInt = function() {
       if (this instanceof CBOR.Int) {
-        return BigInt(this._get());
+        return BigInt(this.getInt());
       }
       return this.#checkTypeAndGetValue(CBOR.BigInt);
     }
@@ -87,6 +91,48 @@ export default class CBOR {
     toString = function() {
       return this.toDiagnosticNotation(true);
     }
+ 
+    #traverse = function(holderObject, check) {
+      switch (this.constructor.name) {
+        case "Map":
+          this.getKeys().forEach(key => {
+            this.get(key).#traverse(key, check);
+          });
+          break;
+        
+        case "Array":
+          this.toArray().forEach(object => {
+            object.#traverse(this, check);
+          });
+          break;
+        
+        case "Tag":
+          this.getTagObject().#traverse(this, check);
+          break;
+      }
+      if (check) {
+        if (!this.#readFlag) {
+          CBOR.#error((holderObject == null ? "Data" : 
+            holderObject instanceof CBOR.Array ? "Array element" :
+              holderObject instanceof CBOR.Tag ?
+              "Tagged object " + holderObject.getTagNumber().toString() : 
+              "Map key " + holderObject.toDiagnosticNotation(false) + " with argument") +                    
+            " of type=CBOR." + this.constructor.name + 
+            " with value=" + this.toDiagnosticNotation(false) + " was never read");
+        }
+      } else {
+        this.#readFlag = true;
+      }
+    }
+
+    scan = function() {
+      this.#traverse(null, false);
+      return this;
+    }
+
+    checkForUnread = function() {
+      this.#traverse(null, true);
+    }
 
     get length() {
       if (!this._getLength) {
@@ -99,6 +145,7 @@ export default class CBOR {
       if (!(this instanceof className)) {
         CBOR.#error("Invalid method call for CBOR." + this.constructor.name);
       }
+      this.#readFlag = true;
       return this._get();
     }
   }
