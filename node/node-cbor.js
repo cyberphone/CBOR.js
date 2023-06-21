@@ -107,7 +107,7 @@ export default class CBOR {
           break;
         
         case "Tag":
-          this.getTagObject().#traverse(this, check);
+          this.getTaggedObject().#traverse(this, check);
           break;
       }
       if (check) {
@@ -815,7 +815,7 @@ export default class CBOR {
       return this.#tagNumber;
     }
 
-    getTagObject = function() {
+    getTaggedObject = function() {
       return this.#object;
     }
 

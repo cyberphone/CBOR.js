@@ -1,6 +1,6 @@
-// JavaScript source code
+// Testing "diagnostic notation"
 import CBOR from '../node-cbor.js';
-import { assertTrue, assertFalse } from './assertions.js';
+import { assertTrue, assertFalse, success } from './assertions.js';
 
 function oneTurn(cborText, ok, compareWithOrNull) {
   try {
@@ -8,7 +8,7 @@ function oneTurn(cborText, ok, compareWithOrNull) {
     let result = CBOR.diagnosticNotation(cborText);
     assertTrue("Should not", ok);
     if (result.toString() != compareText) {
-      console.log("input:\n" + cborText + "\nresult:\n" + result);
+      throw Error("input:\n" + cborText + "\nresult:\n" + result);
     }
   } catch (error) {
     assertFalse("Err", ok);
@@ -27,7 +27,9 @@ oneTurn('{\n  4: "hi"\n}', true, null);
 oneTurn('[4, true, false, null]', true, null);
 oneTurn('"next\\nline"', true, null);
 oneTurn('0b100_000000001', true, "2049");
-oneTurn('4e+500', false, null);
+oneTurn('0b100_000000001', true, "2049");
+oneTurn('4.0e+500', false, null);
+oneTurn('4.0e+5', false, "400000.0");
 oneTurn('"missing', false, null);
 
 let cborObject = CBOR.decode(CBOR.fromHex('a20169746578740a6e6578740284fa3380000147a10564646\
@@ -39,3 +41,4 @@ let cborText = '{\n  1: "text\\nnext",\n  2: [5.960465188081798e-8, h\'a10564646
 assertTrue("pretty", cborObject.toDiagnosticNotation(true) == cborText);
 assertTrue("ugly", cborObject.toDiagnosticNotation(false) == 
                    cborText.replaceAll('\n', '').replaceAll(' ',''));
+success();

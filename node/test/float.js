@@ -1,7 +1,6 @@
 // Test program for floating point "edge cases"
 import CBOR from '../node-cbor.js';
-
-let errorCount = 0;
+import { assertTrue, assertFalse, success } from './assertions.js';
 
 function oneTurn(value, expected) {
   let text = value.toString();
@@ -11,19 +10,19 @@ function oneTurn(value, expected) {
   let cbor = CBOR.Float(value).encode();
   let got = CBOR.toHex(cbor);
   if (got != expected) {
-    errorCount++;
     got = '***=' + got;
   } else {
     got = '';
   }
   if (CBOR.decode(cbor).getFloat() != value) {
-    console.log("Failed decoding: " + value);
-    errorCount++;
+    throw Error("Failed decoding: " + value);
   }
   while (expected.length < 20) {
     expected += ' ';
   }
-  console.log(text + expected + got);
+  if (got.length) {
+    throw Error(text + expected + got);
+  }
 }
 oneTurn(6.10649585723877e-5, 'fa38801000');
 oneTurn(10.559998512268066, 'fa4128f5c1');
@@ -54,4 +53,4 @@ oneTurn(0.00006109476089477539, 'f90401');
 oneTurn(7.52316384526264e-37, 'fa03800000');
 oneTurn(1.1754943508222875e-38, 'fa00800000');
 
-console.log(errorCount ? "\n\nThere were errors :(" : "\n\n       SUCCESSFUL");
+success();

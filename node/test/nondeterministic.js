@@ -1,4 +1,4 @@
-// JavaScript source code
+// Testing "deterministic" code checks
 import CBOR from '../node-cbor.js';
 import { assertTrue, assertFalse } from './assertions.js';
 
@@ -35,3 +35,4 @@ try {
   }
 }
 
+success();

@@ -10,19 +10,37 @@ public class CreateDocument {
 
   static class TOCEntry {
     String title;
+    boolean indent;
 
     TOCEntry(String title) {
       this.title = title;
     }
   }
 
-  void addTocEntry(String title) {
-    tocEntries.add(new TOCEntry(title));
+  TOCEntry addTocEntry(String title) {
+    TOCEntry tocEntry = new TOCEntry(title);
+    tocEntries.add(tocEntry);
+    return tocEntry;
+  }
+
+  ArrayList<String> commonMethods = new ArrayList<>();
+
+  void addCommonMethod(String methodName) {
+    commonMethods.add(methodName);
   }
 
   CreateDocument(String templateFileName, String documentFileName) {
     template = UTF8.decode(IO.readFile(templateFileName));
-    addTocEntry("CBOR JavaScript API");
+    addCommonMethod("clone()");
+    addCommonMethod("encode()");
+    addCommonMethod("equals()");
+    addCommonMethod("toString()");
+    addCommonMethod("toDiagnosticNotation()");
+    addTocEntry("Table of Contents");
+    addTocEntry("CBOR Objects");
+    addTocEntry("CBOR.Int").indent = true;
+    addTocEntry("CBOR.BigInt").indent = true;
+    addTocEntry("CBOR.Float").indent = true;
     IO.writeFile(documentFileName, template);
   }
   public static void main(String[] args) {

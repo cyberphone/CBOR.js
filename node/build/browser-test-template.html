@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<link rel='icon' href='webpkiorg.png' sizes='192x192'>
+<meta name='viewport' content='initial-scale=1.0' />
+<title>CBOR JavaScript API</title>
+<link rel='stylesheet' type='text/css' href='style.css'>
+<script src='../src/cbor.js'></script>
+<script>'use strict';
+
+let failed=false;
+let failures = 0;
+let test = 0;
+
+function assertTrue(text, bool) {
+  if (!bool) throw Error("Assertion: " + text);
+}
+
+function assertFalse(text, bool) {
+  if (bool) throw Error("Assertion: " + text);
+}
+
+function resultPrint(word, colorAndStuff) {
+  if (test) {
+    document.getElementById('cborout').innerHTML += ', ';
+  }
+  document.getElementById('cborout').innerHTML += '<span style="color:' + colorAndStuff + '">' +
+    word + '</span>(' + TESTS[test].name + ')';
+}
+
+function success() {
+  resultPrint('Passed', 'green');
+  console.log("SUCCESSFUL");
+}
+
+let TESTS=[
+
+];
+
+function runTest() {
+  test = 0;
+  failed = false;
+  failures = 0;
+  document.getElementById('cborout').innerHTML = '';
+  let i = setInterval(() => {
+    console.log(TESTS[test].name);
+    try {
+      eval(TESTS[test].file);
+    } catch (error) {
+      failures++;
+      resultPrint('FAILED', 'red;font-weight:bold');
+      console.log("FAILED: " + error);
+    }
+    test++;
+    if (test == TESTS.length) {
+      clearInterval(i);
+      document.getElementById('cborout').innerHTML += '<br>&nbsp;<br>Failures: ' + failures;
+    }
+  }, 200);
+}
+
+</script>
+</head>
+<body>
+  <img style="max-width:30%" src="cbor.js.svg" alt="logo" title="CBOR.js logotype">
+  <h3 style="text-align:center;font-weight:normal;font-size:1.8em">CBOR.js - Browser Test</h3>
+  Results...
+  <div id='cborout' class='staticbox' style='word-break:normal'></div>
+  <div style='display:flex;justify-content:center'>
+    <div class='stdbtn' onclick="runTest()">Run Test!</div>
+  </div>
+  <div>&nbsp;</div>
+</body>
+</html>

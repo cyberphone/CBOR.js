@@ -6,11 +6,14 @@
   <property name="temp.dir" location=".tmp"/>
   <property name="webpki.lib.dir" location="../../../openkeystore/library/dist"/>
   <property name="doc.file" location="../../doc/index.html"/>
-  <property name="template.file" location="document-template.html"/>
-
+  <property name="document-template.file" location="document-template.html"/>
+  <property name="test.dir" location="../test"/>
+  <property name="browser-test.file" location="../../doc/browser-test.html"/>
+  <property name="browser-test-template.file" location="browser-test-template.html"/>
+ 
 
   <target name="help">
-    <echo message="help build doc"/>
+    <echo message="help build doc btest"/>
   </target>
 
   <target name="build">
@@ -43,9 +46,41 @@
           <include name="*.jar"/>
         </fileset>
       </classpath>
-      <arg line="${template.file} ${doc.file}"/>
+      <arg line="${document-template.file} ${doc.file}"/>
     </java>
     <delete dir="${temp.dir}"/>
   </target>
 
+  <target name="btest">
+    <delete dir="${temp.dir}"/>
+    <mkdir dir="${temp.dir}"/>
+    <fixcrlf srcdir="${test.dir}"
+             tab="remove"
+             tablength="4"
+             eol="lf"
+             eof="remove"
+             includes="*.js"/>
+    <javac debug="${debug}"
+           srcdir="."
+           destdir="${temp.dir}"
+           includeAntRuntime="false">
+      <classpath>
+        <fileset dir="${webpki.lib.dir}">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+    </javac>
+    <java fork="yes"
+      classname="CreateBrowserTest"
+      failonerror="true">
+      <classpath>
+        <pathelement path="${temp.dir}"/>
+        <fileset dir="${webpki.lib.dir}">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+      <arg line="${browser-test-template.file} ${browser-test.file} ${test.dir}/"/>
+    </java>
+    <delete dir="${temp.dir}"/>
+  </target>
 </project>

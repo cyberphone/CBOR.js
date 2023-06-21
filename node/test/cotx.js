@@ -1,6 +1,6 @@
 // Testing the COTX identifier
 import CBOR from '../node-cbor.js';
-import { assertTrue, assertFalse } from './assertions.js';
+import { assertTrue, assertFalse, success } from './assertions.js';
 
 function oneTurn(hex, dn, ok) {
   try {
@@ -28,3 +28,4 @@ oneTurn('d903f281623737', '1010(["77"])', false);
 oneTurn('d903f28206623737', '1010([6, "77"])', false);
 oneTurn('d903f28262373707', '1010(["77", 7])', true);
 
+success();

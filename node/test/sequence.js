@@ -1,6 +1,7 @@
-// JavaScript source code
+// Testing the "sequence" option
 import CBOR from '../node-cbor.js';
 import { assertTrue, assertFalse } from './assertions.js';
+
 let cbor = new Uint8Array([0x05, 0xa1, 0x05, 0x42, 0x6a, 0x6a])
 try {
   CBOR.decode(cbor);
@@ -15,3 +16,5 @@ while (object = CBOR.decodeExtended(decoder)) {
   total = CBOR.addArrays(total, object.encode());
 }
 assertFalse("Comp", CBOR.compareArrays(total, cbor));
+
+success();

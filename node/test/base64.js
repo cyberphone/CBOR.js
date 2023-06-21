@@ -1,6 +1,6 @@
 // Testing the B64U/B64 converters
 import CBOR from '../node-cbor.js';
-import { assertTrue, assertFalse } from './assertions.js';
+import { assertTrue, assertFalse, success } from './assertions.js';
 
 let bin = new Uint8Array(256);
 for (let i = 0; i < bin.length; i++) {
@@ -20,4 +20,4 @@ assertFalse("cmp1", CBOR.compareArrays(bin, CBOR.fromBase64Url(b64U)));
 assertFalse("cmp2", CBOR.compareArrays(bin, CBOR.fromBase64Url(b64)));
 assertFalse("cmp3", CBOR.compareArrays(CBOR.fromBase64Url('oQVkZGF0YQ'), 
                                        CBOR.fromHex('a1056464617461')));
-console.log("SUCCESSFUL");
+success();

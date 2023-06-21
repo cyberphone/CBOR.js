@@ -1,20 +1,21 @@
-// JavaScript source code
+// Testing the "constrained key" option
 import CBOR from '../node-cbor.js';
-'use strict';
+import { assertTrue, assertFalse, success } from './assertions.js';
 
 function oneTurn(cbor, ok) {
   try {
     CBOR.decode(cbor.encode());
   } catch (error) {
-    console.log("Err=" + error.toString());
+    throw error;
   }
   try {
     let decoder = CBOR.initExtended(cbor.encode(), false, false, true);
     let object = CBOR.decodeExtended(decoder);
     if (!ok) throw Error("Should not:");
   } catch (error) {
-    if (ok || !error.toString().includes('Constrained'))
-    console.log("Err=" + error + " ok=" + ok);
+    if (ok || !error.toString().includes('Constrained')) {
+      throw Error("Err=" + error + " ok=" + ok);
+    }
   }
 }
 
@@ -25,3 +26,4 @@ oneTurn(CBOR.Map()
 oneTurn(CBOR.Map()
     .set(CBOR.String("mix"), CBOR.String("0"))
     .set(CBOR.Int(1), CBOR.String("1")), false);
+success();
