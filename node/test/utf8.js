@@ -1,23 +1,11 @@
-// Test program for floating point "edge cases"
-const CBOR = require('../src/cbor.js');
-const assertTrue = require('./assertions.js').assertTrue;
-const assertFalse = require('./assertions.js').assertFalse;
-
+// Test of "utf8" converters
+import CBOR from '../node-cbor.js';
+import { assertTrue, assertFalse, success } from './assertions.js';
 
 function utf8EncoderTest(string, ok) {
   try {
     let cbor = CBOR.String(string).encode();
-    console.log("S=" + string);
-/*
-    encodedString = CBORDiagnosticNotation.decode(
-            "\"" + string + "\"").getString();
-    assertTrue("OK", ok);
-    assertTrue("Conv", string.equals(encodedString));
-    byte[] encodedBytes = CBORDiagnosticNotation.decode(
-            "'" + string + "'").getBytes();
-    assertTrue("OK", ok);
-    assertTrue("Conv2", Arrays.equals(encodedBytes, string.getBytes("utf-8")));
-*/
+    assertTrue("enc", ok);
   } catch (error) {
     assertFalse("No good", ok);
   }
@@ -43,3 +31,5 @@ utf8DecoderTest("64f0908cbc", true);
 utf8EncoderTest("Hi", true)
 utf8EncoderTest("\uD83D", false);
 utf8EncoderTest("\uD83D\uDE2D", true);
+
+success();

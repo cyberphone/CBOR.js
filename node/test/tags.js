@@ -1,6 +1,7 @@
-// JavaScript source code
+// Testing "tag"
 import CBOR from '../node-cbor.js';
-import { assertTrue, assertFalse } from './assertions.js';
+import { assertTrue, assertFalse, success } from './assertions.js';
+
 const TOO_BIG = Number.MAX_SAFE_INTEGER + 1;
 const IN_RANGE =  Number.MAX_SAFE_INTEGER;
 
@@ -44,3 +45,5 @@ try {
     console.log(error);
   }
 }
+
+success();

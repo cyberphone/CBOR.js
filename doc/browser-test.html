@@ -36,7 +36,8 @@ function success() {
 let TESTS=[
 
 {name:'base64.js',
-file:String.raw`
+file:String.raw`// Testing the B64U/B64 converters
+
 let bin = new Uint8Array(256);
 for (let i = 0; i < bin.length; i++) {
   bin[i] = i;
@@ -59,7 +60,8 @@ success();
 `}
 ,
 {name:'check-for-unread.js',
-file:String.raw`
+file:String.raw`// Testing the the "checkForUnread()" feature
+
 function oneTurn(create, access, ok) {
   let res = eval(create);
   try {
@@ -129,7 +131,8 @@ success();
 `}
 ,
 {name:'clone.js',
-file:String.raw`
+file:String.raw`// Testing the "clone()" and "equals() methods
+
 let object = CBOR.Map()
                  .set(CBOR.Int(2), CBOR.Array()
                                        .add(CBOR.Bool(false)));
@@ -141,7 +144,8 @@ success();
 `}
 ,
 {name:'cotx.js',
-file:String.raw`
+file:String.raw`// Testing the COTX identifier
+
 function oneTurn(hex, dn, ok) {
   try {
     let cbor = CBOR.decode(CBOR.fromHex(hex));
@@ -172,7 +176,8 @@ success();
 `}
 ,
 {name:'diagnostic.js',
-file:String.raw`
+file:String.raw`// Testing "diagnostic notation"
+
 function oneTurn(cborText, ok, compareWithOrNull) {
   try {
     let compareText = compareWithOrNull ? compareWithOrNull : cborText;
@@ -216,7 +221,8 @@ success();
 `}
 ,
 {name:'float.js',
-file:String.raw`
+file:String.raw`// Test program for floating point "edge cases"
+
 function oneTurn(value, expected) {
   let text = value.toString();
   while (text.length < 25) {
@@ -271,8 +277,39 @@ oneTurn(1.1754943508222875e-38, 'fa00800000');
 success();
 `}
 ,
+{name:'hex.js',
+file:String.raw`// Test of "hex" utility methods
+
+const hex = '0123456789abcdefABCDEF';
+
+let bin = CBOR.fromHex(hex);
+let cnv = CBOR.toHex(bin);
+assertFalse("hex", CBOR.compareArrays(bin, CBOR.fromHex(cnv)));
+let ref = new Uint8Array([0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef, 0xAB, 0xCD, 0xEF]);
+assertFalse("bin", CBOR.compareArrays(bin, ref));
+try {
+  CBOR.fromHex("AAA");
+  throw Error("should not");
+} catch (error) {
+  if (!error.toString().includes("Unev")) {
+    console.log(error);
+  }
+}
+
+try {
+  CBOR.fromHex("Ag");
+  throw Error("should not");
+} catch (error) {
+  if (!error.toString().includes("Bad hex")) {
+    console.log(error);
+  }
+}
+success();
+`}
+,
 {name:'keyconstraints.js',
-file:String.raw`
+file:String.raw`// Testing the "constrained key" option
+
 function oneTurn(cbor, ok) {
   try {
     CBOR.decode(cbor.encode());
@@ -301,7 +338,8 @@ success();
 `}
 ,
 {name:'maps.js',
-file:String.raw`
+file:String.raw`// Testing map operations
+
 let map = CBOR.Map()
               .set(CBOR.Int(3), CBOR.String("three"))
               .set(CBOR.Int(4), CBOR.String("four"));
@@ -322,7 +360,8 @@ success();
 `}
 ,
 {name:'miscellaneous.js',
-file:String.raw`
+file:String.raw`// miscellaneous tests
+
 let bin = new Uint8Array([0xa5, 0x01, 0xd9, 0x01, 0xf4, 0x81, 0x18, 0x2d, 0x02, 0xf9, 0x80, 0x10,
                           0x04, 0x64, 0x53, 0x75, 0x72, 0x65, 0x05, 0xa2, 0x08, 0x69, 0x59, 0x65,
                           0x0a, 0x01, 0x61, 0x68, 0xe2, 0x82, 0xac, 0x09, 0x85, 0x66, 0x42, 0x79,
@@ -351,7 +390,8 @@ success();
 `}
 ,
 {name:'nondeterministic.js',
-file:String.raw`
+file:String.raw`// Testing "deterministic" code checks
+
 function oneTurn(hex, dn) {
   try {
     CBOR.decode(CBOR.fromHex(hex));
@@ -389,7 +429,8 @@ success();
 `}
 ,
 {name:'out-of-range.js',
-file:String.raw`
+file:String.raw`// Number overflow tests.
+
 const TOO_BIG = Number.MAX_SAFE_INTEGER + 1;
 const IN_RANGE =  Number.MAX_SAFE_INTEGER;
 
@@ -421,7 +462,8 @@ success();
 `}
 ,
 {name:'sequence.js',
-file:String.raw`
+file:String.raw`// Testing the "sequence" option
+
 let cbor = new Uint8Array([0x05, 0xa1, 0x05, 0x42, 0x6a, 0x6a])
 try {
   CBOR.decode(cbor);
@@ -436,6 +478,92 @@ while (object = CBOR.decodeExtended(decoder)) {
   total = CBOR.addArrays(total, object.encode());
 }
 assertFalse("Comp", CBOR.compareArrays(total, cbor));
+
+success();
+`}
+,
+{name:'tags.js',
+file:String.raw`// Testing "tag"
+
+const TOO_BIG = Number.MAX_SAFE_INTEGER + 1;
+const IN_RANGE =  Number.MAX_SAFE_INTEGER;
+
+let cbor = CBOR.Tag(IN_RANGE, CBOR.Map()).encode();
+assertTrue("t1", CBOR.decode(cbor).getTagNumber()== BigInt(IN_RANGE));
+cbor = CBOR.Tag(BigInt(TOO_BIG), CBOR.Map()).encode();
+assertTrue("t2", CBOR.decode(cbor).getTagNumber()== BigInt(TOO_BIG));
+let object = CBOR.Array().add(CBOR.String("https://example.com/myobject")).add(CBOR.Int(6));
+cbor = CBOR.Tag(CBOR.Tag.RESERVED_TAG_COTX, object).encode();
+let tag = CBOR.decode(cbor);
+assertTrue("t3", tag.getTagNumber()== CBOR.Tag.RESERVED_TAG_COTX);
+assertTrue("t3.1", object.equals(tag.getTaggedObject()));
+tag = CBOR.decode(cbor).getTag();  // Redundant in JavaScript
+assertTrue("t3.2", object.equals(tag.getTaggedObject()));
+cbor = CBOR.Tag(0xf0123456789abcden, object).encode();
+assertTrue("t14", CBOR.decode(cbor).getTagNumber()== 0xf0123456789abcden);
+assertTrue("t5", CBOR.toHex(cbor) == 
+    "dbf0123456789abcde82781c68747470733a2f2f6578616d706c652e636f6d2f6d796f626a65637406");
+try {
+  CBOR.Tag(-1, CBOR.String("minus"));
+  throw Error("Should not");
+} catch (error) {
+  if (!error.toString().includes("out of range")) {
+    console.log(error);
+  }
+}
+try {
+  CBOR.Tag(0x10000000000000000n, CBOR.String("minus"));
+  throw Error("Should not");
+} catch (error) {
+  if (!error.toString().includes("out of range")) {
+    console.log(error);
+  }
+}
+
+try {
+  let tag = CBOR.Int(5).getTag();
+  throw Error("Should not");
+} catch (error) {
+  if (!error.toString().includes("CBOR.Int")) {
+    console.log(error);
+  }
+}
+
+success();
+`}
+,
+{name:'utf8.js',
+file:String.raw`// Test of "utf8" converters
+
+function utf8EncoderTest(string, ok) {
+  try {
+    let cbor = CBOR.String(string).encode();
+    assertTrue("enc", ok);
+  } catch (error) {
+    assertFalse("No good", ok);
+  }
+
+}
+
+function utf8DecoderTest(hex, ok) {
+  let cbor = CBOR.fromHex(hex);
+  let roundTrip;
+  try {
+    roundTrip = CBOR.decode(cbor).encode();
+  } catch (error) {
+    assertFalse("No good", ok);
+    return;
+  }
+  assertTrue("OK", ok);
+  assertFalse("Conv", CBOR.compareArrays(cbor, roundTrip));
+}
+
+utf8DecoderTest("62c328", false);
+utf8DecoderTest("64f0288cbc", false);
+utf8DecoderTest("64f0908cbc", true);
+utf8EncoderTest("Hi", true)
+utf8EncoderTest("\uD83D", false);
+utf8EncoderTest("\uD83D\uDE2D", true);
 
 success();
 `}
@@ -474,6 +602,5 @@ function runTest() {
   <div style='display:flex;justify-content:center'>
     <div class='stdbtn' onclick="runTest()">Run Test!</div>
   </div>
-  <div>&nbsp;</div>
 </body>
 </html>
