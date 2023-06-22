@@ -530,7 +530,7 @@ class CBOR {
     #elements = [];
 
     add = function(element) {
-      this.#elements.push(CBOR.#cborArguentCheck(element));
+      this.#elements.push(CBOR.#cborArgumentCheck(element));
       return this;
     }
 
@@ -606,7 +606,7 @@ class CBOR {
     }
 
     set = function(key, value) {
-      let newEntry = new CBOR.Map.Entry(this.#getKey(key), CBOR.#cborArguentCheck(value));
+      let newEntry = new CBOR.Map.Entry(this.#getKey(key), CBOR.#cborArgumentCheck(value));
       if (this._constrainedKeys && key.constrainedKeyType()) {
         CBOR.#error("Constrained key option disallows: " + key.constructor.name);
       }
@@ -665,7 +665,7 @@ class CBOR {
     }
 
     #getKey = function(key) {
-      return CBOR.#cborArguentCheck(key);
+      return CBOR.#cborArgumentCheck(key);
     }
 
     #missingKey = function(key) {
@@ -692,7 +692,7 @@ class CBOR {
     getConditionally = function(key, defaultValue) {
       let entry = this.#lookup(key, false);
       // Note: defaultValue may be 'null'
-      defaultValue = defaultValue ? CBOR.#cborArguentCheck(defaultValue) : null;
+      defaultValue = defaultValue ? CBOR.#cborArgumentCheck(defaultValue) : null;
       return entry ? entry.value : defaultValue;
     }
 
@@ -783,7 +783,7 @@ class CBOR {
         CBOR.#error("Tag value is out of range");
       }
       this.#tagNumber = tagNumber;
-      this.#object = CBOR.#cborArguentCheck(object);
+      this.#object = CBOR.#cborArgumentCheck(object);
       if (tagNumber == CBOR.Tag.RESERVED_TAG_COTX) {
         if (object.constructor.name != CBOR.Array.name || object.length != 2 ||
             object.get(0).constructor.name != CBOR.String.name) {
@@ -1728,7 +1728,7 @@ class CBOR {
     return CBOR.#oneHex(byte / 16) + CBOR.#oneHex(byte % 16);
   }
 
-  static #cborArguentCheck = function(object) {
+  static #cborArgumentCheck = function(object) {
     if (object instanceof CBOR.#CborObject) {
       return object;
     }
