@@ -47,7 +47,18 @@ try {
 }
 
 try {
-  CBOR.Tag(0, CBOR.String("2023-06-22T00:00:00"));
+  // Z or -+local offset needed.
+  CBOR.Tag(0, CBOR.String("2023-06-22T00:01:43"));
+  throw Error("Should not");
+} catch (error) {
+  if (!error.toString().includes("ISO")) {
+    throw error;
+  }
+}
+
+try {
+  // 24 hour is incorrect.
+  CBOR.Tag(0, CBOR.String("2023-06-22T24:01:43Z"));
   throw Error("Should not");
 } catch (error) {
   if (!error.toString().includes("ISO")) {
