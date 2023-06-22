@@ -789,7 +789,7 @@ export default class CBOR {
         }
       } else if (tagNumber == 0n) {
         if (object.constructor.name != CBOR.String.name ||
-            !object.getString().match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)((-(\d{2}):(\d{2})|Z)?)$/gm)) {
+            !object.getString().match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)((-(\d{2}):(\d{2})|Z))$/gm)) {
           this.#errorInObject("Invalid ISO date string");
         }
       }

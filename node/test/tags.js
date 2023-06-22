@@ -46,4 +46,13 @@ try {
   }
 }
 
+try {
+  CBOR.Tag(0, CBOR.String("2023-06-22T00:00:00"));
+  throw Error("Should not");
+} catch (error) {
+  if (!error.toString().includes("ISO")) {
+    throw error;
+  }
+}
+
 success();
