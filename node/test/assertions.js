@@ -1,3 +1,5 @@
+// Support for Node.js testing
+
 export function assertTrue(text, bool) {
   if (!bool) throw Error("Assertion: " + text);
 }
