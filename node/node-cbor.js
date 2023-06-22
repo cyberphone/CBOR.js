@@ -1228,7 +1228,6 @@ export default class CBOR {
     continueList = function(validStop) {
       if (this.nextChar() == ',') {
         this.readChar();
-        this.scanNonSignficantData();
         return true;
       }
       this.scanFor(validStop);
