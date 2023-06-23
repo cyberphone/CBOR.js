@@ -1,4 +1,4 @@
-// Testing the the "checkForUnread()" feature
+// Testing the "checkForUnread()" feature
 import CBOR from '../node-cbor.js';
 import { assertTrue, assertFalse, success } from './assertions.js';
 

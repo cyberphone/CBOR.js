@@ -27,7 +27,6 @@ oneTurn('{\n  4: "hi"\n}', true, null);
 oneTurn('[4, true, false, null]', true, null);
 oneTurn('"next\\nline"', true, null);
 oneTurn('0b100_000000001', true, "2049");
-oneTurn('0b100_000000001', true, "2049");
 oneTurn('4.0e+500', false, null);
 oneTurn('4.0e+5', false, "400000.0");
 oneTurn('"missing', false, null);
@@ -39,6 +38,6 @@ let cborText = '{\n  1: "text\\nnext",\n  2: [5.960465188081798e-8, h\'a10564646
     '    true: false\n  }, 0("2023-06-02T07:53:19Z")]\n}';
 
 assertTrue("pretty", cborObject.toDiagnosticNotation(true) == cborText);
-assertTrue("ugly", cborObject.toDiagnosticNotation(false) == 
+assertTrue("oneline", cborObject.toDiagnosticNotation(false) == 
                    cborText.replaceAll('\n', '').replaceAll(' ',''));
 success();

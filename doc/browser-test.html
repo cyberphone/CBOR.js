@@ -43,24 +43,25 @@ for (let i = 0; i < bin.length; i++) {
   bin[i] = i;
 }
 let b64U = CBOR.toBase64Url(bin);
+assertFalse("cmp1", CBOR.compareArrays(bin, CBOR.fromBase64Url(b64U)));
 
-// This is what "btoa" return for bin:
+// This is what "btoa" returns for bin:
 let b64 = 'AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissL\
 S4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY\
 2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6e3x9fn+AgYKDhIWGh4iJiouMjY6PkJGSk5SVlpeYm\
 ZqbnJ2en6ChoqOkpaanqKmqq6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz\
 9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/w==';
-assertFalse("cmp1", CBOR.compareArrays(bin, CBOR.fromBase64Url(b64U)));
 
 // fromBase64Url is "lenient" and takes Base64 as well...
 assertFalse("cmp2", CBOR.compareArrays(bin, CBOR.fromBase64Url(b64)));
+
 assertFalse("cmp3", CBOR.compareArrays(CBOR.fromBase64Url('oQVkZGF0YQ'), 
                                        CBOR.fromHex('a1056464617461')));
 success();
 `}
 ,
 {name:'check-for-unread.js',
-file:String.raw`// Testing the the "checkForUnread()" feature
+file:String.raw`// Testing the "checkForUnread()" feature
 
 function oneTurn(create, access, ok) {
   let res = eval(create);
@@ -203,7 +204,6 @@ oneTurn('{\n  4: "hi"\n}', true, null);
 oneTurn('[4, true, false, null]', true, null);
 oneTurn('"next\\nline"', true, null);
 oneTurn('0b100_000000001', true, "2049");
-oneTurn('0b100_000000001', true, "2049");
 oneTurn('4.0e+500', false, null);
 oneTurn('4.0e+5', false, "400000.0");
 oneTurn('"missing', false, null);
@@ -215,7 +215,7 @@ let cborText = '{\n  1: "text\\nnext",\n  2: [5.960465188081798e-8, h\'a10564646
     '    true: false\n  }, 0("2023-06-02T07:53:19Z")]\n}';
 
 assertTrue("pretty", cborObject.toDiagnosticNotation(true) == cborText);
-assertTrue("ugly", cborObject.toDiagnosticNotation(false) == 
+assertTrue("oneline", cborObject.toDiagnosticNotation(false) == 
                    cborText.replaceAll('\n', '').replaceAll(' ',''));
 success();
 `}
