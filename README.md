@@ -7,11 +7,9 @@ unsurprisingly named "CBOR".  The core is based on wrapping CBOR data items
 in type-specific objects.  These objects are used for encoding CBOR data,
 as well as being the result of CBOR decoding.
 
-To simplify adoption, the API utilizes a CBOR encoding scheme that is _backward compatible_ 
+To simplify adoption, the API utilizes a CBOR encoding scheme that is _backward compatible_
 with the "CBOR&nbsp;Playground" (https://cbor.me), maintained by the
 [RFC8949](https://www.rfc-editor.org/rfc/rfc8949.html) editor, Carsten&nbsp;Bormann.
-
-<table align='center'><tr><td><i>Note that this API is not yet ready for external use!</i> 😏</td></tr></table>
 
 ### Design Rationale
 
@@ -20,9 +18,7 @@ in standard platforms with an emphasis on computationally advanced systems like
 _Web browsers_, _mobile phones_, and _Web servers_.
 Due to the desire maintaining interoperability across different platforms,
 the API "by design" does not address JavaScript specific
-constructs like typed arrays beyond `Uint8Array`.  There are also some limitations regarding
-CBOR support. However, in _most_ cases, additional processing at the application layer
-can deal with extensions.
+types like `undefined` and binary data beyond `Uint8Array`.
 See also: [CBOR Everywhere](https://github.com/cyberphone/cbor-everywhere/).
 
 ### "CBOR" Components
@@ -83,8 +79,6 @@ Note: although possible, the _intention_ with diagnostic notation is not using i
 
 ### Implementation Note
 
-The code represents a _Reference Implementation_, not code for inclusion in JavaScript engines.  The latter would most certainly require parts to be rewritten in C/C++
-since "bit-fiddling" using `Number` and `BigInt` have major limitations.
+The code represents a _Reference Implementation_, not code for inclusion in JavaScript engines.  The latter would (for _performance_ reasons), most certainly require parts to be rewritten in native code.
 
-Updated: 2023-06-03
-
+Updated: 2023-06-24
