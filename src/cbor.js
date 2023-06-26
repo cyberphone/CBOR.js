@@ -930,21 +930,17 @@ class CBOR {
     // Maybe not the most performant solution, but hey, this is a "Reference Implementation" :)
     decompressF16AndReturn = function() {
       let decoded = this.readBytes(2);
-      let float = decoded[0] & 0x7f;
-      for (let i = 1; i < decoded.length; i++) {
-        float *= 256;
-        float += decoded[i];
-      }
+      let unsignedF16 = ((decoded[0] & 0x7f) * 256) + decoded[1];
       let f64;
       // Catch the three cases of special/reserved numbers.
-      if ((float & 0x7c00) == 0x7c00) {
-        f64 = (float == 0x7c00) ? Number.POSITIVE_INFINITY : Number.NaN;
+      if ((unsignedF16 & 0x7c00) == 0x7c00) {
+        f64 = (unsignedF16 == 0x7c00) ? Number.POSITIVE_INFINITY : Number.NaN;
       } else {
-        // A genuine number
-        let exponent = float & 0x7c00;
-        let significand = float - exponent;
+        // It is a genuine number.
+        let exponent = unsignedF16 & 0x7c00;
+        let significand = unsignedF16 - exponent;
         if (exponent) {
-          // Normal representation, add implicit "1.".
+          // Normal representation, add the implicit "1.".
           significand += 0x400;
           // -1: Keep fractional point in line with subnormal numbers.
           // It should preferable be <<= but JavaScript shifts are broken...
