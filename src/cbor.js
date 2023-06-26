@@ -937,13 +937,8 @@ class CBOR {
                                     // -2 is because the algorithm doesn't normalize significands.
                                     divisor) {
       let decoded = this.readBytes(numberOfBytes);
-      let sign = false;
-      if (decoded[0] & 0x80) {
-        decoded[0] &= 0x7f;
-        sign = true;
-      }
-      let float = 0n;
-      for (let i = 0; i < decoded.length; i++) {
+      let float = BigInt(decoded[0] & 0x7f);
+      for (let i = 1; i < decoded.length; i++) {
         float *= 256n;
         float += BigInt(decoded[i]);
       }
@@ -966,9 +961,8 @@ class CBOR {
         // math is actually a replacement for the broken JavaScript shift operations on Number.
         f64 = Number(significand) / divisor;
       }
-      if (sign) {
+      if (decoded[0] & 0x80) {
         f64 = -f64;
-        decoded[0] |= 0x80;
       }
       return this.compareAndReturn(decoded, f64);
     }
