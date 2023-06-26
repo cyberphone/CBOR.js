@@ -922,44 +922,37 @@ class CBOR {
     }
 
     // Interesting algorithm...
-    // 1. Read the designated F16 or F32 byte string.
-    // 2. Convert the F16 or F32 byte string to their F64 IEEE-754 equivalent (JavaScript Number).
+    // 1. Read the F16 byte string.
+    // 2. Convert the F16 byte string to its F64 IEEE-754 equivalent (JavaScript Number).
     // 3. Create a CBOR.Float object using the F64 Number as input. This causes CBOR.Float to
     //    create an '#encoded' byte string holding the deterministic IEEE-754 representation.
-    // 4. Verify that '#encoded' is equal to the byte string read at step 1.
-    // Certainly not the most performant solution, but hey, this is a "Reference Implementation" :)
-    recreateF64AndReturn = function(numberOfBytes,
-                                    // Mask: Region reserved for NaN, Infinity, and Exponent
-                                    specialNumbers,
-                                    // LSB of Exponent,
-                                    significandMsbP1,
-                                    // 2 ^ (Exponent offset + Size of significand - 2)
-                                    // -2 is because the algorithm doesn't normalize significands.
-                                    divisor) {
-      let decoded = this.readBytes(numberOfBytes);
-      let float = BigInt(decoded[0] & 0x7f);
+    // 4. Optionally verify that '#encoded' is equal to the byte string read at step 1.
+    // Maybe not the most performant solution, but hey, this is a "Reference Implementation" :)
+    decompressF16AndReturn = function() {
+      let decoded = this.readBytes(2);
+      let float = decoded[0] & 0x7f;
       for (let i = 1; i < decoded.length; i++) {
-        float *= 256n;
-        float += BigInt(decoded[i]);
+        float *= 256;
+        float += decoded[i];
       }
       let f64;
       // Catch the three cases of special/reserved numbers.
-      if ((float & specialNumbers) == specialNumbers) {
-        f64 = (float == specialNumbers) ? Number.POSITIVE_INFINITY : Number.NaN;
+      if ((float & 0x7c00) == 0x7c00) {
+        f64 = (float == 0x7c00) ? Number.POSITIVE_INFINITY : Number.NaN;
       } else {
         // A genuine number
-        let exponent = float & specialNumbers;
+        let exponent = float & 0x7c00;
         let significand = float - exponent;
         if (exponent) {
           // Normal representation, add implicit "1.".
-          significand += significandMsbP1;
-          // -1n: Keep fractional point in line with subnormal numbers.
-          significand <<= ((exponent / significandMsbP1) - 1n);
+          significand += 0x400;
+          // -1: Keep fractional point in line with subnormal numbers.
+          // It should preferable be <<= but JavaScript shifts are broken...
+          significand *= Math.pow(2, (exponent / 0x400) - 1);
         }
-        // Huge integers like 2^150 may look scary.  However, not a single bit is ever lost
-        // because the maximum precision and range are still safely within F64 limits.  The
-        // math is actually a replacement for the broken JavaScript shift operations on Number.
-        f64 = Number(significand) / divisor;
+        // Divide with: 2 ^ (Exponent offset + Size of significand - 2).
+        // -2 is because the algorithm does not normalize significands.
+        f64 = significand / 0x1000000;
       }
       if (decoded[0] & 0x80) {
         f64 = -f64;
@@ -990,11 +983,13 @@ class CBOR {
           return CBOR.BigInt(value);
 
         case CBOR.#MT_FLOAT16:
-          return this.recreateF64AndReturn(2, 0x7c00n, 0x400n, 0x1000000);
+          return this.decompressF16AndReturn();
 
         case CBOR.#MT_FLOAT32:
-          return this.recreateF64AndReturn(4, 0x7f800000n, 0x800000n,
-                                           0x20000000000000000000000000000000000000);
+           let f32bytes = this.readBytes(4);
+           const f32buffer = new ArrayBuffer(4);
+           new Uint8Array(f32buffer).set(f32bytes);
+           return this.compareAndReturn(f32bytes, new DataView(f32buffer).getFloat32(0, false));
 
         case CBOR.#MT_FLOAT64:
            let f64bytes = this.readBytes(8);
