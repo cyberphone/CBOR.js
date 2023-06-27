@@ -322,15 +322,14 @@ class CBOR {
             // Arrange for F16.
             let f16exp = f32exp - 127 + 15;
             let f16signif = f32signif >> 13;
-            // If too large for F16, stick to F32.
-            if (f16exp > 30) {
+            // If too large for F16 or reserved for special numbers, stick to F32.
+            if (f16exp >= 31) {
               break;
             }
             // Finally, is value too small for F16?
             if (f16exp <= 0) {
-              if (f16exp <= -11) {
-                // Would lead to shifts beyond the capability of JavaScript 
-                // but is also outside of F16, stick to F32.
+              if (f16exp <= -10) {
+                // Would shift out the entire F16 significand, stick to F32.
                 break;
               }
               // The implicit "1" becomes explicit using subnormal representation.
