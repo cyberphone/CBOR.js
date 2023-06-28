@@ -33,6 +33,7 @@ public class CreateBrowserTest {
     addFile("diagnostic.js");
     addFile("float.js");
     addFile("hex.js");
+    addFile("integer.js");
     addFile("keyconstraints.js");
     addFile("maps.js");
     addFile("miscellaneous.js");

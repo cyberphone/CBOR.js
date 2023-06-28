@@ -968,10 +968,7 @@ class CBOR {
             value <<= 8n;
             value += BigInt(byte);
           });
-          if (tag == CBOR.#MT_BIG_NEGATIVE) {
-            value = ~value;
-          }
-          return CBOR.BigInt(value);
+          return CBOR.BigInt(tag == CBOR.#MT_BIG_NEGATIVE ? ~value : value);
 
         case CBOR.#MT_FLOAT16:
           return this.decompressF16AndReturn();
