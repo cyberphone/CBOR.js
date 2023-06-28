@@ -1,6 +1,6 @@
 // Testing "deterministic" code checks
 import CBOR from '../node-cbor.js';
-import { assertTrue, assertFalse } from './assertions.js';
+import { assertTrue, assertFalse, success } from './assertions.js';
 
 function oneTurn(hex, dn) {
   try {
@@ -22,7 +22,8 @@ oneTurn('1900ff', '255');
 oneTurn('1817', '23');
 oneTurn('A2026374776F01636F6E65', '{\n  1: "one",\n  2: "two"\n}');
 oneTurn('FB7FF8000000000000', 'NaN');
-oneTurn('FB3ff0000000000000', '1.0');
+oneTurn('FA7FC00000', 'NaN')
+;oneTurn('FB3ff0000000000000', '1.0');
 oneTurn('f97e01', 'NaN');
 oneTurn('c240', '0');
 
