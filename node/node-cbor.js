@@ -324,7 +324,7 @@ export default class CBOR {
               break;
             }
             let f16signif = f32signif >> 13;
-            // Finally, is value too small for F16?
+            // Finally, check if we need to denormalize F16.
             if (f16exp <= 0) {
               // The implicit "1" becomes explicit using subnormal representation.
               f16signif += 1 << 10;
