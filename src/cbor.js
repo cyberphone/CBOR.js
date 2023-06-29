@@ -941,8 +941,8 @@ class CBOR {
           // It should preferable be <<= but JavaScript shifts are broken...
           significand *= Math.pow(2, (exponent / 0x400) - 1);
         }
-        // Divide with: 2 ^ (Exponent offset + Size of significand - 2).
-        // -2 is because the algorithm does not normalize significands.
+        // Divide with: 2 ^ (Exponent offset + Size of significand - 1).
+        // -1: Because the algorithm does not normalize significands.
         f64 = significand / 0x1000000;
       }
       if (decoded[0] & 0x80) {
