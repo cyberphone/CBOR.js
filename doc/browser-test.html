@@ -322,14 +322,12 @@ function oneTurn(value, expected) {
   } else {
     got = '';
   }
-  if (CBOR.decode(cbor).getBigInt() != value) {
-    throw Error("Failed decoding: " + value);
-  }
+  assertTrue("Failed decoding: " + value, CBOR.decode(cbor).getBigInt() == value);
   while (expected.length < 20) {
     expected += ' ';
   }
   if (got.length) {
-    throw Error(text + expected + got);
+    fail(text + expected + got);
   }
 }
 oneTurn(0n, '00');
@@ -343,6 +341,37 @@ oneTurn(18446744073709551615n, '1bffffffffffffffff');
 oneTurn(18446744073709551616n, 'c249010000000000000000');
 oneTurn(-18446744073709551616n, '3bffffffffffffffff');
 oneTurn(-18446744073709551617n, 'c349010000000000000000');
+
+try {
+  CBOR.Int(1.1);
+  fail("Should not");
+} catch (error) {
+  assertTrue("msg1", error.toString().includes("Argument is not an integer"));
+}
+try {
+  CBOR.Int("10");
+  fail("Should not");
+} catch (error) {
+  assertTrue("msg2", error.toString().includes("Argument is not a 'number'"));
+}
+try {
+  CBOR.BigInt("10");
+  fail("Should not");
+} catch (error) {
+  assertTrue("msg3", error.toString().includes("Argument is not a 'bigint'"));
+}
+try {
+  CBOR.BigInt(1n, 7);
+  fail("Should not");
+} catch (error) {
+  assertTrue("msg4", error.toString().includes("CBOR.BigInt expects 1 argument(s)"));
+}
+try {
+  CBOR.Int(1, 7);
+  fail("Should not");
+} catch (error) {
+  assertTrue("msg4", error.toString().includes("CBOR.Int expects 1 argument(s)"));
+}
 
 success();
 `}

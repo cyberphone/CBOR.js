@@ -8,6 +8,10 @@ export function assertFalse(text, bool) {
   if (bool) throw Error("Assertion: " + text);
 }
 
+export function fail(text) {
+  throw Error("Fail: " + text);
+}
+
 export function success() {
   console.log("SUCCESSFUL");
 }
