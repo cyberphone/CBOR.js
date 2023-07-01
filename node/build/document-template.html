@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
   <link rel='icon' href='webpkiorg.png' sizes='192x192'>
-  <meta name='viewport' content='initial-scale=1.0' />
+  <meta name='viewport' content='initial-scale=1.0'>
   <title>CBOR JavaScript API</title>
   <link rel='stylesheet' type='text/css' href='style.css'>
 </head>
@@ -117,13 +117,7 @@
       </tr>
     </table>
   </div>
-  addCommonMethod("clone()");
-  addCommonMethod("encode()");
-  addCommonMethod("equals()");
-  addCommonMethod("toString()");
-  addCommonMethod("toDiagnosticNotation()");
-  addCommonMethod("checkForUnread()");
-  addCommonMethod("scan()");
+ ${COMMON_METHODS}
   <h3 id='javascript-numbers'>JavaScript Number Considerations</h3>
   Since JavaScript <i>natively</i> only supports <code>Number</code> (backed
   by 64-bit IEEE&nbsp;754 floating point data), and <code>BigInt</code>
