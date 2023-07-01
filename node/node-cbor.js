@@ -1572,7 +1572,6 @@ export default class CBOR {
       while (length < 8 && n >= nextRange) {
         modifier++;
         length <<= 1;
-        // The last multiplication will not be an integer but "length < 8" handles this.
         nextRange *= nextRange;
       }
     }
