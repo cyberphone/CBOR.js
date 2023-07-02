@@ -10,7 +10,8 @@
   <property name="test.dir" location="../test"/>
   <property name="browser-test.file" location="../../doc/browser-test.html"/>
   <property name="browser-test-template.file" location="browser-test-template.html"/>
- 
+
+  <property name="debug"  value="on"/>
 
   <target name="help">
     <echo message="help build doc btest"/>
