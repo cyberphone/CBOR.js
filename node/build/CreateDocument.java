@@ -108,6 +108,33 @@ public class CreateDocument {
 
   ArrayList<TOCEntry> tocEntries = new ArrayList<>();
 
+  static class Outline implements Cloneable {
+    int[] header = {0,0,0,0};
+    int ind = 0;
+
+    String getHeader() {
+      StringBuilder h = new StringBuilder().append(header[0]);
+      for (int q = 1; q <= ind; q++) {
+        h.append('.').append(header[q]);
+      }
+      return h.toString();
+    }
+
+    void increment() {
+      header[ind]++;
+    }
+
+    void indent() {
+      header[++ind] = 0;
+    }
+
+    void undent() {
+      --ind;
+    }
+  }
+
+  Outline outline;
+
   static class TOCEntry {
     String title;
     boolean indent;
@@ -365,11 +392,11 @@ public class CreateDocument {
     return method;
   }
 
- static class Property {
-   String name;
-   DataTypes dataType;
-   String description;
- }
+  static class Property {
+    String name;
+    DataTypes dataType;
+    String description;
+  }
 
   ArrayList<Wrapper> wrappers = new ArrayList<>();
 
