@@ -99,6 +99,13 @@ public class CreateDocument {
   """
   Textual version of the encapsulated CBOR content.""";
 
+  static final String INTRO = "${INTRO}";
+
+  static final String WRAPPER_INTRO = "${WRAPPER_INTRO}";
+
+  static final String COMMON_INTRO = "${COMMON_INTRO}";
+
+  static final String TOC = "${TOC}";
 
   static final String COMMON_METHODS = "${COMMON_METHODS}";
   
@@ -109,7 +116,7 @@ public class CreateDocument {
   ArrayList<TOCEntry> tocEntries = new ArrayList<>();
 
   static class Outline implements Cloneable {
-    int[] header = {0,0,0,0};
+    int[] header = {1,1,1,1};
     int ind = 0;
 
     String getHeader() {
@@ -125,7 +132,7 @@ public class CreateDocument {
     }
 
     void indent() {
-      header[++ind] = 0;
+      header[++ind] = 1;
     }
 
     void undent() {
@@ -133,19 +140,19 @@ public class CreateDocument {
     }
   }
 
-  Outline outline;
+  Outline outline = new Outline();
 
   static class TOCEntry {
     String title;
-    boolean indent;
-
-    TOCEntry(String title) {
-      this.title = title;
-    }
+    String link;
+    int indent;
   }
 
-  TOCEntry addTocEntry(String title) {
-    TOCEntry tocEntry = new TOCEntry(title);
+  TOCEntry addTocEntry(String title, String link) {
+    TOCEntry tocEntry = new TOCEntry();
+    tocEntry.title = title;
+    tocEntry.link = link;
+    tocEntry.indent = outline.ind;
     tocEntries.add(tocEntry);
     return tocEntry;
   }
@@ -243,12 +250,24 @@ public class CreateDocument {
     s.append("<td style='text-align:center'>").append(text).append("</td>");
   }
 
-  void printMethod(String numberPrefix, Method method) {
-    s.append("<h5>" + numberPrefix + " " + method.name);
-    if (!(method instanceof Wrapper)) {
-      s.append("()");
-    }
-    s.append("</h5>\n");
+  String printSubHeader(String link, String name) {
+    String title = outline.getHeader() + " " + name;
+    String header = "<h5 id='" + link + "'>" + title + "</h5>\n";
+    addTocEntry(title, link);
+    return header;
+  }
+
+  String printMainHeader(String suffix, String title) {
+    String link = "main." + suffix;
+    title = outline.getHeader() + " " + title;
+    String header = "<h3 id='" + link + "'>" + title + "</h3>\n";
+    addTocEntry(title, link);
+    return header;
+  }
+
+  void printMethod(String prefix, Method method) {
+    s.append(printSubHeader((prefix + "." + method.name).toLowerCase(),  method.name + 
+         (method instanceof Wrapper ? "" : "()")));
     beginTable();
     rowBegin();
     tableHeader("Syntax");
@@ -301,38 +320,48 @@ public class CreateDocument {
     endTable();
   }
 
-  void printCommonMethods(String numberPrefix) {
-    int subSection = 0;
+  String printCommonMethods() {
+    s = new StringBuilder();
+    outline.indent();
     for (Method method : commonMethods) {
-      printMethod(numberPrefix + (++subSection), method);
+      printMethod("common", method);
     }
+    outline.undent();
+    return s.toString();
   }
 
-  void printCborWrappers(String numberPrefix) {
-    int subSection1 = 0;
+  String printCborWrappers() {
+    s = new StringBuilder();
+    outline.indent();
     for (Wrapper wrapper : wrappers) {
-      String wrapperNumber = numberPrefix + (++subSection1);
-      printMethod(wrapperNumber, wrapper);
-      int subSection2 = 0;
+      printMethod("wrapper", wrapper);
+      outline.indent();
+      String suffix = wrapper.name.toLowerCase();
       if (!wrapper.methods.isEmpty()) {
-        String headerNumber = wrapperNumber + "." + (++subSection2);
-        s.append("<h5>" + headerNumber + " Methods</h5>\n");
-        int subSection3 = 0;
+        s.append(printSubHeader("methods." + suffix, wrapper.name + " Methods"));
+        outline.indent();
         for (Method method : wrapper.methods) {
-          printMethod(headerNumber + "." + (++subSection3), method);
+          printMethod(wrapper.name, method);
+          outline.increment();
         }
+        outline.undent();
       }
       if (wrapper.property != null) {
-        String headerNumber = wrapperNumber + "." + (++subSection2);
-        s.append("<h5>" + headerNumber + " Properties</h5>\n");
-        int subSection3 = 0;
-        printProperty(headerNumber + "." + (++subSection3), wrapper.property);
+        outline.increment();
+        s.append(printSubHeader("properties." + suffix, wrapper.name + " Properties"));
+        outline.indent();
+        printProperty(wrapper.name, wrapper.property);
+        outline.undent();
       }
+      outline.undent();
+      outline.increment();
     }
+    outline.undent();
+    return s.toString();
   }
 
-  void printProperty(String numberPrefix, Property property) {
-    s.append("<h5>" + numberPrefix + " " + property.name + "</h5>");
+  void printProperty(String prefix, Property property) {
+    s.append(printSubHeader((prefix + "." + property.name).toLowerCase(), property.name));
     beginTable();
     rowBegin();
     tableHeader("Name");
@@ -345,6 +374,7 @@ public class CreateDocument {
     tableCell(property.description);
     rowEnd();
     endTable();
+    outline.increment();
   }
 
   static class Parameter {
@@ -456,6 +486,20 @@ public class CreateDocument {
     return wrapper;
   }
 
+  String printTableOfContents() {
+    s = new StringBuilder();
+    for (TOCEntry tocEntry : tocEntries) {
+      s.append("<div style='margin:0 0 0.4em ")
+       .append((tocEntry.indent * 2) + 2)
+       .append("em'><a href='#")
+       .append(tocEntry.link)
+       .append("'>")
+       .append(tocEntry.title)
+       .append("</a></div>");
+    }
+    return s.toString();
+  }
+
   void replace(String handle, String with) {
     template = template.replace(handle, with);
   }
@@ -494,18 +538,20 @@ public class CreateDocument {
     addCommonMethod("toDiagnosticNotation", TODIAG_DESCR)
       .addParameter("prettyPrint", DataTypes.JS_BOOLEAN, TODIAG_P1_DESCR)
       .setReturn(DataTypes.JS_STRING, TODIAG_RETURN_DESCR);
-      
-    addTocEntry("Table of Contents");
-    addTocEntry("CBOR Objects");
-    addTocEntry("CBOR.Int").indent = true;
-    addTocEntry("CBOR.BigInt").indent = true;
-    addTocEntry("CBOR.Float").indent = true;
-    s = new StringBuilder();
-    printCborWrappers("3.");
-    replace(CBOR_WRAPPERS, s.toString());
-    s = new StringBuilder();
-    printCommonMethods("4.");
-    replace(COMMON_METHODS, s.toString());
+
+    replace(INTRO, printMainHeader("intro", "Introduction"));
+    outline.increment();
+    
+    replace(WRAPPER_INTRO, printMainHeader("wrappers", "CBOR Wrapper Objects"));
+    replace(CBOR_WRAPPERS, printCborWrappers());
+    outline.increment();
+ 
+    replace(COMMON_INTRO, printMainHeader("common", "Common Methods"));
+    replace(COMMON_METHODS, printCommonMethods());
+    outline.increment();
+
+    replace(TOC, printTableOfContents());
+
     IO.writeFile(documentFileName, template);
   }
   public static void main(String[] args) {

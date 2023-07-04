@@ -10,10 +10,10 @@
   <img style="max-width:30%" src="cbor.js.svg" alt="logo" title="CBOR.js logotype">
   <h3 style="text-align:center;font-weight:normal;font-size:1.8em">CBOR.js - JavaScript API</h3>
   <h3>**** NOT READY ****</h3>
-  ${Table of Contents}
   <h3 id='toc'>Table of Contents</h3>
+  ${TOC}
   To be written...
-  <h3 id='toc'>Intoduction</h3>
+  ${INTRO}
   This document describes a JavaScript API for encoding and decoding
   CBOR&nbsp;[<a href="https://www.rfc-editor.org/rfc/rfc8949.html"
                 title="CBOR">RFC8949<img src="xtl.svg" alt="link"></a>].
@@ -33,92 +33,12 @@
     <li>Strict type checking of arguments</li>
     <li><i>Optional</i> check for unread elements</li>
   </ol>
-  <h3>2 CBOR.* Objects</h3>
-  Blah
-  <div><b>2.1 CBOR.Int</b></div>
-  <div class='webpkifloat'>
-    <table class='webpkitable' style='margin-left:2em'>
-      <tr><th>Syntax</th><td colspan="2"><code>CBOR.Int(</code><i>value</i><code>)</code></td></tr>
-      <tr><th>Description</th><td colspan="2">Constructor. Creates a CBOR integer wrapper object.</td></tr>
-      <tr><td colspan="3" style="background-color: white; font-size: 0.6em"></td></tr>
-      <tr><th>Parameters</th><th>Type</th><th>Description</th></tr>
-      <tr>
-        <td><i>value</i></td>
-        <td><code>Number</code></td>
-        <td>Integer value. Also see Blah.</td>
-      </tr>
-    </table>
-  </div>
-  <div><b>2.3 CBOR.Float</b></div>
-  <div class='webpkifloat'>
-    <table class='webpkitable' style='margin-left:2em'>
-      <tr><th>Syntax</th><td colspan="2"><code>CBOR.Float(</code><i>value</i><code>)</code></td></tr>
-      <tr><th>Description</th><td colspan="2">Constructor. Creates a CBOR floating point wrapper object.</td></tr>
-      <tr><td colspan="3" style="background-color: white; font-size: 0.6em"></td></tr>
-      <tr><th>Parameters</th><th>Type</th><th>Description</th></tr>
-      <tr>
-        <td><i>value</i></td>
-        <td><code>Number</code></td>
-        <td>Floating point value.</td>
-      </tr>
-    </table>
-  </div>
-  <div>CBOR.Float Methods</div>
-  <div class='webpkifloat'>
-    <table class='webpkitable' style='margin-left:2em'>
-      <tr><th>Syntax</th><td colspan="2"><code>getFloat()</code></td></tr>
-      <tr><th>Description</th><td colspan="2">Gets floating point value.</td></tr>
-      <tr><td colspan="3" style="background-color: white; font-size: 0.6em"></td></tr>
-      <tr><th>Return&nbsp;Value</th><th colspan="2">Description</th></tr>
-      <tr>
-        <td><code>Number</code></td>
-        <td colspan="2">Floating point value.</td>
-      </tr>
-    </table>
-  </div>
-  <div>CBOR.Float Properties</div>
-  <div class='webpkifloat'>
-    <table class='webpkitable' style='margin-left:2em'>
-      <tr><th>Name</th><td><code>length</code></td></tr>
-      <tr><th>Type</th><td><code>Number</code></td></tr>
-      <tr>
-        <th>Description</th>
-        <td>
-          Holds the length in <i>bytes</i> of the IEEE 754 floating point type used by CBOR for representing the value.
-        </td>
-      </tr>
-    </table>
-  </div>
-  <h3>3 Common Methods</h3>
+  ${WRAPPER_INTRO}
+  Blah etc.
+  ${CBOR_WRAPPERS}
+  ${COMMON_INTRO}
   All of the objects mentioned in this section support a set of common methods
   which are described in this sub section.
-  <div><b>3.1 toDiagnosticNotation</b></div>
-  <div class='webpkifloat'>
-    <table class='webpkitable' style='margin-left:2em'>
-      <tr><th>Syntax</th><td colspan="2"><code>toDiagnosticNotation(</code><i>prettyPrint</i><code>)</code></td></tr>
-      <tr><th>Description</th><td colspan="2">kkkjkhkhjkhjhkhk jh  jhj hj</td></tr>
-      <tr><td colspan="3" style="background-color: white; font-size: 0.6em"></td></tr>
-      <tr><th>Parameters</th><th>Type</th><th>Description</th></tr>
-      <tr>
-        <td><i>prettyPrint</i></td>
-        <td><code>boolean</code></td>
-        <td>
-          If <i>prettyPrint</i> is <code>true</code>,
-          additional white space is inserted between elements to make the result
-          easier to read.
-        </td>
-      </tr>
-      <tr><td colspan="3" style="background-color: white; font-size: 0.6em"></td></tr>
-      <tr><th>Return&nbsp;Value</th><th colspan="2">Description</th></tr>
-      <tr>
-        <td><code>String</code></td>
-        <td colspan="2">
-          Textual version of the encapsulated CBOR object.
-        </td>
-      </tr>
-    </table>
-  </div>
-  ${CBOR_WRAPPERS}
   ${COMMON_METHODS}
   <h3 id='javascript-numbers'>JavaScript Number Considerations</h3>
   Since JavaScript <i>natively</i> only supports <code>Number</code> (backed
