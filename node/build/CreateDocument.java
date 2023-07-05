@@ -123,7 +123,7 @@ public class CreateDocument {
   Textual version of the encapsulated CBOR content.""";
 
 
- static final String FROMHEX_DESCR = 
+  static final String FROMHEX_DESCR = 
   """
   If <code><i>prettyPrint</i></code> is <code>true</code>,
   additional white space is inserted between elements to make the result
@@ -140,15 +140,17 @@ public class CreateDocument {
   Textual version of the encapsulated CBOR content.""";
 
 
- static final String INTRO = "${INTRO}";
+  static final String INTRO = "${INTRO}";
 
   static final String WRAPPER_INTRO = "${WRAPPER_INTRO}";
 
   static final String COMMON_INTRO = "${COMMON_INTRO}";
 
-  static final String JS_NUMBER_CONS = "${JS_NUMBER_CONS}"; 
+  static final String DECODING_INTRO = "${DECODING_INTRO}";
 
   static final String UTILITY_INTRO = "${UTILITY_INTRO}";
+
+  static final String JS_NUMBER_CONS = "${JS_NUMBER_CONS}"; 
 
   static final String DIAGNOSTIC_NOTATION = "${DIAGNOSTIC_NOTATION}"; 
 
@@ -159,6 +161,8 @@ public class CreateDocument {
   static final String TOC = "${TOC}";
 
   static final String COMMON_METHODS = "${COMMON_METHODS}";
+
+  static final String DECODING_METHODS = "${DECODING_METHODS}";
 
   static final String UTILITY_METHODS = "${UTILITY_METHODS}";
 
@@ -211,6 +215,8 @@ public class CreateDocument {
   }
 
   enum DataTypes {
+    ExtendedDecoder("ExtendedDecoder"),
+
     CBOR_Any("CBOR.<i>Wrapper</i>"),
 
     CBOR_INT("CBOR.Int"),
@@ -334,6 +340,7 @@ public class CreateDocument {
         if (notFirst) {
           syntax.append(", ");
         }
+        notFirst = true;
         syntax.append("<i>").append(parameter.name).append("</i>");
       }
     }
@@ -378,6 +385,17 @@ public class CreateDocument {
     outline.indent();
     for (Method method : commonMethods) {
       printMethod("common", method);
+      outline.increment();
+    }
+    outline.undent();
+    return s.toString();
+  }
+
+  String printDecoderMethods() {
+    s = new StringBuilder();
+    outline.indent();
+    for (Method method : decoderMethods) {
+      printMethod("decoder", method);
       outline.increment();
     }
     outline.undent();
@@ -484,6 +502,16 @@ public class CreateDocument {
     method.name = name;
     method.description = description;
     commonMethods.add(method);
+    return method;
+  }
+
+  ArrayList<Method> decoderMethods = new ArrayList<>();
+
+  Method addDecoderMethod(String name, String description) {
+    Method method = new Method();
+    method.name = name;
+    method.description = description;
+    decoderMethods.add(method);
     return method;
   }
 
@@ -617,6 +645,20 @@ public class CreateDocument {
     addCommonMethod("toString", TOSTRING_DESCR)
       .setReturn(DataTypes.JS_STRING, TODIAG_RETURN_DESCR);
 
+    addDecoderMethod("CBOR.decode", FROMHEX_DESCR)
+      .addParameter("cbor", DataTypes.JS_UINT8ARRAY, FROMHEX_P1_DESCR)
+      .setReturn(DataTypes.CBOR_Any, FROMHEX_RETURN_DESCR);
+
+    addDecoderMethod("CBOR.initExtended", FROMHEX_DESCR)
+      .addParameter("cbor", DataTypes.JS_UINT8ARRAY, FROMHEX_P1_DESCR)
+      .addParameter("sequenceFlag", DataTypes.JS_BOOLEAN, FROMHEX_P1_DESCR)
+      .addParameter("acceptNonDeterministic", DataTypes.JS_BOOLEAN, FROMHEX_P1_DESCR)
+      .addParameter("constrainedKeys", DataTypes.JS_BOOLEAN, FROMHEX_P1_DESCR)
+      .setReturn(DataTypes.ExtendedDecoder, FROMHEX_RETURN_DESCR);
+
+    addDecoderMethod("decodeExtended", FROMHEX_DESCR)
+      .setReturn(DataTypes.CBOR_Any, FROMHEX_RETURN_DESCR);
+
     addUtilityMethod("CBOR.toHex", TOHEX_DESCR)
       .addParameter("byteArray", DataTypes.JS_UINT8ARRAY, TOHEX_P1_DESCR)
       .setReturn(DataTypes.JS_STRING, TOHEX_RETURN_DESCR);
@@ -634,6 +676,10 @@ public class CreateDocument {
  
     replace(COMMON_INTRO, printMainHeader("common", "Common Wrapper Methods"));
     replace(COMMON_METHODS, printCommonMethods());
+    outline.increment();
+
+    replace(DECODING_INTRO, printMainHeader("decoding", "Decoding CBOR"));
+    replace(DECODING_METHODS, printDecoderMethods());
     outline.increment();
 
     replace(UTILITY_INTRO, printMainHeader("utility", "Utility Methods"));
