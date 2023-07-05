@@ -1545,16 +1545,16 @@ export default class CBOR {
     }
   }
 
-///////////////////////////////////////
-// CBOR.diagnosticNotation()         //
-// CBOR.diagnosticNotationSequence() //
-///////////////////////////////////////
+/////////////////////////////////////////////
+// CBOR.decodeDiagnosticNotation()         //
+// CBOR.decodeDiagnosticNotationSequence() //
+/////////////////////////////////////////////
 
-  static diagnosticNotation = function(cborText) {
+  static decodeDiagnosticNotation = function(cborText) {
     return new CBOR.DiagnosticNotation(cborText, false).readSequenceToEOF()[0];
   }
 
-  static diagnosticNotationSequence = function(cborText) {
+  static decodeDiagnosticNotationSequence = function(cborText) {
     return new CBOR.DiagnosticNotation(cborText, true).readSequenceToEOF();
   }
 

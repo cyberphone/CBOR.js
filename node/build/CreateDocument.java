@@ -659,6 +659,14 @@ public class CreateDocument {
     addDecoderMethod("decodeExtended", FROMHEX_DESCR)
       .setReturn(DataTypes.CBOR_Any, FROMHEX_RETURN_DESCR);
 
+    addDecoderMethod("CBOR.decodeDiagnosticNotation", FROMHEX_DESCR)
+      .addParameter("cborText", DataTypes.JS_STRING, FROMHEX_P1_DESCR)
+      .setReturn(DataTypes.CBOR_Any, FROMHEX_RETURN_DESCR);
+
+    addDecoderMethod("CBOR.decodeDiagnosticNotationSequence", FROMHEX_DESCR)
+      .addParameter("cborText", DataTypes.JS_STRING, FROMHEX_P1_DESCR)
+      .setReturn(DataTypes.JS_ARRAY, FROMHEX_RETURN_DESCR);
+
     addUtilityMethod("CBOR.toHex", TOHEX_DESCR)
       .addParameter("byteArray", DataTypes.JS_UINT8ARRAY, TOHEX_P1_DESCR)
       .setReturn(DataTypes.JS_STRING, TOHEX_RETURN_DESCR);
