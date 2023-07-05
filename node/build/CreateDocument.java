@@ -87,7 +87,8 @@ public class CreateDocument {
 
   static final String TODIAG_DESCR = 
   """
-  Renders object in ${DIAGNOSTIC_NOTATION}.""";
+  Renders object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
+  See also: <a href='#common.tostring'>toString()</a>.""";
   
   static final String TODIAG_P1_DESCR = 
   """
@@ -99,13 +100,55 @@ public class CreateDocument {
   """
   Textual version of the encapsulated CBOR content.""";
 
-  static final String INTRO = "${INTRO}";
+  static final String TOSTRING_DESCR = 
+  """
+  Renders object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
+  Equivalent to <a href='#common.todiagnosticnotation'>toDiagnosticNotation(true)</a>.""";
+
+
+  static final String TOHEX_DESCR = 
+  """
+  If <code><i>prettyPrint</i></code> is <code>true</code>,
+  additional white space is inserted between elements to make the result
+  easier to read.""";
+  
+  static final String TOHEX_P1_DESCR = 
+  """
+  If <code><i>prettyPrint</i></code> is <code>true</code>,
+  additional white space is inserted between elements to make the result
+  easier to read.""";
+
+  static final String TOHEX_RETURN_DESCR = 
+  """
+  Textual version of the encapsulated CBOR content.""";
+
+
+ static final String FROMHEX_DESCR = 
+  """
+  If <code><i>prettyPrint</i></code> is <code>true</code>,
+  additional white space is inserted between elements to make the result
+  easier to read.""";
+  
+  static final String FROMHEX_P1_DESCR = 
+  """
+  If <code><i>prettyPrint</i></code> is <code>true</code>,
+  additional white space is inserted between elements to make the result
+  easier to read.""";
+
+  static final String FROMHEX_RETURN_DESCR = 
+  """
+  Textual version of the encapsulated CBOR content.""";
+
+
+ static final String INTRO = "${INTRO}";
 
   static final String WRAPPER_INTRO = "${WRAPPER_INTRO}";
 
   static final String COMMON_INTRO = "${COMMON_INTRO}";
 
   static final String JS_NUMBER_CONS = "${JS_NUMBER_CONS}"; 
+
+  static final String UTILITY_INTRO = "${UTILITY_INTRO}";
 
   static final String DIAGNOSTIC_NOTATION = "${DIAGNOSTIC_NOTATION}"; 
 
@@ -116,7 +159,9 @@ public class CreateDocument {
   static final String TOC = "${TOC}";
 
   static final String COMMON_METHODS = "${COMMON_METHODS}";
-  
+
+  static final String UTILITY_METHODS = "${UTILITY_METHODS}";
+
   static final String CBOR_WRAPPERS = "${CBOR_WRAPPERS}";
 
   String template;
@@ -333,6 +378,18 @@ public class CreateDocument {
     outline.indent();
     for (Method method : commonMethods) {
       printMethod("common", method);
+      outline.increment();
+    }
+    outline.undent();
+    return s.toString();
+  }
+
+  String printUtilityMethods() {
+    s = new StringBuilder();
+    outline.indent();
+    for (Method method : utilityMethods) {
+      printMethod("utility", method);
+      outline.increment();
     }
     outline.undent();
     return s.toString();
@@ -430,6 +487,16 @@ public class CreateDocument {
     return method;
   }
 
+  ArrayList<Method> utilityMethods = new ArrayList<>();
+
+  Method addUtilityMethod(String name, String description) {
+    Method method = new Method();
+    method.name = name;
+    method.description = description;
+    utilityMethods.add(method);
+    return method;
+  }
+
   static class Property {
     String name;
     DataTypes dataType;
@@ -503,7 +570,7 @@ public class CreateDocument {
        .append(tocEntry.link)
        .append("'>")
        .append(tocEntry.title)
-       .append("</a></div>");
+       .append("</a></div>\n");
     }
     return s.toString();
   }
@@ -546,6 +613,17 @@ public class CreateDocument {
     addCommonMethod("toDiagnosticNotation", TODIAG_DESCR)
       .addParameter("prettyPrint", DataTypes.JS_BOOLEAN, TODIAG_P1_DESCR)
       .setReturn(DataTypes.JS_STRING, TODIAG_RETURN_DESCR);
+   
+    addCommonMethod("toString", TOSTRING_DESCR)
+      .setReturn(DataTypes.JS_STRING, TODIAG_RETURN_DESCR);
+
+    addUtilityMethod("CBOR.toHex", TOHEX_DESCR)
+      .addParameter("byteArray", DataTypes.JS_UINT8ARRAY, TOHEX_P1_DESCR)
+      .setReturn(DataTypes.JS_STRING, TOHEX_RETURN_DESCR);
+
+    addUtilityMethod("CBOR.fromHex", FROMHEX_DESCR)
+      .addParameter("hexString", DataTypes.JS_STRING, FROMHEX_P1_DESCR)
+      .setReturn(DataTypes.JS_UINT8ARRAY, FROMHEX_RETURN_DESCR);
 
     replace(INTRO, printMainHeader("intro", "Introduction"));
     outline.increment();
@@ -554,15 +632,19 @@ public class CreateDocument {
     replace(CBOR_WRAPPERS, printCborWrappers());
     outline.increment();
  
-    replace(COMMON_INTRO, printMainHeader("common", "Common Methods"));
+    replace(COMMON_INTRO, printMainHeader("common", "Common Wrapper Methods"));
     replace(COMMON_METHODS, printCommonMethods());
     outline.increment();
 
-    replace(JS_NUMBER_CONS, printMainHeader("jsnumcons", "JavaScript Number Considerations"));
-    outline.indent();
-    replace(JS_NUMBER_CONS_INT, printSubHeader("jsnumcons.int", "Integer Numbers"));
+    replace(UTILITY_INTRO, printMainHeader("utility", "Utility Methods"));
+    replace(UTILITY_METHODS, printUtilityMethods());
     outline.increment();
-    replace(JS_NUMBER_CONS_FP, printSubHeader("jsnumcons.fp", "Floating Point Numbers"));
+
+    replace(JS_NUMBER_CONS, printMainHeader("jsnumbers", "JavaScript Number Considerations"));
+    outline.indent();
+    replace(JS_NUMBER_CONS_INT, printSubHeader("jsnumbers.int", "Integer Numbers"));
+    outline.increment();
+    replace(JS_NUMBER_CONS_FP, printSubHeader("jsnumbers.fp", "Floating Point Numbers"));
     outline.undent();
     outline.increment();
 

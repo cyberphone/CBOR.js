@@ -9,9 +9,9 @@
 <body>
   <img style="max-width:30%" src="cbor.js.svg" alt="logo" title="CBOR.js logotype">
   <h3 style="text-align:center;font-weight:normal;font-size:1.8em">CBOR.js - JavaScript API</h3>
-  <h3 id='toc'>Table of Contents</h3>
-  ${TOC}
-  ${INTRO}
+ <h3 id='toc'>Table of Contents</h3>
+${TOC}
+${INTRO}
   This document describes a JavaScript API for encoding and decoding
   CBOR&nbsp;[<a href="https://www.rfc-editor.org/rfc/rfc8949.html"
                 title="CBOR">RFC8949<img src="xtl.svg" alt="link"></a>].
@@ -38,6 +38,10 @@
   All of the objects mentioned in this section support a set of common methods
   which are described in this sub section.
   ${COMMON_METHODS}
+  ${UTILITY_INTRO}
+  The following utility methods are unrelated to CBOR but have been included
+  here because they are a part of the current CBOR.js implemention.
+  ${UTILITY_METHODS}
   ${JS_NUMBER_CONS}
   Since JavaScript <i>natively</i> only supports <code>Number</code> (backed
   by 64-bit IEEE&nbsp;754 floating point data), and <code>BigInt</code>
@@ -57,7 +61,8 @@
   variants, the CBOR.js implementation makes this
   transparent; the API only exposes the <code>Number</code> type.
   ${DIAGNOSTIC_NOTATION}
-  Through the ${CBOR.decodeDiagnosticNotation(String)} method, CBOR data may be provided
+  Through the <a href='#common.todiagnosticnotation'>toDiagnosticNotation()</a>
+  method, CBOR data may be provided
   in diagnostic (textual) notation (as described in section 8 of RFC&nbsp;8949),
   making CBOR useful for "config" and test data files as well.
   <p>
@@ -203,8 +208,8 @@
     </table>
   </div>
   <ol style='margin:0 0'>
-    <li>The letter <i>n</i> in the <code>Syntax</code> column denotes one or more digits.</li>
-    <li>The optional {<i>sign</i>} must be a single hyphen (<code>'-'</code>) character.</li>
+    <li>The letter <code><i>n</i></code> in the Syntax column denotes one or more digits.</li>
+    <li>The optional <code>{<i>sign</i>}</code> must be a single hyphen (<code>'-'</code>) character.</li>
     <li>
       Whitespace characters
       (<code>' '</code>, <code>'\t'</code>, <code>'\r'</code>, <code>'\n'</code>)
