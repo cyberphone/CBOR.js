@@ -7,7 +7,12 @@ function oneTurn(cborText, ok, compareWithOrNull) {
     let compareText = compareWithOrNull ? compareWithOrNull : cborText;
     let result = CBOR.diagnosticNotation(cborText);
     assertTrue("Should not", ok);
+    let sequence = CBOR.diagnosticNotationSequence(cborText);
     if (result.toString() != compareText) {
+      throw Error("input:\n" + cborText + "\nresult:\n" + result);
+    }
+    assertTrue("seq", sequence.length == 1);
+    if (sequence[0].toString() != compareText) {
       throw Error("input:\n" + cborText + "\nresult:\n" + result);
     }
   } catch (error) {
@@ -40,4 +45,9 @@ let cborText = '{\n  1: "text\\nnext",\n  2: [5.960465188081798e-8, h\'a10564646
 assertTrue("pretty", cborObject.toDiagnosticNotation(true) == cborText);
 assertTrue("oneline", cborObject.toDiagnosticNotation(false) == 
                    cborText.replaceAll('\n', '').replaceAll(' ',''));
+assertTrue("parse", CBOR.diagnosticNotation(cborText).equals(cborObject));
+let sequence = CBOR.diagnosticNotationSequence('45,{4:7}');
+assertTrue("seq2", sequence.length == 2);
+assertTrue("seq3", sequence[0].getInt() == 45);
+assertTrue("seq4", sequence[1].equals(CBOR.Map().set(CBOR.Int(4),CBOR.Int(7))));
 success();
