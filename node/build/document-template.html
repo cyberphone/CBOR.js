@@ -9,10 +9,8 @@
 <body>
   <img style="max-width:30%" src="cbor.js.svg" alt="logo" title="CBOR.js logotype">
   <h3 style="text-align:center;font-weight:normal;font-size:1.8em">CBOR.js - JavaScript API</h3>
-  <h3>**** NOT READY ****</h3>
   <h3 id='toc'>Table of Contents</h3>
   ${TOC}
-  To be written...
   ${INTRO}
   This document describes a JavaScript API for encoding and decoding
   CBOR&nbsp;[<a href="https://www.rfc-editor.org/rfc/rfc8949.html"
@@ -40,13 +38,13 @@
   All of the objects mentioned in this section support a set of common methods
   which are described in this sub section.
   ${COMMON_METHODS}
-  <h3 id='javascript-numbers'>JavaScript Number Considerations</h3>
+  ${JS_NUMBER_CONS}
   Since JavaScript <i>natively</i> only supports <code>Number</code> (backed
   by 64-bit IEEE&nbsp;754 floating point data), and <code>BigInt</code>
   (offering unlimited integers), it is important to understand how these
-  number types can be mapped to CBOR which offers
+  number types are mapped to CBOR which offers
   two variants of integers and three variants of floating point types.
-  <h5 id=js-integers>Integer Numbers</h5>
+  ${JS_NUMBER_CONS_INT}
   Due to the <code>Number.MAX_SAFE_INTEGER</code> limitation, CBOR documents using
   integer elements with a magnitude in excess of 53 bits, must
   for such elements turn to <code>BigInt</code>,
@@ -54,18 +52,18 @@
   during creation of integers using ${CBOR.Int(Number)}.
   That is, for creation of such integers, ${CBOR.BigInt(BigInt)}
   is the proper solution, while access requires ${getBigInt()}.
-  <h5 id='js-floating-point'>Floating Point Numbers</h5>
+  ${JS_NUMBER_CONS_FP}
   Although CBOR encoding depends on 16, 32, and 64-bit IEEE&nbsp;754
   variants, the CBOR.js implementation makes this
   transparent; the API only exposes the <code>Number</code> type.
-  <h3 id='diagnostic-notation'>Diagnostic Notation</h3>
+  ${DIAGNOSTIC_NOTATION}
   Through the ${CBOR.decodeDiagnosticNotation(String)} method, CBOR data may be provided
   in diagnostic (textual) notation (as described in section 8 of RFC&nbsp;8949),
   making CBOR useful for "config" and test data files as well.
   <p>
-    By adhering to the
+    Due to the
     <a href='#deterministic-encoding'>Deterministic Encoding</a>
-    scheme above, CBOR data can be <i>bidirectionally</i>
+    scheme used by CBOR.js, CBOR data can be <i>bidirectionally</i>
     converted between its native (binary) format and diagnostic notation
     without getting corrupted.  Note though that text-binary-text "roundtrips"
     do not necessarily return identical text: <code>0x10</code> used

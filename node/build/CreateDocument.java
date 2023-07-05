@@ -105,13 +105,21 @@ public class CreateDocument {
 
   static final String COMMON_INTRO = "${COMMON_INTRO}";
 
+  static final String JS_NUMBER_CONS = "${JS_NUMBER_CONS}"; 
+
+  static final String DIAGNOSTIC_NOTATION = "${DIAGNOSTIC_NOTATION}"; 
+
+  static final String JS_NUMBER_CONS_INT = "${JS_NUMBER_CONS_INT}"; 
+
+  static final String JS_NUMBER_CONS_FP = "${JS_NUMBER_CONS_FP}"; 
+
   static final String TOC = "${TOC}";
 
   static final String COMMON_METHODS = "${COMMON_METHODS}";
   
   static final String CBOR_WRAPPERS = "${CBOR_WRAPPERS}";
 
-    String template;
+  String template;
 
   ArrayList<TOCEntry> tocEntries = new ArrayList<>();
 
@@ -548,6 +556,17 @@ public class CreateDocument {
  
     replace(COMMON_INTRO, printMainHeader("common", "Common Methods"));
     replace(COMMON_METHODS, printCommonMethods());
+    outline.increment();
+
+    replace(JS_NUMBER_CONS, printMainHeader("jsnumcons", "JavaScript Number Considerations"));
+    outline.indent();
+    replace(JS_NUMBER_CONS_INT, printSubHeader("jsnumcons.int", "Integer Numbers"));
+    outline.increment();
+    replace(JS_NUMBER_CONS_FP, printSubHeader("jsnumcons.fp", "Floating Point Numbers"));
+    outline.undent();
+    outline.increment();
+
+    replace(DIAGNOSTIC_NOTATION, printMainHeader("diagnostic", "Diagnostic Notation"));
     outline.increment();
 
     replace(TOC, printTableOfContents());
