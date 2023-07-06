@@ -82,14 +82,14 @@ export default class CBOR {
       return true;
     }
 
-    toDiagnosticNotation = function(prettyPrint) {
+    toDiag = function(prettyPrint) {
       let cborPrinter = new CBOR.#CborPrinter(CBOR.#typeCheck(prettyPrint, 'boolean'));
       this.internalToString(cborPrinter);
       return cborPrinter.buffer;
     }
 
     toString = function() {
-      return this.toDiagnosticNotation(true);
+      return this.toDiag(true);
     }
  
     #traverse = function(holderObject, check) {
@@ -116,9 +116,9 @@ export default class CBOR {
             holderObject instanceof CBOR.Array ? "Array element" :
               holderObject instanceof CBOR.Tag ?
               "Tagged object " + holderObject.getTagNumber().toString() : 
-              "Map key " + holderObject.toDiagnosticNotation(false) + " with argument") +                    
+              "Map key " + holderObject.toDiag(false) + " with argument") +                    
             " of type=CBOR." + this.constructor.name + 
-            " with value=" + this.toDiagnosticNotation(false) + " was never read");
+            " with value=" + this.toDiag(false) + " was never read");
         }
       } else {
         this.#readFlag = true;
@@ -795,7 +795,7 @@ export default class CBOR {
     }
 
     #errorInObject = function(message) {
-      CBOR.#error(message + ': ' + this.#object.toDiagnosticNotation(false));
+      CBOR.#error(message + ': ' + this.#object.toDiag(false));
     }
 
     encode = function() {
@@ -1383,7 +1383,7 @@ export default class CBOR {
 
     testForNonDecimal = function(nonDecimal) {
       if (nonDecimal) {
-        this.parserError("Hexadecimal not permitted here");
+        this.parserError("0b, 0o, and 0x prefixes are only permited for integers");
       }
     }
 
@@ -1545,16 +1545,16 @@ export default class CBOR {
     }
   }
 
-/////////////////////////////////////////////
-// CBOR.decodeDiagnosticNotation()         //
-// CBOR.decodeDiagnosticNotationSequence() //
-/////////////////////////////////////////////
+///////////////////////////////
+// CBOR.diagDecode()         //
+// CBOR.diagDecodeSequence() //
+///////////////////////////////
 
-  static decodeDiagnosticNotation = function(cborText) {
+  static diagDecode = function(cborText) {
     return new CBOR.DiagnosticNotation(cborText, false).readSequenceToEOF()[0];
   }
 
-  static decodeDiagnosticNotationSequence = function(cborText) {
+  static diagDecodeSequence = function(cborText) {
     return new CBOR.DiagnosticNotation(cborText, true).readSequenceToEOF();
   }
 

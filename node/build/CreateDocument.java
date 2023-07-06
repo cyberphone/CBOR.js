@@ -9,9 +9,11 @@ public class CreateDocument {
   """
   Wrapper object.""";
 
+
   static final String W_INT_DESCR = 
   """
-  Constructor.  Creates a CBOR integer wrapper object.""";
+  Constructor.  Creates a CBOR integer wrapper object.
+  See also <a href='#jsnumbers.int'>Integer Numbers</a>.""";
   
   static final String W_INT_P1_DESCR = 
   """
@@ -25,6 +27,24 @@ public class CreateDocument {
   static final String GETINT_RETURN_DESCR = 
   """
   Decoded CBOR integer.""";
+
+
+  static final String W_BIGINT_DESCR = 
+  """
+  Constructor.  Creates a CBOR big integer wrapper object.""";
+  
+  static final String W_BIGINT_P1_DESCR = 
+  """
+  Big integer to be wrapped.""";
+
+
+  static final String GETBIGINT_DESCR = 
+  """
+  Reads CBOR big integer.""";
+  
+  static final String GETBIGINT_RETURN_DESCR = 
+  """
+  Decoded CBOR big integer.""";
 
 
   static final String W_ARRAY_DESCR = 
@@ -51,7 +71,7 @@ public class CreateDocument {
 
   static final String ARRAY_GET_P1_DESCR = 
   """
-  Index (0..length-1) of element.""";
+  Index <code>(0..length-1)</code> of element.""";
   
   static final String ARRAY_GET_RETURN_DESCR = 
   """
@@ -73,7 +93,7 @@ public class CreateDocument {
 
   static final String EQUALS_DESCR = 
   """
-  Compare objects with respect to CBOR data.""";
+  Compares this object with another object with respect to CBOR data.""";
   
   static final String EQUALS_P1_DESCR = 
   """
@@ -87,7 +107,7 @@ public class CreateDocument {
 
   static final String TODIAG_DESCR = 
   """
-  Renders object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
+  Renders this object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
   See also: <a href='#common.tostring'>toString()</a>.""";
   
   static final String TODIAG_P1_DESCR = 
@@ -102,42 +122,63 @@ public class CreateDocument {
 
   static final String TOSTRING_DESCR = 
   """
-  Renders object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
-  Equivalent to <a href='#common.todiagnosticnotation'>toDiagnosticNotation(true)</a>.""";
+  Renders this object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
+  Equivalent to <a href='#common.todiag'>toDiag(true)</a>.""";
 
 
   static final String TOHEX_DESCR = 
   """
-  If <code><i>prettyPrint</i></code> is <code>true</code>,
-  additional white space is inserted between elements to make the result
-  easier to read.""";
+  Converts binary data to hexadecimal.""";
   
   static final String TOHEX_P1_DESCR = 
   """
-  If <code><i>prettyPrint</i></code> is <code>true</code>,
-  additional white space is inserted between elements to make the result
-  easier to read.""";
+  The data (bytes) to be converted.""";
 
   static final String TOHEX_RETURN_DESCR = 
   """
-  Textual version of the encapsulated CBOR content.""";
+  Hexadecimal encoded data.""";
 
 
   static final String FROMHEX_DESCR = 
   """
-  If <code><i>prettyPrint</i></code> is <code>true</code>,
-  additional white space is inserted between elements to make the result
-  easier to read.""";
+  Converts hexadecimal data into binary.""";
   
   static final String FROMHEX_P1_DESCR = 
   """
-  If <code><i>prettyPrint</i></code> is <code>true</code>,
-  additional white space is inserted between elements to make the result
-  easier to read.""";
+  Input data in hexadecimal notation.""";
 
   static final String FROMHEX_RETURN_DESCR = 
   """
-  Textual version of the encapsulated CBOR content.""";
+  The resulting binary (bytes).""";
+
+
+  static final String TOB64U_DESCR = 
+  """
+  Converts binary data to base64Url.""";
+  
+  static final String TOB64U_P1_DESCR = 
+  """
+  The data (bytes) to be converted.""";
+
+  static final String TOB64U_RETURN_DESCR = 
+  """
+  Base64Url encoded data.""";
+
+
+  static final String FROMB64U_DESCR = 
+  """
+  Converts base64Url encoded data into binary.
+  Note that this method is <i>permissive</i>; it accepts
+  base64 encoded data as well as data with or without
+  <code>=</code> padding.""";
+  
+  static final String FROMB64U_P1_DESCR = 
+  """
+  Input data in base64Url notation.""";
+
+  static final String FROMB64U_RETURN_DESCR = 
+  """
+  The resulting binary (bytes).""";
 
 
   static final String INTRO = "${INTRO}";
@@ -220,7 +261,7 @@ public class CreateDocument {
     CBOR_Any("CBOR.<i>Wrapper</i>"),
 
     CBOR_INT("CBOR.Int"),
-    CBOR_BIG_INT("CBOR.BigInt"),
+    CBOR_BIGINT("CBOR.BigInt"),
     CBOR_FLOAT("CBOR.Float"),
     CBOR_STRING("CBOR.String"),
     CBOR_BYTES("CBOR.Bytes"),
@@ -258,7 +299,8 @@ public class CreateDocument {
   StringBuilder s;
 
   void beginTable() {
-    s.append("<div class='webpkifloat'>\n<table class='webpkitable' style='margin-left:2em'>\n");
+    s.append("<div class='webpkifloat'>\n<table class='webpkitable'" +
+             " style='margin-left:2em;width:50em'>\n");
   }
 
   void endTable() {
@@ -298,7 +340,7 @@ public class CreateDocument {
     if (columns > 1) {
       s.append(" colspan='").append(columns).append('\'');
     }
-    s.append(">").append(text).append("</td>");
+    s.append(" style='width:100%'>").append(text).append("</td>");
   }
 
   void tableCell(String text) {
@@ -616,6 +658,11 @@ public class CreateDocument {
       .addMethod("getInt", GETINT_DESCR)
       .setReturn(DataTypes.JS_NUMBER, GETINT_RETURN_DESCR);
 
+    addWrapper(DataTypes.CBOR_BIGINT, W_BIGINT_DESCR)
+      .addWrapperParameter("value", DataTypes.JS_BIGINT, W_BIGINT_P1_DESCR)
+
+      .addMethod("getBigInt", GETBIGINT_DESCR)
+      .setReturn(DataTypes.JS_BIGINT, GETBIGINT_RETURN_DESCR);
 
     addWrapper(DataTypes.CBOR_ARRAY, W_ARRAY_DESCR)
 
@@ -638,7 +685,7 @@ public class CreateDocument {
       .setReturn(DataTypes.JS_BOOLEAN, EQUALS_RETURN_DESCR);
     // addCommonMethod("toString()", "");
  
-    addCommonMethod("toDiagnosticNotation", TODIAG_DESCR)
+    addCommonMethod("toDiag", TODIAG_DESCR)
       .addParameter("prettyPrint", DataTypes.JS_BOOLEAN, TODIAG_P1_DESCR)
       .setReturn(DataTypes.JS_STRING, TODIAG_RETURN_DESCR);
    
@@ -659,11 +706,11 @@ public class CreateDocument {
     addDecoderMethod("decodeExtended", FROMHEX_DESCR)
       .setReturn(DataTypes.CBOR_Any, FROMHEX_RETURN_DESCR);
 
-    addDecoderMethod("CBOR.decodeDiagnosticNotation", FROMHEX_DESCR)
+    addDecoderMethod("CBOR.diagDecode", FROMHEX_DESCR)
       .addParameter("cborText", DataTypes.JS_STRING, FROMHEX_P1_DESCR)
       .setReturn(DataTypes.CBOR_Any, FROMHEX_RETURN_DESCR);
 
-    addDecoderMethod("CBOR.decodeDiagnosticNotationSequence", FROMHEX_DESCR)
+    addDecoderMethod("CBOR.diagDecodeSequence", FROMHEX_DESCR)
       .addParameter("cborText", DataTypes.JS_STRING, FROMHEX_P1_DESCR)
       .setReturn(DataTypes.JS_ARRAY, FROMHEX_RETURN_DESCR);
 
@@ -674,6 +721,14 @@ public class CreateDocument {
     addUtilityMethod("CBOR.fromHex", FROMHEX_DESCR)
       .addParameter("hexString", DataTypes.JS_STRING, FROMHEX_P1_DESCR)
       .setReturn(DataTypes.JS_UINT8ARRAY, FROMHEX_RETURN_DESCR);
+
+    addUtilityMethod("CBOR.toBase64Url", TOB64U_DESCR)
+      .addParameter("byteArray", DataTypes.JS_UINT8ARRAY, TOB64U_P1_DESCR)
+      .setReturn(DataTypes.JS_STRING, TOB64U_RETURN_DESCR);
+
+    addUtilityMethod("CBOR.fromBase64Url", FROMB64U_DESCR)
+      .addParameter("base64", DataTypes.JS_STRING, FROMB64U_P1_DESCR)
+      .setReturn(DataTypes.JS_UINT8ARRAY, FROMB64U_RETURN_DESCR);
 
     replace(INTRO, printMainHeader("intro", "Introduction"));
     outline.increment();

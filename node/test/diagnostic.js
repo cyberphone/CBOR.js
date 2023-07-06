@@ -5,9 +5,9 @@ import { assertTrue, assertFalse, success } from './assertions.js';
 function oneTurn(cborText, ok, compareWithOrNull) {
   try {
     let compareText = compareWithOrNull ? compareWithOrNull : cborText;
-    let result = CBOR.decodeDiagnosticNotation(cborText);
+    let result = CBOR.diagDecode(cborText);
     assertTrue("Should not", ok);
-    let sequence = CBOR.decodeDiagnosticNotationSequence(cborText);
+    let sequence = CBOR.diagDecodeSequence(cborText);
     if (result.toString() != compareText) {
       throw Error("input:\n" + cborText + "\nresult:\n" + result);
     }
@@ -42,11 +42,11 @@ let cborObject = CBOR.decode(CBOR.fromHex('a20169746578740a6e6578740284fa3380000
 let cborText = '{\n  1: "text\\nnext",\n  2: [5.960465188081798e-8, h\'a1056464617461\', {\n' +
     '    true: false\n  }, 0("2023-06-02T07:53:19Z")]\n}';
 
-assertTrue("pretty", cborObject.toDiagnosticNotation(true) == cborText);
-assertTrue("oneline", cborObject.toDiagnosticNotation(false) == 
+assertTrue("pretty", cborObject.toDiag(true) == cborText);
+assertTrue("oneline", cborObject.toDiag(false) == 
                    cborText.replaceAll('\n', '').replaceAll(' ',''));
-assertTrue("parse", CBOR.decodeDiagnosticNotation(cborText).equals(cborObject));
-let sequence = CBOR.decodeDiagnosticNotationSequence('45,{4:7}');
+assertTrue("parse", CBOR.diagDecode(cborText).equals(cborObject));
+let sequence = CBOR.diagDecodeSequence('45,{4:7}');
 assertTrue("seq2", sequence.length == 2);
 assertTrue("seq3", sequence[0].getInt() == 45);
 assertTrue("seq4", sequence[1].equals(CBOR.Map().set(CBOR.Int(4),CBOR.Int(7))));
