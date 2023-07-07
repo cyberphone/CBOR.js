@@ -47,6 +47,29 @@ public class CreateDocument {
   Decoded CBOR big integer.""";
 
 
+  static final String W_FLOAT_DESCR = 
+  """
+  Constructor.  Creates a CBOR floating point wrapper object.
+  See also <a href='#jsnumbers.fp'>Floating Point Numbers</a>.""";
+    
+  static final String W_FLOAT_P1_DESCR = 
+  """
+  Float to be wrapped.""";
+
+
+  static final String GETFLOAT_DESCR = 
+  """
+  Reads CBOR float.""";
+  
+  static final String GETFLOAT_RETURN_DESCR = 
+  """
+  Decoded CBOR float.""";
+
+  static final String FLOAT_PROP_DESCR = 
+  """
+  Length in bytes of the underlying CBOR IEEE 754 type."""; 
+
+
   static final String W_ARRAY_DESCR = 
   """
   Constructor.  Creates a CBOR array wrapper object.""";
@@ -54,11 +77,11 @@ public class CreateDocument {
 
   static final String ARRAY_ADD_DESCR = 
   """
-  Adds CBOR array element.""";
+  Adds CBOR wrapper object to the array.""";
 
   static final String ARRAY_ADD_P1_DESCR = 
   """
-  Element to add.""";
+  Object to add.""";
   
   static final String ARRAY_ADD_RETURN_DESCR = 
   """
@@ -67,19 +90,19 @@ public class CreateDocument {
 
   static final String ARRAY_GET_DESCR = 
   """
-  Fetches CBOR array element.""";
+  Fetches CBOR wrapper object.""";
 
   static final String ARRAY_GET_P1_DESCR = 
   """
-  Index <code>(0..length-1)</code> of element.""";
+  Index <code>(0..length-1)</code> of object.""";
   
   static final String ARRAY_GET_RETURN_DESCR = 
   """
-  Element.""";    
+  Retrieved object.""";    
   
   static final String ARRAY_PROP_DESCR = 
   """
-  Number of elements in the array."""; 
+  Number of objects in the array."""; 
 
 
   static final String CLONE_DESCR = 
@@ -170,7 +193,7 @@ public class CreateDocument {
   Converts base64Url encoded data into binary.
   Note that this method is <i>permissive</i>; it accepts
   base64 encoded data as well as data with or without
-  <code>=</code> padding.""";
+  <code>'='</code> padding.""";
   
   static final String FROMB64U_P1_DESCR = 
   """
@@ -179,6 +202,73 @@ public class CreateDocument {
   static final String FROMB64U_RETURN_DESCR = 
   """
   The resulting binary (bytes).""";
+
+
+  static final String DECODE_DESCR = 
+  """
+  Decodes a CBOR object.
+  This method assumes that the CBOR data adheres to
+  <a href='#main.deterministic'>Deterministic Encoding</a>,
+  otherwise exceptions will be thrown.""";
+  
+  static final String DECODE_P1_DESCR = 
+  """
+  The data (bytes) to be decoded.""";
+
+  static final String DECODE_RETURN_DESCR = 
+  """
+  CBOR wrapper object.""";
+
+
+  static final String INITEXT_DESCR = 
+  """
+  Initiates an extended CBOR decoder.
+  This decoding method presumes that the actual
+  decoding is performed by one or more (for sequences only) calls to
+  <a href='#decoder.decodeextended'>decodeExtended()</a>.""";
+  
+  static final String INITEXT_P1_DESCR = 
+  """
+  The data (bytes) to be decoded.""";
+
+  static final String INITEXT_P2_DESCR = 
+  """
+  If <code>true</code>, <a href='#decoder.decodeextended'>decodeExtended()</a>
+  will return immediately after decoding a CBOR object, otherwise 
+  unread CBOR data will cause exceptions to be thrown.""";
+
+  static final String INITEXT_P3_DESCR = 
+  """
+  If <code>true</code> the decoder will accept CBOR code
+  which violates the <a href='#main.deterministic'>Deterministic Encoding</a> rules.
+  This option may be needed for dealing with &quot;legacy&quot;
+  CBOR implementations.""";
+
+  static final String INITEXT_P4_DESCR = 
+ """
+  If <code>true</code> the decoder will throw exceptions if CBOR <code>map</code>
+  key data types are not integers (major type 0 and 1) or 
+  text strings (major type 3), as well as if a specific <code>map</code>
+  instance mixes key data types.""";
+
+    static final String INITEXT_RETURN_DESCR = 
+  """
+  Object for usage with
+  <a href='#decoder.decodeextended'>decodeExtended()</a>.""";
+
+
+  static final String DECODEEXT_DESCR = 
+  """
+  Decodes a CBOR object.
+  If the <code>sequenceFlag</code> in the call to
+  <a href='#decoder.cbor.initextended'>CBOR.initExtended()</a>
+  is <code>true</code>, each call to <code>decodeExtended</code>
+  causes the internal reader to move to the next (possible) CBOR object.
+  When there are no more CBOR objects to read, this method returns <code>null</code>.""";
+  
+  static final String DECODEEXT_RETURN_DESCR = 
+  """
+  CBOR wrapper object or <code>null</code>.""";
 
 
   static final String INTRO = "${INTRO}";
@@ -195,6 +285,8 @@ public class CreateDocument {
 
   static final String DIAGNOSTIC_NOTATION = "${DIAGNOSTIC_NOTATION}"; 
 
+  static final String DETERMINISTIC_ENCODING = "${DETERMINISTIC_ENCODING}"; 
+
   static final String JS_NUMBER_CONS_INT = "${JS_NUMBER_CONS_INT}"; 
 
   static final String JS_NUMBER_CONS_FP = "${JS_NUMBER_CONS_FP}"; 
@@ -208,6 +300,9 @@ public class CreateDocument {
   static final String UTILITY_METHODS = "${UTILITY_METHODS}";
 
   static final String CBOR_WRAPPERS = "${CBOR_WRAPPERS}";
+
+
+  static final String DECODE_EXTENDED = "decodeExtended";
 
   String template;
 
@@ -256,7 +351,7 @@ public class CreateDocument {
   }
 
   enum DataTypes {
-    ExtendedDecoder("ExtendedDecoder"),
+    ExtendedDecoder("<i>Decoder</i>"),
 
     CBOR_Any("CBOR.<i>Wrapper</i>"),
 
@@ -373,6 +468,8 @@ public class CreateDocument {
     rowBegin();
     tableHeader("Syntax");
     StringBuilder syntax = new StringBuilder("<code>")
+        .append(method.name.equals(DECODE_EXTENDED) ? 
+            "<i>" + DataTypes.ExtendedDecoder + "</i>." : "")
         .append(method.name)
         .append("(");
     int columns = method.parameters.isEmpty() ? 2 : 3;
@@ -664,10 +761,18 @@ public class CreateDocument {
       .addMethod("getBigInt", GETBIGINT_DESCR)
       .setReturn(DataTypes.JS_BIGINT, GETBIGINT_RETURN_DESCR);
 
+    addWrapper(DataTypes.CBOR_FLOAT, W_FLOAT_DESCR)
+      .addWrapperParameter("value", DataTypes.JS_NUMBER, W_FLOAT_P1_DESCR)
+
+      .addMethod("getFloat", GETFLOAT_DESCR)
+      .setReturn(DataTypes.JS_NUMBER, GETFLOAT_RETURN_DESCR)
+
+      .setProperty("length", DataTypes.JS_NUMBER, FLOAT_PROP_DESCR);
+
     addWrapper(DataTypes.CBOR_ARRAY, W_ARRAY_DESCR)
 
       .addMethod("add", ARRAY_ADD_DESCR)
-      .addParameter("element", DataTypes.CBOR_Any, ARRAY_ADD_P1_DESCR)
+      .addParameter("object", DataTypes.CBOR_Any, ARRAY_ADD_P1_DESCR)
       .setReturn(DataTypes.JS_THIS, ARRAY_ADD_RETURN_DESCR)
 
       .addMethod("get", ARRAY_GET_DESCR)
@@ -692,19 +797,19 @@ public class CreateDocument {
     addCommonMethod("toString", TOSTRING_DESCR)
       .setReturn(DataTypes.JS_STRING, TODIAG_RETURN_DESCR);
 
-    addDecoderMethod("CBOR.decode", FROMHEX_DESCR)
-      .addParameter("cbor", DataTypes.JS_UINT8ARRAY, FROMHEX_P1_DESCR)
-      .setReturn(DataTypes.CBOR_Any, FROMHEX_RETURN_DESCR);
+    addDecoderMethod("CBOR.decode", DECODE_DESCR)
+      .addParameter("cbor", DataTypes.JS_UINT8ARRAY, DECODE_P1_DESCR)
+      .setReturn(DataTypes.CBOR_Any, DECODE_RETURN_DESCR);
 
-    addDecoderMethod("CBOR.initExtended", FROMHEX_DESCR)
-      .addParameter("cbor", DataTypes.JS_UINT8ARRAY, FROMHEX_P1_DESCR)
-      .addParameter("sequenceFlag", DataTypes.JS_BOOLEAN, FROMHEX_P1_DESCR)
-      .addParameter("acceptNonDeterministic", DataTypes.JS_BOOLEAN, FROMHEX_P1_DESCR)
-      .addParameter("constrainedKeys", DataTypes.JS_BOOLEAN, FROMHEX_P1_DESCR)
-      .setReturn(DataTypes.ExtendedDecoder, FROMHEX_RETURN_DESCR);
+    addDecoderMethod("CBOR.initExtended", INITEXT_DESCR)
+      .addParameter("cbor", DataTypes.JS_UINT8ARRAY, INITEXT_P1_DESCR)
+      .addParameter("sequenceFlag", DataTypes.JS_BOOLEAN, INITEXT_P2_DESCR)
+      .addParameter("nonDeterministic", DataTypes.JS_BOOLEAN, INITEXT_P3_DESCR)
+      .addParameter("constrainedKeys", DataTypes.JS_BOOLEAN, INITEXT_P4_DESCR)
+      .setReturn(DataTypes.ExtendedDecoder, INITEXT_RETURN_DESCR);
 
-    addDecoderMethod("decodeExtended", FROMHEX_DESCR)
-      .setReturn(DataTypes.CBOR_Any, FROMHEX_RETURN_DESCR);
+    addDecoderMethod(DECODE_EXTENDED, DECODEEXT_DESCR)
+      .setReturn(DataTypes.CBOR_Any, DECODEEXT_RETURN_DESCR);
 
     addDecoderMethod("CBOR.diagDecode", FROMHEX_DESCR)
       .addParameter("cborText", DataTypes.JS_STRING, FROMHEX_P1_DESCR)
@@ -758,6 +863,9 @@ public class CreateDocument {
     outline.increment();
 
     replace(DIAGNOSTIC_NOTATION, printMainHeader("diagnostic", "Diagnostic Notation"));
+    outline.increment();
+
+    replace(DETERMINISTIC_ENCODING, printMainHeader("deterministic", "Deterministic Encoding"));
     outline.increment();
 
     replace(TOC, printTableOfContents());

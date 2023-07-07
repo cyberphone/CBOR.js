@@ -522,30 +522,30 @@ class CBOR {
 
   static Array = class extends CBOR.#CborObject {
 
-    #elements = [];
+    #objects = [];
 
-    add = function(element) {
-      this.#elements.push(CBOR.#cborArgumentCheck(element));
+    add = function(object) {
+      this.#objects.push(CBOR.#cborArgumentCheck(object));
       return this;
     }
 
     get = function(index) {
       index = CBOR.#intCheck(index);
-      if (index < 0 || index >= this.#elements.length) {
+      if (index < 0 || index >= this.#objects.length) {
         CBOR.#error("Array index out of range: " + index);
       }
-      return this.#elements[index];
+      return this.#objects[index];
     }
 
     toArray = function() {
       let array = [];
-      this.#elements.forEach(element => array.push(element));
+      this.#objects.forEach(object => array.push(object));
       return array;
     }
 
     encode = function() {
-      let encoded = CBOR.#encodeTagAndN(CBOR.#MT_ARRAY, this.#elements.length);
-      this.#elements.forEach(object => {
+      let encoded = CBOR.#encodeTagAndN(CBOR.#MT_ARRAY, this.#objects.length);
+      this.#objects.forEach(object => {
         encoded = CBOR.addArrays(encoded, object.encode());
       });
       return encoded;
@@ -554,7 +554,7 @@ class CBOR {
     internalToString = function(cborPrinter) {
       cborPrinter.append('[');
       let notFirst = false;
-      this.#elements.forEach(object => {
+      this.#objects.forEach(object => {
         if (notFirst) {
           cborPrinter.append(',');
           cborPrinter.space();
@@ -566,7 +566,7 @@ class CBOR {
     }
 
     _getLength = function() {
-      return this.#elements.length;
+      return this.#objects.length;
     }
 
     _get = function() {
@@ -868,12 +868,12 @@ class CBOR {
 
     constructor(cbor,
                 sequenceFlag,
-                acceptNonDeterministic,
+                nonDeterministic,
                 constrainedKeys) {
       this.cbor = CBOR.#bytesCheck(cbor);
       this.counter = 0;
       this.sequenceFlag = sequenceFlag;
-      this.deterministicMode = !acceptNonDeterministic;
+      this.deterministicMode = !nonDeterministic;
       this.constrainedKeys = constrainedKeys;
     }
 
