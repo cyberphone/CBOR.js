@@ -2,17 +2,58 @@
 <html lang='en'>
 <head>
   <link rel='icon' href='webpkiorg.png' sizes='192x192'>
-  <meta name='viewport' content='initial-scale=1.0' />
+  <meta name='viewport' content='initial-scale=1.0'>
   <title>CBOR JavaScript API</title>
   <link rel='stylesheet' type='text/css' href='style.css'>
 </head>
 <body>
   <img style="max-width:30%" src="cbor.js.svg" alt="logo" title="CBOR.js logotype">
   <h3 style="text-align:center;font-weight:normal;font-size:1.8em">CBOR.js - JavaScript API</h3>
-  <h3>**** NOT READY ****</h3>
+  <h1>***WORK IN PROGRESS***</h1>
   <h3 id='toc'>Table of Contents</h3>
-  To be written...
-  <h3 id='toc'>Intoduction</h3>
+  <div style='margin:0 0 0.4em 2em'><a href='#main.intro'>1 Introduction</a></div>
+<div style='margin:0 0 0.4em 2em'><a href='#main.wrappers'>2 CBOR Wrapper Objects</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#wrapper.cbor.int'>2.1 CBOR.Int</a></div>
+<div style='margin:0 0 0.4em 6em'><a href='#methods.cbor.int'>2.1.1 CBOR.Int Methods</a></div>
+<div style='margin:0 0 0.4em 8em'><a href='#cbor.int.getint'>2.1.1.1 getInt()</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#wrapper.cbor.bigint'>2.2 CBOR.BigInt</a></div>
+<div style='margin:0 0 0.4em 6em'><a href='#methods.cbor.bigint'>2.2.1 CBOR.BigInt Methods</a></div>
+<div style='margin:0 0 0.4em 8em'><a href='#cbor.bigint.getbigint'>2.2.1.1 getBigInt()</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#wrapper.cbor.float'>2.3 CBOR.Float</a></div>
+<div style='margin:0 0 0.4em 6em'><a href='#methods.cbor.float'>2.3.1 CBOR.Float Methods</a></div>
+<div style='margin:0 0 0.4em 8em'><a href='#cbor.float.getfloat'>2.3.1.1 getFloat()</a></div>
+<div style='margin:0 0 0.4em 6em'><a href='#properties.cbor.float'>2.3.2 CBOR.Float Properties</a></div>
+<div style='margin:0 0 0.4em 8em'><a href='#cbor.float.length'>2.3.2.1 length</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#wrapper.cbor.array'>2.4 CBOR.Array</a></div>
+<div style='margin:0 0 0.4em 6em'><a href='#methods.cbor.array'>2.4.1 CBOR.Array Methods</a></div>
+<div style='margin:0 0 0.4em 8em'><a href='#cbor.array.add'>2.4.1.1 add()</a></div>
+<div style='margin:0 0 0.4em 8em'><a href='#cbor.array.get'>2.4.1.2 get()</a></div>
+<div style='margin:0 0 0.4em 6em'><a href='#properties.cbor.array'>2.4.2 CBOR.Array Properties</a></div>
+<div style='margin:0 0 0.4em 8em'><a href='#cbor.array.length'>2.4.2.1 length</a></div>
+<div style='margin:0 0 0.4em 2em'><a href='#main.common'>3 Common Wrapper Methods</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#common.clone'>3.1 clone()</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#common.equals'>3.2 equals()</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#common.todiag'>3.3 toDiag()</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#common.tostring'>3.4 toString()</a></div>
+<div style='margin:0 0 0.4em 2em'><a href='#main.decoding'>4 Decoding CBOR</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.decode'>4.1 CBOR.decode()</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.initextended'>4.2 CBOR.initExtended()</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#decoder.decodeextended'>4.3 decodeExtended()</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.diagdecode'>4.4 CBOR.diagDecode()</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.diagdecodesequence'>4.5 CBOR.diagDecodeSequence()</a></div>
+<div style='margin:0 0 0.4em 2em'><a href='#main.utility'>5 Utility Methods</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#utility.cbor.tohex'>5.1 CBOR.toHex()</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#utility.cbor.fromhex'>5.2 CBOR.fromHex()</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#utility.cbor.tobase64url'>5.3 CBOR.toBase64Url()</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#utility.cbor.frombase64url'>5.4 CBOR.fromBase64Url()</a></div>
+<div style='margin:0 0 0.4em 2em'><a href='#main.jsnumbers'>6 JavaScript Number Considerations</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#jsnumbers.int'>6.1 Integer Numbers</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#jsnumbers.fp'>6.2 Floating Point Numbers</a></div>
+<div style='margin:0 0 0.4em 2em'><a href='#main.diagnostic'>7 Diagnostic Notation</a></div>
+<div style='margin:0 0 0.4em 2em'><a href='#main.deterministic'>8 Deterministic Encoding</a></div>
+
+  <h3 id='main.intro'>1 Introduction</h3>
+
   This document describes a JavaScript API for encoding and decoding
   CBOR&nbsp;[<a href="https://www.rfc-editor.org/rfc/rfc8949.html"
                 title="CBOR">RFC8949<img src="xtl.svg" alt="link"></a>].
@@ -26,130 +67,360 @@
   as well as being the result of CBOR decoding.
 
   The API provides some specific features including:
-<ol>
-  <li>Deterministic Encoding</li>
-  <li>Diagnostic Notation encoder and decoder</li>
-  <li>Strict type checking of arguments</li>
-  <li><i>Optional</i> check for unread elements</li>
-</ol>
-  <h3>2 CBOR.* Objects</h3>
-  Blah
-  <div><b>2.1 CBOR.Int</b></div>
-  <div class='webpkifloat'>
-    <table class='webpkitable' style='margin-left:2em'>
-      <tr><th>Syntax</th><td colspan="2"><code>CBOR.Int(</code><i>value</i><code>)</code></td></tr>
-      <tr><th>Description</th><td colspan="2">Constructor. Creates a CBOR integer wrapper object.</td></tr>
-      <tr><td colspan="3" style="background-color: white; font-size: 0.6em"></td></tr>
-      <tr><th>Parameters</th><th>Type</th><th>Description</th></tr>
-      <tr>
-        <td><i>value</i></td>
-        <td><code>Number</code></td>
-        <td>Integer value. Also see Blah.</td>
-      </tr>
-    </table>
-  </div>
-  <div><b>2.3 CBOR.Float</b></div>
-  <div class='webpkifloat'>
-    <table class='webpkitable' style='margin-left:2em'>
-      <tr><th>Syntax</th><td colspan="2"><code>CBOR.Float(</code><i>value</i><code>)</code></td></tr>
-      <tr><th>Description</th><td colspan="2">Constructor. Creates a CBOR floating point wrapper object.</td></tr>
-      <tr><td colspan="3" style="background-color: white; font-size: 0.6em"></td></tr>
-      <tr><th>Parameters</th><th>Type</th><th>Description</th></tr>
-      <tr>
-        <td><i>value</i></td>
-        <td><code>Number</code></td>
-        <td>Floating point value.</td>
-      </tr>
-    </table>
-  </div>
-  <div>CBOR.Float Methods</div>
-  <div class='webpkifloat'>
-    <table class='webpkitable' style='margin-left:2em'>
-      <tr><th>Syntax</th><td colspan="2"><code>getFloat()</code></td></tr>
-      <tr><th>Description</th><td colspan="2">Gets floating point value.</td></tr>
-      <tr><td colspan="3" style="background-color: white; font-size: 0.6em"></td></tr>
-      <tr><th>Return&nbsp;Value</th><th colspan="2">Description</th></tr>
-      <tr>
-        <td><code>Number</code></td>
-        <td colspan="2">Floating point value.</td>
-      </tr>
-    </table>
-  </div>
-  <div>CBOR.Float Properties</div>
-  <div class='webpkifloat'>
-    <table class='webpkitable' style='margin-left:2em'>
-      <tr><th>Name</th><td><code>length</code></td></tr>
-      <tr><th>Type</th><td><code>Number</code></td></tr>
-      <tr>
-        <th>Description</th>
-        <td>
-          Holds the length in <i>bytes</i> of the IEEE 754 floating point type used by CBOR for representing the value.
-        </td>
-      </tr>
-    </table>
-  </div>
-  <h3>3 Common Methods</h3>
+  <ol>
+    <li>Deterministic Encoding</li>
+    <li>Diagnostic Notation encoder and decoder</li>
+    <li>Strict type checking of arguments</li>
+    <li><i>Optional</i> check for unread elements</li>
+  </ol>
+  <h3 id='main.wrappers'>2 CBOR Wrapper Objects</h3>
+
+  Blah etc.
+  <h5 id='wrapper.cbor.int'>2.1 CBOR.Int</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.Int(<i>value</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Constructor.  Creates a CBOR integer wrapper object.
+See also <a href='#jsnumbers.int'>Integer Numbers</a>.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>value</i></code></td><td style='text-align:center'><code>Number</code></td><td style='width:100%'>Integer to be wrapped.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><code>CBOR.Int</code></td><td colspan='2' style='width:100%'>Wrapper object.</td></tr>
+</table></div>
+<h5 id='methods.cbor.int'>2.1.1 CBOR.Int Methods</h5>
+<h5 id='cbor.int.getint'>2.1.1.1 getInt()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td style='width:100%'><code>getInt()</code></td></tr>
+<tr><th>Description</th><td style='width:100%'>Reads CBOR integer.</td></tr>
+<tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code>Number</code></td><td style='width:100%'>Decoded CBOR integer.</td></tr>
+</table></div>
+<h5 id='wrapper.cbor.bigint'>2.2 CBOR.BigInt</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.BigInt(<i>value</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Constructor.  Creates a CBOR big integer wrapper object.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>value</i></code></td><td style='text-align:center'><code>BigInt</code></td><td style='width:100%'>Big integer to be wrapped.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><code>CBOR.BigInt</code></td><td colspan='2' style='width:100%'>Wrapper object.</td></tr>
+</table></div>
+<h5 id='methods.cbor.bigint'>2.2.1 CBOR.BigInt Methods</h5>
+<h5 id='cbor.bigint.getbigint'>2.2.1.1 getBigInt()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td style='width:100%'><code>getBigInt()</code></td></tr>
+<tr><th>Description</th><td style='width:100%'>Reads CBOR big integer.</td></tr>
+<tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code>BigInt</code></td><td style='width:100%'>Decoded CBOR big integer.</td></tr>
+</table></div>
+<h5 id='wrapper.cbor.float'>2.3 CBOR.Float</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.Float(<i>value</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Constructor.  Creates a CBOR floating point wrapper object.
+See also <a href='#jsnumbers.fp'>Floating Point Numbers</a>.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>value</i></code></td><td style='text-align:center'><code>Number</code></td><td style='width:100%'>Float to be wrapped.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><code>CBOR.Float</code></td><td colspan='2' style='width:100%'>Wrapper object.</td></tr>
+</table></div>
+<h5 id='methods.cbor.float'>2.3.1 CBOR.Float Methods</h5>
+<h5 id='cbor.float.getfloat'>2.3.1.1 getFloat()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td style='width:100%'><code>getFloat()</code></td></tr>
+<tr><th>Description</th><td style='width:100%'>Reads CBOR float.</td></tr>
+<tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code>Number</code></td><td style='width:100%'>Decoded CBOR float.</td></tr>
+</table></div>
+<h5 id='properties.cbor.float'>2.3.2 CBOR.Float Properties</h5>
+<h5 id='cbor.float.length'>2.3.2.1 length</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>length</i></code></td><td style='text-align:center'><code>Number</code></td><td style='width:100%'>Length in bytes of the underlying CBOR IEEE 754 type.</td></tr>
+</table></div>
+<h5 id='wrapper.cbor.array'>2.4 CBOR.Array</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td style='width:100%'><code>CBOR.Array()</code></td></tr>
+<tr><th>Description</th><td style='width:100%'>Constructor.  Creates a CBOR array wrapper object.</td></tr>
+<tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code>CBOR.Array</code></td><td style='width:100%'>Wrapper object.</td></tr>
+</table></div>
+<h5 id='methods.cbor.array'>2.4.1 CBOR.Array Methods</h5>
+<h5 id='cbor.array.add'>2.4.1.1 add()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>add(<i>object</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Adds CBOR wrapper object to the array.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>object</i></code></td><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>Object to add.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><code>this</code></td><td colspan='2' style='width:100%'>Current object.</td></tr>
+</table></div>
+<h5 id='cbor.array.get'>2.4.1.2 get()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>get(<i>index</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Fetches CBOR wrapper object.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>index</i></code></td><td style='text-align:center'><code>Number</code></td><td style='width:100%'>Index <code>(0..length-1)</code> of object.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td colspan='2' style='width:100%'>Retrieved object.</td></tr>
+</table></div>
+<h5 id='properties.cbor.array'>2.4.2 CBOR.Array Properties</h5>
+<h5 id='cbor.array.length'>2.4.2.1 length</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>length</i></code></td><td style='text-align:center'><code>Number</code></td><td style='width:100%'>Number of objects in the array.</td></tr>
+</table></div>
+
+  <h3 id='main.common'>3 Common Wrapper Methods</h3>
+
   All of the objects mentioned in this section support a set of common methods
   which are described in this sub section.
-  <div><b>3.1 toDiagnosticNotation</b></div>
-  <div class='webpkifloat'>
-    <table class='webpkitable' style='margin-left:2em'>
-      <tr><th>Syntax</th><td colspan="2"><code>toDiagnosticNotation(</code><i>prettyPrint</i><code>)</code></td></tr>
-      <tr><th>Description</th><td colspan="2">kkkjkhkhjkhjhkhk jh  jhj hj</td></tr>
-      <tr><td colspan="3" style="background-color: white; font-size: 0.6em"></td></tr>
-      <tr><th>Parameters</th><th>Type</th><th>Description</th></tr>
-      <tr>
-        <td><i>prettyPrint</i></td>
-        <td><code>boolean</code></td>
-        <td>
-          If <i>prettyPrint</i> is <code>true</code>,
-          additional white space is inserted between elements to make the result
-          easier to read.
-        </td>
-      </tr>
-      <tr><td colspan="3" style="background-color: white; font-size: 0.6em"></td></tr>
-      <tr><th>Return&nbsp;Value</th><th colspan="2">Description</th></tr>
-      <tr>
-        <td><code>String</code></td>
-        <td colspan="2">
-          Textual version of the encapsulated CBOR object.
-        </td>
-      </tr>
-    </table>
-  </div>
-  addCommonMethod("clone()");
-  addCommonMethod("encode()");
-  addCommonMethod("equals()");
-  addCommonMethod("toString()");
-  addCommonMethod("toDiagnosticNotation()");
-  addCommonMethod("checkForUnread()");
-  addCommonMethod("scan()");
-  <h3 id='javascript-numbers'>JavaScript Number Considerations</h3>
+  <h5 id='common.clone'>3.1 clone()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td style='width:100%'><code>clone()</code></td></tr>
+<tr><th>Description</th><td style='width:100%'>Creates a new instance of this object, initialized
+with the original CBOR content.</td></tr>
+<tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>Copy of object.</td></tr>
+</table></div>
+<h5 id='common.equals'>3.2 equals()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>equals(<i>object</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Compares this object with another object with respect to CBOR data.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>object</i></code></td><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>The object to compare with.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><code>Boolean</code></td><td colspan='2' style='width:100%'><code>true</code> if this object is equal to <code><i>object</i></code>;
+<code>false</code> otherwise.</td></tr>
+</table></div>
+<h5 id='common.todiag'>3.3 toDiag()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>toDiag(<i>prettyPrint</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Renders this object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
+See also: <a href='#common.tostring'>toString()</a>.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>prettyPrint</i></code></td><td style='text-align:center'><code>Boolean</code></td><td style='width:100%'>If <code><i>prettyPrint</i></code> is <code>true</code>,
+additional white space is inserted between elements to make the result
+easier to read.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><code>String</code></td><td colspan='2' style='width:100%'>Textual version of the encapsulated CBOR content.</td></tr>
+</table></div>
+<h5 id='common.tostring'>3.4 toString()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td style='width:100%'><code>toString()</code></td></tr>
+<tr><th>Description</th><td style='width:100%'>Renders this object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
+Equivalent to <a href='#common.todiag'>toDiag(true)</a>.</td></tr>
+<tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code>String</code></td><td style='width:100%'>Textual version of the encapsulated CBOR content.</td></tr>
+</table></div>
+
+  <h3 id='main.decoding'>4 Decoding CBOR</h3>
+
+  Blah decoding.
+  <h5 id='decoder.cbor.decode'>4.1 CBOR.decode()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.decode(<i>cbor</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Decodes a CBOR object.
+This method assumes that the CBOR data adheres to
+<a href='#main.deterministic'>Deterministic Encoding</a>,
+otherwise exceptions will be thrown.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>cbor</i></code></td><td style='text-align:center'><code>Uint8Array</code></td><td style='width:100%'>The data (bytes) to be decoded.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td colspan='2' style='width:100%'>CBOR wrapper object.</td></tr>
+</table></div>
+<h5 id='decoder.cbor.initextended'>4.2 CBOR.initExtended()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.initExtended(<i>cbor</i>, <i>sequenceFlag</i>, <i>nonDeterministic</i>, <i>constrainedKeys</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Initiates an extended CBOR decoder.
+This decoding method presumes that the actual
+decoding is performed by one or more (for sequences only) calls to
+<a href='#decoder.decodeextended'>decodeExtended()</a>.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>cbor</i></code></td><td style='text-align:center'><code>Uint8Array</code></td><td style='width:100%'>The data (bytes) to be decoded.</td></tr>
+<tr><td style='text-align:center'><code><i>sequenceFlag</i></code></td><td style='text-align:center'><code>Boolean</code></td><td style='width:100%'>If <code>true</code>, <a href='#decoder.decodeextended'>decodeExtended()</a>
+will return immediately after decoding a CBOR object, otherwise
+unread CBOR data will cause exceptions to be thrown.</td></tr>
+<tr><td style='text-align:center'><code><i>nonDeterministic</i></code></td><td style='text-align:center'><code>Boolean</code></td><td style='width:100%'>If <code>true</code> the decoder will accept CBOR code
+which violates the <a href='#main.deterministic'>Deterministic Encoding</a> rules.
+This option may be needed for dealing with &quot;legacy&quot;
+CBOR implementations.</td></tr>
+<tr><td style='text-align:center'><code><i>constrainedKeys</i></code></td><td style='text-align:center'><code>Boolean</code></td><td style='width:100%'>If <code>true</code> the decoder will throw exceptions if CBOR <code>map</code>
+key data types are not integers (major type 0 and 1) or
+text strings (major type 3), as well as if a specific <code>map</code>
+instance mixes key data types.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><code><i>Decoder</i></code></td><td colspan='2' style='width:100%'>Object for usage with
+<a href='#decoder.decodeextended'>decodeExtended()</a>.</td></tr>
+</table></div>
+<h5 id='decoder.decodeextended'>4.3 decodeExtended()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td style='width:100%'><code><i><i>Decoder</i></i>.decodeExtended()</code></td></tr>
+<tr><th>Description</th><td style='width:100%'>Decodes a CBOR object.
+If the <code>sequenceFlag</code> in the call to
+<a href='#decoder.cbor.initextended'>CBOR.initExtended()</a>
+is <code>true</code>, each call to <code>decodeExtended</code>
+causes the internal reader to move to the next (possible) CBOR object.
+When there are no more CBOR objects to read, this method returns <code>null</code>.</td></tr>
+<tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>CBOR wrapper object or <code>null</code>.</td></tr>
+</table></div>
+<h5 id='decoder.cbor.diagdecode'>4.4 CBOR.diagDecode()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.diagDecode(<i>cborText</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Converts hexadecimal data into binary.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>cborText</i></code></td><td style='text-align:center'><code>String</code></td><td style='width:100%'>Input data in hexadecimal notation.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td colspan='2' style='width:100%'>The resulting binary (bytes).</td></tr>
+</table></div>
+<h5 id='decoder.cbor.diagdecodesequence'>4.5 CBOR.diagDecodeSequence()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.diagDecodeSequence(<i>cborText</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Converts hexadecimal data into binary.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>cborText</i></code></td><td style='text-align:center'><code>String</code></td><td style='width:100%'>Input data in hexadecimal notation.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><code>Array</code></td><td colspan='2' style='width:100%'>The resulting binary (bytes).</td></tr>
+</table></div>
+
+  <h3 id='main.utility'>5 Utility Methods</h3>
+
+  The following utility methods are unrelated to CBOR but have been included
+  here because they are a part of the current CBOR.js implemention.
+  <h5 id='utility.cbor.tohex'>5.1 CBOR.toHex()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.toHex(<i>byteArray</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Converts binary data to hexadecimal.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>byteArray</i></code></td><td style='text-align:center'><code>Uint8Array</code></td><td style='width:100%'>The data (bytes) to be converted.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><code>String</code></td><td colspan='2' style='width:100%'>Hexadecimal encoded data.</td></tr>
+</table></div>
+<h5 id='utility.cbor.fromhex'>5.2 CBOR.fromHex()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.fromHex(<i>hexString</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Converts hexadecimal data into binary.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>hexString</i></code></td><td style='text-align:center'><code>String</code></td><td style='width:100%'>Input data in hexadecimal notation.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><code>Uint8Array</code></td><td colspan='2' style='width:100%'>The resulting binary (bytes).</td></tr>
+</table></div>
+<h5 id='utility.cbor.tobase64url'>5.3 CBOR.toBase64Url()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.toBase64Url(<i>byteArray</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Converts binary data to base64Url.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>byteArray</i></code></td><td style='text-align:center'><code>Uint8Array</code></td><td style='width:100%'>The data (bytes) to be converted.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><code>String</code></td><td colspan='2' style='width:100%'>Base64Url encoded data.</td></tr>
+</table></div>
+<h5 id='utility.cbor.frombase64url'>5.4 CBOR.fromBase64Url()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.fromBase64Url(<i>base64</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Converts base64Url encoded data into binary.
+Note that this method is <i>permissive</i>; it accepts
+base64 encoded data as well as data with or without
+<code>'='</code> padding.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>base64</i></code></td><td style='text-align:center'><code>String</code></td><td style='width:100%'>Input data in base64Url notation.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><code>Uint8Array</code></td><td colspan='2' style='width:100%'>The resulting binary (bytes).</td></tr>
+</table></div>
+
+  <h3 id='main.jsnumbers'>6 JavaScript Number Considerations</h3>
+
   Since JavaScript <i>natively</i> only supports <code>Number</code> (backed
   by 64-bit IEEE&nbsp;754 floating point data), and <code>BigInt</code>
   (offering unlimited integers), it is important to understand how these
-  number types can be mapped to CBOR which offers
+  number types are mapped to CBOR which offers
   two variants of integers and three variants of floating point types.
-  <h5 id=js-integers>Integer Numbers</h5>
+  <h5 id='jsnumbers.int'>6.1 Integer Numbers</h5>
+
   Due to the <code>Number.MAX_SAFE_INTEGER</code> limitation, CBOR documents using
   integer elements with a magnitude in excess of 53 bits, must
   for such elements turn to <code>BigInt</code>,
-  otherwise run-time errors may occurr when accessing integer data using ${getInt()} or
-  during creation of integers using ${CBOR.Int(Number)}.
-  That is, for creation of such integers, ${CBOR.BigInt(BigInt)}
-  is the proper solution, while access requires ${getBigInt()}.
-  <h5 id='js-floating-point'>Floating Point Numbers</h5>
+  otherwise run-time errors may occurr when accessing integer data using
+  <a href='#cbor.int.getint'>getInt()</a> or
+  during creation of integers using
+  <a href='#wrapper.cbor.int'>CBOR.Int(Number)</a>.
+  That is, for creation of such integers,
+  <a href='#wrapper.cbor.bigint'>CBOR.BigInt(BigInt)</a>.
+  is the proper solution, while access requires
+  <a href='#cbor.bigint.getbigint'>getBigInt()</a>.
+  <h5 id='jsnumbers.fp'>6.2 Floating Point Numbers</h5>
+
   Although CBOR encoding depends on 16, 32, and 64-bit IEEE&nbsp;754
   variants, the CBOR.js implementation makes this
   transparent; the API only exposes the <code>Number</code> type.
-  <h3 id='diagnostic-notation'>Diagnostic Notation</h3>
-  Through the ${CBOR.decodeDiagnosticNotation(String)} method, CBOR data may be provided
+  <h3 id='main.diagnostic'>7 Diagnostic Notation</h3>
+
+  Through the <a href='#decoder.cbor.diagdecode'>diagDecode()</a>
+  method, CBOR data may be provided
   in diagnostic (textual) notation (as described in section 8 of RFC&nbsp;8949),
   making CBOR useful for "config" and test data files as well.
   <p>
-    By adhering to the
+    Due to the
     <a href='#deterministic-encoding'>Deterministic Encoding</a>
-    scheme above, CBOR data can be <i>bidirectionally</i>
+    scheme used by CBOR.js, CBOR data can be <i>bidirectionally</i>
     converted between its native (binary) format and diagnostic notation
     without getting corrupted.  Note though that text-binary-text "roundtrips"
     do not necessarily return identical text: <code>0x10</code> used
@@ -157,7 +428,8 @@
     diagnostic notation output.
   </p>
   <p>
-    Creating CBOR data in diagnostic notation is provided by ${toString()}.
+    Creating CBOR data in diagnostic notation is provided by
+    <a href='#common.tostring'>toString()</a>.
   </p>
   The following table shows how CBOR objects should be represented in
   diagnostic notation:
@@ -267,7 +539,7 @@
       <tr><td><code>null</code></td><td><code>null</code></td><td></td><td>Null value.</td></tr>
       <tr>
         <td><code>array</code></td>
-        <td><code>[</code>&nbsp;<i>elements</i>&nbsp;<code>]</code></td>
+        <td><code>[</code>&nbsp;<i>objects</i>&nbsp;<code>]</code></td>
         <td></td>
         <td>Array with zero or more comma separated CBOR objects.</td>
       </tr>
@@ -289,8 +561,8 @@
     </table>
   </div>
   <ol style='margin:0 0'>
-    <li>The letter <i>n</i> in the <code>Syntax</code> column denotes one or more digits.</li>
-    <li>The optional {<i>sign</i>} must be a single hyphen (<code>'-'</code>) character.</li>
+    <li>The letter <code><i>n</i></code> in the Syntax column denotes one or more digits.</li>
+    <li>The optional <code>{<i>sign</i>}</code> must be a single hyphen (<code>'-'</code>) character.</li>
     <li>
       Whitespace characters
       (<code>' '</code>, <code>'\t'</code>, <code>'\r'</code>, <code>'\n'</code>)
@@ -314,5 +586,8 @@
     <li>Zero-length strings (<code>''</code>) return byte strings of length zero.</li>
     <li>The IETF have yet to define a single line comment.</li>
   </ol>
+<h3 id='main.deterministic'>8 Deterministic Encoding</h3>
+
+  blah
 </body>
 </html>
