@@ -87,7 +87,7 @@ export default class CBOR {
     }
 
     toDiag = function(prettyPrint) {
-      let cborPrinter = new CBOR.#CborPrinter(CBOR.#typeCheck(prettyPrint, 'boolean'));
+      let cborPrinter = new CBOR.#CborPrinter(CBOR.#typeCheck(prettyPrint, 'Boolean'));
       this.internalToString(cborPrinter);
       return cborPrinter.buffer;
     }
@@ -247,7 +247,7 @@ export default class CBOR {
     // JavaScript "BigInt" object is used for maintaining lossless represention of large integers.
     constructor(value) {
       super();
-      this.#value = CBOR.#typeCheck(value, 'bigint');
+      this.#value = CBOR.#typeCheck(value, 'BigInt');
     }
     
     encode = function() {
@@ -283,7 +283,7 @@ export default class CBOR {
 
     constructor(value) {
       super();
-      this.#value = CBOR.#typeCheck(value, 'number');
+      this.#value = CBOR.#typeCheck(value, 'Number');
       // Begin catching the F16 edge cases.
       this.#tag = CBOR.#MT_FLOAT16;
       if (Number.isNaN(value)) {
@@ -412,7 +412,7 @@ export default class CBOR {
 
     constructor(textString) {
       super();
-      this.#textString = CBOR.#typeCheck(textString, 'string');
+      this.#textString = CBOR.#typeCheck(textString, 'String');
     }
     
     encode = function() {
@@ -488,7 +488,7 @@ export default class CBOR {
 
     constructor(value) {
       super();
-      this.#value = CBOR.#typeCheck(value, 'boolean');
+      this.#value = CBOR.#typeCheck(value, 'Boolean');
     }
     
     encode = function() {
@@ -1597,14 +1597,14 @@ export default class CBOR {
   }
 
   static #typeCheck = function(object, type) {
-    if (typeof object != type) {
+    if (typeof object != type.toLowerCase()) {
       CBOR.#error("Argument is not a '" + type + "'");
     }
     return object;
   }
 
   static #intCheck = function(value) {
-    CBOR.#typeCheck(value, 'number');
+    CBOR.#typeCheck(value, 'Number');
     if (!Number.isSafeInteger(value)) {
       CBOR.#error(Number.isInteger(value) ? "Argument is outside of Number.MAX_SAFE_INTEGER" :
                   "Argument is not an integer");
@@ -1780,5 +1780,4 @@ export default class CBOR {
     return Uint8Array.from(atob(base64.replace(/-/g, '+').replace(/_/g, '/')),
                            c => c.charCodeAt(0));
   }
-
 }

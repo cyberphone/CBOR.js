@@ -44,13 +44,13 @@ try {
   CBOR.Int("10");
   fail("Should not");
 } catch (error) {
-  assertTrue("msg2", error.toString().includes("Argument is not a 'number'"));
+  assertTrue("msg2", error.toString().includes("Argument is not a 'Number'"));
 }
 try {
   CBOR.BigInt("10");
   fail("Should not");
 } catch (error) {
-  assertTrue("msg3", error.toString().includes("Argument is not a 'bigint'"));
+  assertTrue("msg3", error.toString().includes("Argument is not a 'BigInt'"));
 }
 try {
   CBOR.BigInt(1n, 7);
