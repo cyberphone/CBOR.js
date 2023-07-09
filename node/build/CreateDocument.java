@@ -26,7 +26,7 @@ public class CreateDocument {
   
   static final String W_GETINT_RETURN_DESCR = 
   """
-  Decoded CBOR integer.""";
+  Decoded integer.""";
 
   // CBOR.BigInt
 
@@ -44,7 +44,7 @@ public class CreateDocument {
   
   static final String W_GETBIGINT_RETURN_DESCR = 
   """
-  Decoded CBOR big integer.""";
+  Decoded big integer.""";
 
   // CBOR.Float
 
@@ -126,6 +126,22 @@ public class CreateDocument {
   static final String W_GETBOOLEAN_RETURN_DESCR = 
   """
   Decoded boolean.""";
+
+  // CBOR.Boolean
+
+  static final String W_NULL_DESCR = 
+  """
+  Constructor.  Creates a CBOR <code>null</code> wrapper object.""";
+    
+  static final String W_ISNULL_DESCR = 
+  """
+  Reads CBOR null.""";
+  
+  static final String W_ISNULL_RETURN_DESCR = 
+  """
+  Returns <code>true</code> if the current object
+  holds a CBOR <code>null</code> item, otherwise <code>false</code>
+  is returned.""";
 
   // CBOR.Array
 
@@ -248,15 +264,56 @@ public class CreateDocument {
   Renders this object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
   Equivalent to <a href='#common.todiag'>toDiag(true)</a>.""";
 
+   // CBOR.addArrays()
+
+  static final String ADDARRAYS_DESCR = 
+  """
+  Adds two arrays.""";
+  
+  static final String ADDARRAYS_P1_DESCR = 
+  """
+  First array.""";
+
+  static final String ADDARRAYS_P2_DESCR = 
+  """
+  Second array.""";
+
+  static final String ADDARRAYS_RETURN_DESCR = 
+  """
+  Concatenation of array <code><i>a</i></code> and <code><i>b</i></code>.""";
+
+   // CBOR.compareArrays()
+
+  static final String CMPARRAYS_DESCR = 
+  """
+ Compares two arrays lexicographically.""";
+  
+  static final String CMPARRAYS_P1_DESCR = 
+  """
+  First array.""";
+
+  static final String CMPARRAYS_P2_DESCR = 
+  """
+  Second array.""";
+
+  static final String CMPARRAYS_RETURN_DESCR = 
+  """
+  If <code><i>a</i></code> and <code><i>b</i></code> are identical,
+  <code>0</code> is retuned. 
+  If <code><i>a</i>&nbsp;&gt;&nbsp;<i>b</i></code>,
+  a positive number is returned.
+  If <code><i>a</i>&nbsp;&lt;&nbsp;<i>b</i></code>,
+  a negative number is returned.""";
+
   // CBOR.toHex()
 
   static final String TOHEX_DESCR = 
   """
-  Converts binary data to hexadecimal.""";
+  Encodes binary data to hexadecimal.""";
   
   static final String TOHEX_P1_DESCR = 
   """
-  The data (bytes) to be converted.""";
+  Zero or bytes to be encoded.""";
 
   static final String TOHEX_RETURN_DESCR = 
   """
@@ -266,7 +323,7 @@ public class CreateDocument {
 
   static final String FROMHEX_DESCR = 
   """
-  Converts hexadecimal data into binary.""";
+  Decodes hexadecimal data into binary.""";
   
   static final String FROMHEX_P1_DESCR = 
   """
@@ -280,11 +337,11 @@ public class CreateDocument {
 
   static final String TOB64U_DESCR = 
   """
-  Converts binary data to base64Url.""";
+  Encodes binary data to base64Url.""";
   
   static final String TOB64U_P1_DESCR = 
   """
-  The data (bytes) to be converted.""";
+  Zero or more bytes to be encoded.""";
 
   static final String TOB64U_RETURN_DESCR = 
   """
@@ -294,7 +351,7 @@ public class CreateDocument {
 
   static final String FROMB64U_DESCR = 
   """
-  Converts base64Url encoded data into binary.
+  Decodes base64Url encoded data into binary.
   Note that this method is <i>permissive</i>; it accepts
   base64 encoded data as well as data with or without
   <code>'='</code> padding.""";
@@ -907,6 +964,13 @@ public class CreateDocument {
       .addMethod("getBoolean", W_GETBOOLEAN_DESCR)
       .setReturn(DataTypes.JS_BOOLEAN, W_GETBOOLEAN_RETURN_DESCR);
 
+      // CBOR.Null
+
+    addWrapper(DataTypes.CBOR_NULL, W_NULL_DESCR)
+
+      .addMethod("isNull", W_ISNULL_DESCR)
+      .setReturn(DataTypes.JS_BOOLEAN, W_ISNULL_RETURN_DESCR);
+
       // CBOR.Array
 
     addWrapper(DataTypes.CBOR_ARRAY, W_ARRAY_DESCR)
@@ -977,17 +1041,39 @@ public class CreateDocument {
       .addParameter("cborText", DataTypes.JS_STRING, FROMHEX_P1_DESCR)
       .setReturn(DataTypes.JS_ARRAY, FROMHEX_RETURN_DESCR);
 
+       // CBOR.addArrays()
+
+    addUtilityMethod("CBOR.addArrays", ADDARRAYS_DESCR)
+      .addParameter("a", DataTypes.JS_UINT8ARRAY, ADDARRAYS_P1_DESCR)
+      .addParameter("b", DataTypes.JS_UINT8ARRAY, ADDARRAYS_P2_DESCR)
+      .setReturn(DataTypes.JS_UINT8ARRAY, ADDARRAYS_RETURN_DESCR);
+
+       // CBOR.compareArrays()
+
+    addUtilityMethod("CBOR.compareArrays", CMPARRAYS_DESCR)
+      .addParameter("a", DataTypes.JS_UINT8ARRAY, CMPARRAYS_P1_DESCR)
+      .addParameter("b", DataTypes.JS_UINT8ARRAY, CMPARRAYS_P2_DESCR)
+      .setReturn(DataTypes.JS_NUMBER, CMPARRAYS_RETURN_DESCR);
+
+      // CBOR.toHex()
+
     addUtilityMethod("CBOR.toHex", TOHEX_DESCR)
       .addParameter("byteArray", DataTypes.JS_UINT8ARRAY, TOHEX_P1_DESCR)
       .setReturn(DataTypes.JS_STRING, TOHEX_RETURN_DESCR);
+
+      // CBOR.fromHex()
 
     addUtilityMethod("CBOR.fromHex", FROMHEX_DESCR)
       .addParameter("hexString", DataTypes.JS_STRING, FROMHEX_P1_DESCR)
       .setReturn(DataTypes.JS_UINT8ARRAY, FROMHEX_RETURN_DESCR);
 
+      // CBOR.toBase64Url()
+
     addUtilityMethod("CBOR.toBase64Url", TOB64U_DESCR)
       .addParameter("byteArray", DataTypes.JS_UINT8ARRAY, TOB64U_P1_DESCR)
       .setReturn(DataTypes.JS_STRING, TOB64U_RETURN_DESCR);
+
+      // CBOR.fromBase64Url()
 
     addUtilityMethod("CBOR.fromBase64Url", FROMB64U_DESCR)
       .addParameter("base64", DataTypes.JS_STRING, FROMB64U_P1_DESCR)

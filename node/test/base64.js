@@ -16,9 +16,12 @@ S4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY\
 ZqbnJ2en6ChoqOkpaanqKmqq6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz\
 9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/w==';
 
-// fromBase64Url is "lenient" and takes Base64 as well...
+// fromBase64Url is "permissive" and takes Base64 with padding as well...
 assertFalse("cmp2", CBOR.compareArrays(bin, CBOR.fromBase64Url(b64)));
 
 assertFalse("cmp3", CBOR.compareArrays(CBOR.fromBase64Url('oQVkZGF0YQ'), 
                                        CBOR.fromHex('a1056464617461')));
+// Zero data is compliant
+assertFalse("cmp4", CBOR.compareArrays(CBOR.fromBase64Url(''), new Uint8Array()));
+assertTrue("cmp4", CBOR.toBase64Url(new Uint8Array()) == "");
 success();
