@@ -9,6 +9,7 @@ public class CreateDocument {
   """
   Wrapper object.""";
 
+  // CBOR.Int
 
   static final String W_INT_DESCR = 
   """
@@ -19,15 +20,15 @@ public class CreateDocument {
   """
   Integer to be wrapped.""";
 
-
-  static final String GETINT_DESCR = 
+    static final String W_GETINT_DESCR = 
   """
   Reads CBOR integer.""";
   
-  static final String GETINT_RETURN_DESCR = 
+  static final String W_GETINT_RETURN_DESCR = 
   """
   Decoded CBOR integer.""";
 
+  // CBOR.BigInt
 
   static final String W_BIGINT_DESCR = 
   """
@@ -37,15 +38,15 @@ public class CreateDocument {
   """
   Big integer to be wrapped.""";
 
-
-  static final String GETBIGINT_DESCR = 
+  static final String W_GETBIGINT_DESCR = 
   """
   Reads CBOR big integer.""";
   
-  static final String GETBIGINT_RETURN_DESCR = 
+  static final String W_GETBIGINT_RETURN_DESCR = 
   """
   Decoded CBOR big integer.""";
 
+  // CBOR.Float
 
   static final String W_FLOAT_DESCR = 
   """
@@ -54,56 +55,153 @@ public class CreateDocument {
     
   static final String W_FLOAT_P1_DESCR = 
   """
-  Float to be wrapped.""";
+  Floating point number to be wrapped.""";
 
 
-  static final String GETFLOAT_DESCR = 
+  static final String W_GETFLOAT_DESCR = 
   """
-  Reads CBOR float.""";
+  Reads CBOR float point object.""";
   
-  static final String GETFLOAT_RETURN_DESCR = 
+  static final String W_GETFLOAT_RETURN_DESCR = 
   """
-  Decoded CBOR float.""";
+  Decoded floating pointing number.""";
 
-  static final String FLOAT_PROP_DESCR = 
+  static final String W_FLOAT_PROP_DESCR = 
   """
   Length in bytes of the underlying CBOR IEEE 754 type."""; 
 
+  // CBOR.String
+
+  static final String W_STRING_DESCR = 
+  """
+  Constructor.  Creates a CBOR text string wrapper object.""";
+    
+  static final String W_STRING_P1_DESCR = 
+  """
+  String to be wrapped.""";
+
+
+  static final String W_GETSTRING_DESCR = 
+  """
+  Reads CBOR text string.""";
+  
+  static final String W_GETSTRING_RETURN_DESCR = 
+  """
+  Decoded text string.""";
+
+  // CBOR.Bytes
+
+  static final String W_BYTES_DESCR = 
+  """
+  Constructor.  Creates a CBOR byte string wrapper object.""";
+    
+  static final String W_BYTES_P1_DESCR = 
+  """
+  Binary data to be wrapped.""";
+
+
+  static final String W_GETBYTES_DESCR = 
+  """
+  Reads CBOR byte string.""";
+  
+  static final String W_GETBYTES_RETURN_DESCR = 
+  """
+  Decoded byte string.""";
+
+  // CBOR.Boolean
+
+  static final String W_BOOLEAN_DESCR = 
+  """
+  Constructor.  Creates a CBOR boolean wrapper object.""";
+    
+  static final String W_BOOLEAN_P1_DESCR = 
+  """
+  Boolean to be wrapped.""";
+
+
+  static final String W_GETBOOLEAN_DESCR = 
+  """
+  Reads CBOR boolean.""";
+  
+  static final String W_GETBOOLEAN_RETURN_DESCR = 
+  """
+  Decoded boolean.""";
+
+  // CBOR.Array
 
   static final String W_ARRAY_DESCR = 
   """
   Constructor.  Creates a CBOR array wrapper object.""";
   
 
-  static final String ARRAY_ADD_DESCR = 
+  static final String W_ARRAY_ADD_DESCR = 
   """
   Adds CBOR wrapper object to the array.""";
 
-  static final String ARRAY_ADD_P1_DESCR = 
+  static final String W_ARRAY_ADD_P1_DESCR = 
   """
-  Object to add.""";
+  Object to be appended to the current array.""";
   
-  static final String ARRAY_ADD_RETURN_DESCR = 
+  static final String W_ARRAY_ADD_RETURN_DESCR = 
   """
   Current object.""";
 
 
-  static final String ARRAY_GET_DESCR = 
+  static final String W_ARRAY_GET_DESCR = 
   """
   Fetches CBOR wrapper object.""";
 
-  static final String ARRAY_GET_P1_DESCR = 
+  static final String W_ARRAY_GET_P1_DESCR = 
   """
   Index <code>(0..length-1)</code> of object.""";
   
-  static final String ARRAY_GET_RETURN_DESCR = 
+  static final String W_ARRAY_GET_RETURN_DESCR = 
   """
   Retrieved object.""";    
   
-  static final String ARRAY_PROP_DESCR = 
+  static final String W_ARRAY_PROP_DESCR = 
   """
   Number of objects in the array."""; 
 
+  // CBOR.Map
+
+  static final String W_MAP_DESCR = 
+  """
+  Constructor.  Creates a CBOR map wrapper object.""";
+
+  // CBOR.Tag
+
+  static final String W_TAG_DESCR = 
+  """
+  Constructor.  Creates a CBOR tag wrapper object.""";
+
+  static final String W_TAG_P1_DESCR = 
+  """
+  Tag number.  Note that this constructor also accepts <code>Number</code>.""";
+
+  static final String W_TAG_P2_DESCR = 
+  """
+  Object to be wrapped in a tag.""";
+
+
+  static final String W_TAG_GETNUM_DESCR = 
+  """
+  Reads CBOR tag number.""";
+  
+  static final String W_TAG_GETNUM_RETURN_DESCR = 
+  """
+  Decoded tag number.""";
+
+
+  static final String W_TAG_GETOBJ_DESCR = 
+  """
+  Reads tagged CBOR object.""";
+  
+  static final String W_TAG_GETOBJ_RETURN_DESCR = 
+  """
+  Retrieved object.""";
+
+  // clone()
 
   static final String CLONE_DESCR = 
   """
@@ -113,6 +211,7 @@ public class CreateDocument {
   """
   Copy of object.""";
 
+  // equals()
 
   static final String EQUALS_DESCR = 
   """
@@ -127,6 +226,7 @@ public class CreateDocument {
   <code>true</code> if this object is equal to <code><i>object</i></code>;
   <code>false</code> otherwise.""";
 
+  // toDiag()
 
   static final String TODIAG_DESCR = 
   """
@@ -148,6 +248,7 @@ public class CreateDocument {
   Renders this object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
   Equivalent to <a href='#common.todiag'>toDiag(true)</a>.""";
 
+  // CBOR.toHex()
 
   static final String TOHEX_DESCR = 
   """
@@ -161,6 +262,7 @@ public class CreateDocument {
   """
   Hexadecimal encoded data.""";
 
+  // CBOR.fromHex()
 
   static final String FROMHEX_DESCR = 
   """
@@ -168,12 +270,13 @@ public class CreateDocument {
   
   static final String FROMHEX_P1_DESCR = 
   """
-  Input data in hexadecimal notation.""";
+  String with zero or more hexadecimal pairs (<code>hh</code>).""";
 
   static final String FROMHEX_RETURN_DESCR = 
   """
   The resulting binary (bytes).""";
 
+  // CBOR.toBase64Url()
 
   static final String TOB64U_DESCR = 
   """
@@ -187,6 +290,7 @@ public class CreateDocument {
   """
   Base64Url encoded data.""";
 
+  // CBOR.fromBase64Url()
 
   static final String FROMB64U_DESCR = 
   """
@@ -197,12 +301,13 @@ public class CreateDocument {
   
   static final String FROMB64U_P1_DESCR = 
   """
-  Input data in base64Url notation.""";
+  String in base64Url notation.  The string may be empty.""";
 
   static final String FROMB64U_RETURN_DESCR = 
   """
   The resulting binary (bytes).""";
 
+  // CBOR.decode()
 
   static final String DECODE_DESCR = 
   """
@@ -219,6 +324,7 @@ public class CreateDocument {
   """
   CBOR wrapper object.""";
 
+  // CBOR.initExtended()
 
   static final String INITEXT_DESCR = 
   """
@@ -245,7 +351,7 @@ public class CreateDocument {
   CBOR implementations.""";
 
   static final String INITEXT_P4_DESCR = 
- """
+  """
   If <code>true</code> the decoder will throw exceptions if CBOR <code>map</code>
   key data types are not integers (major type 0 and 1) or 
   text strings (major type 3), as well as if a specific <code>map</code>
@@ -256,6 +362,7 @@ public class CreateDocument {
   Object for usage with
   <a href='#decoder.decodeextended'>decodeExtended()</a>.""";
 
+  // decodeExtended()
 
   static final String DECODEEXT_DESCR = 
   """
@@ -371,6 +478,7 @@ public class CreateDocument {
     JS_NUMBER("Number"),
     JS_ARRAY("Array"),
     JS_BIGINT("BigInt"),
+    JS_BIGINT_PLUS("BigInt*"), 
     JS_BOOLEAN("Boolean"),
     JS_STRING("String"),
     JS_UINT8ARRAY("Uint8Array");
@@ -749,37 +857,87 @@ public class CreateDocument {
   CreateDocument(String templateFileName, String documentFileName) {
     template = UTF8.decode(IO.readFile(templateFileName));
 
+    // CBOR.Int
+
     addWrapper(DataTypes.CBOR_INT, W_INT_DESCR)
       .addWrapperParameter("value", DataTypes.JS_NUMBER, W_INT_P1_DESCR)
 
-      .addMethod("getInt", GETINT_DESCR)
-      .setReturn(DataTypes.JS_NUMBER, GETINT_RETURN_DESCR);
+      .addMethod("getInt", W_GETINT_DESCR)
+      .setReturn(DataTypes.JS_NUMBER, W_GETINT_RETURN_DESCR);
+
+    // CBIR.BigInt
 
     addWrapper(DataTypes.CBOR_BIGINT, W_BIGINT_DESCR)
       .addWrapperParameter("value", DataTypes.JS_BIGINT, W_BIGINT_P1_DESCR)
 
-      .addMethod("getBigInt", GETBIGINT_DESCR)
-      .setReturn(DataTypes.JS_BIGINT, GETBIGINT_RETURN_DESCR);
+      .addMethod("getBigInt", W_GETBIGINT_DESCR)
+      .setReturn(DataTypes.JS_BIGINT, W_GETBIGINT_RETURN_DESCR);
+
+     // CBOR.Float
 
     addWrapper(DataTypes.CBOR_FLOAT, W_FLOAT_DESCR)
       .addWrapperParameter("value", DataTypes.JS_NUMBER, W_FLOAT_P1_DESCR)
 
-      .addMethod("getFloat", GETFLOAT_DESCR)
-      .setReturn(DataTypes.JS_NUMBER, GETFLOAT_RETURN_DESCR)
+      .addMethod("getFloat", W_GETFLOAT_DESCR)
+      .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
 
-      .setProperty("length", DataTypes.JS_NUMBER, FLOAT_PROP_DESCR);
+      .setProperty("length", DataTypes.JS_NUMBER, W_FLOAT_PROP_DESCR);
+
+      // CBOR.String
+
+    addWrapper(DataTypes.CBOR_STRING, W_STRING_DESCR)
+      .addWrapperParameter("textString", DataTypes.JS_STRING, W_STRING_P1_DESCR)
+
+      .addMethod("getString", W_GETSTRING_DESCR)
+      .setReturn(DataTypes.JS_STRING, W_GETSTRING_RETURN_DESCR);
+
+      // CBOR.Bytes
+
+    addWrapper(DataTypes.CBOR_BYTES, W_BYTES_DESCR)
+      .addWrapperParameter("byteString", DataTypes.JS_UINT8ARRAY, W_BYTES_P1_DESCR)
+
+      .addMethod("getBytes", W_GETBYTES_DESCR)
+      .setReturn(DataTypes.JS_UINT8ARRAY, W_GETBYTES_RETURN_DESCR);
+
+      // CBOR.Boolean
+
+    addWrapper(DataTypes.CBOR_BOOL, W_BOOLEAN_DESCR)
+      .addWrapperParameter("value", DataTypes.JS_BOOLEAN, W_BOOLEAN_P1_DESCR)
+
+      .addMethod("getBoolean", W_GETBOOLEAN_DESCR)
+      .setReturn(DataTypes.JS_BOOLEAN, W_GETBOOLEAN_RETURN_DESCR);
+
+      // CBOR.Array
 
     addWrapper(DataTypes.CBOR_ARRAY, W_ARRAY_DESCR)
 
-      .addMethod("add", ARRAY_ADD_DESCR)
-      .addParameter("object", DataTypes.CBOR_Any, ARRAY_ADD_P1_DESCR)
-      .setReturn(DataTypes.JS_THIS, ARRAY_ADD_RETURN_DESCR)
+      .addMethod("add", W_ARRAY_ADD_DESCR)
+      .addParameter("object", DataTypes.CBOR_Any, W_ARRAY_ADD_P1_DESCR)
+      .setReturn(DataTypes.JS_THIS, W_ARRAY_ADD_RETURN_DESCR)
 
-      .addMethod("get", ARRAY_GET_DESCR)
-      .addParameter("index", DataTypes.JS_NUMBER, ARRAY_GET_P1_DESCR)
-      .setReturn(DataTypes.CBOR_Any, ARRAY_GET_RETURN_DESCR)
+      .addMethod("get", W_ARRAY_GET_DESCR)
+      .addParameter("index", DataTypes.JS_NUMBER, W_ARRAY_GET_P1_DESCR)
+      .setReturn(DataTypes.CBOR_Any, W_ARRAY_GET_RETURN_DESCR)
 
-      .setProperty("length", DataTypes.JS_NUMBER, ARRAY_PROP_DESCR);
+      .setProperty("length", DataTypes.JS_NUMBER, W_ARRAY_PROP_DESCR);
+
+      // CBOR.Map
+
+    addWrapper(DataTypes.CBOR_MAP, W_MAP_DESCR);
+
+      // CBOR.Tag
+
+    addWrapper(DataTypes.CBOR_TAG, W_TAG_DESCR)
+      .addWrapperParameter("tagNumber", DataTypes.JS_BIGINT_PLUS, W_TAG_P1_DESCR)
+      .addWrapperParameter("object", DataTypes.CBOR_Any, W_TAG_P2_DESCR)
+
+      .addMethod("getTagNumber", W_TAG_GETNUM_DESCR)
+      .setReturn(DataTypes.JS_BIGINT, W_TAG_GETNUM_RETURN_DESCR)
+
+      .addMethod("getTaggedObject", W_TAG_GETOBJ_DESCR)
+      .setReturn(DataTypes.CBOR_Any, W_TAG_GETOBJ_RETURN_DESCR);
+
+    // Common
 
     addCommonMethod("clone", CLONE_DESCR)
       .setReturn(DataTypes.CBOR_Any, CLONE_RETURN_DESCR);

@@ -19,7 +19,7 @@ function oneTurn(cbor, ok) {
   }
 }
 
-oneTurn(CBOR.Map().set(CBOR.Bool(true), CBOR.String("1")), false);
+oneTurn(CBOR.Map().set(CBOR.Boolean(true), CBOR.String("1")), false);
 oneTurn(CBOR.Map()
     .set(CBOR.Int(0), CBOR.String("0"))
     .set(CBOR.Int(1), CBOR.String("1")), true);

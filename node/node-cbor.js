@@ -39,12 +39,16 @@ export default class CBOR {
       return this.#checkTypeAndGetValue(CBOR.Float);
     }
 
-    getBool = function() {
-      return this.#checkTypeAndGetValue(CBOR.Bool);
+    getBoolean = function() {
+      return this.#checkTypeAndGetValue(CBOR.Boolean);
     }
 
-    getNull = function() {
-      return this instanceof CBOR.Null;
+    isNull = function() {
+      if (this instanceof CBOR.Null) {
+        this.#readFlag = true;
+        return true;
+      }
+      return false;
     }
 
     getBigInt = function() {
@@ -404,22 +408,22 @@ export default class CBOR {
  
   static String = class extends CBOR.#CborObject {
 
-    #string;
+    #textString;
 
-    constructor(string) {
+    constructor(textString) {
       super();
-      this.#string = CBOR.#typeCheck(string, 'string');
+      this.#textString = CBOR.#typeCheck(textString, 'string');
     }
     
     encode = function() {
-      let utf8 = new TextEncoder().encode(this.#string);
+      let utf8 = new TextEncoder().encode(this.#textString);
       return CBOR.addArrays(CBOR.#encodeTagAndN(CBOR.#MT_STRING, utf8.length), utf8);
     }
 
     internalToString = function(cborPrinter) {
       cborPrinter.append('"');
-      for (let q = 0; q < this.#string.length; q++) {
-        let c = this.#string.charCodeAt(q);
+      for (let q = 0; q < this.#textString.length; q++) {
+        let c = this.#textString.charCodeAt(q);
         if (c <= 0x5c) {
           let escapedCharacter;
           if (escapedCharacter = CBOR.#ESCAPE_CHARACTERS[c]) {
@@ -443,7 +447,7 @@ export default class CBOR {
     }
 
     _get = function() {
-      return this.#string;
+      return this.#textString;
     }
   }
 
@@ -453,49 +457,50 @@ export default class CBOR {
  
   static Bytes = class extends CBOR.#CborObject {
 
-    #bytes;
+    #byteString;
 
-    constructor(bytes) {
+    constructor(byteString) {
       super();
-      this.#bytes = CBOR.#bytesCheck(bytes);
+      this.#byteString = CBOR.#bytesCheck(byteString);
     }
     
     encode = function() {
-      return CBOR.addArrays(CBOR.#encodeTagAndN(CBOR.#MT_BYTES, this.#bytes.length), this.#bytes);
+      return CBOR.addArrays(CBOR.#encodeTagAndN(CBOR.#MT_BYTES, this.#byteString.length), 
+                            this.#byteString);
     }
 
     internalToString = function(cborPrinter) {
-      cborPrinter.append("h'" + CBOR.toHex(this.#bytes) + "'");
+      cborPrinter.append("h'" + CBOR.toHex(this.#byteString) + "'");
     }
 
     _get = function() {
-      return this.#bytes;
+      return this.#byteString;
     }
   }
 
 ///////////////////////////
-//       CBOR.Bool       //
+//     CBOR.Boolean      //
 ///////////////////////////
  
-  static Bool = class extends CBOR.#CborObject {
+  static Boolean = class extends CBOR.#CborObject {
 
-    #bool;
+    #value;
 
-    constructor(bool) {
+    constructor(value) {
       super();
-      this.#bool = CBOR.#typeCheck(bool, 'boolean');
+      this.#value = CBOR.#typeCheck(value, 'boolean');
     }
     
     encode = function() {
-      return new Uint8Array([this.#bool ? CBOR.#MT_TRUE : CBOR.#MT_FALSE]);
+      return new Uint8Array([this.#value ? CBOR.#MT_TRUE : CBOR.#MT_FALSE]);
     }
 
     internalToString = function(cborPrinter) {
-      cborPrinter.append(this.#bool.toString());
+      cborPrinter.append(this.#value.toString());
     }
 
     _get = function() {
-      return this.#bool;
+      return this.#value;
     }
   }
 
@@ -851,7 +856,7 @@ export default class CBOR {
   static Float = new Proxy(CBOR.Float, new CBOR.#handler(1));
   static String = new Proxy(CBOR.String, new CBOR.#handler(1));
   static Bytes = new Proxy(CBOR.Bytes, new CBOR.#handler(1));
-  static Bool = new Proxy(CBOR.Bool, new CBOR.#handler(1));
+  static Boolean = new Proxy(CBOR.Boolean, new CBOR.#handler(1));
   static Null = new Proxy(CBOR.Null, new CBOR.#handler(0));
   static Array = new Proxy(CBOR.Array, new CBOR.#handler(0));
   static Map = new Proxy(CBOR.Map, new CBOR.#handler(0));
@@ -988,7 +993,7 @@ export default class CBOR {
  
         case CBOR.#MT_TRUE:
         case CBOR.#MT_FALSE:
-          return CBOR.Bool(tag == CBOR.#MT_TRUE);
+          return CBOR.Boolean(tag == CBOR.#MT_TRUE);
       }
       // Then decode CBOR types that blend length of data in the tag byte.
       let n = tag & 0x1f;
@@ -1261,11 +1266,11 @@ export default class CBOR {
         
         case 't':
           this.scanFor("rue");
-          return CBOR.Bool(true);
+          return CBOR.Boolean(true);
      
         case 'f':
           this.scanFor("alse");
-          return CBOR.Bool(false);
+          return CBOR.Boolean(false);
      
         case 'n':
           this.scanFor("ull");

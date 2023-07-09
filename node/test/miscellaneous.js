@@ -17,13 +17,19 @@ let cbor = CBOR.Map()
                              CBOR.Array()
                                  .add(CBOR.String("Bytes!"))
                                  .add(CBOR.Bytes(new Uint8Array([1,2,3,4,5])))
-                                 .add(CBOR.Bool(true))
-                                 .add(CBOR.Bool(false))
+                                 .add(CBOR.Boolean(true))
+                                 .add(CBOR.Boolean(false))
                                  .add(CBOR.Null())))
                .set(CBOR.Int(4), CBOR.String("Sure"))
                .set(CBOR.Int(2), CBOR.Float(-9.5367431640625e-7))
                .set(CBOR.Int(6), CBOR.BigInt(123456789123456789123456789n))
                .set(CBOR.Int(1), CBOR.Tag(500, CBOR.Array().add(CBOR.Int(45)))).encode();
-assertFalse("cmp", CBOR.compareArrays(bin, cbor));
+assertFalse("cmp1", CBOR.compareArrays(bin, cbor));
+let array = CBOR.decode(cbor).get(CBOR.Int(5)).get(CBOR.Int(9));
+assertTrue("bool1", array.get(2).getBoolean());
+assertFalse("bool1", array.get(3).getBoolean());
+assertFalse("null1", array.get(3).isNull());
+assertTrue("null2", array.get(4).isNull());
+assertFalse("cmp2", CBOR.compareArrays(CBOR.diagDecode(CBOR.decode(cbor).toString()).encode(), bin));
 
 success();
