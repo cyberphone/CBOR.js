@@ -944,7 +944,6 @@ class CBOR {
           significand *= Math.pow(2, (exponent / 0x400) - 1);
         }
         // Divide with: 2 ^ (Exponent offset + Size of significand - 1).
-        // -1: Because the algorithm does not normalize significands.
         f64 = significand / 0x1000000;
       }
       if (decoded[0] & 0x80) {
@@ -1092,10 +1091,10 @@ class CBOR {
 //  CBOR.initExtended()  //
 ///////////////////////////
 
-  static initExtended = function(cbor, sequenceFlag, acceptNonDeterministic, constrainedKeys) {
+  static initExtended = function(cbor, sequenceFlag, nonDeterministic, constrainedKeys) {
     return new CBOR.#_decoder(cbor, 
                               sequenceFlag,
-                              acceptNonDeterministic, 
+                              nonDeterministic, 
                               constrainedKeys);
   }
 
