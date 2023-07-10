@@ -185,6 +185,41 @@ public class CreateDocument {
   """
   Constructor.  Creates a CBOR map wrapper object.""";
 
+
+  static final String W_MAP_SET_DESCR = 
+  """
+  Sets map entry.""";
+
+  static final String W_MAP_SET_P1_DESCR = 
+  """
+  Key (name) wrapper object.""";
+
+  static final String W_MAP_SET_P2_DESCR = 
+  """
+  Value wrapper object.""";
+
+  static final String W_MAP_SET_RETURN_DESCR = 
+  """
+  Current object.""";  
+
+
+  static final String W_MAP_GET_DESCR = 
+  """
+  Gets map entry.""";
+
+  static final String W_MAP_GET_P1_DESCR = 
+  """
+  Key (name) wrapper object.""";
+
+  static final String W_MAP_GET_RETURN_DESCR = 
+  """
+  Retrieved object.""";
+
+
+  static final String W_MAP_PROP_DESCR = 
+  """
+  Number of map entries.""";
+  
   // CBOR.Tag
 
   static final String W_TAG_DESCR = 
@@ -193,7 +228,7 @@ public class CreateDocument {
 
   static final String W_TAG_P1_DESCR = 
   """
-  Tag number.  Note that this constructor also accepts <code>Number</code>.""";
+  Tag number.""";
 
   static final String W_TAG_P2_DESCR = 
   """
@@ -535,7 +570,6 @@ public class CreateDocument {
     JS_NUMBER("Number"),
     JS_ARRAY("Array"),
     JS_BIGINT("BigInt"),
-    JS_BIGINT_PLUS("BigInt*"), 
     JS_BOOLEAN("Boolean"),
     JS_STRING("String"),
     JS_UINT8ARRAY("Uint8Array");
@@ -987,12 +1021,23 @@ public class CreateDocument {
 
       // CBOR.Map
 
-    addWrapper(DataTypes.CBOR_MAP, W_MAP_DESCR);
+    addWrapper(DataTypes.CBOR_MAP, W_MAP_DESCR)
+
+      .addMethod("set", W_MAP_SET_DESCR)
+      .addParameter("key", DataTypes.CBOR_Any, W_MAP_SET_P1_DESCR)
+      .addParameter("value", DataTypes.CBOR_Any, W_MAP_SET_P2_DESCR)
+      .setReturn(DataTypes.JS_THIS, W_MAP_SET_RETURN_DESCR)
+
+      .addMethod("get", W_MAP_GET_DESCR)
+      .addParameter("key", DataTypes.CBOR_Any, W_MAP_GET_P1_DESCR)
+      .setReturn(DataTypes.CBOR_Any, W_MAP_GET_RETURN_DESCR)
+
+      .setProperty("length", DataTypes.JS_NUMBER, W_MAP_PROP_DESCR);
 
       // CBOR.Tag
 
     addWrapper(DataTypes.CBOR_TAG, W_TAG_DESCR)
-      .addWrapperParameter("tagNumber", DataTypes.JS_BIGINT_PLUS, W_TAG_P1_DESCR)
+      .addWrapperParameter("tagNumber", DataTypes.JS_BIGINT, W_TAG_P1_DESCR)
       .addWrapperParameter("object", DataTypes.CBOR_Any, W_TAG_P2_DESCR)
 
       .addMethod("getTagNumber", W_TAG_GETNUM_DESCR)

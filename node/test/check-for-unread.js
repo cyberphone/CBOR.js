@@ -55,11 +55,11 @@ oneTurn("CBOR.Array().add(CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
         "res.getArray().get(0).getMap().get(CBOR.Int(1)).getString()",
         true);
 
-oneTurn("CBOR.Tag(8, CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
+oneTurn("CBOR.Tag(8n, CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
         "res.getTag().getTaggedObject().getMap().get(CBOR.Int(1)).getString()",
         true);
 
-oneTurn("CBOR.Tag(8, CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
+oneTurn("CBOR.Tag(8n, CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
         // Missing getTag()
         "res.getTaggedObject().getMap().get(CBOR.Int(1)).getString()",
         false);

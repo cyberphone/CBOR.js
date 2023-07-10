@@ -23,7 +23,7 @@ let cbor = CBOR.Map()
                .set(CBOR.Int(4), CBOR.String("Sure"))
                .set(CBOR.Int(2), CBOR.Float(-9.5367431640625e-7))
                .set(CBOR.Int(6), CBOR.BigInt(123456789123456789123456789n))
-               .set(CBOR.Int(1), CBOR.Tag(500, CBOR.Array().add(CBOR.Int(45)))).encode();
+               .set(CBOR.Int(1), CBOR.Tag(500n, CBOR.Array().add(CBOR.Int(45)))).encode();
 assertFalse("cmp1", CBOR.compareArrays(bin, cbor));
 let array = CBOR.decode(cbor).get(CBOR.Int(5)).get(CBOR.Int(9));
 assertTrue("bool1", array.get(2).getBoolean());

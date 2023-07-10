@@ -52,11 +52,14 @@ S4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY\
 ZqbnJ2en6ChoqOkpaanqKmqq6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz\
 9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/w==';
 
-// fromBase64Url is "lenient" and takes Base64 as well...
+// fromBase64Url is "permissive" and takes Base64 with padding as well...
 assertFalse("cmp2", CBOR.compareArrays(bin, CBOR.fromBase64Url(b64)));
 
 assertFalse("cmp3", CBOR.compareArrays(CBOR.fromBase64Url('oQVkZGF0YQ'), 
                                        CBOR.fromHex('a1056464617461')));
+// Zero data is compliant
+assertFalse("cmp4", CBOR.compareArrays(CBOR.fromBase64Url(''), new Uint8Array()));
+assertTrue("cmp4", CBOR.toBase64Url(new Uint8Array()) == "");
 success();
 `}
 ,
@@ -116,11 +119,11 @@ oneTurn("CBOR.Array().add(CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
         "res.getArray().get(0).getMap().get(CBOR.Int(1)).getString()",
         true);
 
-oneTurn("CBOR.Tag(8, CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
+oneTurn("CBOR.Tag(8n, CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
         "res.getTag().getTaggedObject().getMap().get(CBOR.Int(1)).getString()",
         true);
 
-oneTurn("CBOR.Tag(8, CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
+oneTurn("CBOR.Tag(8n, CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
         // Missing getTag()
         "res.getTaggedObject().getMap().get(CBOR.Int(1)).getString()",
         false);
@@ -295,7 +298,7 @@ const hex = '0123456789abcdefABCDEF';
 let bin = CBOR.fromHex(hex);
 let cnv = CBOR.toHex(bin);
 assertFalse("hex", CBOR.compareArrays(bin, CBOR.fromHex(cnv)));
-let ref = new Uint8Array([0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef, 0xAB, 0xCD, 0xEF]);
+let ref = new Uint8Array([0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef, 0xab, 0xcd, 0xef]);
 assertFalse("bin", CBOR.compareArrays(bin, ref));
 try {
   CBOR.fromHex("AAA");
@@ -314,6 +317,8 @@ try {
     console.log(error);
   }
 }
+// Zero hex is accepted as well...
+assertFalse("zero", CBOR.compareArrays(CBOR.fromHex(''), new Uint8Array()));
 success();
 `}
 ,
@@ -362,13 +367,13 @@ try {
   CBOR.Int("10");
   fail("Should not");
 } catch (error) {
-  assertTrue("msg2", error.toString().includes("Argument is not a 'number'"));
+  assertTrue("msg2", error.toString().includes("Argument is not a 'Number'"));
 }
 try {
   CBOR.BigInt("10");
   fail("Should not");
 } catch (error) {
-  assertTrue("msg3", error.toString().includes("Argument is not a 'bigint'"));
+  assertTrue("msg3", error.toString().includes("Argument is not a 'BigInt'"));
 }
 try {
   CBOR.BigInt(1n, 7);
@@ -462,7 +467,7 @@ let cbor = CBOR.Map()
                .set(CBOR.Int(4), CBOR.String("Sure"))
                .set(CBOR.Int(2), CBOR.Float(-9.5367431640625e-7))
                .set(CBOR.Int(6), CBOR.BigInt(123456789123456789123456789n))
-               .set(CBOR.Int(1), CBOR.Tag(500, CBOR.Array().add(CBOR.Int(45)))).encode();
+               .set(CBOR.Int(1), CBOR.Tag(500n, CBOR.Array().add(CBOR.Int(45)))).encode();
 assertFalse("cmp1", CBOR.compareArrays(bin, cbor));
 let array = CBOR.decode(cbor).get(CBOR.Int(5)).get(CBOR.Int(9));
 assertTrue("bool1", array.get(2).getBoolean());
@@ -571,15 +576,8 @@ success();
 {name:'tags.js',
 file:String.raw`// Testing "tag"
 
-const TOO_BIG = Number.MAX_SAFE_INTEGER + 1;
-const IN_RANGE =  Number.MAX_SAFE_INTEGER;
-
-let cbor = CBOR.Tag(IN_RANGE, CBOR.Map()).encode();
-assertTrue("t1", CBOR.decode(cbor).getTagNumber()== BigInt(IN_RANGE));
-cbor = CBOR.Tag(BigInt(TOO_BIG), CBOR.Map()).encode();
-assertTrue("t2", CBOR.decode(cbor).getTagNumber()== BigInt(TOO_BIG));
 let object = CBOR.Array().add(CBOR.String("https://example.com/myobject")).add(CBOR.Int(6));
-cbor = CBOR.Tag(CBOR.Tag.RESERVED_TAG_COTX, object).encode();
+let cbor = CBOR.Tag(CBOR.Tag.RESERVED_TAG_COTX, object).encode();
 let tag = CBOR.decode(cbor);
 assertTrue("t3", tag.getTagNumber()== CBOR.Tag.RESERVED_TAG_COTX);
 assertTrue("t3.1", object.equals(tag.getTaggedObject()));
@@ -590,11 +588,11 @@ assertTrue("t14", CBOR.decode(cbor).getTagNumber()== 0xf0123456789abcden);
 assertTrue("t5", CBOR.toHex(cbor) == 
     "dbf0123456789abcde82781c68747470733a2f2f6578616d706c652e636f6d2f6d796f626a65637406");
 try {
-  CBOR.Tag(-1, CBOR.String("minus"));
+  CBOR.Tag(-1n, CBOR.String("minus"));
   throw Error("Should not");
 } catch (error) {
   if (!error.toString().includes("out of range")) {
-    console.log(error);
+    throw error;
   }
 }
 try {
@@ -602,7 +600,7 @@ try {
   throw Error("Should not");
 } catch (error) {
   if (!error.toString().includes("out of range")) {
-    console.log(error);
+    throw error;
   }
 }
 
@@ -611,13 +609,13 @@ try {
   throw Error("Should not");
 } catch (error) {
   if (!error.toString().includes("CBOR.Int")) {
-    console.log(error);
+    throw error;
   }
 }
 
 try {
   // Z or -+local offset needed.
-  CBOR.Tag(0, CBOR.String("2023-06-22T00:01:43"));
+  CBOR.Tag(0n, CBOR.String("2023-06-22T00:01:43"));
   throw Error("Should not");
 } catch (error) {
   if (!error.toString().includes("ISO")) {
@@ -627,7 +625,7 @@ try {
 
 try {
   // 24 hour is incorrect.
-  CBOR.Tag(0, CBOR.String("2023-06-22T24:01:43Z"));
+  CBOR.Tag(0n, CBOR.String("2023-06-22T24:01:43Z"));
   throw Error("Should not");
 } catch (error) {
   if (!error.toString().includes("ISO")) {

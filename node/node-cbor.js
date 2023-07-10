@@ -774,14 +774,11 @@ export default class CBOR {
 
     constructor(tagNumber, object) {
       super();
-      if (typeof tagNumber != 'bigint') {
-        tagNumber = BigInt(CBOR.#intCheck(tagNumber));
-      }
+      this.#tagNumber = CBOR.#typeCheck(tagNumber, 'BigInt');
+      this.#object = CBOR.#cborArgumentCheck(object);
       if (tagNumber < 0n || tagNumber >= 0x10000000000000000n) {
         CBOR.#error("Tag value is out of range");
       }
-      this.#tagNumber = tagNumber;
-      this.#object = CBOR.#cborArgumentCheck(object);
       if (tagNumber == CBOR.Tag.RESERVED_TAG_COTX) {
         if (object.constructor.name != CBOR.Array.name || object.length != 2 ||
             object.get(0).constructor.name != CBOR.String.name) {
