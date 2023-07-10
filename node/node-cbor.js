@@ -924,16 +924,16 @@ export default class CBOR {
     // 4. Optionally verify that '#encoded' is equal to the byte string read at step 1.
     // Maybe not the most performant solution, but hey, this is a "Reference Implementation" :)
     decompressF16AndReturn = function() {
-      let decoded = this.readBytes(2);
-      let unsignedF16 = ((decoded[0] & 0x7f) * 256) + decoded[1];
       let f64;
+      let decoded = this.readBytes(2);
+      let f16Binary = (decoded[0] << 8) + decoded[1];
+      let exponent = f16Binary & 0x7c00;
+      let significand = f16Binary & 0x3ff;
       // Catch the three cases of special/reserved numbers.
-      if ((unsignedF16 & 0x7c00) == 0x7c00) {
-        f64 = (unsignedF16 == 0x7c00) ? Number.POSITIVE_INFINITY : Number.NaN;
+      if (exponent == 0x7c00) {
+        f64 = significand ? Number.NaN : Number.POSITIVE_INFINITY;
       } else {
         // It is a genuine number.
-        let exponent = unsignedF16 & 0x7c00;
-        let significand = unsignedF16 - exponent;
         if (exponent) {
           // Normal representation, add the implicit "1.".
           significand += 0x400;
@@ -944,10 +944,7 @@ export default class CBOR {
         // Divide with: 2 ^ (Exponent offset + Size of significand - 1).
         f64 = significand / 0x1000000;
       }
-      if (decoded[0] & 0x80) {
-        f64 = -f64;
-      }
-      return this.compareAndReturn(decoded, f64);
+      return this.compareAndReturn(decoded, f16Binary >= 0x8000 ? -f64 : f64);
     }
 
     getObject = function() {
