@@ -175,6 +175,27 @@ public class CreateDocument {
   """
   Retrieved object.""";    
   
+
+  static final String W_ARRAY_TOARR_DESCR = 
+  """
+  Copies array.""";
+
+  static final String W_ARRAY_TOARR_RETURN_DESCR = 
+  "Shallow array copy of current <code>" + DataTypes.CBOR_Any + "</code> objects";   
+  
+
+  static final String W_ARRAY_GETARR_DESCR = 
+  """
+  Get array object.
+  Note: this method is redundant due to JavaScript's
+  lax typing system.  However, if you intend using
+  <a href='#common.checkforunread'>checkForUnread()</a>,
+  this method must be used before acessing array elements.""";
+
+  static final String W_ARRAY_GETARR_RETURN_DESCR = 
+  "Handle to array wrapper.";   
+  
+  
   static final String W_ARRAY_PROP_DESCR = 
   """
   Number of objects in the array."""; 
@@ -277,6 +298,33 @@ public class CreateDocument {
   <code>true</code> if this object is equal to <code><i>object</i></code>;
   <code>false</code> otherwise.""";
 
+  // scan()
+
+   static final String SCAN_DESCR = 
+  """
+  Scans current object as well as possíble child objects
+  in order to make them appear as &quot;read&quot;.
+  This is only meaningful in conjunction with
+  <a href='#common.checkforunread'>checkForUnread()</a>.""";
+  static final String SCAN_RETURN_DESCR = 
+  """
+  Current object.""";  
+
+  // checkForUnread()
+
+   static final String CHECK4_DESCR = 
+  """
+   Checks if the current object including
+   possible child objects have been read
+   (like calling <code>getInt()</code>).
+   If any of the associatd objects have not been read, an exception will be thrown.
+   The purpose of this is to detect possible
+   misunderstandings between parties using a
+   specific set of CBOR messages.""";
+  static final String CHECK4_RETURN_DESCR = 
+  """
+  Current object.""";  
+
   // toDiag()
 
   static final String TODIAG_DESCR = 
@@ -321,7 +369,7 @@ public class CreateDocument {
 
   static final String CMPARRAYS_DESCR = 
   """
- Compares two arrays lexicographically.""";
+  Compares two arrays lexicographically.""";
   
   static final String CMPARRAYS_P1_DESCR = 
   """
@@ -1017,6 +1065,12 @@ public class CreateDocument {
       .addParameter("index", DataTypes.JS_NUMBER, W_ARRAY_GET_P1_DESCR)
       .setReturn(DataTypes.CBOR_Any, W_ARRAY_GET_RETURN_DESCR)
 
+      .addMethod("toArray", W_ARRAY_TOARR_DESCR)
+      .setReturn(DataTypes.JS_ARRAY, W_ARRAY_TOARR_RETURN_DESCR)
+
+      .addMethod("getArray", W_ARRAY_GETARR_DESCR)
+      .setReturn(DataTypes.CBOR_ARRAY, W_ARRAY_GETARR_RETURN_DESCR)
+
       .setProperty("length", DataTypes.JS_NUMBER, W_ARRAY_PROP_DESCR);
 
       // CBOR.Map
@@ -1050,13 +1104,17 @@ public class CreateDocument {
 
     addCommonMethod("clone", CLONE_DESCR)
       .setReturn(DataTypes.CBOR_Any, CLONE_RETURN_DESCR);
-    // addCommonMethod("encode()", "");
 
     addCommonMethod("equals", EQUALS_DESCR)
       .addParameter("object", DataTypes.CBOR_Any, EQUALS_P1_DESCR)
       .setReturn(DataTypes.JS_BOOLEAN, EQUALS_RETURN_DESCR);
-    // addCommonMethod("toString()", "");
  
+    addCommonMethod("scan", SCAN_DESCR)
+      .setReturn(DataTypes.JS_THIS, SCAN_RETURN_DESCR);
+
+    addCommonMethod("checkForUnread", CHECK4_DESCR)
+      .setReturn(DataTypes.JS_THIS, CHECK4_RETURN_DESCR);
+
     addCommonMethod("toDiag", TODIAG_DESCR)
       .addParameter("prettyPrint", DataTypes.JS_BOOLEAN, TODIAG_P1_DESCR)
       .setReturn(DataTypes.JS_STRING, TODIAG_RETURN_DESCR);
