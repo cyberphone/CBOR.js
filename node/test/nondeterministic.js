@@ -22,8 +22,11 @@ oneTurn('1900ff', '255');
 oneTurn('1817', '23');
 oneTurn('A2026374776F01636F6E65', '{\n  1: "one",\n  2: "two"\n}');
 oneTurn('FB7FF8000000000000', 'NaN');
-oneTurn('FA7FC00000', 'NaN')
-;oneTurn('FB3ff0000000000000', '1.0');
+oneTurn('FA7FC00000', 'NaN');
+oneTurn('FB3ff0000000000000', '1.0');
+oneTurn('c2480100000000000000', '72057594037927936');
+oneTurn('c24900ffffffffffffffff', '18446744073709551615');
+oneTurn('c240', '0');
 oneTurn('f97e01', 'NaN');
 oneTurn('c240', '0');
 

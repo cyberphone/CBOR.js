@@ -957,8 +957,7 @@ class CBOR {
         case CBOR.#MT_BIG_NEGATIVE:
         case CBOR.#MT_BIG_UNSIGNED:
           let byteArray = this.getObject().getBytes();
-          if ((byteArray.length == 0 || byteArray[0] == 0 || byteArray.length <= 8) && 
-              this.deterministicMode) {
+          if ((byteArray.length <= 8 || !byteArray[0]) && this.deterministicMode) {
             CBOR.#error("Non-deterministic big integer encoding");
           }
           let value = 0n;
