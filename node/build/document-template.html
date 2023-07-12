@@ -44,7 +44,7 @@
   ${DECODING_METHODS}
   ${UTILITY_INTRO}
   The following utility methods are unrelated to CBOR but have been included
-  here because they are a part of the current CBOR.js implemention.
+  here because they are a part of the current CBOR.js implementation.
   ${UTILITY_METHODS}
   ${JS_NUMBER_CONS}
   Since JavaScript <i>natively</i> only supports <code>Number</code> (backed
@@ -56,12 +56,12 @@
   Due to the <code>Number.MAX_SAFE_INTEGER</code> limitation, CBOR documents using
   integer elements with a magnitude in excess of 53 bits, must
   for such elements turn to <code>BigInt</code>,
-  otherwise run-time errors may occurr when accessing integer data using
+  otherwise run-time errors may occur when accessing integer data using
   <a href='#cbor.int.getint'>getInt()</a> or
   during creation of integers using
-  <a href='#wrapper.cbor.int'>CBOR.Int(Number)</a>.
+  <a href='#wrapper.cbor.int'>CBOR.Int()</a>.
   That is, for creation of such integers,
-  <a href='#wrapper.cbor.bigint'>CBOR.BigInt(BigInt)</a>.
+  <a href='#wrapper.cbor.bigint'>CBOR.BigInt()</a>
   is the proper solution, while access requires
   <a href='#cbor.bigint.getbigint'>getBigInt()</a>.
   ${JS_NUMBER_CONS_FP}
@@ -69,24 +69,23 @@
   variants, the CBOR.js implementation makes this
   transparent; the API only exposes the <code>Number</code> type.
   ${DIAGNOSTIC_NOTATION}
-  Through the <a href='#decoder.cbor.diagdecode'>diagDecode()</a>
-  method, CBOR data may be provided
-  in diagnostic (textual) notation (as described in section 8 of RFC&nbsp;8949),
+  Creating CBOR data in diagnostic notation (as described in section 8 of RFC&nbsp;8949),
+  is provided by the <a href='#common.tostring'>toString()</a> method.
+  <p>
+  However, through the <a href='#decoder.cbor.diagdecode'>CBOR.diagDecode()</a>
+  method, CBOR data may also be provided in diagnostic (textual) notation,
   making CBOR useful for "config" and test data files as well.
-  <p>
-    Due to the
-    <a href='#deterministic-encoding'>Deterministic Encoding</a>
-    scheme used by CBOR.js, CBOR data can be <i>bidirectionally</i>
-    converted between its native (binary) format and diagnostic notation
-    without getting corrupted.  Note though that text-binary-text "roundtrips"
-    do not necessarily return identical text: <code>0x10</code> used
-    as diagnostic notation input will return <code>16</code> as
-    diagnostic notation output.
   </p>
   <p>
-    Creating CBOR data in diagnostic notation is provided by
-    <a href='#common.tostring'>toString()</a>.
-  </p>
+  Due to the
+  <a href='#deterministic-encoding'>Deterministic Encoding</a>
+  scheme used by CBOR.js, CBOR data can be <i>bidirectionally</i>
+  converted between its native (binary) format and diagnostic notation
+  without getting corrupted.  Note though that text-binary-text "roundtrips"
+  do not necessarily return identical text: <code>0x10</code> used
+  as diagnostic notation input will return <code>16</code> as
+  diagnostic notation output.
+</p>
   The following table shows how CBOR objects should be represented in
   diagnostic notation:
   <div class='webpkifloat'>
@@ -217,7 +216,7 @@
     </table>
   </div>
   <ol style='margin:0 0'>
-    <li>The letter <code><i>n</i></code> in the Syntax column denotes one or more digits.</li>
+    <li>The letter <i>n</i> in the Syntax column denotes one or more digits.</li>
     <li>The optional <code>{<i>sign</i>}</code> must be a single hyphen (<code>'-'</code>) character.</li>
     <li>
       Whitespace characters
@@ -242,7 +241,7 @@
     <li>Zero-length strings (<code>''</code>) return byte strings of length zero.</li>
     <li>The IETF have yet to define a single line comment.</li>
   </ol>
-${DETERMINISTIC_ENCODING}
+  ${DETERMINISTIC_ENCODING}
   blah
 </body>
 </html>

@@ -5,8 +5,9 @@ body {
 }
 
 a {
-  color:#007fff;
+  color:#007fdd;
   text-decoration:none;
+  font-weight:500;
   outline:none;
 }
 
@@ -16,7 +17,9 @@ h3 {
 }
 
 code {
-  font-size:1.2em;
+  font-size:1.1em;
+  font-weight:600;
+  color:darkred;
 }
 
 h5 {

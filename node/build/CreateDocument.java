@@ -40,7 +40,11 @@ public class CreateDocument {
 
   static final String W_GETBIGINT_DESCR = 
   """
-  Reads CBOR big integer.""";
+  Reads CBOR big integer.
+  Note that this method is compatible with <i>all</i> CBOR
+  integer types.  This is necessary due to the fact that
+  the actual CBOR encoding method depends on the <i>value</i>,
+  not on the type.""";
   
   static final String W_GETBIGINT_RETURN_DESCR = 
   """
@@ -135,7 +139,10 @@ public class CreateDocument {
     
   static final String W_ISNULL_DESCR = 
   """
-  Reads CBOR null.""";
+  Checks for CBOR <code>null</code>.
+  Note that if <a href='#common.checkforunread'>checkForUnread()</a>
+  is used, the object will only be regarded as &quot;read&quot;
+  if it actually is a CBOR <code>null</code> item.""";
   
   static final String W_ISNULL_RETURN_DESCR = 
   """
@@ -165,7 +172,8 @@ public class CreateDocument {
 
   static final String W_ARRAY_GET_DESCR = 
   """
-  Fetches CBOR wrapper object.""";
+  Fetches CBOR wrapper object.
+  If <code><i>index</i></code> is out of range, an exception is thrown.""";
 
   static final String W_ARRAY_GET_P1_DESCR = 
   """
@@ -187,10 +195,10 @@ public class CreateDocument {
   static final String W_ARRAY_GETARR_DESCR = 
   """
   Get array object.
-  Note: this method is redundant due to JavaScript's
-  lax typing system.  However, if you intend using
+  Note: this method is redundant due to the lax JavaScript
+  typing system.  However, if you intend using
   <a href='#common.checkforunread'>checkForUnread()</a>,
-  this method must be used before acessing array elements.""";
+  this method must be called <i>before</i> accessing array elements.""";
 
   static final String W_ARRAY_GETARR_RETURN_DESCR = 
   "Handle to array wrapper.";   
@@ -209,7 +217,8 @@ public class CreateDocument {
 
   static final String W_MAP_SET_DESCR = 
   """
-  Sets map entry.""";
+  Sets map entry.
+  If <code><i>key</i></code> is already defined, an exception is thrown.""";
 
   static final String W_MAP_SET_P1_DESCR = 
   """
@@ -226,7 +235,9 @@ public class CreateDocument {
 
   static final String W_MAP_GET_DESCR = 
   """
-  Gets map entry.""";
+  Gets map entry.
+  If <code><i>key</i></code> is undefined, an exception is thrown.""";
+;
 
   static final String W_MAP_GET_P1_DESCR = 
   """
@@ -236,6 +247,71 @@ public class CreateDocument {
   """
   Retrieved object.""";
 
+
+  static final String W_MAP_REMOVE_DESCR = 
+  """
+  Removes map entry.
+  If <code><i>key</i></code> is undefined, an exception is thrown.""";
+
+  static final String W_MAP_REMOVE_P1_DESCR = 
+  """
+  Key (name) wrapper object.""";
+
+  static final String W_MAP_REMOVE_RETURN_DESCR = 
+  """
+  Removed object (value component).""";
+
+
+  static final String W_MAP_GETCOND_DESCR = 
+  """
+  Gets map entry conditionally.""";
+;
+
+  static final String W_MAP_GETCOND_P1_DESCR = 
+  """
+  Key (name) wrapper object.""";
+
+  static final String W_MAP_GETCOND_P2_DESCR = 
+  """
+  Value to return if <code><i>key</i></code> does not exist.
+  <code><i>defaultValue</i></code> may be <code>null</code>.""";
+
+  static final String W_MAP_GETCOND_RETURN_DESCR = 
+  """
+  Retrieved or default object.""";  
+
+  
+  static final String W_MAP_CONTAINS_DESCR = 
+  """
+  Checks map for key presence.""";
+
+  static final String W_MAP_CONTAINS_P1_DESCR = 
+  """
+  Key (name) wrapper object.""";
+
+  static final String W_MAP_CONTAINS_RETURN_DESCR = 
+  """
+  <code>true</code> or <code>false</code>.""";   
+
+
+  static final String W_MAP_GETKEYS_DESCR = 
+  """
+  Get map keys.""";
+  
+  static final String W_MAP_GETKEYS_RETURN_DESCR = 
+  "Shallow array copy of current <code>" + DataTypes.CBOR_Any + "</code> map keys";   
+
+
+  static final String W_MAP_GETMAP_DESCR = 
+  """
+  Get map object.
+  Note: this method is redundant due to the lax JavaScript
+  typing system.  However, if you intend using
+  <a href='#common.checkforunread'>checkForUnread()</a>,
+  this method must be called <i>before</i> accessing map keys.""";
+
+  static final String W_MAP_GETMAP_RETURN_DESCR = 
+  "Handle to map wrapper.";   
 
   static final String W_MAP_PROP_DESCR = 
   """
@@ -273,6 +349,19 @@ public class CreateDocument {
   """
   Retrieved object.""";
 
+
+  static final String W_TAG_GETTAG_DESCR = 
+  """
+  Get tag object.
+  Note: this method is redundant due to the lax JavaScript
+  typing system.  However, if you intend using
+  <a href='#common.checkforunread'>checkForUnread()</a>,
+  this method must be called <i>before</i> accessing tag objects.""";
+
+  static final String W_TAG_GETTAG_RETURN_DESCR = 
+  "Handle to map wrapper.";   
+
+
   // clone()
 
   static final String CLONE_DESCR = 
@@ -295,14 +384,14 @@ public class CreateDocument {
 
   static final String EQUALS_RETURN_DESCR = 
   """
-  <code>true</code> if this object is equal to <code><i>object</i></code>;
-  <code>false</code> otherwise.""";
+  <code>true</code> if this object is equal to <code><i>object</i></code>,
+  otherwise <code>false</code>.""";
 
   // scan()
 
    static final String SCAN_DESCR = 
   """
-  Scans current object as well as possíble child objects
+  Scans current object as well as possible child objects
   in order to make them appear as &quot;read&quot;.
   This is only meaningful in conjunction with
   <a href='#common.checkforunread'>checkForUnread()</a>.""";
@@ -314,13 +403,25 @@ public class CreateDocument {
 
    static final String CHECK4_DESCR = 
   """
-   Checks if the current object including
-   possible child objects have been read
-   (like calling <code>getInt()</code>).
-   If any of the associatd objects have not been read, an exception will be thrown.
-   The purpose of this is to detect possible
-   misunderstandings between parties using a
-   specific set of CBOR messages.""";
+   Checks if the current object including possible child objects has been read
+   (like calling <a href='#cbor.int.getint'>getInt()</a>).
+   If any of the associated objects has not been read, an exception will be thrown.
+   <p>
+   The purpose of this method is to detect possible misunderstandings between parties
+   using CBOR based protocols.  Together with the strict type checking performed
+   by the CBOR.js API, a programmatic counterpart to schema based processing
+   can be achived.
+   </p>
+   Note that array <a href='#cbor.array.get'>get()</a>,
+   map <a href='#cbor.map.get'>get()</a>, and
+   tag <a href='#cbor.tag.gettaggedobject'>getTaggedObject()</a>
+   only <i>locate</i> objects,
+   and thus do not count as &quot;read&quot;.
+   Also see
+   <a href='#cbor.array.getarray'>getArray()</a>,
+   <a href='#cbor.map.getmap'>getMap()</a>,
+   <a href='#cbor.tag.gettag'>getTag()</a>, and
+   <a href='#common.scan'>scan()</a>.""";
   static final String CHECK4_RETURN_DESCR = 
   """
   Current object.""";  
@@ -340,12 +441,13 @@ public class CreateDocument {
 
   static final String TODIAG_RETURN_DESCR = 
   """
-  Textual version of the encapsulated CBOR content.""";
+  Textual version of the wrapped CBOR content.""";
 
   static final String TOSTRING_DESCR = 
   """
   Renders this object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
-  Equivalent to <a href='#common.todiag'>toDiag(true)</a>.""";
+  Equivalent to calling <a href='#common.todiag'>toDiag()</a>
+  with a <code>true</code> argument.""";
 
    // CBOR.addArrays()
 
@@ -410,7 +512,7 @@ public class CreateDocument {
   
   static final String FROMHEX_P1_DESCR = 
   """
-  String with zero or more hexadecimal pairs (<code>hh</code>).""";
+  String with zero or more hexadecimal pairs. Each pair represents one byte.""";
 
   static final String FROMHEX_RETURN_DESCR = 
   """
@@ -454,7 +556,9 @@ public class CreateDocument {
   Decodes a CBOR object.
   This method assumes that the CBOR data adheres to
   <a href='#main.deterministic'>Deterministic Encoding</a>,
-  otherwise exceptions will be thrown.""";
+  otherwise exceptions will be thrown.
+  Any additional data after the CBOR object will also cause
+  exceptions to be thrown.""";
   
   static final String DECODE_P1_DESCR = 
   """
@@ -471,7 +575,7 @@ public class CreateDocument {
   Initiates an extended CBOR decoder.
   This decoding method presumes that the actual
   decoding is performed by one or more (for sequences only) calls to
-  <a href='#decoder.decodeextended'>decodeExtended()</a>.""";
+  <a href='#decoder.cbor.decodeextended'>CBOR.decodeExtended()</a>.""";
   
   static final String INITEXT_P1_DESCR = 
   """
@@ -479,9 +583,9 @@ public class CreateDocument {
 
   static final String INITEXT_P2_DESCR = 
   """
-  If <code>true</code>, <a href='#decoder.decodeextended'>decodeExtended()</a>
+  If <code>true</code>, <a href='#decoder.cbor.decodeextended'>CBOR.decodeExtended()</a>
   will return immediately after decoding a CBOR object, otherwise 
-  unread CBOR data will cause exceptions to be thrown.""";
+  any additional data after the CBOR object will cause exceptions to be thrown.""";
 
   static final String INITEXT_P3_DESCR = 
   """
@@ -499,23 +603,58 @@ public class CreateDocument {
 
     static final String INITEXT_RETURN_DESCR = 
   """
-  Object for usage with
-  <a href='#decoder.decodeextended'>decodeExtended()</a>.""";
+  Internal decoder object for usage with
+  <a href='#decoder.cbor.decodeextended'>CBOR.decodeExtended()</a>.""";
 
-  // decodeExtended()
+  // CBOR.decodeExtended()
 
   static final String DECODEEXT_DESCR = 
   """
   Decodes a CBOR object.
   If the <code>sequenceFlag</code> in the call to
   <a href='#decoder.cbor.initextended'>CBOR.initExtended()</a>
-  is <code>true</code>, each call to <code>decodeExtended</code>
-  causes the internal reader to move to the next (possible) CBOR object.
-  When there are no more CBOR objects to read, this method returns <code>null</code>.""";
+  is <code>true</code>, each call to 
+  <a href='#decoder.cbor.decodeextended'>CBOR.decodeExtended()</a>
+  causes the internal decoder to move to the next (possible but unprocessed) CBOR object.
+  When there is no more data to decode, this method returns <code>null</code>.""";
+
+  static final String DECODEEXT_P1_DESCR = 
+  """
+  Internal decoder object.""";
   
   static final String DECODEEXT_RETURN_DESCR = 
   """
   CBOR wrapper object or <code>null</code>.""";
+
+    // CBOR.diagDecode()
+
+  static final String DIAGDEC_DESCR = 
+  """
+  Decodes a CBOR object provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
+  See also <a href='#decoder.cbor.diagdecode'>CBOR.diagDecodeSequence()</a>.""";
+  
+  static final String DIAGDEC_P1_DESCR = 
+  """
+  CBOR in textual format.""";
+
+  static final String DIAGDEC_RETURN_DESCR = 
+  """
+  CBOR wrapper object.""";
+
+    // CBOR.diagDecodeSequence()
+
+  static final String DIAGDECSEQ_DESCR = 
+  """
+  Decodes a CBOR object provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
+  Unlike <a href='#decoder.cbor.diagdecode'>CBOR.diagDecode()</a>,
+  this method also accepts CBOR sequences, using a comma
+  character (<code>','</code>) as a separator.""";
+  
+  static final String DIAGDECSEQ_P1_DESCR = DIAGDEC_P1_DESCR;
+
+  static final String DIAGDECSEQ_RETURN_DESCR = 
+  """
+  Array holding one or more CBOR wrapper objects.""";
 
 
   static final String INTRO = "${INTRO}";
@@ -547,9 +686,6 @@ public class CreateDocument {
   static final String UTILITY_METHODS = "${UTILITY_METHODS}";
 
   static final String CBOR_WRAPPERS = "${CBOR_WRAPPERS}";
-
-
-  static final String DECODE_EXTENDED = "decodeExtended";
 
   String template;
 
@@ -715,8 +851,6 @@ public class CreateDocument {
     rowBegin();
     tableHeader("Syntax");
     StringBuilder syntax = new StringBuilder("<code>")
-        .append(method.name.equals(DECODE_EXTENDED) ? 
-            "<i>" + DataTypes.ExtendedDecoder + "</i>." : "")
         .append(method.name)
         .append("(");
     int columns = method.parameters.isEmpty() ? 2 : 3;
@@ -1086,6 +1220,25 @@ public class CreateDocument {
       .addParameter("key", DataTypes.CBOR_Any, W_MAP_GET_P1_DESCR)
       .setReturn(DataTypes.CBOR_Any, W_MAP_GET_RETURN_DESCR)
 
+      .addMethod("getConditional", W_MAP_GETCOND_DESCR)
+      .addParameter("key", DataTypes.CBOR_Any, W_MAP_GETCOND_P1_DESCR)
+      .addParameter("defaultValue", DataTypes.CBOR_Any, W_MAP_GETCOND_P2_DESCR)
+      .setReturn(DataTypes.CBOR_Any, W_MAP_GETCOND_RETURN_DESCR)
+
+      .addMethod("containsKey", W_MAP_CONTAINS_DESCR)
+      .addParameter("key", DataTypes.CBOR_Any, W_MAP_CONTAINS_P1_DESCR)
+      .setReturn(DataTypes.JS_BOOLEAN, W_MAP_CONTAINS_RETURN_DESCR)
+
+      .addMethod("remove", W_MAP_REMOVE_DESCR)
+      .addParameter("key", DataTypes.CBOR_Any, W_MAP_REMOVE_P1_DESCR)
+      .setReturn(DataTypes.CBOR_Any, W_MAP_REMOVE_RETURN_DESCR)
+
+      .addMethod("getKeys", W_MAP_GETKEYS_DESCR)
+      .setReturn(DataTypes.JS_ARRAY, W_MAP_GETKEYS_RETURN_DESCR)
+      
+      .addMethod("getMap", W_MAP_GETMAP_DESCR)
+      .setReturn(DataTypes.CBOR_MAP, W_MAP_GETMAP_RETURN_DESCR)
+
       .setProperty("length", DataTypes.JS_NUMBER, W_MAP_PROP_DESCR);
 
       // CBOR.Tag
@@ -1098,7 +1251,10 @@ public class CreateDocument {
       .setReturn(DataTypes.JS_BIGINT, W_TAG_GETNUM_RETURN_DESCR)
 
       .addMethod("getTaggedObject", W_TAG_GETOBJ_DESCR)
-      .setReturn(DataTypes.CBOR_Any, W_TAG_GETOBJ_RETURN_DESCR);
+      .setReturn(DataTypes.CBOR_Any, W_TAG_GETOBJ_RETURN_DESCR)
+
+      .addMethod("getTag", W_TAG_GETTAG_DESCR)
+      .setReturn(DataTypes.CBOR_MAP, W_TAG_GETTAG_RETURN_DESCR);
 
     // Common
 
@@ -1122,9 +1278,13 @@ public class CreateDocument {
     addCommonMethod("toString", TOSTRING_DESCR)
       .setReturn(DataTypes.JS_STRING, TODIAG_RETURN_DESCR);
 
+      // CBOR.decode()
+
     addDecoderMethod("CBOR.decode", DECODE_DESCR)
       .addParameter("cbor", DataTypes.JS_UINT8ARRAY, DECODE_P1_DESCR)
       .setReturn(DataTypes.CBOR_Any, DECODE_RETURN_DESCR);
+
+      // CBOR.initExtended()
 
     addDecoderMethod("CBOR.initExtended", INITEXT_DESCR)
       .addParameter("cbor", DataTypes.JS_UINT8ARRAY, INITEXT_P1_DESCR)
@@ -1133,16 +1293,23 @@ public class CreateDocument {
       .addParameter("constrainedKeys", DataTypes.JS_BOOLEAN, INITEXT_P4_DESCR)
       .setReturn(DataTypes.ExtendedDecoder, INITEXT_RETURN_DESCR);
 
-    addDecoderMethod(DECODE_EXTENDED, DECODEEXT_DESCR)
+      // Decoder.decodeExtended()
+
+    addDecoderMethod("CBOR.decodeExtended", DECODEEXT_DESCR)
+      .addParameter("decoder", DataTypes.ExtendedDecoder, DECODEEXT_P1_DESCR)
       .setReturn(DataTypes.CBOR_Any, DECODEEXT_RETURN_DESCR);
 
-    addDecoderMethod("CBOR.diagDecode", FROMHEX_DESCR)
-      .addParameter("cborText", DataTypes.JS_STRING, FROMHEX_P1_DESCR)
-      .setReturn(DataTypes.CBOR_Any, FROMHEX_RETURN_DESCR);
+      // CBOR.diagDecode()
 
-    addDecoderMethod("CBOR.diagDecodeSequence", FROMHEX_DESCR)
-      .addParameter("cborText", DataTypes.JS_STRING, FROMHEX_P1_DESCR)
-      .setReturn(DataTypes.JS_ARRAY, FROMHEX_RETURN_DESCR);
+    addDecoderMethod("CBOR.diagDecode", DIAGDEC_DESCR)
+      .addParameter("cborText", DataTypes.JS_STRING, DIAGDEC_P1_DESCR)
+      .setReturn(DataTypes.CBOR_Any, DIAGDEC_RETURN_DESCR);
+
+      // CBOR.diagDecodeSequence()
+
+    addDecoderMethod("CBOR.diagDecodeSequence", DIAGDECSEQ_DESCR)
+      .addParameter("cborText", DataTypes.JS_STRING, DIAGDECSEQ_P1_DESCR)
+      .setReturn(DataTypes.JS_ARRAY, DIAGDECSEQ_RETURN_DESCR);
 
        // CBOR.addArrays()
 

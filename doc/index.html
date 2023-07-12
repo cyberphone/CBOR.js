@@ -48,12 +48,18 @@
 <div style='margin:0 0 0.4em 6em'><a href='#methods.cbor.map'>2.9.1 CBOR.Map Methods</a></div>
 <div style='margin:0 0 0.4em 8em'><a href='#cbor.map.set'>2.9.1.1 set()</a></div>
 <div style='margin:0 0 0.4em 8em'><a href='#cbor.map.get'>2.9.1.2 get()</a></div>
+<div style='margin:0 0 0.4em 8em'><a href='#cbor.map.getconditional'>2.9.1.3 getConditional()</a></div>
+<div style='margin:0 0 0.4em 8em'><a href='#cbor.map.containskey'>2.9.1.4 containsKey()</a></div>
+<div style='margin:0 0 0.4em 8em'><a href='#cbor.map.remove'>2.9.1.5 remove()</a></div>
+<div style='margin:0 0 0.4em 8em'><a href='#cbor.map.getkeys'>2.9.1.6 getKeys()</a></div>
+<div style='margin:0 0 0.4em 8em'><a href='#cbor.map.getmap'>2.9.1.7 getMap()</a></div>
 <div style='margin:0 0 0.4em 6em'><a href='#properties.cbor.map'>2.9.2 CBOR.Map Properties</a></div>
 <div style='margin:0 0 0.4em 8em'><a href='#cbor.map.length'>2.9.2.1 length</a></div>
 <div style='margin:0 0 0.4em 4em'><a href='#wrapper.cbor.tag'>2.10 CBOR.Tag</a></div>
 <div style='margin:0 0 0.4em 6em'><a href='#methods.cbor.tag'>2.10.1 CBOR.Tag Methods</a></div>
 <div style='margin:0 0 0.4em 8em'><a href='#cbor.tag.gettagnumber'>2.10.1.1 getTagNumber()</a></div>
 <div style='margin:0 0 0.4em 8em'><a href='#cbor.tag.gettaggedobject'>2.10.1.2 getTaggedObject()</a></div>
+<div style='margin:0 0 0.4em 8em'><a href='#cbor.tag.gettag'>2.10.1.3 getTag()</a></div>
 <div style='margin:0 0 0.4em 2em'><a href='#main.common'>3 Common Wrapper Methods</a></div>
 <div style='margin:0 0 0.4em 4em'><a href='#common.clone'>3.1 clone()</a></div>
 <div style='margin:0 0 0.4em 4em'><a href='#common.equals'>3.2 equals()</a></div>
@@ -64,7 +70,7 @@
 <div style='margin:0 0 0.4em 2em'><a href='#main.decoding'>4 Decoding CBOR</a></div>
 <div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.decode'>4.1 CBOR.decode()</a></div>
 <div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.initextended'>4.2 CBOR.initExtended()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#decoder.decodeextended'>4.3 decodeExtended()</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.decodeextended'>4.3 CBOR.decodeExtended()</a></div>
 <div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.diagdecode'>4.4 CBOR.diagDecode()</a></div>
 <div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.diagdecodesequence'>4.5 CBOR.diagDecodeSequence()</a></div>
 <div style='margin:0 0 0.4em 2em'><a href='#main.utility'>5 Utility Methods</a></div>
@@ -144,7 +150,11 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>getBigInt()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Reads CBOR big integer.</td></tr>
+<tr><th>Description</th><td style='width:100%'>Reads CBOR big integer.
+Note that this method is compatible with <i>all</i> CBOR
+integer types.  This is nessesary due to the fact that
+the actual CBOR encoding method depends on the <i>value</i>,
+not on the type.</td></tr>
 <tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>BigInt</code></td><td style='width:100%'>Decoded big integer.</td></tr>
@@ -259,7 +269,10 @@ See also <a href='#jsnumbers.fp'>Floating Point Numbers</a>.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>isNull()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Reads CBOR null.</td></tr>
+<tr><th>Description</th><td style='width:100%'>Checks for CBOR <code>null</code>.
+Note that if <a href='#common.checkforunread'>checkForUnread()</a>
+is used, the object will only be regarded as &quot;read&quot;
+if it actually is a CBOR <code>null</code> item.</td></tr>
 <tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>Boolean</code></td><td style='width:100%'>Returns <code>true</code> if the current object
@@ -292,7 +305,8 @@ is returned.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><code>get(<i>index</i>)</code></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Fetches CBOR wrapper object.</td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Fetches CBOR wrapper object.
+If <code><i>index</i></code> is out of range, an exception is thrown.</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code><i>index</i></code></td><td style='text-align:center'><code>Number</code></td><td style='width:100%'>Index <code>(0..length-1)</code> of object.</td></tr>
@@ -314,10 +328,10 @@ is returned.</td></tr>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>getArray()</code></td></tr>
 <tr><th>Description</th><td style='width:100%'>Get array object.
-Note: this method is redundant due to JavaScript's
-lax typing system.  However, if you intend using
+Note: this method is redundant due to the lax JavaScript
+typing system.  However, if you intend using
 <a href='#common.checkforunread'>checkForUnread()</a>,
-this method must be used before acessing array elements.</td></tr>
+this method must be called <i>before</i> acessing array elements.</td></tr>
 <tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>CBOR.Array</code></td><td style='width:100%'>Handle to array wrapper.</td></tr>
@@ -343,7 +357,8 @@ this method must be used before acessing array elements.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><code>set(<i>key</i>, <i>value</i>)</code></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Sets map entry.</td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Sets map entry.
+If <code><i>key</i></code> is already defined, an exception is thrown.</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code><i>key</i></code></td><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>Key (name) wrapper object.</td></tr>
@@ -356,13 +371,75 @@ this method must be used before acessing array elements.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><code>get(<i>key</i>)</code></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Gets map entry.</td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Gets map entry.
+If <code><i>key</i></code> is undefined, an exception is thrown.</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code><i>key</i></code></td><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>Key (name) wrapper object.</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td colspan='2' style='width:100%'>Retrieved object.</td></tr>
+</table></div>
+<h5 id='cbor.map.getconditional'>2.9.1.3 getConditional()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>getConditional(<i>key</i>, <i>defaultValue</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Gets map entry conditionally.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>key</i></code></td><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>Key (name) wrapper object.</td></tr>
+<tr><td style='text-align:center'><code><i>defaultValue</i></code></td><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>Value to return if <code><i>key</i></code> does not exist.
+<code><i>defaultValue</i></code> may be <code>null</code>.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td colspan='2' style='width:100%'>Retrieved or default object.</td></tr>
+</table></div>
+<h5 id='cbor.map.containskey'>2.9.1.4 containsKey()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>containsKey(<i>key</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Checks map for key presence.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>key</i></code></td><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>Key (name) wrapper object.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><code>Boolean</code></td><td colspan='2' style='width:100%'><code>true</code> or <code>false</code>.</td></tr>
+</table></div>
+<h5 id='cbor.map.remove'>2.9.1.5 remove()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>remove(<i>key</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Removes map entry.
+If <code><i>key</i></code> is undefined, an exception is thrown.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>key</i></code></td><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>Key (name) wrapper object.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td colspan='2' style='width:100%'>Removed object (value component).</td></tr>
+</table></div>
+<h5 id='cbor.map.getkeys'>2.9.1.6 getKeys()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td style='width:100%'><code>getKeys()</code></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get map keys.</td></tr>
+<tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code>Array</code></td><td style='width:100%'>Shallow array copy of current <code>CBOR.<i>Wrapper</i></code> map keys</td></tr>
+</table></div>
+<h5 id='cbor.map.getmap'>2.9.1.7 getMap()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td style='width:100%'><code>getMap()</code></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get map object.
+Note: this method is redundant due to the lax JavaScript
+typing system.  However, if you intend using
+<a href='#common.checkforunread'>checkForUnread()</a>,
+this method must be called <i>before</i> acessing map keys.</td></tr>
+<tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code>CBOR.Map</code></td><td style='width:100%'>Handle to map wrapper.</td></tr>
 </table></div>
 <h5 id='properties.cbor.map'>2.9.2 CBOR.Map Properties</h5>
 <h5 id='cbor.map.length'>2.9.2.1 length</h5>
@@ -403,6 +480,19 @@ this method must be used before acessing array elements.</td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>Retrieved object.</td></tr>
 </table></div>
+<h5 id='cbor.tag.gettag'>2.10.1.3 getTag()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td style='width:100%'><code>getTag()</code></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get tag object.
+Note: this method is redundant due to the lax JavaScript
+typing system.  However, if you intend using
+<a href='#common.checkforunread'>checkForUnread()</a>,
+this method must be called <i>before</i> acessing tag objects.</td></tr>
+<tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code>CBOR.Map</code></td><td style='width:100%'>Handle to map wrapper.</td></tr>
+</table></div>
 
   <h3 id='main.common'>3 Common Wrapper Methods</h3>
 
@@ -428,8 +518,8 @@ with the original CBOR content.</td></tr>
 <tr><td style='text-align:center'><code><i>object</i></code></td><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>The object to compare with.</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><code>Boolean</code></td><td colspan='2' style='width:100%'><code>true</code> if this object is equal to <code><i>object</i></code>;
-<code>false</code> otherwise.</td></tr>
+<tr><td style='text-align:center'><code>Boolean</code></td><td colspan='2' style='width:100%'><code>true</code> if this object is equal to <code><i>object</i></code>,
+otherwise <code>false</code>.</td></tr>
 </table></div>
 <h5 id='common.scan'>3.3 scan()</h5>
 <div class='webpkifloat'>
@@ -447,13 +537,25 @@ This is only meaningful in conjunction with
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>checkForUnread()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Checks if the current object including
-possible child objects have been read
-(like calling <code>getInt()</code>).
-If any of the associatd objects have not been read, an exception will be thrown.
-The purpose of this is to detect possible
-misunderstandings between parties using a
-specific set of CBOR messages.</td></tr>
+<tr><th>Description</th><td style='width:100%'>Checks if the current object including possible child objects has been read
+(like calling <a href='#cbor.int.getint'>getInt()</a>).
+If any of the associated objects has not been read, an exception will be thrown.
+<p>
+The purpose of this method is to detect possible misunderstandings between parties
+using CBOR based protocols.  Together with the strict type checking performed
+by the CBOR.js API, a programmatic counterpart to schema based processing
+can be achived.
+</p>
+Note that array <a href='#cbor.array.get'>get()</a>,
+map <a href='#cbor.map.get'>get()</a>, and
+tag <a href='#cbor.tag.gettaggedobject'>getTaggedObject()</a>
+only <i>locate</i> objects,
+and thus do not count as &quot;read&quot;.
+Also see
+<a href='#cbor.array.getarray'>getArray()</a>,
+<a href='#cbor.map.getmap'>getMap()</a>,
+<a href='#cbor.tag.gettag'>getTag()</a>, and
+<a href='#common.scan'>scan()</a>.</td></tr>
 <tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>this</code></td><td style='width:100%'>Current object.</td></tr>
@@ -471,17 +573,18 @@ additional white space is inserted between elements to make the result
 easier to read.</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><code>String</code></td><td colspan='2' style='width:100%'>Textual version of the encapsulated CBOR content.</td></tr>
+<tr><td style='text-align:center'><code>String</code></td><td colspan='2' style='width:100%'>Textual version of the wrapped CBOR content.</td></tr>
 </table></div>
 <h5 id='common.tostring'>3.6 toString()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>toString()</code></td></tr>
 <tr><th>Description</th><td style='width:100%'>Renders this object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
-Equivalent to <a href='#common.todiag'>toDiag(true)</a>.</td></tr>
+Equivalent to calling <a href='#common.todiag'>toDiag()</a>
+with a <code>true</code> argument.</td></tr>
 <tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><code>String</code></td><td style='width:100%'>Textual version of the encapsulated CBOR content.</td></tr>
+<tr><td style='text-align:center'><code>String</code></td><td style='width:100%'>Textual version of the wrapped CBOR content.</td></tr>
 </table></div>
 
   <h3 id='main.decoding'>4 Decoding CBOR</h3>
@@ -494,7 +597,9 @@ Equivalent to <a href='#common.todiag'>toDiag(true)</a>.</td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Decodes a CBOR object.
 This method assumes that the CBOR data adheres to
 <a href='#main.deterministic'>Deterministic Encoding</a>,
-otherwise exceptions will be thrown.</td></tr>
+otherwise exceptions will be thrown.
+Any additional data efter the CBOR object will also cause
+exceptions to be thrown.</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code><i>cbor</i></code></td><td style='text-align:center'><code>Uint8Array</code></td><td style='width:100%'>The data (bytes) to be decoded.</td></tr>
@@ -509,13 +614,13 @@ otherwise exceptions will be thrown.</td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Initiates an extended CBOR decoder.
 This decoding method presumes that the actual
 decoding is performed by one or more (for sequences only) calls to
-<a href='#decoder.decodeextended'>decodeExtended()</a>.</td></tr>
+<a href='#decoder.cbor.decodeextended'>CBOR.decodeExtended()</a>.</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code><i>cbor</i></code></td><td style='text-align:center'><code>Uint8Array</code></td><td style='width:100%'>The data (bytes) to be decoded.</td></tr>
-<tr><td style='text-align:center'><code><i>sequenceFlag</i></code></td><td style='text-align:center'><code>Boolean</code></td><td style='width:100%'>If <code>true</code>, <a href='#decoder.decodeextended'>decodeExtended()</a>
+<tr><td style='text-align:center'><code><i>sequenceFlag</i></code></td><td style='text-align:center'><code>Boolean</code></td><td style='width:100%'>If <code>true</code>, <a href='#decoder.cbor.decodeextended'>CBOR.decodeExtended()</a>
 will return immediately after decoding a CBOR object, otherwise
-unread CBOR data will cause exceptions to be thrown.</td></tr>
+any additional data efter the CBOR object will cause exceptions to be thrown.</td></tr>
 <tr><td style='text-align:center'><code><i>nonDeterministic</i></code></td><td style='text-align:center'><code>Boolean</code></td><td style='width:100%'>If <code>true</code> the decoder will accept CBOR code
 which violates the <a href='#main.deterministic'>Deterministic Encoding</a> rules.
 This option may be needed for dealing with &quot;legacy&quot;
@@ -526,46 +631,54 @@ text strings (major type 3), as well as if a specific <code>map</code>
 instance mixes key data types.</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><code><i>Decoder</i></code></td><td colspan='2' style='width:100%'>Object for usage with
-<a href='#decoder.decodeextended'>decodeExtended()</a>.</td></tr>
+<tr><td style='text-align:center'><code><i>Decoder</i></code></td><td colspan='2' style='width:100%'>Internal decoder object for usage with
+<a href='#decoder.cbor.decodeextended'>CBOR.decodeExtended()</a>.</td></tr>
 </table></div>
-<h5 id='decoder.decodeextended'>4.3 decodeExtended()</h5>
+<h5 id='decoder.cbor.decodeextended'>4.3 CBOR.decodeExtended()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td style='width:100%'><code><i><i>Decoder</i></i>.decodeExtended()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Decodes a CBOR object.
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.decodeExtended(<i>decoder</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Decodes a CBOR object.
 If the <code>sequenceFlag</code> in the call to
 <a href='#decoder.cbor.initextended'>CBOR.initExtended()</a>
-is <code>true</code>, each call to <code>decodeExtended</code>
-causes the internal reader to move to the next (possible) CBOR object.
-When there are no more CBOR objects to read, this method returns <code>null</code>.</td></tr>
-<tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
-<tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>CBOR wrapper object or <code>null</code>.</td></tr>
+is <code>true</code>, each call to
+<a href='#decoder.cbor.decodeextended'>CBOR.decodeExtended()</a>
+causes the internal decoder to move to the next (possible but unprocessed) CBOR object.
+When there is no more data to decode, this method returns <code>null</code>.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>decoder</i></code></td><td style='text-align:center'><code><i>Decoder</i></code></td><td style='width:100%'>Internal decoder object.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td colspan='2' style='width:100%'>CBOR wrapper object or <code>null</code>.</td></tr>
 </table></div>
 <h5 id='decoder.cbor.diagdecode'>4.4 CBOR.diagDecode()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.diagDecode(<i>cborText</i>)</code></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Decodes hexadecimal data into binary.</td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Decodes a CBOR object provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
+See also <a href='#decoder.cbor.diagdecode'>CBOR.diagDecodeSequence()</a>.</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><code><i>cborText</i></code></td><td style='text-align:center'><code>String</code></td><td style='width:100%'>String with zero or more hexadecimal pairs (<code>hh</code>).</td></tr>
+<tr><td style='text-align:center'><code><i>cborText</i></code></td><td style='text-align:center'><code>String</code></td><td style='width:100%'>CBOR in textual format.</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td colspan='2' style='width:100%'>The resulting binary (bytes).</td></tr>
+<tr><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td colspan='2' style='width:100%'>CBOR wrapper object.</td></tr>
 </table></div>
 <h5 id='decoder.cbor.diagdecodesequence'>4.5 CBOR.diagDecodeSequence()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.diagDecodeSequence(<i>cborText</i>)</code></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Decodes hexadecimal data into binary.</td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Decodes a CBOR object provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
+Unlike <a href='#decoder.cbor.diagdecode'>CBOR.diagDecode()</a>,
+this method also accepts CBOR sequences, using a comma
+character (<code>','</code>) as a separator.</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><code><i>cborText</i></code></td><td style='text-align:center'><code>String</code></td><td style='width:100%'>String with zero or more hexadecimal pairs (<code>hh</code>).</td></tr>
+<tr><td style='text-align:center'><code><i>cborText</i></code></td><td style='text-align:center'><code>String</code></td><td style='width:100%'>CBOR in textual format.</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><code>Array</code></td><td colspan='2' style='width:100%'>The resulting binary (bytes).</td></tr>
+<tr><td style='text-align:center'><code>Array</code></td><td colspan='2' style='width:100%'>Array holding one or more CBOR wrapper objects.</td></tr>
 </table></div>
 
   <h3 id='main.utility'>5 Utility Methods</h3>
@@ -622,7 +735,7 @@ a negative number is returned.</td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Decodes hexadecimal data into binary.</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><code><i>hexString</i></code></td><td style='text-align:center'><code>String</code></td><td style='width:100%'>String with zero or more hexadecimal pairs (<code>hh</code>).</td></tr>
+<tr><td style='text-align:center'><code><i>hexString</i></code></td><td style='text-align:center'><code>String</code></td><td style='width:100%'>String with zero or more hexadecimal pairs. Each pair represents one byte.</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><code>Uint8Array</code></td><td colspan='2' style='width:100%'>The resulting binary (bytes).</td></tr>
@@ -670,9 +783,9 @@ base64 encoded data as well as data with or without
   otherwise run-time errors may occurr when accessing integer data using
   <a href='#cbor.int.getint'>getInt()</a> or
   during creation of integers using
-  <a href='#wrapper.cbor.int'>CBOR.Int(Number)</a>.
+  <a href='#wrapper.cbor.int'>CBOR.Int()</a>.
   That is, for creation of such integers,
-  <a href='#wrapper.cbor.bigint'>CBOR.BigInt(BigInt)</a>.
+  <a href='#wrapper.cbor.bigint'>CBOR.BigInt()</a>
   is the proper solution, while access requires
   <a href='#cbor.bigint.getbigint'>getBigInt()</a>.
   <h5 id='jsnumbers.fp'>6.2 Floating Point Numbers</h5>
@@ -682,24 +795,23 @@ base64 encoded data as well as data with or without
   transparent; the API only exposes the <code>Number</code> type.
   <h3 id='main.diagnostic'>7 Diagnostic Notation</h3>
 
-  Through the <a href='#decoder.cbor.diagdecode'>diagDecode()</a>
-  method, CBOR data may be provided
-  in diagnostic (textual) notation (as described in section 8 of RFC&nbsp;8949),
+  Creating CBOR data in diagnostic notation (as described in section 8 of RFC&nbsp;8949),
+  is provided by the <a href='#common.tostring'>toString()</a> method.
+  <p>
+  However, through the <a href='#decoder.cbor.diagdecode'>CBOR.diagDecode()</a>
+  method, CBOR data may also be provided in diagnostic (textual) notation,
   making CBOR useful for "config" and test data files as well.
-  <p>
-    Due to the
-    <a href='#deterministic-encoding'>Deterministic Encoding</a>
-    scheme used by CBOR.js, CBOR data can be <i>bidirectionally</i>
-    converted between its native (binary) format and diagnostic notation
-    without getting corrupted.  Note though that text-binary-text "roundtrips"
-    do not necessarily return identical text: <code>0x10</code> used
-    as diagnostic notation input will return <code>16</code> as
-    diagnostic notation output.
   </p>
   <p>
-    Creating CBOR data in diagnostic notation is provided by
-    <a href='#common.tostring'>toString()</a>.
-  </p>
+  Due to the
+  <a href='#deterministic-encoding'>Deterministic Encoding</a>
+  scheme used by CBOR.js, CBOR data can be <i>bidirectionally</i>
+  converted between its native (binary) format and diagnostic notation
+  without getting corrupted.  Note though that text-binary-text "roundtrips"
+  do not necessarily return identical text: <code>0x10</code> used
+  as diagnostic notation input will return <code>16</code> as
+  diagnostic notation output.
+</p>
   The following table shows how CBOR objects should be represented in
   diagnostic notation:
   <div class='webpkifloat'>
@@ -830,7 +942,7 @@ base64 encoded data as well as data with or without
     </table>
   </div>
   <ol style='margin:0 0'>
-    <li>The letter <code><i>n</i></code> in the Syntax column denotes one or more digits.</li>
+    <li>The letter <i>n</i> in the Syntax column denotes one or more digits.</li>
     <li>The optional <code>{<i>sign</i>}</code> must be a single hyphen (<code>'-'</code>) character.</li>
     <li>
       Whitespace characters
@@ -855,7 +967,7 @@ base64 encoded data as well as data with or without
     <li>Zero-length strings (<code>''</code>) return byte strings of length zero.</li>
     <li>The IETF have yet to define a single line comment.</li>
   </ol>
-<h3 id='main.deterministic'>8 Deterministic Encoding</h3>
+  <h3 id='main.deterministic'>8 Deterministic Encoding</h3>
 
   blah
 </body>

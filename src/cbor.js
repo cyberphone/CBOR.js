@@ -1099,6 +1099,9 @@ class CBOR {
 ///////////////////////////
 
   static decodeExtended = function(decoder) {
+    if (!(decoder instanceof CBOR.#_decoder)) {
+      CBOR.#error("Argument is not 'Decoder'");
+    }
     return CBOR.#getObject(decoder);
   }
 
