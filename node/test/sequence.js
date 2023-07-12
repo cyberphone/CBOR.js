@@ -9,7 +9,7 @@ try {
 } catch (error) {
   if (!error.toString().includes('Unexpected')) console.log(error);
 }
-let decoder = CBOR.initExtended(cbor, true, false, false);
+let decoder = CBOR.initExtended(cbor, true, false);
 let total = new Uint16Array();
 let object;
 while (object = CBOR.decodeExtended(decoder)) {

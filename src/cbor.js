@@ -83,11 +83,6 @@ class CBOR {
       return CBOR.decode(this.encode());
     }
 
-    // Overridden by CBOR.Int and CBOR.String
-    constrainedKeyType = function() {
-      return true;
-    }
-
     toDiag = function(prettyPrint) {
       let cborPrinter = new CBOR.#CborPrinter(CBOR.#typeCheck(prettyPrint, 'Boolean'));
       this.internalToString(cborPrinter);
@@ -226,10 +221,6 @@ class CBOR {
 
     internalToString = function(cborPrinter) {
       cborPrinter.append(this.#value.toString());
-    }
-
-    constrainedKeyType = function() {
-      return false;
     }
 
     _get = function() {
@@ -444,10 +435,6 @@ class CBOR {
       cborPrinter.append('"');
     }
 
-    constrainedKeyType = function() {
-      return false;
-    }
-
     _get = function() {
       return this.#textString;
     }
@@ -588,7 +575,6 @@ class CBOR {
     #root;
     #lastEntry;
     #numberOfEntries = 0;
-    _constrainedKeys = false;
     _deterministicMode = false;
 
     static Entry = class {
@@ -607,15 +593,8 @@ class CBOR {
 
     set = function(key, value) {
       let newEntry = new CBOR.Map.Entry(this.#getKey(key), CBOR.#cborArgumentCheck(value));
-      if (this._constrainedKeys && key.constrainedKeyType()) {
-        CBOR.#error("Constrained key option disallows: " + key.constructor.name);
-      }
       if (this.#root) {
         // Second key etc.
-        if (this._constrainedKeys &&
-            this.#lastEntry.key.constructor.name != key.constructor.name) {
-          CBOR.#error("Constrained key option disallows mixing types: " + key.constructor.name);
-        }
         if (this._deterministicMode) {
           // Normal case for parsing.
           let diff = this.#lastEntry.compare(newEntry.encodedKey);
@@ -870,13 +849,11 @@ class CBOR {
 
     constructor(cbor,
                 sequenceFlag,
-                nonDeterministic,
-                constrainedKeys) {
+                nonDeterministic) {
       this.cbor = CBOR.#bytesCheck(cbor);
       this.counter = 0;
       this.sequenceFlag = sequenceFlag;
       this.deterministicMode = !nonDeterministic;
-      this.constrainedKeys = constrainedKeys;
     }
 
     readByte = function() {
@@ -1047,7 +1024,6 @@ class CBOR {
         case CBOR.#MT_MAP:
           let cborMap = CBOR.Map();
           cborMap._deterministicMode = this.deterministicMode;
-          cborMap._constrainedKeys = this.constrainedKeys;
           for (let q = this.rangeLimitedBigInt(bigN); --q >= 0;) {
             cborMap.set(this.getObject(), this.getObject());
           }
@@ -1087,11 +1063,10 @@ class CBOR {
 //  CBOR.initExtended()  //
 ///////////////////////////
 
-  static initExtended = function(cbor, sequenceFlag, nonDeterministic, constrainedKeys) {
+  static initExtended = function(cbor, sequenceFlag, nonDeterministic) {
     return new CBOR.#_decoder(cbor, 
                               sequenceFlag,
-                              nonDeterministic, 
-                              constrainedKeys);
+                              nonDeterministic);
   }
 
 ///////////////////////////

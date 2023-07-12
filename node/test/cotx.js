@@ -11,7 +11,7 @@ function oneTurn(hex, dn, ok) {
   }
 
   try {
-    let decoder = CBOR.initExtended(CBOR.fromHex(hex), false, true, false);
+    let decoder = CBOR.initExtended(CBOR.fromHex(hex), false, false);
     let object = CBOR.decodeExtended(decoder);
     assertTrue("Should not execute", ok);
     if (object.toString() != dn.toString() || !object.equals(CBOR.decode(object.encode()))) {

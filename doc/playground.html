@@ -91,7 +91,6 @@ async function doProcess() {
   try {
     let sequenceFlag = document.getElementById('seq').checked;
     let deterministicFlag = document.getElementById('det').checked;
-    let constrainedMapFlag = document.getElementById('con').checked;
     let inData = document.getElementById('cborin').value;
     let cborBytes;
     switch (getRadioValue('selin')) {
@@ -116,8 +115,7 @@ async function doProcess() {
     let object;
     let decoder = CBOR.initExtended(cborBytes, 
                                     sequenceFlag, 
-                                    !deterministicFlag,
-                                    constrainedMapFlag);
+                                    !deterministicFlag);
     while (object = CBOR.decodeExtended(decoder)) {
       cborObjects.push(object);
       if (!sequenceFlag) {
@@ -139,31 +137,30 @@ async function doProcess() {
 <div style='padding-top:15pt'>The current <a href='https://github.com/cyberphone/CBOR.js#cborjs'>CBOR.js</a>
   proposal supports the following subset of CBOR
   primitives: <i>text&nbsp;string</i>, <i>byte&nbsp;string</i>, <i>integer</i>, 
-  <i>big&nbsp;integer</i>, <i>floating&nbsp;point</i> (16/32/64 bit), <code>true</code>,
-  <code>false</code>, <code>null</code>, and <i>tagged data</i> (CBOR major type 6).</div>
+  <i>big&nbsp;integer</i>, <i>floating&nbsp;point</i> (16/32/64 bit), <kbd>true</kbd>,
+  <kbd>false</kbd>, <kbd>null</kbd>, and <i>tagged data</i> (CBOR major type 6).</div>
   <div style='padding-top:10pt'>
     <div style='padding-bottom:3pt'>
       <table style='margin-bottom:0.3em;border-spacing:0'>
-      <tr><td><input type='radio' name='selin' value='diag' checked></td>
+      <tr><td style='padding-right:1em'><input type='radio' name='selin' value='diag' checked></td>
           <td><a href='https://cyberphone.github.io/javaapi/org/webpki/cbor/package-summary.html#diagnostic-notation' target='_blank' title='Documentation'>Diagnostic Notation</a></td></tr>
       <tr><td><input type='radio' name='selin' value='hexa'></td>
           <td>Hexadecimal notation (including possible #-comments)</td></tr>
       <tr><td><input type='radio' name='selin' value='cstyle'></td>
-          <td><code>0xhh, 0xhh...</code> notation</td></tr>
+          <td><kbd>0xhh, 0xhh...</kbd> notation</td></tr>
       <tr><td><input type='radio' name='selin' value='b64u'></td>
           <td>Base64Url notation</td></tr><tr><td><input type='checkbox' id='seq'></td>
           <td>Sequence</td></tr>
       <tr><td><input type='checkbox' checked id='det'></td>
           <td>Require <a href='https://cyberphone.github.io/javaapi/org/webpki/cbor/package-summary.html#deterministic-encoding' target='_blank' title='Documentation'>Deterministic Encoding</a> for hex/b64u data</td></tr>
-      <tr><td><input type='checkbox' id='con'></td><td>Require <a href='https://cyberphone.github.io/javaapi/org/webpki/cbor/package-summary.html#map-key-constraints' target='_blank' title='Documentation'>Constrained Map Keys</a></td></tr>
       </table>Paste a CBOR object in the text box or try with the default:
     </div><textarea rows='10' maxlength='100000' class='textbox' id='cborin' name='cborin' placeholder='CBOR data...'></textarea></div>
 <div style='padding-top:10pt'><div style='padding-bottom:3pt'>
   <table style='margin-bottom:0.3em;border-spacing:0'>
-  <tr><td><input type='radio' name='selout' value='diag'></td><td><a href='https://cyberphone.github.io/javaapi/org/webpki/cbor/package-summary.html#diagnostic-notation' target='_blank' title='Documentation'>Diagnostic Notation</a></td></tr>
+  <tr><td style='padding-right:1em'><input type='radio' name='selout' value='diag'></td><td><a href='https://cyberphone.github.io/javaapi/org/webpki/cbor/package-summary.html#diagnostic-notation' target='_blank' title='Documentation'>Diagnostic Notation</a></td></tr>
     <tr><td><input type='radio' name='selout' value='hexa' checked></td>
         <td>Hexadecimal notation</td></tr><tr><td><input type='radio' name='selout' value='cstyle'></td>
-        <td><code>0xhh, 0xhh...</code> notation</td></tr>
+        <td><kbd>0xhh, 0xhh...</kbd> notation</td></tr>
     <tr><td><input type='radio' name='selout' value='b64u'></td><td>Base64Url notation</td></tr>
    </table>Processed result using <a href='https://cyberphone.github.io/javaapi/org/webpki/cbor/package-summary.html#deterministic-encoding' target='_blank' title='Documentation'>Deterministic Encoding</a>:</div>
   <div id='cborout' class='staticbox'></div>

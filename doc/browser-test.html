@@ -159,7 +159,7 @@ function oneTurn(hex, dn, ok) {
   }
 
   try {
-    let decoder = CBOR.initExtended(CBOR.fromHex(hex), false, true, false);
+    let decoder = CBOR.initExtended(CBOR.fromHex(hex), false, false);
     let object = CBOR.decodeExtended(decoder);
     assertTrue("Should not execute", ok);
     if (object.toString() != dn.toString() || !object.equals(CBOR.decode(object.encode()))) {
@@ -391,36 +391,6 @@ try {
 success();
 `}
 ,
-{name:'keyconstraints.js',
-file:String.raw`// Testing the "constrained key" option
-
-function oneTurn(cbor, ok) {
-  try {
-    CBOR.decode(cbor.encode());
-  } catch (error) {
-    throw error;
-  }
-  try {
-    let decoder = CBOR.initExtended(cbor.encode(), false, false, true);
-    let object = CBOR.decodeExtended(decoder);
-    if (!ok) throw Error("Should not:");
-  } catch (error) {
-    if (ok || !error.toString().includes('Constrained')) {
-      throw Error("Err=" + error + " ok=" + ok);
-    }
-  }
-}
-
-oneTurn(CBOR.Map().set(CBOR.Boolean(true), CBOR.String("1")), false);
-oneTurn(CBOR.Map()
-    .set(CBOR.Int(0), CBOR.String("0"))
-    .set(CBOR.Int(1), CBOR.String("1")), true);
-oneTurn(CBOR.Map()
-    .set(CBOR.String("mix"), CBOR.String("0"))
-    .set(CBOR.Int(1), CBOR.String("1")), false);
-success();
-`}
-,
 {name:'maps.js',
 file:String.raw`// Testing map operations
 
@@ -491,7 +461,7 @@ function oneTurn(hex, dn) {
       throw error;
     }
   }
-  let decoder = CBOR.initExtended(CBOR.fromHex(hex), false, true, false);
+  let decoder = CBOR.initExtended(CBOR.fromHex(hex), false, true);
   let object = CBOR.decodeExtended(decoder);
   if (object.toString() != dn || !object.equals(CBOR.decode(object.encode()))) {
     throw Error("non match:" + dn);
@@ -565,7 +535,7 @@ try {
 } catch (error) {
   if (!error.toString().includes('Unexpected')) console.log(error);
 }
-let decoder = CBOR.initExtended(cbor, true, false, false);
+let decoder = CBOR.initExtended(cbor, true, false);
 let total = new Uint16Array();
 let object;
 while (object = CBOR.decodeExtended(decoder)) {

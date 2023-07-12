@@ -34,7 +34,6 @@ public class CreateBrowserTest {
     addFile("float.js");
     addFile("hex.js");
     addFile("integer.js");
-    addFile("keyconstraints.js");
     addFile("maps.js");
     addFile("miscellaneous.js");
     addFile("nondeterministic.js");

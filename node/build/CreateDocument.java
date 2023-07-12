@@ -361,6 +361,17 @@ public class CreateDocument {
   static final String W_TAG_GETTAG_RETURN_DESCR = 
   "Handle to map wrapper.";   
 
+  // encode()
+
+  static final String ENCODE_DESCR = 
+  """
+  Encodes this object.
+  Note: this method always return CBOR data using 
+  <a href='#main.deterministic'>Deterministic Encoding</a>.""";
+
+  static final String ENCODE_RETURN_DESCR = 
+  """
+  CBOR encoded data.""";
 
   // clone()
 
@@ -368,6 +379,7 @@ public class CreateDocument {
   """
   Creates a new instance of this object, initialized
   with the original CBOR content.""";
+
   static final String CLONE_RETURN_DESCR = 
   """
   Copy of object.""";
@@ -406,12 +418,12 @@ public class CreateDocument {
    Checks if the current object including possible child objects has been read
    (like calling <a href='#cbor.int.getint'>getInt()</a>).
    If any of the associated objects has not been read, an exception will be thrown.
-   <p>
+   <div style='margin:0.5em 0'>
    The purpose of this method is to detect possible misunderstandings between parties
    using CBOR based protocols.  Together with the strict type checking performed
    by the CBOR.js API, a programmatic counterpart to schema based processing
    can be achived.
-   </p>
+   </div>
    Note that array <a href='#cbor.array.get'>get()</a>,
    map <a href='#cbor.map.get'>get()</a>, and
    tag <a href='#cbor.tag.gettaggedobject'>getTaggedObject()</a>
@@ -594,14 +606,7 @@ public class CreateDocument {
   This option may be needed for dealing with &quot;legacy&quot;
   CBOR implementations.""";
 
-  static final String INITEXT_P4_DESCR = 
-  """
-  If <code>true</code> the decoder will throw exceptions if CBOR <code>map</code>
-  key data types are not integers (major type 0 and 1) or 
-  text strings (major type 3), as well as if a specific <code>map</code>
-  instance mixes key data types.""";
-
-    static final String INITEXT_RETURN_DESCR = 
+  static final String INITEXT_RETURN_DESCR = 
   """
   Internal decoder object for usage with
   <a href='#decoder.cbor.decodeextended'>CBOR.decodeExtended()</a>.""";
@@ -1258,6 +1263,9 @@ public class CreateDocument {
 
     // Common
 
+    addCommonMethod("encode", ENCODE_DESCR)
+      .setReturn(DataTypes.JS_UINT8ARRAY, ENCODE_RETURN_DESCR);
+
     addCommonMethod("clone", CLONE_DESCR)
       .setReturn(DataTypes.CBOR_Any, CLONE_RETURN_DESCR);
 
@@ -1265,18 +1273,18 @@ public class CreateDocument {
       .addParameter("object", DataTypes.CBOR_Any, EQUALS_P1_DESCR)
       .setReturn(DataTypes.JS_BOOLEAN, EQUALS_RETURN_DESCR);
  
-    addCommonMethod("scan", SCAN_DESCR)
-      .setReturn(DataTypes.JS_THIS, SCAN_RETURN_DESCR);
-
-    addCommonMethod("checkForUnread", CHECK4_DESCR)
-      .setReturn(DataTypes.JS_THIS, CHECK4_RETURN_DESCR);
-
     addCommonMethod("toDiag", TODIAG_DESCR)
       .addParameter("prettyPrint", DataTypes.JS_BOOLEAN, TODIAG_P1_DESCR)
       .setReturn(DataTypes.JS_STRING, TODIAG_RETURN_DESCR);
    
     addCommonMethod("toString", TOSTRING_DESCR)
       .setReturn(DataTypes.JS_STRING, TODIAG_RETURN_DESCR);
+
+    addCommonMethod("checkForUnread", CHECK4_DESCR)
+      .setReturn(DataTypes.JS_THIS, CHECK4_RETURN_DESCR);
+
+    addCommonMethod("scan", SCAN_DESCR)
+      .setReturn(DataTypes.JS_THIS, SCAN_RETURN_DESCR);
 
       // CBOR.decode()
 
@@ -1290,7 +1298,6 @@ public class CreateDocument {
       .addParameter("cbor", DataTypes.JS_UINT8ARRAY, INITEXT_P1_DESCR)
       .addParameter("sequenceFlag", DataTypes.JS_BOOLEAN, INITEXT_P2_DESCR)
       .addParameter("nonDeterministic", DataTypes.JS_BOOLEAN, INITEXT_P3_DESCR)
-      .addParameter("constrainedKeys", DataTypes.JS_BOOLEAN, INITEXT_P4_DESCR)
       .setReturn(DataTypes.ExtendedDecoder, INITEXT_RETURN_DESCR);
 
       // Decoder.decodeExtended()
