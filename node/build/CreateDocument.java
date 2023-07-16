@@ -32,7 +32,9 @@ public class CreateDocument {
 
   static final String W_BIGINT_DESCR = 
   """
-  Constructor.  Creates a CBOR big integer wrapper object.""";
+  Constructor.  Creates a CBOR big integer wrapper object.
+  See also <a href='#jsnumbers.int'>Integer Numbers</a>.""";
+ 
   
   static final String W_BIGINT_P1_DESCR = 
   """
@@ -41,10 +43,10 @@ public class CreateDocument {
   static final String W_GETBIGINT_DESCR = 
   """
   Reads CBOR big integer.
-  Note that this method is compatible with <i>all</i> CBOR
-  integer types.  This is necessary due to the fact that
-  the actual CBOR encoding method depends on the <i>value</i>,
-  not on the type.""";
+  Note that this method is also supported by
+  <a href='#wrapper.cbor.int'>CBOR.Int</a>.  This is necessary since
+  the CBOR decoder does not know the preferred integer type of a specific element;
+  it uses the <i>value</i> as the sole selection mechanism.""";
   
   static final String W_GETBIGINT_RETURN_DESCR = 
   """
@@ -131,24 +133,12 @@ public class CreateDocument {
   """
   Decoded boolean.""";
 
-  // CBOR.Boolean
+  // CBOR.Null
 
   static final String W_NULL_DESCR = 
   """
-  Constructor.  Creates a CBOR <code>null</code> wrapper object.""";
-    
-  static final String W_ISNULL_DESCR = 
-  """
-  Checks for CBOR <code>null</code>.
-  Note that if <a href='#common.checkforunread'>checkForUnread()</a>
-  is used, the object will only be regarded as &quot;read&quot;
-  if it actually is a CBOR <code>null</code> item.""";
-  
-  static final String W_ISNULL_RETURN_DESCR = 
-  """
-  Returns <code>true</code> if the current object
-  holds a CBOR <code>null</code> item, otherwise <code>false</code>
-  is returned.""";
+  Constructor.  Creates a CBOR <code>null</code> wrapper object.
+  See also <a href='#common.isnull'>isNull()</a>.""";
 
   // CBOR.Array
 
@@ -195,7 +185,7 @@ public class CreateDocument {
   static final String W_ARRAY_GETARR_DESCR = 
   """
   Get array object.
-  Note: this method is redundant due to the lax JavaScript
+  Note: this method is redundant due to the dynamic nature of the JavaScript
   typing system.  However, if you intend using
   <a href='#common.checkforunread'>checkForUnread()</a>,
   this method must be called <i>before</i> accessing array elements.""";
@@ -305,7 +295,7 @@ public class CreateDocument {
   static final String W_MAP_GETMAP_DESCR = 
   """
   Get map object.
-  Note: this method is redundant due to the lax JavaScript
+  Note: this method is redundant due to the dynamic nature of the JavaScript
   typing system.  However, if you intend using
   <a href='#common.checkforunread'>checkForUnread()</a>,
   this method must be called <i>before</i> accessing map keys.""";
@@ -353,7 +343,7 @@ public class CreateDocument {
   static final String W_TAG_GETTAG_DESCR = 
   """
   Get tag object.
-  Note: this method is redundant due to the lax JavaScript
+  Note: this method is redundant due to the dynamic nature of the JavaScript
   typing system.  However, if you intend using
   <a href='#common.checkforunread'>checkForUnread()</a>,
   this method must be called <i>before</i> accessing tag objects.""";
@@ -399,6 +389,22 @@ public class CreateDocument {
   <code>true</code> if this object is equal to <code><i>object</i></code>,
   otherwise <code>false</code>.""";
 
+  // isNull()
+      
+  static final String ISNULL_DESCR = 
+  """
+  Checks for CBOR <code>null</code>.
+  Note that if <a href='#common.checkforunread'>checkForUnread()</a>
+  is used, the current object will only be regarded as &quot;read&quot;
+  if it actually is a CBOR <code>null</code> item.
+  See also <a href='#wrapper.cbor.null'>CBOR.Null()</a>.""";
+  
+  static final String ISNULL_RETURN_DESCR = 
+  """
+  Returns <code>true</code> if the current object
+  holds a CBOR <code>null</code> item, otherwise <code>false</code>
+  is returned.""";
+
   // scan()
 
    static final String SCAN_DESCR = 
@@ -407,6 +413,7 @@ public class CreateDocument {
   in order to make them appear as &quot;read&quot;.
   This is only meaningful in conjunction with
   <a href='#common.checkforunread'>checkForUnread()</a>.""";
+
   static final String SCAN_RETURN_DESCR = 
   """
   Current object.""";  
@@ -443,6 +450,9 @@ public class CreateDocument {
   static final String TODIAG_DESCR = 
   """
   Renders this object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
+  In similarity to <a href='#common.encode'>encode()</a>, this method always produce
+  data in <a href='#main.deterministic'>Deterministic Encoding</a>, irrespective to how 
+  the data was created.
   See also: <a href='#common.tostring'>toString()</a>.""";
   
   static final String TODIAG_P1_DESCR = 
@@ -636,7 +646,7 @@ public class CreateDocument {
   static final String DIAGDEC_DESCR = 
   """
   Decodes a CBOR object provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
-  See also <a href='#decoder.cbor.diagdecode'>CBOR.diagDecodeSequence()</a>.""";
+  See also <a href='#decoder.cbor.diagdecodesequence'>CBOR.diagDecodeSequence()</a>.""";
   
   static final String DIAGDEC_P1_DESCR = 
   """
@@ -677,6 +687,8 @@ public class CreateDocument {
   static final String DIAGNOSTIC_NOTATION = "${DIAGNOSTIC_NOTATION}"; 
 
   static final String DETERMINISTIC_ENCODING = "${DETERMINISTIC_ENCODING}"; 
+
+  static final String VERSION_INFO = "${VERSION_INFO}"; 
 
   static final String JS_NUMBER_CONS_INT = "${JS_NUMBER_CONS_INT}"; 
 
@@ -851,7 +863,7 @@ public class CreateDocument {
 
   void printMethod(String prefix, Method method) {
     s.append(printSubHeader((prefix + "." + method.name).toLowerCase(),  method.name + 
-         (method instanceof Wrapper ? "" : "()")));
+        (method instanceof Wrapper ? "" : "()")));
     beginTable();
     rowBegin();
     tableHeader("Syntax");
@@ -1187,10 +1199,7 @@ public class CreateDocument {
 
       // CBOR.Null
 
-    addWrapper(DataTypes.CBOR_NULL, W_NULL_DESCR)
-
-      .addMethod("isNull", W_ISNULL_DESCR)
-      .setReturn(DataTypes.JS_BOOLEAN, W_ISNULL_RETURN_DESCR);
+    addWrapper(DataTypes.CBOR_NULL, W_NULL_DESCR);
 
       // CBOR.Array
 
@@ -1279,6 +1288,9 @@ public class CreateDocument {
    
     addCommonMethod("toString", TOSTRING_DESCR)
       .setReturn(DataTypes.JS_STRING, TODIAG_RETURN_DESCR);
+
+    addCommonMethod("isNull", ISNULL_DESCR)
+      .setReturn(DataTypes.JS_BOOLEAN, ISNULL_RETURN_DESCR);
 
     addCommonMethod("checkForUnread", CHECK4_DESCR)
       .setReturn(DataTypes.JS_THIS, CHECK4_RETURN_DESCR);
@@ -1387,6 +1399,9 @@ public class CreateDocument {
     outline.increment();
 
     replace(DETERMINISTIC_ENCODING, printMainHeader("deterministic", "Deterministic Encoding"));
+    outline.increment();
+
+    replace(VERSION_INFO, printMainHeader("version", "Version"));
     outline.increment();
 
     replace(TOC, printTableOfContents());

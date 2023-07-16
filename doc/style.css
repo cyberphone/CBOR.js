@@ -17,9 +17,8 @@ h3 {
 }
 
 code {
-  font-size:1.1em;
-  font-weight:600;
-  color:darkred;
+  font-family:'DejaVu Sans Mono', monospace;
+  color:maroon;
 }
 
 kbd {
