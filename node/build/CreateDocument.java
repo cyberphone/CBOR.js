@@ -520,7 +520,7 @@ public class CreateDocument {
   
   static final String TOHEX_P1_DESCR = 
   """
-  Zero or bytes to be encoded.""";
+  Zero or more bytes to be encoded.""";
 
   static final String TOHEX_RETURN_DESCR = 
   """
