@@ -424,7 +424,7 @@ public class CreateDocument {
   """
    Checks if the current object including possible child objects has been read
    (like calling <a href='#cbor.int.getint'>getInt()</a>).
-   If any of the associated objects has not been read, an exception will be thrown.
+   If any of the associated objects have not been read, an exception will be thrown.
    <div style='margin:0.5em 0'>
    The purpose of this method is to detect possible misunderstandings between parties
    using CBOR based protocols.  Together with the strict type checking performed
