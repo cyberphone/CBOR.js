@@ -66,19 +66,17 @@ permitting testing the encoder, decoder, and diagnostic notation implementation.
 
 The JavaScript API implements deterministic encoding based on section 4.2 of [RFC8949](https://www.rfc-editor.org/rfc/rfc8949.html).
 For maximum interoperability, the API also depends on Rule&nbsp;2 of section 4.2.2, as well as interpreting Appendix&nbsp;A as
-_bidirectional_.  For a more thorough description and rationale, turn to: https://cyberphone.github.io/android-cbor/distribution/apidoc/org/webpki/cbor/package-summary.html#deterministic-encoding.
+_bidirectional_.
 
 ### Diagnostic Notation Support
 
 Diagnostic notation permits displaying CBOR data as human-readable text.  This is practical for _logging_,
 _documentation_, and _debugging_ purposes.  Diagnostic notation is an intrinsic part of the API through the `toString()` method.
 However, diagnostic notation can also be used as input for creating _test data_ and for
-_configuration files_.  A preliminary description can be found here: https://cyberphone.github.io/android-cbor/distribution/apidoc/org/webpki/cbor/package-summary.html#diagnostic-notation.
-
-Note: although possible, the _intention_ with diagnostic notation is not using it as a "wire" format.
+_configuration files_.
 
 ### Implementation Note
 
 The code represents a _Reference Implementation_, not code for inclusion in JavaScript engines.  The latter would (for _performance_ reasons), most certainly require parts to be rewritten in native code.
 
-Updated: 2023-06-24
+Updated: 2023-07-17
