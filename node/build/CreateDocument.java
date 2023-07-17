@@ -713,9 +713,9 @@ public class CreateDocument {
     int ind = 0;
 
     String getHeader() {
-      StringBuilder h = new StringBuilder().append(header[0]);
-      for (int q = 1; q <= ind; q++) {
-        h.append('.').append(header[q]);
+      StringBuilder h = new StringBuilder();
+      for (int q = 0; q <= ind; q++) {
+        h.append(header[q]).append('.');
       }
       return h.toString();
     }
@@ -847,7 +847,7 @@ public class CreateDocument {
   }
 
   String printSubHeader(String link, String name) {
-    String title = outline.getHeader() + " " + name;
+    String title = outline.getHeader() + "&nbsp;&nbsp;" + name;
     String header = "<h5 id='" + link + "'>" + title + "</h5>\n";
     addTocEntry(title, link);
     return header;
@@ -855,7 +855,7 @@ public class CreateDocument {
 
   String printMainHeader(String suffix, String title) {
     String link = "main." + suffix;
-    title = outline.getHeader() + " " + title;
+    title = outline.getHeader() + "&nbsp;&nbsp;" + title;
     String header = "<h3 id='" + link + "'>" + title + "</h3>\n";
     addTocEntry(title, link);
     return header;
