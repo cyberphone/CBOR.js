@@ -429,7 +429,7 @@ public class CreateDocument {
    The purpose of this method is to detect possible misunderstandings between parties
    using CBOR based protocols.  Together with the strict type checking performed
    by the CBOR.js API, a programmatic counterpart to schema based processing
-   can be achived.
+   can be achieved.
    </div>
    Note that array <a href='#cbor.array.get'>get()</a>,
    map <a href='#cbor.map.get'>get()</a>, and

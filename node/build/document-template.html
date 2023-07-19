@@ -32,10 +32,18 @@
     <li><i>Optional</i> check for unread elements</li>
   </ol>
   ${WRAPPER_INTRO}
-  To maintain correct encoding without requiring detailed knowledge
-  of CBOR, a set of high-level wrapper objects have been defined.
-  This section lists the wrappers objects and their specific methods.
-  See also <a href='#main.common'>Common Wrapper Methods</a>.
+  The current CBOR.js reference implementation supports the following subset of CBOR
+  primitives: <kbd><i>text&nbsp;string</i></kbd>,
+  <kbd><i>byte&nbsp;string</i></kbd>, <kbd><i>integer</i></kbd>,
+  <kbd><i>bignum</i></kbd>, <kbd><i>floating&nbsp;point</i></kbd> (16/32/64 bit),
+  <kbd>true</kbd>, <kbd>false</kbd>, <kbd>null</kbd>, and 
+  <kdb><i>tagged data</i></kdb> (CBOR major type 6).
+  <p>
+    To maintain correct encoding without requiring detailed knowledge
+    of CBOR, a set of high-level wrapper objects have been defined.
+    This section lists the wrappers objects and their specific methods.
+    See also <a href='#main.common'>Common Wrapper Methods</a>.
+  </p>
   ${CBOR_WRAPPERS}
   ${COMMON_INTRO}
   The <a href='#main.wrappers'>CBOR wrapper objects</a>
@@ -50,7 +58,7 @@
   ${DECODING_METHODS}
   ${UTILITY_INTRO}
   The following utility methods are unrelated to CBOR but have been included
-  here because they are a part of the current <kbd>CBOR.js</kbd> implementation.
+  here because they are a part of the current CBOR.js implementation.
   ${UTILITY_METHODS}
   ${JS_NUMBER_CONS}
   Since JavaScript <i>natively</i> only supports <code>Number</code> (backed
@@ -73,12 +81,12 @@
   <a href='#cbor.bigint.getbigint'>getBigInt()</a>.
   <p>
     The selection between the CBOR <kbd>unsigned</kbd> and <kbd>negative</kbd>
-    integer variants is dealt with by the <kbd>CBOR.js</kbd> implementation;
+    integer variants is dealt with by the CBOR.js implementation;
     transparent to the API.
   </p>
   ${JS_NUMBER_CONS_FP}
   Although CBOR encoding depends on 16, 32, and 64-bit IEEE&nbsp;754
-  variants, the <kbd>CBOR.js</kbd> implementation makes this
+  variants, the CBOR.js implementation makes this
   transparent; the API only exposes the <code>Number</code> type.
   ${DIAGNOSTIC_NOTATION}
   Creating CBOR data in diagnostic notation (as described in section 8 of RFC&nbsp;8949),
@@ -91,7 +99,7 @@
   <p>
     Due to the
     <a href='#main.deterministic'>Deterministic Encoding</a>
-    scheme used by <kbd>CBOR.js</kbd>, CBOR data can be <i>bidirectionally</i>
+    scheme used by CBOR.js, CBOR data can be <i>bidirectionally</i>
     converted between its native (binary) format and diagnostic notation
     without getting corrupted.  Note though that text-binary-text &quot;roundtrips&quot;
     do not necessarily return identical text: <code>0x10</code> used
@@ -262,16 +270,16 @@
   While there are different ways you can encode certain CBOR objects,
   this is non-trivial to support in a generic platform API without
   adding complexity and that for little provable gain.
-  Therefore the <kbd>CBOR.js</kbd> API defines specific (non-variant)
+  Therefore the CBOR.js API defines specific (non-variant)
   encodings, aka &quot;Deterministic Encoding&quot;.  The choosen encoding
   model is compatible with most existing CBOR <i>decoders</i>.
   <p>
-    However, to not limit <kbd>CBOR.js</kbd> to new applictions only,
+    However, to not limit CBOR.js to new applictions only,
     deterministic encoding checking may <i>optionally</i> be turned off
     for accepting input from &quot;legacy&quot; CBOR <i>encoders</i>.
   </p>
   <div id='standards-proposal' class='webpkicomment' style='margin:0.8em 0'>
-    Although CBOR APIs may be quite different compared to <kbd>CBOR.js</kbd>,
+    Although CBOR APIs may be quite different compared to CBOR.js,
     the deterministic encoding scheme described is intended as a <i>standard</i>,
     for other mainstream software platforms like Java, Python, C#, etc.
   </div>
@@ -379,6 +387,6 @@
     </li>
   </ul>
   ${VERSION_INFO}
-    Version: pre-release 2023-07-17
+  Version: pre-release 2023-07-17
 </body>
 </html>
