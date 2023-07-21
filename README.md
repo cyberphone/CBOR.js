@@ -70,7 +70,7 @@ _bidirectional_.
 
 ### Diagnostic Notation Support
 
-Diagnostic notation as described in section 8 of [RFC8949](https://www.rfc-editor.org/rfc/rfc8949.html))
+Diagnostic notation as described in section 8 of [RFC8949](https://www.rfc-editor.org/rfc/rfc8949.html)
 permits displaying CBOR data as human-readable text.  This is practical for _logging_,
 _documentation_, and _debugging_ purposes.  Diagnostic notation is an intrinsic part of the API through the `toString()` method.
 
