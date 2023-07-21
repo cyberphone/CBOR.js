@@ -70,7 +70,7 @@ public class CreateDocument {
   
   static final String W_GETFLOAT_RETURN_DESCR = 
   """
-  Decoded floating pointing number.""";
+  Decoded floating point number.""";
 
   static final String W_FLOAT_PROP_DESCR = 
   """
