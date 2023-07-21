@@ -22,7 +22,7 @@ types like `undefined` and binary data beyond `Uint8Array`.
 See also: [CBOR Everywhere](https://github.com/cyberphone/cbor-everywhere/).
 
 ### "CBOR" Components
-- Self-encoding wrapping objects
+- Self-encoding wrapper objects
 - Decoder
 - Diagnostic Notation decoder
 - Utility functions
