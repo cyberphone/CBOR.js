@@ -74,10 +74,20 @@ Diagnostic notation as described in section 8 of [RFC8949](https://www.rfc-edito
 permits displaying CBOR data as human-readable text.  This is practical for _logging_,
 _documentation_, and _debugging_ purposes.  Diagnostic notation is an intrinsic part of the API through the `toString()` method.
 However, the  CBOR.js API extends the scope of diagnostic notation by supporting using it as _input_ for creating _test data_ and for
-_configuration files_.
+_configuration files_.  Example:
+```javascript
+let cbor = CBOR.diagDecode(`{
+  1: 45.7,
+  2: "Hi there!"
+}`).encode();
+
+console.log(CBOR.toHex(cbor));
+------------------------------
+a201fb4046d9999999999a0269486920746865726521
+```
 
 ### Implementation Note
 
 The code represents a _Reference Implementation_, not code for inclusion in JavaScript engines.  The latter would (for _performance_ reasons), most certainly require parts to be rewritten in native code.
 
-Updated: 2023-07-17
+Updated: 2023-07-21
