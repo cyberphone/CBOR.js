@@ -73,6 +73,7 @@ _bidirectional_.
 Diagnostic notation as described in section 8 of [RFC8949](https://www.rfc-editor.org/rfc/rfc8949.html))
 permits displaying CBOR data as human-readable text.  This is practical for _logging_,
 _documentation_, and _debugging_ purposes.  Diagnostic notation is an intrinsic part of the API through the `toString()` method.
+
 However, the  CBOR.js API extends the scope of diagnostic notation by supporting using it as _input_ for creating _test data_ and for
 _configuration files_.  Example:
 ```javascript
