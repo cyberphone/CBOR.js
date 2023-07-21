@@ -66,7 +66,7 @@ public class CreateDocument {
 
   static final String W_GETFLOAT_DESCR = 
   """
-  Reads CBOR float point object.""";
+  Reads CBOR floating point object.""";
   
   static final String W_GETFLOAT_RETURN_DESCR = 
   """
