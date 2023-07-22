@@ -83,6 +83,7 @@ _input_ for creating CBOR based _test data_ and
 _configuration files_ from text.  Example:
 ```javascript
 let cbor = CBOR.diagDecode(`{
+# Comments are also permitted
   1: 45.7,
   2: "Hi there!"
 }`).encode();
