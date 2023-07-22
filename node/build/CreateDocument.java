@@ -211,7 +211,7 @@ public class CreateDocument {
   If <code><i>key</i></code> is already defined, an exception is thrown.
   <div style='margin-top:0.5em'>Note that <code><i>key</i></code> order is of no importance since
   <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>
-  performs the required <code>map</code> sorting <i>automatically</i>.</div>""";
+  performs the required map sorting <i>automatically</i>.</div>""";
 
   static final String W_MAP_SET_P1_DESCR = 
   """
