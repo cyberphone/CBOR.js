@@ -69,8 +69,8 @@ For maximum interoperability, the API also depends on Rule&nbsp;2 of section 4.2
 _bidirectional_.
 
 To shield developers from having to know the inner workings of deterministic encoding, the API does
-all the necessary transformations _automatically_.  This for example means that the `set` operations
-performed in the [Encoding&nbsp;Example](#encoding-example) could be swapped while the generated CBOR would stay the same.
+all the necessary transformations _automatically_.  This for example means that if the `set` operations
+performed in the [Encoding&nbsp;Example](#encoding-example) were swapped, the generated CBOR would stay the same.
 
 ### Diagnostic Notation Support
 
@@ -96,4 +96,4 @@ a201fb4046d9999999999a0269486920746865726521
 
 The code represents a _Reference Implementation_, not code for inclusion in JavaScript engines.  The latter would (for _performance_ reasons), most certainly require parts to be rewritten in native code.
 
-Updated: 2023-07-21
+Updated: 2023-07-22
