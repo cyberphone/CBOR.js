@@ -68,6 +68,10 @@ The JavaScript API implements deterministic encoding based on section 4.2 of [RF
 For maximum interoperability, the API also depends on Rule&nbsp;2 of section 4.2.2, as well as interpreting Appendix&nbsp;A as
 _bidirectional_.
 
+To shield developers from having to know the inner workings of deterministic encoding, the API does
+all the necessary transformations _automatically_.  This for example means that the `set` operations
+performed in [Encoding Example](#encoding-example) could be swapped while the generated CBOR would stay the same.
+
 ### Diagnostic Notation Support
 
 Diagnostic notation as described in section 8 of [RFC8949](https://www.rfc-editor.org/rfc/rfc8949.html)
