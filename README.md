@@ -70,7 +70,7 @@ _bidirectional_.
 
 To shield developers from having to know the inner workings of deterministic encoding, the API does
 all the necessary transformations _automatically_.  This for example means that the `set` operations
-performed in [Encoding Example](#encoding-example) could be swapped while the generated CBOR would stay the same.
+performed in the [Encoding&nbsp;Example](#encoding-example) could be swapped while the generated CBOR would stay the same.
 
 ### Diagnostic Notation Support
 
