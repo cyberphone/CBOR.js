@@ -22,7 +22,8 @@ public class CreateDocument {
 
     static final String W_GETINT_DESCR = 
   """
-  Reads CBOR integer.""";
+  Reads CBOR integer.
+  See also <a href='#cbor.bigint.getbigint'>getBigInt()</a>.""";
   
   static final String W_GETINT_RETURN_DESCR = 
   """
