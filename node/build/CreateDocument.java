@@ -186,13 +186,13 @@ public class CreateDocument {
   static final String W_ARRAY_GETARR_DESCR = 
   """
   Get array object.
-  Note: this method is redundant due to the dynamic nature of the JavaScript
+  <div style='margin-top:0.5em'>Note: this method is redundant due to the dynamic nature of the JavaScript
   typing system.  However, if you intend using
   <a href='#common.checkforunread'>checkForUnread()</a>,
-  this method must be called <i>before</i> accessing array elements.""";
+  this method must be called <i>before</i> accessing array elements.</div>""";
 
   static final String W_ARRAY_GETARR_RETURN_DESCR = 
-  "Handle to array wrapper.";   
+  "Current object.";   
   
   
   static final String W_ARRAY_PROP_DESCR = 
@@ -299,13 +299,13 @@ public class CreateDocument {
   static final String W_MAP_GETMAP_DESCR = 
   """
   Get map object.
-  Note: this method is redundant due to the dynamic nature of the JavaScript
+  <div style='margin-top:0.5em'>Note: this method is redundant due to the dynamic nature of the JavaScript
   typing system.  However, if you intend using
   <a href='#common.checkforunread'>checkForUnread()</a>,
-  this method must be called <i>before</i> accessing map keys.""";
+  this method must be called <i>before</i> accessing map keys.</div>""";
 
   static final String W_MAP_GETMAP_RETURN_DESCR = 
-  "Handle to map wrapper.";   
+  "Current object.";   
 
   static final String W_MAP_PROP_DESCR = 
   """
@@ -347,13 +347,13 @@ public class CreateDocument {
   static final String W_TAG_GETTAG_DESCR = 
   """
   Get tag object.
-  Note: this method is redundant due to the dynamic nature of the JavaScript
+  <div style='margin-top:0.5em'>Note: this method is redundant due to the dynamic nature of the JavaScript
   typing system.  However, if you intend using
   <a href='#common.checkforunread'>checkForUnread()</a>,
-  this method must be called <i>before</i> accessing tag objects.""";
+  this method must be called <i>before</i> accessing the tag object.</div>""";
 
   static final String W_TAG_GETTAG_RETURN_DESCR = 
-  "Handle to map wrapper.";   
+  "Current object.";   
 
   // encode()
 
@@ -1272,7 +1272,7 @@ public class CreateDocument {
       .setReturn(DataTypes.CBOR_Any, W_TAG_GETOBJ_RETURN_DESCR)
 
       .addMethod("getTag", W_TAG_GETTAG_DESCR)
-      .setReturn(DataTypes.CBOR_MAP, W_TAG_GETTAG_RETURN_DESCR);
+      .setReturn(DataTypes.CBOR_TAG, W_TAG_GETTAG_RETURN_DESCR);
 
     // Common
 

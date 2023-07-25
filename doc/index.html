@@ -365,13 +365,13 @@ If <code><i>index</i></code> is out of range, an exception is thrown.</td></tr>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>getArray()</code></td></tr>
 <tr><th>Description</th><td style='width:100%'>Get array object.
-Note: this method is redundant due to the dynamic nature of the JavaScript
+<div style='margin-top:0.5em'>Note: this method is redundant due to the dynamic nature of the JavaScript
 typing system.  However, if you intend using
 <a href='#common.checkforunread'>checkForUnread()</a>,
-this method must be called <i>before</i> accessing array elements.</td></tr>
+this method must be called <i>before</i> accessing array elements.</div></td></tr>
 <tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><code>CBOR.Array</code></td><td style='width:100%'>Handle to array wrapper.</td></tr>
+<tr><td style='text-align:center'><code>CBOR.Array</code></td><td style='width:100%'>Current object.</td></tr>
 </table></div>
 <h5 id='properties.cbor.array'>2.8.2.&nbsp;&nbsp;CBOR.Array Properties</h5>
 <h5 id='cbor.array.length'>2.8.2.1.&nbsp;&nbsp;length</h5>
@@ -473,13 +473,13 @@ If <code><i>key</i></code> is undefined, an exception is thrown.</td></tr>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>getMap()</code></td></tr>
 <tr><th>Description</th><td style='width:100%'>Get map object.
-Note: this method is redundant due to the dynamic nature of the JavaScript
+<div style='margin-top:0.5em'>Note: this method is redundant due to the dynamic nature of the JavaScript
 typing system.  However, if you intend using
 <a href='#common.checkforunread'>checkForUnread()</a>,
-this method must be called <i>before</i> accessing map keys.</td></tr>
+this method must be called <i>before</i> accessing map keys.</div></td></tr>
 <tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><code>CBOR.Map</code></td><td style='width:100%'>Handle to map wrapper.</td></tr>
+<tr><td style='text-align:center'><code>CBOR.Map</code></td><td style='width:100%'>Current object.</td></tr>
 </table></div>
 <h5 id='properties.cbor.map'>2.9.2.&nbsp;&nbsp;CBOR.Map Properties</h5>
 <h5 id='cbor.map.length'>2.9.2.1.&nbsp;&nbsp;length</h5>
@@ -525,13 +525,13 @@ this method must be called <i>before</i> accessing map keys.</td></tr>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>getTag()</code></td></tr>
 <tr><th>Description</th><td style='width:100%'>Get tag object.
-Note: this method is redundant due to the dynamic nature of the JavaScript
+<div style='margin-top:0.5em'>Note: this method is redundant due to the dynamic nature of the JavaScript
 typing system.  However, if you intend using
 <a href='#common.checkforunread'>checkForUnread()</a>,
-this method must be called <i>before</i> accessing tag objects.</td></tr>
+this method must be called <i>before</i> accessing the tag object.</div></td></tr>
 <tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><code>CBOR.Map</code></td><td style='width:100%'>Handle to map wrapper.</td></tr>
+<tr><td style='text-align:center'><code>CBOR.Tag</code></td><td style='width:100%'>Current object.</td></tr>
 </table></div>
 
   <h3 id='main.common'>3.&nbsp;&nbsp;Common Wrapper Methods</h3>
