@@ -210,7 +210,7 @@ public class CreateDocument {
   """
   Sets map entry.
   If <code><i>key</i></code> is already defined, an exception is thrown.
-  <div style='margin-top:0.5em'>Note that <code><i>key</i></code> order is of no importance since
+  <div style='margin-top:0.5em'>Note: <code><i>key</i></code> order is of no importance since
   <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>
   performs the required map sorting <i>automatically</i>.</div>""";
 
@@ -765,7 +765,7 @@ public class CreateDocument {
     CBOR_STRING("CBOR.String"),
     CBOR_BYTES("CBOR.Bytes"),
     CBOR_NULL("CBOR.Null"),
-    CBOR_BOOL("CBOR.Bool"),
+    CBOR_BOOLEAN("CBOR.Boolean"),
     CBOR_ARRAY("CBOR.Array"),
     CBOR_MAP("CBOR.Map"),
     CBOR_TAG("CBOR.Tag"),
@@ -1195,7 +1195,7 @@ public class CreateDocument {
 
       // CBOR.Boolean
 
-    addWrapper(DataTypes.CBOR_BOOL, W_BOOLEAN_DESCR)
+    addWrapper(DataTypes.CBOR_BOOLEAN, W_BOOLEAN_DESCR)
       .addWrapperParameter("value", DataTypes.JS_BOOLEAN, W_BOOLEAN_P1_DESCR)
 
       .addMethod("getBoolean", W_GETBOOLEAN_DESCR)

@@ -1,10 +1,9 @@
 <a id="cborjs">![Saturn is great](https://cyberphone.github.io/CBOR.js/doc/cbor.js.svg)
 
 This repository contains a
-[CBOR JavaScript API](https://cyberphone.github.io/CBOR.js/doc/)
-_in development_.  The API loosely mimics the "JSON" object by _exposing a single global object_,
-unsurprisingly named "CBOR".  The core is based on wrapping CBOR data items
-in type-specific objects.  These objects are used for encoding CBOR data,
+[CBOR JavaScript API](https://cyberphone.github.io/CBOR.js/doc/).  The API loosely mimics the "JSON" object by _exposing a single global object_,
+unsurprisingly named "CBOR".  The core is based on wrapping data
+in CBOR specific objects.  These objects are used for encoding CBOR data,
 as well as being the result of CBOR decoding.
 
 To simplify adoption, the API utilizes a CBOR encoding scheme that is _backward compatible_
@@ -104,4 +103,4 @@ The code represents a _Reference Implementation_, not code for inclusion in Java
 |JDK&nbsp;17+|https://github.com/cyberphone/openkeystore|
 |Android/Java|https://github.com/cyberphone/android-cbor|
 
-Updated: 2023-07-24
+Updated: 2023-07-25

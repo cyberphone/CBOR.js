@@ -29,9 +29,9 @@
 <div style='margin:0 0 0.4em 4em'><a href='#wrapper.cbor.bytes'>2.5.&nbsp;&nbsp;CBOR.Bytes</a></div>
 <div style='margin:0 0 0.4em 6em'><a href='#methods.cbor.bytes'>2.5.1.&nbsp;&nbsp;CBOR.Bytes Methods</a></div>
 <div style='margin:0 0 0.4em 8em'><a href='#cbor.bytes.getbytes'>2.5.1.1.&nbsp;&nbsp;getBytes()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#wrapper.cbor.bool'>2.6.&nbsp;&nbsp;CBOR.Bool</a></div>
-<div style='margin:0 0 0.4em 6em'><a href='#methods.cbor.bool'>2.6.1.&nbsp;&nbsp;CBOR.Bool Methods</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.bool.getboolean'>2.6.1.1.&nbsp;&nbsp;getBoolean()</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#wrapper.cbor.boolean'>2.6.&nbsp;&nbsp;CBOR.Boolean</a></div>
+<div style='margin:0 0 0.4em 6em'><a href='#methods.cbor.boolean'>2.6.1.&nbsp;&nbsp;CBOR.Boolean Methods</a></div>
+<div style='margin:0 0 0.4em 8em'><a href='#cbor.boolean.getboolean'>2.6.1.1.&nbsp;&nbsp;getBoolean()</a></div>
 <div style='margin:0 0 0.4em 4em'><a href='#wrapper.cbor.null'>2.7.&nbsp;&nbsp;CBOR.Null</a></div>
 <div style='margin:0 0 0.4em 4em'><a href='#wrapper.cbor.array'>2.8.&nbsp;&nbsp;CBOR.Array</a></div>
 <div style='margin:0 0 0.4em 6em'><a href='#methods.cbor.array'>2.8.1.&nbsp;&nbsp;CBOR.Array Methods</a></div>
@@ -88,39 +88,77 @@
 
   <h3 id='main.intro'>1.&nbsp;&nbsp;Introduction</h3>
 
-  This document describes a JavaScript API for encoding and decoding
+  This document describes a JavaScript API for encoding and decoding data in the
   CBOR&nbsp;[<a href="https://www.rfc-editor.org/rfc/rfc8949.html"
-                title="CBOR">RFC8949<img src="xtl.svg" alt="link"></a>].
+                title="CBOR">RFC8949<img src="xtl.svg" alt="link"></a>] format.
   The API loosely mimics the &quot;JSON&quot; object by exposing a <i>single global object</i>,
   unsurprisingly named &quot;CBOR&quot;.
 
-  The core is based on wrapping CBOR data items
-  in type-specific objects.
+  To minimize the need for application developers having detailed knowledge of CBOR,
+  the CBOR.js API provides a set of high level wrapper objects.
 
-  These objects are used for encoding CBOR data,
+  The wrapper objects are used for encoding CBOR data items,
   as well as being the result of CBOR decoding.
 
-  The API provides some specific features including:
+  The CBOR.js API provides some specific features including:
   <ol style='margin-block-start:0.3em'>
-    <li>Deterministic Encoding</li>
-    <li>Diagnostic Notation encoder and decoder</li>
+    <li><a href='#main.deterministic'>Deterministic Encoding</a></li>
+    <li><a href='#main.diagnostic'>Diagnostic Notation</a> encoder and decoder</li>
     <li>Strict type checking of arguments</li>
-    <li><i>Optional</i> check for unread elements</li>
+    <li><i>Optional</i>: <a href='#common.checkforunread'>check for unread elements</a></li>
   </ol>
+  Note: in this specification CBOR data items are subsequently referred to as CBOR objects.
   <h3 id='main.wrappers'>2.&nbsp;&nbsp;CBOR Wrapper Objects</h3>
 
-  The current CBOR.js reference implementation supports the following subset of CBOR
-  primitives: <kbd><i>text&nbsp;string</i></kbd>,
-  <kbd><i>byte&nbsp;string</i></kbd>, <kbd><i>integer</i></kbd>,
-  <kbd><i>bignum</i></kbd>, <kbd><i>floating&nbsp;point</i></kbd> (16/32/64 bit),
-  <kbd>true</kbd>, <kbd>false</kbd>, <kbd>null</kbd>, and 
-  <kdb><i>tagged data</i></kdb> (CBOR major type 6).
-  <p>
-    To maintain correct encoding without requiring detailed knowledge
-    of CBOR, a set of high-level wrapper objects have been defined.
-    This section lists the wrappers objects and their specific methods.
-    See also <a href='#main.common'>Common Wrapper Methods</a>.
-  </p>
+  This section describes the wrapper objects and their specific methods.
+  See also <a href='#main.common'>Common Wrapper Methods</a>.
+  The following table lists the wrapper objects and their relation to
+  the CBOR objects supported by this specification:
+  <div class='webpkifloat'>
+    <table class='webpkitable' style='margin-left:2em'>
+      <tr><th>CBOR&nbsp;Object</th><th>Wrapper&nbsp;Object</th></tr>
+      <tr style='text-align:center'>
+        <td><kbd>integer</kbd></td>
+        <td><a href='#wrapper.cbor.int'>CBOR.Int</a></td>
+      </tr>
+      <tr style='text-align:center'>
+        <td><kbd>bignum</kbd></td>
+        <td><a href='#wrapper.cbor.bigint'>CBOR.BigInt</a></td>
+      </tr>
+      <tr style='text-align:center'>
+        <td><kbd>floating&nbsp;point</kbd></td>
+        <td><a href='#wrapper.cbor.float'>CBOR.Float</a></td>
+      </tr>
+      <tr style='text-align:center'>
+        <td><kbd>byte&nbsp;string</kbd></td>
+        <td><a href='#wrapper.cbor.bytes'>CBOR.Bytes</a></td>
+      </tr>
+      <tr style='text-align:center'>
+        <td><kbd>text&nbsp;string</kbd></td>
+        <td><a href='#wrapper.cbor.string'>CBOR.String</a></td>
+      </tr>
+      <tr style='text-align:center'>
+        <td><kbd>true/false</kbd></td>
+        <td><a href='#wrapper.cbor.boolean'>CBOR.Boolean</a></td>
+      </tr>
+      <tr style='text-align:center'>
+        <td><kbd>null</kbd></td>
+        <td><a href='#wrapper.cbor.null'>CBOR.Null</a></td>
+      </tr>
+      <tr style='text-align:center'>
+        <td><kbd>array</kbd></td>
+        <td><a href='#wrapper.cbor.array'>CBOR.Array</a></td>
+      </tr>
+      <tr style='text-align:center'>
+        <td><kbd>map</kbd></td>
+        <td><a href='#wrapper.cbor.map'>CBOR.Map</a></td>
+      </tr>
+      <tr style='text-align:center'>
+        <td><kbd>tag</kbd></td>
+        <td><a href='#wrapper.cbor.tag'>CBOR.Tag</a></td>
+      </tr>
+    </table>
+  </div>
   <h5 id='wrapper.cbor.int'>2.1.&nbsp;&nbsp;CBOR.Int</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
@@ -246,20 +284,20 @@ See also <a href='#jsnumbers.fp'>Floating Point Numbers</a>.</td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>Uint8Array</code></td><td style='width:100%'>Decoded byte string.</td></tr>
 </table></div>
-<h5 id='wrapper.cbor.bool'>2.6.&nbsp;&nbsp;CBOR.Bool</h5>
+<h5 id='wrapper.cbor.boolean'>2.6.&nbsp;&nbsp;CBOR.Boolean</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.Bool(<i>value</i>)</code></td></tr>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.Boolean(<i>value</i>)</code></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Constructor.  Creates a CBOR boolean wrapper object.</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code><i>value</i></code></td><td style='text-align:center'><code>Boolean</code></td><td style='width:100%'>Boolean to be wrapped.</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><code>CBOR.Bool</code></td><td colspan='2' style='width:100%'>Wrapper object.</td></tr>
+<tr><td style='text-align:center'><code>CBOR.Boolean</code></td><td colspan='2' style='width:100%'>Wrapper object.</td></tr>
 </table></div>
-<h5 id='methods.cbor.bool'>2.6.1.&nbsp;&nbsp;CBOR.Bool Methods</h5>
-<h5 id='cbor.bool.getboolean'>2.6.1.1.&nbsp;&nbsp;getBoolean()</h5>
+<h5 id='methods.cbor.boolean'>2.6.1.&nbsp;&nbsp;CBOR.Boolean Methods</h5>
+<h5 id='cbor.boolean.getboolean'>2.6.1.1.&nbsp;&nbsp;getBoolean()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>getBoolean()</code></td></tr>
@@ -358,7 +396,7 @@ this method must be called <i>before</i> accessing array elements.</td></tr>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><code>set(<i>key</i>, <i>value</i>)</code></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Sets map entry.
 If <code><i>key</i></code> is already defined, an exception is thrown.
-<div style='margin-top:0.5em'>Note that <code><i>key</i></code> order is of no importance since
+<div style='margin-top:0.5em'>Note: <code><i>key</i></code> order is of no importance since
 <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>
 performs the required map sorting <i>automatically</i>.</div></td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
@@ -876,27 +914,29 @@ base64 encoded data as well as data with or without
       </tr>
       <tr style='text-align:center'><td><code>//</code>&nbsp;<i>comment&nbsp;text</i></td></tr>
       <tr style='text-align:center' id='integer-diag'>
-        <td><code>integer</code></td>
+        <td><kbd>integer</kbd></td>
         <td rowspan='2'><span style='white-space:nowrap'>{<i>sign</i>}{<code>0b</code>|<code>0o</code>|<code>0x</code>}<i>n</i></span></td>
         <td rowspan='2'>1, 2</td>
         <td rowspan='2' style='text-align:left'>
           Arbitrary sized integers without fractional components or exponents.
-          See <a href='#integer-encoding'>CBOR integer encoding</a>.
-          Binary, octal, and hexadecimal notation is supported by prepending numbers
-          with <code>0b</code>, <code>0o</code>, and <code>0x</code> respectively.
-          The latter also permit arbitrary insertions of <code>'_'</code> characters between digits to
-          enable grouping of data like <code>0b100_000000001</code>.
+          See also <a href='#integer-encoding'>CBOR integer encoding</a>.
+          <div style='margin-top:0.5em'>
+            For <i>input</i> data in diagnostic notation, binary, octal, and hexadecimal notation
+            is also supported by prepending numbers with <code>0b</code>, <code>0o</code>, and <code>0x</code> respectively.
+            The latter also permit arbitrary insertions of <code>'_'</code> characters between digits to
+            enable grouping of data like <code>0b100_000000001</code>.
+          </div>
         </td>
       </tr>
-      <tr style='text-align:center'><td><code>bignum</code></tr>
+      <tr style='text-align:center'><td><kbd>bignum</kbd></tr>
       <tr style='text-align:center' id='float-diag'>
-        <td rowspan='3'><code>floating&nbsp;point</code></td>
+        <td rowspan='3'><kbd>floating&nbsp;point</kbd></td>
         <td>{<i>sign</i>}<i>n</i><code>.</code><i>n</i>{<code>e&pm;</code><i>n</i>}</td>
         <td>1, 2</td>
         <td style='text-align:left'>
           Floating point values
           must include a decimal point and an <i>optional</i> exponent.
-          See <a href='#floating-point-encoding'>CBOR floating point encoding</a>.
+          See also <a href='#floating-point-encoding'>CBOR floating point encoding</a>.
         </td>
       </tr>
       <tr style='text-align:center'>
@@ -904,7 +944,7 @@ base64 encoded data as well as data with or without
         <td></td>
         <td style='text-align:left'>
           Not a number.
-          See <a href='#floating-point-encoding'>CBOR floating point encoding</a>.
+          See also <a href='#floating-point-encoding'>CBOR floating point encoding</a>.
         </td>
       </tr>
       <tr style='text-align:center'>
@@ -912,11 +952,11 @@ base64 encoded data as well as data with or without
         <td>2</td>
         <td style='text-align:left'>
           Infinity.
-          See <a href='#floating-point-encoding'>CBOR floating point encoding</a>.
+          See also <a href='#floating-point-encoding'>CBOR floating point encoding</a>.
         </td>
       </tr>
       <tr style='text-align:center'>
-        <td rowspan='4'><code>byte&nbsp;string</code></td>
+        <td rowspan='4'><kbd>byte&nbsp;string</kbd></td>
         <td><code>h'</code><i>hex&nbsp;data</i><code>'</code></td>
         <td>3, 6</td>
         <td style='text-align:left'>
@@ -943,32 +983,32 @@ base64 encoded data as well as data with or without
         <td style='text-align:left'>Construct holding a CBOR object which is subsequently embedded in a byte string.</td>
       </tr>
       <tr style='text-align:center'>
-        <td><code>text&nbsp;string</code></td>
+        <td><kbd>text&nbsp;string</kbd></td>
         <td><code>&quot;</code><i>text</i><code>&quot;</code>
         <td>4, 5</td>
         <td style='text-align:left'>UTF-8 encoded text string.</td>
       </tr>
       <tr style='text-align:center'>
-        <td><code>true</code></td>
+        <td><kbd>true</kbd></td>
         <td><code>true</code></td>
         <td rowspan='2'></td>
         <td rowspan='2' style='text-align:left'>Boolean value.</td>
       </tr>
-      <tr style='text-align:center'><td><code>false</code></td><td><code>false</code></td></tr>
+      <tr style='text-align:center'><td><kbd>false</kbd></td><td><code>false</code></td></tr>
       <tr style='text-align:center'>
-        <td><code>null</code></td>
+        <td><kbd>null</kbd></td>
         <td><code>null</code></td>
         <td></td>
         <td style='text-align:left'>Null value.</td>
       </tr>
       <tr style='text-align:center'>
-        <td><code>array</code></td>
+        <td><kbd>array</kbd></td>
         <td><code>[</code>&nbsp;<i>objects</i>&nbsp;<code>]</code></td>
         <td></td>
         <td style='text-align:left'>Array with zero or more comma separated CBOR objects.</td>
       </tr>
       <tr style='text-align:center'>
-        <td><code>map</code></td>
+        <td><kbd>map</kbd></td>
         <td><code>{</code>&nbsp;<i>key</i><code>:</code><i>value</i>&nbsp;<code>}</code></td>
         <td></td>
         <td style='text-align:left'>
@@ -977,7 +1017,7 @@ base64 encoded data as well as data with or without
         </td>
       </tr>
       <tr style='text-align:center'>
-        <td><code>tag</code></td>
+        <td><kbd>tag</kbd></td>
         <td><i>n</i><code>(</code>&nbsp;<i>object</i>&nbsp;<code>)</code></td>
         <td>1</td>
         <td style='text-align:left'>Tag holding a CBOR object.</td>
@@ -1015,8 +1055,10 @@ base64 encoded data as well as data with or without
     </li>
     <li>Zero-length strings (<code>''</code>) return byte strings of length zero.</li>
     <li>The IETF have yet to define a single line comment.</li>
-    <li>Only applicable for <i>input</i>.
-    That is, <a href='#common.tostring'>toString()</a> does not produce this item.</li>
+    <li>
+      Only applicable for <i>input</i>.
+      That is, <a href='#common.tostring'>toString()</a> does not produce this item.
+    </li>
   </ol>
   <h3 id='main.deterministic'>8.&nbsp;&nbsp;Deterministic Encoding</h3>
 
@@ -1027,7 +1069,7 @@ base64 encoded data as well as data with or without
   encodings, aka &quot;Deterministic Encoding&quot;.  The choosen encoding
   model is compatible with most existing CBOR <i>decoders</i>.
   <p>
-    However, to not limit CBOR.js to new applictions only,
+    However, to not limit CBOR.js to new applications only,
     deterministic encoding checking may <i>optionally</i> be turned off
     for accepting input from &quot;legacy&quot; CBOR <i>encoders</i>.
   </p>
@@ -1141,6 +1183,6 @@ base64 encoded data as well as data with or without
   </ul>
   <h3 id='main.version'>9.&nbsp;&nbsp;Version</h3>
 
-  Version: pre-release 2023-07-24
+  Version: pre-release 2023-07-25
 </body>
 </html>
