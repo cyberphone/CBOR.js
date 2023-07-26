@@ -108,12 +108,12 @@
     <li><i>Optional</i>: <a href='#common.checkforunread'>check for unread elements</a></li>
   </ul>
   Note: in this specification CBOR data items are subsequently referred to as CBOR objects.
-  <div class='webpkicomment' style='margin:1.2em 0 0.5em 0'>
+  <div id='cross-platform' class='webpkicomment' style='margin:1.2em 0 0.5em 0'>
     Although this document describes a JavaScript API, it could also serve
     as a guide for CBOR implementations for other software platforms,
     with the goal of creating the foundation for cross platform interoperability.
     Due to this consideration, the level of CBOR support provided by the API is
-    of the type general purpose, avoiding constructs that are specific to JavaScript,
+    of the type &quot;general purpose&quot;, avoiding constructs that are specific to JavaScript,
     like <code>undefined</code> and typed arrays beyond <code>Uint8Array</code>.
   </div>
   <h3 id='main.wrappers'>2.&nbsp;&nbsp;CBOR Wrapper Objects</h3>
@@ -723,7 +723,7 @@ If the <code>sequenceFlag</code> in the call to
 is <code>true</code>, each call to
 <a href='#decoder.cbor.decodeextended'>CBOR.decodeExtended()</a>
 causes the internal decoder to move to the next (possible but unprocessed) CBOR object.
-When there is no more data to decode, this method returns <code>null</code>.</td></tr>
+When there is no more data to decode, <code>null</code> is returned.</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code><i>decoder</i></code></td><td style='text-align:center'><code><i>Decoder</i></code></td><td style='width:100%'>Internal decoder object.</td></tr>

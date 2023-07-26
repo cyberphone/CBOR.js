@@ -635,7 +635,7 @@ public class CreateDocument {
   is <code>true</code>, each call to 
   <a href='#decoder.cbor.decodeextended'>CBOR.decodeExtended()</a>
   causes the internal decoder to move to the next (possible but unprocessed) CBOR object.
-  When there is no more data to decode, this method returns <code>null</code>.""";
+  When there is no more data to decode, <code>null</code> is returned.""";
 
   static final String DECODEEXT_P1_DESCR = 
   """
