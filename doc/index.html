@@ -108,10 +108,19 @@
     <li><i>Optional</i>: <a href='#common.checkforunread'>check for unread elements</a></li>
   </ul>
   Note: in this specification CBOR data items are subsequently referred to as CBOR objects.
+  <div class='webpkicomment' style='margin:1.2em 0 0.5em 0'>
+    Although this document describes a JavaScript API, it could also serve
+    as a guide for CBOR implementations for other software platforms,
+    with the goal of creating the foundation for cross platform interoperability.
+    Due to this consideration, the level of CBOR support provided by the API is
+    of the type general purpose, avoiding constructs that are specific to JavaScript,
+    like <code>undefined</code> and typed arrays beyond <code>Uint8Array</code>.
+  </div>
   <h3 id='main.wrappers'>2.&nbsp;&nbsp;CBOR Wrapper Objects</h3>
 
   This section describes the wrapper objects and their specific methods.
-  See also <a href='#main.common'>Common Wrapper Methods</a>.
+  Note that using the <kbd>&quot;new&quot;</kbd> operator with the wrapper objects
+  is flagged as an <i>error</i>.
   The following table lists the wrapper objects and their relation to
   the CBOR objects supported by this specification:
   <div class='webpkifloat'>
@@ -159,6 +168,7 @@
       </tr>
     </table>
   </div>
+  See also <a href='#main.common'>Common Wrapper Methods</a>.
   <h5 id='wrapper.cbor.int'>2.1.&nbsp;&nbsp;CBOR.Int</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
@@ -202,10 +212,10 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</td></tr>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>getBigInt()</code></td></tr>
 <tr><th>Description</th><td style='width:100%'>Reads CBOR big integer.
-Note that this method is also supported by
+<div style='margin-top:0.5em'>Note: this method is also supported by
 <a href='#wrapper.cbor.int'>CBOR.Int</a>.  This is necessary since
 the CBOR decoder does not know the preferred integer type of a specific element;
-it uses the <i>value</i> as the sole selection mechanism.</td></tr>
+it uses the <i>value</i> as the sole selection mechanism.</div></td></tr>
 <tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>BigInt</code></td><td style='width:100%'>Decoded big integer.</td></tr>
@@ -542,9 +552,9 @@ this method must be called <i>before</i> accessing the tag object.</div></td></t
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>encode()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Encodes this object.
-Note: this method always return CBOR data using
-<a href='#main.deterministic'>Deterministic Encoding</a>.</td></tr>
+<tr><th>Description</th><td style='width:100%'> Encodes this object.
+<div style='margin-top:0.5em'>Note: this method always return CBOR data using
+ <a href='#main.deterministic'>Deterministic Encoding</a>.</div></td></tr>
 <tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>Uint8Array</code></td><td style='width:100%'>CBOR encoded data.</td></tr>
@@ -606,9 +616,9 @@ with a <code>true</code> argument.</td></tr>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>isNull()</code></td></tr>
 <tr><th>Description</th><td style='width:100%'>Checks for CBOR <code>null</code>.
-Note that if <a href='#common.checkforunread'>checkForUnread()</a>
+<div style='margin:0.5em 0'>Note: if <a href='#common.checkforunread'>checkForUnread()</a>
 is used, the current object will only be regarded as &quot;read&quot;
-if it actually is a CBOR <code>null</code> item.
+if it actually is a CBOR <code>null</code> item.</div>
 See also <a href='#wrapper.cbor.null'>CBOR.Null()</a>.</td></tr>
 <tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
@@ -1183,6 +1193,6 @@ base64 encoded data as well as data with or without
   </ul>
   <h3 id='main.version'>9.&nbsp;&nbsp;Version</h3>
 
-  Version: pre-release 2023-07-25
+  Version: pre-release 2023-07-26
 </body>
 </html>

@@ -44,10 +44,10 @@ public class CreateDocument {
   static final String W_GETBIGINT_DESCR = 
   """
   Reads CBOR big integer.
-  Note that this method is also supported by
+  <div style='margin-top:0.5em'>Note: this method is also supported by
   <a href='#wrapper.cbor.int'>CBOR.Int</a>.  This is necessary since
   the CBOR decoder does not know the preferred integer type of a specific element;
-  it uses the <i>value</i> as the sole selection mechanism.""";
+  it uses the <i>value</i> as the sole selection mechanism.</div>""";
   
   static final String W_GETBIGINT_RETURN_DESCR = 
   """
@@ -360,8 +360,8 @@ public class CreateDocument {
   static final String ENCODE_DESCR = 
   """
   Encodes this object.
-  Note: this method always return CBOR data using 
-  <a href='#main.deterministic'>Deterministic Encoding</a>.""";
+ <div style='margin-top:0.5em'>Note: this method always return CBOR data using 
+  <a href='#main.deterministic'>Deterministic Encoding</a>.</div>""";
 
   static final String ENCODE_RETURN_DESCR = 
   """
@@ -398,9 +398,9 @@ public class CreateDocument {
   static final String ISNULL_DESCR = 
   """
   Checks for CBOR <code>null</code>.
-  Note that if <a href='#common.checkforunread'>checkForUnread()</a>
+  <div style='margin:0.5em 0'>Note: if <a href='#common.checkforunread'>checkForUnread()</a>
   is used, the current object will only be regarded as &quot;read&quot;
-  if it actually is a CBOR <code>null</code> item.
+  if it actually is a CBOR <code>null</code> item.</div>
   See also <a href='#wrapper.cbor.null'>CBOR.Null()</a>.""";
   
   static final String ISNULL_RETURN_DESCR = 

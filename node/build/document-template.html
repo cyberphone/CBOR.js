@@ -32,9 +32,18 @@
     <li><i>Optional</i>: <a href='#common.checkforunread'>check for unread elements</a></li>
   </ul>
   Note: in this specification CBOR data items are subsequently referred to as CBOR objects.
+  <div class='webpkicomment' style='margin:1.2em 0 0.5em 0'>
+    Although this document describes a JavaScript API, it could also serve
+    as a guide for CBOR implementations for other software platforms,
+    with the goal of creating the foundation for cross platform interoperability.
+    Due to this consideration, the level of CBOR support provided by the API is
+    of the type general purpose, avoiding constructs that are specific to JavaScript,
+    like <code>undefined</code> and typed arrays beyond <code>Uint8Array</code>.
+  </div>
   ${WRAPPER_INTRO}
   This section describes the wrapper objects and their specific methods.
-  See also <a href='#main.common'>Common Wrapper Methods</a>.
+  Note that using the <kbd>&quot;new&quot;</kbd> operator with the wrapper objects
+  is flagged as an <i>error</i>.
   The following table lists the wrapper objects and their relation to
   the CBOR objects supported by this specification:
   <div class='webpkifloat'>
@@ -82,6 +91,7 @@
       </tr>
     </table>
   </div>
+  See also <a href='#main.common'>Common Wrapper Methods</a>.
   ${CBOR_WRAPPERS}
   ${COMMON_INTRO}
   The <a href='#main.wrappers'>CBOR wrapper objects</a>
@@ -438,6 +448,6 @@
     </li>
   </ul>
   ${VERSION_INFO}
-  Version: pre-release 2023-07-25
+  Version: pre-release 2023-07-26
 </body>
 </html>
