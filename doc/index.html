@@ -856,8 +856,8 @@ base64 encoded data as well as data with or without
   two variants of integers and three variants of floating point types.
   <h5 id='jsnumbers.int'>6.1.&nbsp;&nbsp;Integer Numbers</h5>
 
-  Due to the <kbd>Number.MAX_SAFE_INTEGER</kbd> limitation, CBOR documents using
-  integer elements with a magnitude in excess of
+  Due to the <kbd>Number.MAX_SAFE_INTEGER</kbd> limitation, CBOR documents and
+  protocols using integer elements where the magnitude may exceed
   <span style='white-space:nowrap'><kbd>2<div class='webpkisuper'>53</div>-1</kbd></span>, must
   for such elements turn to <code>BigInt</code>,
   otherwise run-time errors may occur when accessing integer data using
@@ -868,6 +868,11 @@ base64 encoded data as well as data with or without
   <a href='#wrapper.cbor.bigint'>CBOR.BigInt()</a>
   is the proper solution, while access requires
   <a href='#cbor.bigint.getbigint'>getBigInt()</a>.
+  <p>
+    Note that the selection between <a href='#wrapper.cbor.bigint'>CBOR.BigInt()</a>
+    and <a href='#wrapper.cbor.int'>CBOR.Int()</a> only affects the maximum
+    numeric range with respect to JavaScript, not the CBOR encoding.
+  </p>
   <p>
     The selection between the CBOR <kbd>unsigned</kbd> and <kbd>negative</kbd>
     integer variants is dealt with by the CBOR.js implementation;
