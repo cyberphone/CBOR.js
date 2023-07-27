@@ -2,9 +2,11 @@
 
 This repository contains a
 [CBOR JavaScript API](https://cyberphone.github.io/CBOR.js/doc/).  The API loosely mimics the "JSON" object by _exposing a single global object_,
-unsurprisingly named "CBOR".  The core is based on wrapping data
-in CBOR specific objects.  These objects are used for encoding CBOR data,
-as well as being the result of CBOR decoding.
+unsurprisingly named "CBOR".  To minimize the need for application developers having detailed knowledge of CBOR,
+  the API provides a set of high level wrapper objects.
+
+  The wrapper objects are used for encoding CBOR data items,
+  as well as being the result of CBOR decoding.
 
 To simplify adoption, the API utilizes a CBOR encoding scheme that is _backward compatible_
 with the "CBOR&nbsp;Playground" (https://cbor.me), maintained by the
