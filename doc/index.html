@@ -1077,12 +1077,15 @@ base64 encoded data as well as data with or without
   </ol>
   <h3 id='main.deterministic'>8.&nbsp;&nbsp;Deterministic Encoding</h3>
 
-  While there are different ways you can encode certain CBOR objects,
-  this is non-trivial to support in a generic platform API without
-  adding complexity and that for little provable gain.
-  Therefore the CBOR.js API defines specific (non-variant)
-  encodings, aka &quot;Deterministic Encoding&quot;.  The choosen encoding
-  model is compatible with most existing CBOR <i>decoders</i>.
+  This section is primarily targeting implementers of CBOR tools.
+  <p>
+    While there are different ways you can encode certain CBOR objects,
+    this is non-trivial to support in a generic platform API without
+    adding complexity and that for little provable gain.
+    Therefore the CBOR.js API defines specific (non-variant)
+    encodings, aka &quot;Deterministic Encoding&quot;.  The chosen encoding
+    model is compatible with most existing CBOR <i>decoders</i>.
+  </p>
   <p>
     However, to not limit CBOR.js to new applications only,
     deterministic encoding checking may <i>optionally</i> be turned off
