@@ -1055,7 +1055,7 @@ class CBOR {
 ///////////////////////////
 
   static decode = function(cbor) {
-    let decoder = new CBOR.#_decoder(cbor, false, false, false);
+    let decoder = new CBOR.#_decoder(cbor, false, false);
     return CBOR.#getObject(decoder);
   }
 
