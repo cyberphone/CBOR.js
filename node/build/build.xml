@@ -22,8 +22,8 @@
   <target name="build">
     <copy file="${src.file}" tofile="${dist.file}" overwrite="true"/>
     <replaceregexp file="${dist.file}"
-    match="\'use.*\n\nclass"
-    replace="export default class"
+    match="class CBOR"
+    replace="export default class CBOR"
     flags="g"/>
   </target>
 

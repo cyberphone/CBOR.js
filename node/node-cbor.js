@@ -2,14 +2,15 @@
 //                                                                             //
 //                             CBOR JavaScript API                             //
 //                                                                             //
-// Defines a single global object CBOR to (in some way) mimic the JSON object. //
-// Determinisic encoding aligned with Appendix A and 4.2.2 Rule 2 of RFC 8949. //
 // Author: Anders Rundgren (https://github.com/cyberphone)                     //
 /////////////////////////////////////////////////////////////////////////////////
 
+'use strict';
+
+// Single global static object.
 export default class CBOR {
 
-  // Super class for all CBOR types.
+  // Super class for all CBOR wrappers.
   static #CborObject = class {
 
     #readFlag;
@@ -235,7 +236,7 @@ export default class CBOR {
     #value;
 
     // The CBOR.BigInt wrapper object implements the CBOR integer reduction algorithm.  The
-    // JavaScript "BigInt" object is used for maintaining lossless represention of large integers.
+    // JavaScript "BigInt" object is used for maintaining lossless represention of big integers.
     constructor(value) {
       super();
       this.#value = CBOR.#typeCheck(value, 'BigInt');
