@@ -58,4 +58,4 @@ while (f < 0x800000) {
   }
   f++;
 }
-System.out.println("Runs=" + Long.toString(runs));
+console.log("Runs=" + runs);

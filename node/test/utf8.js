@@ -4,7 +4,7 @@ import { assertTrue, assertFalse, success } from './assertions.js';
 
 function utf8EncoderTest(string, ok) {
   try {
-    let cbor = CBOR.String(string).encode();
+    CBOR.String(string).encode();
     assertTrue("enc", ok);
   } catch (error) {
     assertFalse("No good", ok);

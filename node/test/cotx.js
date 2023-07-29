@@ -4,7 +4,7 @@ import { assertTrue, assertFalse, success } from './assertions.js';
 
 function oneTurn(hex, dn, ok) {
   try {
-    let cbor = CBOR.decode(CBOR.fromHex(hex));
+    CBOR.decode(CBOR.fromHex(hex));
     assertTrue("Should not execute", ok);
   } catch (error) {
     assertFalse("Must succeed", ok);
