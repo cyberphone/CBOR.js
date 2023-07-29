@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-<link rel='icon' href='webpkiorg.png' sizes='192x192'>
-<meta name='viewport' content='initial-scale=1.0'>
-<title>CBOR Browser Test</title>
-<link rel='stylesheet' type='text/css' href='style.css'>
-<script src='../src/cbor.js'></script>
-<script>'use strict';
+// Testing CBOR.js API
+import CBOR from '../node-cbor.js';
 
-let failed=false;
 let failures = 0;
 let test = 0;
+let name = '';
 
 function assertTrue(text, bool) {
   if (!bool) throw Error("Assertion: " + text);
@@ -20,17 +13,8 @@ function assertFalse(text, bool) {
   if (bool) throw Error("Assertion: " + text);
 }
 
-function resultPrint(word, colorAndStuff) {
-  if (test) {
-    document.getElementById('cborout').innerHTML += ', ';
-  }
-  document.getElementById('cborout').innerHTML += '<span style="color:' + colorAndStuff + '">' +
-    word + '</span>(' + TESTS[test].name + ')';
-}
-
 function success() {
-  resultPrint('Passed', 'green');
-  console.log("SUCCESSFUL");
+  console.log('Test ' + name + ' was successful');
 }
 
 let TESTS=[
@@ -650,35 +634,21 @@ success();
 
 function runTest() {
   test = 0;
-  failed = false;
   failures = 0;
-  document.getElementById('cborout').innerHTML = '';
-  let i = setInterval(() => {
-    console.log(TESTS[test].name);
+  for (let test = 0; test < TESTS.length; test++) {
+    name = TESTS[test].name;
     try {
       eval(TESTS[test].file);
     } catch (error) {
       failures++;
-      resultPrint('FAILED', 'red;font-weight:bold');
-      console.log("FAILED: " + error);
+      console.log(name + " FAILED: " + error);
     }
-    test++;
-    if (test == TESTS.length) {
-      clearInterval(i);
-      document.getElementById('cborout').innerHTML += '<br>&nbsp;<br>Failures: ' + failures;
-    }
-  }, 200);
+  }
+  if (failures) {
+    console.log('There were ' + failures + ' errors');
+  } else {
+    console.log('PASSED');
+  }
 }
 
-</script>
-</head>
-<body>
-  <img style="max-width:30%" src="cbor.js.svg" alt="logo" title="CBOR.js logotype">
-  <h3 style="text-align:center;font-weight:normal;font-size:1.8em">CBOR.js - Browser Test</h3>
-  Results...
-  <div id='cborout' class='staticbox' style='word-break:normal'></div>
-  <div style='display:flex;justify-content:center'>
-    <div class='stdbtn' onclick="runTest()">Run Test!</div>
-  </div>
-</body>
-</html>
+runTest();

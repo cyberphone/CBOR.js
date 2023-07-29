@@ -10,6 +10,8 @@
   <property name="test.dir" location="../test"/>
   <property name="browser-test.file" location="../../doc/browser-test.html"/>
   <property name="browser-test-template.file" location="browser-test-template.html"/>
+  <property name="node-test.file" location="../test/test.js"/>
+  <property name="node-test-template.file" location="node-test-template.js"/>
 
   <property name="debug"  value="on"/>
 
@@ -81,6 +83,17 @@
         </fileset>
       </classpath>
       <arg line="${browser-test-template.file} ${browser-test.file} ${test.dir}/"/>
+    </java>
+    <java fork="yes"
+      classname="CreateBrowserTest"
+      failonerror="true">
+      <classpath>
+        <pathelement path="${temp.dir}"/>
+        <fileset dir="${webpki.lib.dir}">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+      <arg line="${node-test-template.file} ${node-test.file} ${test.dir}/"/>
     </java>
     <delete dir="${temp.dir}"/>
   </target>
