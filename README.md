@@ -66,8 +66,7 @@ permitting testing the encoder, decoder, and diagnostic notation implementation.
 ### Deterministic Encoding Rules
 
 The JavaScript API implements deterministic encoding based on section 4.2 of [RFC8949](https://www.rfc-editor.org/rfc/rfc8949.html).
-For maximum interoperability, the API also depends on Rule&nbsp;2 of section 4.2.2, as well as interpreting Appendix&nbsp;A as
-_bidirectional_.
+For maximum interoperability, the API also depends on Rule&nbsp;2 of section 4.2.2.
 
 To shield developers from having to know the inner workings of deterministic encoding, the CBOR.js API performs
 all the necessary transformations _automatically_.  This for example means that if the `set` operations
@@ -93,6 +92,8 @@ console.log(CBOR.toHex(cbor));
 ------------------------------
 a201fb4046d9999999999a0269486920746865726521
 ```
+Aided by the model used for deterministic encoding, diagnostic notation becomes _bidirectional,_
+while remaining faithful to the native CBOR representation.
 
 ### Implementation Note
 
@@ -105,4 +106,4 @@ The code represents a _Reference Implementation_, not code for inclusion in Java
 |JDK&nbsp;17+|https://github.com/cyberphone/openkeystore|
 |Android/Java|https://github.com/cyberphone/android-cbor|
 
-Updated: 2023-07-25
+Updated: 2023-07-30
