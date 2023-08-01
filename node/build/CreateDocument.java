@@ -45,9 +45,10 @@ public class CreateDocument {
   """
   Reads CBOR big integer.
   <div style='margin-top:0.5em'>Note: this method is also supported by
-  <a href='#wrapper.cbor.int'>CBOR.Int</a>.  This is necessary since
-  the CBOR decoder does not know the preferred integer type of a specific element;
-  it uses the <i>value</i> as the sole selection mechanism.</div>""";
+  <a href='#wrapper.cbor.int'>CBOR.Int</a>.  This is necessary because
+  the CBOR decoder uses the size of a decoded integer value as the sole mechanism for
+  selecting between creating a <a href='#wrapper.cbor.int'>CBOR.Int</a> or a
+  <a href='#wrapper.cbor.bigint'>CBOR.BigInt</a> wrapper object.</div>""";
   
   static final String W_GETBIGINT_RETURN_DESCR = 
   """

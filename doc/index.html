@@ -221,9 +221,10 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</td></tr>
 <tr><th>Syntax</th><td style='width:100%'><code>getBigInt()</code></td></tr>
 <tr><th>Description</th><td style='width:100%'>Reads CBOR big integer.
 <div style='margin-top:0.5em'>Note: this method is also supported by
-<a href='#wrapper.cbor.int'>CBOR.Int</a>.  This is necessary since
-the CBOR decoder does not know the preferred integer type of a specific element;
-it uses the <i>value</i> as the sole selection mechanism.</div></td></tr>
+<a href='#wrapper.cbor.int'>CBOR.Int</a>.  This is necessary because
+the CBOR decoder uses the size of a decoded integer value as the sole mechanism for
+selecting between creating a <a href='#wrapper.cbor.int'>CBOR.Int</a> or a
+<a href='#wrapper.cbor.bigint'>CBOR.BigInt</a> wrapper object.</div></td></tr>
 <tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>BigInt</code></td><td style='width:100%'>Decoded big integer.</td></tr>
