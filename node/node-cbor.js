@@ -1576,11 +1576,11 @@ export default class CBOR {
 
   static #intCheck = function(value) {
     CBOR.#typeCheck(value, 'Number');
-    if (!Number.isSafeInteger(value)) {
-      CBOR.#error(Number.isInteger(value) ? "Argument is outside of Number.MAX_SAFE_INTEGER" :
-                  "Argument is not an integer");
+    if (Number.isSafeInteger(value) && !Object.is(value,-0)) {
+      return value;
+    } else {
+      CBOR.#error("Argument is not an integer");
     }
-    return value;
   }
 
   static #finishBigIntAndTag = function(tag, value) {
