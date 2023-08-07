@@ -349,6 +349,12 @@ try {
   assertTrue("msg1", error.toString().includes("Argument is not an integer"));
 }
 try {
+  CBOR.Int(-0);
+  fail("Should not");
+} catch (error) {
+  assertTrue("msg1", error.toString().includes("Argument is not an integer"));
+}
+try {
   CBOR.Int("10");
   fail("Should not");
 } catch (error) {
