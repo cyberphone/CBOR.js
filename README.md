@@ -106,4 +106,7 @@ The code represents a _Reference Implementation_, not code for inclusion in Java
 |JDK&nbsp;17+|https://github.com/cyberphone/openkeystore|
 |Android/Java|https://github.com/cyberphone/android-cbor|
 
-Updated: 2023-07-30
+### Internet Draft
+https://datatracker.ietf.org/doc/draft-rundgren-deterministic-cbor/
+
+Updated: 2023-08-08
