@@ -1320,6 +1320,12 @@ class CBOR {
             floatingPoint = true;
             continue;
 
+          case 'e':
+            if (!prefix) {
+              floatingPoint = true;
+            }
+            continue;
+            
           case '_':
             if (!prefix) {
               this.parserError("'_' is only permitted for 0b, 0o, and 0x numbers");
