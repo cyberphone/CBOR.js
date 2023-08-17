@@ -1317,9 +1317,6 @@ export default class CBOR {
             break;
           
           case '.':
-            floatingPoint = true;
-            continue;
-
           case 'e':
             if (!prefix) {
               floatingPoint = true;
