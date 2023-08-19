@@ -236,7 +236,7 @@ class CBOR {
     #value;
 
     // The CBOR.BigInt wrapper object implements the CBOR integer reduction algorithm.  The
-    // JavaScript "BigInt" object is used for maintaining lossless represention of big integers.
+    // JavaScript "BigInt" object is used for maintaining lossless represention of bignums.
     constructor(value) {
       super();
       this.#value = CBOR.#typeCheck(value, 'BigInt');
@@ -934,7 +934,7 @@ class CBOR {
         case CBOR.#MT_BIG_UNSIGNED:
           let byteArray = this.getObject().getBytes();
           if ((byteArray.length <= 8 || !byteArray[0]) && this.deterministicMode) {
-            CBOR.#error("Non-deterministic big integer encoding");
+            CBOR.#error("Non-deterministic bignum encoding");
           }
           let value = 0n;
           byteArray.forEach(byte => {
@@ -1600,7 +1600,7 @@ class CBOR {
       length++;
     }
     let byteArray = new Uint8Array(array.reverse());
-    // Does this number qualify as a "big integer"?
+    // Does this number qualify as a "bignum"?
     if (length <= 8) {
       // Apparently not, encode it as "integer".
       if (length == 1 && byteArray[0] <= 23) {
