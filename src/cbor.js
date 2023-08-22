@@ -767,6 +767,8 @@ class CBOR {
       } else if (tagNumber == 0n) {
         if (object.constructor.name == CBOR.String.name) {
           let dateTime = object.getString();
+          // Fails on https://www.rfc-editor.org/rfc/rfc3339.html#section-5.8
+          // Leap second 1990-12-31T15:59:60-08:00
           if (dateTime.match(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(\.\d+)?(-\d{2}:\d{2}|Z)$/m) &&
               !Number.isNaN(new Date(dateTime).getTime())) {
             return;
