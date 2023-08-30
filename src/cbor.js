@@ -921,8 +921,8 @@ class CBOR {
           // It should preferable be <<= but JavaScript shifts are broken...
           significand *= Math.pow(2, (exponent / 0x400) - 1);
         }
-        // Divide with: 2 ^ (Exponent offset + Size of significand - 1).
-        f64 = significand / 0x1000000;
+        // Multiply with: 1 / (2 ^ (Exponent offset + Size of significand - 1)).
+        f64 = significand * 5.960464477539063e-8;
       }
       return this.compareAndReturn(decoded, f16Binary >= 0x8000 ? -f64 : f64);
     }
