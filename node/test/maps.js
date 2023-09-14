@@ -1,5 +1,5 @@
 // Testing map operations
-import CBOR from '../npm/index.mjs';
+import CBOR from '../../npm/index.mjs';
 import { assertTrue, assertFalse, success } from './assertions.js';
 
 let map = CBOR.Map()
