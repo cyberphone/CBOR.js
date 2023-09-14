@@ -1,5 +1,5 @@
 // Number overflow tests.
-import CBOR from '../../npm/index.mjs';
+import CBOR from '../npm/index.mjs';
 import { assertTrue, assertFalse, success } from './assertions.js';
 
 const TOO_BIG = Number.MAX_SAFE_INTEGER + 1;

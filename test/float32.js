@@ -1,5 +1,5 @@
 // JavaScript source code
-import CBOR from '../../npm/index.mjs';
+import CBOR from '../npm/index.mjs';
  
 let float32 = 0;
 let float16 = 0;

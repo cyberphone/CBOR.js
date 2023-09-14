@@ -1,5 +1,5 @@
 // Test program for floating point "edge cases"
-import CBOR from '../../npm/index.mjs';
+import CBOR from '../npm/index.mjs';
 import { assertTrue, assertFalse, success } from './assertions.js';
 
 function oneTurn(value, expected) {

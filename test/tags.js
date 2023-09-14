@@ -1,5 +1,5 @@
 // Testing "tag"
-import CBOR from '../../../npm/index.mjs';
+import CBOR from '../../npm/index.mjs';
 import { assertTrue, assertFalse, success } from './assertions.js';
 
 let object = CBOR.Array().add(CBOR.String("https://example.com/myobject")).add(CBOR.Int(6));
