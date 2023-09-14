@@ -1,5 +1,5 @@
 // Testing the "checkForUnread()" feature
-import CBOR from '../node-cbor.js';
+import CBOR from '../npm/index.mjs';
 import { assertTrue, assertFalse, success } from './assertions.js';
 
 function oneTurn(create, access, ok) {

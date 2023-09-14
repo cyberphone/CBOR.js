@@ -1,5 +1,5 @@
 // Testing CBOR.js API
-import CBOR from '../node-cbor.js';
+import CBOR from '../npm/index.mjs';
 
 let failures = 0;
 let test = 0;

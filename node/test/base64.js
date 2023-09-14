@@ -1,5 +1,5 @@
 // Testing the B64U/B64 converters
-import CBOR from '../node-cbor.js';
+import CBOR from '../npm/index.mjs';
 import { assertTrue, assertFalse, success } from './assertions.js';
 
 let bin = new Uint8Array(256);

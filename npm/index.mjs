@@ -9,7 +9,7 @@
 'use strict';
 
 // Single global static object.
-class CBOR {
+export default class CBOR {
 
   // Super class for all CBOR wrappers.
   static #CborObject = class {

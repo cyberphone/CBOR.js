@@ -1,5 +1,5 @@
 // miscellaneous tests
-import CBOR from '../node-cbor.js';
+import CBOR from '../npm/index.mjs';
 import { assertTrue, assertFalse, success } from './assertions.js';
 
 let bin = new Uint8Array([0xa5, 0x01, 0xd9, 0x01, 0xf4, 0x81, 0x18, 0x2d, 0x02, 0xf9, 0x80, 0x10,

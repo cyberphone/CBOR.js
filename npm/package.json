@@ -1,0 +1,23 @@
+{
+  "name": "cbor-object",
+  "version": "1.0.0",
+  "description": "Deterministically Encoding CBOR",
+  "homepage": "https://github.com/cyberphone/CBOR.js#cborjs",
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "require": "./index.cjs"
+    }
+  },
+  "scripts": {
+    "test": "node ./test-all.mjs"
+  },
+  "author": {
+    "name": "Anders Rundgren",
+    "email": "anders.rundgren.net@gmail.com"
+  },
+  "engines": {
+    "node": ">=14.18.1"
+  },
+  "license": "MIT"
+}

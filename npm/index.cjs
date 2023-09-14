@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
-//                                                                             //
-//                             CBOR JavaScript API                             //
-//                                                                             //
-// Author: Anders Rundgren (https://github.com/cyberphone)                     //
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+//                                                              //
+//                     CBOR JavaScript API                      //
+//                                                              //
+// Author: Anders Rundgren (anders.rundgrn.net@gmail.com)       //
+// Repository: https://github.com/cyberphone/CBOR.js#cborjs     //
+//////////////////////////////////////////////////////////////////
 
 'use strict';
 
 // Single global static object.
-export default class CBOR {
+class CBOR {
 
   // Super class for all CBOR wrappers.
   static #CborObject = class {
@@ -1757,3 +1758,5 @@ export default class CBOR {
                            c => c.charCodeAt(0));
   }
 }
+
+module.exports = CBOR;

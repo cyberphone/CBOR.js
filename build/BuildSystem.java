@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import org.webpki.util.IO;
 import org.webpki.util.UTF8;
 
-public class CreateBrowserTest {
+public class BuildSystem {
   String template;
   String testFileDirectory;
   Integer index;
@@ -23,7 +23,7 @@ public class CreateBrowserTest {
     index += content.length();
   }
 
-  CreateBrowserTest(String templateFileName, String browserTestFileName, String testFileDirectory) {
+  BuildSystem(String templateFileName, String browserTestFileName, String testFileDirectory) {
     template = UTF8.decode(IO.readFile(templateFileName));
     this.testFileDirectory = testFileDirectory;
     addFile("base64.js");
@@ -44,7 +44,6 @@ public class CreateBrowserTest {
     IO.writeFile(browserTestFileName, template);
   }
   public static void main(String[] args) {
-    System.out.println("HI");
-    new CreateBrowserTest(args[0], args[1], args[2]);
+    new BuildSystem(args[0], args[1], args[2]);
   }
 }

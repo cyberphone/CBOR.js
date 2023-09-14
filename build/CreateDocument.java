@@ -1414,7 +1414,6 @@ public class CreateDocument {
     IO.writeFile(documentFileName, template);
   }
   public static void main(String[] args) {
-    System.out.println("HI");
     new CreateDocument(args[0], args[1]);
   }
 }

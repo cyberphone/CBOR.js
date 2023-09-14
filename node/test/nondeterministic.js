@@ -1,5 +1,5 @@
 // Testing "deterministic" code checks
-import CBOR from '../node-cbor.js';
+import CBOR from '../npm/index.mjs';
 import { assertTrue, assertFalse, success } from './assertions.js';
 
 function oneTurn(hex, dn) {

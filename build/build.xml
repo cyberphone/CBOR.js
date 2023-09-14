@@ -1,30 +1,27 @@
 <project name="CBOR Node.js module builder" default="help">
 
   <!-- set properties for this build -->
-  <property name="src.file" location="../../src/cbor.js"/>
-  <property name="dist.file" location="../node-cbor.js"/>
+  <property name="src.file" location="../src/cbor.js"/>
+  <property name="npm.dir" location="../npm"/>
+  <property name="local.dir" location="../local"/>
+  <property name="npm.index.mjs" location="${npm.dir}/index.mjs"/>
+  <property name="npm.index.cjs" location="${npm.dir}/index.cjs"/>
   <property name="temp.dir" location=".tmp"/>
-  <property name="webpki.lib.dir" location="../../../openkeystore/library/dist"/>
-  <property name="doc.file" location="../../doc/index.html"/>
+  <property name="webpki.lib.dir" location="../../openkeystore/library/dist"/>
+  <property name="doc.file" location="../doc/index.html"/>
   <property name="document-template.file" location="document-template.html"/>
-  <property name="test.dir" location="../test"/>
-  <property name="browser-test.file" location="../../doc/browser-test.html"/>
+  <property name="test.dir" location="../node/test"/>
+  <property name="browser-test.file" location="../doc/browser-test.html"/>
   <property name="browser-test-template.file" location="browser-test-template.html"/>
-  <property name="node-test.file" location="../test/test.js"/>
+  <property name="node-test.file" location="../node/test/test-all.js"/>
   <property name="node-test-template.file" location="node-test-template.js"/>
+  <property name="npm-test.file" location="../npm/test-all.mjs"/>
+  <property name="npm-test-template.file" location="npm-test-template.js"/>
 
   <property name="debug"  value="on"/>
 
   <target name="help">
-    <echo message="help build doc btest"/>
-  </target>
-
-  <target name="build">
-    <copy file="${src.file}" tofile="${dist.file}" overwrite="true"/>
-    <replaceregexp file="${dist.file}"
-    match="class CBOR"
-    replace="export default class CBOR"
-    flags="g"/>
+    <echo message="help build doc"/>
   </target>
 
   <target name="doc">
@@ -54,15 +51,28 @@
     <delete dir="${temp.dir}"/>
   </target>
 
-  <target name="btest">
-    <delete dir="${temp.dir}"/>
-    <mkdir dir="${temp.dir}"/>
-    <fixcrlf srcdir="${test.dir}"
+  <target name="build">
+
+    <fixcrlf srcdir="../"
              tab="remove"
-             tablength="4"
+             tablength="2"
              eol="lf"
              eof="remove"
-             includes="*.js"/>
+             includes="*.js, *.json, *.html"/>
+
+    <copy file="${src.file}" tofile="${npm.index.mjs}" overwrite="true"/>
+    <replaceregexp file="${npm.index.mjs}"
+    match="class CBOR"
+    replace="export default class CBOR"
+    flags="g"/>
+
+    <copy file="${src.file}" tofile="${npm.index.cjs}" overwrite="true"/>
+    <concat destfile="${npm.index.cjs}" append="true"><![CDATA[
+module.exports = CBOR;
+]]></concat>
+
+    <delete dir="${temp.dir}"/>
+    <mkdir dir="${temp.dir}"/>
     <javac debug="${debug}"
            srcdir="."
            destdir="${temp.dir}"
@@ -74,7 +84,7 @@
       </classpath>
     </javac>
     <java fork="yes"
-      classname="CreateBrowserTest"
+      classname="BuildSystem"
       failonerror="true">
       <classpath>
         <pathelement path="${temp.dir}"/>
@@ -85,7 +95,7 @@
       <arg line="${browser-test-template.file} ${browser-test.file} ${test.dir}/"/>
     </java>
     <java fork="yes"
-      classname="CreateBrowserTest"
+      classname="BuildSystem"
       failonerror="true">
       <classpath>
         <pathelement path="${temp.dir}"/>
@@ -95,6 +105,25 @@
       </classpath>
       <arg line="${node-test-template.file} ${node-test.file} ${test.dir}/"/>
     </java>
+    <java fork="yes"
+      classname="BuildSystem"
+      failonerror="true">
+      <classpath>
+        <pathelement path="${temp.dir}"/>
+        <fileset dir="${webpki.lib.dir}">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+      <arg line="${npm-test-template.file} ${npm-test.file} ${test.dir}/"/>
+    </java>
+
     <delete dir="${temp.dir}"/>
+
+    <delete dir="${local.dir}"/>
+    <mkdir dir="${local.dir}"/>
+    <exec executable="npm.cmd" failonerror="true" dir="${npm.dir}">
+      <arg line="pack --pack-destination=${local.dir}"/>
+    </exec>
+
   </target>
 </project>

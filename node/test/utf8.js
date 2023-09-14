@@ -1,5 +1,5 @@
 // Test of "utf8" converters
-import CBOR from '../node-cbor.js';
+import CBOR from '../npm/index.mjs';
 import { assertTrue, assertFalse, success } from './assertions.js';
 
 function utf8EncoderTest(string, ok) {

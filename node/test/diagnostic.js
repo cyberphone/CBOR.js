@@ -1,5 +1,5 @@
 // Testing "diagnostic notation"
-import CBOR from '../node-cbor.js';
+import CBOR from '../npm/index.mjs';
 import { assertTrue, assertFalse, success } from './assertions.js';
 
 function oneTurn(cborText, ok, compareWithOrNull) {

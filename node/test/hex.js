@@ -1,5 +1,5 @@
 // Test of "hex" utility methods
-import CBOR from '../node-cbor.js';
+import CBOR from '../npm/index.mjs';
 import { assertTrue, assertFalse, success } from './assertions.js';
 
 const hex = '0123456789abcdefABCDEF';
