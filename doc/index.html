@@ -3,6 +3,7 @@
 <head>
   <link rel='icon' href='webpkiorg.png' sizes='192x192'>
   <meta name='viewport' content='initial-scale=1.0'>
+  <meta charset='UTF-8'>
   <title>CBOR JavaScript API</title>
   <link rel='stylesheet' type='text/css' href='style.css'>
 </head>
@@ -867,7 +868,7 @@ base64 encoded data as well as data with or without
 
   Due to the <kbd>Number.MAX_SAFE_INTEGER</kbd> limitation, CBOR documents and
   protocols using integer elements where the magnitude may exceed
-  <span style='white-space:nowrap'><kbd>2<div class='webpkisuper'>53</div>-1</kbd></span>, must
+  <kbd>2<sup>53</sup>-1</kbd>, must
   for such elements turn to <code>BigInt</code>,
   otherwise run-time errors may occur when accessing integer data using
   <a href='#cbor.int.getint'>getInt()</a> or
@@ -1114,9 +1115,8 @@ base64 encoded data as well as data with or without
     <li id='integer-encoding' class='webpkilistspacing'>
       RFC: Integers, represented by the <kbd>integer</kbd> and
       <kbd>bignum</kbd> types, <b>must</b> use the <kbd>integer</kbd>
-      type if the value is between
-      <span style='white-space:nowrap'><kbd>-2<div class='webpkisuper'>64</div></kbd></span>
-      and <span style='white-space:nowrap'><kbd>2<div class='webpkisuper'>64</div>-1</kbd></span>,
+      type if the value is between <kbd>-2<sup>64</sup></kbd>
+      and <kbd>2<sup>64</sup>-1</kbd>,
       otherwise the <kbd>bignum</kbd> type <b>must</b> be used.
       The following table holds a few sample values and their proper CBOR encoding:
       <div class='webpkifloat'>
