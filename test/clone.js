@@ -1,5 +1,5 @@
 // Testing the "clone()" and "equals() methods
-import CBOR from '../npm/index.mjs';
+import CBOR from '../npm/mjs/index.mjs';
 import { assertTrue, assertFalse, success } from './assertions.js';
 
 let object = CBOR.Map()

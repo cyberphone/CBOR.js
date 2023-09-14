@@ -1,5 +1,5 @@
 // Test program for integer "edge cases"
-import CBOR from '../npm/index.mjs';
+import CBOR from '../npm/mjs/index.mjs';
 import { assertTrue, assertFalse, fail, success } from './assertions.js';
 
 function oneTurn(value, expected) {

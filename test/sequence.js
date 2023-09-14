@@ -1,5 +1,5 @@
 // Testing the "sequence" option
-import CBOR from '../npm/index.mjs';
+import CBOR from '../npm/mjs/index.mjs';
 import { assertTrue, assertFalse, success } from './assertions.js';
 
 let cbor = new Uint8Array([0x05, 0xa1, 0x05, 0x42, 0x6a, 0x6a])
