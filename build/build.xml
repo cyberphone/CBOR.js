@@ -10,10 +10,10 @@
   <property name="webpki.lib.dir" location="../../openkeystore/library/dist"/>
   <property name="doc.file" location="../doc/index.html"/>
   <property name="document-template.file" location="document-template.html"/>
-  <property name="test.dir" location="../node/test"/>
+  <property name="test.dir" location="../test"/>
   <property name="browser-test.file" location="../doc/browser-test.html"/>
   <property name="browser-test-template.file" location="browser-test-template.html"/>
-  <property name="node-test.file" location="../node/test/test-all.js"/>
+  <property name="node-test.file" location="../test/test-all.js"/>
   <property name="node-test-template.file" location="node-test-template.js"/>
   <property name="npm-test.file" location="../npm/test-all.mjs"/>
   <property name="npm-test-template.file" location="npm-test-template.js"/>
