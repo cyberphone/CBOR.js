@@ -4,8 +4,8 @@
   <property name="src.file" location="../src/cbor.js"/>
   <property name="npm.dir" location="../npm"/>
   <property name="local.dir" location="../local"/>
-  <property name="npm.index.mjs" location="${npm.dir}/index.mjs"/>
-  <property name="npm.index.cjs" location="${npm.dir}/index.cjs"/>
+  <property name="npm.index.mjs" location="${npm.dir}/mjs/index.mjs"/>
+  <property name="npm.index.cjs" location="${npm.dir}/cjs/index.cjs"/>
   <property name="temp.dir" location=".tmp"/>
   <property name="webpki.lib.dir" location="../../openkeystore/library/dist"/>
   <property name="doc.file" location="../doc/index.html"/>
