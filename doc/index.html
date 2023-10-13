@@ -134,46 +134,56 @@
   the CBOR objects supported by this specification:
   <div class='webpkifloat'>
     <table class='webpkitable' style='margin-left:2em'>
-      <tr><th>CBOR&nbsp;Object</th><th>Wrapper&nbsp;Object</th></tr>
+      <tr><th>CBOR&nbsp;Object</th><th>Wrapper&nbsp;Object</th><th>JavaScript&nbsp;Counterpart</th></tr>
       <tr style='text-align:center'>
         <td><kbd>integer</kbd></td>
         <td><a href='#wrapper.cbor.int'>CBOR.Int</a></td>
+        <td><kbd>Number/BigInt</kbd></td>
       </tr>
       <tr style='text-align:center'>
         <td><kbd>bignum/integer</kbd></td>
         <td><a href='#wrapper.cbor.bigint'>CBOR.BigInt</a></td>
+        <td><kbd>BigInt</kbd></td>
       </tr>
       <tr style='text-align:center'>
         <td><kbd>floating&nbsp;point</kbd></td>
         <td><a href='#wrapper.cbor.float'>CBOR.Float</a></td>
+        <td><kbd>Number</kbd></td>
       </tr>
       <tr style='text-align:center'>
         <td><kbd>byte&nbsp;string</kbd></td>
         <td><a href='#wrapper.cbor.bytes'>CBOR.Bytes</a></td>
+        <td><kbd>Uint8Array</kbd></td>
       </tr>
       <tr style='text-align:center'>
         <td><kbd>text&nbsp;string</kbd></td>
         <td><a href='#wrapper.cbor.string'>CBOR.String</a></td>
+        <td><kbd>String</kbd></td>
       </tr>
       <tr style='text-align:center'>
         <td><kbd>true/false</kbd></td>
         <td><a href='#wrapper.cbor.boolean'>CBOR.Boolean</a></td>
+        <td><kbd>Boolean</kbd></td>
       </tr>
       <tr style='text-align:center'>
         <td><kbd>null</kbd></td>
         <td><a href='#wrapper.cbor.null'>CBOR.Null</a></td>
+        <td><kbd>null</kbd></td>
       </tr>
       <tr style='text-align:center'>
         <td><kbd>array</kbd></td>
         <td><a href='#wrapper.cbor.array'>CBOR.Array</a></td>
+        <td></td>
       </tr>
       <tr style='text-align:center'>
         <td><kbd>map</kbd></td>
         <td><a href='#wrapper.cbor.map'>CBOR.Map</a></td>
+        <td></td>
       </tr>
       <tr style='text-align:center'>
         <td><kbd>tag</kbd></td>
         <td><a href='#wrapper.cbor.tag'>CBOR.Tag</a></td>
+        <td></td>
       </tr>
     </table>
   </div>
@@ -378,7 +388,7 @@ If <code><i>index</i></code> is out of range, an exception is thrown.</td></tr>
 <tr><th>Description</th><td style='width:100%'>Copies array.</td></tr>
 <tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><code>Array</code></td><td style='width:100%'>Shallow array copy of current <code>CBOR.<i>Wrapper</i></code> objects</td></tr>
+<tr><td style='text-align:center'><code>Array</code></td><td style='width:100%'>Shallow array copy of current <code>CBOR.<i>Wrapper</i></code> objects.</td></tr>
 </table></div>
 <h5 id='cbor.array.getarray'>2.8.1.4.&nbsp;&nbsp;getArray()</h5>
 <div class='webpkifloat'>
@@ -486,7 +496,7 @@ If <code><i>key</i></code> is undefined, an exception is thrown.</td></tr>
 <tr><th>Description</th><td style='width:100%'>Get map keys.</td></tr>
 <tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><code>Array</code></td><td style='width:100%'>Shallow array copy of current <code>CBOR.<i>Wrapper</i></code> map keys</td></tr>
+<tr><td style='text-align:center'><code>Array</code></td><td style='width:100%'>Shallow array copy of current <code>CBOR.<i>Wrapper</i></code> map keys.</td></tr>
 </table></div>
 <h5 id='cbor.map.getmap'>2.9.1.7.&nbsp;&nbsp;getMap()</h5>
 <div class='webpkifloat'>
@@ -1207,6 +1217,6 @@ base64 encoded data as well as data with or without
   </ul>
   <h3 id='main.version'>9.&nbsp;&nbsp;Version</h3>
 
-  Version: pre-release 2023-08-01
+  Version: 1.0.1, 2023-10-13
 </body>
 </html>

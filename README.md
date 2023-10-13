@@ -63,6 +63,10 @@ Value=45.7
 On https://cyberphone.github.io/CBOR.js/doc/playground.html you will find a simple Web application,
 permitting testing the encoder, decoder, and diagnostic notation implementation.
 
+### NPM Version
+
+For usage with Node.js, a NPM version is available: https://www.npmjs.com/package/cbor-object 
+
 ### Deterministic Encoding Rules
 
 The JavaScript API implements deterministic encoding based on section 4.2 of [RFC8949](https://www.rfc-editor.org/rfc/rfc8949.html).
@@ -109,4 +113,4 @@ The code represents a _Reference Implementation_, not code for inclusion in Java
 ### Internet Draft
 https://datatracker.ietf.org/doc/draft-rundgren-deterministic-cbor/
 
-Updated: 2023-08-15
+Updated: 2023-10-13
