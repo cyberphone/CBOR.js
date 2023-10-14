@@ -1508,12 +1508,10 @@ export default class CBOR {
 
           case '/':
             this.readChar();
-            if (this.nextChar() != '/') {
-              while (this.readChar() != '/') {
-              }
-              continue;
+            while (this.readChar() != '/') {
             }
-          // Yes, '//' is currently considered as equivalent to '#'
+            continue;
+
           case '#':
             this.readChar();
             while (this.index < this.cborText.length && this.readChar() != '\n') {
