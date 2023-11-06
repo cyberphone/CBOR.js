@@ -425,7 +425,7 @@ this method must be called <i>before</i> accessing array elements.</div></td></t
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><code>set(<i>key</i>, <i>value</i>)</code></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Sets map entry.
-If <code><i>key</i></code> is already defined, an exception is thrown.
+If <code><i>key</i></code> entry is already defined, an exception is thrown.
 <div style='margin-top:0.5em'>Note: <code><i>key</i></code> order is of no importance since
 <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>
 performs the required map sorting <i>automatically</i>.</div></td></tr>
@@ -442,7 +442,7 @@ performs the required map sorting <i>automatically</i>.</div></td></tr>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><code>get(<i>key</i>)</code></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Gets map entry.
-If <code><i>key</i></code> is undefined, an exception is thrown.</td></tr>
+If <code><i>key</i></code> entry is undefined, an exception is thrown.</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code><i>key</i></code></td><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>Key (name) wrapper object.</td></tr>
@@ -458,7 +458,7 @@ If <code><i>key</i></code> is undefined, an exception is thrown.</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code><i>key</i></code></td><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>Key (name) wrapper object.</td></tr>
-<tr><td style='text-align:center'><code><i>defaultValue</i></code></td><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>Value to return if <code><i>key</i></code> does not exist.
+<tr><td style='text-align:center'><code><i>defaultValue</i></code></td><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>Value to return if <code><i>key</i></code> entry is undefined.
 <code><i>defaultValue</i></code> may be <code>null</code>.</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
@@ -481,7 +481,7 @@ If <code><i>key</i></code> is undefined, an exception is thrown.</td></tr>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><code>remove(<i>key</i>)</code></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Removes map entry.
-If <code><i>key</i></code> is undefined, an exception is thrown.</td></tr>
+If <code><i>key</i></code> entry is undefined, an exception is thrown.</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code><i>key</i></code></td><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>Key (name) wrapper object.</td></tr>

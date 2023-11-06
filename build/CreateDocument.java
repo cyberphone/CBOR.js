@@ -210,7 +210,7 @@ public class CreateDocument {
   static final String W_MAP_SET_DESCR = 
   """
   Sets map entry.
-  If <code><i>key</i></code> is already defined, an exception is thrown.
+  If <code><i>key</i></code> entry is already defined, an exception is thrown.
   <div style='margin-top:0.5em'>Note: <code><i>key</i></code> order is of no importance since
   <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>
   performs the required map sorting <i>automatically</i>.</div>""";
@@ -231,7 +231,7 @@ public class CreateDocument {
   static final String W_MAP_GET_DESCR = 
   """
   Gets map entry.
-  If <code><i>key</i></code> is undefined, an exception is thrown.""";
+  If <code><i>key</i></code> entry is undefined, an exception is thrown.""";
 ;
 
   static final String W_MAP_GET_P1_DESCR = 
@@ -246,7 +246,7 @@ public class CreateDocument {
   static final String W_MAP_REMOVE_DESCR = 
   """
   Removes map entry.
-  If <code><i>key</i></code> is undefined, an exception is thrown.""";
+  If <code><i>key</i></code> entry is undefined, an exception is thrown.""";
 
   static final String W_MAP_REMOVE_P1_DESCR = 
   """
@@ -268,7 +268,7 @@ public class CreateDocument {
 
   static final String W_MAP_GETCOND_P2_DESCR = 
   """
-  Value to return if <code><i>key</i></code> does not exist.
+  Value to return if <code><i>key</i></code> entry is undefined.
   <code><i>defaultValue</i></code> may be <code>null</code>.""";
 
   static final String W_MAP_GETCOND_RETURN_DESCR = 
