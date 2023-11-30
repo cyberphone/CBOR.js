@@ -181,7 +181,7 @@ public class CreateDocument {
   Copies array.""";
 
   static final String W_ARRAY_TOARR_RETURN_DESCR = 
-  "Shallow array copy of current <code>" + DataTypes.CBOR_Any + "</code> objects.";   
+  "JavaScript array holding a copy of current <code>" + DataTypes.CBOR_Any + "</code> objects.";   
   
 
   static final String W_ARRAY_GETARR_DESCR = 
@@ -294,7 +294,7 @@ public class CreateDocument {
   Get map keys.""";
   
   static final String W_MAP_GETKEYS_RETURN_DESCR = 
-  "Shallow array copy of current <code>" + DataTypes.CBOR_Any + "</code> map keys.";   
+  "JavaScript array holding a copy of current <code>" + DataTypes.CBOR_Any + "</code> map keys.";   
 
 
   static final String W_MAP_GETMAP_DESCR = 
@@ -774,7 +774,7 @@ public class CreateDocument {
     JS_THIS("this"),
 
     JS_NUMBER("Number"),
-    JS_ARRAY("Array"),
+    JS_ARRAY("[...]"),
     JS_BIGINT("BigInt"),
     JS_BOOLEAN("Boolean"),
     JS_STRING("String"),

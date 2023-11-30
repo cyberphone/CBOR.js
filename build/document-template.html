@@ -57,59 +57,67 @@
   the CBOR objects supported by this specification:
   <div class='webpkifloat'>
     <table class='webpkitable' style='margin-left:2em'>
-      <tr><th>CBOR&nbsp;Object</th><th>Wrapper&nbsp;Object</th><th>JavaScript&nbsp;Counterpart</th></tr>
-      <tr style='text-align:center'>
+      <tr><th>CBOR&nbsp;Object</th><th>Wrapper&nbsp;Object</th><th>JavaScript</th></tr>
+      <tr>
         <td><kbd>integer</kbd></td>
         <td><a href='#wrapper.cbor.int'>CBOR.Int</a></td>
-        <td><kbd>Number/BigInt</kbd></td>
+        <td><kbd>Number</kbd> [1]</td>
       </tr>
-      <tr style='text-align:center'>
-        <td><kbd>bignum/integer</kbd></td>
+      <tr>
+        <td><kbd>bignum</kbd></td>
         <td><a href='#wrapper.cbor.bigint'>CBOR.BigInt</a></td>
-        <td><kbd>BigInt</kbd></td>
+        <td><kbd>BigInt</kbd> [1]</td>
       </tr>
-      <tr style='text-align:center'>
+      <tr>
         <td><kbd>floating&nbsp;point</kbd></td>
         <td><a href='#wrapper.cbor.float'>CBOR.Float</a></td>
-        <td><kbd>Number</kbd></td>
+        <td><kbd>Number</kbd> [2]</td>
       </tr>
-      <tr style='text-align:center'>
+      <tr>
         <td><kbd>byte&nbsp;string</kbd></td>
         <td><a href='#wrapper.cbor.bytes'>CBOR.Bytes</a></td>
         <td><kbd>Uint8Array</kbd></td>
       </tr>
-      <tr style='text-align:center'>
+      <tr>
         <td><kbd>text&nbsp;string</kbd></td>
         <td><a href='#wrapper.cbor.string'>CBOR.String</a></td>
         <td><kbd>String</kbd></td>
       </tr>
-      <tr style='text-align:center'>
+      <tr>
         <td><kbd>true/false</kbd></td>
         <td><a href='#wrapper.cbor.boolean'>CBOR.Boolean</a></td>
         <td><kbd>Boolean</kbd></td>
       </tr>
-      <tr style='text-align:center'>
+      <tr>
         <td><kbd>null</kbd></td>
         <td><a href='#wrapper.cbor.null'>CBOR.Null</a></td>
         <td><kbd>null</kbd></td>
       </tr>
-      <tr style='text-align:center'>
+      <tr>
         <td><kbd>array</kbd></td>
         <td><a href='#wrapper.cbor.array'>CBOR.Array</a></td>
         <td></td>
       </tr>
-      <tr style='text-align:center'>
+      <tr>
         <td><kbd>map</kbd></td>
         <td><a href='#wrapper.cbor.map'>CBOR.Map</a></td>
         <td></td>
       </tr>
-      <tr style='text-align:center'>
+      <tr>
         <td><kbd>tag</kbd></td>
         <td><a href='#wrapper.cbor.tag'>CBOR.Tag</a></td>
         <td></td>
       </tr>
     </table>
   </div>
+  <ol style='margin:0 0'>
+    <li>See also <a href='#jsnumbers.int'>Integer Numbers</a>.</li>
+    <li>See also <a href='#jsnumbers.fp'>Floating Point Numbers</a>.</li>
+  </ol>
+  <p>
+    Note that this implementation does not support CBOR &quot;simple&quot; vakues beyond
+    <kdb>true</kdb>, <kdb>false</kdb>, <kdb>null</kdb>, and the three floating point variants.
+  </p>
   See also <a href='#main.common'>Common Wrapper Methods</a>.
   ${CBOR_WRAPPERS}
   ${COMMON_INTRO}
@@ -424,7 +432,7 @@
           <tr style='text-align:right'><td><kbd>NaN</kbd></td><td><kbd>f97e00</kbd></td></tr>
           <tr><th colspan='2'>Assorted Edge Cases</th></tr>
           <tr style='text-align:right'><td><kbd>-5.960464477539062e-8</kbd></td><td><kbd>fbbe6fffffffffffff</kbd></td></tr>
-          <tr style='text-align:right'><td><kbd>-5.9604644775390625e-8</kbd></td><td><kbd>f98001</kbd></td></tr>
+          <tr style='text-align:right'><td><kbd>-5.960464477539063e-8</kbd></td><td><kbd>f98001</kbd></td></tr>
           <tr style='text-align:right'><td><kbd>-5.960464477539064e-8</kbd></td><td><kbd>fbbe70000000000001</kbd></td></tr>
           <tr style='text-align:right'><td><kbd>-5.960465188081798e-8</kbd></td><td><kbd>fab3800001</kbd></td></tr>
           <tr style='text-align:right'><td><kbd>0.00006097555160522461</kbd></td><td><kbd>f903ff</kbd></td></tr>

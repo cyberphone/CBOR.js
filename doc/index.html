@@ -134,59 +134,67 @@
   the CBOR objects supported by this specification:
   <div class='webpkifloat'>
     <table class='webpkitable' style='margin-left:2em'>
-      <tr><th>CBOR&nbsp;Object</th><th>Wrapper&nbsp;Object</th><th>JavaScript&nbsp;Counterpart</th></tr>
-      <tr style='text-align:center'>
+      <tr><th>CBOR&nbsp;Object</th><th>Wrapper&nbsp;Object</th><th>JavaScript</th></tr>
+      <tr>
         <td><kbd>integer</kbd></td>
         <td><a href='#wrapper.cbor.int'>CBOR.Int</a></td>
-        <td><kbd>Number/BigInt</kbd></td>
+        <td><kbd>Number</kbd> [1]</td>
       </tr>
-      <tr style='text-align:center'>
-        <td><kbd>bignum/integer</kbd></td>
+      <tr>
+        <td><kbd>bignum</kbd></td>
         <td><a href='#wrapper.cbor.bigint'>CBOR.BigInt</a></td>
-        <td><kbd>BigInt</kbd></td>
+        <td><kbd>BigInt</kbd> [1]</td>
       </tr>
-      <tr style='text-align:center'>
+      <tr>
         <td><kbd>floating&nbsp;point</kbd></td>
         <td><a href='#wrapper.cbor.float'>CBOR.Float</a></td>
-        <td><kbd>Number</kbd></td>
+        <td><kbd>Number</kbd> [2]</td>
       </tr>
-      <tr style='text-align:center'>
+      <tr>
         <td><kbd>byte&nbsp;string</kbd></td>
         <td><a href='#wrapper.cbor.bytes'>CBOR.Bytes</a></td>
         <td><kbd>Uint8Array</kbd></td>
       </tr>
-      <tr style='text-align:center'>
+      <tr>
         <td><kbd>text&nbsp;string</kbd></td>
         <td><a href='#wrapper.cbor.string'>CBOR.String</a></td>
         <td><kbd>String</kbd></td>
       </tr>
-      <tr style='text-align:center'>
+      <tr>
         <td><kbd>true/false</kbd></td>
         <td><a href='#wrapper.cbor.boolean'>CBOR.Boolean</a></td>
         <td><kbd>Boolean</kbd></td>
       </tr>
-      <tr style='text-align:center'>
+      <tr>
         <td><kbd>null</kbd></td>
         <td><a href='#wrapper.cbor.null'>CBOR.Null</a></td>
         <td><kbd>null</kbd></td>
       </tr>
-      <tr style='text-align:center'>
+      <tr>
         <td><kbd>array</kbd></td>
         <td><a href='#wrapper.cbor.array'>CBOR.Array</a></td>
         <td></td>
       </tr>
-      <tr style='text-align:center'>
+      <tr>
         <td><kbd>map</kbd></td>
         <td><a href='#wrapper.cbor.map'>CBOR.Map</a></td>
         <td></td>
       </tr>
-      <tr style='text-align:center'>
+      <tr>
         <td><kbd>tag</kbd></td>
         <td><a href='#wrapper.cbor.tag'>CBOR.Tag</a></td>
         <td></td>
       </tr>
     </table>
   </div>
+  <ol style='margin:0 0'>
+    <li>See also <a href='#jsnumbers.int'>Integer Numbers</a>.</li>
+    <li>See also <a href='#jsnumbers.fp'>Floating Point Numbers</a>.</li>
+  </ol>
+  <p>
+    Note that this implementation does not support CBOR &quot;simple&quot; vakues beyond
+    <kdb>true</kdb>, <kdb>false</kdb>, <kdb>null</kdb>, and the three floating point variants.
+  </p>
   See also <a href='#main.common'>Common Wrapper Methods</a>.
   <h5 id='wrapper.cbor.int'>2.1.&nbsp;&nbsp;CBOR.Int</h5>
 <div class='webpkifloat'>
@@ -388,7 +396,7 @@ If <code><i>index</i></code> is out of range, an exception is thrown.</td></tr>
 <tr><th>Description</th><td style='width:100%'>Copies array.</td></tr>
 <tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><code>Array</code></td><td style='width:100%'>Shallow array copy of current <code>CBOR.<i>Wrapper</i></code> objects.</td></tr>
+<tr><td style='text-align:center'><code>[...]</code></td><td style='width:100%'>JavaScript array holding a copy of current <code>CBOR.<i>Wrapper</i></code> objects.</td></tr>
 </table></div>
 <h5 id='cbor.array.getarray'>2.8.1.4.&nbsp;&nbsp;getArray()</h5>
 <div class='webpkifloat'>
@@ -496,7 +504,7 @@ If <code><i>key</i></code> entry is undefined, an exception is thrown.</td></tr>
 <tr><th>Description</th><td style='width:100%'>Get map keys.</td></tr>
 <tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><code>Array</code></td><td style='width:100%'>Shallow array copy of current <code>CBOR.<i>Wrapper</i></code> map keys.</td></tr>
+<tr><td style='text-align:center'><code>[...]</code></td><td style='width:100%'>JavaScript array holding a copy of current <code>CBOR.<i>Wrapper</i></code> map keys.</td></tr>
 </table></div>
 <h5 id='cbor.map.getmap'>2.9.1.7.&nbsp;&nbsp;getMap()</h5>
 <div class='webpkifloat'>
@@ -777,7 +785,7 @@ character (<code>','</code>) as a separator.</td></tr>
 <tr><td style='text-align:center'><code><i>cborText</i></code></td><td style='text-align:center'><code>String</code></td><td style='width:100%'>CBOR in textual format.</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><code>Array</code></td><td colspan='2' style='width:100%'>Array holding one or more CBOR wrapper objects.</td></tr>
+<tr><td style='text-align:center'><code>[...]</code></td><td colspan='2' style='width:100%'>Array holding one or more CBOR wrapper objects.</td></tr>
 </table></div>
 
   <h3 id='main.utility'>5.&nbsp;&nbsp;Utility Methods</h3>
@@ -1169,7 +1177,7 @@ base64 encoded data as well as data with or without
           <tr style='text-align:right'><td><kbd>NaN</kbd></td><td><kbd>f97e00</kbd></td></tr>
           <tr><th colspan='2'>Assorted Edge Cases</th></tr>
           <tr style='text-align:right'><td><kbd>-5.960464477539062e-8</kbd></td><td><kbd>fbbe6fffffffffffff</kbd></td></tr>
-          <tr style='text-align:right'><td><kbd>-5.9604644775390625e-8</kbd></td><td><kbd>f98001</kbd></td></tr>
+          <tr style='text-align:right'><td><kbd>-5.960464477539063e-8</kbd></td><td><kbd>f98001</kbd></td></tr>
           <tr style='text-align:right'><td><kbd>-5.960464477539064e-8</kbd></td><td><kbd>fbbe70000000000001</kbd></td></tr>
           <tr style='text-align:right'><td><kbd>-5.960465188081798e-8</kbd></td><td><kbd>fab3800001</kbd></td></tr>
           <tr style='text-align:right'><td><kbd>0.00006097555160522461</kbd></td><td><kbd>f903ff</kbd></td></tr>
