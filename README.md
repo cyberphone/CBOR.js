@@ -1,16 +1,14 @@
 <a id="cborjs">![Saturn is great](https://cyberphone.github.io/CBOR.js/doc/cbor.js.svg)
 
 This repository contains a
-[CBOR JavaScript API](https://cyberphone.github.io/CBOR.js/doc/).  The API loosely mimics the "JSON" object by _exposing a single global object_,
-unsurprisingly named "CBOR".  To minimize the need for application developers having detailed knowledge of CBOR,
-  the API provides a set of high level wrapper objects.
+[CBOR JavaScript API](https://cyberphone.github.io/CBOR.js/doc/).
+The API loosely mimics the "JSON" object by _exposing a single global object_,
+unsurprisingly named "CBOR".  To minimize the need for application developers 
+having detailed knowledge of CBOR,
+the API provides a set of high level wrapper objects.
 
-  The wrapper objects are used for encoding CBOR data items,
-  as well as being the result of CBOR decoding.
-
-To simplify adoption, the API utilizes a CBOR encoding scheme that is _backward compatible_
-with the "CBOR&nbsp;Playground" (https://cbor.me), maintained by the
-[RFC8949](https://www.rfc-editor.org/rfc/rfc8949.html) editor, Carsten&nbsp;Bormann.
+The wrapper objects are used for encoding CBOR data items,
+as well as being the result of CBOR decoding.
 
 ### Design Rationale
 
@@ -111,6 +109,6 @@ The code represents a _Reference Implementation_, not code for inclusion in Java
 |Android/Java|https://github.com/cyberphone/android-cbor|
 
 ### Internet Draft
-https://datatracker.ietf.org/doc/draft-rundgren-deterministic-cbor/
+https://datatracker.ietf.org/doc/draft-ietf-cbor-cde/
 
-Updated: 2023-10-13
+Updated: 2023-11-30
