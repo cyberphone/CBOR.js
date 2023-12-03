@@ -317,6 +317,7 @@ class CBOR {
             // Setup for F16.
             let f16exp = f32exp - 127 + 15;
             // Too small or too big for F16, or running into F16 NaN/Infinity space.
+            // Note: the "f16exp <= -10" test MUST stay due to JS shift limitations!
             if (f16exp <= -10 || f16exp >= 31) {
               break;
             }
