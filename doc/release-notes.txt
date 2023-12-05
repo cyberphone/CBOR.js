@@ -1,0 +1,9 @@
+1.0.0 - 1.0.1:
+Beta version.
+
+2023-10-14 - 1.0.2:
+First release.
+
+2023-12-05 - 1.0.3:
+Improved map key handling through binary search and insert.
+Added CBOR.Map.setSortingMode(flag) to cope with huge maps.

@@ -572,74 +572,61 @@ class CBOR {
 
   static Map = class extends CBOR.#CborObject {
 
-    #root;
-    #lastEntry;
-    #numberOfEntries = 0;
-    _deterministicMode = false;
+    #entries = [];
+    #preSortedKeys = false;
 
     static Entry = class {
 
       constructor(key, value) {
         this.key = key;
-        this.encodedKey = key.encode();
         this.value = value;
-        this.next = null;
+        this.encodedKey = key.encode();
       }
 
       compare = function(encodedKey) {
         return CBOR.compareArrays(this.encodedKey, encodedKey);
       }
+
+      compareAndTest = function(entry) {
+        let diff = this.compare(entry.encodedKey);
+        if (diff == 0) {
+          CBOR.#error("Duplicate key: " + this.key);
+        }
+        return diff > 0;
+      }
     }
 
     set = function(key, value) {
       let newEntry = new CBOR.Map.Entry(this.#getKey(key), CBOR.#cborArgumentCheck(value));
-      if (this.#root) {
-        // Second key etc.
-        if (this._deterministicMode) {
-          // Normal case for parsing.
-          let diff = this.#lastEntry.compare(newEntry.encodedKey);
-          if (diff >= 0) {
-            CBOR.#error((diff ? "Non-deterministic order for key: " : "Duplicate key: ") + key);
-          }
-          this.#lastEntry.next = newEntry;
-        } else {
-          // Programmatically created key or the result of unconstrained parsing.
-          // Then we need to test and sort (always produce deterministic CBOR).
-          let precedingEntry = null;
-          let diff = 0;
-          for (let entry = this.#root; entry; entry = entry.next) {
-            diff = entry.compare(newEntry.encodedKey);
-            if (diff == 0) {
-              CBOR.#error("Duplicate key: " + key);                      
-            }
-            if (diff > 0) {
-              // New key is (lexicographically) smaller than current entry.
-              if (precedingEntry == null) {
-                // New key is smaller than root. New key becomes root.
-                newEntry.next = this.#root;
-                this.#root = newEntry;
-              } else {
-                // New key is smaller than an entry above root. Insert before current entry.
-                newEntry.next = entry;
-                precedingEntry.next = newEntry;
-              }
-              // Done, break out of the loop.
-              break;
-            }
-            // No luck in this round, continue searching.
-            precedingEntry = entry;
-          }
-          // Biggest key so far, insert it at the end.
-          if (diff < 0) {
-            precedingEntry.next = newEntry;
-          }
+      let insertIndex;
+      if (this.#preSortedKeys) {
+        // Normal case for parsing.
+        insertIndex = this.#entries.length;
+        if (insertIndex > 0 && this.#entries[insertIndex - 1].compareAndTest(newEntry)) {
+          CBOR.#error("Non-deterministic order for key: " + key);
         }
       } else {
-        // First key, take it as is.
-        this.#root = newEntry;
+        // Programmatically created key or the result of unconstrained parsing.
+        // Then we need to test and sort (always produce deterministic CBOR).
+        // The algorithm is based on binary sort and insertion.
+        insertIndex = 0;
+        let startIndex = 0;
+        let endIndex = this.#entries.length - 1;
+        while (startIndex <= endIndex) {
+          let midIndex = startIndex + ((endIndex - startIndex) >> 1);
+          if (newEntry.compareAndTest(this.#entries[midIndex])) {
+            // New key is bigger than the looked up entry.
+            // Preliminary assumption: this is the one, but continue.
+            insertIndex = startIndex = midIndex + 1;
+          } else {
+            // New key is smaller, search lower parts of the array.
+            endIndex = midIndex - 1;
+          }
+        }
       }
-      this.#lastEntry = newEntry;
-      this.#numberOfEntries++;
+      // If insertIndex == this.#entries.length, the key will be appended.
+      // If insertIndex == 0, the key will be first in the list.
+      this.#entries.splice(insertIndex, 0, newEntry);
       return this;
     }
 
@@ -647,19 +634,25 @@ class CBOR {
       return CBOR.#cborArgumentCheck(key);
     }
 
-    #missingKey = function(key) {
-      CBOR.#error("Missing key: " + key);
-    }
-
     #lookup(key, mustExist) {
       let encodedKey = this.#getKey(key).encode();
-      for (let entry = this.#root; entry; entry = entry.next) {
-        if (entry.compare(encodedKey) == 0) {
+      let startIndex = 0;
+      let endIndex = this.#entries.length - 1;
+      while (startIndex <= endIndex) {
+        let midIndex = startIndex + ((endIndex - startIndex) >> 1);
+        let entry = this.#entries[midIndex];
+        let diff = entry.compare(encodedKey);
+        if (diff == 0) {
           return entry;
+        }
+        if (diff < 0) {
+          startIndex = midIndex + 1;
+        } else {
+          endIndex = midIndex - 1;
         }
       }
       if (mustExist) {
-        this.#missingKey(key);
+        CBOR.#error("Missing key: " + key);
       }
       return null;
     }
@@ -677,34 +670,24 @@ class CBOR {
 
     getKeys = function() {
       let keys = [];
-      for (let entry = this.#root; entry; entry = entry.next) {
+      this.#entries.forEach(entry => {
         keys.push(entry.key);
-      }
+      });
       return keys;
     }
 
     remove = function(key) {
-      let encodedKey = this.#getKey(key).encode();
-      let precedingEntry = null;
-      for (let entry = this.#root; entry; entry = entry.next) {
-        if (entry.compare(encodedKey) == 0) {
-          if (precedingEntry == null) {
-            // Remove root key.  It may be alone.
-            this.#root = entry.next;
-          } else {
-            // Remove key somewhere above root.
-            precedingEntry.next = entry.next;
-          }
-          this.#numberOfEntries--;
-          return entry.value;
+      let targetEntry = this.#lookup(key, true);
+      for (let i = 0; i < this.#entries.length; i++) {
+        if (this.#entries[i] == targetEntry) {
+          this.#entries.splice(i, 1);
+          return targetEntry.value;
         }
-        precedingEntry = entry;
       }
-      this.#missingKey(key);
     }
 
     _getLength = function() {
-      return this.#numberOfEntries;
+      return this.#entries.length;
     }
 
     containsKey = function(key) {
@@ -712,18 +695,18 @@ class CBOR {
     }
 
     encode = function() {
-      let encoded = CBOR.#encodeTagAndN(CBOR.#MT_MAP, this.#numberOfEntries);
-      for (let entry = this.#root; entry; entry = entry.next) {
+      let encoded = CBOR.#encodeTagAndN(CBOR.#MT_MAP, this.#entries.length);
+      this.#entries.forEach(entry => {
         encoded = CBOR.addArrays(encoded, 
                                  CBOR.addArrays(entry.key.encode(), entry.value.encode()));
-      }
+      });
       return encoded;
     }
 
     internalToString = function(cborPrinter) {
       let notFirst = false;
       cborPrinter.beginMap();
-      for (let entry = this.#root; entry; entry = entry.next) {
+      this.#entries.forEach(entry => {
         if (notFirst) {
           cborPrinter.append(',');
         }
@@ -733,11 +716,16 @@ class CBOR {
         cborPrinter.append(':');
         cborPrinter.space();
         entry.value.internalToString(cborPrinter);
-      }
+      });
       cborPrinter.endMap(notFirst);
     }
 
     _get = function() {
+      return this;
+    }
+
+    setSortingMode = function(preSortedKeys) {
+      this.#preSortedKeys = preSortedKeys;
       return this;
     }
   }
@@ -1024,14 +1012,12 @@ class CBOR {
           return cborArray;
     
         case CBOR.#MT_MAP:
-          let cborMap = CBOR.Map();
-          cborMap._deterministicMode = this.deterministicMode;
+          let cborMap = CBOR.Map().setSortingMode(this.deterministicMode);
           for (let q = this.rangeLimitedBigInt(bigN); --q >= 0;) {
             cborMap.set(this.getObject(), this.getObject());
           }
           // Programmatically added elements sort automatically. 
-          cborMap._deterministicMode = false;
-          return cborMap;
+          return cborMap.setSortingMode(false);
     
         default:
           this.unsupportedTag(tag);

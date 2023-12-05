@@ -15,3 +15,6 @@ The above works for both CJS and MJS (ESM) applications.
 
 ### Usage in Browsers
 Copy the file https://github.com/cyberphone/CBOR.js/blob/main/src/cbor.js to your application and include it in HTML with the `<script src='...'></script>` tag.
+
+### Release Notes
+See file https://cyberphone.github.io/CBOR.js/doc/release-notes.txt

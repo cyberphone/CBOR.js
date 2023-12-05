@@ -213,7 +213,9 @@ public class CreateDocument {
   If <code><i>key</i></code> entry is already defined, an exception is thrown.
   <div style='margin-top:0.5em'>Note: <code><i>key</i></code> order is of no importance since
   <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>
-  performs the required map sorting <i>automatically</i>.</div>""";
+  performs the required map sorting <i>automatically</i>.
+  See also <a href='#cbor.map.setsortingmode'>setSortingMode()</a>
+  and <a href='#decoder.cbor.initextended'>CBOR.initExtended()</a>.</div>""";
 
   static final String W_MAP_SET_P1_DESCR = 
   """
@@ -306,7 +308,30 @@ public class CreateDocument {
   this method must be called <i>before</i> accessing map keys.</div>""";
 
   static final String W_MAP_GETMAP_RETURN_DESCR = 
-  "Current object.";   
+  "Current object.";
+
+  static final String W_MAP_SET_SORTING_MODE_DESCR =
+  """
+  Sets the current sorting mode of the
+  <a href='#wrapper.cbor.map'>CBOR.Map()</a> object during
+  <a href='#cbor.map.set'>set()</a> operations.
+  <div style='margin:0.5em 0'>Typical usage:<br>
+  <code>let map = CBOR.Map().setSortingMode(true)</code></div>
+  This method may be called multiple times which could be
+  useful if you have a moderate set of unsorted meta data keys
+  combined with a sorted large table-like set of keys.
+  Note that this method has no effect on decoding operations.""";
+
+  static final String W_MAP_SET_SORTING_MODE_P1_DESCR =
+  """
+  If <code>true</code>,
+  keys must be provided in (CBOR wise) ascending order 
+  which can improve performance for maps having a huge number of keys.
+  Improper key order will cause an exception to be thrown.
+  By default map keys are sorted <i>internally</i>.""";
+
+  static final String W_MAP_SET_SORTING_MODE_RETURN_DESCR = W_MAP_GETMAP_RETURN_DESCR;
+  
 
   static final String W_MAP_PROP_DESCR = 
   """
@@ -619,7 +644,9 @@ public class CreateDocument {
   If <code>true</code> the decoder will accept CBOR code
   which violates the <a href='#main.deterministic'>Deterministic Encoding</a> rules.
   This option may be needed for dealing with &quot;legacy&quot;
-  CBOR implementations.""";
+  CBOR implementations.
+  The flag disables the strict map sorting requirement and the preferred
+  serialization of numbers (=shortest).""";
 
   static final String INITEXT_RETURN_DESCR = 
   """
@@ -1257,6 +1284,10 @@ public class CreateDocument {
       
       .addMethod("getMap", W_MAP_GETMAP_DESCR)
       .setReturn(DataTypes.CBOR_MAP, W_MAP_GETMAP_RETURN_DESCR)
+
+      .addMethod("setSortingMode", W_MAP_SET_SORTING_MODE_DESCR)
+      .addParameter("preSortedKeys", DataTypes.JS_BOOLEAN, W_MAP_SET_SORTING_MODE_P1_DESCR)
+      .setReturn(DataTypes.JS_THIS, W_MAP_SET_SORTING_MODE_RETURN_DESCR)
 
       .setProperty("length", DataTypes.JS_NUMBER, W_MAP_PROP_DESCR);
 

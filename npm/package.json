@@ -1,7 +1,7 @@
 {
   "name": "cbor-object",
-  "version": "1.0.2",
-  "description": "CBOR: deterministic encoder/decoder, bidirectional diagnostic notation, and utilities",
+  "version": "1.0.3",
+  "description": "CBOR: deterministic encoder/decoder, diagnostic notation encoder/decoder, and utilities",
   "homepage": "https://github.com/cyberphone/CBOR.js#cborjs",
   "repository": {
     "type": "git",

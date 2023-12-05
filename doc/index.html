@@ -59,6 +59,7 @@
 <div style='margin:0 0 0.4em 8em'><a href='#cbor.map.remove'>2.9.1.5.&nbsp;&nbsp;remove()</a></div>
 <div style='margin:0 0 0.4em 8em'><a href='#cbor.map.getkeys'>2.9.1.6.&nbsp;&nbsp;getKeys()</a></div>
 <div style='margin:0 0 0.4em 8em'><a href='#cbor.map.getmap'>2.9.1.7.&nbsp;&nbsp;getMap()</a></div>
+<div style='margin:0 0 0.4em 8em'><a href='#cbor.map.setsortingmode'>2.9.1.8.&nbsp;&nbsp;setSortingMode()</a></div>
 <div style='margin:0 0 0.4em 6em'><a href='#properties.cbor.map'>2.9.2.&nbsp;&nbsp;CBOR.Map Properties</a></div>
 <div style='margin:0 0 0.4em 8em'><a href='#cbor.map.length'>2.9.2.1.&nbsp;&nbsp;length</a></div>
 <div style='margin:0 0 0.4em 4em'><a href='#wrapper.cbor.tag'>2.10.&nbsp;&nbsp;CBOR.Tag</a></div>
@@ -192,7 +193,7 @@
     <li>See also <a href='#jsnumbers.fp'>Floating Point Numbers</a>.</li>
   </ol>
   <p>
-    Note that this implementation does not support CBOR &quot;simple&quot; vakues beyond
+    Note that this implementation does not support CBOR &quot;simple&quot; values beyond
     <kbd>true</kbd>, <kbd>false</kbd>, <kbd>null</kbd>, and the three floating point variants.
   </p>
   See also <a href='#main.common'>Common Wrapper Methods</a>.
@@ -436,7 +437,9 @@ this method must be called <i>before</i> accessing array elements.</div></td></t
 If <code><i>key</i></code> entry is already defined, an exception is thrown.
 <div style='margin-top:0.5em'>Note: <code><i>key</i></code> order is of no importance since
 <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>
-performs the required map sorting <i>automatically</i>.</div></td></tr>
+performs the required map sorting <i>automatically</i>.
+See also <a href='#cbor.map.setsortingmode'>setSortingMode()</a>
+and <a href='#decoder.cbor.initextended'>CBOR.initExtended()</a>.</div></td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code><i>key</i></code></td><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>Key (name) wrapper object.</td></tr>
@@ -518,6 +521,30 @@ this method must be called <i>before</i> accessing map keys.</div></td></tr>
 <tr><td colspan='2' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>CBOR.Map</code></td><td style='width:100%'>Current object.</td></tr>
+</table></div>
+<h5 id='cbor.map.setsortingmode'>2.9.1.8.&nbsp;&nbsp;setSortingMode()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>setSortingMode(<i>preSortedKeys</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Sets the current sorting mode of the
+<a href='#wrapper.cbor.map'>CBOR.Map()</a> object during
+<a href='#cbor.map.set'>set()</a> operations.
+<div style='margin:0.5em 0'>Typical usage:<br>
+<code>let map = CBOR.Map().setSortingMode(true)</code></div>
+This method may be called multiple times which could be
+useful if you have a moderate set of unsorted meta data keys
+combined with a sorted large table-like set of keys.
+Note that this method has no effect on decoding operations.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>preSortedKeys</i></code></td><td style='text-align:center'><code>Boolean</code></td><td style='width:100%'>If <code>true</code>,
+keys must be provided in (CBOR wise) ascending order
+which can improve performance for maps having a huge number of keys.
+Improper key order will cause an exception to be thrown.
+By default map keys are sorted <i>internally</i>.</td></tr>
+<tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><code>this</code></td><td colspan='2' style='width:100%'>Current object.</td></tr>
 </table></div>
 <h5 id='properties.cbor.map'>2.9.2.&nbsp;&nbsp;CBOR.Map Properties</h5>
 <h5 id='cbor.map.length'>2.9.2.1.&nbsp;&nbsp;length</h5>
@@ -735,7 +762,9 @@ any additional data after the CBOR object will cause exceptions to be thrown.</t
 <tr><td style='text-align:center'><code><i>nonDeterministic</i></code></td><td style='text-align:center'><code>Boolean</code></td><td style='width:100%'>If <code>true</code> the decoder will accept CBOR code
 which violates the <a href='#main.deterministic'>Deterministic Encoding</a> rules.
 This option may be needed for dealing with &quot;legacy&quot;
-CBOR implementations.</td></tr>
+CBOR implementations.
+The flag disables the strict map sorting requirement and the preferred
+serialization of numbers (=shortest).</td></tr>
 <tr><td colspan='3' style='background-color:white; font-size:0.6em'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><code><i>Decoder</i></code></td><td colspan='2' style='width:100%'>Internal decoder object for usage with
@@ -1224,6 +1253,6 @@ base64 encoded data as well as data with or without
   </ul>
   <h3 id='main.version'>9.&nbsp;&nbsp;Version</h3>
 
-  Version: 1.0.2, 2023-10-14
+  Version: 1.0.3, 2023-12-05
 </body>
 </html>
