@@ -38,7 +38,8 @@ console.log(CBOR.toHex(cbor));
 a201fb4046d9999999999a0269486920746865726521
 ```
 Note: there are no requirments "chaining" objects as shown above; items
-may be added to `CBOR.Map` and `CBOR.Array` objects in separate steps.
+may be added to [CBOR.Map](https://cyberphone.github.io/CBOR.js/doc/#wrapper.cbor.map)
+and [CBOR.Array](https://cyberphone.github.io/CBOR.js/doc/#wrapper.cbor.map) objects in separate steps.
 
 ### Decoding Example
 
@@ -78,7 +79,8 @@ in the [Encoding&nbsp;Example](#encoding-example) were swapped, the generated CB
 
 Diagnostic notation as described in section 8 of [RFC8949](https://www.rfc-editor.org/rfc/rfc8949.html)
 permits displaying CBOR data as human-readable text.  This is practical for _logging_,
-_documentation_, and _debugging_ purposes.  Diagnostic notation is an intrinsic part of the CBOR.js API through the `toString()` method.
+_documentation_, and _debugging_ purposes.  Diagnostic notation is an intrinsic part of the CBOR.js API through the
+[toString()](https://cyberphone.github.io/CBOR.js/doc/#common.tostring) method.
 
 However, the  CBOR.js API extends the scope of diagnostic notation by supporting using it as
 _input_ for creating CBOR based _test data_ and
@@ -96,10 +98,6 @@ a201fb4046d9999999999a0269486920746865726521
 ```
 Aided by the model used for deterministic encoding, diagnostic notation becomes _bidirectional,_
 while remaining faithful to the native CBOR representation.
-
-### Implementation Note
-
-The code represents a _Reference Implementation_, not code for inclusion in JavaScript engines.  The latter would (for _performance_ reasons), most certainly require parts to be rewritten in native code.
 
 ### Other Compatible Implementations
 
