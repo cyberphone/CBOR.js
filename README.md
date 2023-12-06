@@ -72,7 +72,8 @@ The JavaScript API implements deterministic encoding based on section 4.2 of [RF
 For maximum interoperability, the API also depends on Rule&nbsp;2 of section 4.2.2.
 
 To shield developers from having to know the inner workings of deterministic encoding, the CBOR.js API performs
-all necessary transformations _automatically_.  This for example means that if the `set` operations
+all necessary transformations _automatically_.  This for example means that if the 
+[set()](https://cyberphone.github.io/CBOR.js/doc/#cbor.map.set) operations
 in the [Encoding&nbsp;Example](#encoding-example) were swapped, the generated CBOR would still be the same.
 
 ### Diagnostic Notation Support
