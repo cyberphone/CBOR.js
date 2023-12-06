@@ -48,7 +48,8 @@ public class CreateDocument {
   <a href='#wrapper.cbor.int'>CBOR.Int</a>.  This is necessary because
   the CBOR decoder uses the size of a decoded integer value as the sole mechanism for
   selecting between creating a <a href='#wrapper.cbor.int'>CBOR.Int</a> or a
-  <a href='#wrapper.cbor.bigint'>CBOR.BigInt</a> wrapper object.</div>""";
+  <a href='#wrapper.cbor.bigint'>CBOR.BigInt</a> wrapper object.
+  See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
   
   static final String W_GETBIGINT_RETURN_DESCR = 
   """
