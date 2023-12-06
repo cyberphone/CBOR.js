@@ -110,4 +110,4 @@ while remaining faithful to the native CBOR representation.
 ### Internet Draft
 https://datatracker.ietf.org/doc/draft-ietf-cbor-cde/
 
-Updated: 2023-11-30
+Updated: 2023-12-05
