@@ -5,7 +5,7 @@ This repository contains a
 The API loosely mimics the "JSON" object by _exposing a single global object_,
 unsurprisingly named "CBOR".  To minimize the need for application developers 
 having detailed knowledge of CBOR,
-the API provides a set of high level wrapper objects.
+the API provides a set of high level [wrapper objects](https://cyberphone.github.io/CBOR.js/doc/#main.wrappers).
 
 The wrapper objects are used for encoding CBOR data items,
 as well as being the result of CBOR decoding.
