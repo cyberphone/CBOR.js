@@ -39,7 +39,7 @@ a201fb4046d9999999999a0269486920746865726521
 ```
 Note: there are no requirments "chaining" objects as shown above; items
 may be added to [CBOR.Map](https://cyberphone.github.io/CBOR.js/doc/#wrapper.cbor.map)
-and [CBOR.Array](https://cyberphone.github.io/CBOR.js/doc/#wrapper.cbor.map) objects in separate steps.
+and [CBOR.Array](https://cyberphone.github.io/CBOR.js/doc/#wrapper.cbor.array) objects in separate steps.
 
 ### Decoding Example
 
