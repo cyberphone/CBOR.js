@@ -849,7 +849,7 @@ class CBOR {
     readByte = function() {
       if (this.counter >= this.cbor.length) {
         if (this.sequenceFlag && this.atFirstByte) {
-          return CBOR.#MT_NULL;
+          return 0;
         }
         CBOR.#error("Reading past end of buffer");
       }
