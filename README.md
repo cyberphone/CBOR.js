@@ -15,7 +15,7 @@ as well as being the result of CBOR decoding.
 ### Design Rationale
 
 The proposed API is intended to provide CBOR
-[RFC8949](https://rfc-editor.org/rfc/rfc8949.html)
+[[RFC8949](https://rfc-editor.org/rfc/rfc8949.html)]
 "baseline" functionality that can easily be implemented
 in standard platforms with an emphasis on computationally advanced systems like 
 _Web browsers_, _mobile phones_, and _Web servers_.
