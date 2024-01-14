@@ -1,4 +1,4 @@
-<a id="cborjs">![Saturn is great](https://cyberphone.github.io/CBOR.js/doc/cbor.js.svg)
+<a id="cborjs">![CBOR is great](https://cyberphone.github.io/CBOR.js/doc/cbor.js.svg)
 
 This repository contains a
 [CBOR JavaScript API](https://cyberphone.github.io/CBOR.js/doc/).
@@ -14,7 +14,9 @@ as well as being the result of CBOR decoding.
 
 ### Design Rationale
 
-The proposed API is intended to provide CBOR "baseline" functionality that can easily be implemented
+The proposed API is intended to provide CBOR
+[RFC8949](https://rfc-editor.org/rfc/rfc8949.html)
+"baseline" functionality that can easily be implemented
 in standard platforms with an emphasis on computationally advanced systems like 
 _Web browsers_, _mobile phones_, and _Web servers_.
 Due to the desire maintaining interoperability across different platforms,
@@ -66,11 +68,11 @@ permitting testing the encoder, decoder, and diagnostic notation implementation.
 
 ### NPM Version
 
-For usage with Node.js, a NPM version is available: https://www.npmjs.com/package/cbor-object 
+For usage with Node.js, a NPM version is available: https://npmjs.com/package/cbor-object 
 
 ### Deterministic Encoding Rules
 
-The JavaScript API implements deterministic encoding based on section 4.2 of [RFC8949](https://www.rfc-editor.org/rfc/rfc8949.html).
+The JavaScript API implements deterministic encoding based on section 4.2 of [RFC8949](https://rfc-editor.org/rfc/rfc8949.html).
 For maximum interoperability, the API also depends on Rule&nbsp;2 of section 4.2.2.
 
 To shield developers from having to know the inner workings of deterministic encoding, the CBOR.js API performs
