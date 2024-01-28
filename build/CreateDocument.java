@@ -20,10 +20,10 @@ public class CreateDocument {
   """
   Integer to be wrapped.""";
 
-    static final String W_GETINT_DESCR = 
+  static final String W_GETINT_DESCR = 
   """
-  Reads CBOR integer.
-  See also <a href='#cbor.bigint.getbigint'>getBigInt()</a>.""";
+  Reads CBOR integer in the range of <kbd>-2<sup>53</sup>-1</kbd> to <kbd>2<sup>53</sup>-1</kbd>.
+  See also <a href='#cbor.int.getbigint'>getBigInt()</a>.""";
   
   static final String W_GETINT_RETURN_DESCR = 
   """
@@ -43,12 +43,7 @@ public class CreateDocument {
 
   static final String W_GETBIGINT_DESCR = 
   """
-  Reads CBOR big integer.
-  <div style='margin-top:0.5em'>Note: this method is also supported by
-  <a href='#wrapper.cbor.int'>CBOR.Int</a>.  This is necessary because
-  the CBOR decoder uses the size of a decoded integer value as the sole mechanism for
-  selecting between creating a <a href='#wrapper.cbor.int'>CBOR.Int</a> or a
-  <a href='#wrapper.cbor.bigint'>CBOR.BigInt</a> wrapper object.
+  Reads CBOR integer of any size.
   See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
   
   static final String W_GETBIGINT_RETURN_DESCR = 
@@ -1186,7 +1181,10 @@ public class CreateDocument {
       .addWrapperParameter("value", DataTypes.JS_NUMBER, W_INT_P1_DESCR)
 
       .addMethod("getInt", W_GETINT_DESCR)
-      .setReturn(DataTypes.JS_NUMBER, W_GETINT_RETURN_DESCR);
+      .setReturn(DataTypes.JS_NUMBER, W_GETINT_RETURN_DESCR)
+      
+      .addMethod("getBigInt", W_GETBIGINT_DESCR)
+      .setReturn(DataTypes.JS_BIGINT, W_GETBIGINT_RETURN_DESCR);
 
     // CBIR.BigInt
 

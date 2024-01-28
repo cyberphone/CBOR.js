@@ -698,7 +698,7 @@ class CBOR {
       let encoded = CBOR.#encodeTagAndN(CBOR.#MT_MAP, this.#entries.length);
       this.#entries.forEach(entry => {
         encoded = CBOR.addArrays(encoded, 
-                                 CBOR.addArrays(entry.key.encode(), entry.value.encode()));
+                                 CBOR.addArrays(entry.encodedKey, entry.value.encode()));
       });
       return encoded;
     }
