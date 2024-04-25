@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 import org.webpki.util.IO;
 import org.webpki.util.UTF8;
 

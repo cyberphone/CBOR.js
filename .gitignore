@@ -1,5 +1,9 @@
 .vs
 cbor.js.sln
 *.tgz
+bin
+.tmp
 test/node_modules
 test/package-lock.json
+.DS_Store
+

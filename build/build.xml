@@ -28,7 +28,7 @@
     <delete dir="${temp.dir}"/>
     <mkdir dir="${temp.dir}"/>
     <javac debug="${debug}"
-           srcdir="."
+           srcdir="src"
            destdir="${temp.dir}"
            includeAntRuntime="false">
       <classpath>
@@ -74,7 +74,7 @@ module.exports = CBOR;
     <delete dir="${temp.dir}"/>
     <mkdir dir="${temp.dir}"/>
     <javac debug="${debug}"
-           srcdir="."
+           srcdir="src"
            destdir="${temp.dir}"
            includeAntRuntime="false">
       <classpath>
@@ -121,7 +121,10 @@ module.exports = CBOR;
 
     <delete dir="${local.dir}"/>
     <mkdir dir="${local.dir}"/>
-    <exec executable="npm.cmd" failonerror="true" dir="${npm.dir}">
+    <condition property="npm-exec" value="npm.cmd" else="npm">
+      <os family="windows"/>
+    </condition>
+    <exec executable="${npm-exec}" failonerror="true" dir="${npm.dir}">
       <arg line="pack --pack-destination=${local.dir}"/>
     </exec>
 
