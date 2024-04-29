@@ -1,4 +1,4 @@
-<a id="cborjs">![CBOR is great](https://cyberphone.github.io/CBOR.js/doc/cbor.js.svg)
+<a id="cborjs"><br>![CBOR is great](https://cyberphone.github.io/CBOR.js/doc/cbor.js.svg)
 
 This repository contains a
 [CBOR JavaScript API](https://cyberphone.github.io/CBOR.js/doc/).
@@ -70,10 +70,9 @@ permitting testing the encoder, decoder, and diagnostic notation implementation.
 
 For usage with Node.js, a NPM version is available: https://npmjs.com/package/cbor-object 
 
-### Deterministic Encoding Rules
+### Deterministic Encoding
 
-The JavaScript API implements deterministic encoding based on section 4.2 of [RFC8949](https://rfc-editor.org/rfc/rfc8949.html).
-For maximum interoperability, the API also depends on Rule&nbsp;2 of section 4.2.2.
+The JavaScript API implements deterministic encoding based on https://datatracker.ietf.org/doc/draft-ietf-cbor-cde/.
 
 To shield developers from having to know the inner workings of deterministic encoding, the CBOR.js API performs
 all necessary transformations _automatically_.  This for example means that if the 
@@ -111,7 +110,4 @@ while remaining faithful to the native CBOR representation.
 |JDK&nbsp;17+|https://github.com/cyberphone/openkeystore|
 |Android/Java|https://github.com/cyberphone/android-cbor|
 
-### Internet Draft
-https://datatracker.ietf.org/doc/draft-ietf-cbor-cde/
-
-Updated: 2023-12-05
+Updated: 2024-04-29
