@@ -283,7 +283,7 @@ class CBOR {
         this.#encoded = CBOR.#int16ToByteArray(0x7e00);
       } else if (!Number.isFinite(value)) {
         this.#encoded = CBOR.#int16ToByteArray(value < 0 ? 0xfc00 : 0x7c00);
-      } else if (Math.abs(value) == 0) {
+      } else if (value == 0) { // True for -0.0 as well! 
         this.#encoded = CBOR.#int16ToByteArray(Object.is(value,-0) ? 0x8000 : 0x0000);
       } else {
         // It is apparently a genuine (non-zero) number.
