@@ -289,7 +289,9 @@ class CBOR {
         // It is apparently a genuine (non-zero) number.
         // The following code depends on that Math.fround works as expected.
         let f32 = Math.fround(value);
-        let u8;
+        const buffer = new ArrayBuffer(8);
+        new DataView(buffer).setFloat64(0, value, false);
+        const u8 = new Uint8Array(buffer)
         let f32exp;
         let f32signif;
         while (true) {  // "goto" surely beats quirky loop/break/return/flag constructs...
@@ -297,7 +299,6 @@ class CBOR {
             // Nothing was lost during the conversion, F32 or F16 is on the menu.
             this.#tag = CBOR.#MT_FLOAT32;
             // However, JavaScript always defer to F64 for "Number".
-            u8 = CBOR.#f64ToByteArray(value);
             f32exp = ((u8[0] & 0x7f) << 4) + ((u8[1] & 0xf0) >> 4) - 1023 + 127;
             f32signif = ((u8[1] & 0x0f) << 19) + (u8[2] << 11) + (u8[3] << 3) + (u8[4] >> 5)
             // Very small F32 numbers may require subnormal representation.
@@ -348,7 +349,7 @@ class CBOR {
             // Converting value to F32 returned a truncated result.
             // Full 64-bit representation is required.
             this.#tag = CBOR.#MT_FLOAT64;
-            this.#encoded = CBOR.#f64ToByteArray(value);
+            this.#encoded = u8;
           }
           // Common F16 and F64 return point.
           return;
@@ -1649,12 +1650,6 @@ class CBOR {
   
   static #int16ToByteArray = function(int16) {
     return new Uint8Array([int16 / 256, int16 % 256]);
-  }
-
-  static #f64ToByteArray = function(value) {
-    const buffer = new ArrayBuffer(8);
-    new DataView(buffer).setFloat64(0, value, false);
-    return [].slice.call(new Uint8Array(buffer))
   }
 
   static #oneHex = function(digit) {
