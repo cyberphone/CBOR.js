@@ -1600,7 +1600,7 @@ export default class CBOR {
       }
       return CBOR.addArrays(new Uint8Array([tag | modifier]), byteArray);
     }
-    // True "BigInt".
+    // It is a "bignum".
     return CBOR.addArrays(new Uint8Array([tag == CBOR.#MT_NEGATIVE ?
                                              CBOR.#MT_BIG_NEGATIVE : CBOR.#MT_BIG_UNSIGNED]), 
                                           CBOR.Bytes(byteArray).encode());
