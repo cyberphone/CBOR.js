@@ -287,17 +287,16 @@ export default class CBOR {
         this.#encoded = CBOR.#int16ToByteArray(Object.is(value,-0) ? 0x8000 : 0x0000);
       } else {
         // It is apparently a genuine (non-zero) number.
-        // The following code depends on that Math.fround works as expected.
-        let f32 = Math.fround(value);
+        // Get the full F64 binary.
         const buffer = new ArrayBuffer(8);
         new DataView(buffer).setFloat64(0, value, false);
         const u8 = new Uint8Array(buffer)
         let f32exp;
         let f32signif;
         while (true) {  // "goto" surely beats quirky loop/break/return/flag constructs...
-          if (f32 == value) {
+          // The following code depends on that Math.fround works as expected.
+          if (value == Math.fround(value)) {
             // Nothing was lost during the conversion, F32 or F16 is on the menu.
-            // However, JavaScript always defer to F64 for "Number".
             f32exp = ((u8[0] & 0x7f) << 4) + ((u8[1] & 0xf0) >> 4) - 1023 + 127;
             f32signif = ((u8[1] & 0x0f) << 19) + (u8[2] << 11) + (u8[3] << 3) + (u8[4] >> 5)
             // Very small F32 numbers may require subnormal representation.
@@ -362,7 +361,7 @@ export default class CBOR {
             // Significand.
             f32signif;
             this.#encoded = CBOR.addArrays(CBOR.#int16ToByteArray(f32bin / 0x10000), 
-                                            CBOR.#int16ToByteArray(f32bin % 0x10000));
+                                           CBOR.#int16ToByteArray(f32bin % 0x10000));
       }
     }
     
