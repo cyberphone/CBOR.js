@@ -334,14 +334,13 @@ class CBOR {
               f16exp = 0;
             }
             // A rarity, 16 bits turned out being sufficient for representing value.
-            let f16bin = 
+            this.#encoded = CBOR.#int16ToByteArray( 
                 // Put sign bit in position.
                 ((u8[0] & 0x80) << 8) +
                 // Exponent.  Put it in front of significand.
                 (f16exp << 10) +
                 // Significand.
-                f16signif;
-                this.#encoded = CBOR.#int16ToByteArray(f16bin);
+                f16signif);
           } else {
             // Converting value to F32 returned a truncated result.
             // Full 64-bit representation is required.
