@@ -297,7 +297,6 @@ class CBOR {
         while (true) {  // "goto" surely beats quirky loop/break/return/flag constructs...
           if (f32 == value) {
             // Nothing was lost during the conversion, F32 or F16 is on the menu.
-            this.#tag = CBOR.#MT_FLOAT32;
             // However, JavaScript always defer to F64 for "Number".
             f32exp = ((u8[0] & 0x7f) << 4) + ((u8[1] & 0xf0) >> 4) - 1023 + 127;
             f32signif = ((u8[1] & 0x0f) << 19) + (u8[2] << 11) + (u8[3] << 3) + (u8[4] >> 5)
@@ -336,7 +335,6 @@ class CBOR {
               f16exp = 0;
             }
             // A rarity, 16 bits turned out being sufficient for representing value.
-            this.#tag = CBOR.#MT_FLOAT16;
             let f16bin = 
                 // Put sign bit in position.
                 ((u8[0] & 0x80) << 8) +
@@ -355,6 +353,7 @@ class CBOR {
           return;
         }
         // Broken loop: 32 bits are apparently needed for maintaining magnitude and precision.
+        this.#tag = CBOR.#MT_FLOAT32;
         let f32bin = 
             // Put sign bit in position. Why not << 24?  JS shift doesn't work above 2^31...
             ((u8[0] & 0x80) * 0x1000000) +
