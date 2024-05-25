@@ -316,7 +316,7 @@ class CBOR {
             // Setup for F16.
             let f16exp = f32exp - 127 + 15;
             // Too small or too big for F16, or running into F16 NaN/Infinity space.
-            if (f16exp < -10 || f16exp > 30) {
+            if (f16exp <= -10 || f16exp > 30) {
               break;
             }
             let f16signif = f32signif >> 13;
