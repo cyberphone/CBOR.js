@@ -347,6 +347,8 @@ function oneTurn(value, expected) {
     fail(text + expected + got);
   }
 }
+// -0 is treated as 0 for integers
+assertTrue("minus-0", CBOR.toHex(CBOR.Int(-0).encode()) == "00");
 oneTurn(0n, '00');
 oneTurn(-1n, '20');
 oneTurn(255n, '18ff');
@@ -363,13 +365,13 @@ try {
   CBOR.Int(1.1);
   fail("Should not");
 } catch (error) {
-  assertTrue("msg1", error.toString().includes("Argument is not an integer"));
+  assertTrue("msg1", error.toString().includes("Invalid integer: 1.1"));
 }
 try {
-  CBOR.Int(-0);
+  CBOR.Int(Number.MAX_SAFE_INTEGER + 1);
   fail("Should not");
 } catch (error) {
-  assertTrue("msg1", error.toString().includes("Argument is not an integer"));
+  assertTrue("msg1", error.toString().includes("Invalid integer: " + (Number.MAX_SAFE_INTEGER + 1)));
 }
 try {
   CBOR.Int("10");

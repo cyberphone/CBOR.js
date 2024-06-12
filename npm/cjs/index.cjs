@@ -1564,10 +1564,10 @@ class CBOR {
 
   static #intCheck = function(value) {
     CBOR.#typeCheck(value, 'Number');
-    if (Number.isSafeInteger(value) && !Object.is(value,-0)) {
+    if (Number.isSafeInteger(value)) {
       return value;
     } else {
-      CBOR.#error("Argument is not an integer");
+      CBOR.#error("Invalid integer: " + value.toString());
     }
   }
 
