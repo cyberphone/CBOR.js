@@ -22,7 +22,7 @@ try {
   }
 }
 try {
-  CBOR.Tag(0x10000000000000000n, CBOR.String("minus"));
+  CBOR.Tag(0x10000000000000000n, CBOR.String("too big"));
   throw Error("Should not");
 } catch (error) {
   if (!error.toString().includes("out of range")) {
