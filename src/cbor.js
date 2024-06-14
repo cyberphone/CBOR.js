@@ -1576,14 +1576,14 @@ class CBOR {
     let array = [];
     do {
       array.push(Number(value & 255n));
-      value >>= 8n;
-    } while (value);
+    } while (value >>= 8n);
     let length = array.length;
     // Prepare for "integer" encoding (1, 2, 4, 8).  Only 3, 5, 6, and 7 need an action.
     while (length < 8 && length > 2 && length != 4) {
       array.push(0);
       length++;
     }
+    // Make big endian.
     let byteArray = new Uint8Array(array.reverse());
     // Does this number qualify as a "bignum"?
     if (length <= 8) {
