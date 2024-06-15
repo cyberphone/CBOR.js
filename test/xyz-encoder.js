@@ -1,4 +1,4 @@
-// simple "encoder" API
+// Simple "encoder" API
 import CBOR from '../npm/mjs/index.mjs';
 import { assertTrue, assertFalse, success } from './assertions.js';
 

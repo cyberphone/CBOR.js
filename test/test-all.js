@@ -656,7 +656,7 @@ success();
 `}
 ,
 {name:'xyz-encoder.js',
-file:String.raw`// simple "encoder" API
+file:String.raw`// Simple "encoder" API
 
 class XYZEncoder {
 
@@ -703,7 +703,7 @@ success();
 `}
 ,
 {name:'xyz-decoder.js',
-file:String.raw`// simple "encoder" API
+file:String.raw`// Simple "decoder" API
 
 class XYZDecoder {
 
