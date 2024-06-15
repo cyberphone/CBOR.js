@@ -718,7 +718,7 @@ class XYZDecoder {
 
   constructor(cbor) {
     // There MUST be exactly three key/value pairs.
-    // CBOR data items are checked for type as well.
+    // CBOR data items are type-checked as well.
     this.#map = CBOR.decode(cbor).getMap();
     this.#counter = this.#map.get(XYZDecoder.COUNTER).getInt();
     this.#temperature = this.#map.get(XYZDecoder.TEMPERATURE).getFloat();
