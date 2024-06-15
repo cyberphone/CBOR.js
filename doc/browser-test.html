@@ -671,6 +671,102 @@ utf8EncoderTest("\uD83D\uDE2D", true);
 
 success();
 `}
+,
+{name:'xyz-encoder.js',
+file:String.raw`// simple "encoder" API
+
+class XYZEncoder {
+
+  static COUNTER     = CBOR.Int(1);
+  static TEMPERATURE = CBOR.Int(2);
+  static GREETING    = CBOR.Int(3);
+
+  #map;
+
+  constructor() {
+    this.#map = CBOR.Map();
+  }
+
+  setCounter = function(intVal) {
+    this.#map.set(XYZEncoder.COUNTER, CBOR.Int(intVal));
+    return this;
+  }
+
+  setTemperature = function(floatVal) {
+    this.#map.set(XYZEncoder.TEMPERATURE, CBOR.Float(floatVal));
+    return this;
+  }
+
+  setGreeting = function(stringVal) {
+    this.#map.set(XYZEncoder.GREETING, CBOR.String(stringVal));
+    return this;
+  }
+
+  encode = function() {
+    assertTrue("incomplete", this.#map.length == 3);
+    return this.#map.encode();
+  }
+}
+
+let cbor = new XYZEncoder()
+    .setCounter(2)
+    .setGreeting('Hi!')
+    .setTemperature(53.0001)
+    .encode();
+
+assertTrue("bad code", CBOR.toHex(cbor) == 'a3010202fb404a800346dc5d640363486921');
+
+success();
+`}
+,
+{name:'xyz-decoder.js',
+file:String.raw`// simple "encoder" API
+
+class XYZDecoder {
+
+  static COUNTER     = CBOR.Int(1);
+  static TEMPERATURE = CBOR.Int(2);
+  static GREETING    = CBOR.Int(3);
+
+  #map;
+  #counter;
+  #temperature;
+  #greeting;
+
+  constructor(cbor) {
+    // There MUST be exactly three key/value pairs.
+    // CBOR data items are checked for type as well.
+    this.#map = CBOR.decode(cbor).getMap();
+    this.#counter = this.#map.get(XYZDecoder.COUNTER).getInt();
+    this.#temperature = this.#map.get(XYZDecoder.TEMPERATURE).getFloat();
+    this.#greeting = this.#map.get(XYZDecoder.GREETING).getString();
+    this.#map.checkForUnread();
+  }
+
+  getCounter = function() {
+    return this.#counter;
+  }
+
+  getTemperature = function() {
+    return this.#temperature;
+  }
+
+  getGreeting = function() {
+    return this.#greeting;
+  }
+
+}
+
+let cbor = CBOR.fromHex('a3010202fb404a800346dc5d640363486921');
+
+let xyz = new XYZDecoder(cbor);
+
+assertTrue("counter", xyz.getCounter() == 2);
+assertTrue("temperature", xyz.getTemperature() == 53.0001);
+assertTrue("greeting", xyz.getGreeting() == 'Hi!');
+
+success();
+`}
 
 ];
 

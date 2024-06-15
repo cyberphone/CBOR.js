@@ -39,6 +39,8 @@ public class BuildSystem {
     addFile("sequence.js");
     addFile("tags.js");
     addFile("utf8.js");
+    addFile("xyz-encoder.js");
+    addFile("xyz-decoder.js");
     IO.writeFile(browserTestFileName, template);
   }
   public static void main(String[] args) {
