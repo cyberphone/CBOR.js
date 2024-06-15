@@ -711,7 +711,6 @@ class XYZDecoder {
   static TEMPERATURE = CBOR.Int(2);
   static GREETING    = CBOR.Int(3);
 
-  #map;
   #counter;
   #temperature;
   #greeting;
@@ -719,11 +718,12 @@ class XYZDecoder {
   constructor(cbor) {
     // There MUST be exactly three key/value pairs.
     // CBOR data items are type-checked as well.
-    this.#map = CBOR.decode(cbor).getMap();
-    this.#counter = this.#map.get(XYZDecoder.COUNTER).getInt();
-    this.#temperature = this.#map.get(XYZDecoder.TEMPERATURE).getFloat();
-    this.#greeting = this.#map.get(XYZDecoder.GREETING).getString();
-    this.#map.checkForUnread();
+    let map = CBOR.decode(cbor).getMap();
+    this.#counter = map.get(XYZDecoder.COUNTER).getInt();
+    this.#temperature = map.get(XYZDecoder.TEMPERATURE).getFloat();
+    this.#greeting = map.get(XYZDecoder.GREETING).getString();
+    // We got more than we asked for?
+    map.checkForUnread();
   }
 
   getCounter = function() {
