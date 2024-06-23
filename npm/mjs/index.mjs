@@ -855,7 +855,7 @@ export default class CBOR {
       return this.cbor[this.counter++];
     }
         
-    readBytes = function (length) {
+    readBytes = function(length) {
       let result = new Uint8Array(length);
       let q = -1; 
       while (++q < length) {
@@ -1677,17 +1677,10 @@ export default class CBOR {
 
   static addArrays = function(a, b) {
     let result = new Uint8Array(a.length + b.length);
-    let q = 0;
-    while (q < a.length) {
-      result[q] = a[q++];
-    }
-    for (let i = 0; i < b.length; i++) {
-      result[q + i] = b[i];
-    }
+    result.set(a);
+    result.set(b, a.length);
     return result;
   }
-
-  static array
 
   static compareArrays = function(a, b) {
     let minIndex = Math.min(a.length, b.length);
@@ -1700,15 +1693,15 @@ export default class CBOR {
     return a.length - b.length;
   }
   
-  static toHex = function (byteArray) {
+  static toHex = function(byteArray) {
     let result = '';
-    for (let i = 0; i < byteArray.length; i++) {
-      result += CBOR.#twoHex(byteArray[i]);
-    }
+    byteArray.forEach((element) => {
+      result += CBOR.#twoHex(element);
+    });
     return result;
   }
 
-  static fromHex = function (hexString) {
+  static fromHex = function(hexString) {
     let length = hexString.length;
     if (length & 1) {
       CBOR.#error("Uneven number of characters in hex string");
