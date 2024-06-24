@@ -33,7 +33,7 @@ oneTurn('[4, true, false, null]', true, null);
 oneTurn('"next\\nline"', true, null);
 oneTurn('0b100_000000001', true, "2049");
 oneTurn('4.0e+500', false, null);
-oneTurn('4.0e+5', false, "400000.0");
+oneTurn('4.0e+5', true, "400000.0");
 oneTurn('"missing', false, null);
 
 let cborObject = CBOR.decode(CBOR.fromHex('a20169746578740a6e6578740284fa3380000147a10564646\
