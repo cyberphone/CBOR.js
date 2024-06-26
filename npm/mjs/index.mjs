@@ -84,7 +84,7 @@ export default class CBOR {
     }
 
     toDiag = function(prettyPrint) {
-      let cborPrinter = new CBOR.#CborPrinter(CBOR.#typeCheck(prettyPrint, 'Boolean'));
+      let cborPrinter = new CBOR.#CborPrinter(CBOR.#typeCheck(prettyPrint, 'boolean'));
       this.internalToString(cborPrinter);
       return cborPrinter.buffer;
     }
@@ -240,7 +240,7 @@ export default class CBOR {
     // JavaScript "BigInt" object is used for maintaining lossless represention of bignums.
     constructor(value) {
       super();
-      this.#value = CBOR.#typeCheck(value, 'BigInt');
+      this.#value = CBOR.#typeCheck(value, 'bigint');
     }
     
     encode = function() {
@@ -276,7 +276,7 @@ export default class CBOR {
 
     constructor(value) {
       super();
-      this.#value = CBOR.#typeCheck(value, 'Number');
+      this.#value = CBOR.#typeCheck(value, 'number');
       // Begin catching the F16 edge cases.
       this.#tag = CBOR.#MT_FLOAT16;
       if (Number.isNaN(value)) {
@@ -403,7 +403,7 @@ export default class CBOR {
 
     constructor(textString) {
       super();
-      this.#textString = CBOR.#typeCheck(textString, 'String');
+      this.#textString = CBOR.#typeCheck(textString, 'string');
     }
     
     encode = function() {
@@ -475,7 +475,7 @@ export default class CBOR {
 
     constructor(value) {
       super();
-      this.#value = CBOR.#typeCheck(value, 'Boolean');
+      this.#value = CBOR.#typeCheck(value, 'boolean');
     }
     
     encode = function() {
@@ -741,7 +741,7 @@ export default class CBOR {
 
     constructor(tagNumber, object) {
       super();
-      this.#tagNumber = CBOR.#typeCheck(tagNumber, 'BigInt');
+      this.#tagNumber = CBOR.#typeCheck(tagNumber, 'bigint');
       this.#object = CBOR.#cborArgumentCheck(object);
       if (tagNumber < 0n || tagNumber >= 0x10000000000000000n) {
         CBOR.#error("Tag value is out of range");
@@ -1556,14 +1556,14 @@ export default class CBOR {
   }
 
   static #typeCheck = function(object, type) {
-    if (typeof object != type.toLowerCase()) {
+    if (typeof object != type) {
       CBOR.#error("Argument is not a '" + type + "'");
     }
     return object;
   }
 
   static #intCheck = function(value) {
-    CBOR.#typeCheck(value, 'Number');
+    CBOR.#typeCheck(value, 'number');
     if (Number.isSafeInteger(value)) {
       return value;
     } else {
