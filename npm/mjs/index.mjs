@@ -596,29 +596,30 @@ export default class CBOR {
 
     set = function(key, value) {
       let newEntry = new CBOR.Map.Entry(this.#getKey(key), CBOR.#cborArgumentCheck(value));
-      let insertIndex;
-      if (this.#preSortedKeys) {
-        // Normal case for parsing.
-        insertIndex = this.#entries.length;
-        if (insertIndex > 0 && this.#entries[insertIndex - 1].compareAndTest(newEntry)) {
-          CBOR.#error("Non-deterministic order for key: " + key);
-        }
-      } else {
-        // Programmatically created key or the result of unconstrained parsing.
-        // Then we need to test and sort (always produce deterministic CBOR).
-        // The algorithm is based on binary sort and insertion.
-        insertIndex = 0;
-        let startIndex = 0;
-        let endIndex = this.#entries.length - 1;
-        while (startIndex <= endIndex) {
-          let midIndex = startIndex + ((endIndex - startIndex) >> 1);
-          if (newEntry.compareAndTest(this.#entries[midIndex])) {
-            // New key is bigger than the looked up entry.
-            // Preliminary assumption: this is the one, but continue.
-            insertIndex = startIndex = midIndex + 1;
-          } else {
-            // New key is smaller, search lower parts of the array.
-            endIndex = midIndex - 1;
+      let insertIndex = this.#entries.length;
+      if (insertIndex) {
+        let endIndex = insertIndex - 1;
+        if (this.#preSortedKeys) {
+          // Normal case for deterministic decoding.
+          if (this.#entries[endIndex].compareAndTest(newEntry)) {
+            CBOR.#error("Non-deterministic order for key: " + key);
+          }
+        } else {
+          // Programmatically created key or the result of unconstrained decoding.
+          // Then we need to test and sort (always produce deterministic CBOR).
+          // The algorithm is based on binary sort and insertion.
+          insertIndex = 0;
+          let startIndex = 0;
+          while (startIndex <= endIndex) {
+            let midIndex = startIndex + ((endIndex - startIndex) >> 1);
+            if (newEntry.compareAndTest(this.#entries[midIndex])) {
+              // New key is bigger than the looked up entry.
+              // Preliminary assumption: this is the one, but continue.
+              insertIndex = startIndex = midIndex + 1;
+            } else {
+              // New key is smaller, search lower parts of the array.
+              endIndex = midIndex - 1;
+            }
           }
         }
       }

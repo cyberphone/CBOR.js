@@ -854,7 +854,7 @@ public class CreateDocument {
     rowBegin();
     s.append("<td colspan='")
      .append(columns)
-     .append("' style='background-color:white; font-size:0.6em'></td>");
+     .append("' class='webpkidiv'></td>");
     rowEnd();
   }
   
