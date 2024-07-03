@@ -221,7 +221,6 @@ li {
 .webpkidiv {
   background-color:white !important;
   font-size:0.6em;
-  border-width:1px 0 !important;
 }
 
 @media (max-width:768px) {
