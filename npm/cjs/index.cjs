@@ -298,7 +298,7 @@ class CBOR {
           if (value == Math.fround(value)) {
             // Nothing was lost during the conversion, F32 or F16 is on the menu.
             f32exp = ((u8[0] & 0x7f) << 4) + ((u8[1] & 0xf0) >> 4) - 1023 + 127;
-            f32signif = ((u8[1] & 0x0f) << 19) + (u8[2] << 11) + (u8[3] << 3) + (u8[4] >> 5)
+            f32signif = ((u8[1] & 0x0f) << 19) + (u8[2] << 11) + (u8[3] << 3) + (u8[4] >> 5);
             // Very small F32 numbers may require subnormal representation.
             if (f32exp <= 0) {
               // The implicit "1" becomes explicit using subnormal representation.
