@@ -398,7 +398,7 @@ public class CreateDocument {
 
   static final String CLONE_RETURN_DESCR = 
   """
-  Copy of object.""";
+  Deep copy of this object.""";
 
   // equals()
 
