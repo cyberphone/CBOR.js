@@ -53,7 +53,7 @@
   </div>
   ${WRAPPER_INTRO}
   This section describes the wrapper objects and their specific methods.
-  Note that using the <kbd>&quot;new&quot;</kbd> operator with the wrapper objects
+  Note that using the <kbd>&quot;new&quot;</kbd> operator with a wrapper object
   is flagged as an <i>error</i>.
   The following table lists the wrapper objects and their relation to
   the CBOR objects supported by this specification:
@@ -129,8 +129,7 @@
   ${DECODING_INTRO}
   CBOR decoding comes in two flavors, binary and
   <a href='#main.diagnostic'>Diagnostic Notation</a>.
-  Both decoders store the result in the same set of <code>CBOR.<i>Wrapper</i></code> objects,
-  used for <a href='#common.encode'>encoding</a> CBOR data.
+  Both decoders return the result as <a href='#main.wrappers'>CBOR wrapper objects</a>.
   This section lists the decoder methods.
   ${DECODING_METHODS}
   ${UTILITY_INTRO}
@@ -485,6 +484,7 @@
     </li>
   </ul>
   ${VERSION_INFO}
-  Version: 1.0.3, 2023-12-05
+  API version: 1.0.4<br>
+  Document version: 2024-07-21
 </body>
 </html>

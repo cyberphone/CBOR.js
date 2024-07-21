@@ -16,8 +16,8 @@ class XYZDecoder {
     // There MUST be exactly three key/value pairs.
     // CBOR data items are type-checked as well.
     let map = CBOR.decode(cbor).getMap();
-    this.#counter = map.get(XYZDecoder.COUNTER).getInt();
-    this.#temperature = map.get(XYZDecoder.TEMPERATURE).getFloat();
+    this.#counter = map.get(XYZDecoder.COUNTER).getUint8();
+    this.#temperature = map.get(XYZDecoder.TEMPERATURE).getFloat64();
     this.#greeting = map.get(XYZDecoder.GREETING).getString();
     // We got more than we asked for?
     map.checkForUnread();

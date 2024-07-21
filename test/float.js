@@ -16,9 +16,9 @@ function oneTurn(valueText, expected) {
     got = '';
   }
   let decodedValue = CBOR.decode(cbor);
-  let nanFlag = expected == 'f97e00';
-  if ((nanFlag && decodedValue.toString() != "NaN") || 
-     (!nanFlag && decodedValue.getFloat() != value)) {
+  if (valueText != 'NaN' &&
+      ((decodedValue.length <= 4 && decodedValue.getFloat32() != value) || 
+       (decodedValue.getFloat64() != value))) {
     throw Error("Failed decoding: " + value);
   }
   if (decodedValue.toString() != valueText) {

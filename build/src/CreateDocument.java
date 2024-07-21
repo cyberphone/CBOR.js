@@ -20,15 +20,6 @@ public class CreateDocument {
   """
   Integer to be wrapped.""";
 
-  static final String W_GETINT_DESCR = 
-  """
-  Reads CBOR integer in the range of <kbd>-2<sup>53</sup>-1</kbd> to <kbd>2<sup>53</sup>-1</kbd>.
-  See also <a href='#cbor.int.getbigint'>getBigInt()</a>.""";
-  
-  static final String W_GETINT_RETURN_DESCR = 
-  """
-  Decoded integer.""";
-
   // CBOR.BigInt
 
   static final String W_BIGINT_DESCR = 
@@ -151,7 +142,7 @@ public class CreateDocument {
 
   static final String W_ARRAY_ADD_P1_DESCR = 
   """
-  Object to be appended to the current array.""";
+  Object to be appended to the array.""";
   
   static final String W_ARRAY_ADD_RETURN_DESCR = 
   """
@@ -308,7 +299,7 @@ public class CreateDocument {
 
   static final String W_MAP_SET_SORTING_MODE_DESCR =
   """
-  Sets the current sorting mode of the
+  Sets the sorting mode of the
   <a href='#wrapper.cbor.map'>CBOR.Map()</a> object during
   <a href='#cbor.map.set'>set()</a> operations.
   <div style='margin:0.5em 0'>Typical usage:<br>
@@ -381,7 +372,7 @@ public class CreateDocument {
 
   static final String ENCODE_DESCR = 
   """
-  Encodes this object.
+  Encodes <code>this</code> object.
  <div style='margin-top:0.5em'>Note: this method always return CBOR data using 
   <a href='#main.deterministic'>Deterministic Encoding</a>.</div>""";
 
@@ -393,18 +384,18 @@ public class CreateDocument {
 
   static final String CLONE_DESCR = 
   """
-  Creates a new instance of this object, initialized
+  Creates a new instance of <code>this</code> object, initialized
   with the original CBOR content.""";
 
   static final String CLONE_RETURN_DESCR = 
   """
-  Deep copy of this object.""";
+  Deep copy of <code>this</code> object.""";
 
   // equals()
 
   static final String EQUALS_DESCR = 
   """
-  Compares this object with another object with respect to CBOR data.""";
+  Compares <code>this</code> object with another object with respect to CBOR data.""";
   
   static final String EQUALS_P1_DESCR = 
   """
@@ -412,7 +403,7 @@ public class CreateDocument {
 
   static final String EQUALS_RETURN_DESCR = 
   """
-  <code>true</code> if this object is equal to <code><i>object</i></code>,
+  <code>true</code> if <code>this</code> object is equal to <code><i>object</i></code>,
   otherwise <code>false</code>.""";
 
   // isNull()
@@ -421,13 +412,13 @@ public class CreateDocument {
   """
   Checks for CBOR <code>null</code>.
   <div style='margin:0.5em 0'>Note: if <a href='#common.checkforunread'>checkForUnread()</a>
-  is used, the current object will only be regarded as &quot;read&quot;
+  is used, <code>this</code> object will only be regarded as &quot;read&quot;
   if it actually is a CBOR <code>null</code> item.</div>
   See also <a href='#wrapper.cbor.null'>CBOR.Null()</a>.""";
   
   static final String ISNULL_RETURN_DESCR = 
   """
-  Returns <code>true</code> if the current object
+  Returns <code>true</code> if <code>this</code> object
   holds a CBOR <code>null</code> item, otherwise <code>false</code>
   is returned.""";
 
@@ -435,7 +426,7 @@ public class CreateDocument {
 
    static final String SCAN_DESCR = 
   """
-  Scans current object as well as possible child objects
+  Scans <code>this</code> object as well as possible child objects
   in order to make them appear as &quot;read&quot;.
   This is only meaningful in conjunction with
   <a href='#common.checkforunread'>checkForUnread()</a>.""";
@@ -448,7 +439,7 @@ public class CreateDocument {
 
    static final String CHECK4_DESCR = 
   """
-   Checks if the current object including possible child objects has been read
+   Checks if <code>this</code> object including possible child objects has been read
    (like calling <a href='#cbor.int.getint'>getInt()</a>).
    If any of the associated objects have not been read, an exception will be thrown.
    <div style='margin:0.5em 0'>
@@ -475,7 +466,7 @@ public class CreateDocument {
 
   static final String TODIAG_DESCR = 
   """
-  Renders this object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
+  Renders <code>this</code> object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
   In similarity to <a href='#common.encode'>encode()</a>, this method always produce
   data in <a href='#main.deterministic'>Deterministic Encoding</a>, irrespective to how 
   the data was created.
@@ -493,7 +484,7 @@ public class CreateDocument {
 
   static final String TOSTRING_DESCR = 
   """
-  Renders this object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
+  Renders <code>this</code> object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
   Equivalent to calling <a href='#common.todiag'>toDiag()</a>
   with a <code>true</code> argument.""";
 
@@ -674,7 +665,9 @@ public class CreateDocument {
   static final String DIAGDEC_DESCR = 
   """
   Decodes a CBOR object provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
-  See also <a href='#decoder.cbor.diagdecodesequence'>CBOR.diagDecodeSequence()</a>.""";
+  See also <a href='#decoder.cbor.diagdecodesequence'>CBOR.diagDecodeSequence()</a>.
+  <div style='margin-top:0.5em'>Note: this method always return CBOR data using 
+  <a href='#main.deterministic'>Deterministic Encoding</a>.</div>""";
   
   static final String DIAGDEC_P1_DESCR = 
   """
@@ -1172,36 +1165,105 @@ public class CreateDocument {
     template = template.replace(handle, with);
   }
 
+  void rangedIntMethod(Wrapper wrapper, String method, String min, String max, String optionalText) {
+    StringBuilder description = 
+      new StringBuilder("Reads CBOR integer.<div style='margin-top:0.5em'>Valid range: <kbd>")
+        .append(min).append(" </kbd>to<kbd> ").append(max).append("</kbd>.");
+    if (optionalText != null) {
+      description.append(optionalText);
+    }
+    wrapper.addMethod(method, description.toString())
+           .setReturn(DataTypes.JS_NUMBER, "Decoded integer.");
+  }
+
+  void rangedBigIntMethod(Wrapper wrapper, String method, String min, String max) {
+    StringBuilder description = 
+      new StringBuilder("Reads CBOR integer.<div style='margin-top:0.5em'>Valid range: <kbd>")
+        .append(min).append(" </kbd>to<kbd> ").append(max).append("</kbd>.");
+    wrapper.addMethod(method, description.toString())
+           .setReturn(DataTypes.JS_BIGINT, W_GETBIGINT_RETURN_DESCR);
+  }
+
+  void bigIntMethods(Wrapper wrapper) {
+    wrapper.addMethod("getBigInt", W_GETBIGINT_DESCR)
+           .setReturn(DataTypes.JS_BIGINT, W_GETBIGINT_RETURN_DESCR);
+
+    rangedBigIntMethod(wrapper,"getInt64", 
+                   "-0x8000000000000000", 
+                  "0x7fffffffffffffff");
+
+    rangedBigIntMethod(wrapper,"getUint64", 
+                   "0", 
+                   "0xffffffffffffffff");
+  }
+
+  void intMethods(Wrapper wrapper) {
+
+    rangedIntMethod(wrapper,"getInt", 
+                    "-2<sup>53</sup>+1", 
+                    "2<sup>53</sup>-1", 
+                    " See also <a href='#cbor.int.getbigint'>getBigInt()</a>.");
+    
+    rangedIntMethod(wrapper,"getInt8", 
+                    "-0x80", 
+                    "0x7f", 
+                    null);
+
+    rangedIntMethod(wrapper,"getUint8", 
+                    "0", 
+                    "0xff", 
+                    null);
+                    
+    rangedIntMethod(wrapper,"getInt16", 
+                    "-0x8000", 
+                    "0x7fff", 
+                    null);
+                    
+    rangedIntMethod(wrapper,"getUint16", 
+                    "0", 
+                    "0xffff", 
+                    null);
+                    
+    rangedIntMethod(wrapper,"getInt32", 
+                    "-0x80000000", 
+                    "0x7fffffff", 
+                    null);
+                    
+    rangedIntMethod(wrapper,"getUint32", 
+                    "0", 
+                    "0xffffffff", 
+                    null);
+
+    bigIntMethods(wrapper);    
+  }
+
   CreateDocument(String templateFileName, String documentFileName) {
     template = UTF8.decode(IO.readFile(templateFileName));
 
-    // CBOR.Int
+      // CBOR.Int
 
-    addWrapper(DataTypes.CBOR_INT, W_INT_DESCR)
-      .addWrapperParameter("value", DataTypes.JS_NUMBER, W_INT_P1_DESCR)
+  intMethods(addWrapper(DataTypes.CBOR_INT, W_INT_DESCR)
+      .addWrapperParameter("value", DataTypes.JS_NUMBER, W_INT_P1_DESCR));
 
-      .addMethod("getInt", W_GETINT_DESCR)
-      .setReturn(DataTypes.JS_NUMBER, W_GETINT_RETURN_DESCR)
-      
-      .addMethod("getBigInt", W_GETBIGINT_DESCR)
-      .setReturn(DataTypes.JS_BIGINT, W_GETBIGINT_RETURN_DESCR);
+      // CBIR.BigInt
 
-    // CBIR.BigInt
+    bigIntMethods(addWrapper(DataTypes.CBOR_BIGINT, W_BIGINT_DESCR)
+      .addWrapperParameter("value", DataTypes.JS_BIGINT, W_BIGINT_P1_DESCR));
 
-    addWrapper(DataTypes.CBOR_BIGINT, W_BIGINT_DESCR)
-      .addWrapperParameter("value", DataTypes.JS_BIGINT, W_BIGINT_P1_DESCR)
-
-      .addMethod("getBigInt", W_GETBIGINT_DESCR)
-      .setReturn(DataTypes.JS_BIGINT, W_GETBIGINT_RETURN_DESCR);
-
-     // CBOR.Float
+      // CBOR.Float
 
     addWrapper(DataTypes.CBOR_FLOAT, W_FLOAT_DESCR)
       .addWrapperParameter("value", DataTypes.JS_NUMBER, W_FLOAT_P1_DESCR)
 
-      .addMethod("getFloat", W_GETFLOAT_DESCR)
+      .addMethod("getFloat32", W_GETFLOAT_DESCR + 
+          "<div style='margin-top:0.5em'>" +
+          "Note: the CBOR object must be a 16-bit or 32-bit IEEE-754 item, " +
+          "otherwise an exception will be thrown.</div>")
       .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
 
+      .addMethod("getFloat64", W_GETFLOAT_DESCR)
+      .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
+ 
       .setProperty("length", DataTypes.JS_NUMBER, W_FLOAT_PROP_DESCR);
 
       // CBOR.String

@@ -29,6 +29,38 @@ class CBOR {
       return this.#checkTypeAndGetValue(CBOR.Int);
     }
 
+    #rangeInt = function(min, max) {
+      let value = this.getInt();
+      if (value < min || value > max) {
+        CBOR.#error("Value out of range: " + value);
+      }
+      return value;
+    } 
+
+    getInt8 = function() {
+      return this.#rangeInt(-0x80, 0x7f);
+    }
+
+    getUint8 = function() {
+      return this.#rangeInt(0, 0xff);
+    }
+
+    getInt16 = function() {
+      return this.#rangeInt(-0x8000, 0x7fff);
+    }
+
+    getUint16 = function() {
+      return this.#rangeInt(0, 0xffff);
+    }
+
+    getInt32 = function() {
+      return this.#rangeInt(-0x80000000, 0x7fffffff);
+    }
+
+    getUint32 = function() {
+      return this.#rangeInt(0, 0xffffffff);
+    }
+
     getString = function() {
       return this.#checkTypeAndGetValue(CBOR.String);
     }
@@ -37,7 +69,15 @@ class CBOR {
       return this.#checkTypeAndGetValue(CBOR.Bytes);
     }
 
-    getFloat = function() {
+    getFloat32 = function() {
+      let value = this.getFloat64();
+      if (this.length > 4) {
+        CBOR.#error("Value out of range: " + value);
+      }
+      return value;
+    }
+
+    getFloat64 = function() {
       return this.#checkTypeAndGetValue(CBOR.Float);
     }
 
@@ -58,6 +98,22 @@ class CBOR {
         return BigInt(this.getInt());
       }
       return this.#checkTypeAndGetValue(CBOR.BigInt);
+    }
+
+    #rangeBigInt(min, max) {
+      let value = this.getBigInt();
+      if (value < min || value > max) {
+        CBOR.#error("Value out of range: " + value);
+      }
+      return value;
+    }
+
+    getInt64 = function() {
+      return this.#rangeBigInt(-0x8000000000000000n, 0x7fffffffffffffffn);
+    }
+
+    getUint64 = function() {
+      return this.#rangeBigInt(0n, 0xffffffffffffffffn);
     }
 
     getArray = function() {
