@@ -32,6 +32,7 @@ public class BuildSystem {
     addFile("float.js");
     addFile("hex.js");
     addFile("integer.js");
+    addFile("int-ranges.js");
     addFile("maps.js");
     addFile("miscellaneous.js");
     addFile("nondeterministic.js");
