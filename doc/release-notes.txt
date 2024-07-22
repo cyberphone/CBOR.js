@@ -7,3 +7,8 @@ First release.
 2023-12-05 - 1.0.3:
 Improved map key handling through binary search and insert.
 Added CBOR.Map.setSortingMode(flag) to cope with huge maps.
+
+2024-07-21 - 1.0.4:
+Signed and unsigned 8, 16, 32, and 64-bit integer get() methods added.
+CBOR.Float.getFloat() renamed to getFloat64().
+CBOR.Float.getFloat32() method added.
