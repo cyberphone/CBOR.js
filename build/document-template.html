@@ -144,9 +144,9 @@
   two variants of integers and three variants of floating point types.
   ${JS_NUMBER_CONS_INT}
   Due to the <kbd>Number.MAX_SAFE_INTEGER</kbd> limitation, CBOR
-  protocols using integer elements where the magnitude may exceed
+  protocols using integer objects where the magnitude may exceed
   <kbd>2<sup>53</sup>-1</kbd>, must
-  for such elements turn to <code>BigInt</code>,
+  for such objects turn to <code>BigInt</code>,
   otherwise run-time errors may occur when accessing integer data using
   <a href='#cbor.int.getint'>getInt()</a> or
   during creation of integers using

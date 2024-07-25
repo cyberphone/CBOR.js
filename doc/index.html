@@ -525,7 +525,8 @@ If <code><i>index</i></code> is out of range, an exception is thrown.</td></tr>
 <div style='margin-top:0.5em'>Note: this method is redundant due to the dynamic nature of the JavaScript
 typing system.  However, if you intend using
 <a href='#common.checkforunread'>checkForUnread()</a>,
-this method must be called <i>before</i> accessing array elements.</div></td></tr>
+this method must be called <i>before</i> accessing individual
+array objects.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>CBOR.Array</code></td><td style='width:100%'>Current object.</td></tr>
@@ -767,8 +768,8 @@ See also: <a href='#common.tostring'>toString()</a>.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code><i>prettyPrint</i></code></td><td style='text-align:center'><code>Boolean</code></td><td style='width:100%'>If <code><i>prettyPrint</i></code> is <code>true</code>,
-additional white space is inserted between elements to make the result
-easier to read.</td></tr>
+additional white space is inserted between individual objects
+in maps and arrays, to make the result easier to read.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><code>String</code></td><td colspan='2' style='width:100%'>Textual version of the wrapped CBOR content.</td></tr>
@@ -1033,9 +1034,9 @@ base64 encoded data as well as data with or without
   <h5 id='jsnumbers.int'>6.1.&nbsp;&nbsp;Integer Numbers</h5>
 
   Due to the <kbd>Number.MAX_SAFE_INTEGER</kbd> limitation, CBOR
-  protocols using integer elements where the magnitude may exceed
+  protocols using integer objects where the magnitude may exceed
   <kbd>2<sup>53</sup>-1</kbd>, must
-  for such elements turn to <code>BigInt</code>,
+  for such objects turn to <code>BigInt</code>,
   otherwise run-time errors may occur when accessing integer data using
   <a href='#cbor.int.getint'>getInt()</a> or
   during creation of integers using

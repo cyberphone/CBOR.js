@@ -177,7 +177,8 @@ public class CreateDocument {
   <div style='margin-top:0.5em'>Note: this method is redundant due to the dynamic nature of the JavaScript
   typing system.  However, if you intend using
   <a href='#common.checkforunread'>checkForUnread()</a>,
-  this method must be called <i>before</i> accessing array elements.</div>""";
+  this method must be called <i>before</i> accessing individual
+  array objects.</div>""";
 
   static final String W_ARRAY_GETARR_RETURN_DESCR = 
   "Current object.";   
@@ -475,8 +476,8 @@ public class CreateDocument {
   static final String TODIAG_P1_DESCR = 
   """
   If <code><i>prettyPrint</i></code> is <code>true</code>,
-  additional white space is inserted between elements to make the result
-  easier to read.""";
+  additional white space is inserted between individual objects
+  in maps and arrays, to make the result easier to read.""";
 
   static final String TODIAG_RETURN_DESCR = 
   """
