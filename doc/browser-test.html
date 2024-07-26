@@ -197,7 +197,7 @@ function oneTurn(cborText, ok, compareWithOrNull) {
       throw Error("input:\n" + cborText + "\nresult:\n" + result);
     }
   } catch (error) {
-    assertFalse("Err", ok);
+    assertFalse("Err: " + error, ok);
   }
 }
 
@@ -211,7 +211,7 @@ oneTurn("0.0", true, null);
 oneTurn("-0.0", true, null);
 oneTurn('{\n  4: "hi"\n}', true, null);
 oneTurn('[4, true, false, null]', true, null);
-oneTurn('"next\\nline"', true, null);
+oneTurn('"next\nline\r\\\ncont\r\nk"', true, '"next\\nline\\ncont\\nk"');
 oneTurn('0b100_000000001', true, "2049");
 oneTurn('4.0e+500', false, null);
 oneTurn('4.0e+5', true, "400000.0");

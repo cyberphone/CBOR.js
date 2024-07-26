@@ -338,14 +338,17 @@
     <li>The letter <i>n</i> in the Syntax column denotes one or more digits.</li>
     <li>The optional {<i>sign</i>} must be a single hyphen (<code>'-'</code>) character.</li>
     <li>
-      Whitespace characters
+      <i>Input only</i>: the whitespace characters
       (<code>' '</code>, <code>'\t'</code>, <code>'\r'</code>, <code>'\n'</code>)
       inside of string quotes are <i>ignored</i>.
     </li>
     <li>
-      Whitespace characters
-      (<code>'\t'</code>, <code>'\r'</code>, <code>'\n'</code>)
+      <i>Input only</i>: the control characters
+      (<code>'\t'</code> and <code>'\n'</code>)
       inside of string quotes <i>become a part of the text</i>.
+      For nomalizing line terminators,
+      a single <code>'\r'</code> or the combination <code>'\r\n'</code>
+      are rewritten as <code>'\n'</code>.
       To <i>avoid</i> getting newline characters (<code>'\n'</code>)
       included in multi-line text strings,
       a <i>line continuation marker</i> consisting of a backslash&nbsp;(<code>'\'</code>)
@@ -359,8 +362,8 @@
     </li>
     <li>Zero-length strings (<code>''</code>) return byte strings of length zero.</li>
     <li>
-      Only applicable for <i>input</i>.
-      That is, <a href='#common.tostring'>toString()</a> does not produce this item.
+      <i>Input only</i>:
+      the <a href='#common.tostring'>toString()</a> method does not produce this item.
     </li>
   </ol>
   ${DETERMINISTIC_ENCODING}
@@ -484,7 +487,7 @@
     </li>
   </ul>
   ${VERSION_INFO}
-  API version: 1.0.4<br>
-  Document version: 2024-07-21
+  API version: 1.0.5<br>
+  Document version: 2024-07-25
 </body>
 </html>

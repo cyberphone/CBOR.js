@@ -1436,9 +1436,15 @@ export default class CBOR {
       while (true) {
         let c;
         switch (c = this.readChar()) {
-          // Multiline extension
-          case '\n':
+          // Control character handling
           case '\r':
+            if (this.nextChar() == '\n') {
+              continue;
+            }
+            c = '\n';
+            break;
+
+          case '\n':
           case '\t':
             break;
 
