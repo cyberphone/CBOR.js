@@ -203,8 +203,8 @@ oneTurn('"missing', false, null);
 let cborObject = CBOR.decode(CBOR.fromHex('a20169746578740a6e6578740284fa3380000147a10564646\
 17461a1f5f4c074323032332d30362d30325430373a35333a31395a'));
 
-let cborText = '{\n  1: "text\\nnext",\n  2: [5.960465188081798e-8, h\'a1056464617461\', {\n' +
-    '    true: false\n  }, 0("2023-06-02T07:53:19Z")]\n}';
+let cborText = '{\n  1: "text\\nnext",\n  2: [5.960465188081798e-8, h\'a1056464617461\', {\n\
+    true: false\n  }, 0("2023-06-02T07:53:19Z")]\n}';
 
 assertTrue("pretty", cborObject.toDiag(true) == cborText);
 assertTrue("oneline", cborObject.toDiag(false) == 
