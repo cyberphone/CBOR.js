@@ -1098,8 +1098,7 @@ class CBOR {
 ///////////////////////////
 
   static decode = function(cbor) {
-    let decoder = new CBOR.#_decoder(cbor, false, false);
-    return CBOR.#getObject(decoder);
+    return CBOR.#getObject(new CBOR.#_decoder(cbor, false, false));
   }
 
 ///////////////////////////
@@ -1107,9 +1106,7 @@ class CBOR {
 ///////////////////////////
 
   static initExtended = function(cbor, sequenceFlag, nonDeterministic) {
-    return new CBOR.#_decoder(cbor, 
-                              sequenceFlag,
-                              nonDeterministic);
+    return new CBOR.#_decoder(cbor, sequenceFlag, nonDeterministic);
   }
 
 ///////////////////////////
