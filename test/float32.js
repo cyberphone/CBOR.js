@@ -26,7 +26,7 @@ function convert(i) {
         default:
             throw Error("BUG");
     }
-    let v = CBOR.decode(cbor).getFloat64();
+    let v = CBOR.decode(cbor).getFloat32();
     let status = false;
     if (Number.isNaN(d)) {
       status = !Number.isNaN(v);
