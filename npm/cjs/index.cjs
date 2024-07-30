@@ -901,22 +901,29 @@ class CBOR {
       this.deterministicMode = !nonDeterministic;
     }
 
+    static eofError = function() {
+      CBOR.#error("Reading past end of buffer");
+    }
+
     readByte = function() {
       if (this.counter >= this.cbor.length) {
         if (this.sequenceFlag && this.atFirstByte) {
           return 0;
         }
-        CBOR.#error("Reading past end of buffer");
+        eofError();
       }
       this.atFirstByte = false;
       return this.cbor[this.counter++];
     }
         
     readBytes = function(length) {
+      if (this.counter + length  > this.cbor.length) {
+        eofError();
+      }
       let result = new Uint8Array(length);
       let q = -1; 
       while (++q < length) {
-        result[q] = this.readByte();
+        result[q] = this.cbor[this.counter++];
       }
       return result;
     }
