@@ -962,8 +962,7 @@ class CBOR {
           // Normal representation, add the implicit "1.".
           significand += 0x400;
           // -1: Keep fractional point in line with subnormal numbers.
-          // It should preferable be <<= but JavaScript shifts are broken...
-          significand *= Math.pow(2, (exponent / 0x400) - 1);
+          significand *= 1 << ((exponent / 0x400) - 1);
         }
         // Multiply with: 1 / (2 ^ (Exponent offset + Size of significand - 1)).
         f64 = significand * 5.960464477539063e-8;
