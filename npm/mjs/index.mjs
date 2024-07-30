@@ -901,7 +901,7 @@ export default class CBOR {
       this.deterministicMode = !nonDeterministic;
     }
 
-    static eofError = function() {
+    eofError = function() {
       CBOR.#error("Reading past end of buffer");
     }
 
@@ -910,7 +910,7 @@ export default class CBOR {
         if (this.sequenceFlag && this.atFirstByte) {
           return 0;
         }
-        eofError();
+        this.eofError();
       }
       this.atFirstByte = false;
       return this.cbor[this.counter++];
@@ -918,7 +918,7 @@ export default class CBOR {
         
     readBytes = function(length) {
       if (this.counter + length  > this.cbor.length) {
-        eofError();
+        this.eofError();
       }
       let result = new Uint8Array(length);
       let q = -1; 
