@@ -964,8 +964,8 @@ export default class CBOR {
           // -1: Keep fractional point in line with subnormal numbers.
           significand *= 1 << ((exponent / 0x400) - 1);
         }
-        // Multiply with: 1 / (2 ^ (Exponent offset + Size of significand - 1)).
-        f64 = significand * 5.960464477539063e-8;
+        // Divide with: 2 ^ (Exponent offset + Size of significand - 1).
+        f64 = significand / 0x1000000;
       }
       return this.compareAndReturn(decoded, f16Binary >= 0x8000 ? -f64 : f64);
     }
