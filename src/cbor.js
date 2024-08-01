@@ -11,6 +11,8 @@
 // Single global static object.
 class CBOR {
 
+  static disableInvalidFloats = false;
+
   // Super class for all CBOR wrappers.
   static #CborObject = class {
 
@@ -336,8 +338,10 @@ class CBOR {
       // Begin catching the F16 edge cases.
       this.#tag = CBOR.#MT_FLOAT16;
       if (Number.isNaN(value)) {
+        this._checkPermitted();
         this.#encoded = CBOR.#int16ToByteArray(0x7e00);
       } else if (!Number.isFinite(value)) {
+        this._checkPermitted();
         this.#encoded = CBOR.#int16ToByteArray(value < 0 ? 0xfc00 : 0x7c00);
       } else if (value == 0) { // True for -0.0 as well! 
         this.#encoded = CBOR.#int16ToByteArray(Object.is(value,-0) ? 0x8000 : 0x0000);
@@ -434,6 +438,12 @@ class CBOR {
         }
       }
       cborPrinter.append(floatString);
+    }
+
+    _checkPermitted = function() {
+      if (CBOR.disableInvalidFloats) {
+        CBOR.#error('"NaN" and "Infinity" support is disabled');
+      }
     }
 
     _compare = function(decoded) {

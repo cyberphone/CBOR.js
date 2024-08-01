@@ -12,3 +12,7 @@ Added CBOR.Map.setSortingMode(flag) to cope with huge maps.
 Signed and unsigned 8, 16, 32, and 64-bit integer get() methods added.
 CBOR.Float.getFloat() renamed to getFloat64().
 CBOR.Float.getFloat32() method added.
+
+2024-08-01 - 1.0.5
+CBOR.disableInvalidFloats global property added.  See floating point numbers for details.
+String length checking against input buffer length.

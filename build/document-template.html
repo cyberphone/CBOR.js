@@ -175,6 +175,14 @@
   variants, the CBOR.js implementation makes this
   transparent; the API only exposes the <code>Number</code> type.
   See also <a href='#wrapper.cbor.float'>CBOR.Float()</a>.
+  <p>
+    By default the CBOR.js implementation suports <kdb>NaN</kdb>,
+    <kbd>Infinity</kbd>, and <kbd>-Infinity</kbd>.
+    In case these variants of <kbd>Number</kbd> are not applicable to the application
+    in question, they can be &quot;outlawed&quot; by setting the <i>global property</i>
+    <kbd>CBOR.disableInvalidFloats</kbd> to <kdb>true</kdb>.
+    This setting affects both encoding and decoding.
+  </p>
   ${DIAGNOSTIC_NOTATION}
   Creating CBOR data in diagnostic notation (as described in section 8 of RFC&nbsp;8949),
   is provided by the <a href='#common.tostring'>toString()</a> method.
@@ -488,6 +496,6 @@
   </ul>
   ${VERSION_INFO}
   API version: 1.0.5<br>
-  Document version: 2024-07-25
+  Document version: 2024-08-01
 </body>
 </html>

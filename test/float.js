@@ -1,6 +1,6 @@
 // Test program for floating point "edge cases"
 import CBOR from '../npm/mjs/index.mjs';
-import { assertTrue, assertFalse, success } from './assertions.js';
+import { assertTrue, assertFalse, fail, success } from './assertions.js';
 
 function oneTurn(valueText, expected) {
   let value = Number(valueText);
@@ -71,4 +71,27 @@ oneTurn('7.52316384526264e-37',     'fa03800000');
 oneTurn('1.1754943508222875e-38',   'fa00800000');
 oneTurn('5.0e-324',                 'fb0000000000000001');
 oneTurn('-1.7976931348623157e+308', 'fbffefffffffffffff');
+CBOR.disableInvalidFloats = true;
+oneTurn('0.0',                      'f90000');
+oneTurn('-0.0',                     'f98000');
+['f97e00', 'f97c00', 'f9fc00'].forEach(cborHex => {
+  try {
+    CBOR.decode(CBOR.fromHex(cborHex));
+    fail('Should not execute')
+  } catch (error) {
+    assertTrue("Decode ME1", error.toString().includes('"NaN" and "Infinity"'));
+  }
+});
+[Number.NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY].forEach(number => {
+  try {
+    CBOR.Float(number);
+    fail('Should not execute')
+  } catch (error) {
+    assertTrue("Decode ME1", error.toString().includes('"NaN" and "Infinity"'));
+  }
+});
+CBOR.disableInvalidFloats = false;
+oneTurn('NaN',                      'f97e00');
+oneTurn('Infinity',                 'f97c00');
+oneTurn('-Infinity',                'f9fc00');
 success();
