@@ -34,7 +34,7 @@ public class CreateDocument {
 
   static final String W_GETBIGINT_DESCR = 
   """
-  Reads CBOR integer of any size.
+  Get CBOR integer of any size.
   See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
   
   static final String W_GETBIGINT_RETURN_DESCR = 
@@ -55,7 +55,7 @@ public class CreateDocument {
 
   static final String W_GETFLOAT_DESCR = 
   """
-  Reads CBOR floating point object.""";
+  Get CBOR floating point object.""";
   
   static final String W_GETFLOAT_RETURN_DESCR = 
   """
@@ -78,7 +78,7 @@ public class CreateDocument {
 
   static final String W_GETSTRING_DESCR = 
   """
-  Reads CBOR text string.""";
+  Get CBOR text string.""";
   
   static final String W_GETSTRING_RETURN_DESCR = 
   """
@@ -97,7 +97,7 @@ public class CreateDocument {
 
   static final String W_GETBYTES_DESCR = 
   """
-  Reads CBOR byte string.""";
+  Get CBOR byte string.""";
   
   static final String W_GETBYTES_RETURN_DESCR = 
   """
@@ -116,7 +116,7 @@ public class CreateDocument {
 
   static final String W_GETBOOLEAN_DESCR = 
   """
-  Reads CBOR boolean.""";
+  Get CBOR boolean.""";
   
   static final String W_GETBOOLEAN_RETURN_DESCR = 
   """
@@ -138,7 +138,7 @@ public class CreateDocument {
 
   static final String W_ARRAY_ADD_DESCR = 
   """
-  Adds CBOR wrapper object to the array.""";
+  Add CBOR wrapper object to the array.""";
 
   static final String W_ARRAY_ADD_P1_DESCR = 
   """
@@ -151,7 +151,7 @@ public class CreateDocument {
 
   static final String W_ARRAY_GET_DESCR = 
   """
-  Fetches CBOR wrapper object.
+  Get CBOR wrapper object from array.
   If <code><i>index</i></code> is out of range, an exception is thrown.""";
 
   static final String W_ARRAY_GET_P1_DESCR = 
@@ -165,7 +165,7 @@ public class CreateDocument {
 
   static final String W_ARRAY_TOARR_DESCR = 
   """
-  Copies array.""";
+  Copy array.""";
 
   static final String W_ARRAY_TOARR_RETURN_DESCR = 
   "JavaScript array holding a copy of current <code>" + DataTypes.CBOR_Any + "</code> objects.";   
@@ -197,7 +197,7 @@ public class CreateDocument {
 
   static final String W_MAP_SET_DESCR = 
   """
-  Sets map entry.
+  Set map entry.
   If <code><i>key</i></code> entry is already defined, an exception is thrown.
   <div style='margin-top:0.5em'>Note: <code><i>key</i></code> order is of no importance since
   <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>
@@ -220,7 +220,7 @@ public class CreateDocument {
 
   static final String W_MAP_GET_DESCR = 
   """
-  Gets map entry.
+  Get map entry.
   If <code><i>key</i></code> entry is undefined, an exception is thrown.""";
 ;
 
@@ -235,7 +235,7 @@ public class CreateDocument {
 
   static final String W_MAP_REMOVE_DESCR = 
   """
-  Removes map entry.
+  Remove map entry.
   If <code><i>key</i></code> entry is undefined, an exception is thrown.""";
 
   static final String W_MAP_REMOVE_P1_DESCR = 
@@ -249,7 +249,7 @@ public class CreateDocument {
 
   static final String W_MAP_GETCOND_DESCR = 
   """
-  Gets map entry conditionally.""";
+  Get map entry conditionally.""";
 ;
 
   static final String W_MAP_GETCOND_P1_DESCR = 
@@ -268,7 +268,7 @@ public class CreateDocument {
   
   static final String W_MAP_CONTAINS_DESCR = 
   """
-  Checks map for key presence.""";
+  Check map for key presence.""";
 
   static final String W_MAP_CONTAINS_P1_DESCR = 
   """
@@ -300,7 +300,7 @@ public class CreateDocument {
 
   static final String W_MAP_SET_SORTING_MODE_DESCR =
   """
-  Sets the sorting mode of the
+  Set the sorting mode of the
   <a href='#wrapper.cbor.map'>CBOR.Map()</a> object during
   <a href='#cbor.map.set'>set()</a> operations.
   <div style='margin:0.5em 0'>Typical usage:<br>
@@ -342,7 +342,7 @@ public class CreateDocument {
 
   static final String W_TAG_GETNUM_DESCR = 
   """
-  Reads CBOR tag number.""";
+ Get CBOR tag number.""";
   
   static final String W_TAG_GETNUM_RETURN_DESCR = 
   """
@@ -351,7 +351,7 @@ public class CreateDocument {
 
   static final String W_TAG_GETOBJ_DESCR = 
   """
-  Reads tagged CBOR object.""";
+  Get tagged CBOR object.""";
   
   static final String W_TAG_GETOBJ_RETURN_DESCR = 
   """
@@ -373,7 +373,7 @@ public class CreateDocument {
 
   static final String ENCODE_DESCR = 
   """
-  Encodes <code>this</code> object.
+  Encode <code>this</code> object.
  <div style='margin-top:0.5em'>Note: this method always return CBOR data using 
   <a href='#main.deterministic'>Deterministic Encoding</a>.</div>""";
 
@@ -385,7 +385,7 @@ public class CreateDocument {
 
   static final String CLONE_DESCR = 
   """
-  Creates a new instance of <code>this</code> object, initialized
+  Create a new instance of <code>this</code> object, initialized
   with the original CBOR content.""";
 
   static final String CLONE_RETURN_DESCR = 
@@ -396,7 +396,7 @@ public class CreateDocument {
 
   static final String EQUALS_DESCR = 
   """
-  Compares <code>this</code> object with another object with respect to CBOR data.""";
+  Compare <code>this</code> object with another object with respect to CBOR data.""";
   
   static final String EQUALS_P1_DESCR = 
   """
@@ -411,7 +411,7 @@ public class CreateDocument {
       
   static final String ISNULL_DESCR = 
   """
-  Checks for CBOR <code>null</code>.
+  Check for CBOR <code>null</code>.
   <div style='margin:0.5em 0'>Note: if <a href='#common.checkforunread'>checkForUnread()</a>
   is used, <code>this</code> object will only be regarded as &quot;read&quot;
   if it actually is a CBOR <code>null</code> item.</div>
@@ -427,7 +427,7 @@ public class CreateDocument {
 
    static final String SCAN_DESCR = 
   """
-  Scans <code>this</code> object as well as possible child objects
+  Scan <code>this</code> object as well as possible child objects
   in order to make them appear as &quot;read&quot;.
   This is only meaningful in conjunction with
   <a href='#common.checkforunread'>checkForUnread()</a>.""";
@@ -440,7 +440,7 @@ public class CreateDocument {
 
    static final String CHECK4_DESCR = 
   """
-   Checks if <code>this</code> object including possible child objects has been read
+   Check if <code>this</code> object including possible child objects has been read
    (like calling <a href='#cbor.int.getint'>getInt()</a>).
    If any of the associated objects have not been read, an exception will be thrown.
    <div style='margin:0.5em 0'>
@@ -467,7 +467,7 @@ public class CreateDocument {
 
   static final String TODIAG_DESCR = 
   """
-  Renders <code>this</code> object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
+  Render <code>this</code> object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
   In similarity to <a href='#common.encode'>encode()</a>, this method always produce
   data in <a href='#main.deterministic'>Deterministic Encoding</a>, irrespective to how 
   the data was created.
@@ -485,7 +485,7 @@ public class CreateDocument {
 
   static final String TOSTRING_DESCR = 
   """
-  Renders <code>this</code> object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
+  Render <code>this</code> object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
   Equivalent to calling <a href='#common.todiag'>toDiag()</a>
   with a <code>true</code> argument.""";
 
@@ -493,7 +493,7 @@ public class CreateDocument {
 
   static final String ADDARRAYS_DESCR = 
   """
-  Adds two arrays.""";
+  Add two arrays.""";
   
   static final String ADDARRAYS_P1_DESCR = 
   """
@@ -511,7 +511,7 @@ public class CreateDocument {
 
   static final String CMPARRAYS_DESCR = 
   """
-  Compares two arrays lexicographically.""";
+  Compare two arrays lexicographically.""";
   
   static final String CMPARRAYS_P1_DESCR = 
   """
@@ -534,7 +534,7 @@ public class CreateDocument {
 
   static final String TOHEX_DESCR = 
   """
-  Encodes binary data to hexadecimal.""";
+  Encode binary data to hexadecimal.""";
   
   static final String TOHEX_P1_DESCR = 
   """
@@ -548,7 +548,7 @@ public class CreateDocument {
 
   static final String FROMHEX_DESCR = 
   """
-  Decodes hexadecimal data into binary.""";
+  Decode hexadecimal data into binary.""";
   
   static final String FROMHEX_P1_DESCR = 
   """
@@ -562,7 +562,7 @@ public class CreateDocument {
 
   static final String TOB64U_DESCR = 
   """
-  Encodes binary data to base64Url.""";
+  Encode binary data to base64Url.""";
   
   static final String TOB64U_P1_DESCR = 
   """
@@ -576,7 +576,7 @@ public class CreateDocument {
 
   static final String FROMB64U_DESCR = 
   """
-  Decodes base64Url encoded data into binary.
+  Decode base64Url encoded data into binary.
   Note that this method is <i>permissive</i>; it accepts
   base64 encoded data as well as data with or without
   <code>'='</code> padding.""";
@@ -593,7 +593,7 @@ public class CreateDocument {
 
   static final String DECODE_DESCR = 
   """
-  Decodes a CBOR object.
+  Decode a CBOR object.
   This method assumes that the CBOR data adheres to
   <a href='#main.deterministic'>Deterministic Encoding</a>,
   otherwise exceptions will be thrown.
@@ -612,7 +612,7 @@ public class CreateDocument {
 
   static final String INITEXT_DESCR = 
   """
-  Initiates an extended CBOR decoder.
+  Initiate an extended CBOR decoder.
   This decoding method presumes that the actual
   decoding is performed by one or more (for sequences only) calls to
   <a href='#decoder.cbor.decodeextended'>CBOR.decodeExtended()</a>.""";
@@ -645,7 +645,7 @@ public class CreateDocument {
 
   static final String DECODEEXT_DESCR = 
   """
-  Decodes a CBOR object.
+  Decode a CBOR object.
   If the <code>sequenceFlag</code> in the call to
   <a href='#decoder.cbor.initextended'>CBOR.initExtended()</a>
   is <code>true</code>, each call to 
@@ -665,7 +665,7 @@ public class CreateDocument {
 
   static final String DIAGDEC_DESCR = 
   """
-  Decodes a CBOR object provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
+  Decode a CBOR object provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
   See also <a href='#decoder.cbor.diagdecodesequence'>CBOR.diagDecodeSequence()</a>.
   <div style='margin-top:0.5em'>Note: this method always returns CBOR data using 
   <a href='#main.deterministic'>Deterministic Encoding</a>.</div>""";
@@ -682,7 +682,7 @@ public class CreateDocument {
 
   static final String DIAGDECSEQ_DESCR = 
   """
-  Decodes a CBOR object provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
+  Decode a CBOR object provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
   Unlike <a href='#decoder.cbor.diagdecode'>CBOR.diagDecode()</a>,
   this method also accepts CBOR sequences, using a comma
   character (<code>','</code>) as a separator.""";
@@ -1168,7 +1168,7 @@ public class CreateDocument {
 
   void rangedIntMethod(Wrapper wrapper, String method, String min, String max, String optionalText) {
     StringBuilder description = 
-      new StringBuilder("Reads CBOR integer.<div style='margin-top:0.5em'>Valid range: <kbd>")
+      new StringBuilder("Get CBOR integer.<div style='margin-top:0.5em'>Valid range: <kbd>")
         .append(min).append(" </kbd>to<kbd> ").append(max).append("</kbd>.");
     if (optionalText != null) {
       description.append(optionalText);
@@ -1179,7 +1179,7 @@ public class CreateDocument {
 
   void rangedBigIntMethod(Wrapper wrapper, String method, String min, String max) {
     StringBuilder description = 
-      new StringBuilder("Reads CBOR integer.<div style='margin-top:0.5em'>Valid range: <kbd>")
+      new StringBuilder("Get CBOR integer.<div style='margin-top:0.5em'>Valid range: <kbd>")
         .append(min).append(" </kbd>to<kbd> ").append(max).append("</kbd>.");
     wrapper.addMethod(method, description.toString())
            .setReturn(DataTypes.JS_BIGINT, W_GETBIGINT_RETURN_DESCR);
