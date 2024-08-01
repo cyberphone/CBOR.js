@@ -667,7 +667,7 @@ public class CreateDocument {
   """
   Decodes a CBOR object provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
   See also <a href='#decoder.cbor.diagdecodesequence'>CBOR.diagDecodeSequence()</a>.
-  <div style='margin-top:0.5em'>Note: this method always return CBOR data using 
+  <div style='margin-top:0.5em'>Note: this method always returns CBOR data using 
   <a href='#main.deterministic'>Deterministic Encoding</a>.</div>""";
   
   static final String DIAGDEC_P1_DESCR = 

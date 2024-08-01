@@ -912,7 +912,7 @@ When there is no more data to decode, <code>null</code> is returned.</td></tr>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.diagDecode(<i>cborText</i>)</code></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Decodes a CBOR object provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
 See also <a href='#decoder.cbor.diagdecodesequence'>CBOR.diagDecodeSequence()</a>.
-<div style='margin-top:0.5em'>Note: this method always return CBOR data using
+<div style='margin-top:0.5em'>Note: this method always returns CBOR data using
 <a href='#main.deterministic'>Deterministic Encoding</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
@@ -1067,7 +1067,7 @@ base64 encoded data as well as data with or without
   transparent; the API only exposes the <code>Number</code> type.
   See also <a href='#wrapper.cbor.float'>CBOR.Float()</a>.
   <p>
-    By default the CBOR.js implementation suports <kdb>NaN</kdb>,
+    By default, the CBOR.js implementation supports <kdb>NaN</kdb>,
     <kbd>Infinity</kbd>, and <kbd>-Infinity</kbd>.
     In case these variants of <kbd>Number</kbd> are not applicable for the application
     in question, they can be &quot;outlawed&quot; (causing an exception if encountered),
