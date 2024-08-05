@@ -987,6 +987,13 @@ class CBOR {
       return this.compareAndReturn(decoded, f16Binary >= 0x8000 ? -f64 : f64);
     }
 
+    selectInteger = function(value) {
+      if (value > BigInt(Number.MAX_SAFE_INTEGER) || value < BigInt(Number.MIN_SAFE_INTEGER)) {
+        return CBOR.BigInt(value);
+      } 
+      return CBOR.Int(Number(value));
+    }
+
     getObject = function() {
       let tag = this.readByte();
 
@@ -1003,7 +1010,7 @@ class CBOR {
             value <<= 8n;
             value += BigInt(byte);
           });
-          return CBOR.BigInt(tag == CBOR.#MT_BIG_NEGATIVE ? ~value : value);
+          return this.selectInteger(tag == CBOR.#MT_BIG_NEGATIVE ? ~value : value);
 
         case CBOR.#MT_FLOAT16:
           return this.decompressF16AndReturn();
@@ -1056,17 +1063,10 @@ class CBOR {
           return CBOR.Tag(bigN, this.getObject());
 
         case CBOR.#MT_UNSIGNED:
-          if (bigN > BigInt(Number.MAX_SAFE_INTEGER)) {
-            return CBOR.BigInt(bigN);
-          }
-          return CBOR.Int(Number(bigN));
-    
+          return this.selectInteger(bigN);
+
         case CBOR.#MT_NEGATIVE:
-          bigN = ~bigN;
-          if (bigN < BigInt(-Number.MAX_SAFE_INTEGER)) {
-            return CBOR.BigInt(bigN);
-          }
-          return CBOR.Int(Number(bigN));
+          return this.selectInteger(~bigN);
     
         case CBOR.#MT_BYTES:
           return CBOR.Bytes(this.readBytes(this.rangeLimitedBigInt(bigN)));
