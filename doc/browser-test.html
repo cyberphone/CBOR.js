@@ -229,7 +229,8 @@ success();
 {name:'float.js',
 file:String.raw`// Test program for floating point "edge cases"
 
-function oneTurn(valueText, expected) {
+function oneTurn(valueText, expected, invalidFloats) {
+  let decoder = CBOR.initExtended(CBOR.fromHex(expected), false, false, true);
   let value = Number(valueText);
   let text = valueText;
   while (text.length < 25) {
@@ -257,12 +258,18 @@ function oneTurn(valueText, expected) {
   if (got.length) {
     throw Error(text + expected + got);
   }
+  try {
+    decoder.decodeExtended();
+    assertFalse('Should not execute', invalidFloats);
+  } catch (error) {
+    assertTrue("Decode ME1", error.toString().includes('"NaN" and "Infinity"'));
+  }
 }
 oneTurn('0.0',                      'f90000');
 oneTurn('-0.0',                     'f98000');
-oneTurn('NaN',                      'f97e00');
-oneTurn('Infinity',                 'f97c00');
-oneTurn('-Infinity',                'f9fc00');
+oneTurn('NaN',                      'f97e00', true);
+oneTurn('Infinity',                 'f97c00', true);
+oneTurn('-Infinity',                'f9fc00', true);
 oneTurn('0.0000610649585723877',    'fa38801000');
 oneTurn('10.559998512268066',       'fa4128f5c1');
 oneTurn('65472.0',                  'f97bfe');
@@ -298,14 +305,6 @@ oneTurn('7.52316384526264e-37',     'fa03800000');
 oneTurn('1.1754943508222875e-38',   'fa00800000');
 oneTurn('5.0e-324',                 'fb0000000000000001');
 oneTurn('-1.7976931348623157e+308', 'fbffefffffffffffff');
-['f97e00', 'f97c00', 'f9fc00'].forEach(cborHex => {
-  try {
-    CBOR.initExtended(CBOR.fromHex(cborHex), false, false, true).decodeExtended();
-    fail('Should not execute')
-  } catch (error) {
-    assertTrue("Decode ME1", error.toString().includes('"NaN" and "Infinity"'));
-  }
-});
 success();
 `}
 ,
