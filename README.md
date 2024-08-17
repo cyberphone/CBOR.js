@@ -107,7 +107,7 @@ while remaining faithful to the native CBOR representation.
 
 |Language|URL|
 |-|-|
-|JDK&nbsp;17+|https://github.com/cyberphone/openkeystore|
+|JDK&nbsp;21+|https://github.com/cyberphone/openkeystore|
 |Android/Java|https://github.com/cyberphone/android-cbor|
 
-Updated: 2024-04-29
+Updated: 2024-08-17
