@@ -1192,8 +1192,6 @@ public class CreateDocument {
   }
 
   void bigIntMethods(Wrapper wrapper) {
-    wrapper.addMethod("getBigInt", W_GETBIGINT_DESCR)
-           .setReturn(DataTypes.JS_BIGINT, W_GETBIGINT_RETURN_DESCR);
 
     rangedBigIntMethod(wrapper,"getInt64", 
                    "-0x8000000000000000", 
@@ -1202,6 +1200,9 @@ public class CreateDocument {
     rangedBigIntMethod(wrapper,"getUint64", 
                    "0", 
                    "0xffffffffffffffff");
+
+    wrapper.addMethod("getBigInt", W_GETBIGINT_DESCR)
+           .setReturn(DataTypes.JS_BIGINT, W_GETBIGINT_RETURN_DESCR);
   }
 
   void intMethods(Wrapper wrapper) {
