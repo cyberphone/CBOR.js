@@ -378,15 +378,15 @@ export default class CBOR {
             let f16signif = f32signif >> 13;
             // Finally, check if we need to denormalize F16.
             if (f16exp <= 0) {
-              // The implicit "1" becomes explicit using subnormal representation.
-              f16signif += 0x400;
-              let f16signifSave = f16signif;
-              f16signif >>= (1 - f16exp);
-              if (f16signifSave != (f16signif << (1 - f16exp))) {
+              if (f16signif & (1 << (1 - f16exp)) - 1) {
                 // Losing bits is not an option, stick to F32.
                 break;
               }
-              // Valid and denormalized F16.
+              // The implicit "1" becomes explicit using subnormal representation.
+              f16signif += 0x400;
+              // Put significand in position.
+              f16signif >>= (1 - f16exp);
+              // Valid and denormalized F16 have exponent = 0.
               f16exp = 0;
             }
             // A rarity, 16 bits turned out being sufficient for representing value.
