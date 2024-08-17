@@ -22,7 +22,7 @@ code {
 }
 
 kbd {
-  font-size: 1.1em;
+  font-size: 1.0em;
 }
 
 h5 {
@@ -36,6 +36,7 @@ li {
 
 .staticbox, .textbox {
   box-sizing:border-box;
+  font-size:1.0em;
   width:100%;word-break:break-all;
   border-width:1px;
   border-style:solid;

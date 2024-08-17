@@ -136,15 +136,7 @@ file:String.raw`// Testing the COTX identifier
 
 function oneTurn(hex, dn, ok) {
   try {
-    CBOR.decode(CBOR.fromHex(hex));
-    assertTrue("Should not execute", ok);
-  } catch (error) {
-    assertFalse("Must succeed", ok);
-  }
-
-  try {
-    let decoder = CBOR.initExtended(CBOR.fromHex(hex), false, false);
-    let object = CBOR.decodeExtended(decoder);
+    let object = CBOR.decode(CBOR.fromHex(hex));
     assertTrue("Should not execute", ok);
     if (object.toString() != dn.toString() || !object.equals(CBOR.decode(object.encode()))) {
       throw Error("non match:" + dn + " " + object.toString());
@@ -289,29 +281,14 @@ oneTurn('7.52316384526264e-37',     'fa03800000');
 oneTurn('1.1754943508222875e-38',   'fa00800000');
 oneTurn('5.0e-324',                 'fb0000000000000001');
 oneTurn('-1.7976931348623157e+308', 'fbffefffffffffffff');
-CBOR.disableInvalidFloats = true;
-oneTurn('0.0',                      'f90000');
-oneTurn('-0.0',                     'f98000');
 ['f97e00', 'f97c00', 'f9fc00'].forEach(cborHex => {
   try {
-    CBOR.decode(CBOR.fromHex(cborHex));
+    CBOR.initExtended(CBOR.fromHex(cborHex), false, false, true).decodeExtended();
     fail('Should not execute')
   } catch (error) {
     assertTrue("Decode ME1", error.toString().includes('"NaN" and "Infinity"'));
   }
 });
-[Number.NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY].forEach(number => {
-  try {
-    CBOR.Float(number);
-    fail('Should not execute')
-  } catch (error) {
-    assertTrue("Decode ME1", error.toString().includes('"NaN" and "Infinity"'));
-  }
-});
-CBOR.disableInvalidFloats = false;
-oneTurn('NaN',                      'f97e00');
-oneTurn('Infinity',                 'f97c00');
-oneTurn('-Infinity',                'f9fc00');
 success();
 `}
 ,
@@ -540,8 +517,8 @@ function oneTurn(hex, dn) {
       throw error;
     }
   }
-  let decoder = CBOR.initExtended(CBOR.fromHex(hex), false, true);
-  let object = CBOR.decodeExtended(decoder);
+  let decoder = CBOR.initExtended(CBOR.fromHex(hex), false, true, false);
+  let object = decoder.decodeExtended();
   if (object.toString() != dn || !object.equals(CBOR.decode(object.encode()))) {
     throw Error("non match:" + dn);
   }
@@ -614,10 +591,10 @@ try {
 } catch (error) {
   if (!error.toString().includes('Unexpected')) console.log(error);
 }
-let decoder = CBOR.initExtended(cbor, true, false);
-let total = new Uint16Array();
+let decoder = CBOR.initExtended(cbor, true, false, false);
+let total = new Uint8Array();
 let object;
-while (object = CBOR.decodeExtended(decoder)) {
+while (object = decoder.decodeExtended()) {
   total = CBOR.addArrays(total, object.encode());
 }
 assertFalse("Comp", CBOR.compareArrays(total, cbor));

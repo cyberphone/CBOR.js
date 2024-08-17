@@ -1,7 +1,8 @@
 <!DOCTYPE html><html lang='en'>
 <head>
 <link rel='icon' href='webpkiorg.png' sizes='192x192'>
-<meta name='viewport' content='initial-scale=1.0'/>
+<meta name='viewport' content='initial-scale=1.0'>
+<meta charset='UTF-8'>
 <title>CBOR Playground</title>
 <link rel='stylesheet' type='text/css' href='style.css'>
 <script src='../src/cbor.js'></script>
@@ -91,6 +92,7 @@ async function doProcess() {
   try {
     let sequenceFlag = document.getElementById('seq').checked;
     let deterministicFlag = document.getElementById('det').checked;
+    let rejectNaNFlag = document.getElementById('nan').checked;
     let inData = document.getElementById('cborin').value;
     let cborBytes;
     switch (getRadioValue('selin')) {
@@ -115,8 +117,9 @@ async function doProcess() {
     let object;
     let decoder = CBOR.initExtended(cborBytes, 
                                     sequenceFlag, 
-                                    !deterministicFlag);
-    while (object = CBOR.decodeExtended(decoder)) {
+                                    !deterministicFlag,
+                                    rejectNaNFlag);
+    while (object = decoder.decodeExtended()) {
       cborObjects.push(object);
       if (!sequenceFlag) {
         break;
@@ -139,7 +142,7 @@ async function doProcess() {
   proposal supports the following subset of CBOR
   primitives: <kbd><i>text&nbsp;string</i></kbd>, <kbd><i>byte&nbsp;string</i></kbd>, <kbd><i>integer</i></kbd>,
   <kbd><i>bignum</i></kbd>, <kbd><i>floating&nbsp;point</i></kbd> (16/32/64 bit),
-  <kbd>true</kbd>, <kbd>false</kbd>, <kbd>null</kbd>, and <kdb><i>tagged data</i></kdb> (CBOR major type 6).
+  <kbd>true</kbd>, <kbd>false</kbd>, <kbd>null</kbd>, and <kbd><i>tagged data</i></kbd> (CBOR major type 6).
 </div>
   <div style='padding-top:10pt'>
     <div style='padding-bottom:3pt'>
@@ -152,10 +155,12 @@ async function doProcess() {
           <td><kbd>0xhh, 0xhh...</kbd> notation</td></tr>
       <tr><td><input type='radio' name='selin' value='b64u'></td>
           <td>Base64Url notation</td></tr><tr><td><input type='checkbox' id='seq'></td>
-          <td>Sequence using <kbd>','</kbd> as separator</td></tr>
+          <td>Sequence using comma (,) as separator</td></tr>
       <tr><td><input type='checkbox' checked id='det'></td>
           <td>Require <a href='index.html#main.deterministic' target='_blank' title='Documentation'>Deterministic Encoding</a> for hex/b64u data</td></tr>
-      </table>Paste a CBOR object in the text box or try with the default:
+      <tr><td><input type='checkbox' id='nan'></td>
+          <td>Reject <kbd>NaN</kbd> and <kbd>Infinity</kbd> floating point objects</td></tr>
+        </table>Paste a CBOR object in the text box or try with the default:
     </div><textarea rows='10' maxlength='100000' class='textbox' id='cborin' name='cborin' placeholder='CBOR data...'></textarea></div>
 <div style='padding-top:10pt'><div style='padding-bottom:3pt'>
   <table style='margin-bottom:0.3em;border-spacing:0'>

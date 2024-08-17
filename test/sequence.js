@@ -9,10 +9,10 @@ try {
 } catch (error) {
   if (!error.toString().includes('Unexpected')) console.log(error);
 }
-let decoder = CBOR.initExtended(cbor, true, false);
-let total = new Uint16Array();
+let decoder = CBOR.initExtended(cbor, true, false, false);
+let total = new Uint8Array();
 let object;
-while (object = CBOR.decodeExtended(decoder)) {
+while (object = decoder.decodeExtended()) {
   total = CBOR.addArrays(total, object.encode());
 }
 assertFalse("Comp", CBOR.compareArrays(total, cbor));

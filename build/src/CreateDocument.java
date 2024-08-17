@@ -35,7 +35,7 @@ public class CreateDocument {
   static final String W_GETBIGINT_DESCR = 
   """
   Get CBOR integer of any size.
-  See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
+  See also <a href='#jsnumbers.int'>Integer Numbers</a>.""";
   
   static final String W_GETBIGINT_RETURN_DESCR = 
   """
@@ -374,7 +374,7 @@ public class CreateDocument {
   static final String ENCODE_DESCR = 
   """
   Encode <code>this</code> object.
- <div style='margin-top:0.5em'>Note: this method always return CBOR data using 
+  <div style='margin-top:0.5em'>Note: this method always return CBOR data using 
   <a href='#main.deterministic'>Deterministic Encoding</a>.</div>""";
 
   static final String ENCODE_RETURN_DESCR = 
@@ -596,9 +596,11 @@ public class CreateDocument {
   Decode a CBOR object.
   This method assumes that the CBOR data adheres to
   <a href='#main.deterministic'>Deterministic Encoding</a>,
-  otherwise exceptions will be thrown.
+  otherwise an exception will be thrown.
   Any additional data after the CBOR object will also cause
-  exceptions to be thrown.""";
+  an exception to be thrown.
+  <div style='margin-top:0.5em'>This method is equivalent to:<br>
+  <code>CBOR.initExtended(<i>cbor</i>, false, false, false).decodeExtended()</code></div>""";
   
   static final String DECODE_P1_DESCR = 
   """
@@ -615,7 +617,7 @@ public class CreateDocument {
   Initiate an extended CBOR decoder.
   This decoding method presumes that the actual
   decoding is performed by one or more (for sequences only) calls to
-  <a href='#decoder.cbor.decodeextended'>CBOR.decodeExtended()</a>.""";
+  <a href='#decoder.decoder.decodeextended'><i>Decoder</i>.decodeExtended()</a>.""";
   
   static final String INITEXT_P1_DESCR = 
   """
@@ -623,9 +625,10 @@ public class CreateDocument {
 
   static final String INITEXT_P2_DESCR = 
   """
-  If <code>true</code>, <a href='#decoder.cbor.decodeextended'>CBOR.decodeExtended()</a>
+  If <code>true</code>, <a href='#decoder.decoder.decodeextended'><i>Decoder</i>.decodeExtended()</a>
   will return immediately after decoding a CBOR object, otherwise 
-  any additional data after the CBOR object will cause exceptions to be thrown.""";
+  any additional data after the CBOR object will cause 
+  an exception to be thrown.""";
 
   static final String INITEXT_P3_DESCR = 
   """
@@ -634,14 +637,20 @@ public class CreateDocument {
   This option may be needed for dealing with &quot;legacy&quot;
   CBOR implementations.
   The flag disables the strict map sorting requirement and the preferred
-  serialization of numbers (=shortest).""";
+  serialization of numbers.""";
+
+  static final String INITEXT_P4_DESCR = 
+  """
+  If <code>true</code> the decoder will &quot;outlaw&quot; <code>NaN</code>
+  and <code>Infinity</code> by throwing an exception if such objects are
+  encountered.""";
 
   static final String INITEXT_RETURN_DESCR = 
   """
   Internal decoder object for usage with
-  <a href='#decoder.cbor.decodeextended'>CBOR.decodeExtended()</a>.""";
+  <a href='#decoder.decoder.decodeextended'><i>Decoder</i>.decodeExtended()</a>.""";
 
-  // CBOR.decodeExtended()
+  // Decoder.decodeExtended()
 
   static final String DECODEEXT_DESCR = 
   """
@@ -649,13 +658,9 @@ public class CreateDocument {
   If the <code>sequenceFlag</code> in the call to
   <a href='#decoder.cbor.initextended'>CBOR.initExtended()</a>
   is <code>true</code>, each call to 
-  <a href='#decoder.cbor.decodeextended'>CBOR.decodeExtended()</a>
+  <a href='#decoder.decoder.decodeextended'><i>Decoder</i>.decodeExtended()</a>
   causes the internal decoder to move to the next (possible but unprocessed) CBOR object.
   When there is no more data to decode, <code>null</code> is returned.""";
-
-  static final String DECODEEXT_P1_DESCR = 
-  """
-  Internal decoder object.""";
   
   static final String DECODEEXT_RETURN_DESCR = 
   """
@@ -884,7 +889,8 @@ public class CreateDocument {
   }
 
   void printMethod(String prefix, Method method) {
-    s.append(printSubHeader((prefix + "." + method.name).toLowerCase(),  method.name + 
+    String iFix = method.name.replace("<i>","").replace("</i>", "");
+    s.append(printSubHeader((prefix + "." + iFix).toLowerCase(),  method.name + 
         (method instanceof Wrapper ? "" : "()")));
     beginTable();
     rowBegin();
@@ -1169,7 +1175,7 @@ public class CreateDocument {
   void rangedIntMethod(Wrapper wrapper, String method, String min, String max, String optionalText) {
     StringBuilder description = 
       new StringBuilder("Get CBOR integer.<div style='margin-top:0.5em'>Valid range: <kbd>")
-        .append(min).append(" </kbd>to<kbd> ").append(max).append("</kbd>.");
+        .append(min).append(" </kbd>to<kbd> ").append(max).append("</kbd>.</div>");
     if (optionalText != null) {
       description.append(optionalText);
     }
@@ -1180,7 +1186,7 @@ public class CreateDocument {
   void rangedBigIntMethod(Wrapper wrapper, String method, String min, String max) {
     StringBuilder description = 
       new StringBuilder("Get CBOR integer.<div style='margin-top:0.5em'>Valid range: <kbd>")
-        .append(min).append(" </kbd>to<kbd> ").append(max).append("</kbd>.");
+        .append(min).append(" </kbd>to<kbd> ").append(max).append("</kbd>.</div>");
     wrapper.addMethod(method, description.toString())
            .setReturn(DataTypes.JS_BIGINT, W_GETBIGINT_RETURN_DESCR);
   }
@@ -1407,13 +1413,13 @@ public class CreateDocument {
     addDecoderMethod("CBOR.initExtended", INITEXT_DESCR)
       .addParameter("cbor", DataTypes.JS_UINT8ARRAY, INITEXT_P1_DESCR)
       .addParameter("sequenceFlag", DataTypes.JS_BOOLEAN, INITEXT_P2_DESCR)
-      .addParameter("nonDeterministic", DataTypes.JS_BOOLEAN, INITEXT_P3_DESCR)
+      .addParameter("lenientFlag", DataTypes.JS_BOOLEAN, INITEXT_P3_DESCR)
+      .addParameter("rejectNaNFlag", DataTypes.JS_BOOLEAN, INITEXT_P4_DESCR)
       .setReturn(DataTypes.ExtendedDecoder, INITEXT_RETURN_DESCR);
 
       // Decoder.decodeExtended()
 
-    addDecoderMethod("CBOR.decodeExtended", DECODEEXT_DESCR)
-      .addParameter("decoder", DataTypes.ExtendedDecoder, DECODEEXT_P1_DESCR)
+    addDecoderMethod("<i>Decoder</i>.decodeExtended", DECODEEXT_DESCR)
       .setReturn(DataTypes.CBOR_Any, DECODEEXT_RETURN_DESCR);
 
       // CBOR.diagDecode()

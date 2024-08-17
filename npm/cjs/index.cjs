@@ -11,8 +11,6 @@
 // Single global static object.
 class CBOR {
 
-  static disableInvalidFloats = false;
-
   // Super class for all CBOR wrappers.
   static #CborObject = class {
 
@@ -338,10 +336,8 @@ class CBOR {
       // Begin catching the F16 edge cases.
       this.#tag = CBOR.#MT_FLOAT16;
       if (Number.isNaN(value)) {
-        this._checkPermitted();
         this.#encoded = CBOR.#int16ToByteArray(0x7e00);
       } else if (!Number.isFinite(value)) {
-        this._checkPermitted();
         this.#encoded = CBOR.#int16ToByteArray(value < 0 ? 0xfc00 : 0x7c00);
       } else if (value == 0) { // True for -0.0 as well! 
         this.#encoded = CBOR.#int16ToByteArray(Object.is(value,-0) ? 0x8000 : 0x0000);
@@ -440,10 +436,8 @@ class CBOR {
       cborPrinter.append(floatString);
     }
 
-    _checkPermitted = function() {
-      if (CBOR.disableInvalidFloats) {
-        CBOR.#error('"NaN" and "Infinity" support is disabled');
-      }
+    _isBadFloat = function() {
+      return this.#encoded.length == 2 && (this.#encoded[0] & 0x7c) == 0x7c;
     }
 
     _compare = function(decoded) {
@@ -900,15 +894,17 @@ class CBOR {
 //     Decoder Core      //
 ///////////////////////////
 
-  static #_decoder = class {
+  static Decoder = class {
 
     constructor(cbor,
                 sequenceFlag,
-                nonDeterministic) {
+                lenientFlag,
+                rejectNaNFlag) {
       this.cbor = CBOR.#bytesCheck(cbor);
       this.counter = 0;
       this.sequenceFlag = sequenceFlag;
-      this.deterministicMode = !nonDeterministic;
+      this.deterministicMode = !lenientFlag;
+      this.rejectNaNFlag = rejectNaNFlag;
     }
 
     eofError = function() {
@@ -951,8 +947,11 @@ class CBOR {
 
     compareAndReturn = function(decoded, f64) {
       let cborFloat = CBOR.Float(f64);
-      if (cborFloat._compare(decoded) && this.deterministicMode) {
+      if (this.deterministicMode && cborFloat._compare(decoded)) {
         CBOR.#error("Non-deterministic encoding of: " + f64);
+      }
+      if (this.rejectNaNFlag && cborFloat._isBadFloat()) {
+        CBOR.#error('"NaN" and "Infinity" support is disabled');        
       }
       return cborFloat;
     }
@@ -1094,19 +1093,23 @@ class CBOR {
           this.unsupportedTag(tag);
       }
     }
-  }
 
-  static #getObject = function(decoder) {
-    decoder.atFirstByte = true;
-    let object = decoder.getObject();
-    if (decoder.sequenceFlag) {
-      if (decoder.atFirstByte) {
-        return null;
+    //////////////////////////////
+    // Decoder.decodeExtended() //
+    //////////////////////////////
+
+    decodeExtended = function() {
+      this.atFirstByte = true;
+      let object = this.getObject();
+      if (this.sequenceFlag) {
+        if (this.atFirstByte) {
+          return null;
+        }
+      } else if (this.counter < this.cbor.length) {
+        CBOR.#error("Unexpected data encountered after CBOR object");
       }
-    } else if (decoder.counter < decoder.cbor.length) {
-      CBOR.#error("Unexpected data encountered after CBOR object");
+      return object;
     }
-    return object;
   }
 
 ///////////////////////////
@@ -1114,27 +1117,17 @@ class CBOR {
 ///////////////////////////
 
   static decode = function(cbor) {
-    return CBOR.#getObject(new CBOR.#_decoder(cbor, false, false));
+    return CBOR.initExtended(cbor, false, false, false).decodeExtended();
   }
 
 ///////////////////////////
 //  CBOR.initExtended()  //
 ///////////////////////////
 
-  static initExtended = function(cbor, sequenceFlag, nonDeterministic) {
-    return new CBOR.#_decoder(cbor, sequenceFlag, nonDeterministic);
+  static initExtended = function(cbor, sequenceFlag, lenientFlag, rejectNaNFlag) {
+    return new CBOR.Decoder(cbor, sequenceFlag, lenientFlag, rejectNaNFlag);
   }
 
-///////////////////////////
-// CBOR.decodeExtended() //
-///////////////////////////
-
-  static decodeExtended = function(decoder) {
-    if (!(decoder instanceof CBOR.#_decoder)) {
-      CBOR.#error("Argument is not 'Decoder'");
-    }
-    return CBOR.#getObject(decoder);
-  }
 
 //================================//
 //   Diagnostic Notation Support  //
