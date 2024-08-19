@@ -454,7 +454,7 @@ public class CreateDocument {
    tag <a href='#cbor.tag.gettaggedobject'>getTaggedObject()</a>
    only <i>locate</i> objects,
    and thus do not count as &quot;read&quot;.
-   Also see
+   See also
    <a href='#cbor.array.getarray'>getArray()</a>,
    <a href='#cbor.map.getmap'>getMap()</a>,
    <a href='#cbor.tag.gettag'>getTag()</a>, and
@@ -594,17 +594,12 @@ public class CreateDocument {
   static final String DECODE_DESCR = 
   """
   Decode a CBOR object.
-  This method assumes that the CBOR data adheres to
-  <a href='#main.deterministic'>Deterministic Encoding</a>,
-  otherwise an exception will be thrown.
-  Any additional data after the CBOR object will also cause
-  an exception to be thrown.
   <div style='margin-top:0.5em'>This method is equivalent to:<br>
   <code>CBOR.initExtended(<i>cbor</i>, false, false, false).decodeExtended()</code></div>""";
   
   static final String DECODE_P1_DESCR = 
   """
-  The data (bytes) to be decoded.""";
+ CBOR binary data <i>holding exactly one CBOR object</i>.""";
 
   static final String DECODE_RETURN_DESCR = 
   """
@@ -621,29 +616,39 @@ public class CreateDocument {
   
   static final String INITEXT_P1_DESCR = 
   """
-  The data (bytes) to be decoded.""";
+  The data (bytes) to be decoded.
+  If <code><i>sequenceFlag</i></code> is <code>false</code>,
+  the <code><i>cbor</i></code> parameter must hold exactly one CBOR object.""";
 
   static final String INITEXT_P2_DESCR = 
   """
-  If <code>true</code>, <a href='#decoder.decoder.decodeextended'><i>Decoder</i>.decodeExtended()</a>
-  will return immediately after decoding a CBOR object, otherwise 
-  any additional data after the CBOR object will cause 
-  an exception to be thrown.""";
+  If <code><i>sequenceFlag</i></code> is <code>true</code> the following apply:
+  <ul style='padding:0;margin:0 0 0 2em'>
+  <li style='padding-top:0.3em'>Immediately return after decoding a CBOR object, 
+  while preparing the decoder for the next item.
+  See also <a href='#decoder.decoder.getbytecount'><i>Decoder</i>.getByteCount()</a>.</li>
+  <li>If no data is found (EOF), <code>null</code> is returned (<i>empty</i>
+  sequences are permitted).</li>
+  <li>Note that data <i>succeeding</i> a just decoded CBOR object is not
+  verified for correctness.</li></ul>""";
 
   static final String INITEXT_P3_DESCR = 
   """
-  If <code>true</code> the decoder will accept CBOR code
-  which violates the <a href='#main.deterministic'>Deterministic Encoding</a> rules.
+  If <code><i>lenientFlag</i></code> is <code>true</code> the decoder will accept CBOR code
+  that does not conform to the
+  <a href='#main.deterministic'>Deterministic Encoding</a> rules.
   This option may be needed for dealing with &quot;legacy&quot;
   CBOR implementations.
-  The flag disables the strict map sorting requirement and the preferred
-  serialization of numbers.""";
+  The flag disables the map sorting and preferred number serialization requirements.""";
 
   static final String INITEXT_P4_DESCR = 
   """
-  If <code>true</code> the decoder will &quot;outlaw&quot; <code>NaN</code>
-  and <code>Infinity</code> by throwing an exception if such objects are
-  encountered.""";
+  By default, this implementation supports 
+  <code>NaN</code>, <code>Infinity</code>, 
+  and <code style='white-space:nowrap'>-Infinity</code>. In case these variants
+  are not applicable for the application in question, they can be 
+  &quot;outlawed&quot; (causing an exception to be thrown
+  if encountered), by setting <code>rejectNaNFlag</code> to <code>true</code>.""";
 
   static final String INITEXT_RETURN_DESCR = 
   """
@@ -654,19 +659,25 @@ public class CreateDocument {
 
   static final String DECODEEXT_DESCR = 
   """
-  Decode a CBOR object.
-  If the <code>sequenceFlag</code> in the call to
-  <a href='#decoder.cbor.initextended'>CBOR.initExtended()</a>
-  is <code>true</code>, each call to 
-  <a href='#decoder.decoder.decodeextended'><i>Decoder</i>.decodeExtended()</a>
-  causes the internal decoder to move to the next (possible but unprocessed) CBOR object.
-  When there is no more data to decode, <code>null</code> is returned.""";
+  Decode CBOR data with options.""";
   
   static final String DECODEEXT_RETURN_DESCR = 
   """
-  CBOR wrapper object or <code>null</code>.""";
+  CBOR wrapper object or <code>null</code> (for EOF sequences only).""";
 
-    // CBOR.diagDecode()
+  // Decoder.getByteCount()
+
+  static final String GETBYTECOUNT_DESCR = 
+  """
+  Get decoder byte count.
+  <div style='margin-top:0.5em'>
+  This is equivalent to the position of the next item to be read.</div>""";
+
+  static final String GETBYTECOUNT_RETURN_DESCR = 
+  """
+  The number of bytes read so far.""";
+
+  // CBOR.diagDecode()
 
   static final String DIAGDEC_DESCR = 
   """
@@ -683,7 +694,7 @@ public class CreateDocument {
   """
   CBOR wrapper object.""";
 
-    // CBOR.diagDecodeSequence()
+  // CBOR.diagDecodeSequence()
 
   static final String DIAGDECSEQ_DESCR = 
   """
@@ -1175,10 +1186,11 @@ public class CreateDocument {
   void rangedIntMethod(Wrapper wrapper, String method, String min, String max, String optionalText) {
     StringBuilder description = 
       new StringBuilder("Get CBOR integer.<div style='margin-top:0.5em'>Valid range: <kbd>")
-        .append(min).append(" </kbd>to<kbd> ").append(max).append("</kbd>.</div>");
+        .append(min).append(" </kbd>to<kbd> ").append(max).append("</kbd>.");
     if (optionalText != null) {
-      description.append(optionalText);
+      description.append(" ").append(optionalText);
     }
+    description.append("</div>");
     wrapper.addMethod(method, description.toString())
            .setReturn(DataTypes.JS_NUMBER, "Decoded integer.");
   }
@@ -1422,6 +1434,11 @@ public class CreateDocument {
 
     addDecoderMethod("<i>Decoder</i>.decodeExtended", DECODEEXT_DESCR)
       .setReturn(DataTypes.CBOR_Any, DECODEEXT_RETURN_DESCR);
+
+      // Decoder.getByteCount()
+
+    addDecoderMethod("<i>Decoder</i>.getByteCount", GETBYTECOUNT_DESCR)
+      .setReturn(DataTypes.JS_NUMBER, GETBYTECOUNT_RETURN_DESCR);
 
       // CBOR.diagDecode()
 

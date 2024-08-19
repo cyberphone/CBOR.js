@@ -13,6 +13,7 @@ Signed and unsigned 8, 16, 32, and 64-bit integer get() methods added.
 CBOR.Float.getFloat() renamed to getFloat64().
 CBOR.Float.getFloat32() method added.
 
-2024-08-17 - 1.0.5
-Refactored CBOR.initExtended() and added a flag for outlawing NaN/Infinity.
-String length checking against input buffer length.
+2024-08-19 - 1.0.5
+Completely refactored CBOR.initExtended() and added a flag for "outlawing"
+NaN/Infinity as well as a Decoder.getByteCount() method. 
+Improved checking of CBOR items requirements against input buffer length.

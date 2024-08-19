@@ -16,5 +16,9 @@ while (object = decoder.decodeExtended()) {
   total = CBOR.addArrays(total, object.encode());
 }
 assertFalse("Comp", CBOR.compareArrays(total, cbor));
+assertTrue("Comp2", total.length == decoder.getByteCount());
+decoder = CBOR.initExtended(new Uint8Array(), true, false, false);
+assertFalse("Comp3", decoder.decodeExtended());
+assertTrue("Comp4", decoder.getByteCount() == 0);
 
 success();

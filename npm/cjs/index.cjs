@@ -901,7 +901,7 @@ class CBOR {
                 lenientFlag,
                 rejectNaNFlag) {
       this.cbor = CBOR.#bytesCheck(cbor);
-      this.counter = 0;
+      this.byteCount = 0;
       this.sequenceFlag = sequenceFlag;
       this.deterministicMode = !lenientFlag;
       this.rejectNaNFlag = rejectNaNFlag;
@@ -912,24 +912,24 @@ class CBOR {
     }
 
     readByte = function() {
-      if (this.counter >= this.cbor.length) {
+      if (this.byteCount >= this.cbor.length) {
         if (this.sequenceFlag && this.atFirstByte) {
           return 0;
         }
         this.eofError();
       }
       this.atFirstByte = false;
-      return this.cbor[this.counter++];
+      return this.cbor[this.byteCount++];
     }
         
     readBytes = function(length) {
-      if (this.counter + length  > this.cbor.length) {
+      if (this.byteCount + length  > this.cbor.length) {
         this.eofError();
       }
       let result = new Uint8Array(length);
       let q = -1; 
       while (++q < length) {
-        result[q] = this.cbor[this.counter++];
+        result[q] = this.cbor[this.byteCount++];
       }
       return result;
     }
@@ -978,7 +978,7 @@ class CBOR {
           // Normal representation, add the implicit "1.".
           significand += 0x400;
           // -1: Keep fractional point in line with subnormal numbers.
-          significand *= 1 << ((exponent / 0x400) - 1);
+          significand *= (1 << ((exponent / 0x400) - 1));
         }
         // Divide with: 2 ^ (Exponent offset + Size of significand - 1).
         f64 = significand / 0x1000000;
@@ -1105,10 +1105,14 @@ class CBOR {
         if (this.atFirstByte) {
           return null;
         }
-      } else if (this.counter < this.cbor.length) {
+      } else if (this.byteCount < this.cbor.length) {
         CBOR.#error("Unexpected data encountered after CBOR object");
       }
       return object;
+    }
+
+    getByteCount = function() {
+      return this.byteCount;
     }
   }
 
