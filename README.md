@@ -1,4 +1,4 @@
-<a id="cborjs"><br>![CBOR is great](https://cyberphone.github.io/CBOR.js/doc/cbor.js.svg)
+<a id="cborjs">&nbsp;</a><br>![CBOR is great](https://cyberphone.github.io/CBOR.js/doc/cbor.js.svg)
 
 This repository contains a
 [CBOR JavaScript API](https://cyberphone.github.io/CBOR.js/doc/).
