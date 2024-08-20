@@ -68,7 +68,7 @@ permitting testing the encoder, decoder, and diagnostic notation implementation.
 
 ### NPM Version
 
-For usage with Node.js, a NPM version is available: https://npmjs.com/package/cbor-object 
+For usage with Node.js and Deno, a NPM version is available: https://npmjs.com/package/cbor-object 
 
 ### Deterministic Encoding
 
