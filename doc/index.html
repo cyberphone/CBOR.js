@@ -94,10 +94,13 @@
 <div style='margin:0 0 0.4em 2em'><a href='#main.decoding'>4.&nbsp;&nbsp;Decoding CBOR</a></div>
 <div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.decode'>4.1.&nbsp;&nbsp;CBOR.decode()</a></div>
 <div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.initextended'>4.2.&nbsp;&nbsp;CBOR.initExtended()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#decoder.decoder.decodeextended'>4.3.&nbsp;&nbsp;<i>Decoder</i>.decodeExtended()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#decoder.decoder.getbytecount'>4.4.&nbsp;&nbsp;<i>Decoder</i>.getByteCount()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.diagdecode'>4.5.&nbsp;&nbsp;CBOR.diagDecode()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.diagdecodesequence'>4.6.&nbsp;&nbsp;CBOR.diagDecodeSequence()</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#decoder.decoder.setdeterministicmode'>4.3.&nbsp;&nbsp;<i>Decoder</i>.setDeterministicMode()</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#decoder.decoder.setsequencemode'>4.4.&nbsp;&nbsp;<i>Decoder</i>.setSequenceMode()</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#decoder.decoder.setnansupport'>4.5.&nbsp;&nbsp;<i>Decoder</i>.setNaNSupport()</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#decoder.decoder.decodeextended'>4.6.&nbsp;&nbsp;<i>Decoder</i>.decodeExtended()</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#decoder.decoder.getbytecount'>4.7.&nbsp;&nbsp;<i>Decoder</i>.getByteCount()</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.diagdecode'>4.8.&nbsp;&nbsp;CBOR.diagDecode()</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.diagdecodesequence'>4.9.&nbsp;&nbsp;CBOR.diagDecodeSequence()</a></div>
 <div style='margin:0 0 0.4em 2em'><a href='#main.utility'>5.&nbsp;&nbsp;Utility Methods</a></div>
 <div style='margin:0 0 0.4em 4em'><a href='#utility.cbor.addarrays'>5.1.&nbsp;&nbsp;CBOR.addArrays()</a></div>
 <div style='margin:0 0 0.4em 4em'><a href='#utility.cbor.comparearrays'>5.2.&nbsp;&nbsp;CBOR.compareArrays()</a></div>
@@ -853,8 +856,8 @@ This is only meaningful in conjunction with
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.decode(<i>cbor</i>)</code></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Decode a CBOR object.
-<div style='margin-top:0.5em'>This method is equivalent to:<br>
-<code>CBOR.initExtended(<i>cbor</i>, false, false, false).decodeExtended()</code></div></td></tr>
+<div style='margin-top:0.5em'>This method is equivalent to
+<code style='white-space:nowrap'>CBOR.initExtended(<i>cbor</i>).decodeExtended()</code></div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code><i>cbor</i></code></td><td style='text-align:center'><code>Uint8Array</code></td><td style='width:100%'>CBOR binary data <i>holding exactly one CBOR object</i>.</td></tr>
@@ -865,43 +868,98 @@ This is only meaningful in conjunction with
 <h5 id='decoder.cbor.initextended'>4.2.&nbsp;&nbsp;CBOR.initExtended()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.initExtended(<i>cbor</i>, <i>sequenceFlag</i>, <i>lenientFlag</i>, <i>rejectNaNFlag</i>)</code></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Initiate an extended CBOR decoder.
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.initExtended(<i>cbor</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Create a CBOR decoder supporting options.
 This decoding method presumes that the actual
 decoding is performed by one or more (for sequences only) calls to
 <a href='#decoder.decoder.decodeextended'><i>Decoder</i>.decodeExtended()</a>.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><code><i>cbor</i></code></td><td style='text-align:center'><code>Uint8Array</code></td><td style='width:100%'>The data (bytes) to be decoded.
-If <code><i>sequenceFlag</i></code> is <code>false</code>,
-the <code><i>cbor</i></code> parameter must hold exactly one CBOR object.</td></tr>
-<tr><td style='text-align:center'><code><i>sequenceFlag</i></code></td><td style='text-align:center'><code>Boolean</code></td><td style='width:100%'>If <code><i>sequenceFlag</i></code> is <code>true</code> the following apply:
-<ul style='padding:0;margin:0 0 0 2em'>
-<li style='padding-top:0.3em'>Immediately return after decoding a CBOR object,
-while preparing the decoder for the next item.
-See also <a href='#decoder.decoder.getbytecount'><i>Decoder</i>.getByteCount()</a>.</li>
-<li>If no data is found (EOF), <code>null</code> is returned (<i>empty</i>
-sequences are permitted).</li>
-<li>Note that data <i>succeeding</i> a just decoded CBOR object is not
-verified for correctness.</li></ul></td></tr>
-<tr><td style='text-align:center'><code><i>lenientFlag</i></code></td><td style='text-align:center'><code>Boolean</code></td><td style='width:100%'>If <code><i>lenientFlag</i></code> is <code>true</code> the decoder will accept CBOR code
-that does not conform to the
-<a href='#main.deterministic'>Deterministic Encoding</a> rules.
-This option may be needed for dealing with &quot;legacy&quot;
-CBOR implementations.
-The flag disables the map sorting and preferred number serialization requirements.</td></tr>
-<tr><td style='text-align:center'><code><i>rejectNaNFlag</i></code></td><td style='text-align:center'><code>Boolean</code></td><td style='width:100%'>By default, this implementation supports
-<code>NaN</code>, <code>Infinity</code>,
-and <code style='white-space:nowrap'>-Infinity</code>. In case these variants
-are not applicable for the application in question, they can be
-&quot;outlawed&quot; (causing an exception to be thrown
-if encountered), by setting <code>rejectNaNFlag</code> to <code>true</code>.</td></tr>
+<tr><td style='text-align:center'><code><i>cbor</i></code></td><td style='text-align:center'><code>Uint8Array</code></td><td style='width:100%'>The CBOR data (bytes) to be decoded.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><code><i>Decoder</i></code></td><td colspan='2' style='width:100%'>Internal decoder object for usage with
+<tr><td style='text-align:center'><code><i>Decoder</i></code></td><td colspan='2' style='width:100%'>Decoder object for <i>optional</i> use by the
+<code style='white-space:nowrap'><i>Decoder</i>.set*()</code>
+methods and finally used by
 <a href='#decoder.decoder.decodeextended'><i>Decoder</i>.decodeExtended()</a>.</td></tr>
 </table></div>
-<h5 id='decoder.decoder.decodeextended'>4.3.&nbsp;&nbsp;<i>Decoder</i>.decodeExtended()</h5>
+<h5 id='decoder.decoder.setdeterministicmode'>4.3.&nbsp;&nbsp;<i>Decoder</i>.setDeterministicMode()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code><i>Decoder</i>.setDeterministicMode(<i>enforce</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Set CBOR decoder deterministic mode.
+<div style='margin-top:0.5em'>
+By default the decoder assumes that CBOR data conforms to the
+<a href='#main.deterministic'>Deterministic&nbsp;Encoding</a> rules.
+This method enables overriding the default.
+</div>
+</td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>enforce</i></code></td><td style='text-align:center'><code>Boolean</code></td><td style='width:100%'>If the <code>enforce</code> flag is set to <code>false</code>,
+the decoder will accept CBOR data that does not adhere to the map sorting
+and preferred number serialization requirements.
+This option may be needed for dealing with &quot;legacy&quot; CBOR implementations.
+Note: duplicate keys and other invalid (or not supported) CBOR constructs
+will still cause an exception to be thrown.
+</td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><code><i>Decoder</i></code></td><td colspan='2' style='width:100%'>Updated decoder object.</td></tr>
+</table></div>
+<h5 id='decoder.decoder.setsequencemode'>4.4.&nbsp;&nbsp;<i>Decoder</i>.setSequenceMode()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code><i>Decoder</i>.setSequenceMode(<i>sequence</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Set CBOR decoder sequence mode.
+<div style='margin-top:0.5em'>
+By default the decoder assumes that CBOR data constitutes
+of a single CBOR object.
+This method enables overriding the default.
+</div>
+</td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>sequence</i></code></td><td style='text-align:center'><code>Boolean</code></td><td style='width:100%'>If the <code>sequence</code> flag is set to <code>true</code>,
+the following apply:
+<ul style='padding:0;margin:0 0 0 2em'>
+<li style='margin-top:0'>Immediately return after decoding a CBOR object, while preparing the
+decoder for the next item.
+See also <a href='#decoder.decoder.getbytecount'><i>Decoder</i>.getByteCount()</a>.</li>
+<li>If no data is found (EOF), <code>null</code> is returned
+(<i>empty</i> sequences are permitted).</li>
+<li>Note that data <i>succeeding</i> a just decoded CBOR object
+is not verified for correctness.</li>
+</ul>
+</td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><code><i>Decoder</i></code></td><td colspan='2' style='width:100%'>Updated decoder object.</td></tr>
+</table></div>
+<h5 id='decoder.decoder.setnansupport'>4.5.&nbsp;&nbsp;<i>Decoder</i>.setNaNSupport()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code><i>Decoder</i>.setNaNSupport(<i>accept</i>)</code></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Set CBOR decoder <code>NaN/Infinity</code> support.
+<div style='margin-top:0.5em'>
+By default the decoder supports
+<code>NaN</code>, <code>Infinity</code>,
+and <code style='white-space:nowrap'>-Infinity</code>.
+In case these variants are not applicable for the application in question,
+this method enables overriding the default.
+</div>
+</td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><code><i>accept</i></code></td><td style='text-align:center'><code>Boolean</code></td><td style='width:100%'>If the <code>accept</code> flag is set to <code>false</code>,
+the mentioned exceptional floating point values will (if encountered),
+cause an exception to be thrown.
+</td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><code><i>Decoder</i></code></td><td colspan='2' style='width:100%'>Updated decoder object.</td></tr>
+</table></div>
+<h5 id='decoder.decoder.decodeextended'>4.6.&nbsp;&nbsp;<i>Decoder</i>.decodeExtended()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code><i>Decoder</i>.decodeExtended()</code></td></tr>
@@ -910,7 +968,7 @@ if encountered), by setting <code>rejectNaNFlag</code> to <code>true</code>.</td
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>CBOR wrapper object or <code>null</code> (for EOF sequences only).</td></tr>
 </table></div>
-<h5 id='decoder.decoder.getbytecount'>4.4.&nbsp;&nbsp;<i>Decoder</i>.getByteCount()</h5>
+<h5 id='decoder.decoder.getbytecount'>4.7.&nbsp;&nbsp;<i>Decoder</i>.getByteCount()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code><i>Decoder</i>.getByteCount()</code></td></tr>
@@ -921,7 +979,7 @@ This is equivalent to the position of the next item to be read.</div></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>Number</code></td><td style='width:100%'>The number of bytes read so far.</td></tr>
 </table></div>
-<h5 id='decoder.cbor.diagdecode'>4.5.&nbsp;&nbsp;CBOR.diagDecode()</h5>
+<h5 id='decoder.cbor.diagdecode'>4.8.&nbsp;&nbsp;CBOR.diagDecode()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.diagDecode(<i>cborText</i>)</code></td></tr>
@@ -936,7 +994,7 @@ See also <a href='#decoder.cbor.diagdecodesequence'>CBOR.diagDecodeSequence()</a
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td colspan='2' style='width:100%'>CBOR wrapper object.</td></tr>
 </table></div>
-<h5 id='decoder.cbor.diagdecodesequence'>4.6.&nbsp;&nbsp;CBOR.diagDecodeSequence()</h5>
+<h5 id='decoder.cbor.diagdecodesequence'>4.9.&nbsp;&nbsp;CBOR.diagDecodeSequence()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.diagDecodeSequence(<i>cborText</i>)</code></td></tr>
@@ -1399,7 +1457,7 @@ base64 encoded data as well as data with or without
   </ul>
   <h3 id='main.version'>9.&nbsp;&nbsp;Version</h3>
 
-  API version: 1.0.5<br>
-  Document version: 2024-08-19
+  API version: 1.0.6<br>
+  Document version: 2024-08-22
 </body>
 </html>

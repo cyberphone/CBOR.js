@@ -896,15 +896,13 @@ class CBOR {
 
   static Decoder = class {
 
-    constructor(cbor,
-                sequenceFlag,
-                lenientFlag,
-                rejectNaNFlag) {
+    constructor(cbor) {
       this.cbor = CBOR.#bytesCheck(cbor);
+      this.maxLength = cbor.length;
       this.byteCount = 0;
-      this.sequenceFlag = sequenceFlag;
-      this.deterministicMode = !lenientFlag;
-      this.rejectNaNFlag = rejectNaNFlag;
+      this.sequenceFlag = false;
+      this.deterministicMode = true;
+      this.rejectNaNFlag = false;
     }
 
     eofError = function() {
@@ -912,7 +910,7 @@ class CBOR {
     }
 
     readByte = function() {
-      if (this.byteCount >= this.cbor.length) {
+      if (this.byteCount >= this.maxLength) {
         if (this.sequenceFlag && this.atFirstByte) {
           return 0;
         }
@@ -923,7 +921,7 @@ class CBOR {
     }
         
     readBytes = function(length) {
-      if (this.byteCount + length  > this.cbor.length) {
+      if (this.byteCount + length  > this.maxLength) {
         this.eofError();
       }
       let result = new Uint8Array(length);
@@ -1051,7 +1049,7 @@ class CBOR {
         // If the upper half (for 2, 4, 8 byte N) of N or a single byte
         // N is zero, a shorter variant should have been used.
         // In addition, N must be > 23. 
-        if ((bigN < 24n || !(mask & bigN)) && this.deterministicMode) {
+        if (this.deterministicMode && (bigN < 24n || !(mask & bigN))) {
           CBOR.#error("Non-deterministic N encoding for tag: 0x" + CBOR.#twoHex(tag));
         }
       }
@@ -1094,6 +1092,21 @@ class CBOR {
       }
     }
 
+    setDeterministicMode = function(enforced) {
+      this.deterministicMode = enforced;
+      return this;
+    }
+
+    setSequenceMode = function(sequence) {
+      this.sequenceFlag = sequence;
+      return this;
+    }
+
+    setNaNSupport = function(accept) {
+      this.rejectNaNFlag = !accept;
+      return this;
+    }
+
     //////////////////////////////
     // Decoder.decodeExtended() //
     //////////////////////////////
@@ -1105,7 +1118,7 @@ class CBOR {
         if (this.atFirstByte) {
           return null;
         }
-      } else if (this.byteCount < this.cbor.length) {
+      } else if (this.byteCount < this.maxLength) {
         CBOR.#error("Unexpected data encountered after CBOR object");
       }
       return object;
@@ -1121,15 +1134,15 @@ class CBOR {
 ///////////////////////////
 
   static decode = function(cbor) {
-    return CBOR.initExtended(cbor, false, false, false).decodeExtended();
+    return CBOR.initExtended(cbor).decodeExtended();
   }
 
 ///////////////////////////
 //  CBOR.initExtended()  //
 ///////////////////////////
 
-  static initExtended = function(cbor, sequenceFlag, lenientFlag, rejectNaNFlag) {
-    return new CBOR.Decoder(cbor, sequenceFlag, lenientFlag, rejectNaNFlag);
+  static initExtended = function(cbor) {
+    return new CBOR.Decoder(cbor);
   }
 
 

@@ -594,8 +594,8 @@ public class CreateDocument {
   static final String DECODE_DESCR = 
   """
   Decode a CBOR object.
-  <div style='margin-top:0.5em'>This method is equivalent to:<br>
-  <code>CBOR.initExtended(<i>cbor</i>, false, false, false).decodeExtended()</code></div>""";
+  <div style='margin-top:0.5em'>This method is equivalent to
+  <code style='white-space:nowrap'>CBOR.initExtended(<i>cbor</i>).decodeExtended()</code></div>""";
   
   static final String DECODE_P1_DESCR = 
   """
@@ -609,51 +609,95 @@ public class CreateDocument {
 
   static final String INITEXT_DESCR = 
   """
-  Initiate an extended CBOR decoder.
+  Create a CBOR decoder supporting options.
   This decoding method presumes that the actual
   decoding is performed by one or more (for sequences only) calls to
   <a href='#decoder.decoder.decodeextended'><i>Decoder</i>.decodeExtended()</a>.""";
   
   static final String INITEXT_P1_DESCR = 
   """
-  The data (bytes) to be decoded.
-  If <code><i>sequenceFlag</i></code> is <code>false</code>,
-  the <code><i>cbor</i></code> parameter must hold exactly one CBOR object.""";
-
-  static final String INITEXT_P2_DESCR = 
-  """
-  If <code><i>sequenceFlag</i></code> is <code>true</code> the following apply:
-  <ul style='padding:0;margin:0 0 0 2em'>
-  <li style='padding-top:0.3em'>Immediately return after decoding a CBOR object, 
-  while preparing the decoder for the next item.
-  See also <a href='#decoder.decoder.getbytecount'><i>Decoder</i>.getByteCount()</a>.</li>
-  <li>If no data is found (EOF), <code>null</code> is returned (<i>empty</i>
-  sequences are permitted).</li>
-  <li>Note that data <i>succeeding</i> a just decoded CBOR object is not
-  verified for correctness.</li></ul>""";
-
-  static final String INITEXT_P3_DESCR = 
-  """
-  If <code><i>lenientFlag</i></code> is <code>true</code> the decoder will accept CBOR code
-  that does not conform to the
-  <a href='#main.deterministic'>Deterministic Encoding</a> rules.
-  This option may be needed for dealing with &quot;legacy&quot;
-  CBOR implementations.
-  The flag disables the map sorting and preferred number serialization requirements.""";
-
-  static final String INITEXT_P4_DESCR = 
-  """
-  By default, this implementation supports 
-  <code>NaN</code>, <code>Infinity</code>, 
-  and <code style='white-space:nowrap'>-Infinity</code>. In case these variants
-  are not applicable for the application in question, they can be 
-  &quot;outlawed&quot; (causing an exception to be thrown
-  if encountered), by setting <code>rejectNaNFlag</code> to <code>true</code>.""";
+  The CBOR data (bytes) to be decoded.""";
 
   static final String INITEXT_RETURN_DESCR = 
   """
-  Internal decoder object for usage with
+  Decoder object for <i>optional</i> use by the 
+  <code style='white-space:nowrap'><i>Decoder</i>.set*()</code>
+  methods and finally used by
   <a href='#decoder.decoder.decodeextended'><i>Decoder</i>.decodeExtended()</a>.""";
+
+  // Decoder.setDeterministicMode()
+
+  static final String SET_DET_MODE_DESCR =
+  """
+  Set CBOR decoder deterministic mode.
+  <div style='margin-top:0.5em'>
+  By default the decoder assumes that CBOR data conforms to the
+  <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a> rules.
+  This method enables overriding the default.
+  </div>
+  """;
+
+  static final String SET_DET_MODE_P1_DESCR =
+  """
+  If the <code>enforce</code> flag is set to <code>false</code>,
+  the decoder will accept CBOR data that does not adhere to the map sorting
+  and preferred number serialization requirements.
+  This option may be needed for dealing with &quot;legacy&quot; CBOR implementations.
+  Note: duplicate keys and other invalid (or not supported) CBOR constructs
+  will still cause an exception to be thrown.
+  """;
+
+  static final String SET_METHOD_RETURN_DESCR = 
+  """
+  Updated decoder object.""";
+
+    // Decoder.setSequenceMode()
+
+  static final String SET_SEQ_MODE_DESCR =
+  """
+  Set CBOR decoder sequence mode.
+  <div style='margin-top:0.5em'>
+  By default the decoder assumes that CBOR data constitutes
+  of a single CBOR object.
+  This method enables overriding the default.
+  </div>
+  """;
+
+  static final String SET_SEQ_MODE_P1_DESCR =
+  """
+  If the <code>sequence</code> flag is set to <code>true</code>,
+  the following apply:
+  <ul style='padding:0;margin:0 0 0 2em'>
+  <li style='margin-top:0'>Immediately return after decoding a CBOR object, while preparing the 
+  decoder for the next item.
+  See also <a href='#decoder.decoder.getbytecount'><i>Decoder</i>.getByteCount()</a>.</li>
+  <li>If no data is found (EOF), <code>null</code> is returned
+  (<i>empty</i> sequences are permitted).</li>
+  <li>Note that data <i>succeeding</i> a just decoded CBOR object 
+  is not verified for correctness.</li>  
+  </ul>  
+  """;
+
+    // Decoder.setNaNSupport()
+
+  static final String SET_NAN_SUPP_DESCR =
+  """
+  Set CBOR decoder <code>NaN/Infinity</code> support.
+  <div style='margin-top:0.5em'>
+  By default the decoder supports 
+  <code>NaN</code>, <code>Infinity</code>, 
+  and <code style='white-space:nowrap'>-Infinity</code>. 
+  In case these variants are not applicable for the application in question,
+  this method enables overriding the default.
+  </div>
+  """;
+
+  static final String SET_NAN_SUPP_P1_DESCR =
+  """
+  If the <code>accept</code> flag is set to <code>false</code>,
+  the mentioned exceptional floating point values will (if encountered),
+  cause an exception to be thrown.  
+  """;
 
   // Decoder.decodeExtended()
 
@@ -1425,10 +1469,25 @@ public class CreateDocument {
 
     addDecoderMethod("CBOR.initExtended", INITEXT_DESCR)
       .addParameter("cbor", DataTypes.JS_UINT8ARRAY, INITEXT_P1_DESCR)
-      .addParameter("sequenceFlag", DataTypes.JS_BOOLEAN, INITEXT_P2_DESCR)
-      .addParameter("lenientFlag", DataTypes.JS_BOOLEAN, INITEXT_P3_DESCR)
-      .addParameter("rejectNaNFlag", DataTypes.JS_BOOLEAN, INITEXT_P4_DESCR)
       .setReturn(DataTypes.ExtendedDecoder, INITEXT_RETURN_DESCR);
+      
+      // Decoder.setDeterministicMode()
+
+    addDecoderMethod("<i>Decoder</i>.setDeterministicMode", SET_DET_MODE_DESCR)
+      .addParameter("enforce", DataTypes.JS_BOOLEAN, SET_DET_MODE_P1_DESCR)
+      .setReturn(DataTypes.ExtendedDecoder, SET_METHOD_RETURN_DESCR);
+
+      // Decoder.setSequenceMode()
+
+    addDecoderMethod("<i>Decoder</i>.setSequenceMode", SET_SEQ_MODE_DESCR)
+      .addParameter("sequence", DataTypes.JS_BOOLEAN, SET_SEQ_MODE_P1_DESCR)
+      .setReturn(DataTypes.ExtendedDecoder, SET_METHOD_RETURN_DESCR);
+      
+      // Decoder.setNaNSupport()
+
+    addDecoderMethod("<i>Decoder</i>.setNaNSupport", SET_NAN_SUPP_DESCR)
+      .addParameter("accept", DataTypes.JS_BOOLEAN, SET_NAN_SUPP_P1_DESCR)
+      .setReturn(DataTypes.ExtendedDecoder, SET_METHOD_RETURN_DESCR);
 
       // Decoder.decodeExtended()
 

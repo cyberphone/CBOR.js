@@ -230,7 +230,7 @@ success();
 file:String.raw`// Test program for floating point "edge cases"
 
 function oneTurn(valueText, expected, invalidFloats) {
-  let decoder = CBOR.initExtended(CBOR.fromHex(expected), false, false, true);
+  let decoder = CBOR.initExtended(CBOR.fromHex(expected)).setNaNSupport(false);
   let value = Number(valueText);
   let text = valueText;
   while (text.length < 25) {
@@ -533,8 +533,7 @@ function oneTurn(hex, dn) {
       throw error;
     }
   }
-  let decoder = CBOR.initExtended(CBOR.fromHex(hex), false, true, false);
-  let object = decoder.decodeExtended();
+  let object = CBOR.initExtended(CBOR.fromHex(hex)).setDeterministicMode(false).decodeExtended();
   if (object.toString() != dn || !object.equals(CBOR.decode(object.encode()))) {
     throw Error("non match:" + dn);
   }
@@ -607,7 +606,7 @@ try {
 } catch (error) {
   if (!error.toString().includes('Unexpected')) console.log(error);
 }
-let decoder = CBOR.initExtended(cbor, true, false, false);
+let decoder = CBOR.initExtended(cbor).setSequenceMode(true);
 let total = new Uint8Array();
 let object;
 while (object = decoder.decodeExtended()) {
@@ -615,7 +614,7 @@ while (object = decoder.decodeExtended()) {
 }
 assertFalse("Comp", CBOR.compareArrays(total, cbor));
 assertTrue("Comp2", total.length == decoder.getByteCount());
-decoder = CBOR.initExtended(new Uint8Array(), true, false, false);
+decoder = CBOR.initExtended(new Uint8Array()).setSequenceMode(true);
 assertFalse("Comp3", decoder.decodeExtended());
 assertTrue("Comp4", decoder.getByteCount() == 0);
 

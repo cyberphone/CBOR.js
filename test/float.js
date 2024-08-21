@@ -3,7 +3,7 @@ import CBOR from '../npm/mjs/index.mjs';
 import { assertTrue, assertFalse, fail, success } from './assertions.js';
 
 function oneTurn(valueText, expected, invalidFloats) {
-  let decoder = CBOR.initExtended(CBOR.fromHex(expected), false, false, true);
+  let decoder = CBOR.initExtended(CBOR.fromHex(expected)).setNaNSupport(false);
   let value = Number(valueText);
   let text = valueText;
   while (text.length < 25) {
