@@ -203,7 +203,7 @@ public class CreateDocument {
   <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>
   performs the required map sorting <i>automatically</i>.
   See also <a href='#cbor.map.setsortingmode'>setSortingMode()</a>
-  and <a href='#decoder.cbor.initextended'>CBOR.initExtended()</a>.</div>""";
+  and <a href='#decoder.cbor.initdecoder'>CBOR.initDecoder()</a>.</div>""";
 
   static final String W_MAP_SET_P1_DESCR = 
   """
@@ -595,7 +595,7 @@ public class CreateDocument {
   """
   Decode a CBOR object.
   <div style='margin-top:0.5em'>This method is equivalent to
-  <code style='white-space:nowrap'>CBOR.initExtended(<i>cbor</i>).decodeExtended()</code></div>""";
+  <code style='white-space:nowrap'>CBOR.initDecoder(<i>cbor</i>).decodeWithOptions()</code></div>""";
   
   static final String DECODE_P1_DESCR = 
   """
@@ -605,14 +605,14 @@ public class CreateDocument {
   """
   CBOR wrapper object.""";
 
-  // CBOR.initExtended()
+  // CBOR.initDecoder()
 
   static final String INITEXT_DESCR = 
   """
   Create a CBOR decoder supporting options.
   This decoding method presumes that the actual
   decoding is performed by one or more (for sequences only) calls to
-  <a href='#decoder.decoder.decodeextended'><i>Decoder</i>.decodeExtended()</a>.""";
+  <a href='#decoder.decoder.decodewithoptions'><i>Decoder</i>.decodeWithOptions()</a>.""";
   
   static final String INITEXT_P1_DESCR = 
   """
@@ -623,7 +623,7 @@ public class CreateDocument {
   Decoder object for <i>optional</i> use by the 
   <code style='white-space:nowrap'><i>Decoder</i>.set*()</code>
   methods and finally used by
-  <a href='#decoder.decoder.decodeextended'><i>Decoder</i>.decodeExtended()</a>.""";
+  <a href='#decoder.decoder.decodewithoptions'><i>Decoder</i>.decodeWithOptions()</a>.""";
 
   // Decoder.setDeterministicMode()
 
@@ -699,7 +699,7 @@ public class CreateDocument {
   cause an exception to be thrown.  
   """;
 
-  // Decoder.decodeExtended()
+  // Decoder.decodeWithOptions()
 
   static final String DECODEEXT_DESCR = 
   """
@@ -1465,9 +1465,9 @@ public class CreateDocument {
       .addParameter("cbor", DataTypes.JS_UINT8ARRAY, DECODE_P1_DESCR)
       .setReturn(DataTypes.CBOR_Any, DECODE_RETURN_DESCR);
 
-      // CBOR.initExtended()
+      // CBOR.initDecoder()
 
-    addDecoderMethod("CBOR.initExtended", INITEXT_DESCR)
+    addDecoderMethod("CBOR.initDecoder", INITEXT_DESCR)
       .addParameter("cbor", DataTypes.JS_UINT8ARRAY, INITEXT_P1_DESCR)
       .setReturn(DataTypes.ExtendedDecoder, INITEXT_RETURN_DESCR);
       
@@ -1489,9 +1489,9 @@ public class CreateDocument {
       .addParameter("accept", DataTypes.JS_BOOLEAN, SET_NAN_SUPP_P1_DESCR)
       .setReturn(DataTypes.ExtendedDecoder, SET_METHOD_RETURN_DESCR);
 
-      // Decoder.decodeExtended()
+      // Decoder.decodeWithOptions()
 
-    addDecoderMethod("<i>Decoder</i>.decodeExtended", DECODEEXT_DESCR)
+    addDecoderMethod("<i>Decoder</i>.decodeWithOptions", DECODEEXT_DESCR)
       .setReturn(DataTypes.CBOR_Any, DECODEEXT_RETURN_DESCR);
 
       // Decoder.getByteCount()

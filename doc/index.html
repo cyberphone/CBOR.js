@@ -93,11 +93,11 @@
 <div style='margin:0 0 0.4em 4em'><a href='#common.scan'>3.8.&nbsp;&nbsp;scan()</a></div>
 <div style='margin:0 0 0.4em 2em'><a href='#main.decoding'>4.&nbsp;&nbsp;Decoding CBOR</a></div>
 <div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.decode'>4.1.&nbsp;&nbsp;CBOR.decode()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.initextended'>4.2.&nbsp;&nbsp;CBOR.initExtended()</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.initdecoder'>4.2.&nbsp;&nbsp;CBOR.initDecoder()</a></div>
 <div style='margin:0 0 0.4em 4em'><a href='#decoder.decoder.setdeterministicmode'>4.3.&nbsp;&nbsp;<i>Decoder</i>.setDeterministicMode()</a></div>
 <div style='margin:0 0 0.4em 4em'><a href='#decoder.decoder.setsequencemode'>4.4.&nbsp;&nbsp;<i>Decoder</i>.setSequenceMode()</a></div>
 <div style='margin:0 0 0.4em 4em'><a href='#decoder.decoder.setnansupport'>4.5.&nbsp;&nbsp;<i>Decoder</i>.setNaNSupport()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#decoder.decoder.decodeextended'>4.6.&nbsp;&nbsp;<i>Decoder</i>.decodeExtended()</a></div>
+<div style='margin:0 0 0.4em 4em'><a href='#decoder.decoder.decodewithoptions'>4.6.&nbsp;&nbsp;<i>Decoder</i>.decodeWithOptions()</a></div>
 <div style='margin:0 0 0.4em 4em'><a href='#decoder.decoder.getbytecount'>4.7.&nbsp;&nbsp;<i>Decoder</i>.getByteCount()</a></div>
 <div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.diagdecode'>4.8.&nbsp;&nbsp;CBOR.diagDecode()</a></div>
 <div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.diagdecodesequence'>4.9.&nbsp;&nbsp;CBOR.diagDecodeSequence()</a></div>
@@ -563,7 +563,7 @@ If <code><i>key</i></code> entry is already defined, an exception is thrown.
 <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>
 performs the required map sorting <i>automatically</i>.
 See also <a href='#cbor.map.setsortingmode'>setSortingMode()</a>
-and <a href='#decoder.cbor.initextended'>CBOR.initExtended()</a>.</div></td></tr>
+and <a href='#decoder.cbor.initdecoder'>CBOR.initDecoder()</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code><i>key</i></code></td><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>Key (name) wrapper object.</td></tr>
@@ -857,7 +857,7 @@ This is only meaningful in conjunction with
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.decode(<i>cbor</i>)</code></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Decode a CBOR object.
 <div style='margin-top:0.5em'>This method is equivalent to
-<code style='white-space:nowrap'>CBOR.initExtended(<i>cbor</i>).decodeExtended()</code></div></td></tr>
+<code style='white-space:nowrap'>CBOR.initDecoder(<i>cbor</i>).decodeWithOptions()</code></div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code><i>cbor</i></code></td><td style='text-align:center'><code>Uint8Array</code></td><td style='width:100%'>CBOR binary data <i>holding exactly one CBOR object</i>.</td></tr>
@@ -865,14 +865,14 @@ This is only meaningful in conjunction with
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td colspan='2' style='width:100%'>CBOR wrapper object.</td></tr>
 </table></div>
-<h5 id='decoder.cbor.initextended'>4.2.&nbsp;&nbsp;CBOR.initExtended()</h5>
+<h5 id='decoder.cbor.initdecoder'>4.2.&nbsp;&nbsp;CBOR.initDecoder()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.initExtended(<i>cbor</i>)</code></td></tr>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.initDecoder(<i>cbor</i>)</code></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Create a CBOR decoder supporting options.
 This decoding method presumes that the actual
 decoding is performed by one or more (for sequences only) calls to
-<a href='#decoder.decoder.decodeextended'><i>Decoder</i>.decodeExtended()</a>.</td></tr>
+<a href='#decoder.decoder.decodewithoptions'><i>Decoder</i>.decodeWithOptions()</a>.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code><i>cbor</i></code></td><td style='text-align:center'><code>Uint8Array</code></td><td style='width:100%'>The CBOR data (bytes) to be decoded.</td></tr>
@@ -881,7 +881,7 @@ decoding is performed by one or more (for sequences only) calls to
 <tr><td style='text-align:center'><code><i>Decoder</i></code></td><td colspan='2' style='width:100%'>Decoder object for <i>optional</i> use by the
 <code style='white-space:nowrap'><i>Decoder</i>.set*()</code>
 methods and finally used by
-<a href='#decoder.decoder.decodeextended'><i>Decoder</i>.decodeExtended()</a>.</td></tr>
+<a href='#decoder.decoder.decodewithoptions'><i>Decoder</i>.decodeWithOptions()</a>.</td></tr>
 </table></div>
 <h5 id='decoder.decoder.setdeterministicmode'>4.3.&nbsp;&nbsp;<i>Decoder</i>.setDeterministicMode()</h5>
 <div class='webpkifloat'>
@@ -959,10 +959,10 @@ cause an exception to be thrown.
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><code><i>Decoder</i></code></td><td colspan='2' style='width:100%'>Updated decoder object.</td></tr>
 </table></div>
-<h5 id='decoder.decoder.decodeextended'>4.6.&nbsp;&nbsp;<i>Decoder</i>.decodeExtended()</h5>
+<h5 id='decoder.decoder.decodewithoptions'>4.6.&nbsp;&nbsp;<i>Decoder</i>.decodeWithOptions()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td style='width:100%'><code><i>Decoder</i>.decodeExtended()</code></td></tr>
+<tr><th>Syntax</th><td style='width:100%'><code><i>Decoder</i>.decodeWithOptions()</code></td></tr>
 <tr><th>Description</th><td style='width:100%'>Decode CBOR data with options.</td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
@@ -1140,7 +1140,7 @@ base64 encoded data as well as data with or without
   transparent; the API only exposes the <code>Number</code> type.
   See also <a href='#wrapper.cbor.float'>CBOR.Float()</a>.
   <p>
-  See also the <a href='#decoder.cbor.initextended'>CBOR.initExtended()</a> decoder method.
+  See also the <a href='#decoder.cbor.initdecoder'>CBOR.initDecoder()</a> decoder method.
   </p>
   <h3 id='main.diagnostic'>7.&nbsp;&nbsp;Diagnostic Notation</h3>
 

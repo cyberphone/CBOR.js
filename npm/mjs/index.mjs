@@ -1092,6 +1092,10 @@ export default class CBOR {
       }
     }
 
+    //////////////////////////////
+    // Decoder.* public methods //
+    //////////////////////////////
+
     setDeterministicMode = function(enforced) {
       this.deterministicMode = enforced;
       return this;
@@ -1107,11 +1111,7 @@ export default class CBOR {
       return this;
     }
 
-    //////////////////////////////
-    // Decoder.decodeExtended() //
-    //////////////////////////////
-
-    decodeExtended = function() {
+    decodeWithOptions = function() {
       this.atFirstByte = true;
       let object = this.getObject();
       if (this.sequenceFlag) {
@@ -1134,14 +1134,14 @@ export default class CBOR {
 ///////////////////////////
 
   static decode = function(cbor) {
-    return CBOR.initExtended(cbor).decodeExtended();
+    return CBOR.initDecoder(cbor).decodeWithOptions();
   }
 
 ///////////////////////////
-//  CBOR.initExtended()  //
+//  CBOR.initDecoder()  //
 ///////////////////////////
 
-  static initExtended = function(cbor) {
+  static initDecoder = function(cbor) {
     return new CBOR.Decoder(cbor);
   }
 

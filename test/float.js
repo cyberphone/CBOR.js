@@ -3,7 +3,7 @@ import CBOR from '../npm/mjs/index.mjs';
 import { assertTrue, assertFalse, fail, success } from './assertions.js';
 
 function oneTurn(valueText, expected, invalidFloats) {
-  let decoder = CBOR.initExtended(CBOR.fromHex(expected)).setNaNSupport(false);
+  let decoder = CBOR.initDecoder(CBOR.fromHex(expected)).setNaNSupport(false);
   let value = Number(valueText);
   let text = valueText;
   while (text.length < 25) {
@@ -32,7 +32,7 @@ function oneTurn(valueText, expected, invalidFloats) {
     throw Error(text + expected + got);
   }
   try {
-    decoder.decodeExtended();
+    decoder.decodeWithOptions();
     assertFalse('Should not execute', invalidFloats);
   } catch (error) {
     assertTrue("Decode ME1", error.toString().includes('"NaN" and "Infinity"'));

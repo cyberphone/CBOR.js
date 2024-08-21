@@ -115,11 +115,11 @@ async function doProcess() {
     }
     let cborObjects = [];
     let object;
-    let decoder = CBOR.initExtended(cborBytes)
+    let decoder = CBOR.initDecoder(cborBytes)
         .setSequenceMode(sequenceFlag)
         .setDeterministicMode(deterministicFlag)
         .setNaNSupport(!rejectNaNFlag);
-    while (object = decoder.decodeExtended()) {
+    while (object = decoder.decodeWithOptions()) {
       cborObjects.push(object);
       if (!sequenceFlag) {
         break;

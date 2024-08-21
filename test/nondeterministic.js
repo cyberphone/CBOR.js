@@ -11,7 +11,7 @@ function oneTurn(hex, dn) {
       throw error;
     }
   }
-  let object = CBOR.initExtended(CBOR.fromHex(hex)).setDeterministicMode(false).decodeExtended();
+  let object = CBOR.initDecoder(CBOR.fromHex(hex)).setDeterministicMode(false).decodeWithOptions();
   if (object.toString() != dn || !object.equals(CBOR.decode(object.encode()))) {
     throw Error("non match:" + dn);
   }
