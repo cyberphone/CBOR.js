@@ -654,7 +654,7 @@ public class CreateDocument {
 
   static final String SET_METHOD_RETURN_DESCR = 
   """
-  Updated decoder object.""";
+  Updated <code><i>Decoder</i></code> object.""";
 
     // Decoder.setSequenceMode()
 
@@ -1480,19 +1480,19 @@ public class CreateDocument {
 
     addDecoderMethod("<i>Decoder</i>.setDeterministicMode", SET_DET_MODE_DESCR)
       .addParameter("enforce", DataTypes.JS_BOOLEAN, SET_DET_MODE_P1_DESCR)
-      .setReturn(DataTypes.ExtendedDecoder, SET_METHOD_RETURN_DESCR);
+      .setReturn(DataTypes.JS_THIS, SET_METHOD_RETURN_DESCR);
 
       // Decoder.setSequenceMode()
 
     addDecoderMethod("<i>Decoder</i>.setSequenceMode", SET_SEQ_MODE_DESCR)
       .addParameter("sequence", DataTypes.JS_BOOLEAN, SET_SEQ_MODE_P1_DESCR)
-      .setReturn(DataTypes.ExtendedDecoder, SET_METHOD_RETURN_DESCR);
+      .setReturn(DataTypes.JS_THIS, SET_METHOD_RETURN_DESCR);
       
       // Decoder.setNaNSupport()
 
     addDecoderMethod("<i>Decoder</i>.setNaNSupport", SET_NAN_SUPP_DESCR)
       .addParameter("accept", DataTypes.JS_BOOLEAN, SET_NAN_SUPP_P1_DESCR)
-      .setReturn(DataTypes.ExtendedDecoder, SET_METHOD_RETURN_DESCR);
+      .setReturn(DataTypes.JS_THIS, SET_METHOD_RETURN_DESCR);
 
       // Decoder.decodeWithOptions()
 
