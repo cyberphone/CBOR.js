@@ -17,3 +17,9 @@ CBOR.Float.getFloat32() method added.
 Completely refactored CBOR.initDecoder() and added a flag for "outlawing"
 NaN/Infinity as well as a Decoder.getByteCount() method. 
 Improved checking of CBOR items requirements against input buffer length.
+
+2024-08-20 - 1.0.6
+Updated documentation
+
+2024-08-30 - 1.0.7
+Improved code.
