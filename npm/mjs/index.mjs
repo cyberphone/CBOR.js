@@ -808,12 +808,12 @@ export default class CBOR {
         CBOR.#error("Tag value is out of range");
       }
       if (tagNumber == CBOR.Tag.RESERVED_TAG_COTX) {
-        if (object.constructor.name != CBOR.Array.name || object.length != 2 ||
-            object.get(0).constructor.name != CBOR.String.name) {
+        if (!object instanceof CBOR.Array || object.length != 2 ||
+            !object.get(0) instanceof CBOR.String) {
           this.#errorInObject("Invalid COTX object");
         }
       } else if (tagNumber == 0n) {
-        if (object.constructor.name == CBOR.String.name) {
+        if (object instanceof CBOR.String) {
           let dateTime = object.getString();
           // Fails on https://www.rfc-editor.org/rfc/rfc3339.html#section-5.8
           // Leap second 1990-12-31T15:59:60-08:00
@@ -999,7 +999,7 @@ export default class CBOR {
         case CBOR.#MT_BIG_NEGATIVE:
         case CBOR.#MT_BIG_UNSIGNED:
           let byteArray = this.getObject().getBytes();
-          if ((byteArray.length <= 8 || !byteArray[0]) && this.deterministicMode) {
+          if (this.deterministicMode && (byteArray.length <= 8 || !byteArray[0])) {
             CBOR.#error("Non-deterministic bignum encoding");
           }
           let value = 0n;
