@@ -229,6 +229,18 @@ success();
 {name:'float.js',
 file:String.raw`// Test program for floating point "edge cases"
 
+function overflow(cborObject, length) {
+  let test = 'cborObject.getFloat' + length + '()';
+  try {
+    eval(test);
+    assertTrue("Should fail", false);
+  } catch (error) {
+    if (!error.toString().includes('Value out of range:')) {
+      throw error;
+    }
+  }  
+}
+
 function oneTurn(valueText, expected, invalidFloats) {
   let decoder = CBOR.initDecoder(CBOR.fromHex(expected)).setNaNSupport(false);
   let value = Number(valueText);
@@ -244,10 +256,24 @@ function oneTurn(valueText, expected, invalidFloats) {
     got = '';
   }
   let decodedValue = CBOR.decode(cbor);
-  if (valueText != 'NaN' &&
-      ((decodedValue.length <= 4 && decodedValue.getFloat32() != value) || 
-       (decodedValue.getFloat64() != value))) {
-    throw Error("Failed decoding: " + value);
+  if (valueText == 'NaN') {
+    decodedValue.getFloat16();
+    if (decodedValue.length > 2) {
+      throw Error("Failed decoding: " + value);      
+    }
+  } else if (expected.length == 6) {
+    if (decodedValue.getFloat16() != value ||
+        decodedValue.getFloat32() != value || decodedValue.getFloat64() != value) {
+      throw Error("Failed decoding: " + value);
+    }
+  } else if (expected.length <= 10) {
+    if (decodedValue.getFloat32() != value || decodedValue.getFloat64() != value) {
+      throw Error("Failed decoding: " + value);
+    }
+    overflow(decodedValue, "16");
+  } else {
+    overflow(decodedValue, "16");
+    overflow(decodedValue, "32");
   }
   if (decodedValue.toString() != valueText) {
     throw Error("Failed encoding: " + valueText + " " + decodedValue.toString());

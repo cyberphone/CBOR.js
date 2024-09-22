@@ -1324,6 +1324,12 @@ public class CreateDocument {
     addWrapper(DataTypes.CBOR_FLOAT, W_FLOAT_DESCR)
       .addWrapperParameter("value", DataTypes.JS_NUMBER, W_FLOAT_P1_DESCR)
 
+      .addMethod("getFloat16", W_GETFLOAT_DESCR + 
+          "<div style='margin-top:0.5em'>" +
+          "Note: the CBOR object must be a 16-bit IEEE-754 item, " +
+          "otherwise an exception will be thrown.</div>")
+      .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
+
       .addMethod("getFloat32", W_GETFLOAT_DESCR + 
           "<div style='margin-top:0.5em'>" +
           "Note: the CBOR object must be a 16-bit or 32-bit IEEE-754 item, " +

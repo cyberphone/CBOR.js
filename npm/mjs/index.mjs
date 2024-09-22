@@ -69,12 +69,20 @@ export default class CBOR {
       return this.#checkTypeAndGetValue(CBOR.Bytes);
     }
 
-    getFloat32 = function() {
+    #rangeFloat = function(max) {
       let value = this.getFloat64();
-      if (this.length > 4) {
-        CBOR.#error("Value out of range: " + value);
+      if (this.length > max) {
+        CBOR.#error("Value out of range: " + this.toString());
       }
       return value;
+    }
+
+    getFloat16 = function() {
+      return this.#rangeFloat(2);
+    }
+
+    getFloat32 = function() {
+      return this.#rangeFloat(4);
     }
 
     getFloat64 = function() {
