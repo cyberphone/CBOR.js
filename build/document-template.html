@@ -6,6 +6,18 @@
   <meta charset='UTF-8'>
   <title>CBOR JavaScript API</title>
   <link rel='stylesheet' type='text/css' href='style.css'>
+  <script>
+    function tocSwitch(ip) {
+      console.log(ip.parentNode.nextSibling);
+      if (ip.src.indexOf('closed.svg') > 0) {
+        ip.src = 'open.svg';
+        ip.parentNode.nextSibling.style = 'display:block';
+      } else {
+        ip.src = 'closed.svg';
+        ip.parentNode.nextSibling.style = 'display:none';
+      }
+    }
+  </script>
 </head>
 <body>
   <a href='https://github.com/cyberphone/CBOR.js#cborjs'>
@@ -493,6 +505,6 @@
   </ul>
   ${VERSION_INFO}
   API version: 1.0.8<br>
-  Document version: 2024-09-22
+  Document version: 2024-09-23
 </body>
 </html>

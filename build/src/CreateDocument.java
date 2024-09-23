@@ -1216,14 +1216,38 @@ public class CreateDocument {
 
   String printTableOfContents() {
     s = new StringBuilder();
-    for (TOCEntry tocEntry : tocEntries) {
+    int length = tocEntries.size();
+    for (int i = 0; i < length; i++) {
+      TOCEntry tocEntry = tocEntries.get(i);
+      int next = tocEntries.get((i < length - 1) ? i + 1 : i).indent;
+      boolean startOf = false;
+      String image = "empty.svg' style='height:1em;margin-right:1em";
+      if (next > tocEntry.indent && next < 3) {
+        startOf = true;
+        image = "closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer";
+      }
       s.append("<div style='margin:0 0 0.4em ")
        .append((tocEntry.indent * 2) + 2)
-       .append("em'><a href='#")
+       .append("em'><img alt='n/a' src='")
+       .append(image)
+       .append("'><a href='#")
        .append(tocEntry.link)
        .append("'>")
        .append(tocEntry.title)
-       .append("</a></div>\n");
+       .append("</a></div>");
+      if (startOf) {
+        s.append("<div style='display:none'>");
+      }
+      s.append('\n');
+      if (next < tocEntry.indent) {
+        int q = tocEntry.indent - next;
+        if (tocEntry.indent == 3) {
+          q--;
+        }
+        while (q-- > 0) {
+          s.append("</div>\n");
+        }
+      }
     }
     return s.toString();
   }

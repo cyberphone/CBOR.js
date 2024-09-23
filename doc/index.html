@@ -6,6 +6,18 @@
   <meta charset='UTF-8'>
   <title>CBOR JavaScript API</title>
   <link rel='stylesheet' type='text/css' href='style.css'>
+  <script>
+    function tocSwitch(ip) {
+      console.log(ip.parentNode.nextSibling);
+      if (ip.src.indexOf('closed.svg') > 0) {
+        ip.src = 'open.svg';
+        ip.parentNode.nextSibling.style = 'display:block';
+      } else {
+        ip.src = 'closed.svg';
+        ip.parentNode.nextSibling.style = 'display:none';
+      }
+    }
+  </script>
 </head>
 <body>
   <a href='https://github.com/cyberphone/CBOR.js#cborjs'>
@@ -22,99 +34,113 @@
     provide a viable alternative to JSON.
   </i>
   <h3 id='toc'>Table of Contents</h3>
-  <div style='margin:0 0 0.4em 2em'><a href='#main.intro'>1.&nbsp;&nbsp;Introduction</a></div>
-<div style='margin:0 0 0.4em 2em'><a href='#main.wrappers'>2.&nbsp;&nbsp;CBOR Wrapper Objects</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#wrapper.cbor.int'>2.1.&nbsp;&nbsp;CBOR.Int</a></div>
-<div style='margin:0 0 0.4em 6em'><a href='#methods.cbor.int'>2.1.1.&nbsp;&nbsp;CBOR.Int Methods</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.int.getint'>2.1.1.1.&nbsp;&nbsp;getInt()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.int.getint8'>2.1.1.2.&nbsp;&nbsp;getInt8()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.int.getuint8'>2.1.1.3.&nbsp;&nbsp;getUint8()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.int.getint16'>2.1.1.4.&nbsp;&nbsp;getInt16()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.int.getuint16'>2.1.1.5.&nbsp;&nbsp;getUint16()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.int.getint32'>2.1.1.6.&nbsp;&nbsp;getInt32()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.int.getuint32'>2.1.1.7.&nbsp;&nbsp;getUint32()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.int.getint64'>2.1.1.8.&nbsp;&nbsp;getInt64()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.int.getuint64'>2.1.1.9.&nbsp;&nbsp;getUint64()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.int.getbigint'>2.1.1.10.&nbsp;&nbsp;getBigInt()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#wrapper.cbor.bigint'>2.2.&nbsp;&nbsp;CBOR.BigInt</a></div>
-<div style='margin:0 0 0.4em 6em'><a href='#methods.cbor.bigint'>2.2.1.&nbsp;&nbsp;CBOR.BigInt Methods</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.bigint.getint64'>2.2.1.1.&nbsp;&nbsp;getInt64()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.bigint.getuint64'>2.2.1.2.&nbsp;&nbsp;getUint64()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.bigint.getbigint'>2.2.1.3.&nbsp;&nbsp;getBigInt()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#wrapper.cbor.float'>2.3.&nbsp;&nbsp;CBOR.Float</a></div>
-<div style='margin:0 0 0.4em 6em'><a href='#methods.cbor.float'>2.3.1.&nbsp;&nbsp;CBOR.Float Methods</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.float.getfloat16'>2.3.1.1.&nbsp;&nbsp;getFloat16()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.float.getfloat32'>2.3.1.2.&nbsp;&nbsp;getFloat32()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.float.getfloat64'>2.3.1.3.&nbsp;&nbsp;getFloat64()</a></div>
-<div style='margin:0 0 0.4em 6em'><a href='#properties.cbor.float'>2.3.2.&nbsp;&nbsp;CBOR.Float Properties</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.float.length'>2.3.2.1.&nbsp;&nbsp;length</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#wrapper.cbor.string'>2.4.&nbsp;&nbsp;CBOR.String</a></div>
-<div style='margin:0 0 0.4em 6em'><a href='#methods.cbor.string'>2.4.1.&nbsp;&nbsp;CBOR.String Methods</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.string.getstring'>2.4.1.1.&nbsp;&nbsp;getString()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#wrapper.cbor.bytes'>2.5.&nbsp;&nbsp;CBOR.Bytes</a></div>
-<div style='margin:0 0 0.4em 6em'><a href='#methods.cbor.bytes'>2.5.1.&nbsp;&nbsp;CBOR.Bytes Methods</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.bytes.getbytes'>2.5.1.1.&nbsp;&nbsp;getBytes()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#wrapper.cbor.boolean'>2.6.&nbsp;&nbsp;CBOR.Boolean</a></div>
-<div style='margin:0 0 0.4em 6em'><a href='#methods.cbor.boolean'>2.6.1.&nbsp;&nbsp;CBOR.Boolean Methods</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.boolean.getboolean'>2.6.1.1.&nbsp;&nbsp;getBoolean()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#wrapper.cbor.null'>2.7.&nbsp;&nbsp;CBOR.Null</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#wrapper.cbor.array'>2.8.&nbsp;&nbsp;CBOR.Array</a></div>
-<div style='margin:0 0 0.4em 6em'><a href='#methods.cbor.array'>2.8.1.&nbsp;&nbsp;CBOR.Array Methods</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.array.add'>2.8.1.1.&nbsp;&nbsp;add()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.array.get'>2.8.1.2.&nbsp;&nbsp;get()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.array.toarray'>2.8.1.3.&nbsp;&nbsp;toArray()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.array.getarray'>2.8.1.4.&nbsp;&nbsp;getArray()</a></div>
-<div style='margin:0 0 0.4em 6em'><a href='#properties.cbor.array'>2.8.2.&nbsp;&nbsp;CBOR.Array Properties</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.array.length'>2.8.2.1.&nbsp;&nbsp;length</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#wrapper.cbor.map'>2.9.&nbsp;&nbsp;CBOR.Map</a></div>
-<div style='margin:0 0 0.4em 6em'><a href='#methods.cbor.map'>2.9.1.&nbsp;&nbsp;CBOR.Map Methods</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.map.set'>2.9.1.1.&nbsp;&nbsp;set()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.map.get'>2.9.1.2.&nbsp;&nbsp;get()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.map.getconditional'>2.9.1.3.&nbsp;&nbsp;getConditional()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.map.containskey'>2.9.1.4.&nbsp;&nbsp;containsKey()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.map.remove'>2.9.1.5.&nbsp;&nbsp;remove()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.map.getkeys'>2.9.1.6.&nbsp;&nbsp;getKeys()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.map.getmap'>2.9.1.7.&nbsp;&nbsp;getMap()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.map.setsortingmode'>2.9.1.8.&nbsp;&nbsp;setSortingMode()</a></div>
-<div style='margin:0 0 0.4em 6em'><a href='#properties.cbor.map'>2.9.2.&nbsp;&nbsp;CBOR.Map Properties</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.map.length'>2.9.2.1.&nbsp;&nbsp;length</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#wrapper.cbor.tag'>2.10.&nbsp;&nbsp;CBOR.Tag</a></div>
-<div style='margin:0 0 0.4em 6em'><a href='#methods.cbor.tag'>2.10.1.&nbsp;&nbsp;CBOR.Tag Methods</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.tag.gettagnumber'>2.10.1.1.&nbsp;&nbsp;getTagNumber()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.tag.gettaggedobject'>2.10.1.2.&nbsp;&nbsp;getTaggedObject()</a></div>
-<div style='margin:0 0 0.4em 8em'><a href='#cbor.tag.gettag'>2.10.1.3.&nbsp;&nbsp;getTag()</a></div>
-<div style='margin:0 0 0.4em 2em'><a href='#main.common'>3.&nbsp;&nbsp;Common Wrapper Methods</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#common.encode'>3.1.&nbsp;&nbsp;encode()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#common.clone'>3.2.&nbsp;&nbsp;clone()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#common.equals'>3.3.&nbsp;&nbsp;equals()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#common.todiag'>3.4.&nbsp;&nbsp;toDiag()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#common.tostring'>3.5.&nbsp;&nbsp;toString()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#common.isnull'>3.6.&nbsp;&nbsp;isNull()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#common.checkforunread'>3.7.&nbsp;&nbsp;checkForUnread()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#common.scan'>3.8.&nbsp;&nbsp;scan()</a></div>
-<div style='margin:0 0 0.4em 2em'><a href='#main.decoding'>4.&nbsp;&nbsp;Decoding CBOR</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.decode'>4.1.&nbsp;&nbsp;CBOR.decode()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.initdecoder'>4.2.&nbsp;&nbsp;CBOR.initDecoder()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#decoder.decoder.setdeterministicmode'>4.3.&nbsp;&nbsp;<i>Decoder</i>.setDeterministicMode()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#decoder.decoder.setsequencemode'>4.4.&nbsp;&nbsp;<i>Decoder</i>.setSequenceMode()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#decoder.decoder.setnansupport'>4.5.&nbsp;&nbsp;<i>Decoder</i>.setNaNSupport()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#decoder.decoder.decodewithoptions'>4.6.&nbsp;&nbsp;<i>Decoder</i>.decodeWithOptions()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#decoder.decoder.getbytecount'>4.7.&nbsp;&nbsp;<i>Decoder</i>.getByteCount()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.diagdecode'>4.8.&nbsp;&nbsp;CBOR.diagDecode()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#decoder.cbor.diagdecodesequence'>4.9.&nbsp;&nbsp;CBOR.diagDecodeSequence()</a></div>
-<div style='margin:0 0 0.4em 2em'><a href='#main.utility'>5.&nbsp;&nbsp;Utility Methods</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#utility.cbor.addarrays'>5.1.&nbsp;&nbsp;CBOR.addArrays()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#utility.cbor.comparearrays'>5.2.&nbsp;&nbsp;CBOR.compareArrays()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#utility.cbor.tohex'>5.3.&nbsp;&nbsp;CBOR.toHex()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#utility.cbor.fromhex'>5.4.&nbsp;&nbsp;CBOR.fromHex()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#utility.cbor.tobase64url'>5.5.&nbsp;&nbsp;CBOR.toBase64Url()</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#utility.cbor.frombase64url'>5.6.&nbsp;&nbsp;CBOR.fromBase64Url()</a></div>
-<div style='margin:0 0 0.4em 2em'><a href='#main.jsnumbers'>6.&nbsp;&nbsp;JavaScript Number Considerations</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#jsnumbers.int'>6.1.&nbsp;&nbsp;Integer Numbers</a></div>
-<div style='margin:0 0 0.4em 4em'><a href='#jsnumbers.fp'>6.2.&nbsp;&nbsp;Floating Point Numbers</a></div>
-<div style='margin:0 0 0.4em 2em'><a href='#main.diagnostic'>7.&nbsp;&nbsp;Diagnostic Notation</a></div>
-<div style='margin:0 0 0.4em 2em'><a href='#main.deterministic'>8.&nbsp;&nbsp;Deterministic Encoding</a></div>
-<div style='margin:0 0 0.4em 2em'><a href='#main.version'>9.&nbsp;&nbsp;Version</a></div>
+  <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#main.intro'>1.&nbsp;&nbsp;Introduction</a></div>
+<div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.wrappers'>2.&nbsp;&nbsp;CBOR Wrapper Objects</a></div><div style='display:none'>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#wrapper.cbor.int'>2.1.&nbsp;&nbsp;CBOR.Int</a></div><div style='display:none'>
+<div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#methods.cbor.int'>2.1.1.&nbsp;&nbsp;CBOR.Int Methods</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.int.getint'>2.1.1.1.&nbsp;&nbsp;getInt()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.int.getint8'>2.1.1.2.&nbsp;&nbsp;getInt8()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.int.getuint8'>2.1.1.3.&nbsp;&nbsp;getUint8()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.int.getint16'>2.1.1.4.&nbsp;&nbsp;getInt16()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.int.getuint16'>2.1.1.5.&nbsp;&nbsp;getUint16()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.int.getint32'>2.1.1.6.&nbsp;&nbsp;getInt32()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.int.getuint32'>2.1.1.7.&nbsp;&nbsp;getUint32()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.int.getint64'>2.1.1.8.&nbsp;&nbsp;getInt64()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.int.getuint64'>2.1.1.9.&nbsp;&nbsp;getUint64()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.int.getbigint'>2.1.1.10.&nbsp;&nbsp;getBigInt()</a></div>
+</div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#wrapper.cbor.bigint'>2.2.&nbsp;&nbsp;CBOR.BigInt</a></div><div style='display:none'>
+<div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#methods.cbor.bigint'>2.2.1.&nbsp;&nbsp;CBOR.BigInt Methods</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.bigint.getint64'>2.2.1.1.&nbsp;&nbsp;getInt64()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.bigint.getuint64'>2.2.1.2.&nbsp;&nbsp;getUint64()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.bigint.getbigint'>2.2.1.3.&nbsp;&nbsp;getBigInt()</a></div>
+</div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#wrapper.cbor.float'>2.3.&nbsp;&nbsp;CBOR.Float</a></div><div style='display:none'>
+<div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#methods.cbor.float'>2.3.1.&nbsp;&nbsp;CBOR.Float Methods</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.float.getfloat16'>2.3.1.1.&nbsp;&nbsp;getFloat16()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.float.getfloat32'>2.3.1.2.&nbsp;&nbsp;getFloat32()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.float.getfloat64'>2.3.1.3.&nbsp;&nbsp;getFloat64()</a></div>
+<div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#properties.cbor.float'>2.3.2.&nbsp;&nbsp;CBOR.Float Properties</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.float.length'>2.3.2.1.&nbsp;&nbsp;length</a></div>
+</div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#wrapper.cbor.string'>2.4.&nbsp;&nbsp;CBOR.String</a></div><div style='display:none'>
+<div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#methods.cbor.string'>2.4.1.&nbsp;&nbsp;CBOR.String Methods</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.string.getstring'>2.4.1.1.&nbsp;&nbsp;getString()</a></div>
+</div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#wrapper.cbor.bytes'>2.5.&nbsp;&nbsp;CBOR.Bytes</a></div><div style='display:none'>
+<div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#methods.cbor.bytes'>2.5.1.&nbsp;&nbsp;CBOR.Bytes Methods</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.bytes.getbytes'>2.5.1.1.&nbsp;&nbsp;getBytes()</a></div>
+</div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#wrapper.cbor.boolean'>2.6.&nbsp;&nbsp;CBOR.Boolean</a></div><div style='display:none'>
+<div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#methods.cbor.boolean'>2.6.1.&nbsp;&nbsp;CBOR.Boolean Methods</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.boolean.getboolean'>2.6.1.1.&nbsp;&nbsp;getBoolean()</a></div>
+</div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#wrapper.cbor.null'>2.7.&nbsp;&nbsp;CBOR.Null</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#wrapper.cbor.array'>2.8.&nbsp;&nbsp;CBOR.Array</a></div><div style='display:none'>
+<div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#methods.cbor.array'>2.8.1.&nbsp;&nbsp;CBOR.Array Methods</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.add'>2.8.1.1.&nbsp;&nbsp;add()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.get'>2.8.1.2.&nbsp;&nbsp;get()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.toarray'>2.8.1.3.&nbsp;&nbsp;toArray()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.getarray'>2.8.1.4.&nbsp;&nbsp;getArray()</a></div>
+<div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#properties.cbor.array'>2.8.2.&nbsp;&nbsp;CBOR.Array Properties</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.length'>2.8.2.1.&nbsp;&nbsp;length</a></div>
+</div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#wrapper.cbor.map'>2.9.&nbsp;&nbsp;CBOR.Map</a></div><div style='display:none'>
+<div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#methods.cbor.map'>2.9.1.&nbsp;&nbsp;CBOR.Map Methods</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.set'>2.9.1.1.&nbsp;&nbsp;set()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.get'>2.9.1.2.&nbsp;&nbsp;get()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.getconditional'>2.9.1.3.&nbsp;&nbsp;getConditional()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.containskey'>2.9.1.4.&nbsp;&nbsp;containsKey()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.remove'>2.9.1.5.&nbsp;&nbsp;remove()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.getkeys'>2.9.1.6.&nbsp;&nbsp;getKeys()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.getmap'>2.9.1.7.&nbsp;&nbsp;getMap()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.setsortingmode'>2.9.1.8.&nbsp;&nbsp;setSortingMode()</a></div>
+<div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#properties.cbor.map'>2.9.2.&nbsp;&nbsp;CBOR.Map Properties</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.length'>2.9.2.1.&nbsp;&nbsp;length</a></div>
+</div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#wrapper.cbor.tag'>2.10.&nbsp;&nbsp;CBOR.Tag</a></div><div style='display:none'>
+<div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#methods.cbor.tag'>2.10.1.&nbsp;&nbsp;CBOR.Tag Methods</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.tag.gettagnumber'>2.10.1.1.&nbsp;&nbsp;getTagNumber()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.tag.gettaggedobject'>2.10.1.2.&nbsp;&nbsp;getTaggedObject()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.tag.gettag'>2.10.1.3.&nbsp;&nbsp;getTag()</a></div>
+</div>
+</div>
+<div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.common'>3.&nbsp;&nbsp;Common Wrapper Methods</a></div><div style='display:none'>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#common.encode'>3.1.&nbsp;&nbsp;encode()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#common.clone'>3.2.&nbsp;&nbsp;clone()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#common.equals'>3.3.&nbsp;&nbsp;equals()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#common.todiag'>3.4.&nbsp;&nbsp;toDiag()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#common.tostring'>3.5.&nbsp;&nbsp;toString()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#common.isnull'>3.6.&nbsp;&nbsp;isNull()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#common.checkforunread'>3.7.&nbsp;&nbsp;checkForUnread()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#common.scan'>3.8.&nbsp;&nbsp;scan()</a></div>
+</div>
+<div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.decoding'>4.&nbsp;&nbsp;Decoding CBOR</a></div><div style='display:none'>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.cbor.decode'>4.1.&nbsp;&nbsp;CBOR.decode()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.cbor.initdecoder'>4.2.&nbsp;&nbsp;CBOR.initDecoder()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.decoder.setdeterministicmode'>4.3.&nbsp;&nbsp;<i>Decoder</i>.setDeterministicMode()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.decoder.setsequencemode'>4.4.&nbsp;&nbsp;<i>Decoder</i>.setSequenceMode()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.decoder.setnansupport'>4.5.&nbsp;&nbsp;<i>Decoder</i>.setNaNSupport()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.decoder.decodewithoptions'>4.6.&nbsp;&nbsp;<i>Decoder</i>.decodeWithOptions()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.decoder.getbytecount'>4.7.&nbsp;&nbsp;<i>Decoder</i>.getByteCount()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.cbor.diagdecode'>4.8.&nbsp;&nbsp;CBOR.diagDecode()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.cbor.diagdecodesequence'>4.9.&nbsp;&nbsp;CBOR.diagDecodeSequence()</a></div>
+</div>
+<div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.utility'>5.&nbsp;&nbsp;Utility Methods</a></div><div style='display:none'>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.addarrays'>5.1.&nbsp;&nbsp;CBOR.addArrays()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.comparearrays'>5.2.&nbsp;&nbsp;CBOR.compareArrays()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.tohex'>5.3.&nbsp;&nbsp;CBOR.toHex()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.fromhex'>5.4.&nbsp;&nbsp;CBOR.fromHex()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.tobase64url'>5.5.&nbsp;&nbsp;CBOR.toBase64Url()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.frombase64url'>5.6.&nbsp;&nbsp;CBOR.fromBase64Url()</a></div>
+</div>
+<div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.jsnumbers'>6.&nbsp;&nbsp;JavaScript Number Considerations</a></div><div style='display:none'>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#jsnumbers.int'>6.1.&nbsp;&nbsp;Integer Numbers</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#jsnumbers.fp'>6.2.&nbsp;&nbsp;Floating Point Numbers</a></div>
+</div>
+<div style='margin:0 0 0.4em 2em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#main.diagnostic'>7.&nbsp;&nbsp;Diagnostic Notation</a></div>
+<div style='margin:0 0 0.4em 2em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#main.deterministic'>8.&nbsp;&nbsp;Deterministic Encoding</a></div>
+<div style='margin:0 0 0.4em 2em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#main.version'>9.&nbsp;&nbsp;Version</a></div>
 
   <h3 id='main.intro'>1.&nbsp;&nbsp;Introduction</h3>
 
