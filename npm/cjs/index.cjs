@@ -1820,6 +1820,10 @@ class CBOR {
     return Uint8Array.from(atob(base64.replace(/-/g, '+').replace(/_/g, '/')),
                            c => c.charCodeAt(0));
   }
+
+  static get version() {
+    return "1.0.8";
+  }
 }
 
 module.exports = CBOR;

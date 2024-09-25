@@ -24,5 +24,5 @@ Updated documentation
 2024-08-30 - 1.0.7
 Improved code.
 
-2024-09-22 - 1.0.8
-getFloat16() added.
+2024-09-25 - 1.0.8
+getFloat16() and CBOR.version added.  
