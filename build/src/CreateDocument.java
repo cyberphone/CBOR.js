@@ -773,7 +773,15 @@ public class CreateDocument {
 
   static final String DIAGNOSTIC_NOTATION = "${DIAGNOSTIC_NOTATION}"; 
 
-  static final String DETERMINISTIC_ENCODING = "${DETERMINISTIC_ENCODING}"; 
+  static final String DETERMINISTIC_ENCODING = "${DETERMINISTIC_ENCODING}";
+
+  static final String EXAMPLES = "${EXAMPLES}";
+
+  static final String EXAMPLES_ENC = "${EXAMPLES_ENC}";
+
+  static final String EXAMPLES_DEC = "${EXAMPLES_DEC}";
+
+  static final String EXAMPLES_DN_DEC = "${EXAMPLES_DN_DEC}";
 
   static final String VERSION_INFO = "${VERSION_INFO}"; 
 
@@ -1224,7 +1232,8 @@ public class CreateDocument {
       String image = "empty.svg' style='height:1em;margin-right:1em";
       if (next > tocEntry.indent && next < 3) {
         startOf = true;
-        image = "closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer";
+        image = "closed.svg' onclick='tocSwitch(this)' " +
+        "style='height:1em;margin-right:1em;cursor:pointer";
       }
       s.append("<div style='margin:0 0 0.4em ")
        .append((tocEntry.indent * 2) + 2)
@@ -1250,6 +1259,78 @@ public class CreateDocument {
       }
     }
     return s.toString();
+  }
+
+  String htmlize(String text) {
+    return text.replace("&", "&amp;")
+               .replace("\"", "&quot;")
+               .replace("<", "&lt;")
+               .replace(">", "&gt;")
+               .replace(" ", "&nbsp;")
+               .replace("\n", "<br>");
+  }
+
+  String codeBlock(String rawCode) {
+    return 
+    "<div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>" + 
+    htmlize(rawCode) +
+    "</div></div>";
+  }
+
+  String exampleEncode() {
+    return 
+      """
+      The following code shows how you can <i>create</i> CBOR-encoded data:
+      """ +
+      codeBlock("""
+let cbor = CBOR.Map()
+               .set(CBOR.Int(1), CBOR.Float(45.7))
+               .set(CBOR.Int(2), CBOR.String("Hi there!")).encode();
+
+console.log(CBOR.toHex(cbor));
+--------------------------------------------
+a201fb4046d9999999999a0269486920746865726521
+      """);
+  }
+
+  String exampleDecode() {
+    return 
+      """
+      The following code shows how you can <i>decode</i> CBOR-encoded data,
+      here using the result of the <i>encoding</i> example:
+      """ +
+      codeBlock("""
+let map = CBOR.decode(cbor);
+console.log(map.toString());  // Diagnostic notation
+----------------------------------------------------
+{
+  1: 45.7,
+  2: "Hi there!"
+}
+
+console.log('Value=' + map.get(CBOR.Int(1)));
+---------------------------------------------
+Value=45.7
+      """);
+  }
+
+  String exampleDNDecode() {
+    return 
+      """
+      The following code shows how you can <i>decode</i> CBOR specified in
+      <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>:
+      """ +
+      codeBlock("""
+let cbor = CBOR.diagDecode(`{
+# Comments are also permitted
+  1: 45.7,
+  2: "Hi there!"
+}`).encode();
+
+console.log(CBOR.toHex(cbor));
+------------------------------
+a201fb4046d9999999999a0269486920746865726521
+      """);
   }
 
   void replace(String handle, String with) {
@@ -1615,6 +1696,19 @@ public class CreateDocument {
     outline.increment();
 
     replace(DETERMINISTIC_ENCODING, printMainHeader("deterministic", "Deterministic Encoding"));
+    outline.increment();
+
+    replace(EXAMPLES, printMainHeader("examples", "Using the CBOR API"));
+    outline.indent();
+    replace(EXAMPLES_ENC, printSubHeader("examples.encoding", "Encode CBOR") +
+                          exampleEncode());
+    outline.increment();
+    replace(EXAMPLES_DEC, printSubHeader("examples.decoding", "Decode CBOR") +
+                          exampleDecode());
+    outline.increment();
+    replace(EXAMPLES_DN_DEC, printSubHeader("examples.dn-decoding", "Using Diagnostic Notation") +
+                             exampleDNDecode());
+    outline.undent();
     outline.increment();
 
     replace(VERSION_INFO, printMainHeader("version", "Version"));

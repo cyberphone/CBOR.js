@@ -140,7 +140,12 @@
 </div>
 <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#main.diagnostic'>7.&nbsp;&nbsp;Diagnostic Notation</a></div>
 <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#main.deterministic'>8.&nbsp;&nbsp;Deterministic Encoding</a></div>
-<div style='margin:0 0 0.4em 2em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#main.version'>9.&nbsp;&nbsp;Version</a></div>
+<div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.examples'>9.&nbsp;&nbsp;Using the CBOR API</a></div><div style='display:none'>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#examples.encoding'>9.1.&nbsp;&nbsp;Encode CBOR</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#examples.decoding'>9.2.&nbsp;&nbsp;Decode CBOR</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#examples.dn-decoding'>9.3.&nbsp;&nbsp;Using Diagnostic Notation</a></div>
+</div>
+<div style='margin:0 0 0.4em 2em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#main.version'>10.&nbsp;&nbsp;Version</a></div>
 
   <h3 id='main.intro'>1.&nbsp;&nbsp;Introduction</h3>
 
@@ -1497,10 +1502,24 @@ base64 encoded data as well as data with or without
       <a href='#main.diagnostic'>Diagnostic Notation</a>.
     </li>
   </ul>
-  <h3 id='main.version'>9.&nbsp;&nbsp;Version</h3>
+  <h3 id='main.examples'>9.&nbsp;&nbsp;Using the CBOR API</h3>
+
+  This section provides a few examples on how to use the CBOR API.
+  <h5 id='examples.encoding'>9.1.&nbsp;&nbsp;Encode CBOR</h5>
+The following code shows how you can <i>create</i> CBOR-encoded data:
+<div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>let&nbsp;cbor&nbsp;=&nbsp;CBOR.Map()<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.set(CBOR.Int(1),&nbsp;CBOR.Float(45.7))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.set(CBOR.Int(2),&nbsp;CBOR.String(&quot;Hi&nbsp;there!&quot;)).encode();<br><br>console.log(CBOR.toHex(cbor));<br>--------------------------------------------<br>a201fb4046d9999999999a0269486920746865726521<br></div></div>
+  <h5 id='examples.decoding'>9.2.&nbsp;&nbsp;Decode CBOR</h5>
+The following code shows how you can <i>decode</i> CBOR-encoded data,
+here using the result of the <i>encoding</i> example:
+<div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>let&nbsp;map&nbsp;=&nbsp;CBOR.decode(cbor);<br>console.log(map.toString());&nbsp;&nbsp;//&nbsp;Diagnostic&nbsp;notation<br>----------------------------------------------------<br>{<br>&nbsp;&nbsp;1:&nbsp;45.7,<br>&nbsp;&nbsp;2:&nbsp;&quot;Hi&nbsp;there!&quot;<br>}<br><br>console.log('Value='&nbsp;+&nbsp;map.get(CBOR.Int(1)));<br>---------------------------------------------<br>Value=45.7<br></div></div>
+  <h5 id='examples.dn-decoding'>9.3.&nbsp;&nbsp;Using Diagnostic Notation</h5>
+The following code shows how you can <i>decode</i> CBOR specified in
+<a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>:
+<div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>let&nbsp;cbor&nbsp;=&nbsp;CBOR.diagDecode(`{<br>#&nbsp;Comments&nbsp;are&nbsp;also&nbsp;permitted<br>&nbsp;&nbsp;1:&nbsp;45.7,<br>&nbsp;&nbsp;2:&nbsp;&quot;Hi&nbsp;there!&quot;<br>}`).encode();<br><br>console.log(CBOR.toHex(cbor));<br>------------------------------<br>a201fb4046d9999999999a0269486920746865726521<br></div></div>
+  <h3 id='main.version'>10.&nbsp;&nbsp;Version</h3>
 
   API version: 1.0.8.  Note that the current API version is accessible through
   the static property <code>CBOR.version</code>.<br>
-  Document version: 2024-09-25
+  Document version: 2024-09-27
 </body>
 </html>
