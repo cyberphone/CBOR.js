@@ -133,6 +133,13 @@
     Note that this implementation does not support CBOR &quot;simple&quot; values beyond
     <kbd>true</kbd>, <kbd>false</kbd>, <kbd>null</kbd>, and the three floating point variants.
   </p>
+  <p>
+    The wrapper concept adds strict <i>type checking</i> to the API.
+    That is, if an application expects a CBOR integer and calls 
+    <a href='#cbor.int.getint32'>getInt32()</a>, an exception will
+    be thrown if the referenced object is not an instance of
+    <a href='#wrapper.cbor.int'>CBOR.Int</a>.
+  </p>
   See also <a href='#main.common'>Common Wrapper Methods</a>.
   ${CBOR_WRAPPERS}
   ${COMMON_INTRO}
@@ -511,6 +518,6 @@
   ${VERSION_INFO}
   API version: 1.0.8.  Note that the current API version is accessible through
   the static property <code>CBOR.version</code>.<br>
-  Document version: 2024-09-27
+  Document version: 2024-09-28
 </body>
 </html>
