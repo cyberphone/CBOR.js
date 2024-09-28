@@ -252,7 +252,8 @@
     That is, if an application expects a CBOR integer and calls 
     <a href='#cbor.int.getint32'>getInt32()</a>, an exception will
     be thrown if the referenced object is not an instance of
-    <a href='#wrapper.cbor.int'>CBOR.Int</a>.
+    <a href='#wrapper.cbor.int'>CBOR.Int</a> or if the CBOR integer
+    does not fit a 32-bit two-complement representation.
   </p>
   See also <a href='#main.common'>Common Wrapper Methods</a>.
   <h5 id='wrapper.cbor.int'>2.1.&nbsp;&nbsp;CBOR.Int</h5>
