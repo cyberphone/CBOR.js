@@ -577,9 +577,9 @@ public class CreateDocument {
   decoding is performed by one or more (for sequences only) calls to
   <a href='#decoder.decoder.decodewithoptions'><i>Decoder</i>.decodeWithOptions()</a>.
   <div style='margin-top:0.5em'>
-  Also see 
+  See also 
   <a href='#decoder.decoder.setdeterministicmode'><i>Decoder</i>.setDeterministicMode()</a>,
-  <a href='#decoder.decoder.setsequencemode'><i>Decoder</i>.setSequenceMode()</a>,
+  <a href='#decoder.decoder.setsequencemode'><i>Decoder</i>.setSequenceMode()</a>, and
   <a href='#decoder.decoder.setnansupport'><i>Decoder</i>.setNaNSupport()</a>.</div>""";
   
   static final String INITEXT_P1_DESCR = 
