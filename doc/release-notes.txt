@@ -25,4 +25,7 @@ Updated documentation
 Improved code.
 
 2024-09-25 - 1.0.8
-getFloat16() and CBOR.version added.  
+getFloat16() and CBOR.version added.
+
+2024-10-17 - 1.0.9
+Simplification: removed getMap(), getArray(), and getTag().

@@ -168,20 +168,7 @@ public class CreateDocument {
   Copy array.""";
 
   static final String W_ARRAY_TOARR_RETURN_DESCR = 
-  "JavaScript array holding a copy of current <code>" + DataTypes.CBOR_Any + "</code> objects.";   
-  
-
-  static final String W_ARRAY_GETARR_DESCR = 
-  """
-  Get array object.
-  <div style='margin-top:0.5em'>Note: this method is redundant due to the dynamic nature of the JavaScript
-  typing system.  However, if you intend using
-  <a href='#common.checkforunread'>checkForUnread()</a>,
-  this method must be called <i>before</i> accessing individual
-  array objects.</div>""";
-
-  static final String W_ARRAY_GETARR_RETURN_DESCR = 
-  "Current object.";   
+  "JavaScript array holding a copy of current <code>" + DataTypes.CBOR_Any + "</code> objects.";  
   
   
   static final String W_ARRAY_PROP_DESCR = 
@@ -286,18 +273,6 @@ public class CreateDocument {
   static final String W_MAP_GETKEYS_RETURN_DESCR = 
   "JavaScript array holding a copy of current <code>" + DataTypes.CBOR_Any + "</code> map keys.";   
 
-
-  static final String W_MAP_GETMAP_DESCR = 
-  """
-  Get map object.
-  <div style='margin-top:0.5em'>Note: this method is redundant due to the dynamic nature of the JavaScript
-  typing system.  However, if you intend using
-  <a href='#common.checkforunread'>checkForUnread()</a>,
-  this method must be called <i>before</i> accessing map keys.</div>""";
-
-  static final String W_MAP_GETMAP_RETURN_DESCR = 
-  "Current object.";
-
   static final String W_MAP_SET_SORTING_MODE_DESCR =
   """
   Set the sorting mode of the
@@ -318,7 +293,7 @@ public class CreateDocument {
   Improper key order will cause an exception to be thrown.
   By default map keys are sorted <i>internally</i>.""";
 
-  static final String W_MAP_SET_SORTING_MODE_RETURN_DESCR = W_MAP_GETMAP_RETURN_DESCR;
+  static final String W_MAP_SET_SORTING_MODE_RETURN_DESCR = "Current object.";;
   
 
   static final String W_MAP_PROP_DESCR = 
@@ -356,18 +331,6 @@ public class CreateDocument {
   static final String W_TAG_GETOBJ_RETURN_DESCR = 
   """
   Retrieved object.""";
-
-
-  static final String W_TAG_GETTAG_DESCR = 
-  """
-  Get tag object.
-  <div style='margin-top:0.5em'>Note: this method is redundant due to the dynamic nature of the JavaScript
-  typing system.  However, if you intend using
-  <a href='#common.checkforunread'>checkForUnread()</a>,
-  this method must be called <i>before</i> accessing the tag object.</div>""";
-
-  static final String W_TAG_GETTAG_RETURN_DESCR = 
-  "Current object.";   
 
   // encode()
 
@@ -454,11 +417,11 @@ public class CreateDocument {
    tag <a href='#cbor.tag.gettaggedobject'>getTaggedObject()</a>
    only <i>locate</i> objects,
    and thus do not count as &quot;read&quot;.
-   See also
-   <a href='#cbor.array.getarray'>getArray()</a>,
-   <a href='#cbor.map.getmap'>getMap()</a>,
-   <a href='#cbor.tag.gettag'>getTag()</a>, and
-   <a href='#common.scan'>scan()</a>.""";
+   <div style='margin:0.5em 0'>
+   Note that <i>empty</i> array and map objects are <i>excluded</i> from
+   this check.
+   </div>
+   See also <a href='#common.scan'>scan()</a>.""";
   static final String CHECK4_RETURN_DESCR = 
   """
   Current object.""";  
@@ -700,7 +663,7 @@ public class CreateDocument {
   static final String SET_NAN_SUPP_P1_DESCR =
   """
   If the <code>accept</code> flag is set to <code>false</code>,
-  the mentioned exceptional floating point values will (if encountered),
+  the mentioned exceptional floating point values will
   cause an exception to be thrown.  
   """;
 
@@ -1339,8 +1302,9 @@ a201fb4046d9999999999a0269486920746865726521
 
   void rangedIntMethod(Wrapper wrapper, String method, String min, String max, String optionalText) {
     StringBuilder description = 
-      new StringBuilder("Get CBOR integer.<div style='margin-top:0.5em'>Valid range: <kbd>")
-        .append(min).append(" </kbd>to<kbd> ").append(max).append("</kbd>.");
+      new StringBuilder("Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <kbd>")
+        .append(min).append(" </kbd>to<kbd> ")
+        .append(max).append("</kbd> will cause an exception to be thrown.");
     if (optionalText != null) {
       description.append(" ").append(optionalText);
     }
@@ -1351,8 +1315,9 @@ a201fb4046d9999999999a0269486920746865726521
 
   void rangedBigIntMethod(Wrapper wrapper, String method, String min, String max) {
     StringBuilder description = 
-      new StringBuilder("Get CBOR integer.<div style='margin-top:0.5em'>Valid range: <kbd>")
-        .append(min).append(" </kbd>to<kbd> ").append(max).append("</kbd>.</div>");
+      new StringBuilder("Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <kbd>")
+        .append(min).append(" </kbd>to<kbd> ")
+        .append(max).append("</kbd> will cause an exception to be thrown.</div>");
     wrapper.addMethod(method, description.toString())
            .setReturn(DataTypes.JS_BIGINT, W_GETBIGINT_RETURN_DESCR);
   }
@@ -1489,9 +1454,6 @@ a201fb4046d9999999999a0269486920746865726521
       .addMethod("toArray", W_ARRAY_TOARR_DESCR)
       .setReturn(DataTypes.JS_ARRAY, W_ARRAY_TOARR_RETURN_DESCR)
 
-      .addMethod("getArray", W_ARRAY_GETARR_DESCR)
-      .setReturn(DataTypes.CBOR_ARRAY, W_ARRAY_GETARR_RETURN_DESCR)
-
       .setProperty("length", DataTypes.JS_NUMBER, W_ARRAY_PROP_DESCR);
 
       // CBOR.Map
@@ -1522,9 +1484,6 @@ a201fb4046d9999999999a0269486920746865726521
 
       .addMethod("getKeys", W_MAP_GETKEYS_DESCR)
       .setReturn(DataTypes.JS_ARRAY, W_MAP_GETKEYS_RETURN_DESCR)
-      
-      .addMethod("getMap", W_MAP_GETMAP_DESCR)
-      .setReturn(DataTypes.CBOR_MAP, W_MAP_GETMAP_RETURN_DESCR)
 
       .addMethod("setSortingMode", W_MAP_SET_SORTING_MODE_DESCR)
       .addParameter("preSortedKeys", DataTypes.JS_BOOLEAN, W_MAP_SET_SORTING_MODE_P1_DESCR)
@@ -1542,10 +1501,7 @@ a201fb4046d9999999999a0269486920746865726521
       .setReturn(DataTypes.JS_BIGINT, W_TAG_GETNUM_RETURN_DESCR)
 
       .addMethod("getTaggedObject", W_TAG_GETOBJ_DESCR)
-      .setReturn(DataTypes.CBOR_Any, W_TAG_GETOBJ_RETURN_DESCR)
-
-      .addMethod("getTag", W_TAG_GETTAG_DESCR)
-      .setReturn(DataTypes.CBOR_TAG, W_TAG_GETTAG_RETURN_DESCR);
+      .setReturn(DataTypes.CBOR_Any, W_TAG_GETOBJ_RETURN_DESCR);
 
     // Common
 

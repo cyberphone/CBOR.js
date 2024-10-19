@@ -124,18 +124,6 @@ class CBOR {
       return this.#rangeBigInt(0n, 0xffffffffffffffffn);
     }
 
-    getArray = function() {
-      return this.#checkTypeAndGetValue(CBOR.Array);
-    }
- 
-    getMap = function() {
-      return this.#checkTypeAndGetValue(CBOR.Map);
-    }
- 
-    getTag = function() {
-      return this.#checkTypeAndGetValue(CBOR.Tag);
-    }
-
     equals = function(object) {
       if (object && object instanceof CBOR.#CborObject) {
         return CBOR.compareArrays(this.encode(), object.encode()) == 0;
@@ -163,17 +151,23 @@ class CBOR {
           this.getKeys().forEach(key => {
             this.get(key).#traverse(key, check);
           });
-          break;
+          if (holderObject) {
+            break;
+          }
+          return;
         
         case "Array":
           this.toArray().forEach(object => {
             object.#traverse(this, check);
           });
-          break;
+          if (holderObject) {
+            break;
+          }
+          return;
         
         case "Tag":
           this.getTaggedObject().#traverse(this, check);
-          break;
+          return;
       }
       if (check) {
         if (!this.#readFlag) {
@@ -212,6 +206,13 @@ class CBOR {
       }
       this.#readFlag = true;
       return this._get();
+    }
+
+    _structuredTypes = function(object) {
+      if (object instanceof CBOR.Array || object instanceof CBOR.Map) {
+        object.#readFlag = true;
+      }
+      return object;
     }
   }
 
@@ -592,7 +593,7 @@ class CBOR {
       if (index < 0 || index >= this.#objects.length) {
         CBOR.#error("Array index out of range: " + index);
       }
-      return this.#objects[index];
+      return this._structuredTypes(this.#objects[index]);
     }
 
     toArray = function() {
@@ -625,10 +626,6 @@ class CBOR {
 
     _getLength = function() {
       return this.#objects.length;
-    }
-
-    _get = function() {
-      return this;
     }
   }
 
@@ -679,7 +676,7 @@ class CBOR {
           insertIndex = 0;
           let startIndex = 0;
           while (startIndex <= endIndex) {
-            let midIndex = startIndex + ((endIndex - startIndex) >> 1);
+            let midIndex = (endIndex + startIndex) >> 1;
             if (newEntry.compareAndTest(this.#entries[midIndex])) {
               // New key is bigger than the looked up entry.
               // Preliminary assumption: this is the one, but continue.
@@ -706,7 +703,7 @@ class CBOR {
       let startIndex = 0;
       let endIndex = this.#entries.length - 1;
       while (startIndex <= endIndex) {
-        let midIndex = startIndex + ((endIndex - startIndex) >> 1);
+        let midIndex = (endIndex + startIndex) >> 1;
         let entry = this.#entries[midIndex];
         let diff = entry.compare(encodedKey);
         if (diff == 0) {
@@ -725,14 +722,14 @@ class CBOR {
     }
 
     get = function(key) {
-      return this.#lookup(key, true).value;
+      return this._structuredTypes(this.#lookup(key, true).value);
     }
 
     getConditionally = function(key, defaultValue) {
       let entry = this.#lookup(key, false);
       // Note: defaultValue may be 'null'
       defaultValue = defaultValue ? CBOR.#cborArgumentCheck(defaultValue) : null;
-      return entry ? entry.value : defaultValue;
+      return entry ? this._structuredTypes(entry.value) : defaultValue;
     }
 
     getKeys = function() {
@@ -785,10 +782,6 @@ class CBOR {
         entry.value.internalToString(cborPrinter);
       });
       cborPrinter.endMap(notFirst);
-    }
-
-    _get = function() {
-      return this;
     }
 
     setSortingMode = function(preSortedKeys) {
@@ -855,7 +848,7 @@ class CBOR {
     }
 
     getTaggedObject = function() {
-      return this.#object;
+      return this._structuredTypes(this.#object);
     }
 
     _get = function() {
@@ -1822,6 +1815,6 @@ class CBOR {
   }
 
   static get version() {
-    return "1.0.8";
+    return "1.0.9";
   }
 }

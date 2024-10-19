@@ -2,11 +2,13 @@
 import CBOR from '../npm/mjs/index.mjs';
 import { assertTrue, assertFalse, success } from './assertions.js';
 
-function oneTurn(create, access, ok) {
+function oneTurn(create, access, errorString) {
   let res = eval(create);
   try {
     res.checkForUnread();
-    throw Error("no way");
+    if (errorString !== null) {
+      throw Error("no way");      
+    }
   } catch (error) {
     if (!error.toString().includes('never read')) {
       throw error;
@@ -15,56 +17,56 @@ function oneTurn(create, access, ok) {
   try {
     eval(access);
     res.checkForUnread();
-    assertTrue("cfu1", ok);
+    assertFalse("cfu1", errorString);
   } catch (error) {
-    if (!error.toString().includes('never read')) {
+    assertTrue("cfu2", errorString);
+    if (!error.toString().includes(errorString)) {
       throw error;
     }
-    assertFalse("cfu2", ok);
   }
-  res.scan().checkForUnread();
-  res = CBOR.decode(res.encode());
-  try {
-    eval(access);
-    res.checkForUnread();
-    assertTrue("cfu3", ok);
-  } catch (error) {
-    if (!error.toString().includes('never read')) {
-      throw error;
-    }
-    assertFalse("cfu4", ok);
-  }
-  res.scan().checkForUnread();
+  eval(create).scan().checkForUnread();
 }
 
 oneTurn("CBOR.Array().add(CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
+        "res.get(0).get(CBOR.Int(1)).getString()");
+
+oneTurn("CBOR.Array().add(CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
         "res",
-        false);
+        "Map key 1 with argument of type=CBOR.String with value=\"hi\" was never read");
 
 oneTurn("CBOR.Array().add(CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
-        // Missing getArray()
-        "res.get(0).getMap().get(CBOR.Int(1)).getString()",
-        false);
+        "res.get(0).get(CBOR.Int(1))",
+        "Map key 1 with argument of type=CBOR.String with value=\"hi\" was never read");
 
-oneTurn("CBOR.Array().add(CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
-        // Missing getMap()
-        "res.getArray().get(0).get(CBOR.Int(1)).getString()",
-        false);
+oneTurn("CBOR.Array().add(CBOR.Map())",
+        "res",
+        "Array element of type=CBOR.Map with value={} was never read");
 
-oneTurn("CBOR.Array().add(CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
-        "res.getArray().get(0).getMap().get(CBOR.Int(1)).getString()",
-        true);
+// Empty Map => nothing to read
+oneTurn("CBOR.Array().add(CBOR.Map())",
+        "res.get(0)",
+        null);
+
+// Empty Array => nothing to read
+oneTurn("CBOR.Array()",
+        "res",
+        null);
 
 oneTurn("CBOR.Tag(8n, CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
-        "res.getTag().getTaggedObject().getMap().get(CBOR.Int(1)).getString()",
-        true);
+        "res.getTaggedObject().get(CBOR.Int(1)).getString()");
 
 oneTurn("CBOR.Tag(8n, CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
-        // Missing getTag()
-        "res.getTaggedObject().getMap().get(CBOR.Int(1)).getString()",
-        false);
+        "res.getTaggedObject()",
+        "Map key 1 with argument of type=CBOR.String with value=\"hi\" was never read");
+
+oneTurn("CBOR.Tag(8n, CBOR.Map())",
+        "res.getTaggedObject()",
+        null);
+
+oneTurn("CBOR.Tag(8n, CBOR.Int(2))",
+        "res.getTaggedObject()",
+        "Tagged object 8 of type=CBOR.Int with value=2 was never read");  
 
 oneTurn("CBOR.Int(1)",
-        "res.getInt()",
-        true);
+        "res.getInt()");
 success();

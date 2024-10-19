@@ -81,7 +81,6 @@
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.add'>2.8.1.1.&nbsp;&nbsp;add()</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.get'>2.8.1.2.&nbsp;&nbsp;get()</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.toarray'>2.8.1.3.&nbsp;&nbsp;toArray()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.getarray'>2.8.1.4.&nbsp;&nbsp;getArray()</a></div>
 <div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#properties.cbor.array'>2.8.2.&nbsp;&nbsp;CBOR.Array Properties</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.length'>2.8.2.1.&nbsp;&nbsp;length</a></div>
 </div>
@@ -93,8 +92,7 @@
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.containskey'>2.9.1.4.&nbsp;&nbsp;containsKey()</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.remove'>2.9.1.5.&nbsp;&nbsp;remove()</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.getkeys'>2.9.1.6.&nbsp;&nbsp;getKeys()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.getmap'>2.9.1.7.&nbsp;&nbsp;getMap()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.setsortingmode'>2.9.1.8.&nbsp;&nbsp;setSortingMode()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.setsortingmode'>2.9.1.7.&nbsp;&nbsp;setSortingMode()</a></div>
 <div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#properties.cbor.map'>2.9.2.&nbsp;&nbsp;CBOR.Map Properties</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.length'>2.9.2.1.&nbsp;&nbsp;length</a></div>
 </div>
@@ -102,7 +100,6 @@
 <div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#methods.cbor.tag'>2.10.1.&nbsp;&nbsp;CBOR.Tag Methods</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.tag.gettagnumber'>2.10.1.1.&nbsp;&nbsp;getTagNumber()</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.tag.gettaggedobject'>2.10.1.2.&nbsp;&nbsp;getTaggedObject()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.tag.gettag'>2.10.1.3.&nbsp;&nbsp;getTag()</a></div>
 </div>
 </div>
 <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.common'>3.&nbsp;&nbsp;Common Wrapper Methods</a></div><div style='display:none'>
@@ -274,7 +271,7 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>getInt()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Valid range: <kbd>-2<sup>53</sup>+1 </kbd>to<kbd> 2<sup>53</sup>-1</kbd>.  See also <a href='#cbor.int.getbigint'>getBigInt()</a>.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <kbd>-2<sup>53</sup>+1 </kbd>to<kbd> 2<sup>53</sup>-1</kbd> will cause an exception to be thrown.  See also <a href='#cbor.int.getbigint'>getBigInt()</a>.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>Number</code></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -283,7 +280,7 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>getInt8()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Valid range: <kbd>-0x80 </kbd>to<kbd> 0x7f</kbd>.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <kbd>-0x80 </kbd>to<kbd> 0x7f</kbd> will cause an exception to be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>Number</code></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -292,7 +289,7 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>getUint8()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Valid range: <kbd>0 </kbd>to<kbd> 0xff</kbd>.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <kbd>0 </kbd>to<kbd> 0xff</kbd> will cause an exception to be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>Number</code></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -301,7 +298,7 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>getInt16()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Valid range: <kbd>-0x8000 </kbd>to<kbd> 0x7fff</kbd>.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <kbd>-0x8000 </kbd>to<kbd> 0x7fff</kbd> will cause an exception to be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>Number</code></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -310,7 +307,7 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>getUint16()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Valid range: <kbd>0 </kbd>to<kbd> 0xffff</kbd>.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <kbd>0 </kbd>to<kbd> 0xffff</kbd> will cause an exception to be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>Number</code></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -319,7 +316,7 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>getInt32()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Valid range: <kbd>-0x80000000 </kbd>to<kbd> 0x7fffffff</kbd>.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <kbd>-0x80000000 </kbd>to<kbd> 0x7fffffff</kbd> will cause an exception to be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>Number</code></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -328,7 +325,7 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>getUint32()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Valid range: <kbd>0 </kbd>to<kbd> 0xffffffff</kbd>.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <kbd>0 </kbd>to<kbd> 0xffffffff</kbd> will cause an exception to be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>Number</code></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -337,7 +334,7 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>getInt64()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Valid range: <kbd>-0x8000000000000000 </kbd>to<kbd> 0x7fffffffffffffff</kbd>.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <kbd>-0x8000000000000000 </kbd>to<kbd> 0x7fffffffffffffff</kbd> will cause an exception to be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>BigInt</code></td><td style='width:100%'>Decoded big integer.</td></tr>
@@ -346,7 +343,7 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>getUint64()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Valid range: <kbd>0 </kbd>to<kbd> 0xffffffffffffffff</kbd>.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <kbd>0 </kbd>to<kbd> 0xffffffffffffffff</kbd> will cause an exception to be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>BigInt</code></td><td style='width:100%'>Decoded big integer.</td></tr>
@@ -379,7 +376,7 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>getInt64()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Valid range: <kbd>-0x8000000000000000 </kbd>to<kbd> 0x7fffffffffffffff</kbd>.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <kbd>-0x8000000000000000 </kbd>to<kbd> 0x7fffffffffffffff</kbd> will cause an exception to be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>BigInt</code></td><td style='width:100%'>Decoded big integer.</td></tr>
@@ -388,7 +385,7 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>getUint64()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Valid range: <kbd>0 </kbd>to<kbd> 0xffffffffffffffff</kbd>.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <kbd>0 </kbd>to<kbd> 0xffffffffffffffff</kbd> will cause an exception to be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>BigInt</code></td><td style='width:100%'>Decoded big integer.</td></tr>
@@ -571,20 +568,6 @@ If <code><i>index</i></code> is out of range, an exception is thrown.</td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>[...]</code></td><td style='width:100%'>JavaScript array holding a copy of current <code>CBOR.<i>Wrapper</i></code> objects.</td></tr>
 </table></div>
-<h5 id='cbor.array.getarray'>2.8.1.4.&nbsp;&nbsp;getArray()</h5>
-<div class='webpkifloat'>
-<table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td style='width:100%'><code>getArray()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get array object.
-<div style='margin-top:0.5em'>Note: this method is redundant due to the dynamic nature of the JavaScript
-typing system.  However, if you intend using
-<a href='#common.checkforunread'>checkForUnread()</a>,
-this method must be called <i>before</i> accessing individual
-array objects.</div></td></tr>
-<tr><td colspan='2' class='webpkidiv'></td></tr>
-<tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><code>CBOR.Array</code></td><td style='width:100%'>Current object.</td></tr>
-</table></div>
 <h5 id='properties.cbor.array'>2.8.2.&nbsp;&nbsp;CBOR.Array Properties</h5>
 <h5 id='cbor.array.length'>2.8.2.1.&nbsp;&nbsp;length</h5>
 <div class='webpkifloat'>
@@ -682,20 +665,7 @@ If <code><i>key</i></code> entry is undefined, an exception is thrown.</td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>[...]</code></td><td style='width:100%'>JavaScript array holding a copy of current <code>CBOR.<i>Wrapper</i></code> map keys.</td></tr>
 </table></div>
-<h5 id='cbor.map.getmap'>2.9.1.7.&nbsp;&nbsp;getMap()</h5>
-<div class='webpkifloat'>
-<table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td style='width:100%'><code>getMap()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get map object.
-<div style='margin-top:0.5em'>Note: this method is redundant due to the dynamic nature of the JavaScript
-typing system.  However, if you intend using
-<a href='#common.checkforunread'>checkForUnread()</a>,
-this method must be called <i>before</i> accessing map keys.</div></td></tr>
-<tr><td colspan='2' class='webpkidiv'></td></tr>
-<tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><code>CBOR.Map</code></td><td style='width:100%'>Current object.</td></tr>
-</table></div>
-<h5 id='cbor.map.setsortingmode'>2.9.1.8.&nbsp;&nbsp;setSortingMode()</h5>
+<h5 id='cbor.map.setsortingmode'>2.9.1.7.&nbsp;&nbsp;setSortingMode()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><code>setSortingMode(<i>preSortedKeys</i>)</code></td></tr>
@@ -757,19 +727,6 @@ By default map keys are sorted <i>internally</i>.</td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>Retrieved object.</td></tr>
-</table></div>
-<h5 id='cbor.tag.gettag'>2.10.1.3.&nbsp;&nbsp;getTag()</h5>
-<div class='webpkifloat'>
-<table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td style='width:100%'><code>getTag()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get tag object.
-<div style='margin-top:0.5em'>Note: this method is redundant due to the dynamic nature of the JavaScript
-typing system.  However, if you intend using
-<a href='#common.checkforunread'>checkForUnread()</a>,
-this method must be called <i>before</i> accessing the tag object.</div></td></tr>
-<tr><td colspan='2' class='webpkidiv'></td></tr>
-<tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><code>CBOR.Tag</code></td><td style='width:100%'>Current object.</td></tr>
 </table></div>
 
   <h3 id='main.common'>3.&nbsp;&nbsp;Common Wrapper Methods</h3>
@@ -872,11 +829,11 @@ map <a href='#cbor.map.get'>get()</a>, and
 tag <a href='#cbor.tag.gettaggedobject'>getTaggedObject()</a>
 only <i>locate</i> objects,
 and thus do not count as &quot;read&quot;.
-See also
-<a href='#cbor.array.getarray'>getArray()</a>,
-<a href='#cbor.map.getmap'>getMap()</a>,
-<a href='#cbor.tag.gettag'>getTag()</a>, and
-<a href='#common.scan'>scan()</a>.</td></tr>
+<div style='margin:0.5em 0'>
+Note that <i>empty</i> array and map objects are <i>excluded</i> from
+this check.
+</div>
+See also <a href='#common.scan'>scan()</a>.</td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>this</code></td><td style='width:100%'>Current object.</td></tr>
@@ -1006,7 +963,7 @@ this method enables overriding the default.
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code><i>accept</i></code></td><td style='text-align:center'><code>Boolean</code></td><td style='width:100%'>If the <code>accept</code> flag is set to <code>false</code>,
-the mentioned exceptional floating point values will (if encountered),
+the mentioned exceptional floating point values will
 cause an exception to be thrown.
 </td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
@@ -1526,8 +1483,8 @@ The following code shows how you can <i>decode</i> CBOR specified in
 <div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>let&nbsp;cbor&nbsp;=&nbsp;CBOR.diagDecode(`{<br>#&nbsp;Comments&nbsp;are&nbsp;also&nbsp;permitted<br>&nbsp;&nbsp;1:&nbsp;45.7,<br>&nbsp;&nbsp;2:&nbsp;&quot;Hi&nbsp;there!&quot;<br>}`).encode();<br><br>console.log(CBOR.toHex(cbor));<br>------------------------------<br>a201fb4046d9999999999a0269486920746865726521<br></div></div>
   <h3 id='main.version'>10.&nbsp;&nbsp;Version</h3>
 
-  API version: 1.0.8.  Note that the current API version is accessible through
+  API version: 1.0.9.  Note that the current API version is accessible through
   the static property <code>CBOR.version</code>.<br>
-  Document version: 2024-09-28
+  Document version: 2024-10-17
 </body>
 </html>

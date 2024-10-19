@@ -7,7 +7,7 @@ let cbor = CBOR.Tag(CBOR.Tag.RESERVED_TAG_COTX, object).encode();
 let tag = CBOR.decode(cbor);
 assertTrue("t3", tag.getTagNumber()== CBOR.Tag.RESERVED_TAG_COTX);
 assertTrue("t3.1", object.equals(tag.getTaggedObject()));
-tag = CBOR.decode(cbor).getTag();  // Redundant in JavaScript
+tag = CBOR.decode(cbor); 
 assertTrue("t3.2", object.equals(tag.getTaggedObject()));
 cbor = CBOR.Tag(0xf0123456789abcden, object).encode();
 assertTrue("t14", CBOR.decode(cbor).getTagNumber()== 0xf0123456789abcden);
@@ -26,15 +26,6 @@ try {
   throw Error("Should not");
 } catch (error) {
   if (!error.toString().includes("out of range")) {
-    throw error;
-  }
-}
-
-try {
-  let tag = CBOR.Int(5).getTag();
-  throw Error("Should not");
-} catch (error) {
-  if (!error.toString().includes("CBOR.Int")) {
     throw error;
   }
 }

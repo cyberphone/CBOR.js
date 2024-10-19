@@ -50,11 +50,13 @@ success();
 {name:'check-for-unread.js',
 file:String.raw`// Testing the "checkForUnread()" feature
 
-function oneTurn(create, access, ok) {
+function oneTurn(create, access, errorString) {
   let res = eval(create);
   try {
     res.checkForUnread();
-    throw Error("no way");
+    if (errorString !== null) {
+      throw Error("no way");      
+    }
   } catch (error) {
     if (!error.toString().includes('never read')) {
       throw error;
@@ -63,58 +65,58 @@ function oneTurn(create, access, ok) {
   try {
     eval(access);
     res.checkForUnread();
-    assertTrue("cfu1", ok);
+    assertFalse("cfu1", errorString);
   } catch (error) {
-    if (!error.toString().includes('never read')) {
+    assertTrue("cfu2", errorString);
+    if (!error.toString().includes(errorString)) {
       throw error;
     }
-    assertFalse("cfu2", ok);
   }
-  res.scan().checkForUnread();
-  res = CBOR.decode(res.encode());
-  try {
-    eval(access);
-    res.checkForUnread();
-    assertTrue("cfu3", ok);
-  } catch (error) {
-    if (!error.toString().includes('never read')) {
-      throw error;
-    }
-    assertFalse("cfu4", ok);
-  }
-  res.scan().checkForUnread();
+  eval(create).scan().checkForUnread();
 }
 
 oneTurn("CBOR.Array().add(CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
+        "res.get(0).get(CBOR.Int(1)).getString()");
+
+oneTurn("CBOR.Array().add(CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
         "res",
-        false);
+        "Map key 1 with argument of type=CBOR.String with value=\"hi\" was never read");
 
 oneTurn("CBOR.Array().add(CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
-        // Missing getArray()
-        "res.get(0).getMap().get(CBOR.Int(1)).getString()",
-        false);
+        "res.get(0).get(CBOR.Int(1))",
+        "Map key 1 with argument of type=CBOR.String with value=\"hi\" was never read");
 
-oneTurn("CBOR.Array().add(CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
-        // Missing getMap()
-        "res.getArray().get(0).get(CBOR.Int(1)).getString()",
-        false);
+oneTurn("CBOR.Array().add(CBOR.Map())",
+        "res",
+        "Array element of type=CBOR.Map with value={} was never read");
 
-oneTurn("CBOR.Array().add(CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
-        "res.getArray().get(0).getMap().get(CBOR.Int(1)).getString()",
-        true);
+// Empty Map => nothing to read
+oneTurn("CBOR.Array().add(CBOR.Map())",
+        "res.get(0)",
+        null);
+
+// Empty Array => nothing to read
+oneTurn("CBOR.Array()",
+        "res",
+        null);
 
 oneTurn("CBOR.Tag(8n, CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
-        "res.getTag().getTaggedObject().getMap().get(CBOR.Int(1)).getString()",
-        true);
+        "res.getTaggedObject().get(CBOR.Int(1)).getString()");
 
 oneTurn("CBOR.Tag(8n, CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
-        // Missing getTag()
-        "res.getTaggedObject().getMap().get(CBOR.Int(1)).getString()",
-        false);
+        "res.getTaggedObject()",
+        "Map key 1 with argument of type=CBOR.String with value=\"hi\" was never read");
+
+oneTurn("CBOR.Tag(8n, CBOR.Map())",
+        "res.getTaggedObject()",
+        null);
+
+oneTurn("CBOR.Tag(8n, CBOR.Int(2))",
+        "res.getTaggedObject()",
+        "Tagged object 8 of type=CBOR.Int with value=2 was never read");  
 
 oneTurn("CBOR.Int(1)",
-        "res.getInt()",
-        true);
+        "res.getInt()");
 success();
 `}
 ,
@@ -527,7 +529,7 @@ assertFalse("null1", array.get(3).isNull());
 assertTrue("null2", array.get(4).isNull());
 assertFalse("cmp2", CBOR.compareArrays(CBOR.diagDecode(CBOR.decode(cbor).toString()).encode(), bin));
 
-assertTrue("version", CBOR.version == "1.0.8");
+assertTrue("version", CBOR.version == "1.0.9");
 
 success();
 `}
@@ -640,7 +642,7 @@ let cbor = CBOR.Tag(CBOR.Tag.RESERVED_TAG_COTX, object).encode();
 let tag = CBOR.decode(cbor);
 assertTrue("t3", tag.getTagNumber()== CBOR.Tag.RESERVED_TAG_COTX);
 assertTrue("t3.1", object.equals(tag.getTaggedObject()));
-tag = CBOR.decode(cbor).getTag();  // Redundant in JavaScript
+tag = CBOR.decode(cbor); 
 assertTrue("t3.2", object.equals(tag.getTaggedObject()));
 cbor = CBOR.Tag(0xf0123456789abcden, object).encode();
 assertTrue("t14", CBOR.decode(cbor).getTagNumber()== 0xf0123456789abcden);
@@ -659,15 +661,6 @@ try {
   throw Error("Should not");
 } catch (error) {
   if (!error.toString().includes("out of range")) {
-    throw error;
-  }
-}
-
-try {
-  let tag = CBOR.Int(5).getTag();
-  throw Error("Should not");
-} catch (error) {
-  if (!error.toString().includes("CBOR.Int")) {
     throw error;
   }
 }
@@ -794,7 +787,7 @@ class XYZDecoder {
   constructor(cbor) {
     // There MUST be exactly three key/value pairs.
     // CBOR data items are type-checked as well.
-    let map = CBOR.decode(cbor).getMap();
+    let map = CBOR.decode(cbor);
     this.#counter = map.get(XYZDecoder.COUNTER).getUint8();
     this.#temperature = map.get(XYZDecoder.TEMPERATURE).getFloat64();
     this.#greeting = map.get(XYZDecoder.GREETING).getString();
