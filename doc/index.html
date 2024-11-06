@@ -528,7 +528,7 @@ See also <a href='#common.isnull'>isNull()</a>.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>CBOR.Array()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Constructor.  Creates a CBOR array wrapper object.</td></tr>
+<tr><th>Description</th><td style='width:100%'>Constructor.  Creates an empty CBOR array wrapper object.</td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>CBOR.Array</code></td><td style='width:100%'>Wrapper object.</td></tr>
@@ -579,7 +579,7 @@ If <code><i>index</i></code> is out of range, an exception is thrown.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>CBOR.Map()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Constructor.  Creates a CBOR map wrapper object.</td></tr>
+<tr><th>Description</th><td style='width:100%'>Constructor.  Creates an empty CBOR map wrapper object.</td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code>CBOR.Map</code></td><td style='width:100%'>Wrapper object.</td></tr>
@@ -626,7 +626,8 @@ If <code><i>key</i></code> entry is undefined, an exception is thrown.</td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code><i>key</i></code></td><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>Key (name) wrapper object.</td></tr>
 <tr><td style='text-align:center'><code><i>defaultValue</i></code></td><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td style='width:100%'>Value to return if <code><i>key</i></code> entry is undefined.
-<code><i>defaultValue</i></code> may be <code>null</code>.</td></tr>
+<div style='margin-top:0.5em'>Note:
+<code><i>defaultValue</i></code> may be <code>null</code>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><code>CBOR.<i>Wrapper</i></code></td><td colspan='2' style='width:100%'>Retrieved or default object.</td></tr>

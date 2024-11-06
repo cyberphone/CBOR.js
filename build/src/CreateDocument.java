@@ -133,7 +133,7 @@ public class CreateDocument {
 
   static final String W_ARRAY_DESCR = 
   """
-  Constructor.  Creates a CBOR array wrapper object.""";
+  Constructor.  Creates an empty CBOR array wrapper object.""";
   
 
   static final String W_ARRAY_ADD_DESCR = 
@@ -179,7 +179,7 @@ public class CreateDocument {
 
   static final String W_MAP_DESCR = 
   """
-  Constructor.  Creates a CBOR map wrapper object.""";
+  Constructor.  Creates an empty CBOR map wrapper object.""";
 
 
   static final String W_MAP_SET_DESCR = 
@@ -246,7 +246,8 @@ public class CreateDocument {
   static final String W_MAP_GETCOND_P2_DESCR = 
   """
   Value to return if <code><i>key</i></code> entry is undefined.
-  <code><i>defaultValue</i></code> may be <code>null</code>.""";
+  <div style='margin-top:0.5em'>Note: 
+  <code><i>defaultValue</i></code> may be <code>null</code>.</div>""";
 
   static final String W_MAP_GETCOND_RETURN_DESCR = 
   """
