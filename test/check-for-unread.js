@@ -53,18 +53,18 @@ oneTurn("CBOR.Array()",
         null);
 
 oneTurn("CBOR.Tag(8n, CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
-        "res.getTaggedObject().get(CBOR.Int(1)).getString()");
+        "res.get().get(CBOR.Int(1)).getString()");
 
 oneTurn("CBOR.Tag(8n, CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
-        "res.getTaggedObject()",
+        "res.get()",
         "Map key 1 with argument of type=CBOR.String with value=\"hi\" was never read");
 
 oneTurn("CBOR.Tag(8n, CBOR.Map())",
-        "res.getTaggedObject()",
+        "res.get()",
         null);
 
 oneTurn("CBOR.Tag(8n, CBOR.Int(2))",
-        "res.getTaggedObject()",
+        "res.get()",
         "Tagged object 8 of type=CBOR.Int with value=2 was never read");  
 
 oneTurn("CBOR.Int(1)",

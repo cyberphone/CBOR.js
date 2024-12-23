@@ -166,7 +166,7 @@ export default class CBOR {
           return;
         
         case "Tag":
-          this.getTaggedObject().#traverse(this, check);
+          this.get().#traverse(this, check);
           return;
       }
       if (check) {
@@ -596,6 +596,16 @@ export default class CBOR {
       return this._structuredTypes(this.#objects[index]);
     }
 
+    update = function(index, object) {
+      index = CBOR.#intCheck(index);
+      if (index < 0 || index >= this.#objects.length) {
+        CBOR.#error("Array index out of range: " + index);
+      }
+      let previous = this._structuredTypes(this.#objects[index]);
+      this.#objects[index] = object;
+      return previous;
+    }
+
     toArray = function() {
       let array = [];
       this.#objects.forEach(object => array.push(object));
@@ -640,9 +650,9 @@ export default class CBOR {
 
     static Entry = class {
 
-      constructor(key, value) {
+      constructor(key, object) {
         this.key = key;
-        this.value = value;
+        this.object = object;
         this.encodedKey = key.encode();
       }
 
@@ -659,8 +669,8 @@ export default class CBOR {
       }
     }
 
-    set = function(key, value) {
-      let newEntry = new CBOR.Map.Entry(this.#getKey(key), CBOR.#cborArgumentCheck(value));
+    set = function(key, object) {
+      let newEntry = new CBOR.Map.Entry(this.#getKey(key), CBOR.#cborArgumentCheck(object));
       let insertIndex = this.#entries.length;
       if (insertIndex) {
         let endIndex = insertIndex - 1;
@@ -721,15 +731,38 @@ export default class CBOR {
       return null;
     }
 
-    get = function(key) {
-      return this._structuredTypes(this.#lookup(key, true).value);
+    update = function(key, object, existing) {
+      let entry = this.#lookup(key, existing);
+      let previous;
+      if (entry) {
+        previous = entry.object;
+        entry.object = CBOR.#cborArgumentCheck(object);
+      } else {
+        previous = null;
+        this.set(key, object);
+      }
+      return previous;
     }
 
-    getConditionally = function(key, defaultValue) {
+    merge = function(map) {
+      if (!(map instanceof CBOR.Map)) {
+        CBOR.#error("Argument must be of type CBOR.Map");
+      }
+      map.#entries.forEach(entry => {
+        this.set(entry.key, entry.object);
+      });
+      return this;
+    }
+
+    get = function(key) {
+      return this._structuredTypes(this.#lookup(key, true).object);
+    }
+
+    getConditionally = function(key, defaultObject) {
       let entry = this.#lookup(key, false);
       // Note: defaultValue may be 'null'
-      defaultValue = defaultValue ? CBOR.#cborArgumentCheck(defaultValue) : null;
-      return entry ? this._structuredTypes(entry.value) : defaultValue;
+      defaultObject = defaultObject ? CBOR.#cborArgumentCheck(defaultObject) : null;
+      return entry ? this._structuredTypes(entry.object) : defaultObject;
     }
 
     getKeys = function() {
@@ -745,7 +778,7 @@ export default class CBOR {
       for (let i = 0; i < this.#entries.length; i++) {
         if (this.#entries[i] == targetEntry) {
           this.#entries.splice(i, 1);
-          return targetEntry.value;
+          return targetEntry.object;
         }
       }
     }
@@ -762,7 +795,7 @@ export default class CBOR {
       let encoded = CBOR.#encodeTagAndN(CBOR.#MT_MAP, this.#entries.length);
       this.#entries.forEach(entry => {
         encoded = CBOR.addArrays(encoded, 
-                                 CBOR.addArrays(entry.encodedKey, entry.value.encode()));
+                                 CBOR.addArrays(entry.encodedKey, entry.object.encode()));
       });
       return encoded;
     }
@@ -779,7 +812,7 @@ export default class CBOR {
         entry.key.internalToString(cborPrinter);
         cborPrinter.append(':');
         cborPrinter.space();
-        entry.value.internalToString(cborPrinter);
+        entry.object.internalToString(cborPrinter);
       });
       cborPrinter.endMap(notFirst);
     }
@@ -847,7 +880,13 @@ export default class CBOR {
       return this.#tagNumber;
     }
 
-    getTaggedObject = function() {
+    update = function(object) {
+      let previous = this.#object;
+      this.#object = object;
+      return previous;
+    }
+
+    get = function() {
       return this._structuredTypes(this.#object);
     }
 
@@ -1815,6 +1854,6 @@ export default class CBOR {
   }
 
   static get version() {
-    return "1.0.9";
+    return "1.0.10";
   }
 }

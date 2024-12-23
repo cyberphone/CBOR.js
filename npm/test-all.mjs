@@ -101,18 +101,18 @@ oneTurn("CBOR.Array()",
         null);
 
 oneTurn("CBOR.Tag(8n, CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
-        "res.getTaggedObject().get(CBOR.Int(1)).getString()");
+        "res.get().get(CBOR.Int(1)).getString()");
 
 oneTurn("CBOR.Tag(8n, CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
-        "res.getTaggedObject()",
+        "res.get()",
         "Map key 1 with argument of type=CBOR.String with value=\"hi\" was never read");
 
 oneTurn("CBOR.Tag(8n, CBOR.Map())",
-        "res.getTaggedObject()",
+        "res.get()",
         null);
 
 oneTurn("CBOR.Tag(8n, CBOR.Int(2))",
-        "res.getTaggedObject()",
+        "res.get()",
         "Tagged object 8 of type=CBOR.Int with value=2 was never read");  
 
 oneTurn("CBOR.Int(1)",
@@ -492,6 +492,44 @@ assertTrue("avail-0", map.containsKey(CBOR.Int(3)));
 assertFalse("avail-1", map.containsKey(CBOR.Int(4)));
 assertTrue("cond-0", map.getConditionally(CBOR.Int(3), CBOR.String("k3")).getString() == "three");
 assertTrue("cond-1", map.getConditionally(CBOR.Int(4), CBOR.String("k4")).getString() == "k4");
+map = map.merge(
+    CBOR.Map().set(CBOR.Int(1), CBOR.String("hi")).set(CBOR.Int(5), CBOR.String("yeah")));
+assertTrue("size-3", map.length == 3);
+assertTrue("merge-0", map.get(CBOR.Int(1)).getString() == "hi");
+assertTrue("upd-0", map.update(CBOR.Int(1), CBOR.BigInt(-8n), true).getString() == "hi");
+assertTrue("upd-1", map.get(CBOR.Int(1)).getBigInt() == -8n);
+assertTrue("upd-2", map.update(CBOR.Int(10), CBOR.BigInt(-8n), false) == null);
+assertTrue("upd-3", map.get(CBOR.Int(10)).getBigInt() == -8n);
+
+success();
+`}
+,
+{name:'arrays.js',
+file:String.raw`// Testing array operations
+
+let array = CBOR.Array()
+              .add(CBOR.String("three"))
+              .add(CBOR.String("four"));
+assertTrue("size-0", array.length == 2);
+assertTrue("get-0", array.get(0).getString() == "three");
+assertTrue("get-1", array.get(1).getString() == "four");
+let arrayElements = array.toArray();
+assertTrue("size-1", arrayElements.length == 2);
+assertTrue("arr-0", arrayElements[0].getString() == "three");
+assertTrue("arr-1", arrayElements[1].getString() == "four");
+assertTrue("upd-1", array.update(1, CBOR.Int(1)).getString() == "four");
+assertTrue("upd-2", array.get(1).getInt8() == 1);
+assertTrue("size-1", array.length == 2);
+assertTrue("upd-3", array.get(0).getString() == "three");
+
+/*
+assertTrue("rem-0", map.remove(CBOR.Int(4)).getString() == "four");
+assertTrue("size-2", map.length == 1);
+assertTrue("avail-0", map.containsKey(CBOR.Int(3)));
+assertFalse("avail-1", map.containsKey(CBOR.Int(4)));
+assertTrue("cond-0", map.getConditionally(CBOR.Int(3), CBOR.String("k3")).getString() == "three");
+assertTrue("cond-1", map.getConditionally(CBOR.Int(4), CBOR.String("k4")).getString() == "k4");
+*/
 
 success();
 `}
@@ -641,13 +679,16 @@ let object = CBOR.Array().add(CBOR.String("https://example.com/myobject")).add(C
 let cbor = CBOR.Tag(CBOR.Tag.RESERVED_TAG_COTX, object).encode();
 let tag = CBOR.decode(cbor);
 assertTrue("t3", tag.getTagNumber()== CBOR.Tag.RESERVED_TAG_COTX);
-assertTrue("t3.1", object.equals(tag.getTaggedObject()));
+assertTrue("t3.1", object.equals(tag.get()));
 tag = CBOR.decode(cbor); 
-assertTrue("t3.2", object.equals(tag.getTaggedObject()));
+assertTrue("t3.2", object.equals(tag.get()));
 cbor = CBOR.Tag(0xf0123456789abcden, object).encode();
 assertTrue("t14", CBOR.decode(cbor).getTagNumber()== 0xf0123456789abcden);
 assertTrue("t5", CBOR.toHex(cbor) == 
     "dbf0123456789abcde82781c68747470733a2f2f6578616d706c652e636f6d2f6d796f626a65637406");
+tag = CBOR.Tag(1n, CBOR.String("hi"));
+assertTrue("u1", tag.update(CBOR.Int(6)).getString() == "hi");
+assertTrue("u2", tag.get().getInt() == 6);
 try {
   CBOR.Tag(-1n, CBOR.String("minus"));
   throw Error("Should not");

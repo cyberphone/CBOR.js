@@ -151,7 +151,7 @@ public class CreateDocument {
 
   static final String W_ARRAY_GET_DESCR = 
   """
-  Get CBOR wrapper object from array.
+  Get CBOR wrapper object at a specific position in the array.
   If <code><i>index</i></code> is out of range, an exception is thrown.""";
 
   static final String W_ARRAY_GET_P1_DESCR = 
@@ -160,7 +160,26 @@ public class CreateDocument {
   
   static final String W_ARRAY_GET_RETURN_DESCR = 
   """
-  Retrieved object.""";    
+  Retrieved object."""; 
+
+
+  static final String W_ARRAY_UPDATE_DESCR = 
+  """
+  Update CBOR wrapper object at a specific position in the array.
+  If <code><i>index</i></code> is out of range, an exception is thrown.""";
+
+  static final String W_ARRAY_UPDATE_P1_DESCR = 
+  """
+  Index <code>(0..length-1)</code> of object.""";
+
+  static final String W_ARRAY_UPDATE_P2_DESCR = 
+  """
+  Update object.""";
+
+  static final String W_ARRAY_UPDATE_RETURN_DESCR = 
+  """
+  Previous object.""";    
+
   
 
   static final String W_ARRAY_TOARR_DESCR = 
@@ -198,13 +217,44 @@ public class CreateDocument {
 
   static final String W_MAP_SET_P2_DESCR = 
   """
-  Value wrapper object.""";
+  Wrapper object (value component).""";
 
   static final String W_MAP_SET_RETURN_DESCR = 
   """
-  Current object.""";  
+  Current object.""";
 
 
+  static final String W_MAP_MERGE_DESCR = 
+  """
+  Merge maps.
+  Performs a <a href='#cbor.map.set'>set()</a> operation
+  for each member of the <code><i>map</i></code> argument.""";
+
+  static final String W_MAP_MERGE_P1_DESCR = 
+  """
+  CBOR <kbd>map</kbd> wrapper object.""";
+
+
+  static final String W_MAP_UPDATE_DESCR = 
+  """
+  Update map entry.""";
+
+  static final String W_MAP_UPDATE_P1_DESCR = W_MAP_SET_P1_DESCR;
+
+  static final String W_MAP_UPDATE_P2_DESCR = W_MAP_SET_P2_DESCR;
+
+  static final String W_MAP_UPDATE_P3_DESCR =
+  """
+  If <code><i>existing</i></code> is <kbd>true</kbd>,  
+  <code><i>key</i></code> must be defined, else an exception is thrown. 
+  <div style='margin-top:0.5em'>If <code><i>existing</i></code> is <kbd>false</kbd>,  
+  a <kbd>map</kbd> entry will be created for <code><i>key</i></code> if not already defined.</div>""";
+
+  static final String W_MAP_UPDATE_RETURN_DESCR = 
+  """
+  Previous object.  May be <kbd>null</kbd>.""";
+  
+  
   static final String W_MAP_GET_DESCR = 
   """
   Get map entry.
@@ -245,9 +295,9 @@ public class CreateDocument {
 
   static final String W_MAP_GETCOND_P2_DESCR = 
   """
-  Value to return if <code><i>key</i></code> entry is undefined.
+  Object to return if <code><i>key</i></code> entry is undefined.
   <div style='margin-top:0.5em'>Note: 
-  <code><i>defaultValue</i></code> may be <code>null</code>.</div>""";
+  <code><i>defaultObject</i></code> may be <code>null</code>.</div>""";
 
   static final String W_MAP_GETCOND_RETURN_DESCR = 
   """
@@ -325,13 +375,26 @@ public class CreateDocument {
   Decoded tag number.""";
 
 
-  static final String W_TAG_GETOBJ_DESCR = 
+  static final String W_TAG_GET_DESCR = 
   """
   Get tagged CBOR object.""";
   
-  static final String W_TAG_GETOBJ_RETURN_DESCR = 
+  static final String W_TAG_GET_RETURN_DESCR = 
   """
   Retrieved object.""";
+
+
+  static final String W_TAG_UPDATE_DESCR = 
+  """
+  Update tagged CBOR object.""";
+
+  static final String W_TAG_UPDATE_P1_DESCR = 
+  """
+  New object.""";
+  
+  static final String W_TAG_UPDATE_RETURN_DESCR = 
+  """
+  Previous object.""";
 
   // encode()
 
@@ -1452,6 +1515,11 @@ a201fb4046d9999999999a0269486920746865726521
       .addParameter("index", DataTypes.JS_NUMBER, W_ARRAY_GET_P1_DESCR)
       .setReturn(DataTypes.CBOR_Any, W_ARRAY_GET_RETURN_DESCR)
 
+      .addMethod("update", W_ARRAY_UPDATE_DESCR)
+      .addParameter("index", DataTypes.JS_NUMBER, W_ARRAY_UPDATE_P1_DESCR)
+      .addParameter("object", DataTypes.CBOR_Any, W_ARRAY_UPDATE_P2_DESCR)
+      .setReturn(DataTypes.CBOR_Any, W_ARRAY_UPDATE_RETURN_DESCR)
+
       .addMethod("toArray", W_ARRAY_TOARR_DESCR)
       .setReturn(DataTypes.JS_ARRAY, W_ARRAY_TOARR_RETURN_DESCR)
 
@@ -1463,8 +1531,18 @@ a201fb4046d9999999999a0269486920746865726521
 
       .addMethod("set", W_MAP_SET_DESCR)
       .addParameter("key", DataTypes.CBOR_Any, W_MAP_SET_P1_DESCR)
-      .addParameter("value", DataTypes.CBOR_Any, W_MAP_SET_P2_DESCR)
+      .addParameter("object", DataTypes.CBOR_Any, W_MAP_SET_P2_DESCR)
       .setReturn(DataTypes.JS_THIS, W_MAP_SET_RETURN_DESCR)
+
+      .addMethod("merge", W_MAP_MERGE_DESCR)
+      .addParameter("map", DataTypes.CBOR_MAP, W_MAP_MERGE_P1_DESCR)
+      .setReturn(DataTypes.JS_THIS, W_MAP_SET_RETURN_DESCR)
+
+      .addMethod("update", W_MAP_UPDATE_DESCR)
+      .addParameter("key", DataTypes.CBOR_Any, W_MAP_UPDATE_P1_DESCR)
+      .addParameter("object", DataTypes.CBOR_Any, W_MAP_UPDATE_P2_DESCR)
+      .addParameter("existing", DataTypes.JS_BOOLEAN, W_MAP_UPDATE_P3_DESCR)
+      .setReturn(DataTypes.CBOR_Any, W_MAP_UPDATE_RETURN_DESCR)
 
       .addMethod("get", W_MAP_GET_DESCR)
       .addParameter("key", DataTypes.CBOR_Any, W_MAP_GET_P1_DESCR)
@@ -1472,7 +1550,7 @@ a201fb4046d9999999999a0269486920746865726521
 
       .addMethod("getConditional", W_MAP_GETCOND_DESCR)
       .addParameter("key", DataTypes.CBOR_Any, W_MAP_GETCOND_P1_DESCR)
-      .addParameter("defaultValue", DataTypes.CBOR_Any, W_MAP_GETCOND_P2_DESCR)
+      .addParameter("defaultObject", DataTypes.CBOR_Any, W_MAP_GETCOND_P2_DESCR)
       .setReturn(DataTypes.CBOR_Any, W_MAP_GETCOND_RETURN_DESCR)
 
       .addMethod("containsKey", W_MAP_CONTAINS_DESCR)
@@ -1501,8 +1579,12 @@ a201fb4046d9999999999a0269486920746865726521
       .addMethod("getTagNumber", W_TAG_GETNUM_DESCR)
       .setReturn(DataTypes.JS_BIGINT, W_TAG_GETNUM_RETURN_DESCR)
 
-      .addMethod("getTaggedObject", W_TAG_GETOBJ_DESCR)
-      .setReturn(DataTypes.CBOR_Any, W_TAG_GETOBJ_RETURN_DESCR);
+      .addMethod("get", W_TAG_GET_DESCR)
+      .setReturn(DataTypes.CBOR_Any, W_TAG_GET_RETURN_DESCR)
+
+      .addMethod("update", W_TAG_UPDATE_DESCR)
+      .addParameter("object", DataTypes.CBOR_Any, W_TAG_UPDATE_P1_DESCR)
+      .setReturn(DataTypes.CBOR_Any, W_TAG_UPDATE_RETURN_DESCR);
 
     // Common
 

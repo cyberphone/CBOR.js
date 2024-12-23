@@ -34,6 +34,7 @@ public class BuildSystem {
     addFile("integer.js");
     addFile("int-ranges.js");
     addFile("maps.js");
+    addFile("arrays.js");
     addFile("miscellaneous.js");
     addFile("nondeterministic.js");
     addFile("out-of-range.js");
