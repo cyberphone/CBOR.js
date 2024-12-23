@@ -7,13 +7,26 @@ public class CreateDocument {
   
   static final String WRAPPER_RETURN_DESCR = 
   """
-  Wrapper object.""";
+  Object.""";
+
+  static final String CURRENT_RETURN_DESCR = 
+  """
+  Current object.""";
+
+  static final String KEY_PARAMETER_DESCR = 
+  """
+  Key (name).""";
+
+  static final String OBJECT_PARAMETER_DESCR = 
+  """
+  Object (value).""";
+
 
   // CBOR.Int
 
   static final String W_INT_DESCR = 
   """
-  Constructor.  Creates a CBOR integer wrapper object.
+  Constructor.  Creates a CBOR integer object.
   See also <a href='#jsnumbers.int'>Integer Numbers</a>.""";
   
   static final String W_INT_P1_DESCR = 
@@ -24,7 +37,7 @@ public class CreateDocument {
 
   static final String W_BIGINT_DESCR = 
   """
-  Constructor.  Creates a CBOR big integer wrapper object.
+  Constructor.  Creates a CBOR big integer object.
   See also <a href='#jsnumbers.int'>Integer Numbers</a>.""";
  
   
@@ -45,7 +58,7 @@ public class CreateDocument {
 
   static final String W_FLOAT_DESCR = 
   """
-  Constructor.  Creates a CBOR floating point wrapper object.
+  Constructor.  Creates a CBOR floating point object.
   See also <a href='#jsnumbers.fp'>Floating Point Numbers</a>.""";
     
   static final String W_FLOAT_P1_DESCR = 
@@ -69,7 +82,7 @@ public class CreateDocument {
 
   static final String W_STRING_DESCR = 
   """
-  Constructor.  Creates a CBOR text string wrapper object.""";
+  Constructor.  Creates a CBOR text string object.""";
     
   static final String W_STRING_P1_DESCR = 
   """
@@ -88,7 +101,7 @@ public class CreateDocument {
 
   static final String W_BYTES_DESCR = 
   """
-  Constructor.  Creates a CBOR byte string wrapper object.""";
+  Constructor.  Creates a CBOR byte string object.""";
     
   static final String W_BYTES_P1_DESCR = 
   """
@@ -107,7 +120,7 @@ public class CreateDocument {
 
   static final String W_BOOLEAN_DESCR = 
   """
-  Constructor.  Creates a CBOR boolean wrapper object.""";
+  Constructor.  Creates a CBOR boolean object.""";
     
   static final String W_BOOLEAN_P1_DESCR = 
   """
@@ -126,32 +139,28 @@ public class CreateDocument {
 
   static final String W_NULL_DESCR = 
   """
-  Constructor.  Creates a CBOR <code>null</code> wrapper object.
+  Constructor.  Creates a CBOR <code>null</code> object.
   See also <a href='#common.isnull'>isNull()</a>.""";
 
   // CBOR.Array
 
   static final String W_ARRAY_DESCR = 
   """
-  Constructor.  Creates an empty CBOR array wrapper object.""";
+  Constructor.  Creates an empty CBOR array object.""";
   
 
   static final String W_ARRAY_ADD_DESCR = 
   """
-  Add CBOR wrapper object to the array.""";
+  Add CBOR object to the array.""";
 
   static final String W_ARRAY_ADD_P1_DESCR = 
   """
   Object to be appended to the array.""";
-  
-  static final String W_ARRAY_ADD_RETURN_DESCR = 
-  """
-  Current object.""";
 
 
   static final String W_ARRAY_GET_DESCR = 
   """
-  Get CBOR wrapper object at a specific position in the array.
+  Get CBOR object at a specific position in the array.
   If <code><i>index</i></code> is out of range, an exception is thrown.""";
 
   static final String W_ARRAY_GET_P1_DESCR = 
@@ -165,7 +174,7 @@ public class CreateDocument {
 
   static final String W_ARRAY_UPDATE_DESCR = 
   """
-  Update CBOR wrapper object at a specific position in the array.
+  Update CBOR object at a specific position in the array.
   If <code><i>index</i></code> is out of range, an exception is thrown.""";
 
   static final String W_ARRAY_UPDATE_P1_DESCR = 
@@ -198,7 +207,7 @@ public class CreateDocument {
 
   static final String W_MAP_DESCR = 
   """
-  Constructor.  Creates an empty CBOR map wrapper object.""";
+  Constructor.  Creates an empty CBOR map object.""";
 
 
   static final String W_MAP_SET_DESCR = 
@@ -210,18 +219,6 @@ public class CreateDocument {
   performs the required map sorting <i>automatically</i>.
   See also <a href='#cbor.map.setsortingmode'>setSortingMode()</a>
   and <a href='#decoder.cbor.initdecoder'>CBOR.initDecoder()</a>.</div>""";
-
-  static final String W_MAP_SET_P1_DESCR = 
-  """
-  Key (name) wrapper object.""";
-
-  static final String W_MAP_SET_P2_DESCR = 
-  """
-  Wrapper object (value component).""";
-
-  static final String W_MAP_SET_RETURN_DESCR = 
-  """
-  Current object.""";
 
 
   static final String W_MAP_MERGE_DESCR = 
@@ -238,10 +235,6 @@ public class CreateDocument {
   static final String W_MAP_UPDATE_DESCR = 
   """
   Update map entry.""";
-
-  static final String W_MAP_UPDATE_P1_DESCR = W_MAP_SET_P1_DESCR;
-
-  static final String W_MAP_UPDATE_P2_DESCR = W_MAP_SET_P2_DESCR;
 
   static final String W_MAP_UPDATE_P3_DESCR =
   """
@@ -261,10 +254,6 @@ public class CreateDocument {
   If <code><i>key</i></code> entry is undefined, an exception is thrown.""";
 ;
 
-  static final String W_MAP_GET_P1_DESCR = 
-  """
-  Key (name) wrapper object.""";
-
   static final String W_MAP_GET_RETURN_DESCR = 
   """
   Retrieved object.""";
@@ -275,23 +264,15 @@ public class CreateDocument {
   Remove map entry.
   If <code><i>key</i></code> entry is undefined, an exception is thrown.""";
 
-  static final String W_MAP_REMOVE_P1_DESCR = 
-  """
-  Key (name) wrapper object.""";
-
   static final String W_MAP_REMOVE_RETURN_DESCR = 
   """
-  Removed object (value component).""";
+  Removed object (value).""";
 
 
   static final String W_MAP_GETCOND_DESCR = 
   """
   Get map entry conditionally.""";
-;
 
-  static final String W_MAP_GETCOND_P1_DESCR = 
-  """
-  Key (name) wrapper object.""";
 
   static final String W_MAP_GETCOND_P2_DESCR = 
   """
@@ -308,9 +289,6 @@ public class CreateDocument {
   """
   Check map for key presence.""";
 
-  static final String W_MAP_CONTAINS_P1_DESCR = 
-  """
-  Key (name) wrapper object.""";
 
   static final String W_MAP_CONTAINS_RETURN_DESCR = 
   """
@@ -344,8 +322,6 @@ public class CreateDocument {
   Improper key order will cause an exception to be thrown.
   By default map keys are sorted <i>internally</i>.""";
 
-  static final String W_MAP_SET_SORTING_MODE_RETURN_DESCR = "Current object.";;
-  
 
   static final String W_MAP_PROP_DESCR = 
   """
@@ -355,7 +331,7 @@ public class CreateDocument {
 
   static final String W_TAG_DESCR = 
   """
-  Constructor.  Creates a CBOR tag wrapper object.""";
+  Constructor.  Creates a CBOR tag object.""";
 
   static final String W_TAG_P1_DESCR = 
   """
@@ -390,7 +366,7 @@ public class CreateDocument {
 
   static final String W_TAG_UPDATE_P1_DESCR = 
   """
-  New object.""";
+  Update object.""";
   
   static final String W_TAG_UPDATE_RETURN_DESCR = 
   """
@@ -459,9 +435,6 @@ public class CreateDocument {
   This is only meaningful in conjunction with
   <a href='#common.checkforunread'>checkForUnread()</a>.""";
 
-  static final String SCAN_RETURN_DESCR = 
-  """
-  Current object.""";  
 
   // checkForUnread()
 
@@ -486,9 +459,7 @@ public class CreateDocument {
    this check.
    </div>
    See also <a href='#common.scan'>scan()</a>.""";
-  static final String CHECK4_RETURN_DESCR = 
-  """
-  Current object.""";  
+ 
 
   // toDiag()
 
@@ -1509,7 +1480,7 @@ a201fb4046d9999999999a0269486920746865726521
 
       .addMethod("add", W_ARRAY_ADD_DESCR)
       .addParameter("object", DataTypes.CBOR_Any, W_ARRAY_ADD_P1_DESCR)
-      .setReturn(DataTypes.JS_THIS, W_ARRAY_ADD_RETURN_DESCR)
+      .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR)
 
       .addMethod("get", W_ARRAY_GET_DESCR)
       .addParameter("index", DataTypes.JS_NUMBER, W_ARRAY_GET_P1_DESCR)
@@ -1530,35 +1501,35 @@ a201fb4046d9999999999a0269486920746865726521
     addWrapper(DataTypes.CBOR_MAP, W_MAP_DESCR)
 
       .addMethod("set", W_MAP_SET_DESCR)
-      .addParameter("key", DataTypes.CBOR_Any, W_MAP_SET_P1_DESCR)
-      .addParameter("object", DataTypes.CBOR_Any, W_MAP_SET_P2_DESCR)
-      .setReturn(DataTypes.JS_THIS, W_MAP_SET_RETURN_DESCR)
+      .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
+      .addParameter("object", DataTypes.CBOR_Any, OBJECT_PARAMETER_DESCR)
+      .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR)
 
       .addMethod("merge", W_MAP_MERGE_DESCR)
       .addParameter("map", DataTypes.CBOR_MAP, W_MAP_MERGE_P1_DESCR)
-      .setReturn(DataTypes.JS_THIS, W_MAP_SET_RETURN_DESCR)
+      .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR)
 
       .addMethod("update", W_MAP_UPDATE_DESCR)
-      .addParameter("key", DataTypes.CBOR_Any, W_MAP_UPDATE_P1_DESCR)
-      .addParameter("object", DataTypes.CBOR_Any, W_MAP_UPDATE_P2_DESCR)
+      .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
+      .addParameter("object", DataTypes.CBOR_Any, OBJECT_PARAMETER_DESCR)
       .addParameter("existing", DataTypes.JS_BOOLEAN, W_MAP_UPDATE_P3_DESCR)
       .setReturn(DataTypes.CBOR_Any, W_MAP_UPDATE_RETURN_DESCR)
 
       .addMethod("get", W_MAP_GET_DESCR)
-      .addParameter("key", DataTypes.CBOR_Any, W_MAP_GET_P1_DESCR)
+      .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
       .setReturn(DataTypes.CBOR_Any, W_MAP_GET_RETURN_DESCR)
 
       .addMethod("getConditional", W_MAP_GETCOND_DESCR)
-      .addParameter("key", DataTypes.CBOR_Any, W_MAP_GETCOND_P1_DESCR)
+      .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
       .addParameter("defaultObject", DataTypes.CBOR_Any, W_MAP_GETCOND_P2_DESCR)
       .setReturn(DataTypes.CBOR_Any, W_MAP_GETCOND_RETURN_DESCR)
 
       .addMethod("containsKey", W_MAP_CONTAINS_DESCR)
-      .addParameter("key", DataTypes.CBOR_Any, W_MAP_CONTAINS_P1_DESCR)
+      .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
       .setReturn(DataTypes.JS_BOOLEAN, W_MAP_CONTAINS_RETURN_DESCR)
 
       .addMethod("remove", W_MAP_REMOVE_DESCR)
-      .addParameter("key", DataTypes.CBOR_Any, W_MAP_REMOVE_P1_DESCR)
+      .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
       .setReturn(DataTypes.CBOR_Any, W_MAP_REMOVE_RETURN_DESCR)
 
       .addMethod("getKeys", W_MAP_GETKEYS_DESCR)
@@ -1566,7 +1537,7 @@ a201fb4046d9999999999a0269486920746865726521
 
       .addMethod("setSortingMode", W_MAP_SET_SORTING_MODE_DESCR)
       .addParameter("preSortedKeys", DataTypes.JS_BOOLEAN, W_MAP_SET_SORTING_MODE_P1_DESCR)
-      .setReturn(DataTypes.JS_THIS, W_MAP_SET_SORTING_MODE_RETURN_DESCR)
+      .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR)
 
       .setProperty("length", DataTypes.JS_NUMBER, W_MAP_PROP_DESCR);
 
@@ -1609,10 +1580,10 @@ a201fb4046d9999999999a0269486920746865726521
       .setReturn(DataTypes.JS_BOOLEAN, ISNULL_RETURN_DESCR);
 
     addCommonMethod("checkForUnread", CHECK4_DESCR)
-      .setReturn(DataTypes.JS_THIS, CHECK4_RETURN_DESCR);
+      .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR);
 
     addCommonMethod("scan", SCAN_DESCR)
-      .setReturn(DataTypes.JS_THIS, SCAN_RETURN_DESCR);
+      .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR);
 
       // CBOR.decode()
 
