@@ -1,4 +1,4 @@
-// Test program for floating point "edge cases"
+// Test program for floating-point "edge cases"
 import CBOR from '../npm/mjs/index.mjs';
 import { assertTrue, assertFalse, fail, success } from './assertions.js';
 

@@ -58,8 +58,8 @@ public class CreateDocument {
 
   static final String W_FLOAT_DESCR = 
   """
-  Constructor.  Creates a CBOR floating point object.
-  See also <a href='#jsnumbers.fp'>Floating Point Numbers</a>.""";
+  Constructor.  Creates a CBOR floating-point object.
+  See also <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.""";
     
   static final String W_FLOAT_P1_DESCR = 
   """
@@ -68,11 +68,11 @@ public class CreateDocument {
 
   static final String W_GETFLOAT_DESCR = 
   """
-  Get CBOR floating point value.""";
+  Get CBOR floating-point value.""";
   
   static final String W_GETFLOAT_RETURN_DESCR = 
   """
-  Decoded floating point number.""";
+  Decoded floating-point number.""";
 
   static final String W_FLOAT_PROP_DESCR = 
   """
@@ -320,7 +320,7 @@ public class CreateDocument {
   keys must be provided in (CBOR wise) ascending order 
   which can improve performance for maps having a huge number of keys.
   Improper key order will cause an exception to be thrown.
-  By default map keys are sorted <i>internally</i>.""";
+  By default, map keys are sorted <i>internally</i>.""";
 
 
   static final String W_MAP_PROP_DESCR = 
@@ -446,7 +446,7 @@ public class CreateDocument {
    <div style='margin:0.5em 0'>
    The purpose of this method is to detect possible misunderstandings between parties
    using CBOR based protocols.  Together with the strict type checking performed
-   by the CBOR.js API, a programmatic counterpart to schema based processing
+   by the CBOR.js API, a programmatic counterpart to schema-based decoding
    can be achieved.
    </div>
    Note that array <a href='#cbor.array.get'>get()</a>,
@@ -634,7 +634,7 @@ public class CreateDocument {
   """
   Set CBOR decoder deterministic mode.
   <div style='margin-top:0.5em'>
-  By default the decoder assumes that CBOR data conforms to the
+  By default, the decoder assumes that CBOR data conforms to the
   <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a> rules.
   This method enables overriding the default.
   </div>
@@ -660,7 +660,7 @@ public class CreateDocument {
   """
   Set CBOR decoder sequence mode.
   <div style='margin-top:0.5em'>
-  By default the decoder assumes that CBOR data constitutes
+  By default, the decoder assumes that CBOR data constitutes
   of a single CBOR object.
   This method enables overriding the default.
   </div>
@@ -687,7 +687,7 @@ public class CreateDocument {
   """
   Set CBOR decoder <code>NaN/Infinity</code> support.
   <div style='margin-top:0.5em'>
-  By default the decoder supports 
+  By default, the decoder supports 
   <code>NaN</code>, <code>Infinity</code>, 
   and <code style='white-space:nowrap'>-Infinity</code>. 
   In case these variants are not applicable for the application in question,
@@ -698,7 +698,7 @@ public class CreateDocument {
   static final String SET_NAN_SUPP_P1_DESCR =
   """
   If the <code>accept</code> flag is set to <code>false</code>,
-  the mentioned exceptional floating point values will
+  the mentioned exceptional floating-point values will
   cause an exception to be thrown.  
   """;
 
@@ -1698,7 +1698,7 @@ a201fb4046d9999999999a0269486920746865726521
     outline.indent();
     replace(JS_NUMBER_CONS_INT, printSubHeader("jsnumbers.int", "Integer Numbers"));
     outline.increment();
-    replace(JS_NUMBER_CONS_FP, printSubHeader("jsnumbers.fp", "Floating Point Numbers"));
+    replace(JS_NUMBER_CONS_FP, printSubHeader("jsnumbers.fp", "Floating-Point Numbers"));
     outline.undent();
     outline.increment();
 

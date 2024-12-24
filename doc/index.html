@@ -137,7 +137,7 @@
 </div>
 <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.jsnumbers'>6.&nbsp;&nbsp;JavaScript Number Considerations</a></div><div style='display:none'>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#jsnumbers.int'>6.1.&nbsp;&nbsp;Integer Numbers</a></div>
-<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#jsnumbers.fp'>6.2.&nbsp;&nbsp;Floating Point Numbers</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#jsnumbers.fp'>6.2.&nbsp;&nbsp;Floating-Point Numbers</a></div>
 </div>
 <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#main.diagnostic'>7.&nbsp;&nbsp;Diagnostic Notation</a></div>
 <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#main.deterministic'>8.&nbsp;&nbsp;Deterministic Encoding</a></div>
@@ -157,7 +157,7 @@
   unsurprisingly named &quot;CBOR&quot;.
 
   To minimize the need for application developers having detailed knowledge of CBOR,
-  the CBOR.js API provides a set of high level wrapper objects.
+  the CBOR.js API provides a set of high-level wrapper objects.
 
   The wrapper objects are used for encoding CBOR data items,
   as well as being the result of CBOR decoding.
@@ -242,11 +242,11 @@
   </div>
   <ol style='margin:0 0'>
     <li>See also <a href='#jsnumbers.int'>Integer Numbers</a>.</li>
-    <li>See also <a href='#jsnumbers.fp'>Floating Point Numbers</a>.</li>
+    <li>See also <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</li>
   </ol>
   <p>
     Note that this implementation does not support CBOR &quot;simple&quot; values beyond
-    <kbd>true</kbd>, <kbd>false</kbd>, <kbd>null</kbd>, and the three floating point variants.
+    <kbd>true</kbd>, <kbd>false</kbd>, <kbd>null</kbd>, and the three floating-point variants.
   </p>
   <p>
     The wrapper concept adds strict <i>type checking</i> to the API.
@@ -408,8 +408,8 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><code>CBOR.Float(<i>value</i>)</code></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Constructor.  Creates a CBOR floating point object.
-See also <a href='#jsnumbers.fp'>Floating Point Numbers</a>.</td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Constructor.  Creates a CBOR floating-point object.
+See also <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code><i>value</i></code></td><td style='text-align:center'><code>Number</code></td><td style='width:100%'>Floating point number to be wrapped.</td></tr>
@@ -422,28 +422,28 @@ See also <a href='#jsnumbers.fp'>Floating Point Numbers</a>.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>getFloat16()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR floating point value.<div style='margin-top:0.5em'>Note: the CBOR object must be a 16-bit IEEE-754 item, otherwise an exception will be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR floating-point value.<div style='margin-top:0.5em'>Note: the CBOR object must be a 16-bit IEEE-754 item, otherwise an exception will be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><code>Number</code></td><td style='width:100%'>Decoded floating point number.</td></tr>
+<tr><td style='text-align:center'><code>Number</code></td><td style='width:100%'>Decoded floating-point number.</td></tr>
 </table></div>
 <h5 id='cbor.float.getfloat32'>2.3.1.2.&nbsp;&nbsp;getFloat32()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>getFloat32()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR floating point value.<div style='margin-top:0.5em'>Note: the CBOR object must be a 16-bit or 32-bit IEEE-754 item, otherwise an exception will be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR floating-point value.<div style='margin-top:0.5em'>Note: the CBOR object must be a 16-bit or 32-bit IEEE-754 item, otherwise an exception will be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><code>Number</code></td><td style='width:100%'>Decoded floating point number.</td></tr>
+<tr><td style='text-align:center'><code>Number</code></td><td style='width:100%'>Decoded floating-point number.</td></tr>
 </table></div>
 <h5 id='cbor.float.getfloat64'>2.3.1.3.&nbsp;&nbsp;getFloat64()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><code>getFloat64()</code></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR floating point value.</td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR floating-point value.</td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><code>Number</code></td><td style='width:100%'>Decoded floating point number.</td></tr>
+<tr><td style='text-align:center'><code>Number</code></td><td style='width:100%'>Decoded floating-point number.</td></tr>
 </table></div>
 <h5 id='properties.cbor.float'>2.3.2.&nbsp;&nbsp;CBOR.Float Properties</h5>
 <h5 id='cbor.float.length'>2.3.2.1.&nbsp;&nbsp;length</h5>
@@ -734,7 +734,7 @@ Note that this method has no effect on decoding operations.</td></tr>
 keys must be provided in (CBOR wise) ascending order
 which can improve performance for maps having a huge number of keys.
 Improper key order will cause an exception to be thrown.
-By default map keys are sorted <i>internally</i>.</td></tr>
+By default, map keys are sorted <i>internally</i>.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><code>this</code></td><td colspan='2' style='width:100%'>Current object.</td></tr>
@@ -883,7 +883,7 @@ If any of the associated objects have not been read, an exception will be thrown
 <div style='margin:0.5em 0'>
 The purpose of this method is to detect possible misunderstandings between parties
 using CBOR based protocols.  Together with the strict type checking performed
-by the CBOR.js API, a programmatic counterpart to schema based processing
+by the CBOR.js API, a programmatic counterpart to schema-based decoding
 can be achieved.
 </div>
 Note that array <a href='#cbor.array.get'>get()</a>,
@@ -962,7 +962,7 @@ methods and finally used by
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><code><i>Decoder</i>.setDeterministicMode(<i>enforce</i>)</code></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Set CBOR decoder deterministic mode.
 <div style='margin-top:0.5em'>
-By default the decoder assumes that CBOR data conforms to the
+By default, the decoder assumes that CBOR data conforms to the
 <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a> rules.
 This method enables overriding the default.
 </div>
@@ -986,7 +986,7 @@ will still cause an exception to be thrown.
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><code><i>Decoder</i>.setSequenceMode(<i>sequence</i>)</code></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Set CBOR decoder sequence mode.
 <div style='margin-top:0.5em'>
-By default the decoder assumes that CBOR data constitutes
+By default, the decoder assumes that CBOR data constitutes
 of a single CBOR object.
 This method enables overriding the default.
 </div>
@@ -1015,7 +1015,7 @@ is not verified for correctness.</li>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><code><i>Decoder</i>.setNaNSupport(<i>accept</i>)</code></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Set CBOR decoder <code>NaN/Infinity</code> support.
 <div style='margin-top:0.5em'>
-By default the decoder supports
+By default, the decoder supports
 <code>NaN</code>, <code>Infinity</code>,
 and <code style='white-space:nowrap'>-Infinity</code>.
 In case these variants are not applicable for the application in question,
@@ -1025,7 +1025,7 @@ this method enables overriding the default.
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><code><i>accept</i></code></td><td style='text-align:center'><code>Boolean</code></td><td style='width:100%'>If the <code>accept</code> flag is set to <code>false</code>,
-the mentioned exceptional floating point values will
+the mentioned exceptional floating-point values will
 cause an exception to be thrown.
 </td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
@@ -1173,10 +1173,10 @@ base64 encoded data as well as data with or without
   <h3 id='main.jsnumbers'>6.&nbsp;&nbsp;JavaScript Number Considerations</h3>
 
   Since JavaScript <i>natively</i> only supports <code>Number</code> (backed
-  by 64-bit IEEE&nbsp;754 floating point data), and <code>BigInt</code>
+  by 64-bit IEEE&nbsp;754 floating-point data), and <code>BigInt</code>
   (offering unlimited integers), it is important to understand how these
   number types are mapped to CBOR which offers
-  two variants of integers and three variants of floating point types.
+  two variants of integers and three variants of floating-point types.
   <h5 id='jsnumbers.int'>6.1.&nbsp;&nbsp;Integer Numbers</h5>
 
   Due to the <kbd>Number.MAX_SAFE_INTEGER</kbd> limitation, CBOR
@@ -1206,7 +1206,7 @@ base64 encoded data as well as data with or without
     integer variants is dealt with by the CBOR.js implementation;
     transparent to the API.
   </p>
-  <h5 id='jsnumbers.fp'>6.2.&nbsp;&nbsp;Floating Point Numbers</h5>
+  <h5 id='jsnumbers.fp'>6.2.&nbsp;&nbsp;Floating-Point Numbers</h5>
 
   Although CBOR encoding depends on 16, 32, and 64-bit IEEE&nbsp;754
   variants, the CBOR.js implementation makes this
@@ -1282,7 +1282,7 @@ base64 encoded data as well as data with or without
         <td style='text-align:left'>
           Floating point values
           must include a decimal point and an <i>optional</i> exponent.
-          See also <a href='#floating-point-encoding'>CBOR floating point encoding</a>.
+          See also <a href='#floating-point-encoding'>CBOR floating-point encoding</a>.
         </td>
       </tr>
       <tr style='text-align:center'>
@@ -1290,7 +1290,7 @@ base64 encoded data as well as data with or without
         <td></td>
         <td style='text-align:left'>
           Not a number.
-          See also <a href='#floating-point-encoding'>CBOR floating point encoding</a>.
+          See also <a href='#floating-point-encoding'>CBOR floating-point encoding</a>.
         </td>
       </tr>
       <tr style='text-align:center'>
@@ -1298,7 +1298,7 @@ base64 encoded data as well as data with or without
         <td>2</td>
         <td style='text-align:left'>
           Infinity.
-          See also <a href='#floating-point-encoding'>CBOR floating point encoding</a>.
+          See also <a href='#floating-point-encoding'>CBOR floating-point encoding</a>.
         </td>
       </tr>
       <tr style='text-align:center'>
@@ -1472,7 +1472,7 @@ base64 encoded data as well as data with or without
     <li id='floating-point-encoding' class='webpkilistspacing'>
       RFC+: Floating point data <b>must</b> use the shortest IEEE&nbsp;754
       variant and associated CBOR encoding.
-      The following table holds floating point values needing special considerations
+      The following table holds floating-point values needing special considerations
       as well as a small set of "edge&nbsp;cases":
       <div class='webpkifloat'>
         <table class='webpkitable' style='margin-left:2em'>
@@ -1518,7 +1518,7 @@ base64 encoded data as well as data with or without
       RFC+: Since CBOR encoding according to this specification
       maintains type and data uniqueness, there are no specific restrictions or
       tests needed in order to determine map key equivalence.
-      As an example, the floating point numbers <kbd>0.0</kbd> and
+      As an example, the floating-point numbers <kbd>0.0</kbd> and
       <kbd>-0.0</kbd>, and the integer number <kbd>0</kbd>
       represent the distinct keys
       <kbd>f90000</kbd>, <kbd>f98000</kbd>, and <kbd>00</kbd> respectively.
