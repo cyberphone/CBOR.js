@@ -16,13 +16,13 @@ h3 {
   font-weight:600;
 }
 
-code {
+code, kbd {
   font-family:'DejaVu Sans Mono', monospace;
-  color:maroon;
+  font-size: 1.0em;
 }
 
 kbd {
-  font-size: 1.0em;
+  color:maroon;
 }
 
 h5 {

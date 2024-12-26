@@ -140,9 +140,9 @@ async function doProcess() {
 <div style='padding-top:15pt'>
   The current <a href='https://github.com/cyberphone/CBOR.js#cborjs'>CBOR.js</a>
   proposal supports the following subset of CBOR
-  primitives: <kbd><i>text&nbsp;string</i></kbd>, <kbd><i>byte&nbsp;string</i></kbd>, <kbd><i>integer</i></kbd>,
-  <kbd><i>bignum</i></kbd>, <kbd><i>floating&nbsp;point</i></kbd> (16/32/64 bit),
-  <kbd>true</kbd>, <kbd>false</kbd>, <kbd>null</kbd>, and <kbd><i>tagged data</i></kbd> (CBOR major type 6).
+  primitives: <code><i>text&nbsp;string</i></code>, <code><i>byte&nbsp;string</i></code>, <code><i>integer</i></code>,
+  <code><i>bignum</i></code>, <code><i>floating&nbsp;point</i></code> (16/32/64 bit),
+  <code>true</code>, <code>false</code>, <code>null</code>, and <code><i>tagged data</i></code> (CBOR major type 6).
 </div>
   <div style='padding-top:10pt'>
     <div style='padding-bottom:3pt'>
@@ -152,14 +152,14 @@ async function doProcess() {
       <tr><td><input type='radio' name='selin' value='hexa'></td>
           <td>Hexadecimal notation (including possible #-comments)</td></tr>
       <tr><td><input type='radio' name='selin' value='cstyle'></td>
-          <td><kbd>0xhh, 0xhh...</kbd> notation</td></tr>
+          <td><code>0xhh, 0xhh...</code> notation</td></tr>
       <tr><td><input type='radio' name='selin' value='b64u'></td>
           <td>Base64Url notation</td></tr><tr><td><input type='checkbox' id='seq'></td>
           <td>Sequence using comma (,) as separator</td></tr>
       <tr><td><input type='checkbox' checked id='det'></td>
           <td>Require <a href='index.html#main.deterministic' target='_blank' title='Documentation'>Deterministic Encoding</a> for hex/b64u data</td></tr>
       <tr><td><input type='checkbox' id='nan'></td>
-          <td>Reject <kbd>NaN</kbd> and <kbd>Infinity</kbd> floating-point objects</td></tr>
+          <td>Reject <code>NaN</code> and <code>Infinity</code> floating-point objects</td></tr>
         </table>Paste a CBOR object in the text box or try with the default:
     </div><textarea rows='10' maxlength='100000' class='textbox' id='cborin' name='cborin' placeholder='CBOR data...'></textarea></div>
 <div style='padding-top:10pt'><div style='padding-bottom:3pt'>
@@ -167,7 +167,7 @@ async function doProcess() {
   <tr><td style='padding-right:1em'><input type='radio' name='selout' value='diag'></td><td><a href='index.html#main.diagnostic' target='_blank' title='Documentation'>Diagnostic Notation</a></td></tr>
     <tr><td><input type='radio' name='selout' value='hexa' checked></td>
         <td>Hexadecimal notation</td></tr><tr><td><input type='radio' name='selout' value='cstyle'></td>
-        <td><kbd>0xhh, 0xhh...</kbd> notation</td></tr>
+        <td><code>0xhh, 0xhh...</code> notation</td></tr>
     <tr><td><input type='radio' name='selout' value='b64u'></td><td>Base64Url notation</td></tr>
    </table>Processed result using <a href='index.html#main.deterministic' target='_blank' title='Documentation'>Deterministic Encoding</a>:</div>
   <div id='cborout' class='staticbox'></div>
