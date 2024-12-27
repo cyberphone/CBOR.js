@@ -23,7 +23,10 @@ public class CreateDocument {
 
   static final String ARRAY_INDEX_P1_DESCR = 
   """
-  Index <code>(0..length-1)</code> of array.""";
+  Index <code>(0..length-1)</code> of array.
+  <div style='margin-top:0.5em'>
+  Note that a non-integer <kbd><i>index</i></kbd>
+  causes an exception to be thrown.</div>""";
 
 
   // CBOR.Int
@@ -36,8 +39,10 @@ public class CreateDocument {
   
   static final String W_INT_P1_DESCR = 
   """
-  Integer to be wrapped.<div style='margin-top:0.5em'>
-  Note that a non-integer <kbd><i>value</i></kbd> will cause an exception to be thrown.</div>""";
+  Integer to be wrapped.
+  <div style='margin-top:0.5em'>
+  Note that a non-integer <kbd><i>value</i></kbd>
+  causes an exception to be thrown.</div>""";
 
   // CBOR.BigInt
 
@@ -319,7 +324,7 @@ public class CreateDocument {
   If <code>true</code>,
   keys must be provided in (CBOR wise) ascending order 
   which can improve performance for maps having a huge number of keys.
-  Improper key order will cause an exception to be thrown.
+  Improper key order causes an exception to be thrown.
   By default, map keys are sorted <i>internally</i>.""";
 
 
@@ -698,7 +703,7 @@ public class CreateDocument {
   static final String SET_NAN_SUPP_P1_DESCR =
   """
   If the <kbd>accept</kbd> flag is set to <code>false</code>,
-  the mentioned exceptional floating-point values will
+  the mentioned exceptional floating-point values
   cause an exception to be thrown.  
   """;
 
@@ -1339,7 +1344,7 @@ a201fb4046d9999999999a0269486920746865726521
     StringBuilder description = 
       new StringBuilder("Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>")
         .append(min).append(" </code>to<code> ")
-        .append(max).append("</code> will cause an exception to be thrown.");
+        .append(max).append("</code> cause an exception to be thrown.");
     if (optionalText != null) {
       description.append(" ").append(optionalText);
     }
@@ -1352,7 +1357,7 @@ a201fb4046d9999999999a0269486920746865726521
     StringBuilder description = 
       new StringBuilder("Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>")
         .append(min).append(" </code>to<code> ")
-        .append(max).append("</code> will cause an exception to be thrown.</div>");
+        .append(max).append("</code> cause an exception to be thrown.</div>");
     wrapper.addMethod(method, description.toString())
            .setReturn(DataTypes.JS_BIGINT, W_GETBIGINT_RETURN_DESCR);
   }

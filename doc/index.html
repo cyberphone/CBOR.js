@@ -269,8 +269,10 @@
 See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Integer to be wrapped.<div style='margin-top:0.5em'>
-Note that a non-integer <kbd><i>value</i></kbd> will cause an exception to be thrown.</div></td></tr>
+<tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Integer to be wrapped.
+<div style='margin-top:0.5em'>
+Note that a non-integer <kbd><i>value</i></kbd>
+causes an exception to be thrown.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>CBOR.Int</kbd></td><td colspan='2' style='width:100%'>Object.</td></tr>
@@ -280,7 +282,7 @@ Note that a non-integer <kbd><i>value</i></kbd> will cause an exception to be th
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getInt()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>-2<sup>53</sup>+1 </code>to<code> 2<sup>53</sup>-1</code> will cause an exception to be thrown.  See also <a href='#cbor.int.getbigint'>getBigInt()</a>.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>-2<sup>53</sup>+1 </code>to<code> 2<sup>53</sup>-1</code> cause an exception to be thrown.  See also <a href='#cbor.int.getbigint'>getBigInt()</a>.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -289,7 +291,7 @@ Note that a non-integer <kbd><i>value</i></kbd> will cause an exception to be th
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getInt8()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>-0x80 </code>to<code> 0x7f</code> will cause an exception to be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>-0x80 </code>to<code> 0x7f</code> cause an exception to be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -298,7 +300,7 @@ Note that a non-integer <kbd><i>value</i></kbd> will cause an exception to be th
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getUint8()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>0 </code>to<code> 0xff</code> will cause an exception to be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>0 </code>to<code> 0xff</code> cause an exception to be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -307,7 +309,7 @@ Note that a non-integer <kbd><i>value</i></kbd> will cause an exception to be th
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getInt16()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>-0x8000 </code>to<code> 0x7fff</code> will cause an exception to be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>-0x8000 </code>to<code> 0x7fff</code> cause an exception to be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -316,7 +318,7 @@ Note that a non-integer <kbd><i>value</i></kbd> will cause an exception to be th
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getUint16()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>0 </code>to<code> 0xffff</code> will cause an exception to be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>0 </code>to<code> 0xffff</code> cause an exception to be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -325,7 +327,7 @@ Note that a non-integer <kbd><i>value</i></kbd> will cause an exception to be th
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getInt32()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>-0x80000000 </code>to<code> 0x7fffffff</code> will cause an exception to be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>-0x80000000 </code>to<code> 0x7fffffff</code> cause an exception to be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -334,7 +336,7 @@ Note that a non-integer <kbd><i>value</i></kbd> will cause an exception to be th
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getUint32()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>0 </code>to<code> 0xffffffff</code> will cause an exception to be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>0 </code>to<code> 0xffffffff</code> cause an exception to be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -343,7 +345,7 @@ Note that a non-integer <kbd><i>value</i></kbd> will cause an exception to be th
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getInt64()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>-0x8000000000000000 </code>to<code> 0x7fffffffffffffff</code> will cause an exception to be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>-0x8000000000000000 </code>to<code> 0x7fffffffffffffff</code> cause an exception to be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Decoded big integer.</td></tr>
@@ -352,7 +354,7 @@ Note that a non-integer <kbd><i>value</i></kbd> will cause an exception to be th
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getUint64()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>0 </code>to<code> 0xffffffffffffffff</code> will cause an exception to be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>0 </code>to<code> 0xffffffffffffffff</code> cause an exception to be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Decoded big integer.</td></tr>
@@ -387,7 +389,7 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getInt64()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>-0x8000000000000000 </code>to<code> 0x7fffffffffffffff</code> will cause an exception to be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>-0x8000000000000000 </code>to<code> 0x7fffffffffffffff</code> cause an exception to be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Decoded big integer.</td></tr>
@@ -396,7 +398,7 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getUint64()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>0 </code>to<code> 0xffffffffffffffff</code> will cause an exception to be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>0 </code>to<code> 0xffffffffffffffff</code> cause an exception to be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Decoded big integer.</td></tr>
@@ -566,7 +568,10 @@ See also <a href='#common.isnull'>isNull()</a>.</td></tr>
 If <kbd><i>index</i></kbd> is out of range, an exception is thrown.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>index</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Index <code>(0..length-1)</code> of array.</td></tr>
+<tr><td style='text-align:center'><kbd><i>index</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Index <code>(0..length-1)</code> of array.
+<div style='margin-top:0.5em'>
+Note that a non-integer <kbd><i>index</i></kbd>
+causes an exception to be thrown.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Retrieved object.</td></tr>
@@ -579,7 +584,10 @@ If <kbd><i>index</i></kbd> is out of range, an exception is thrown.</td></tr>
 If <kbd><i>index</i></kbd> is out of range, an exception is thrown.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>index</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Index <code>(0..length-1)</code> of array.</td></tr>
+<tr><td style='text-align:center'><kbd><i>index</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Index <code>(0..length-1)</code> of array.
+<div style='margin-top:0.5em'>
+Note that a non-integer <kbd><i>index</i></kbd>
+causes an exception to be thrown.</div></td></tr>
 <tr><td style='text-align:center'><kbd><i>object</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Update object.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
@@ -741,7 +749,7 @@ Note that this method has no effect on decoding operations.</td></tr>
 <tr><td style='text-align:center'><kbd><i>preSortedKeys</i></kbd></td><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'>If <code>true</code>,
 keys must be provided in (CBOR wise) ascending order
 which can improve performance for maps having a huge number of keys.
-Improper key order will cause an exception to be thrown.
+Improper key order causes an exception to be thrown.
 By default, map keys are sorted <i>internally</i>.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
@@ -1033,7 +1041,7 @@ this method enables overriding the default.
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>accept</i></kbd></td><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'>If the <kbd>accept</kbd> flag is set to <code>false</code>,
-the mentioned exceptional floating-point values will
+the mentioned exceptional floating-point values
 cause an exception to be thrown.
 </td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
