@@ -31,18 +31,21 @@ public class CreateDocument {
   static final String W_INT_DESCR = 
   """
   Constructor.  Creates a CBOR integer object.
-  See also <a href='#jsnumbers.int'>Integer Numbers</a>.""";
+  <div style='margin-top:0.5em'>
+  See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
   
   static final String W_INT_P1_DESCR = 
   """
-  Integer to be wrapped.""";
+  Integer to be wrapped.<div style='margin-top:0.5em'>
+  Note that a non-integer <kbd><i>value</i></kbd> will cause an exception to be thrown.</div>""";
 
   // CBOR.BigInt
 
   static final String W_BIGINT_DESCR = 
   """
   Constructor.  Creates a CBOR big integer object.
-  See also <a href='#jsnumbers.int'>Integer Numbers</a>.""";
+  <div style='margin-top:0.5em'>
+  See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
  
   
   static final String W_BIGINT_P1_DESCR = 
@@ -52,7 +55,8 @@ public class CreateDocument {
   static final String W_GETBIGINT_DESCR = 
   """
   Get CBOR integer of any size.
-  See also <a href='#jsnumbers.int'>Integer Numbers</a>.""";
+  <div style='margin-top:0.5em'>
+  See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
   
   static final String W_GETBIGINT_RETURN_DESCR = 
   """
