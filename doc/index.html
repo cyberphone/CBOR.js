@@ -561,7 +561,7 @@ See also <a href='#common.isnull'>isNull()</a>.</td></tr>
 If <kbd><i>index</i></kbd> is out of range, an exception is thrown.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>index</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Index <code>(0..length-1)</code> of object.</td></tr>
+<tr><td style='text-align:center'><kbd><i>index</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Index <code>(0..length-1)</code> of array.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Retrieved object.</td></tr>
@@ -574,7 +574,7 @@ If <kbd><i>index</i></kbd> is out of range, an exception is thrown.</td></tr>
 If <kbd><i>index</i></kbd> is out of range, an exception is thrown.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>index</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Index <code>(0..length-1)</code> of object.</td></tr>
+<tr><td style='text-align:center'><kbd><i>index</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Index <code>(0..length-1)</code> of array.</td></tr>
 <tr><td style='text-align:center'><kbd><i>object</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Update object.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
@@ -891,7 +891,7 @@ can be achieved.
 </div>
 Note that array <a href='#cbor.array.get'>get()</a>,
 map <a href='#cbor.map.get'>get()</a>, and
-tag <a href='#cbor.tag.gettaggedobject'>getTaggedObject()</a>
+tag <a href='#cbor.tag.get'>get()</a>
 only <i>locate</i> objects,
 and thus do not count as &quot;read&quot;.
 <div style='margin:0.5em 0'>

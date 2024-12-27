@@ -21,6 +21,10 @@ public class CreateDocument {
   """
   Object (value).""";
 
+  static final String ARRAY_INDEX_P1_DESCR = 
+  """
+  Index <code>(0..length-1)</code> of array.""";
+
 
   // CBOR.Int
 
@@ -118,11 +122,11 @@ public class CreateDocument {
 
   // CBOR.Boolean
 
-  static final String W_BOOL_DESCR = 
+  static final String W_BOOLEAN_DESCR = 
   """
   Constructor.  Creates a CBOR boolean (<code>bool</code>) object.""";
     
-  static final String W_BOOL_P1_DESCR = 
+  static final String W_BOOLEAN_P1_DESCR = 
   """
   Boolean to be wrapped.""";
 
@@ -162,10 +166,6 @@ public class CreateDocument {
   """
   Get CBOR object at a specific position in the array.
   If <kbd><i>index</i></kbd> is out of range, an exception is thrown.""";
-
-  static final String W_ARRAY_GET_P1_DESCR = 
-  """
-  Index <code>(0..length-1)</code> of object.""";
   
   static final String W_ARRAY_GET_RETURN_DESCR = 
   """
@@ -176,10 +176,6 @@ public class CreateDocument {
   """
   Update CBOR object at a specific position in the array.
   If <kbd><i>index</i></kbd> is out of range, an exception is thrown.""";
-
-  static final String W_ARRAY_UPDATE_P1_DESCR = 
-  """
-  Index <code>(0..length-1)</code> of object.""";
 
   static final String W_ARRAY_UPDATE_P2_DESCR = 
   """
@@ -451,7 +447,7 @@ public class CreateDocument {
    </div>
    Note that array <a href='#cbor.array.get'>get()</a>,
    map <a href='#cbor.map.get'>get()</a>, and
-   tag <a href='#cbor.tag.gettaggedobject'>getTaggedObject()</a>
+   tag <a href='#cbor.tag.get'>get()</a>
    only <i>locate</i> objects,
    and thus do not count as &quot;read&quot;.
    <div style='margin:0.5em 0'>
@@ -854,7 +850,7 @@ public class CreateDocument {
     CBOR_STRING("CBOR.String"),
     CBOR_BYTES("CBOR.Bytes"),
     CBOR_NULL("CBOR.Null"),
-    CBOR_BOOL("CBOR.Boolean"),
+    CBOR_BOOLEAN("CBOR.Boolean"),
     CBOR_ARRAY("CBOR.Array"),
     CBOR_MAP("CBOR.Map"),
     CBOR_TAG("CBOR.Tag"),
@@ -1464,8 +1460,8 @@ a201fb4046d9999999999a0269486920746865726521
 
       // CBOR.Boolean
 
-    addWrapper(DataTypes.CBOR_BOOL, W_BOOL_DESCR)
-      .addWrapperParameter("value", DataTypes.JS_BOOLEAN, W_BOOL_P1_DESCR)
+    addWrapper(DataTypes.CBOR_BOOLEAN, W_BOOLEAN_DESCR)
+      .addWrapperParameter("value", DataTypes.JS_BOOLEAN, W_BOOLEAN_P1_DESCR)
 
       .addMethod("getBoolean", W_GETBOOL_DESCR)
       .setReturn(DataTypes.JS_BOOLEAN, W_GETBOOL_RETURN_DESCR);
@@ -1483,11 +1479,11 @@ a201fb4046d9999999999a0269486920746865726521
       .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR)
 
       .addMethod("get", W_ARRAY_GET_DESCR)
-      .addParameter("index", DataTypes.JS_NUMBER, W_ARRAY_GET_P1_DESCR)
+      .addParameter("index", DataTypes.JS_NUMBER, ARRAY_INDEX_P1_DESCR)
       .setReturn(DataTypes.CBOR_Any, W_ARRAY_GET_RETURN_DESCR)
 
       .addMethod("update", W_ARRAY_UPDATE_DESCR)
-      .addParameter("index", DataTypes.JS_NUMBER, W_ARRAY_UPDATE_P1_DESCR)
+      .addParameter("index", DataTypes.JS_NUMBER, ARRAY_INDEX_P1_DESCR)
       .addParameter("object", DataTypes.CBOR_Any, W_ARRAY_UPDATE_P2_DESCR)
       .setReturn(DataTypes.CBOR_Any, W_ARRAY_UPDATE_RETURN_DESCR)
 
