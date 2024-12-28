@@ -190,55 +190,65 @@
   notation) supported by this specification:
   <div class='webpkifloat'>
     <table class='webpkitable' style='margin-left:2em'>
-      <tr><th>CBOR</th><th>Wrapper&nbsp;Object</th><th>JavaScript</th></tr>
+      <tr><th>CBOR</th><th>Wrapper&nbsp;Object</th><th>JavaScript</th><th>Notes</th></tr>
       <tr style='text-align:center'>
         <td><code>int</code></td>
         <td><a href='#wrapper.cbor.int'>CBOR.Int</a></td>
-        <td><code>Number</code> [1]</td>
+        <td><code>Number</code></td>
+        <td>1</td>
       </tr>
       <tr style='text-align:center'>
         <td><code>bigint</code></td>
         <td><a href='#wrapper.cbor.bigint'>CBOR.BigInt</a></td>
-        <td><code>BigInt</code> [1]</td>
+        <td><code>BigInt</code></td>
+        <td>1</td>
       </tr>
       <tr style='text-align:center'>
         <td><code>float</code></td>
         <td><a href='#wrapper.cbor.float'>CBOR.Float</a></td>
-        <td><code>Number</code> [2]</td>
+        <td><code>Number</code></td>
+        <td>2</td>
       </tr>
       <tr style='text-align:center'>
         <td><code>bstr</code></td>
         <td><a href='#wrapper.cbor.bytes'>CBOR.Bytes</a></td>
         <td><code>Uint8Array</code></td>
+        <td></td>
       </tr>
       <tr style='text-align:center'>
         <td><code>tstr</code></td>
         <td><a href='#wrapper.cbor.string'>CBOR.String</a></td>
         <td><code>String</code></td>
+        <td></td>
       </tr>
       <tr style='text-align:center'>
         <td><code>bool</code></td>
         <td><a href='#wrapper.cbor.boolean'>CBOR.Boolean</a></td>
         <td><code>Boolean</code></td>
+        <td></td>
       </tr>
       <tr style='text-align:center'>
         <td><code>null</code></td>
         <td><a href='#wrapper.cbor.null'>CBOR.Null</a></td>
+        <td></td>
         <td></td>
       </tr>
       <tr style='text-align:center'>
         <td><code>array</code></td>
         <td><a href='#wrapper.cbor.array'>CBOR.Array</a></td>
         <td></td>
+        <td></td>
       </tr>
       <tr style='text-align:center'>
         <td><code>map</code></td>
         <td><a href='#wrapper.cbor.map'>CBOR.Map</a></td>
         <td></td>
+        <td></td>
       </tr>
       <tr style='text-align:center'>
         <td><code>tag</code></td>
         <td><a href='#wrapper.cbor.tag'>CBOR.Tag</a></td>
+        <td></td>
         <td></td>
       </tr>
     </table>
@@ -600,7 +610,7 @@ causes an exception to be thrown.</div></td></tr>
 <tr><th>Description</th><td style='width:100%'>Copy array.</td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd>[...]</kbd></td><td style='width:100%'>JavaScript array holding a copy of current <kbd>CBOR.<i>Wrapper</i></kbd> objects.</td></tr>
+<tr><td style='text-align:center'><kbd>[CBOR.<i>Wrapper</i>...]</kbd></td><td style='width:100%'>JavaScript array holding a copy of current <kbd>CBOR.<i>Wrapper</i></kbd> objects.</td></tr>
 </table></div>
 <h5 id='properties.cbor.array'>2.8.2.&nbsp;&nbsp;CBOR.Array Properties</h5>
 <h5 id='cbor.array.length'>2.8.2.1.&nbsp;&nbsp;length</h5>
@@ -729,7 +739,7 @@ If <kbd><i>key</i></kbd> entry is undefined, an exception is thrown.</td></tr>
 <tr><th>Description</th><td style='width:100%'>Get map keys.</td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd>[...]</kbd></td><td style='width:100%'>JavaScript array holding a copy of current <kbd>CBOR.<i>Wrapper</i></kbd> map keys.</td></tr>
+<tr><td style='text-align:center'><kbd>[CBOR.<i>Wrapper</i>...]</kbd></td><td style='width:100%'>JavaScript array holding a copy of current key objects.</td></tr>
 </table></div>
 <h5 id='cbor.map.setsortingmode'>2.9.1.9.&nbsp;&nbsp;setSortingMode()</h5>
 <div class='webpkifloat'>
@@ -947,7 +957,7 @@ This is only meaningful in conjunction with
 <tr><td style='text-align:center'><kbd><i>cbor</i></kbd></td><td style='text-align:center'><kbd>Uint8Array</kbd></td><td style='width:100%'>CBOR binary data <i>holding exactly one CBOR object</i>.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>CBOR wrapper object.</td></tr>
+<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Object.</td></tr>
 </table></div>
 <h5 id='decoder.cbor.initdecoder'>4.2.&nbsp;&nbsp;CBOR.initDecoder()</h5>
 <div class='webpkifloat'>
@@ -990,7 +1000,7 @@ the decoder will accept CBOR data that does not adhere to the map sorting
 and preferred number serialization requirements.
 This option may be needed for dealing with &quot;legacy&quot; CBOR implementations.
 Note: duplicate keys and other invalid (or not supported) CBOR constructs
-will still cause an exception to be thrown.
+still cause an exception to be thrown.
 </td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
@@ -1015,7 +1025,7 @@ the following apply:
 <li style='margin-top:0'>Immediately return after decoding a CBOR object, while preparing the
 decoder for the next item.
 See also <a href='#decoder.decoder.getbytecount'><i>Decoder</i>.getByteCount()</a>.</li>
-<li>If no data is found (EOF), <code>true</code> is returned
+<li>If no data is found (EOF), <code>null</code> is returned
 (<i>empty</i> sequences are permitted).</li>
 <li>Note that data <i>succeeding</i> a just decoded CBOR object
 is not verified for correctness.</li>
@@ -1055,7 +1065,7 @@ cause an exception to be thrown.
 <tr><th>Description</th><td style='width:100%'>Decode CBOR data with options.</td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>CBOR wrapper object or <code>true</code> (for EOF sequences only).</td></tr>
+<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Object or <code>null</code> (for EOF sequences only).</td></tr>
 </table></div>
 <h5 id='decoder.decoder.getbytecount'>4.7.&nbsp;&nbsp;<i>Decoder</i>.getByteCount()</h5>
 <div class='webpkifloat'>
@@ -1081,13 +1091,13 @@ See also <a href='#decoder.cbor.diagdecodesequence'>CBOR.diagDecodeSequence()</a
 <tr><td style='text-align:center'><kbd><i>cborText</i></kbd></td><td style='text-align:center'><kbd>String</kbd></td><td style='width:100%'>CBOR in textual format.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>CBOR wrapper object.</td></tr>
+<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Object.</td></tr>
 </table></div>
 <h5 id='decoder.cbor.diagdecodesequence'>4.9.&nbsp;&nbsp;CBOR.diagDecodeSequence()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.diagDecodeSequence(<i>cborText</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Decode a CBOR object provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
+<tr><th>Description</th><td colspan='2' style='width:100%'>Decode CBOR objects provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
 Unlike <a href='#decoder.cbor.diagdecode'>CBOR.diagDecode()</a>,
 this method also accepts CBOR sequences, using a comma
 character (<kbd>','</kbd>) as a separator.</td></tr>
@@ -1096,7 +1106,7 @@ character (<kbd>','</kbd>) as a separator.</td></tr>
 <tr><td style='text-align:center'><kbd><i>cborText</i></kbd></td><td style='text-align:center'><kbd>String</kbd></td><td style='width:100%'>CBOR in textual format.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>[...]</kbd></td><td colspan='2' style='width:100%'>Array holding one or more CBOR wrapper objects.</td></tr>
+<tr><td style='text-align:center'><kbd>[CBOR.<i>Wrapper</i>...]</kbd></td><td colspan='2' style='width:100%'>JavaScript array holding one or more objects.</td></tr>
 </table></div>
 
   <h3 id='main.utility'>5.&nbsp;&nbsp;Utility Methods</h3>
@@ -1563,6 +1573,6 @@ The following code shows how you can <i>decode</i> CBOR specified in
 
   API version: 1.0.10.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2024-12-26
+  Document version: 2024-12-28
 </body>
 </html>

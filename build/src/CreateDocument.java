@@ -305,7 +305,7 @@ public class CreateDocument {
   Get map keys.""";
   
   static final String W_MAP_GETKEYS_RETURN_DESCR = 
-  "JavaScript array holding a copy of current <kbd>" + DataTypes.CBOR_Any + "</kbd> map keys.";   
+  "JavaScript array holding a copy of current key objects.";   
 
   static final String W_MAP_SET_SORTING_MODE_DESCR =
   """
@@ -606,7 +606,7 @@ public class CreateDocument {
 
   static final String DECODE_RETURN_DESCR = 
   """
-  CBOR wrapper object.""";
+  Object.""";
 
   // CBOR.initDecoder()
 
@@ -652,7 +652,7 @@ public class CreateDocument {
   and preferred number serialization requirements.
   This option may be needed for dealing with &quot;legacy&quot; CBOR implementations.
   Note: duplicate keys and other invalid (or not supported) CBOR constructs
-  will still cause an exception to be thrown.
+  still cause an exception to be thrown.
   """;
 
   static final String SET_METHOD_RETURN_DESCR = 
@@ -679,7 +679,7 @@ public class CreateDocument {
   <li style='margin-top:0'>Immediately return after decoding a CBOR object, while preparing the 
   decoder for the next item.
   See also <a href='#decoder.decoder.getbytecount'><i>Decoder</i>.getByteCount()</a>.</li>
-  <li>If no data is found (EOF), <code>true</code> is returned
+  <li>If no data is found (EOF), <code>null</code> is returned
   (<i>empty</i> sequences are permitted).</li>
   <li>Note that data <i>succeeding</i> a just decoded CBOR object 
   is not verified for correctness.</li>  
@@ -715,7 +715,7 @@ public class CreateDocument {
   
   static final String DECODEEXT_RETURN_DESCR = 
   """
-  CBOR wrapper object or <code>true</code> (for EOF sequences only).""";
+  Object or <code>null</code> (for EOF sequences only).""";
 
   // Decoder.getByteCount()
 
@@ -744,13 +744,13 @@ public class CreateDocument {
 
   static final String DIAGDEC_RETURN_DESCR = 
   """
-  CBOR wrapper object.""";
+  Object.""";
 
   // CBOR.diagDecodeSequence()
 
   static final String DIAGDECSEQ_DESCR = 
   """
-  Decode a CBOR object provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
+  Decode CBOR objects provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
   Unlike <a href='#decoder.cbor.diagdecode'>CBOR.diagDecode()</a>,
   this method also accepts CBOR sequences, using a comma
   character (<kbd>','</kbd>) as a separator.""";
@@ -758,8 +758,7 @@ public class CreateDocument {
   static final String DIAGDECSEQ_P1_DESCR = DIAGDEC_P1_DESCR;
 
   static final String DIAGDECSEQ_RETURN_DESCR = 
-  """
-  Array holding one or more CBOR wrapper objects.""";
+  "JavaScript array holding one or more objects.";
 
 
   static final String INTRO = "${INTRO}";
@@ -867,7 +866,7 @@ public class CreateDocument {
     JS_THIS("this"),
 
     JS_NUMBER("Number"),
-    JS_ARRAY("[...]"),
+    JS_ARRAY("[CBOR.<i>Wrapper</i>...]"),
     JS_BIGINT("BigInt"),
     JS_BOOLEAN("Boolean"),
     JS_STRING("String"),
