@@ -187,8 +187,10 @@
   <a href='#wrapper.cbor.int'>CBOR.Int()</a>.
   That is, for creation of such integers,
   <a href='#wrapper.cbor.bigint'>CBOR.BigInt()</a>
-  is the proper solution, while access requires
+  is the proper solution, while access requires using
   <a href='#cbor.bigint.getbigint'>getBigInt()</a>,
+  <a href='#cbor.bigint.getint64'>getInt64()</a>,
+  or <a href='#cbor.bigint.getuint64'>getUint64()</a>,
   which for convenience reasons is supported by both of the integer wrapper types.
   <p>
     Note that selecting <a href='#wrapper.cbor.bigint'>CBOR.BigInt()</a>
@@ -201,7 +203,7 @@
   </p>
   <p>
     The selection between the CBOR <code>unsigned</code> and <code>negative</code>
-    integer variants is dealt with by the CBOR.js implementation;
+    integer variants is dealt with by the CBOR.js implementation,
     transparent to the API.
   </p>
   ${JS_NUMBER_CONS_FP}
@@ -266,7 +268,7 @@
             For <i>input</i> data in diagnostic notation, binary, octal, and hexadecimal notation
             is also supported by prepending numbers with <kbd>0b</kbd>, <kbd>0o</kbd>, and <kbd>0x</kbd> respectively.
             The latter also permit arbitrary insertions of <kbd>'_'</kbd> characters between digits to
-            enable grouping of data like <kbd>0b100_000000001</kbd>.
+            enable grouping of data like <code>0b100_000000001</code>.
           </div>
         </td>
       </tr>
@@ -367,7 +369,7 @@
       <tr style='text-align:center'>
         <td></td>
         <td><kbd>,</kbd></td>
-        <td>7</td>
+        <td></td>
         <td style='text-align:left'>Separator character for CBOR sequences.</td>
       </tr>
     </table>
@@ -532,6 +534,6 @@
   ${VERSION_INFO}
   API version: 1.0.10.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2024-12-28
+  Document version: 2024-12-29
 </body>
 </html>
