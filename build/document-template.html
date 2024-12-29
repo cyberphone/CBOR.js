@@ -377,7 +377,7 @@
     <li>The letter <i>n</i> in the Syntax column denotes one or more digits.</li>
     <li>The optional {<i>sign</i>} must be a single hyphen (<kbd>'-'</kbd>) character.</li>
     <li>
-      <i>Input only</i>: the whitespace characters
+      <i>Input only</i>: between the quotes, the whitespace characters
       (<kbd>' '</kbd>, <kbd>'\t'</kbd>, <kbd>'\r'</kbd>, <kbd>'\n'</kbd>)
       are <i>ignored</i>.
     </li>
@@ -418,7 +418,7 @@
   <p>
     However, to not limit CBOR.js to new applications only,
     deterministic encoding checking may <i>optionally</i> be turned off
-    for accepting input from &quot;legacy&quot; CBOR <i>encoders</i>.
+    to permit decoding &quot;legacy&quot; CBOR data.
   </p>
   <div style='margin-top:0.8em'>
     The encoding scheme adheres to section 4.2 of RFC&nbsp;8949, but adds
