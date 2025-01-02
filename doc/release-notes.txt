@@ -30,6 +30,7 @@ getFloat16() and CBOR.version added.
 2024-10-17 - 1.0.9
 Simplification: removed getMap(), getArray(), and getTag().
 
-2024-12-26 - 1.0.10
+2025-01-02 - 1.0.10
 Added methods: CBOR.Array.update(), CBOR.Map.update(), CBOR.Map.merge(). CBOR.Tag.update()
-Changed method: CBOR.Tag.getTaggedObject() => CBOR.Tag.get();
+Changed method: CBOR.Tag.getTaggedObject() => CBOR.Tag.get()
+Changed method: Decoder.setNaNSupport() => Decoder.setFloatSupport()

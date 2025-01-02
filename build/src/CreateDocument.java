@@ -620,7 +620,7 @@ public class CreateDocument {
   See also 
   <a href='#decoder.decoder.setdeterministicmode'><i>Decoder</i>.setDeterministicMode()</a>,
   <a href='#decoder.decoder.setsequencemode'><i>Decoder</i>.setSequenceMode()</a>, and
-  <a href='#decoder.decoder.setnansupport'><i>Decoder</i>.setNaNSupport()</a>.</div>""";
+  <a href='#decoder.decoder.setfloatsupport'><i>Decoder</i>.setFloatSupport()</a>.</div>""";
   
   static final String INITEXT_P1_DESCR = 
   """
@@ -686,9 +686,9 @@ public class CreateDocument {
   </ul>  
   """;
 
-    // Decoder.setNaNSupport()
+    // Decoder.setFloatSupport()
 
-  static final String SET_NAN_SUPP_DESCR =
+  static final String SET_FLOAT_SUPP_DESCR =
   """
   Set CBOR decoder <kbd>NaN/Infinity</kbd> support.
   <div style='margin-top:0.5em'>
@@ -700,9 +700,9 @@ public class CreateDocument {
   </div>
   """;
 
-  static final String SET_NAN_SUPP_P1_DESCR =
+  static final String SET_FLOAT_SUPP_P1_DESCR =
   """
-  If the <kbd>accept</kbd> flag is set to <code>false</code>,
+  If the <kbd>acceptExceptional</kbd> flag is set to <code>false</code>,
   the mentioned exceptional floating-point values
   cause an exception to be thrown.  
   """;
@@ -1613,10 +1613,10 @@ a201fb4046d9999999999a0269486920746865726521
       .addParameter("sequence", DataTypes.JS_BOOLEAN, SET_SEQ_MODE_P1_DESCR)
       .setReturn(DataTypes.JS_THIS, SET_METHOD_RETURN_DESCR);
       
-      // Decoder.setNaNSupport()
+      // Decoder.setFloatSupport()
 
-    addDecoderMethod("<i>Decoder</i>.setNaNSupport", SET_NAN_SUPP_DESCR)
-      .addParameter("accept", DataTypes.JS_BOOLEAN, SET_NAN_SUPP_P1_DESCR)
+    addDecoderMethod("<i>Decoder</i>.setFloatSupport", SET_FLOAT_SUPP_DESCR)
+      .addParameter("acceptExceptional", DataTypes.JS_BOOLEAN, SET_FLOAT_SUPP_P1_DESCR)
       .setReturn(DataTypes.JS_THIS, SET_METHOD_RETURN_DESCR);
 
       // Decoder.decodeWithOptions()

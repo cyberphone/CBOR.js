@@ -121,7 +121,7 @@
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.cbor.initdecoder'>4.2.&nbsp;&nbsp;CBOR.initDecoder()</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.decoder.setdeterministicmode'>4.3.&nbsp;&nbsp;<i>Decoder</i>.setDeterministicMode()</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.decoder.setsequencemode'>4.4.&nbsp;&nbsp;<i>Decoder</i>.setSequenceMode()</a></div>
-<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.decoder.setnansupport'>4.5.&nbsp;&nbsp;<i>Decoder</i>.setNaNSupport()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.decoder.setfloatsupport'>4.5.&nbsp;&nbsp;<i>Decoder</i>.setFloatSupport()</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.decoder.decodewithoptions'>4.6.&nbsp;&nbsp;<i>Decoder</i>.decodeWithOptions()</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.decoder.getbytecount'>4.7.&nbsp;&nbsp;<i>Decoder</i>.getByteCount()</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.cbor.diagdecode'>4.8.&nbsp;&nbsp;CBOR.diagDecode()</a></div>
@@ -971,7 +971,7 @@ decoding is performed by one or more (for sequences only) calls to
 See also
 <a href='#decoder.decoder.setdeterministicmode'><i>Decoder</i>.setDeterministicMode()</a>,
 <a href='#decoder.decoder.setsequencemode'><i>Decoder</i>.setSequenceMode()</a>, and
-<a href='#decoder.decoder.setnansupport'><i>Decoder</i>.setNaNSupport()</a>.</div></td></tr>
+<a href='#decoder.decoder.setfloatsupport'><i>Decoder</i>.setFloatSupport()</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>cbor</i></kbd></td><td style='text-align:center'><kbd>Uint8Array</kbd></td><td style='width:100%'>The CBOR data (bytes) to be decoded.</td></tr>
@@ -1035,10 +1035,10 @@ is not verified for correctness.</li>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>this</kbd></td><td colspan='2' style='width:100%'>Updated <kbd><i>Decoder</i></kbd> object.</td></tr>
 </table></div>
-<h5 id='decoder.decoder.setnansupport'>4.5.&nbsp;&nbsp;<i>Decoder</i>.setNaNSupport()</h5>
+<h5 id='decoder.decoder.setfloatsupport'>4.5.&nbsp;&nbsp;<i>Decoder</i>.setFloatSupport()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd><i>Decoder</i>.setNaNSupport(<i>accept</i>)</kbd></td></tr>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd><i>Decoder</i>.setFloatSupport(<i>acceptExceptional</i>)</kbd></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Set CBOR decoder <kbd>NaN/Infinity</kbd> support.
 <div style='margin-top:0.5em'>
 By default, the decoder supports
@@ -1050,7 +1050,7 @@ this method enables overriding the default.
 </td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>accept</i></kbd></td><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'>If the <kbd>accept</kbd> flag is set to <code>false</code>,
+<tr><td style='text-align:center'><kbd><i>acceptExceptional</i></kbd></td><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'>If the <kbd>acceptExceptional</kbd> flag is set to <code>false</code>,
 the mentioned exceptional floating-point values
 cause an exception to be thrown.
 </td></tr>
@@ -1241,7 +1241,7 @@ base64 encoded data as well as data with or without
   transparent. The <a href='#wrapper.cbor.float'>CBOR.Float()</a>
   wrapper object only exposes the JavaScript <kbd>Number</kbd> type.
   <p>
-  See also the <a href='#decoder.decoder.setnansupport'>Decoder.setNaNSupport()</a>
+  See also the <a href='#decoder.decoder.setfloatsupport'>Decoder.setFloatSupport()</a>
   method.
   </p>
   <h3 id='main.diagnostic'>7.&nbsp;&nbsp;Diagnostic Notation</h3>
@@ -1574,6 +1574,6 @@ The following code shows how you can <i>decode</i> CBOR specified in
 
   API version: 1.0.10.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2024-12-29
+  Document version: 2025-01-02
 </body>
 </html>

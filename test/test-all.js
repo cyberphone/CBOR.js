@@ -227,7 +227,7 @@ function overflow(cborObject, length) {
 }
 
 function oneTurn(valueText, expected, invalidFloats) {
-  let decoder = CBOR.initDecoder(CBOR.fromHex(expected)).setNaNSupport(false);
+  let decoder = CBOR.initDecoder(CBOR.fromHex(expected)).setFloatSupport(false);
   let value = Number(valueText);
   let text = valueText;
   while (text.length < 25) {
