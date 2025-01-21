@@ -1146,8 +1146,8 @@ class CBOR {
       return this;
     }
 
-    setFloatSupport = function(accept) {
-      this.rejectNaNFlag = !accept;
+    setFloatSupport = function(acceptExceptional) {
+      this.rejectNaNFlag = !acceptExceptional;
       return this;
     }
 
