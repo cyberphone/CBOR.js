@@ -13,6 +13,10 @@ function assertFalse(text, bool) {
   if (bool) throw Error("Assertion: " + text);
 }
 
+function fail(text) {
+  throw Error("Fail: " + text);
+}
+
 function success() {
   console.log('Test ' + name + ' was successful');
 }

@@ -223,7 +223,16 @@ public class CreateDocument {
   <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>
   performs the required map sorting <i>automatically</i>.
   See also <a href='#cbor.map.setsortingmode'>setSortingMode()</a>
-  and <a href='#decoder.cbor.initdecoder'>CBOR.initDecoder()</a>.</div>""";
+  and <a href='#decoder.cbor.initdecoder'>CBOR.initDecoder()</a>.</div>
+  <div style='margin-top:0.5em'>Note: this implementation
+  does not support <i>mutable</i> <kbd>key</kbd> objects.
+  That is, the following code will throw an exception:</div>
+  <div style='margin-top:0.3em'><code>let key = CBOR.Array();<br>
+  let map = CBOR.Map().set(key, CBOR.Int(5));<br>
+  key.add(CBOR.String("data"));  // Mutating key object</code></div>
+  <div style='margin-top:0.3em'>By defining <kbd>key</kbd> objects inline
+  (chaining) or by separate variable declarations, <kbd>key</kbd> objects
+  of <i>any</i> complexity can be used.</div>""";
 
 
   static final String W_MAP_MERGE_DESCR = 

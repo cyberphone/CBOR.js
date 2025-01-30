@@ -1,6 +1,6 @@
 // Testing map operations
 import CBOR from '../npm/mjs/index.mjs';
-import { assertTrue, assertFalse, success } from './assertions.js';
+import { fail, assertTrue, assertFalse, success } from './assertions.js';
 
 let map = CBOR.Map()
               .set(CBOR.Int(3), CBOR.String("three"))
@@ -25,5 +25,26 @@ assertTrue("upd-0", map.update(CBOR.Int(1), CBOR.BigInt(-8n), true).getString() 
 assertTrue("upd-1", map.get(CBOR.Int(1)).getBigInt() == -8n);
 assertTrue("upd-2", map.update(CBOR.Int(10), CBOR.BigInt(-8n), false) == null);
 assertTrue("upd-3", map.get(CBOR.Int(10)).getBigInt() == -8n);
+
+function badKey(js) {
+  try {
+    eval(js);
+    fail("Must fail!");
+  } catch (error) {
+    if (!error.toString().includes('Map key')) {
+      throw error;
+    }
+  }
+}
+
+let unmutableKey1 = CBOR.Array();
+let unmutableKey2 = CBOR.Array();
+CBOR.Map().set(unmutableKey1, CBOR.Int(4));
+badKey("unmutableKey1.add(CBOR.Int(6))");
+let mutableValue = CBOR.Array();
+CBOR.Map().set(CBOR.Int(5), mutableValue);
+mutableValue.add(CBOR.Map());
+CBOR.Map().set(CBOR.Array().add(unmutableKey2), CBOR.Int(5));
+badKey("unmutableKey2.add(CBOR.Int(6))");
 
 success();

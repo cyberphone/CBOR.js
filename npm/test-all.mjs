@@ -501,6 +501,27 @@ assertTrue("upd-1", map.get(CBOR.Int(1)).getBigInt() == -8n);
 assertTrue("upd-2", map.update(CBOR.Int(10), CBOR.BigInt(-8n), false) == null);
 assertTrue("upd-3", map.get(CBOR.Int(10)).getBigInt() == -8n);
 
+function badKey(js) {
+  try {
+    eval(js);
+    fail("Must fail!");
+  } catch (error) {
+    if (!error.toString().includes('Map key')) {
+      throw error;
+    }
+  }
+}
+
+let unmutableKey1 = CBOR.Array();
+let unmutableKey2 = CBOR.Array();
+CBOR.Map().set(unmutableKey1, CBOR.Int(4));
+badKey("unmutableKey1.add(CBOR.Int(6))");
+let mutableValue = CBOR.Array();
+CBOR.Map().set(CBOR.Int(5), mutableValue);
+mutableValue.add(CBOR.Map());
+CBOR.Map().set(CBOR.Array().add(unmutableKey2), CBOR.Int(5));
+badKey("unmutableKey2.add(CBOR.Int(6))");
+
 success();
 `}
 ,
@@ -567,7 +588,7 @@ assertFalse("null1", array.get(3).isNull());
 assertTrue("null2", array.get(4).isNull());
 assertFalse("cmp2", CBOR.compareArrays(CBOR.diagDecode(CBOR.decode(cbor).toString()).encode(), bin));
 
-assertTrue("version", CBOR.version == "1.0.10");
+assertTrue("version", CBOR.version == "1.0.11");
 
 success();
 `}

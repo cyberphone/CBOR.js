@@ -15,9 +15,11 @@ class CBOR {
   static #CborObject = class {
 
     #readFlag;
+    _frozenFlag;
 
     constructor() {
       this.#readFlag = false;
+      this._frozenFlag = false;
     }
 
     getInt = function() {
@@ -143,6 +145,12 @@ class CBOR {
 
     toString = function() {
       return this.toDiag(true);
+    }
+
+    _frozenTest = function() {
+      if (this._frozenFlag) {
+        CBOR.#error('Map keys are immutable'); 
+      }
     }
  
     #traverse = function(holderObject, check) {
@@ -584,6 +592,7 @@ class CBOR {
     #objects = [];
 
     add = function(object) {
+      this._frozenTest();
       this.#objects.push(CBOR.#cborArgumentCheck(object));
       return this;
     }
@@ -597,12 +606,13 @@ class CBOR {
     }
 
     update = function(index, object) {
+      this._frozenTest();
       index = CBOR.#intCheck(index);
       if (index < 0 || index >= this.#objects.length) {
         CBOR.#error("Array index out of range: " + index);
       }
       let previous = this._structuredTypes(this.#objects[index]);
-      this.#objects[index] = object;
+      this.#objects[index] = CBOR.#cborArgumentCheck(object);
       return previous;
     }
 
@@ -670,7 +680,9 @@ class CBOR {
     }
 
     set = function(key, object) {
+      this._frozenTest();
       let newEntry = new CBOR.Map.Entry(this.#getKey(key), CBOR.#cborArgumentCheck(object));
+      this.#deepFreeze(key);
       let insertIndex = this.#entries.length;
       if (insertIndex) {
         let endIndex = insertIndex - 1;
@@ -732,6 +744,7 @@ class CBOR {
     }
 
     update = function(key, object, existing) {
+      this._frozenTest();
       let entry = this.#lookup(key, existing);
       let previous;
       if (entry) {
@@ -745,6 +758,7 @@ class CBOR {
     }
 
     merge = function(map) {
+      this._frozenTest();
       if (!(map instanceof CBOR.Map)) {
         CBOR.#error("Argument must be of type CBOR.Map");
       }
@@ -774,6 +788,7 @@ class CBOR {
     }
 
     remove = function(key) {
+      this._frozenTest();
       let targetEntry = this.#lookup(key, true);
       for (let i = 0; i < this.#entries.length; i++) {
         if (this.#entries[i] == targetEntry) {
@@ -820,6 +835,19 @@ class CBOR {
     setSortingMode = function(preSortedKeys) {
       this.#preSortedKeys = preSortedKeys;
       return this;
+    }
+
+    #deepFreeze = function(object) {
+      object._frozenFlag = true;
+      if (object instanceof CBOR.Map) {
+        object.getKeys().forEach(key => {
+          this.#deepFreeze(object.get(key));
+        });
+      } else if (object instanceof CBOR.Array) {
+        object.toArray().forEach(value => {
+          this.#deepFreeze(value);
+        });
+      }
     }
   }
 
@@ -881,8 +909,9 @@ class CBOR {
     }
 
     update = function(object) {
+      this._frozenTest();
       let previous = this.#object;
-      this.#object = object;
+      this.#object = CBOR.#cborArgumentCheck(object);
       return previous;
     }
 
@@ -1854,7 +1883,7 @@ class CBOR {
   }
 
   static get version() {
-    return "1.0.10";
+    return "1.0.11";
   }
 }
 
