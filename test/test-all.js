@@ -516,15 +516,15 @@ function badKey(js) {
   }
 }
 
-let unmutableKey1 = CBOR.Array();
-let unmutableKey2 = CBOR.Array();
-CBOR.Map().set(unmutableKey1, CBOR.Int(4));
-badKey("unmutableKey1.add(CBOR.Int(6))");
+let immutableKey1 = CBOR.Array();
+let immutableKey2 = CBOR.Array();
+CBOR.Map().set(immutableKey1, CBOR.Int(4));
+badKey("immutableKey1.add(CBOR.Int(6))");
 let mutableValue = CBOR.Array();
 CBOR.Map().set(CBOR.Int(5), mutableValue);
 mutableValue.add(CBOR.Map());
-CBOR.Map().set(CBOR.Array().add(unmutableKey2), CBOR.Int(5));
-badKey("unmutableKey2.add(CBOR.Int(6))");
+CBOR.Map().set(CBOR.Array().add(immutableKey2), CBOR.Int(5));
+badKey("immutableKey2.add(CBOR.Int(6))");
 
 success();
 `}

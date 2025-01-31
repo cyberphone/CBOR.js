@@ -15,11 +15,11 @@ class CBOR {
   static #CborObject = class {
 
     #readFlag;
-    _frozenFlag;
+    _immutableFlag;
 
     constructor() {
       this.#readFlag = false;
-      this._frozenFlag = false;
+      this._immutableFlag = false;
     }
 
     getInt = function() {
@@ -147,8 +147,8 @@ class CBOR {
       return this.toDiag(true);
     }
 
-    _frozenTest = function() {
-      if (this._frozenFlag) {
+    _immutableTest = function() {
+      if (this._immutableFlag) {
         CBOR.#error('Map keys are immutable'); 
       }
     }
@@ -592,7 +592,7 @@ class CBOR {
     #objects = [];
 
     add = function(object) {
-      this._frozenTest();
+      this._immutableTest();
       this.#objects.push(CBOR.#cborArgumentCheck(object));
       return this;
     }
@@ -606,7 +606,7 @@ class CBOR {
     }
 
     update = function(index, object) {
-      this._frozenTest();
+      this._immutableTest();
       index = CBOR.#intCheck(index);
       if (index < 0 || index >= this.#objects.length) {
         CBOR.#error("Array index out of range: " + index);
@@ -680,9 +680,9 @@ class CBOR {
     }
 
     set = function(key, object) {
-      this._frozenTest();
+      this._immutableTest();
       let newEntry = new CBOR.Map.Entry(this.#getKey(key), CBOR.#cborArgumentCheck(object));
-      this.#deepFreeze(key);
+      this.#makeImmutable(key);
       let insertIndex = this.#entries.length;
       if (insertIndex) {
         let endIndex = insertIndex - 1;
@@ -744,7 +744,7 @@ class CBOR {
     }
 
     update = function(key, object, existing) {
-      this._frozenTest();
+      this._immutableTest();
       let entry = this.#lookup(key, existing);
       let previous;
       if (entry) {
@@ -758,7 +758,7 @@ class CBOR {
     }
 
     merge = function(map) {
-      this._frozenTest();
+      this._immutableTest();
       if (!(map instanceof CBOR.Map)) {
         CBOR.#error("Argument must be of type CBOR.Map");
       }
@@ -788,7 +788,7 @@ class CBOR {
     }
 
     remove = function(key) {
-      this._frozenTest();
+      this._immutableTest();
       let targetEntry = this.#lookup(key, true);
       for (let i = 0; i < this.#entries.length; i++) {
         if (this.#entries[i] == targetEntry) {
@@ -837,15 +837,15 @@ class CBOR {
       return this;
     }
 
-    #deepFreeze = function(object) {
-      object._frozenFlag = true;
+    #makeImmutable = function(object) {
+      object._immutableFlag = true;
       if (object instanceof CBOR.Map) {
         object.getKeys().forEach(key => {
-          this.#deepFreeze(object.get(key));
+          this.#makeImmutable(object.get(key));
         });
       } else if (object instanceof CBOR.Array) {
         object.toArray().forEach(value => {
-          this.#deepFreeze(value);
+          this.#makeImmutable(value);
         });
       }
     }
@@ -909,7 +909,7 @@ class CBOR {
     }
 
     update = function(object) {
-      this._frozenTest();
+      this._immutableTest();
       let previous = this.#object;
       this.#object = CBOR.#cborArgumentCheck(object);
       return previous;
