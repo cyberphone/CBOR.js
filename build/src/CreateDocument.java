@@ -231,7 +231,7 @@ public class CreateDocument {
   let map = CBOR.Map().set(key, CBOR.Int(5));<br>
   key.add(CBOR.String("data"));  // Mutating key object</code></div>
   <div style='margin-top:0.3em'>By defining <kbd>key</kbd> objects inline
-  (chaining) or by separate variable declarations, <kbd>key</kbd> objects
+  (<i>chaining</i>) or by <i>preset variable declarations</i>, <kbd>key</kbd> objects
   of <i>any</i> complexity can be used.</div>""";
 
 
