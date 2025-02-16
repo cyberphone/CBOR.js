@@ -607,7 +607,7 @@ public class CreateDocument {
   """
   Decode a CBOR object.
   <div style='margin-top:0.5em'>This method is equivalent to:<br>
-  <code style='white-space:nowrap'>CBOR.initDecoder(<i>cbor</i>).decodeWithOptions()</code></div>""";
+  <code style='white-space:nowrap'>CBOR.initDecoder(<i>cbor</i>, 0).decodeWithOptions()</code></div>""";
   
   static final String DECODE_P1_DESCR = 
   """
@@ -627,23 +627,61 @@ public class CreateDocument {
   <a href='#decoder.decoder.decodewithoptions'><i>Decoder</i>.decodeWithOptions()</a>.
   <div style='margin-top:0.5em'>
   See also 
-  <a href='#decoder.decoder.setdeterministicmode'><i>Decoder</i>.setDeterministicMode()</a>,
-  <a href='#decoder.decoder.setsequencemode'><i>Decoder</i>.setSequenceMode()</a>, and
-  <a href='#decoder.decoder.setfloatsupport'><i>Decoder</i>.setFloatSupport()</a>.</div>""";
+  <a href='#decoder.decoder.getbytecount'><i>Decoder</i>.getByteCount()</a>.</div>""";
   
   static final String INITEXT_P1_DESCR = 
   """
   The CBOR data (bytes) to be decoded.""";
 
+  static final String INITEXT_P2_DESCR = 
+  """
+  The decoder options.
+  Multiple options can be combined using the JavaScript
+  <code>|</code>&nbsp;(binary or) operator.
+  The options are defined by the following constants:
+  <div style='margin-top:0.5em'><kbd>CBOR.SEQUENCE_MODE</kbd>:</div>
+  <div style='padding:0.2em 0 0 1.2em'>If the <kbd>CBOR.SEQUENCE_MODE</kbd>
+  option is defined, the following apply:
+  <ul style='padding:0;margin:0 0 0.5em 1.2em'>
+  <li style='margin-top:0'>The decoder returns after having decoded
+  a <i>single</i> CBOR object, while preparing for the next object.<br>
+  See also <a href='#decoder.decoder.getbytecount'><i>Decoder</i>.getByteCount()</a>.</li>
+  <li>If no data is found (EOF), <code>null</code> is returned
+  (<i>empty</i> sequences are permitted).</li>
+  </ul>
+  Note that data <i>succeeding</i> a just decoded CBOR object 
+  is not verified for correctness.</div>
+  <div style='margin-top:0.8em'><kbd>CBOR.LENIENT_MAP_DECODING</kbd>:</div>
+  <div style='padding:0.2em 0 0 1.2em'>By default, the decoder requires
+  that CBOR maps conform to the
+  <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a> 
+  rules.
+  The&nbsp;<kbd>CBOR.LENIENT_MAP_DECODING</kbd> option forces the decoder
+  to accept CBOR maps with arbitrary key ordering.
+  Note that duplicate keys still cause an exception to be thrown.
+  </div>
+  <div style='margin-top:0.8em'><kbd>CBOR.LENIENT_NUMBER_DECODING</kbd>:</div>
+  <div style='padding:0.2em 0 0 1.2em'>By default, the decoder requires
+  that CBOR numbers conform to the
+  <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a> rules.<br>
+  The&nbsp;<kbd>CBOR.LENIENT_NUMBER_DECODING</kbd> option forces the decoder to
+  accept different representations of CBOR <code>int</code>, <code>bigint</code>,
+  and <code>float</code> items, only limited by RFC&nbsp;8949.</div>
+  <div style='margin-top:0.8em'><kbd>CBOR.REJECT_INVALID_FLOATS</kbd>:</div>
+  <div style='padding:0.2em 0 0 1.2em'>By default, the decoder supports 
+  <kbd>NaN</kbd>, <kbd>Infinity</kbd>, 
+  and <kbd style='white-space:nowrap'>-Infinity</kbd>. 
+  In case these variants are not applicable for the application in question,
+  the <kbd>CBOR.REJECT_INVALID_FLOATS</kbd> option enables overriding the default,
+  causing such numbers to throw an exception.</div>""";
+
   static final String INITEXT_RETURN_DESCR = 
   """
-  Decoder object for <i>optional</i> use by the 
-  <kbd style='white-space:nowrap'><i>Decoder</i>.set*()</kbd>
-  methods and finally used by
+  Decoder object to be used with
   <a href='#decoder.decoder.decodewithoptions'><i>Decoder</i>.decodeWithOptions()</a>.""";
 
   // Decoder.setDeterministicMode()
-
+/* 
   static final String SET_DET_MODE_DESCR =
   """
   Set CBOR decoder deterministic mode.
@@ -715,7 +753,7 @@ public class CreateDocument {
   the mentioned exceptional floating-point values
   cause an exception to be thrown.  
   """;
-
+*/
   // Decoder.decodeWithOptions()
 
   static final String DECODEEXT_DESCR = 
@@ -1608,26 +1646,9 @@ a201fb4046d9999999999a0269486920746865726521
 
     addDecoderMethod("CBOR.initDecoder", INITEXT_DESCR)
       .addParameter("cbor", DataTypes.JS_UINT8ARRAY, INITEXT_P1_DESCR)
+      .addParameter("options", DataTypes.JS_NUMBER, INITEXT_P2_DESCR)
       .setReturn(DataTypes.ExtendedDecoder, INITEXT_RETURN_DESCR);
       
-      // Decoder.setDeterministicMode()
-
-    addDecoderMethod("<i>Decoder</i>.setDeterministicMode", SET_DET_MODE_DESCR)
-      .addParameter("enforce", DataTypes.JS_BOOLEAN, SET_DET_MODE_P1_DESCR)
-      .setReturn(DataTypes.JS_THIS, SET_METHOD_RETURN_DESCR);
-
-      // Decoder.setSequenceMode()
-
-    addDecoderMethod("<i>Decoder</i>.setSequenceMode", SET_SEQ_MODE_DESCR)
-      .addParameter("sequence", DataTypes.JS_BOOLEAN, SET_SEQ_MODE_P1_DESCR)
-      .setReturn(DataTypes.JS_THIS, SET_METHOD_RETURN_DESCR);
-      
-      // Decoder.setFloatSupport()
-
-    addDecoderMethod("<i>Decoder</i>.setFloatSupport", SET_FLOAT_SUPP_DESCR)
-      .addParameter("acceptExceptional", DataTypes.JS_BOOLEAN, SET_FLOAT_SUPP_P1_DESCR)
-      .setReturn(DataTypes.JS_THIS, SET_METHOD_RETURN_DESCR);
-
       // Decoder.decodeWithOptions()
 
     addDecoderMethod("<i>Decoder</i>.decodeWithOptions", DECODEEXT_DESCR)

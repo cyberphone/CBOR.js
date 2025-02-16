@@ -37,3 +37,6 @@ Changed method: Decoder.setNaNSupport() => Decoder.setFloatSupport()
 
 2025-01-30 1.0.11
 "Outlawing" mutating key objects.  See CBOR.Map().set()
+
+2025-02-16 1.0.12
+Simplifying decoder options solution.  See CBOR.initDecoder()

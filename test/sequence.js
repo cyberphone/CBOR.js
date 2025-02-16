@@ -9,7 +9,7 @@ try {
 } catch (error) {
   if (!error.toString().includes('Unexpected')) console.log(error);
 }
-let decoder = CBOR.initDecoder(cbor).setSequenceMode(true);
+let decoder = CBOR.initDecoder(cbor, CBOR.SEQUENCE_MODE);
 let total = new Uint8Array();
 let object;
 while (object = decoder.decodeWithOptions()) {
@@ -17,7 +17,7 @@ while (object = decoder.decodeWithOptions()) {
 }
 assertFalse("Comp", CBOR.compareArrays(total, cbor));
 assertTrue("Comp2", total.length == decoder.getByteCount());
-decoder = CBOR.initDecoder(new Uint8Array()).setSequenceMode(true);
+decoder = CBOR.initDecoder(new Uint8Array(), CBOR.SEQUENCE_MODE);
 assertFalse("Comp3", decoder.decodeWithOptions());
 assertTrue("Comp4", decoder.getByteCount() == 0);
 

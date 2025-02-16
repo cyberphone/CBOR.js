@@ -231,7 +231,7 @@ function overflow(cborObject, length) {
 }
 
 function oneTurn(valueText, expected, invalidFloats) {
-  let decoder = CBOR.initDecoder(CBOR.fromHex(expected)).setFloatSupport(false);
+  let decoder = CBOR.initDecoder(CBOR.fromHex(expected), CBOR.REJECT_INVALID_FLOATS);
   let value = Number(valueText);
   let text = valueText;
   while (text.length < 25) {
@@ -592,7 +592,7 @@ assertFalse("null1", array.get(3).isNull());
 assertTrue("null2", array.get(4).isNull());
 assertFalse("cmp2", CBOR.compareArrays(CBOR.diagDecode(CBOR.decode(cbor).toString()).encode(), bin));
 
-assertTrue("version", CBOR.version == "1.0.11");
+assertTrue("version", CBOR.version == "1.0.12");
 
 success();
 `}
@@ -609,7 +609,8 @@ function oneTurn(hex, dn) {
       throw error;
     }
   }
-  let object = CBOR.initDecoder(CBOR.fromHex(hex)).setDeterministicMode(false).decodeWithOptions();
+  let object = CBOR.initDecoder(CBOR.fromHex(hex), 
+      dn.includes("{") ? CBOR.LENIENT_MAP_DECODING : CBOR.LENIENT_NUMBER_DECODING).decodeWithOptions();
   if (object.toString() != dn || !object.equals(CBOR.decode(object.encode()))) {
     throw Error("non match:" + dn);
   }
@@ -682,7 +683,7 @@ try {
 } catch (error) {
   if (!error.toString().includes('Unexpected')) console.log(error);
 }
-let decoder = CBOR.initDecoder(cbor).setSequenceMode(true);
+let decoder = CBOR.initDecoder(cbor, CBOR.SEQUENCE_MODE);
 let total = new Uint8Array();
 let object;
 while (object = decoder.decodeWithOptions()) {
@@ -690,7 +691,7 @@ while (object = decoder.decodeWithOptions()) {
 }
 assertFalse("Comp", CBOR.compareArrays(total, cbor));
 assertTrue("Comp2", total.length == decoder.getByteCount());
-decoder = CBOR.initDecoder(new Uint8Array()).setSequenceMode(true);
+decoder = CBOR.initDecoder(new Uint8Array(), CBOR.SEQUENCE_MODE);
 assertFalse("Comp3", decoder.decodeWithOptions());
 assertTrue("Comp4", decoder.getByteCount() == 0);
 

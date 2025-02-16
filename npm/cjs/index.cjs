@@ -963,15 +963,32 @@ class CBOR {
 //     Decoder Core      //
 ///////////////////////////
 
+  static get SEQUENCE_MODE() {
+    return 0x1;
+  }
+
+  static get LENIENT_MAP_DECODING() {
+    return 0x2;
+  }
+
+  static get LENIENT_NUMBER_DECODING() {
+    return 0x4;
+  }
+
+  static get REJECT_INVALID_FLOATS() {
+    return 0x8;
+  }
+
   static Decoder = class {
 
-    constructor(cbor) {
+    constructor(cbor, options) {
       this.cbor = CBOR.#bytesCheck(cbor);
       this.maxLength = cbor.length;
       this.byteCount = 0;
-      this.sequenceFlag = false;
-      this.deterministicMode = true;
-      this.rejectNaNFlag = false;
+      this.sequenceMode = options & CBOR.SEQUENCE_MODE;
+      this.strictMaps = !(options & CBOR.LENIENT_MAP_DECODING);
+      this.strictNumbers = !(options & CBOR.LENIENT_NUMBER_DECODING);
+      this.rejectNanInfinity = options & CBOR.REJECT_INVALID_FLOATS;
     }
 
     eofError = function() {
@@ -980,7 +997,7 @@ class CBOR {
 
     readByte = function() {
       if (this.byteCount >= this.maxLength) {
-        if (this.sequenceFlag && this.atFirstByte) {
+        if (this.sequenceMode && this.atFirstByte) {
           return 0;
         }
         this.eofError();
@@ -1014,10 +1031,10 @@ class CBOR {
 
     compareAndReturn = function(decoded, f64) {
       let cborFloat = CBOR.Float(f64);
-      if (this.deterministicMode && cborFloat._compare(decoded)) {
+      if (this.strictNumbers && cborFloat._compare(decoded)) {
         CBOR.#error("Non-deterministic encoding of: " + f64);
       }
-      if (this.rejectNaNFlag && cborFloat._isBadFloat()) {
+      if (this.rejectNanInfinity && cborFloat._isBadFloat()) {
         CBOR.#error('"NaN" and "Infinity" support is disabled');        
       }
       return cborFloat;
@@ -1068,7 +1085,7 @@ class CBOR {
         case CBOR.#MT_BIG_NEGATIVE:
         case CBOR.#MT_BIG_UNSIGNED:
           let byteArray = this.getObject().getBytes();
-          if (this.deterministicMode && (byteArray.length <= 8 || !byteArray[0])) {
+          if (this.strictNumbers && (byteArray.length <= 8 || !byteArray[0])) {
             CBOR.#error("Non-deterministic bignum encoding");
           }
           let value = 0n;
@@ -1118,7 +1135,7 @@ class CBOR {
         // If the upper half (for 2, 4, 8 byte N) of N or a single byte
         // N is zero, a shorter variant should have been used.
         // In addition, N must be > 23. 
-        if (this.deterministicMode && (bigN < 24n || !(mask & bigN))) {
+        if (this.strictNumbers && (bigN < 24n || !(mask & bigN))) {
           CBOR.#error("Non-deterministic N encoding for tag: 0x" + CBOR.#twoHex(tag));
         }
       }
@@ -1149,7 +1166,7 @@ class CBOR {
           return cborArray;
     
         case CBOR.#MT_MAP:
-          let cborMap = CBOR.Map().setSortingMode(this.deterministicMode);
+          let cborMap = CBOR.Map().setSortingMode(this.strictMaps);
           for (let q = this.rangeLimitedBigInt(bigN); --q >= 0;) {
             cborMap.set(this.getObject(), this.getObject());
           }
@@ -1165,25 +1182,10 @@ class CBOR {
     // Decoder.* public methods //
     //////////////////////////////
 
-    setDeterministicMode = function(enforced) {
-      this.deterministicMode = enforced;
-      return this;
-    }
-
-    setSequenceMode = function(sequence) {
-      this.sequenceFlag = sequence;
-      return this;
-    }
-
-    setFloatSupport = function(acceptExceptional) {
-      this.rejectNaNFlag = !acceptExceptional;
-      return this;
-    }
-
     decodeWithOptions = function() {
       this.atFirstByte = true;
       let object = this.getObject();
-      if (this.sequenceFlag) {
+      if (this.sequenceMode) {
         if (this.atFirstByte) {
           return null;
         }
@@ -1203,15 +1205,15 @@ class CBOR {
 ///////////////////////////
 
   static decode = function(cbor) {
-    return CBOR.initDecoder(cbor).decodeWithOptions();
+    return CBOR.initDecoder(cbor, 0).decodeWithOptions();
   }
 
 ///////////////////////////
 //  CBOR.initDecoder()  //
 ///////////////////////////
 
-  static initDecoder = function(cbor) {
-    return new CBOR.Decoder(cbor);
+  static initDecoder = function(cbor, options) {
+    return new CBOR.Decoder(cbor, options);
   }
 
 
@@ -1231,9 +1233,9 @@ class CBOR {
     index;
     sequence;
   
-    constructor(cborText, sequenceFlag) {
+    constructor(cborText, sequenceMode) {
       this.cborText = cborText;
-      this.sequenceFlag = sequenceFlag;
+      this.sequenceMode = sequenceMode;
       this.index = 0;
     }
  
@@ -1284,7 +1286,7 @@ class CBOR {
         while (true) {
           sequence.push(this.getObject());
           if (this.index < this.cborText.length) {
-            if (this.sequenceFlag) {
+            if (this.sequenceMode) {
               this.scanFor(",");
             } else {
               this.readChar();
@@ -1883,7 +1885,7 @@ class CBOR {
   }
 
   static get version() {
-    return "1.0.11";
+    return "1.0.12";
   }
 }
 
