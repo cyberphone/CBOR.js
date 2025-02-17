@@ -225,7 +225,7 @@ public class CreateDocument {
   See also <a href='#cbor.map.setsortingmode'>setSortingMode()</a>
   and <a href='#decoder.cbor.initdecoder'>CBOR.initDecoder()</a>.</div>
   <div style='margin-top:0.5em'>Note: this implementation
-  does not support <i>mutable</i> <kbd>key</kbd> objects.
+  presumes that <kbd>key</kbd> objects are <i>immutable</i>.
   That is, the following code will throw an exception:</div>
   <div style='margin:0.3em 0 0 1.2em'><code>let key = CBOR.Array();<br>
   let map = CBOR.Map().set(key, CBOR.Int(5));<br>
