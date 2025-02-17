@@ -256,7 +256,7 @@
   </ol>
   <p>
     Note that this implementation does not support CBOR &quot;simple&quot; values beyond
-    <code>true</code>, <code>false</code>, <code>null</code>, and the three floating-point variants.
+    <code>bool</code>, <code>null</code>, and <code>float</code>.
   </p>
   <p>
     The wrapper concept adds strict <i>type checking</i> to the API.
@@ -631,7 +631,7 @@ causes an exception to be thrown.</div></td></tr>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>set(<i>key</i>, <i>object</i>)</kbd></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Set map entry.
-If <kbd><i>key</i></kbd> entry is already defined, an exception is thrown.
+If <kbd><i>key</i></kbd> is already defined, an exception is thrown.
 <div style='margin-top:0.5em'>Note: <kbd><i>key</i></kbd> order is of no importance since
 <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>
 performs the required map sorting <i>automatically</i>.
@@ -640,7 +640,7 @@ and <a href='#decoder.cbor.initdecoder'>CBOR.initDecoder()</a>.</div>
 <div style='margin-top:0.5em'>Note: this implementation
 does not support <i>mutable</i> <kbd>key</kbd> objects.
 That is, the following code will throw an exception:</div>
-<div style='margin-top:0.3em'><code>let key = CBOR.Array();<br>
+<div style='margin:0.3em 0 0 1.2em'><code>let key = CBOR.Array();<br>
 let map = CBOR.Map().set(key, CBOR.Int(5));<br>
 key.add(CBOR.String("data"));  // Mutating key object</code></div>
 <div style='margin-top:0.3em'>By defining <kbd>key</kbd> objects inline
@@ -690,7 +690,7 @@ a <code>map</code> entry will be created for <kbd><i>key</i></kbd> if not alread
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>get(<i>key</i>)</kbd></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Get map entry.
-If <kbd><i>key</i></kbd> entry is undefined, an exception is thrown.</td></tr>
+If <kbd><i>key</i></kbd> is undefined, an exception is thrown.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>key</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Key (name).</td></tr>
@@ -706,9 +706,9 @@ If <kbd><i>key</i></kbd> entry is undefined, an exception is thrown.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>key</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Key (name).</td></tr>
-<tr><td style='text-align:center'><kbd><i>defaultObject</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Object to return if <kbd><i>key</i></kbd> entry is undefined.
+<tr><td style='text-align:center'><kbd><i>defaultObject</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Object to return if <kbd><i>key</i></kbd> is undefined.
 <div style='margin-top:0.5em'>Note:
-<kbd><i>defaultObject</i></kbd> may be <code>true</code>.</div></td></tr>
+<kbd><i>defaultObject</i></kbd> may be <code>null</code>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Retrieved or default object.</td></tr>
@@ -730,7 +730,7 @@ If <kbd><i>key</i></kbd> entry is undefined, an exception is thrown.</td></tr>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>remove(<i>key</i>)</kbd></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Remove map entry.
-If <kbd><i>key</i></kbd> entry is undefined, an exception is thrown.</td></tr>
+If <kbd><i>key</i></kbd> is undefined, an exception is thrown.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>key</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Key (name).</td></tr>
@@ -754,8 +754,8 @@ If <kbd><i>key</i></kbd> entry is undefined, an exception is thrown.</td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Set the sorting mode of the
 <a href='#wrapper.cbor.map'>CBOR.Map()</a> object during
 <a href='#cbor.map.set'>set()</a> operations.
-<div style='margin:0.5em 0'>Typical usage:<br>
-<code>let map = CBOR.Map().setSortingMode(true)</code></div>
+<div style='margin:0.5em 0'>Typical usage:</div>
+<div style='margin:0.3em 0 0.3em 1.2em'><code>let map = CBOR.Map().setSortingMode(true)</code></div>
 This method may be called multiple times which could be
 useful if you have a moderate set of unsorted meta data keys
 combined with a sorted large table-like set of keys.
@@ -956,7 +956,8 @@ This is only meaningful in conjunction with
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.decode(<i>cbor</i>)</kbd></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Decode a CBOR object.
-<div style='margin-top:0.5em'>This method is equivalent to:<br>
+<div style='margin-top:0.5em'>This method is equivalent to:</div>
+<div style='margin:0.3em 0 0 1.2em'>
 <code style='white-space:nowrap'>CBOR.initDecoder(<i>cbor</i>, 0).decodeWithOptions()</code></div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
@@ -969,7 +970,7 @@ This is only meaningful in conjunction with
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.initDecoder(<i>cbor</i>, <i>options</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Create a CBOR decoder supporting options.
+<tr><th>Description</th><td colspan='2' style='width:100%'>Create a customized CBOR decoder.
 This decoding method presumes that the actual
 decoding is performed by one or more (for sequences only) calls to
 <a href='#decoder.decoder.decodewithoptions'><i>Decoder</i>.decodeWithOptions()</a>.
@@ -980,8 +981,9 @@ See also
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>cbor</i></kbd></td><td style='text-align:center'><kbd>Uint8Array</kbd></td><td style='width:100%'>The CBOR data (bytes) to be decoded.</td></tr>
 <tr><td style='text-align:center'><kbd><i>options</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>The decoder options.
-Multiple options can be combined using the JavaScript
-<code>|</code>&nbsp;(binary or) operator.
+Multiple options can be combined using the binary OR-operator
+("<code>|</code>").
+A zero (0) sets the decoder default mode.
 The options are defined by the following constants:
 <div style='margin-top:0.5em'><kbd>CBOR.SEQUENCE_MODE</kbd>:</div>
 <div style='padding:0.2em 0 0 1.2em'>If the <kbd>CBOR.SEQUENCE_MODE</kbd>
@@ -1013,11 +1015,10 @@ accept different representations of CBOR <code>int</code>, <code>bigint</code>,
 and <code>float</code> items, only limited by RFC&nbsp;8949.</div>
 <div style='margin-top:0.8em'><kbd>CBOR.REJECT_INVALID_FLOATS</kbd>:</div>
 <div style='padding:0.2em 0 0 1.2em'>By default, the decoder supports
-<kbd>NaN</kbd>, <kbd>Infinity</kbd>,
-and <kbd style='white-space:nowrap'>-Infinity</kbd>.
+<kbd>NaN</kbd> and <kbd>Infinity</kbd> values.
 In case these variants are not applicable for the application in question,
-the <kbd>CBOR.REJECT_INVALID_FLOATS</kbd> option enables overriding the default,
-causing such numbers to throw an exception.</div></td></tr>
+the <kbd>CBOR.REJECT_INVALID_FLOATS</kbd> option
+causes such numbers to throw an exception.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>Decoder</i></kbd></td><td colspan='2' style='width:100%'>Decoder object to be used with
@@ -1206,7 +1207,7 @@ base64 encoded data as well as data with or without
   transparent. The <a href='#wrapper.cbor.float'>CBOR.Float()</a>
   wrapper object only exposes the JavaScript <kbd>Number</kbd> type.
   <p>
-  See also the <a href='#decoder.decoder.setfloatsupport'>Decoder.setFloatSupport()</a>
+  See also the <a href='#decoder.cbor.initdecoder'>CBOR.initDecoder()</a>
   method.
   </p>
   <h3 id='main.diagnostic'>7.&nbsp;&nbsp;Diagnostic Notation</h3>

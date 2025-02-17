@@ -218,7 +218,7 @@ public class CreateDocument {
   static final String W_MAP_SET_DESCR = 
   """
   Set map entry.
-  If <kbd><i>key</i></kbd> entry is already defined, an exception is thrown.
+  If <kbd><i>key</i></kbd> is already defined, an exception is thrown.
   <div style='margin-top:0.5em'>Note: <kbd><i>key</i></kbd> order is of no importance since
   <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>
   performs the required map sorting <i>automatically</i>.
@@ -227,7 +227,7 @@ public class CreateDocument {
   <div style='margin-top:0.5em'>Note: this implementation
   does not support <i>mutable</i> <kbd>key</kbd> objects.
   That is, the following code will throw an exception:</div>
-  <div style='margin-top:0.3em'><code>let key = CBOR.Array();<br>
+  <div style='margin:0.3em 0 0 1.2em'><code>let key = CBOR.Array();<br>
   let map = CBOR.Map().set(key, CBOR.Int(5));<br>
   key.add(CBOR.String("data"));  // Mutating key object</code></div>
   <div style='margin-top:0.3em'>By defining <kbd>key</kbd> objects inline
@@ -265,7 +265,7 @@ public class CreateDocument {
   static final String W_MAP_GET_DESCR = 
   """
   Get map entry.
-  If <kbd><i>key</i></kbd> entry is undefined, an exception is thrown.""";
+  If <kbd><i>key</i></kbd> is undefined, an exception is thrown.""";
 ;
 
   static final String W_MAP_GET_RETURN_DESCR = 
@@ -276,7 +276,7 @@ public class CreateDocument {
   static final String W_MAP_REMOVE_DESCR = 
   """
   Remove map entry.
-  If <kbd><i>key</i></kbd> entry is undefined, an exception is thrown.""";
+  If <kbd><i>key</i></kbd> is undefined, an exception is thrown.""";
 
   static final String W_MAP_REMOVE_RETURN_DESCR = 
   """
@@ -290,9 +290,9 @@ public class CreateDocument {
 
   static final String W_MAP_GETCOND_P2_DESCR = 
   """
-  Object to return if <kbd><i>key</i></kbd> entry is undefined.
+  Object to return if <kbd><i>key</i></kbd> is undefined.
   <div style='margin-top:0.5em'>Note: 
-  <kbd><i>defaultObject</i></kbd> may be <code>true</code>.</div>""";
+  <kbd><i>defaultObject</i></kbd> may be <code>null</code>.</div>""";
 
   static final String W_MAP_GETCOND_RETURN_DESCR = 
   """
@@ -321,8 +321,8 @@ public class CreateDocument {
   Set the sorting mode of the
   <a href='#wrapper.cbor.map'>CBOR.Map()</a> object during
   <a href='#cbor.map.set'>set()</a> operations.
-  <div style='margin:0.5em 0'>Typical usage:<br>
-  <code>let map = CBOR.Map().setSortingMode(true)</code></div>
+  <div style='margin:0.5em 0'>Typical usage:</div>
+  <div style='margin:0.3em 0 0.3em 1.2em'><code>let map = CBOR.Map().setSortingMode(true)</code></div>
   This method may be called multiple times which could be
   useful if you have a moderate set of unsorted meta data keys
   combined with a sorted large table-like set of keys.
@@ -606,7 +606,8 @@ public class CreateDocument {
   static final String DECODE_DESCR = 
   """
   Decode a CBOR object.
-  <div style='margin-top:0.5em'>This method is equivalent to:<br>
+  <div style='margin-top:0.5em'>This method is equivalent to:</div>
+  <div style='margin:0.3em 0 0 1.2em'>
   <code style='white-space:nowrap'>CBOR.initDecoder(<i>cbor</i>, 0).decodeWithOptions()</code></div>""";
   
   static final String DECODE_P1_DESCR = 
@@ -621,7 +622,7 @@ public class CreateDocument {
 
   static final String INITEXT_DESCR = 
   """
-  Create a CBOR decoder supporting options.
+  Create a customized CBOR decoder.
   This decoding method presumes that the actual
   decoding is performed by one or more (for sequences only) calls to
   <a href='#decoder.decoder.decodewithoptions'><i>Decoder</i>.decodeWithOptions()</a>.
@@ -636,8 +637,9 @@ public class CreateDocument {
   static final String INITEXT_P2_DESCR = 
   """
   The decoder options.
-  Multiple options can be combined using the JavaScript
-  <code>|</code>&nbsp;(binary or) operator.
+  Multiple options can be combined using the binary OR-operator
+  ("<code>|</code>").
+  A zero (0) sets the decoder default mode.
   The options are defined by the following constants:
   <div style='margin-top:0.5em'><kbd>CBOR.SEQUENCE_MODE</kbd>:</div>
   <div style='padding:0.2em 0 0 1.2em'>If the <kbd>CBOR.SEQUENCE_MODE</kbd>
@@ -669,91 +671,17 @@ public class CreateDocument {
   and <code>float</code> items, only limited by RFC&nbsp;8949.</div>
   <div style='margin-top:0.8em'><kbd>CBOR.REJECT_INVALID_FLOATS</kbd>:</div>
   <div style='padding:0.2em 0 0 1.2em'>By default, the decoder supports 
-  <kbd>NaN</kbd>, <kbd>Infinity</kbd>, 
-  and <kbd style='white-space:nowrap'>-Infinity</kbd>. 
+  <kbd>NaN</kbd> and <kbd>Infinity</kbd> values. 
   In case these variants are not applicable for the application in question,
-  the <kbd>CBOR.REJECT_INVALID_FLOATS</kbd> option enables overriding the default,
-  causing such numbers to throw an exception.</div>""";
+  the <kbd>CBOR.REJECT_INVALID_FLOATS</kbd> option
+  causes such numbers to throw an exception.</div>""";
 
   static final String INITEXT_RETURN_DESCR = 
   """
   Decoder object to be used with
   <a href='#decoder.decoder.decodewithoptions'><i>Decoder</i>.decodeWithOptions()</a>.""";
 
-  // Decoder.setDeterministicMode()
-/* 
-  static final String SET_DET_MODE_DESCR =
-  """
-  Set CBOR decoder deterministic mode.
-  <div style='margin-top:0.5em'>
-  By default, the decoder assumes that CBOR data conforms to the
-  <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a> rules.
-  This method enables overriding the default.
-  </div>
-  """;
-
-  static final String SET_DET_MODE_P1_DESCR =
-  """
-  If the <kbd>enforce</kbd> flag is set to <code>false</code>,
-  the decoder will accept CBOR data that does not adhere to the map sorting
-  and preferred number serialization requirements.
-  This option may be needed for dealing with &quot;legacy&quot; CBOR implementations.
-  Note: duplicate keys and other invalid (or not supported) CBOR constructs
-  still cause an exception to be thrown.
-  """;
-
-  static final String SET_METHOD_RETURN_DESCR = 
-  """
-  Updated <kbd><i>Decoder</i></kbd> object.""";
-
-    // Decoder.setSequenceMode()
-
-  static final String SET_SEQ_MODE_DESCR =
-  """
-  Set CBOR decoder sequence mode.
-  <div style='margin-top:0.5em'>
-  By default, the decoder assumes that CBOR data constitutes
-  of a single CBOR object.
-  This method enables overriding the default.
-  </div>
-  """;
-
-  static final String SET_SEQ_MODE_P1_DESCR =
-  """
-  If the <kbd>sequence</kbd> flag is set to <code>true</code>,
-  the following apply:
-  <ul style='padding:0;margin:0 0 0 2em'>
-  <li style='margin-top:0'>Immediately return after decoding a CBOR object, while preparing the 
-  decoder for the next item.
-  See also <a href='#decoder.decoder.getbytecount'><i>Decoder</i>.getByteCount()</a>.</li>
-  <li>If no data is found (EOF), <code>null</code> is returned
-  (<i>empty</i> sequences are permitted).</li>
-  <li>Note that data <i>succeeding</i> a just decoded CBOR object 
-  is not verified for correctness.</li>  
-  </ul>  
-  """;
-
-    // Decoder.setFloatSupport()
-
-  static final String SET_FLOAT_SUPP_DESCR =
-  """
-  Set CBOR decoder <kbd>NaN/Infinity</kbd> support.
-  <div style='margin-top:0.5em'>
-  By default, the decoder supports 
-  <kbd>NaN</kbd>, <kbd>Infinity</kbd>, 
-  and <kbd style='white-space:nowrap'>-Infinity</kbd>. 
-  In case these variants are not applicable for the application in question,
-  this method enables overriding the default.
-  </div>
-  """;
-
-  static final String SET_FLOAT_SUPP_P1_DESCR =
-  """
-  If the <kbd>acceptExceptional</kbd> flag is set to <code>false</code>,
-  the mentioned exceptional floating-point values
-  cause an exception to be thrown.  
-  """;
-*/
+ 
   // Decoder.decodeWithOptions()
 
   static final String DECODEEXT_DESCR = 

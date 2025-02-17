@@ -144,7 +144,7 @@
   </ol>
   <p>
     Note that this implementation does not support CBOR &quot;simple&quot; values beyond
-    <code>true</code>, <code>false</code>, <code>null</code>, and the three floating-point variants.
+    <code>bool</code>, <code>null</code>, and <code>float</code>.
   </p>
   <p>
     The wrapper concept adds strict <i>type checking</i> to the API.
@@ -212,7 +212,7 @@
   transparent. The <a href='#wrapper.cbor.float'>CBOR.Float()</a>
   wrapper object only exposes the JavaScript <kbd>Number</kbd> type.
   <p>
-  See also the <a href='#decoder.decoder.setfloatsupport'>Decoder.setFloatSupport()</a>
+  See also the <a href='#decoder.cbor.initdecoder'>CBOR.initDecoder()</a>
   method.
   </p>
   ${DIAGNOSTIC_NOTATION}
