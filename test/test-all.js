@@ -752,6 +752,18 @@ try {
   }
 }
 
+function oneTurn(epoch, isoString) {
+  assertTrue("Time", 
+             new Date(CBOR.Tag(0n, CBOR.String(isoString)).get().getString()).getTime() == epoch);
+}
+
+oneTurn(1740060548000, "2025-02-20T14:09:08+00:00");
+oneTurn(1740060548000, "2025-02-20T14:09:08Z");
+oneTurn(1740060548000, "2025-02-20T15:09:08+01:00");
+oneTurn(1740060548000, "2025-02-20T15:39:08+01:30");
+oneTurn(1740060548000, "2025-02-20T12:09:08-02:00");
+oneTurn(1740060548000, "2025-02-20T11:39:08-02:30");
+
 success();
 `}
 ,
