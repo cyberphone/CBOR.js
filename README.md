@@ -22,7 +22,7 @@ _Web browsers_, _mobile phones_, and _Web servers_.
 Due to the desire maintaining interoperability across different platforms,
 the API "by design" does not address JavaScript specific
 types like `undefined` and binary data beyond `Uint8Array`.
-See also: [CBOR Everywhere](https://github.com/cyberphone/cbor-everywhere/).
+Also see: [CBOR Everywhere](https://github.com/cyberphone/cbor-everywhere/).
 
 ### "CBOR" Components
 - Self-encoding wrapper objects
