@@ -651,8 +651,7 @@ public class CreateDocument {
   <li>If no data is found (EOF), <code>null</code> is returned
   (<i>empty</i> sequences are permitted).</li>
   </ul>
-  Note that data <i>succeeding</i> a just decoded CBOR object 
-  is not verified for correctness.</div>
+  Note that data that has not yet been decoded, is not verified for correctness.</div>
   <div style='margin-top:0.8em'><kbd>CBOR.LENIENT_MAP_DECODING</kbd>:</div>
   <div style='padding:0.2em 0 0 1.2em'>By default, the decoder requires
   that CBOR maps conform to the
