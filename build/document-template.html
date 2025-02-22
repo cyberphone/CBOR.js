@@ -425,10 +425,11 @@
   </div>
   <ul>
     <li id='immutable-objects' class='webpkilistspacing'>
-      RFC+: In order to support cryptographic operations like hashing,
+      RFC+: To facilitate cryptographic methods like hashing,
+      to also being able to operate on &quot;raw&quot; (unwrapped) CBOR data,
       CBOR tools implementing deterministic encoding according to this specification,
       <b>must</b> support <i>immutable</i> CBOR objects.  As an example,
-      ISO date-strings must be preserved in their original form, regardless of
+      ISO date-strings <b>must</b> be preserved in their original form, regardless of
       their representation as a platform-native data type.
     </li>
     <li id='number-encoding' class='webpkilistspacing'>
