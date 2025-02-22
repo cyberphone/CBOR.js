@@ -747,7 +747,7 @@ class CBOR {
       let entry = this.#lookup(key, existing);
       let previous;
       if (entry) {
-        previous = entry.object;
+        previous = this._structuredTypes(entry.object);
         entry.object = CBOR.#cborArgumentCheck(object);
       } else {
         previous = null;
@@ -792,7 +792,7 @@ class CBOR {
       for (let i = 0; i < this.#entries.length; i++) {
         if (this.#entries[i] == targetEntry) {
           this.#entries.splice(i, 1);
-          return targetEntry.object;
+          return this._structuredTypes(targetEntry.object);
         }
       }
     }

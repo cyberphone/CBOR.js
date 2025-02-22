@@ -1420,14 +1420,20 @@ base64 encoded data as well as data with or without
     The encoding rules are as follows:
   </div>
   <ul>
-    <li id='immutable-objects' class='webpkilistspacing'>
-      RFC+: To facilitate cryptographic methods like hashing,
-      to also being able to operate on &quot;raw&quot; (unwrapped) CBOR data,
-      CBOR tools implementing deterministic encoding according to this specification,
-      <b>must</b> support <i>immutable</i> CBOR objects.  As an example,
-      ISO date-strings <b>must</b> be preserved in their original form, regardless of
-      their representation as a platform-native data type.
+    <li id='immutable-primities' class='webpkilistspacing'>
+      RFC+: To enable cryptographic methods like hashing,
+      to also be applicable to &quot;raw&quot; (unwrapped) CBOR data,
+      compliant encoders and decoders, <b>must</b> support <i>immutable</i>
+      CBOR primitives.  As an example, RFC&nbsp;3339 date/time strings <b>must</b> be preserved
+      in their original form, irrespective of platform native representations
+      of time data.
     </li>
+    <li id='cbor-transformations' class='webpkilistspacing'>
+      RFC+: To enable secure transformations of structured CBOR data, compliant encoders
+      and decoders <b>must</b> permit the <i>removal</i>, <i>update</i>, and
+      <i>addition</i> of CBOR objects in CBOR <code>array</code> and <code>map</code> objects,
+      while maintaining proper (updated) deterministic encoding after such operations.
+    </li>   
     <li id='number-encoding' class='webpkilistspacing'>
       RFC+: Floating point and integer objects <b>must</b> be treated as <i>distinct types</i>
       regardless of their numeric value. This is compliant with

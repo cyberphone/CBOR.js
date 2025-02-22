@@ -610,10 +610,9 @@ class CBOR {
       index = CBOR.#intCheck(index);
       if (index < 0 || index >= this.#objects.length) {
         CBOR.#error("Array index out of range: " + index);
-      }
-      let previous = this._structuredTypes(this.#objects[index]);
-      this.#objects[index] = CBOR.#cborArgumentCheck(object);
-      return previous;
+      } 
+      return this._structuredTypes(
+        this.#objects.splice(index, 1, CBOR.#cborArgumentCheck(object))[0]); 
     }
 
     toArray = function() {
@@ -748,7 +747,7 @@ class CBOR {
       let entry = this.#lookup(key, existing);
       let previous;
       if (entry) {
-        previous = entry.object;
+        previous = this._structuredTypes(entry.object);
         entry.object = CBOR.#cborArgumentCheck(object);
       } else {
         previous = null;
@@ -793,7 +792,7 @@ class CBOR {
       for (let i = 0; i < this.#entries.length; i++) {
         if (this.#entries[i] == targetEntry) {
           this.#entries.splice(i, 1);
-          return targetEntry.object;
+          return this._structuredTypes(targetEntry.object);
         }
       }
     }
