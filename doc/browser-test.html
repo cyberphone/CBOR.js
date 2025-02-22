@@ -128,6 +128,15 @@ oneTurn("CBOR.Tag(8n, CBOR.Map())",
         "res.get()",
         null);
 
+// Date time specials
+oneTurn("CBOR.Tag(0n, CBOR.String(\"2025-02-20T14:09:08Z\"))",
+        "res.get()",
+        null);
+
+oneTurn("CBOR.Tag(0n, CBOR.String(\"2025-02-20T14:09:08Z\"))",
+        "res.get().getString()",
+        null);
+
 oneTurn("CBOR.Tag(8n, CBOR.Int(2))",
         "res.get()",
         "Tagged object 8 of type=CBOR.Int with value=2 was never read");  

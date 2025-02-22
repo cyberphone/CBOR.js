@@ -19,7 +19,7 @@ function oneTurn(create, access, errorString) {
     res.checkForUnread();
     assertFalse("cfu1", errorString);
   } catch (error) {
-    assertTrue("cfu2", errorString);
+    assertTrue("cfu2=" + error, errorString);
     if (!error.toString().includes(errorString)) {
       throw error;
     }
@@ -61,6 +61,15 @@ oneTurn("CBOR.Tag(8n, CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
 
 oneTurn("CBOR.Tag(8n, CBOR.Map())",
         "res.get()",
+        null);
+
+// Date time specials
+oneTurn("CBOR.Tag(0n, CBOR.String(\"2025-02-20T14:09:08Z\"))",
+        "res.get()",
+        "Tagged object 0 of type=CBOR.String with value=\"2025-02-20T14:09:08Z\" was never read");
+
+oneTurn("CBOR.Tag(0n, CBOR.String(\"2025-02-20T14:09:08Z\"))",
+        "res.get().getString()",
         null);
 
 oneTurn("CBOR.Tag(8n, CBOR.Int(2))",
