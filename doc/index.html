@@ -1407,12 +1407,12 @@ base64 encoded data as well as data with or without
     While there are different ways you can encode certain CBOR objects,
     this is non-trivial to support in a generic platform API without
     adding complexity and that for little provable gain.
-    Therefore the CBOR.js API defines specific (non-variant)
+    Therefore the CBOR.js API implements specific (non-variant)
     encodings, aka &quot;Deterministic Encoding&quot;.  The chosen encoding
     scheme is <i>backward compatible</i> with most existing CBOR <i>decoders</i>.
     However, for <i>decoding</i> (only), compliance with deterministic encoding
-    rules may be <a href='#decoder.cbor.initdecoder'>relaxed</a>,
-    enabling CBOR.js to process CBOR data using &quot;legacy&quot; encoding schemes as well.
+    rules may be <a href='#decoder.cbor.initdecoder'>relaxed</a>, enabling
+    the processing of CBOR data using &quot;legacy&quot; encoding schemes as well.
   </p>
   <div style='margin-top:0.8em'>
     The encoding scheme adheres to section 4.2 of RFC&nbsp;8949, but adds
