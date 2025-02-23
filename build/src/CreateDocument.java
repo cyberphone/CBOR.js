@@ -762,6 +762,8 @@ public class CreateDocument {
   static final String DIAGNOSTIC_NOTATION = "${DIAGNOSTIC_NOTATION}"; 
 
   static final String DETERMINISTIC_ENCODING = "${DETERMINISTIC_ENCODING}";
+  static final String DET_ENC_TOOLS = "${DET_ENC_TOOLS}";
+  static final String DET_ENC_RULES = "${DET_ENC_RULES}";
 
   static final String EXAMPLES = "${EXAMPLES}";
 
@@ -1679,6 +1681,11 @@ a201fb4046d9999999999a0269486920746865726521
     outline.increment();
 
     replace(DETERMINISTIC_ENCODING, printMainHeader("deterministic", "Deterministic Encoding"));
+    outline.indent();
+    replace(DET_ENC_TOOLS, printSubHeader("det.enc.tools", "Encoder/Decoder Considerations"));
+    outline.increment();
+    replace(DET_ENC_RULES, printSubHeader("det.enc.rules", "Encoding Scheme"));
+    outline.undent();
     outline.increment();
 
     replace(EXAMPLES, printMainHeader("examples", "Using the CBOR API"));
