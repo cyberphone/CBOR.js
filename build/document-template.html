@@ -423,20 +423,21 @@
     a few constraints (denoted by RFC+), where the RFC offers choices.
     The encoding rules are as follows:
   </div>
-  <ul>
-    <li id='immutable-primities' class='webpkilistspacing'>
-      RFC+: To enable cryptographic methods like hashing,
+  <ul style='margin:0 0'>
+    <li id='immutable-primitives' class='webpkilistspacing'>
+      RFC+: To enable cryptographic methods like hashing
       to also be applicable to &quot;raw&quot; (unwrapped) CBOR data,
-      compliant encoders and decoders, <b>must</b> support <i>immutable</i>
-      CBOR primitives.  As an example, RFC&nbsp;3339 date/time strings <b>must</b> be preserved
+      compliant encoders and decoders <b>must</b> treat CBOR primitives as <i>immutable</i>. 
+      For example, RFC&nbsp;3339 date/time strings <b>must</b> be preserved
       in their original form, irrespective of platform native representations
       of time data.
     </li>
     <li id='cbor-transformations' class='webpkilistspacing'>
-      RFC+: To enable secure transformations of structured CBOR data, compliant encoders
-      and decoders <b>must</b> permit the <i>removal</i>, <i>update</i>, and
-      <i>addition</i> of CBOR objects in CBOR <code>array</code> and <code>map</code> objects,
-      while maintaining proper (updated) deterministic encoding after such operations.
+      RFC+: To facilitate transformations of structured CBOR data, compliant encoders
+      and decoders <b>must</b> for CBOR <code>array</code> and <code>map</code> objects,
+      support the <i>removal</i>, <i>update</i>, and <i>addition</i> of CBOR objects.
+      After such an operation, the (deterministic) encoding of
+      the targeted object <b>must</b> correctly reflect the update.
     </li>   
     <li id='number-encoding' class='webpkilistspacing'>
       RFC+: Floating point and integer objects <b>must</b> be treated as <i>distinct types</i>
@@ -550,6 +551,6 @@
   ${VERSION_INFO}
   API version: 1.0.12.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-02-16
+  Document version: 2025-02-23
 </body>
 </html>

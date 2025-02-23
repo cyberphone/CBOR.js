@@ -345,7 +345,13 @@ public class CreateDocument {
 
   static final String W_TAG_DESCR = 
   """
-  Constructor.  Creates a CBOR tag object.""";
+  Constructor.  Creates a CBOR tag object.
+  <div style='margin-top:0.5em'>
+  The CBOR tag constructor accepts any valid parameters but performs
+  thorough syntax checks on tag 0 (CBOR date/time) and tag 1010
+  [<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/'
+    title="COTX">COTX<img src="xtl.svg" alt="link"></a>].
+  </div>""";
 
   static final String W_TAG_P1_DESCR = 
   """
@@ -468,11 +474,12 @@ public class CreateDocument {
    tag <a href='#cbor.tag.get'>get()</a>
    only <i>locate</i> objects,
    and thus do not count as &quot;read&quot;.
-   <div style='margin:0.5em 0'>
-   Note that <i>empty</i> array and map objects are <i>excluded</i> from
-   this check.
-   </div>
-   See also <a href='#common.scan'>scan()</a>.""";
+   <div style='margin-top:0.5em'>To cope with elements that are redundant,
+   <a href='#common.scan'>scan()</a> can be used:</div>
+  <div style='margin:0.3em 0 0 1.2em'><code>let array = CBOR.diagDecode(`[3, {}]`);<br>
+  let operation = array.get(0).getInt8();<br>
+  array.get(1).scan();&nbsp;&nbsp;&nbsp;&nbsp;// mark array[1] as read<br>
+  array.checkForUnread();</div>""";
  
 
   // toDiag()
@@ -607,8 +614,9 @@ public class CreateDocument {
   """
   Decode a CBOR object.
   <div style='margin-top:0.5em'>This method is equivalent to:</div>
-  <div style='margin:0.3em 0 0 1.2em'>
-  <code style='white-space:nowrap'>CBOR.initDecoder(<i>cbor</i>, 0).decodeWithOptions()</code></div>""";
+  <div style='margin:0.3em 0 0.5em 1.2em'>
+  <code style='white-space:nowrap'>CBOR.initDecoder(<i>cbor</i>, 0).decodeWithOptions()</code></div>
+  Unsupported or malformed CBOR data cause an exception to be thrown.""";
   
   static final String DECODE_P1_DESCR = 
   """
@@ -626,6 +634,9 @@ public class CreateDocument {
   This decoding method presumes that the actual
   decoding is performed by one or more (for sequences only) calls to
   <a href='#decoder.decoder.decodewithoptions'><i>Decoder</i>.decodeWithOptions()</a>.
+  <div style='margin-top:0.5em'>
+  Note that irrespective of options, the decoder maintains parsed data in the form required for  
+  <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>.</div>
   <div style='margin-top:0.5em'>
   See also 
   <a href='#decoder.decoder.getbytecount'><i>Decoder</i>.getByteCount()</a>.</div>""";
@@ -646,8 +657,7 @@ public class CreateDocument {
   option is defined, the following apply:
   <ul style='padding:0;margin:0 0 0.5em 1.2em'>
   <li style='margin-top:0'>The decoder returns after having decoded
-  a <i>single</i> CBOR object, while preparing for the next object.<br>
-  See also <a href='#decoder.decoder.getbytecount'><i>Decoder</i>.getByteCount()</a>.</li>
+  a <i>single</i> CBOR object, while preparing for the next object.</li>
   <li>If no data is found (EOF), <code>null</code> is returned
   (<i>empty</i> sequences are permitted).</li>
   </ul>
@@ -685,7 +695,9 @@ public class CreateDocument {
 
   static final String DECODEEXT_DESCR = 
   """
-  Decode CBOR data with options.""";
+  Decode CBOR data with options.
+  <div style='margin-top:0.5em'>
+  Unsupported or malformed CBOR data cause an exception to be thrown.</div>""";
   
   static final String DECODEEXT_RETURN_DESCR = 
   """

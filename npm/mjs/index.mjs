@@ -152,30 +152,28 @@ export default class CBOR {
         CBOR.#error('Map keys are immutable'); 
       }
     }
- 
+
+    _markAsRead = function() {
+      this.#readFlag = true;
+    }
+
     #traverse = function(holderObject, check) {
       switch (this.constructor.name) {
         case "Map":
           this.getKeys().forEach(key => {
             this.get(key).#traverse(key, check);
           });
-          if (holderObject) {
-            break;
-          }
-          return;
+          break;
         
         case "Array":
           this.toArray().forEach(object => {
             object.#traverse(this, check);
           });
-          if (holderObject) {
-            break;
-          }
-          return;
+          break;
         
         case "Tag":
           this.get().#traverse(this, check);
-          return;
+          break;
       }
       if (check) {
         if (!this.#readFlag) {
@@ -216,12 +214,6 @@ export default class CBOR {
       return this._get();
     }
 
-    _structuredTypes = function(object) {
-      if (object instanceof CBOR.Array || object instanceof CBOR.Map) {
-        object.#readFlag = true;
-      }
-      return object;
-    }
   }
 
   static CborError = class extends Error {
@@ -598,11 +590,12 @@ export default class CBOR {
     }
 
     get = function(index) {
+      this._markAsRead();
       index = CBOR.#intCheck(index);
       if (index < 0 || index >= this.#objects.length) {
         CBOR.#error("Array index out of range: " + index);
       }
-      return this._structuredTypes(this.#objects[index]);
+      return this.#objects[index];
     }
 
     update = function(index, object) {
@@ -611,8 +604,7 @@ export default class CBOR {
       if (index < 0 || index >= this.#objects.length) {
         CBOR.#error("Array index out of range: " + index);
       } 
-      return this._structuredTypes(
-        this.#objects.splice(index, 1, CBOR.#cborArgumentCheck(object))[0]); 
+      return this.#objects.splice(index, 1, CBOR.#cborArgumentCheck(object))[0]; 
     }
 
     toArray = function() {
@@ -747,7 +739,7 @@ export default class CBOR {
       let entry = this.#lookup(key, existing);
       let previous;
       if (entry) {
-        previous = this._structuredTypes(entry.object);
+        previous = entry.object;
         entry.object = CBOR.#cborArgumentCheck(object);
       } else {
         previous = null;
@@ -768,14 +760,15 @@ export default class CBOR {
     }
 
     get = function(key) {
-      return this._structuredTypes(this.#lookup(key, true).object);
+      this._markAsRead();
+      return this.#lookup(key, true).object;
     }
 
     getConditionally = function(key, defaultObject) {
       let entry = this.#lookup(key, false);
       // Note: defaultValue may be 'null'
       defaultObject = defaultObject ? CBOR.#cborArgumentCheck(defaultObject) : null;
-      return entry ? this._structuredTypes(entry.object) : defaultObject;
+      return entry ? entry.object : defaultObject;
     }
 
     getKeys = function() {
@@ -792,7 +785,7 @@ export default class CBOR {
       for (let i = 0; i < this.#entries.length; i++) {
         if (this.#entries[i] == targetEntry) {
           this.#entries.splice(i, 1);
-          return this._structuredTypes(targetEntry.object);
+          return targetEntry.object;
         }
       }
     }
@@ -915,7 +908,8 @@ export default class CBOR {
     }
 
     get = function() {
-      return this._structuredTypes(this.#object);
+      this._markAsRead();
+      return this.#object;
     }
 
     _get = function() {

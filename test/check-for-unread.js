@@ -45,11 +45,19 @@ oneTurn("CBOR.Array().add(CBOR.Map())",
 // Empty Map => nothing to read
 oneTurn("CBOR.Array().add(CBOR.Map())",
         "res.get(0)",
+        "Array element of type=CBOR.Map with value={} was never read");
+
+oneTurn("CBOR.Array().add(CBOR.Map())",
+        "res.get(0).scan()",
         null);
 
 // Empty Array => nothing to read
 oneTurn("CBOR.Array()",
         "res",
+        "Data of type=CBOR.Array with value=[] was never read");
+
+oneTurn("CBOR.Array()",
+        "res.scan()",
         null);
 
 oneTurn("CBOR.Tag(8n, CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
@@ -61,6 +69,10 @@ oneTurn("CBOR.Tag(8n, CBOR.Map().set(CBOR.Int(1), CBOR.String('hi')))",
 
 oneTurn("CBOR.Tag(8n, CBOR.Map())",
         "res.get()",
+        "Tagged object 8 of type=CBOR.Map with value={} was never read");
+
+oneTurn("CBOR.Tag(8n, CBOR.Map())",
+        "res.get().scan()",
         null);
 
 // Date time specials
