@@ -427,13 +427,16 @@
   <ul style='margin:0 0'>
   <li id='immutable-primitives' class='webpkilistspacing'>
     To enable cryptographic methods like hashing
-    to also be applicable to &quot;raw&quot; (unwrapped) CBOR data,
+    to also be applicable to &quot;raw&quot; CBOR data 
+    (in contrast to wrapping data to be signed in <code>bstr</code> as required by
+    COSE&nbsp;[<a href="https://www.rfc-editor.org/rfc/rfc9052.html"
+                title="CBOR">RFC9052<img src="xtl.svg" alt="link"></a>]),
     encoders and decoders <b>must</b> treat CBOR primitives as <i>immutable</i>. 
     For example, RFC&nbsp;3339 date/time strings <b>must</b> be preserved
     in their original form, irrespective of platform native representations
     of time data.
   </li>
-  <li id='cbor-transformations'>
+  <li id='cbor-transformations' class='webpkilistspacing'>
     To facilitate transformations of structured CBOR data, encoders
     and decoders <b>must</b> for CBOR <code>array</code> and <code>map</code> objects,
     support the <i>removal</i>, <i>update</i>, and <i>addition</i> of CBOR objects.
@@ -441,6 +444,12 @@
     the targeted object <b>must</b> correctly reflect the update.
   </li>   
   </ul>
+  <a href="https://github.com/cyberphone/cbor-everywhere?tab=readme-ov-file#cryptographic-operations"
+  title="ES">Enveloped signatures<img src="xtl.svg" alt="link"></a> represent a core
+  application for these enhancements.
+  Unlike their <i>enveloping</i> counterparts, enveloped signatures
+  typically cover the <i>entire</i> object, while keeping the structure
+  of the original (unsigned) object intact.
   ${DET_ENC_RULES}
   <div style='margin:0.8em 0 0.3em 0'>
     The encoding scheme adheres to section 4.2 of RFC&nbsp;8949, but adds
