@@ -1420,8 +1420,8 @@ base64 encoded data as well as data with or without
   This section is primarily targeting implementers of CBOR tools.
   <p id='encoding-scheme'>
     While there are different ways you can encode certain CBOR objects,
-    this is non-trivial to support in a generic platform API without
-    adding complexity and that for little provable gain.
+    this is non-trivial to support in general purpose platform-based tools,
+    not to mention the limited utility of such measures.
     Therefore the CBOR.js API implements specific (non-variant)
     encodings, aka &quot;Deterministic Encoding&quot;.  The chosen encoding
     scheme is <i>backward compatible</i> with most existing CBOR <i>decoders</i>.
