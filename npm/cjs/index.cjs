@@ -1832,7 +1832,7 @@ class CBOR {
 
   static #checkArgs(list, expected)  {
     if (list.length != expected) {
-      CBOR.#error('Expected arguments:' + expected);
+      CBOR.#error('Expected number of arguments: ' + expected);
     }
   }
 
