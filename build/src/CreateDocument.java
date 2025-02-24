@@ -1682,7 +1682,7 @@ a201fb4046d9999999999a0269486920746865726521
 
     replace(DETERMINISTIC_ENCODING, printMainHeader("deterministic", "Deterministic Encoding"));
     outline.indent();
-    replace(DET_ENC_TOOLS, printSubHeader("det.enc.tools", "Encoder/Decoder Considerations"));
+    replace(DET_ENC_TOOLS, printSubHeader("det.enc.tools", "Encoder/Decoder Extensions"));
     outline.increment();
     replace(DET_ENC_RULES, printSubHeader("det.enc.rules", "Encoding Scheme"));
     outline.undent();

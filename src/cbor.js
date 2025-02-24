@@ -584,12 +584,14 @@ class CBOR {
     #objects = [];
 
     add = function(object) {
+      CBOR.#checkArgs(arguments, 1);
       this._immutableTest();
       this.#objects.push(CBOR.#cborArgumentCheck(object));
       return this;
     }
 
     get = function(index) {
+      CBOR.#checkArgs(arguments, 1);
       this._markAsRead();
       index = CBOR.#intCheck(index);
       if (index < 0 || index >= this.#objects.length) {
@@ -599,6 +601,7 @@ class CBOR {
     }
 
     update = function(index, object) {
+      CBOR.#checkArgs(arguments, 2);
       this._immutableTest();
       index = CBOR.#intCheck(index);
       if (index < 0 || index >= this.#objects.length) {
@@ -671,6 +674,7 @@ class CBOR {
     }
 
     set = function(key, object) {
+      CBOR.#checkArgs(arguments, 2);
       this._immutableTest();
       let newEntry = new CBOR.Map.Entry(this.#getKey(key), CBOR.#cborArgumentCheck(object));
       this.#makeImmutable(key);
@@ -735,6 +739,7 @@ class CBOR {
     }
 
     update = function(key, object, existing) {
+      CBOR.#checkArgs(arguments, 3);
       this._immutableTest();
       let entry = this.#lookup(key, existing);
       let previous;
@@ -749,6 +754,7 @@ class CBOR {
     }
 
     merge = function(map) {
+      CBOR.#checkArgs(arguments, 1);
       this._immutableTest();
       if (!(map instanceof CBOR.Map)) {
         CBOR.#error("Argument must be of type CBOR.Map");
@@ -760,11 +766,13 @@ class CBOR {
     }
 
     get = function(key) {
+      CBOR.#checkArgs(arguments, 1);
       this._markAsRead();
       return this.#lookup(key, true).object;
     }
 
     getConditionally = function(key, defaultObject) {
+      CBOR.#checkArgs(arguments, 2);
       let entry = this.#lookup(key, false);
       // Note: defaultValue may be 'null'
       defaultObject = defaultObject ? CBOR.#cborArgumentCheck(defaultObject) : null;
@@ -780,6 +788,7 @@ class CBOR {
     }
 
     remove = function(key) {
+      CBOR.#checkArgs(arguments, 1);
       this._immutableTest();
       let targetEntry = this.#lookup(key, true);
       for (let i = 0; i < this.#entries.length; i++) {
@@ -795,6 +804,7 @@ class CBOR {
     }
 
     containsKey = function(key) {
+      CBOR.#checkArgs(arguments, 1);
       return this.#lookup(key, false) != null;
     }
 
@@ -825,6 +835,7 @@ class CBOR {
     }
 
     setSortingMode = function(preSortedKeys) {
+      CBOR.#checkArgs(arguments, 1);
       this.#preSortedKeys = preSortedKeys;
       return this;
     }
@@ -901,6 +912,7 @@ class CBOR {
     }
 
     update = function(object) {
+      CBOR.#checkArgs(arguments, 1);
       this._immutableTest();
       let previous = this.#object;
       this.#object = CBOR.#cborArgumentCheck(object);
@@ -908,12 +920,9 @@ class CBOR {
     }
 
     get = function() {
+      CBOR.#checkArgs(arguments, 0);
       this._markAsRead();
       return this.#object;
-    }
-
-    _get = function() {
-      return this;
     }
   }
 
@@ -1819,6 +1828,12 @@ class CBOR {
     if (charCode >= 0x61 && charCode <= 0x66) return charCode - 0x57;
     if (charCode >= 0x41 && charCode <= 0x46) return charCode - 0x37;
     CBOR.#error("Bad hex character: " + String.fromCharCode(charCode));
+  }
+
+  static #checkArgs(list, expected)  {
+    if (list.length != expected) {
+      CBOR.#error('Expected number of arguments: ' + expected);
+    }
   }
 
 //================================//

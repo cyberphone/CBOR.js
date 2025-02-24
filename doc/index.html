@@ -138,7 +138,7 @@
 </div>
 <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#main.diagnostic'>7.&nbsp;&nbsp;Diagnostic Notation</a></div>
 <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.deterministic'>8.&nbsp;&nbsp;Deterministic Encoding</a></div><div style='display:none'>
-<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#det.enc.tools'>8.1.&nbsp;&nbsp;Encoder/Decoder Considerations</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#det.enc.tools'>8.1.&nbsp;&nbsp;Encoder/Decoder Extensions</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#det.enc.rules'>8.2.&nbsp;&nbsp;Encoding Scheme</a></div>
 </div>
 <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.examples'>9.&nbsp;&nbsp;Using the CBOR API</a></div><div style='display:none'>
@@ -1429,25 +1429,24 @@ base64 encoded data as well as data with or without
     rules may be <a href='#decoder.cbor.initdecoder'>relaxed</a>, enabling
     the processing of CBOR data using &quot;legacy&quot; encoding schemes as well.
   </p>
-  <h5 id='det.enc.tools'>8.1.&nbsp;&nbsp;Encoder/Decoder Considerations</h5>
+  <h5 id='det.enc.tools'>8.1.&nbsp;&nbsp;Encoder/Decoder Extensions</h5>
 
   <div style='margin:0.8em 0 0.3em 0'>
-    Many applications need more functionality from CBOR tools,
-    than just generating and decoding deterministically encoded CBOR data.
-    The following section elaborates on the enhanced encoder/decoder
-    concept powering CBOR.js:
+    For compliance with this specification, encoders and decoders <b>must</b>
+    support additional functionality, primarily targeting the combination
+    of deterministic encoding and cryptographic constructs:
   </div>
   <ul style='margin:0 0'>
   <li id='immutable-primitives' class='webpkilistspacing'>
     To enable cryptographic methods like hashing
     to also be applicable to &quot;raw&quot; (unwrapped) CBOR data,
-    compliant encoders and decoders <b>must</b> treat CBOR primitives as <i>immutable</i>. 
+    encoders and decoders <b>must</b> treat CBOR primitives as <i>immutable</i>. 
     For example, RFC&nbsp;3339 date/time strings <b>must</b> be preserved
     in their original form, irrespective of platform native representations
     of time data.
   </li>
   <li id='cbor-transformations'>
-    To facilitate transformations of structured CBOR data, compliant encoders
+    To facilitate transformations of structured CBOR data, encoders
     and decoders <b>must</b> for CBOR <code>array</code> and <code>map</code> objects,
     support the <i>removal</i>, <i>update</i>, and <i>addition</i> of CBOR objects.
     After such an operation, the (deterministic) encoding of
@@ -1584,6 +1583,6 @@ The following code shows how you can <i>decode</i> CBOR specified in
 
   API version: 1.0.12.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-02-23
+  Document version: 2025-02-24
 </body>
 </html>
