@@ -434,9 +434,11 @@
                 title="CBOR">RFC9052<img src="xtl.svg" alt="link"></a>]),
     CBOR <i>decoders</i> <b>must</b> treat CBOR primitives as <i>immutable</i>
     to support deterministic <i>reserialization</i> of decoded data.
-    For example, RFC&nbsp;3339 date/time strings <b>must</b> be preserved
-    in their original form, irrespective of platform native representations
-    of time data.
+    In practical terms this means that cryptographic operations <b>must</b>
+    always target the CBOR level.  This is because decoded data at the
+    application level (like RFC&nbsp;3339 date/time strings after the
+    conversion to a platform native time object), may not nessesarily
+    return exactly the same result for reasons like the removal of trailing zeros.
   </li>
   <li id='cbor-transformations' class='webpkilistspacing'>
     To facilitate transformations of structured CBOR data, encoders
