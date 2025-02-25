@@ -1446,12 +1446,13 @@ base64 encoded data as well as data with or without
                 title="CBOR">RFC9052<img src="xtl.svg" alt="link"></a>]),
     CBOR <i>decoders</i> <b>must</b> treat CBOR primitives as <i>immutable</i>
     to support deterministic <i>reserialization</i> of decoded data.
+    <div style='margin-top:0.5em'>
     In practical terms this means that cryptographic operations <b>must</b>
     always target the CBOR level.  This is because decoded data at the
     application level (like RFC&nbsp;3339 date/time strings after the
     conversion to a platform native time object), may not necessarily
     return exactly the same CBOR data when reserialized,
-    for reasons like the removal of trailing zeros.
+    for reasons like the removal of trailing zeros.</div
   </li>
   <li id='cbor-transformations' class='webpkilistspacing'>
     To facilitate transformations of structured CBOR data, encoders
