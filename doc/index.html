@@ -22,7 +22,7 @@
 <body>
   <a href='https://github.com/cyberphone/CBOR.js#cborjs'>
   <img style="max-width:30%" src="cbor.js.svg" alt="logo" title="CBOR.js logotype"></a>
-  <h3 style="text-align:center;font-weight:normal;font-size:1.8em">CBOR.js - JavaScript API</h3>
+  <div style="text-align:center;font-weight:normal;font-size:1.8em;margin-top:0.5em">CBOR.js - JavaScript API</div>
   <h3>Abstract</h3>
   <i>
     This document describes a JavaScript API for encoding and decoding data in the
@@ -937,7 +937,7 @@ is returned.</td></tr>
 <div style='margin:0.3em 0 0 1.2em'><code>let array = CBOR.diagDecode(`[3, {}]`);<br>
 let operation = array.get(0).getInt8();<br>
 array.get(1).scan();&nbsp;&nbsp;&nbsp;&nbsp;// mark array[1] as read<br>
-array.checkForUnread();</div></td></tr>
+array.checkForUnread();</code></div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>this</kbd></td><td style='width:100%'>Current object.</td></tr>
@@ -1452,7 +1452,7 @@ base64 encoded data as well as data with or without
     decoded data at the application level (like RFC&nbsp;3339 date/time strings
     after the conversion to a platform native time object), may not necessarily
     return exactly the same CBOR data when reserialized,
-    for reasons like the removal of trailing zeros.</div
+    for reasons like the removal of trailing zeros.</div>
   </li>
   <li id='cbor-transformations' class='webpkilistspacing'>
     To facilitate transformations of structured CBOR data, encoders

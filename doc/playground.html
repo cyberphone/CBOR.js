@@ -136,12 +136,14 @@ async function doProcess() {
 </script>
 </head>
 <body onload="setSample()">
-<div class='header'>CBOR Playground</div>
+<a href='https://github.com/cyberphone/CBOR.js#cborjs'>
+  <img style="max-width:30%" src="cbor.js.svg" alt="logo" title="CBOR.js logotype"></a>
+<div style="text-align:center;font-weight:normal;font-size:1.8em;margin-top:0.5em">CBOR Playground</div>
 <div style='padding-top:15pt'>
   The current <a href='https://github.com/cyberphone/CBOR.js#cborjs'>CBOR.js</a>
   proposal supports the following subset of CBOR
   primitives: <code>tstr</code>, <code>bstr</code>, <code>int</code>,
-  <code>bigint</code>, <code>float</code> (16/32/64 bit),
+  <code>bigint</code>, <code>float</code>,
   <code>bool</code>, <code>null</code>, and <code><i>tagged data</i></code> (CBOR major type 6).
 </div>
   <div style='padding-top:10pt'>
@@ -155,7 +157,7 @@ async function doProcess() {
           <td><code>0xhh, 0xhh...</code> notation</td></tr>
       <tr><td><input type='radio' name='selin' value='b64u'></td>
           <td>Base64Url notation</td></tr><tr><td><input type='checkbox' id='seq'></td>
-          <td>Sequence using comma (,) as separator</td></tr>
+          <td>CBOR sequence</td></tr>
       <tr><td><input type='checkbox' checked id='det'></td>
           <td>Require <a href='index.html#main.deterministic' target='_blank' title='Documentation'>Deterministic Encoding</a> for hex/b64u data</td></tr>
       <tr><td><input type='checkbox' id='nan'></td>

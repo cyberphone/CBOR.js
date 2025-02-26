@@ -479,7 +479,7 @@ public class CreateDocument {
   <div style='margin:0.3em 0 0 1.2em'><code>let array = CBOR.diagDecode(`[3, {}]`);<br>
   let operation = array.get(0).getInt8();<br>
   array.get(1).scan();&nbsp;&nbsp;&nbsp;&nbsp;// mark array[1] as read<br>
-  array.checkForUnread();</div>""";
+  array.checkForUnread();</code></div>""";
  
 
   // toDiag()
