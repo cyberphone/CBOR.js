@@ -72,7 +72,7 @@ For usage with Node.js and Deno, a NPM version is available: https://npmjs.com/p
 
 ### Deterministic Encoding
 
-The JavaScript API implements deterministic encoding based on https://datatracker.ietf.org/doc/draft-ietf-cbor-cde/.
+The JavaScript API implements deterministic encoding based on section 4.2 of [[RFC8949](https://rfc-editor.org/rfc/rfc8949.html)].
 
 To shield developers from having to know the inner workings of deterministic encoding, the CBOR.js API performs
 all necessary transformations _automatically_.  This for example means that if the 
