@@ -774,8 +774,10 @@ try {
 }
 
 function oneTurn(epoch, isoString) {
-  assertTrue("Time", 
+  assertTrue("Time1", 
              new Date(CBOR.Tag(0n, CBOR.String(isoString)).get().getString()).getTime() == epoch);
+  assertTrue("Time2", 
+             CBOR.String(isoString).getDateTime().getTime() == epoch);
 }
 
 oneTurn(1740060548000, "2025-02-20T14:09:08+00:00");

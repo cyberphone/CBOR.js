@@ -66,6 +66,7 @@
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#wrapper.cbor.string'>2.4.&nbsp;&nbsp;CBOR.String</a></div><div style='display:none'>
 <div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#methods.cbor.string'>2.4.1.&nbsp;&nbsp;CBOR.String Methods</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.string.getstring'>2.4.1.1.&nbsp;&nbsp;getString()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.string.getdatetime'>2.4.1.2.&nbsp;&nbsp;getDateTime()</a></div>
 </div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#wrapper.cbor.bytes'>2.5.&nbsp;&nbsp;CBOR.Bytes</a></div><div style='display:none'>
 <div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#methods.cbor.bytes'>2.5.1.&nbsp;&nbsp;CBOR.Bytes Methods</a></div>
@@ -493,6 +494,23 @@ See also <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>String</kbd></td><td style='width:100%'>Decoded text-string.</td></tr>
+</table></div>
+<h5 id='cbor.string.getdatetime'>2.4.1.2.&nbsp;&nbsp;getDateTime()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td style='width:100%'><kbd>getDateTime()</kbd></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get Date object.
+<div style='margin-top:0.5em'>
+This method performs a regular
+<a href='#cbor.string.getstring'>getString()</a> and then uses
+the result to initiate a JavaScript <kbd>Date</kbd> object.
+An exception will be thrown if the read object
+does not match an ISO date/time string
+[<a href="https://www.rfc-editor.org/rfc/rfc3339.html"
+              title="ISO">RFC3339<img src="xtl.svg" alt="link"></a>].</div></td></tr>
+<tr><td colspan='2' class='webpkidiv'></td></tr>
+<tr><th>Returns</th><th>Description</th></tr>
+<tr><td style='text-align:center'><kbd>Date</kbd></td><td style='width:100%'>Date object</td></tr>
 </table></div>
 <h5 id='wrapper.cbor.bytes'>2.5.&nbsp;&nbsp;CBOR.Bytes</h5>
 <div class='webpkifloat'>
@@ -1608,6 +1626,6 @@ The following code shows how you can <i>decode</i> CBOR specified in
 
   API version: 1.0.12.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-02-24
+  Document version: 2025-03-06
 </body>
 </html>

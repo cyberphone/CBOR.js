@@ -67,6 +67,19 @@ export default class CBOR {
       return this.#checkTypeAndGetValue(CBOR.String);
     }
 
+    getDateTime = function() {
+      let iso = this.getString();
+      // Fails on https://www.rfc-editor.org/rfc/rfc3339.html#section-5.8
+      // Leap second 1990-12-31T15:59:60-08:00
+      if (iso.match(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(\.\d+)?((\-|\+)\d{2}:\d{2}|Z)$/m)) {
+        let dateTime = new Date(iso);
+        if (Number.isFinite(dateTime.getTime())) {
+          return dateTime;
+        }
+      }
+      CBOR.#error("Invalid ISO date string: " + iso);
+    }
+
     getBytes = function() {
       return this.#checkTypeAndGetValue(CBOR.Bytes);
     }
@@ -873,26 +886,20 @@ export default class CBOR {
         CBOR.#error("Tag value is out of range");
       }
       if (tagNumber == CBOR.Tag.RESERVED_TAG_COTX) {
-        if (!object instanceof CBOR.Array || object.length != 2 ||
-            !object.get(0) instanceof CBOR.String) {
-          this.#errorInObject("Invalid COTX object");
+        if (!(object instanceof CBOR.Array) || object.length != 2 ||
+            !(object.get(0) instanceof CBOR.String)) {
+          this.#errorInObject();
         }
       } else if (tagNumber == 0n) {
-        if (object instanceof CBOR.String) {
-          let dateTime = object.clone().getString();
-          // Fails on https://www.rfc-editor.org/rfc/rfc3339.html#section-5.8
-          // Leap second 1990-12-31T15:59:60-08:00
-          if (dateTime.match(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(\.\d+)?((\-|\+)\d{2}:\d{2}|Z)$/m) &&
-              !Number.isNaN(new Date(dateTime).getTime())) {
-            return;
-          }
+        if (!(object instanceof CBOR.String)) {
+          this.#errorInObject();
         }
-        this.#errorInObject("Invalid ISO date string");
+        object.clone().getDateTime();
       }
     }
 
     #errorInObject = function(message) {
-      CBOR.#error(message + ': ' + this.#object.toDiag(false));
+      CBOR.#error('Tag syntax error: ' + this.toDiag(false));
     }
 
     encode = function() {

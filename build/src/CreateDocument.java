@@ -110,6 +110,22 @@ public class CreateDocument {
   """
   Decoded text-string.""";
 
+  static final String W_GETDATETIME_DESCR = 
+  """
+  Get Date object.
+  <div style='margin-top:0.5em'>
+  This method performs a regular 
+  <a href='#cbor.string.getstring'>getString()</a> and then uses
+  the result to initiate a JavaScript <kbd>Date</kbd> object.
+  An exception will be thrown if the read object
+  does not match an ISO date/time string
+  [<a href="https://www.rfc-editor.org/rfc/rfc3339.html"
+                title="ISO">RFC3339<img src="xtl.svg" alt="link"></a>].</div>""";
+  
+  static final String W_GETDATETIME_RETURN_DESCR = 
+  """
+  Date object""";
+
   // CBOR.Bytes
 
   static final String W_BYTES_DESCR = 
@@ -856,6 +872,7 @@ public class CreateDocument {
     JS_NUMBER("Number"),
     JS_ARRAY("[CBOR.<i>Wrapper</i>...]"),
     JS_BIGINT("BigInt"),
+    JS_DATE("Date"),
     JS_BOOLEAN("Boolean"),
     JS_STRING("String"),
     JS_UINT8ARRAY("Uint8Array");
@@ -1444,7 +1461,10 @@ a201fb4046d9999999999a0269486920746865726521
       .addWrapperParameter("textString", DataTypes.JS_STRING, W_STRING_P1_DESCR)
 
       .addMethod("getString", W_GETSTRING_DESCR)
-      .setReturn(DataTypes.JS_STRING, W_GETSTRING_RETURN_DESCR);
+      .setReturn(DataTypes.JS_STRING, W_GETSTRING_RETURN_DESCR)
+
+      .addMethod("getDateTime", W_GETDATETIME_DESCR)
+      .setReturn(DataTypes.JS_DATE, W_GETDATETIME_RETURN_DESCR);
 
       // CBOR.Bytes
 
