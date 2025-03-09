@@ -40,5 +40,5 @@ Changed method: Decoder.setNaNSupport() => Decoder.setFloatSupport()
 
 2025-03-06 1.0.12
 Simplifying decoder options solution.  See CBOR.initDecoder()
-Added CBOR.String.getDateTime() method
+Added getDateTime() and getEpochTime methods including in their tagged format.
 Added argument number tests to core methods.

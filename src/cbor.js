@@ -80,6 +80,14 @@ class CBOR {
       CBOR.#error("Invalid ISO date string: " + iso);
     }
 
+    getEpochTime = function() {
+      let time = this instanceof CBOR.Int ?
+                     this.getInt() * 1000 : Math.round(this.getFloat64() * 1000);
+      let epochTime = new Date();
+      epochTime.setTime(time);
+      return epochTime;
+    }
+
     getBytes = function() {
       return this.#checkTypeAndGetValue(CBOR.Bytes);
     }
@@ -873,10 +881,19 @@ class CBOR {
 
   static Tag = class extends CBOR.#CborObject {
 
-    static RESERVED_TAG_COTX = 1010n;
+    static TAG_DATE_TIME  = 0n;
+    static TAG_EPOCH_TIME = 1n;
+    static TAG_COTX       = 1010n;
+
+    static ERR_COTX       = "Invalid COTX object: ";
+    static ERR_DATE_TIME  = "Invalid ISO date/time object: ";
+    static ERR_EPOCH_TIME = "Invalid Epoch time object: ";
 
     #tagNumber;
     #object;
+
+    #dateTime;
+    #epochTime;
 
     constructor(tagNumber, object) {
       super();
@@ -885,21 +902,38 @@ class CBOR {
       if (tagNumber < 0n || tagNumber >= 0x10000000000000000n) {
         CBOR.#error("Tag value is out of range");
       }
-      if (tagNumber == CBOR.Tag.RESERVED_TAG_COTX) {
+      if (tagNumber == CBOR.Tag.TAG_DATE_TIME) {
+        // Note: clone() because we have mot read it really.
+        this.#dateTime = object.clone().getDateTime();
+      } else if (tagNumber == CBOR.Tag.TAG_EPOCH_TIME) {
+        // Note: clone() because we have mot read it really.
+        this.#epochTime = object.clone().getEpochTime();
+      } else if (tagNumber == CBOR.Tag.TAG_COTX) {
         if (!(object instanceof CBOR.Array) || object.length != 2 ||
             !(object.get(0) instanceof CBOR.String)) {
-          this.#errorInObject();
+          this.#errorInObject(CBOR.Tag.ERR_COTX);
         }
-      } else if (tagNumber == 0n) {
-        if (!(object instanceof CBOR.String)) {
-          this.#errorInObject();
-        }
-        object.clone().getDateTime();
       }
     }
 
+    getDateTime = function() {
+      if (!this.#dateTime) {
+        this.#errorInObject(CBOR.Tag.ERR_DATE_TIME);
+      }
+      this.#object.scan();
+      return this.#dateTime;
+    }
+
+    getEpochTime = function() {
+      if (!this.#epochTime) {
+        this.#errorInObject(CBOR.Tag.ERR_EPOCH_TIME);
+      }
+      this.#object.scan();
+      return this.#epochTime;
+    }
+
     #errorInObject = function(message) {
-      CBOR.#error('Tag syntax error: ' + this.toDiag(false));
+      CBOR.#error(message + this.toDiag(false));
     }
 
     encode = function() {

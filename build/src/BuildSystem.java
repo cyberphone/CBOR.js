@@ -40,6 +40,7 @@ public class BuildSystem {
     addFile("out-of-range.js");
     addFile("sequence.js");
     addFile("tags.js");
+    addFile("dates.js");
     addFile("utf8.js");
     addFile("xyz-encoder.js");
     addFile("xyz-decoder.js");

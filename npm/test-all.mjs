@@ -719,9 +719,9 @@ success();
 file:String.raw`// Testing "tag"
 
 let object = CBOR.Array().add(CBOR.String("https://example.com/myobject")).add(CBOR.Int(6));
-let cbor = CBOR.Tag(CBOR.Tag.RESERVED_TAG_COTX, object).encode();
+let cbor = CBOR.Tag(CBOR.Tag.TAG_COTX, object).encode();
 let tag = CBOR.decode(cbor);
-assertTrue("t3", tag.getTagNumber()== CBOR.Tag.RESERVED_TAG_COTX);
+assertTrue("t3", tag.getTagNumber()== CBOR.Tag.TAG_COTX);
 assertTrue("t3.1", object.equals(tag.get()));
 tag = CBOR.decode(cbor); 
 assertTrue("t3.2", object.equals(tag.get()));
@@ -729,7 +729,7 @@ cbor = CBOR.Tag(0xf0123456789abcden, object).encode();
 assertTrue("t14", CBOR.decode(cbor).getTagNumber()== 0xf0123456789abcden);
 assertTrue("t5", CBOR.toHex(cbor) == 
     "dbf0123456789abcde82781c68747470733a2f2f6578616d706c652e636f6d2f6d796f626a65637406");
-tag = CBOR.Tag(1n, CBOR.String("hi"));
+tag = CBOR.Tag(3n, CBOR.String("hi"));
 assertTrue("u1", tag.update(CBOR.Int(6)).getString() == "hi");
 assertTrue("u2", tag.get().getInt() == 6);
 try {
@@ -748,6 +748,72 @@ try {
     throw error;
   }
 }
+
+success();
+`}
+,
+{name:'dates.js',
+file:String.raw`// Testing date methods
+
+function oneDateTime(epoch, isoString) {
+  assertTrue("date1", CBOR.String(isoString).getDateTime().getTime() == epoch);
+  let cbor = CBOR.decode(CBOR.String(isoString).encode());
+  assertTrue("date2", cbor.getDateTime().getTime() == epoch);
+  assertTrue("date3", CBOR.Tag(0n, CBOR.String(isoString))
+      .getDateTime().getTime() == epoch);
+  assertTrue("date3", CBOR.Tag(1n, CBOR.Int(epoch / 1000))
+      .getEpochTime().getTime() == epoch);
+  assertTrue("date31", CBOR.Int(epoch / 1000)
+      .getEpochTime().getTime() == epoch);
+  assertTrue("date4", CBOR.Tag(1n, CBOR.Float(epoch / 1000))
+      .getEpochTime().getTime() == epoch);
+  assertTrue("date5", CBOR.Tag(1n, CBOR.Float((epoch + 3.0) / 1000))
+      .getEpochTime().getTime() == epoch + 3);
+assertTrue("date5", CBOR.Float((epoch - 3.0) / 1000)
+    .getEpochTime().getTime() == epoch - 3);
+}
+
+function badDate(hexBor, err) {
+  try {
+    CBOR.decode(CBOR.fromHex(hexBor));
+    fail("must not");
+  } catch (error) {
+    if (!error.toString().includes(err)) {
+      throw error;
+    }
+  }
+}
+
+function oneEpoch(hexBor, epoch, err) {
+  assertTrue("epoch1", CBOR.decode(CBOR.fromHex(hexBor))
+      .getEpochTime().getTime() == epoch * 1000);
+  let date = CBOR.decode(CBOR.fromHex(hexBor));
+  try {
+    date.checkForUnread();
+    fail("must not");
+  } catch (error) {
+    if (!error.toString().includes(err)) {
+      throw error;
+    }
+  }
+  date.getEpochTime();
+  date.checkForUnread();
+}
+
+oneDateTime(1740060548000, "2025-02-20T14:09:08+00:00");
+oneDateTime(1740060548000, "2025-02-20T14:09:08Z");
+oneDateTime(1740060548000, "2025-02-20T15:09:08+01:00");
+oneDateTime(1740060548000, "2025-02-20T15:39:08+01:30");
+oneDateTime(1740060548000, "2025-02-20T12:09:08-02:00");
+oneDateTime(1740060548000, "2025-02-20T11:39:08-02:30");
+
+badDate("c001", "Invalid method call for CBOR.Int");
+badDate("c06135", "Invalid ISO date string: 5");
+badDate("c16135", "Invalid method call for CBOR.String");
+
+oneEpoch("FB41D9EDCDE113645A", 1740060548.303, "Data of type=CBOR.Float with value=174");
+oneEpoch("c1FB41D9EDCDE113645A", 1740060548.303, "Tagged object 1 of type=CBOR.Float");
+oneEpoch("00", 0, "Data of type=CBOR.Int");
 
 try {
   // Z or -+local offset needed.
@@ -769,22 +835,7 @@ try {
   }
 }
 
-function oneTurn(epoch, isoString) {
-  assertTrue("Time1", 
-             new Date(CBOR.Tag(0n, CBOR.String(isoString)).get().getString()).getTime() == epoch);
-  assertTrue("Time2", 
-             CBOR.String(isoString).getDateTime().getTime() == epoch);
-}
-
-oneTurn(1740060548000, "2025-02-20T14:09:08+00:00");
-oneTurn(1740060548000, "2025-02-20T14:09:08Z");
-oneTurn(1740060548000, "2025-02-20T15:09:08+01:00");
-oneTurn(1740060548000, "2025-02-20T15:39:08+01:30");
-oneTurn(1740060548000, "2025-02-20T12:09:08-02:00");
-oneTurn(1740060548000, "2025-02-20T11:39:08-02:30");
-
-success();
-`}
+success();`}
 ,
 {name:'utf8.js',
 file:String.raw`// Test of "utf8" converters
