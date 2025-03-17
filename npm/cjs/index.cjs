@@ -1371,9 +1371,16 @@ class CBOR {
     
         case '<':
           this.scanFor("<");
-          let embedded = this.getObject();
-          this.scanFor(">>");
-          return CBOR.Bytes(embedded.encode());
+          let sequence = new Uint8Array();
+          this.scanNonSignficantData();
+          while (this.readChar() != '>') {
+            this.index--;
+            do {
+              sequence = CBOR.addArrays(sequence, this.getObject().encode());
+            } while (this.continueList('>'));
+          }
+          this.scanFor(">");
+          return CBOR.Bytes(sequence);
   
         case '[':
           let array = CBOR.Array();
