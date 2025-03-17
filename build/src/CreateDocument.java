@@ -1450,7 +1450,10 @@ a201fb4046d9999999999a0269486920746865726521
           "otherwise an exception will be thrown.</div>")
       .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
 
-      .addMethod("getFloat64", W_GETFLOAT_DESCR)
+      .addMethod("getFloat64", W_GETFLOAT_DESCR +
+          "<div style='margin-top:0.5em'>" +
+          "Note: the CBOR object must be a 16-bit, 32-bit, or 64-bit IEEE-754 item, " +
+          "otherwise an exception will be thrown.</div>")
       .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
  
       .setProperty("length", DataTypes.JS_NUMBER, W_FLOAT_PROP_DESCR);
