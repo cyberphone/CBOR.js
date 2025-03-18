@@ -31,6 +31,8 @@ oneTurn("-0.0", true, null);
 oneTurn('{\n  4: "hi"\n}', true, null);
 oneTurn('[4, true, false, null]', true, null);
 oneTurn('"next\nline\r\\\ncont\r\nk"', true, '"next\\nline\\ncont\\nk"');
+oneTurn('{1:<<  5   ,   7   >>}', true, "{\n  1: h'0507'\n}");
+oneTurn('<<[3.0]>>', true, "h'81f94200'");
 oneTurn('0b100_000000001', true, "2049");
 oneTurn('4.0e+500', false, null);
 oneTurn('4.0e+5', true, "400000.0");
