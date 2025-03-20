@@ -946,15 +946,15 @@ class XYZDecoder {
     map.checkForUnread();
   }
 
-  getCounter = function() {
+  get counter() {
     return this.#counter;
   }
 
-  getTemperature = function() {
+  get temperature() {
     return this.#temperature;
   }
 
-  getGreeting = function() {
+  get greeting() {
     return this.#greeting;
   }
 
@@ -964,9 +964,9 @@ let cbor = CBOR.fromHex('a3010202fb404a800346dc5d640363486921');
 
 let xyz = new XYZDecoder(cbor);
 
-assertTrue("counter", xyz.getCounter() == 2);
-assertTrue("temperature", xyz.getTemperature() == 53.0001);
-assertTrue("greeting", xyz.getGreeting() == 'Hi!');
+assertTrue("counter", xyz.counter == 2);
+assertTrue("temperature", xyz.temperature == 53.0001);
+assertTrue("greeting", xyz.greeting == 'Hi!');
 
 success();
 `}
