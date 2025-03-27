@@ -628,7 +628,7 @@ causes an exception to be thrown.</div></td></tr>
 <tr><th>Description</th><td style='width:100%'>Copy array.</td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd>[CBOR.<i>Wrapper</i>...]</kbd></td><td style='width:100%'>JavaScript array holding a copy of current <kbd>CBOR.<i>Wrapper</i></kbd> objects.</td></tr>
+<tr><td style='text-align:center'><kbd>[{CBOR.<i>Wrapper</i>}...]</kbd></td><td style='width:100%'>JavaScript array holding a copy of current <kbd>CBOR.<i>Wrapper</i></kbd> objects.</td></tr>
 </table></div>
 <h5 id='properties.cbor.array'>2.8.2.&nbsp;&nbsp;CBOR.Array Properties</h5>
 <h5 id='cbor.array.length'>2.8.2.1.&nbsp;&nbsp;length</h5>
@@ -766,7 +766,7 @@ If <kbd><i>key</i></kbd> is undefined, an exception is thrown.</td></tr>
 <tr><th>Description</th><td style='width:100%'>Get map keys.</td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd>[CBOR.<i>Wrapper</i>...]</kbd></td><td style='width:100%'>JavaScript array holding a copy of current key objects.</td></tr>
+<tr><td style='text-align:center'><kbd>[{CBOR.<i>Wrapper</i>}...]</kbd></td><td style='width:100%'>JavaScript array holding a copy of current key objects.</td></tr>
 </table></div>
 <h5 id='cbor.map.setsortingmode'>2.9.1.9.&nbsp;&nbsp;setSortingMode()</h5>
 <div class='webpkifloat'>
@@ -1098,13 +1098,14 @@ See also <a href='#decoder.cbor.diagdecodesequence'>CBOR.diagDecodeSequence()</a
 <tr><th>Description</th><td colspan='2' style='width:100%'>Decode CBOR objects provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
 Unlike <a href='#decoder.cbor.diagdecode'>CBOR.diagDecode()</a>,
 this method also accepts CBOR sequences, using a comma
-character (<kbd>','</kbd>) as a separator.</td></tr>
+character (<kbd>','</kbd>) as a separator.
+<div style='margin-top:0.5em'>Note: empty sequences are permitted.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>cborText</i></kbd></td><td style='text-align:center'><kbd>String</kbd></td><td style='width:100%'>CBOR in textual format.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>[CBOR.<i>Wrapper</i>...]</kbd></td><td colspan='2' style='width:100%'>JavaScript array holding one or more objects.</td></tr>
+<tr><td style='text-align:center'><kbd>[{CBOR.<i>Wrapper</i>}...]</kbd></td><td colspan='2' style='width:100%'>JavaScript array holding zero or more objects.</td></tr>
 </table></div>
 
   <h3 id='main.utility'>5.&nbsp;&nbsp;Utility Methods</h3>

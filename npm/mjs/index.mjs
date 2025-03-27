@@ -1322,23 +1322,26 @@ export default class CBOR {
       throw new CBOR.DiagnosticNotation.ParserError("\n" + complete +
                 "^\n\nError in line " + lineNumber + ". " + error);
     }
-  
+ 
     readSequenceToEOF = function() {
       try {
         let sequence = [];
-        while (true) {
-          sequence.push(this.getObject());
-          if (this.index < this.cborText.length) {
+        this.scanNonSignficantData();
+        while (this.index < this.cborText.length) {
+          if (sequence.length) {
             if (this.sequenceMode) {
               this.scanFor(",");
             } else {
               this.readChar();
               this.parserError("Unexpected data after token");
             }
-          } else {
-            return sequence;
           }
+          sequence.push(this.getObject());
         }
+        if (!sequence.length && !this.sequenceMode) {
+          this.readChar();
+        }
+        return sequence;
       } catch (e) {
         if (e instanceof CBOR.DiagnosticNotation.ParserError) {
           throw e;

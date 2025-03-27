@@ -755,12 +755,13 @@ public class CreateDocument {
   Decode CBOR objects provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
   Unlike <a href='#decoder.cbor.diagdecode'>CBOR.diagDecode()</a>,
   this method also accepts CBOR sequences, using a comma
-  character (<kbd>','</kbd>) as a separator.""";
+  character (<kbd>','</kbd>) as a separator.
+  <div style='margin-top:0.5em'>Note: empty sequences are permitted.</div>""";
   
   static final String DIAGDECSEQ_P1_DESCR = DIAGDEC_P1_DESCR;
 
   static final String DIAGDECSEQ_RETURN_DESCR = 
-  "JavaScript array holding one or more objects.";
+  "JavaScript array holding zero or more objects.";
 
 
   static final String INTRO = "${INTRO}";
@@ -870,7 +871,7 @@ public class CreateDocument {
     JS_THIS("this"),
 
     JS_NUMBER("Number"),
-    JS_ARRAY("[CBOR.<i>Wrapper</i>...]"),
+    JS_ARRAY("[{CBOR.<i>Wrapper</i>}...]"),
     JS_BIGINT("BigInt"),
     JS_DATE("Date"),
     JS_BOOLEAN("Boolean"),
