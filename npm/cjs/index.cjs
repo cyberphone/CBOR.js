@@ -229,7 +229,7 @@ class CBOR {
  
     #checkTypeAndGetValue = function(className) {
       if (!(this instanceof className)) {
-        CBOR.#error("Invalid method call for CBOR." + this.constructor.name);
+        CBOR.#error("Expected CBOR." + className.name + ", got: CBOR." + this.constructor.name);
       }
       this.#readFlag = true;
       return this._get();
@@ -884,6 +884,9 @@ class CBOR {
     static TAG_DATE_TIME  = 0n;
     static TAG_EPOCH_TIME = 1n;
     static TAG_COTX       = 1010n;
+  
+    static TAG_BIGINT_POS = 2n;
+    static TAG_BIGINT_NEG = 3n;
 
     static ERR_COTX       = "Invalid COTX object: ";
     static ERR_DATE_TIME  = "Invalid ISO date/time object: ";
@@ -901,6 +904,9 @@ class CBOR {
       this.#object = CBOR.#cborArgumentCheck(object);
       if (tagNumber < 0n || tagNumber >= 0x10000000000000000n) {
         CBOR.#error("Tag value is out of range");
+      }
+      if (tagNumber == CBOR.Tag.TAG_BIGINT_POS || tagNumber == CBOR.Tag.TAG_BIGINT_NEG) {
+        CBOR.#error("Reserved for 'bigint'");
       }
       if (tagNumber == CBOR.Tag.TAG_DATE_TIME) {
         // Note: clone() because we have mot read it really.

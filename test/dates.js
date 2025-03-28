@@ -54,9 +54,9 @@ oneDateTime(1740060548000, "2025-02-20T15:39:08+01:30");
 oneDateTime(1740060548000, "2025-02-20T12:09:08-02:00");
 oneDateTime(1740060548000, "2025-02-20T11:39:08-02:30");
 
-badDate("c001", "Invalid method call for CBOR.Int");
+badDate("c001", "got: CBOR.Int");
 badDate("c06135", "Invalid ISO date string: 5");
-badDate("c16135", "Invalid method call for CBOR.String");
+badDate("c16135", "got: CBOR.String");
 
 oneEpoch("FB41D9EDCDE113645A", 1740060548.303, "Data of type=CBOR.Float with value=174");
 oneEpoch("c1FB41D9EDCDE113645A", 1740060548.303, "Tagged object 1 of type=CBOR.Float");

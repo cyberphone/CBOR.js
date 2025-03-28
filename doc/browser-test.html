@@ -748,25 +748,42 @@ cbor = CBOR.Tag(0xf0123456789abcden, object).encode();
 assertTrue("t14", CBOR.decode(cbor).getTagNumber()== 0xf0123456789abcden);
 assertTrue("t5", CBOR.toHex(cbor) == 
     "dbf0123456789abcde82781c68747470733a2f2f6578616d706c652e636f6d2f6d796f626a65637406");
-tag = CBOR.Tag(3n, CBOR.String("hi"));
+tag = CBOR.Tag(5n, CBOR.String("hi"));
 assertTrue("u1", tag.update(CBOR.Int(6)).getString() == "hi");
 assertTrue("u2", tag.get().getInt() == 6);
-try {
-  CBOR.Tag(-1n, CBOR.String("minus"));
-  throw Error("Should not");
-} catch (error) {
-  if (!error.toString().includes("out of range")) {
-    throw error;
+
+[-1n, 0x10000000000000000n].forEach(tagNumber => { 
+  try {
+    CBOR.Tag(tagNumber, CBOR.String("any"));
+    throw Error("Should not");
+  } catch (error) {
+    if (!error.toString().includes("out of range")) {
+      throw error;
+    }
   }
-}
-try {
-  CBOR.Tag(0x10000000000000000n, CBOR.String("too big"));
-  throw Error("Should not");
-} catch (error) {
-  if (!error.toString().includes("out of range")) {
-    throw error;
+});
+
+[2n, 3n].forEach(tagNumber => { 
+  try {
+    CBOR.Tag(tagNumber, CBOR.String("any"));
+    throw Error("Should not");
+  } catch (error) {
+    if (!error.toString().includes("'bigint'")) {
+      throw error;
+    }
   }
-}
+});
+
+[0n, 1n].forEach(tagNumber => { 
+  try {
+    CBOR.Tag(tagNumber, CBOR.Boolean(true));
+    throw Error("Should not");
+  } catch (error) {
+    if (!error.toString().includes("got: CBOR.Boolean")) {
+      throw error;
+    }
+  }
+});
 
 success();
 `}
@@ -826,9 +843,9 @@ oneDateTime(1740060548000, "2025-02-20T15:39:08+01:30");
 oneDateTime(1740060548000, "2025-02-20T12:09:08-02:00");
 oneDateTime(1740060548000, "2025-02-20T11:39:08-02:30");
 
-badDate("c001", "Invalid method call for CBOR.Int");
+badDate("c001", "got: CBOR.Int");
 badDate("c06135", "Invalid ISO date string: 5");
-badDate("c16135", "Invalid method call for CBOR.String");
+badDate("c16135", "got: CBOR.String");
 
 oneEpoch("FB41D9EDCDE113645A", 1740060548.303, "Data of type=CBOR.Float with value=174");
 oneEpoch("c1FB41D9EDCDE113645A", 1740060548.303, "Tagged object 1 of type=CBOR.Float");
