@@ -903,10 +903,10 @@ export default class CBOR {
       this.#tagNumber = CBOR.#typeCheck(tagNumber, 'bigint');
       this.#object = CBOR.#cborArgumentCheck(object);
       if (tagNumber < 0n || tagNumber >= 0x10000000000000000n) {
-        CBOR.#error("Tag value is out of range");
+        CBOR.#error("Tag number is out of range");
       }
       if (tagNumber == CBOR.Tag.TAG_BIGINT_POS || tagNumber == CBOR.Tag.TAG_BIGINT_NEG) {
-        CBOR.#error("Reserved for 'bigint'");
+        CBOR.#error("Tag number reserved for 'bigint'");
       }
       if (tagNumber == CBOR.Tag.TAG_DATE_TIME) {
         // Note: clone() because we have mot read it really.
