@@ -147,6 +147,10 @@ export default class CBOR {
       return this.#rangeBigInt(0n, 0xffffffffffffffffn);
     }
 
+    getSimple = function() {
+      return this.#checkTypeAndGetValue(CBOR.Simple);
+    }
+
     equals = function(object) {
       if (object && object instanceof CBOR.#CborObject) {
         return CBOR.compareArrays(this.encode(), object.encode()) == 0;
@@ -256,6 +260,7 @@ export default class CBOR {
   static #MT_STRING       = 0x60;
   static #MT_ARRAY        = 0x80;
   static #MT_MAP          = 0xa0;
+  static #MT_SIMPLE       = 0xe0;
   static #MT_TAG          = 0xc0;
   static #MT_BIG_UNSIGNED = 0xc2;
   static #MT_BIG_NEGATIVE = 0xc3;
@@ -974,6 +979,37 @@ export default class CBOR {
   }
 
 ///////////////////////////
+//      CBOR.Simple      //
+///////////////////////////
+
+  static Simple = class extends CBOR.#CborObject {
+
+    #value;
+
+    constructor(value) {
+      super();
+      this.#value = CBOR.#intCheck(value);
+      if (value < 0 || value > 255 || (value > 23 && value < 32)) {
+        CBOR.#error("Simple value out of range: " + value);
+      }
+    }
+
+    encode = function() {
+      return CBOR.#encodeTagAndN(CBOR.#MT_SIMPLE, this.#value);
+    }
+
+    internalToString = function(cborPrinter) {
+      cborPrinter.append('simple(')
+                .append(this.#value.toString())
+                .append(')');
+    }
+
+    _get = function() {
+      return this.#value;
+    }
+  }
+
+///////////////////////////
 //        Proxy          //
 ///////////////////////////
 
@@ -1006,6 +1042,7 @@ export default class CBOR {
   static Array = new Proxy(CBOR.Array, new CBOR.#handler(0));
   static Map = new Proxy(CBOR.Map, new CBOR.#handler(0));
   static Tag = new Proxy(CBOR.Tag, new CBOR.#handler(2));
+  static Simple = new Proxy(CBOR.Simple, new CBOR.#handler(1));
 
 
 ///////////////////////////
@@ -1190,6 +1227,8 @@ export default class CBOR {
       }
       // N successfully decoded, now switch on major type (upper three bits).
       switch (tag & 0xe0) {
+        case CBOR.#MT_SIMPLE:
+          return CBOR.Simple(this.rangeLimitedBigInt(bigN));
 
         case CBOR.#MT_TAG:
           return CBOR.Tag(bigN, this.getObject());
@@ -1444,6 +1483,10 @@ export default class CBOR {
           this.scanFor("ull");
           return CBOR.Null();
 
+        case 's':
+            this.scanFor("imple(");
+            return this.simpleType();
+
         case '-':
           if (this.readChar() == 'I') {
             this.scanFor("nfinity");
@@ -1475,6 +1518,29 @@ export default class CBOR {
           this.index--;
           this.parserError("Unexpected character: " + this.toChar(this.readChar()));
       }
+    }
+
+    simpleType = function() {
+      let token = '';
+      while (true)  {
+        switch (this.nextChar()) {
+          case ')':
+            break;
+
+          case '+':
+          case '-':
+          case 'e':
+          case '.':
+            this.parserError("Syntax error");
+
+          default:
+            token += this.readChar();
+            continue;
+          }
+          break;
+      }
+      this.readChar();
+      return CBOR.Simple(Number(token.trim()));
     }
 
     getNumberOrTag = function(negative) {
