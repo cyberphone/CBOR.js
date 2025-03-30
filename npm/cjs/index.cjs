@@ -999,9 +999,7 @@ class CBOR {
     }
 
     internalToString = function(cborPrinter) {
-      cborPrinter.append('simple(')
-                .append(this.#value.toString())
-                .append(')');
+      cborPrinter.append('simple(' + this.#value.toString() + ')');
     }
 
     _get = function() {
@@ -1540,7 +1538,7 @@ class CBOR {
           break;
       }
       this.readChar();
-      return CBOR.Simple(Number(token.trim()));
+      return CBOR.Simple(Number(token.trim())).clone();
     }
 
     getNumberOrTag = function(negative) {
@@ -1700,7 +1698,7 @@ class CBOR {
               case 'u':
                 let u16 = 0;
                 for (let i = 0; i < 4; i++) {
-                  u16 += (u16 << 4) + CBOR.#decodeOneHex(this.readChar().charCodeAt(0));
+                  u16 = (u16 << 4) + CBOR.#decodeOneHex(this.readChar().charCodeAt(0));
                 }
                 c = String.fromCharCode(u16);
                 break;

@@ -199,6 +199,10 @@ function oneTurn(cborText, ok, compareWithOrNull) {
   }
 }
 
+function oneBinaryTurn(diag, hex) {
+  assertTrue("bin", CBOR.toHex(CBOR.diagDecode(diag).encode()) == hex);
+}
+
 oneTurn("2", true, null);
 oneTurn("2.0", true, null);
 oneTurn("123456789012345678901234567890", true, null);
@@ -216,6 +220,11 @@ oneTurn('0b100_000000001', true, "2049");
 oneTurn('4.0e+500', false, null);
 oneTurn('4.0e+5', true, "400000.0");
 oneTurn('"missing', false, null);
+oneTurn('simple(21)', true, 'true');
+oneTurn('simple(59)', true, 'simple(59)');
+oneBinaryTurn('"\\ud800\\udd51"', "64f0908591");
+oneBinaryTurn("'\\u20ac'", "43e282ac");
+oneBinaryTurn('"\\"\\\\\\b\\f\\n\\r\\t"', "67225c080c0a0d09");
 
 let cborObject = CBOR.decode(CBOR.fromHex('a20169746578740a6e6578740284fa3380000147a10564646\
 17461a1f5f4c074323032332d30362d30325430373a35333a31395a'));
