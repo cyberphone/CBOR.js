@@ -406,177 +406,23 @@
     </li>
   </ol>
   ${DETERMINISTIC_ENCODING}
-  This section is primarily targeting implementers of CBOR tools.
   <p id='encoding-scheme'>
-    While there are different ways you can encode certain CBOR objects,
-    this is non-trivial to support in general purpose platform-based tools,
-    not to mention the limited utility of such measures.
-    Therefore the CBOR.js API implements specific (non-variant)
-    encodings, aka &quot;Deterministic Encoding&quot;.  Fortunately, the selected 
-    encoding scheme is <i>backward compatible</i> with most existing CBOR <i>decoders</i>.
-    However, for <i>decoding</i> (only), compliance with deterministic encoding
-    rules may be <a href='#decoder.cbor.initdecoder'>relaxed</a>, enabling
-    the processing of CBOR data created by applications using &quot;legacy&quot;
-    encoding schemes as well.
+  While there are different ways you can encode certain CBOR objects,
+  this is non-trivial to support in general purpose platform-based tools,
+  not to mention the limited utility of such measures.
+  Therefore the CBOR.js API implements specific (non-variant)
+  encodings, aka &quot;Deterministic Encoding&quot;.  Fortunately, the selected 
+  encoding scheme is <i>backward compatible</i> with most existing CBOR <i>decoders</i>.
+  However, for <i>decoding</i> (only), compliance with deterministic encoding
+  rules may be <a href='#decoder.cbor.initdecoder'>relaxed</a>, enabling
+  the processing of CBOR data created by applications using &quot;legacy&quot;
+  encoding schemes as well.
   </p>
-  ${DET_ENC_TOOLS}
-  <div style='margin:0.8em 0 0.3em 0'>
-    For compliance with this specification, encoders and decoders <b>must</b>
-    support additional functionality, primarily targeting the combination
-    of deterministic encoding and cryptographic constructs:
-  </div>
-  <ul style='margin:0 0'>
-  <li id='immutable-primitives' class='webpkilistspacing'>
-    To enable cryptographic methods like hashing
-    to also be applicable to &quot;raw&quot; CBOR data 
-    (in contrast to wrapping data to be signed in <code>bstr</code> as required by
-    COSE&nbsp;[<a href="https://www.rfc-editor.org/rfc/rfc9052.html"
-                title="CBOR">RFC9052<img src="xtl.svg" alt="link"></a>]),
-    CBOR <i>decoders</i> <b>must</b> treat CBOR primitives as <i>immutable</i>
-    to support deterministic <i>reserialization</i> of decoded data.
-    <div style='margin-top:0.5em'>
-    In practical terms this means that cryptographic operations targeting CBOR,
-    <b>must</b> always be performed over its binary encoding.  This is because
-    decoded data at the application level (like RFC&nbsp;3339 date/time strings
-    after the conversion to a platform native time object), may not necessarily
-    return exactly the same CBOR data when reserialized,
-    for reasons like the removal of trailing zeros.</div>
-  </li>
-  <li id='cbor-transformations' class='webpkilistspacing'>
-    To facilitate transformations of structured CBOR data, encoders
-    and decoders <b>must</b> for CBOR <code>array</code> and <code>map</code> objects,
-    support the <i>removal</i>, <i>update</i>, and <i>addition</i> of CBOR objects.
-    After such an operation, the (deterministic) encoding of
-    the targeted object <b>must</b> correctly reflect the update.
-  </li>   
-  </ul>
-  <a href="https://github.com/cyberphone/cbor-everywhere?tab=readme-ov-file#cryptographic-operations"
-  title="ES">Enveloped signatures<img src="xtl.svg" alt="link"></a> represent a core
-  application for these enhancements.
-  Unlike their <i>enveloping</i> counterparts, enveloped signatures
-  typically cover the <i>entire</i> object, while keeping the structure
-  of the original (unsigned) object <i>intact</i>.
   <p>
-  Although the high-level approach used by CBOR.js
-  (<i>encapsulating</i> CBOR data in self-rendering wrapper objects),
-  makes these enhancements <i>transparent for application developers</i>,
-  it is quite possible to achieve the same functionality using
-  low-level tools, albeit at the expense of some additional work.
+  The determinism scheme (and a lot more), is described in
+  <a href="https://www.ietf.org/archive/id/draft-rundgren-cbor-base-01.html"
+    title="Deterministic CBOR">https://www.ietf.org/archive/id/draft-rundgren-cbor-base-01.html<img src="xtl.svg" alt="link"></a>.
   </p>
-  ${DET_ENC_RULES}
-  <div style='margin:0.8em 0 0.3em 0'>
-    The encoding scheme adheres to section 4.2 of RFC&nbsp;8949, but adds
-    a few constraints (denoted by RFC+), where the RFC offers choices.
-    The encoding rules are as follows:
-  </div>
-  <ul style='margin:0 0'> 
-    <li id='number-encoding' class='webpkilistspacing'>
-      RFC+: Floating point and integer objects <b>must</b> be treated as <i>distinct types</i>
-      regardless of their numeric value. This is compliant with
-      Rule&nbsp;2 in section 4.2.2 of RFC&nbsp;8949.
-    </li>
-    <li id='integer-encoding' class='webpkilistspacing'>
-      RFC: Integers, represented by the <code>int</code> and
-      <code>bigint</code> types, <b>must</b> use the <code>int</code>
-      type if the value is between <code>-2<sup>64</sup></code>
-      and <code>2<sup>64</sup>-1</code>,
-      otherwise the <code>bigint</code> type <b>must</b> be used.
-      The following table holds a few sample values and their proper CBOR encoding:
-      <div class='webpkifloat'>
-        <table class='webpkitable' style='margin-left:2em'>
-          <tr><th>Value</th><th>Encoding</th></tr>
-          <tr style='text-align:right'><td><code>0</code></td><td><code>00</code></td></tr>
-          <tr style='text-align:right'><td><code>-1</code></td><td><code>20</code></td></tr>
-          <tr style='text-align:right'><td><code>255</code></td><td><code>18ff</code></td></tr>
-          <tr style='text-align:right'><td><code>256</code></td><td><code>190100</code></td></tr>
-          <tr style='text-align:right'><td><code>-256</code></td><td><code>38ff</code></td></tr>
-          <tr style='text-align:right'><td><code>-257</code></td><td><code>390100</code></td></tr>
-          <tr style='text-align:right'><td><code>1099511627775</code></td><td><code>1b000000ffffffffff</code></td></tr>
-          <tr style='text-align:right'><td><code>18446744073709551615</code></td><td><code>1bffffffffffffffff</code></td></tr>
-          <tr style='text-align:right'><td><code>18446744073709551616</code></td><td><code>c249010000000000000000</code></td></tr>
-          <tr style='text-align:right'><td><code>-18446744073709551616</code></td><td><code>3bffffffffffffffff</code></td></tr>
-          <tr style='text-align:right'><td><code>-18446744073709551617</code></td><td><code>c349010000000000000000</code></td></tr>
-        </table>
-      </div>
-      Note that integers <b>must not</b> be supplied with
-      <i>leading zero bytes</i> (like <code>1900ff</code>) unless the
-      CBOR representation offers no alternative (like <code>1b000000ffffffffff</code>).
-      <div style='margin:0.7em 0 0.3em 0'>
-        Note that the integer encoding scheme above does not always return the
-        most compact representation; the value
-        <code>1099511627775</code>
-        (<code>0xffffffffff</code>)
-        would actually yield two bytes less using the <code>bigint</code> type.
-      </div>
-    </li>
-    <li id='floating-point-encoding' class='webpkilistspacing'>
-      RFC+: Floating point data <b>must</b> use the shortest IEEE&nbsp;754
-      variant and associated CBOR encoding.
-      The following table holds floating-point values needing special considerations
-      as well as a small set of "edge&nbsp;cases":
-      <div class='webpkifloat'>
-        <table class='webpkitable' style='margin-left:2em'>
-          <tr><th>Value</th><th>Encoding</th></tr>
-          <tr style='text-align:right'><td><code>0.0</code></td><td><code>f90000</code></td></tr>
-          <tr style='text-align:right'><td><code>-0.0</code></td><td><code>f98000</code></td></tr>
-          <tr style='text-align:right'><td><code>Infinity</code></td><td><code>f97c00</code></td></tr>
-          <tr style='text-align:right'><td><code>-Infinity</code></td><td><code>f9fc00</code></td></tr>
-          <tr style='text-align:right'><td><code>NaN</code></td><td><code>f97e00</code></td></tr>
-          <tr><th colspan='2'>Assorted Edge Cases</th></tr>
-          <tr style='text-align:right'><td><code>-5.960464477539062e-8</code></td><td><code>fbbe6fffffffffffff</code></td></tr>
-          <tr style='text-align:right'><td><code>-5.960464477539063e-8</code></td><td><code>f98001</code></td></tr>
-          <tr style='text-align:right'><td><code>-5.960464477539064e-8</code></td><td><code>fbbe70000000000001</code></td></tr>
-          <tr style='text-align:right'><td><code>-5.960465188081798e-8</code></td><td><code>fab3800001</code></td></tr>
-          <tr style='text-align:right'><td><code>0.00006097555160522461</code></td><td><code>f903ff</code></td></tr>
-          <tr style='text-align:right'><td><code>65504.0</code></td><td><code>f97bff</code></td></tr>
-          <tr style='text-align:right'><td><code>65504.00390625</code></td><td><code>fa477fe001</code></td></tr>
-          <tr style='text-align:right'><td><code>65536.0</code></td><td><code>fa47800000</code></td></tr>
-          <tr style='text-align:right'><td><code>10.559998512268066</code></td><td><code>fa4128f5c1</code></td></tr>
-          <tr style='text-align:right'><td><code>10.559998512268068</code></td><td><code>fb40251eb820000001</code></td></tr>
-          <tr style='text-align:right'><td><code>3.4028234663852886e+38</code></td><td><code>fa7f7fffff</code></td></tr>
-          <tr style='text-align:right'><td><code>3.402823466385289e+38</code></td><td><code>fb47efffffe0000001</code></td></tr>
-          <tr style='text-align:right'><td><code>1.401298464324817e-45</code></td><td><code>fa00000001</code></td></tr>
-          <tr style='text-align:right'><td><code>1.4012986313726115e-45</code></td><td><code>fb36a0000020000000</code></td></tr>
-          <tr style='text-align:right'><td><code>1.1754942106924411e-38</code></td><td><code>fa007fffff</code></td></tr>
-          <tr style='text-align:right'><td><code>5.0e-324</code></td><td><code>fb0000000000000001</code></td></tr>
-          <tr style='text-align:right'><td><code>-1.7976931348623157e+308</code></td><td><code>fbffefffffffffffff</code></td></tr>
-        </table>
-      </div>
-      Note that <code>NaN</code> "signaling" (like <code>f97e01</code>),
-      <b>must</b> be rejected.
-      <div style='margin:0.7em 0 0.3em 0'>
-        Note that the shortest encoding may result in <i>subnormal</i>
-        numbers like <code>f98001</code>.
-      </div>
-    </li>
-    <li class='webpkilistspacing'>
-      RFC: Map keys <b>must</b> be sorted in the bytewise lexicographic
-      order of their deterministic encoding.
-      Duplicate keys <b>must</b> be rejected.
-      Somewhat surprisingly the following represents a properly sorted map:
-<div style='margin:0.5em 0 0 2em'><code>{<br>
-&nbsp;&nbsp;&quot;a&quot;: ... ,<br>
-&nbsp;&nbsp;&quot;b&quot;: ... ,<br>
-&nbsp;&nbsp;&quot;aa&quot;: ...<br>
-      }</code></div></li>
-    <li id='map-key-equivalence' class='webpkilistspacing'>
-      RFC+: Since CBOR encoding according to this specification
-      maintains type and data uniqueness, there are no specific restrictions or
-      tests needed in order to determine map key equivalence.
-      As an example, the floating-point numbers <code>0.0</code> and
-      <code>-0.0</code>, and the integer number <code>0</code>
-      represent the distinct keys
-      <code>f90000</code>, <code>f98000</code>, and <code>00</code> respectively.
-    </li>
-    <li>
-      RFC+: Indefinite length objects <b>must</b> be rejected.
-    </li>
-    <li>
-      RFC+: Deterministic CBOR according to this specification
-      may also be provided in
-      <a href='#main.diagnostic'>Diagnostic Notation</a>.
-    </li>
-  </ul>
   ${EXAMPLES}
   This section provides a few examples on how to use the CBOR API.
   ${EXAMPLES_ENC}
