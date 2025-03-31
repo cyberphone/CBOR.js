@@ -409,6 +409,25 @@ public class CreateDocument {
   """
   Previous object.""";
 
+
+  // CBOR.Simple
+
+  static final String W_SIMPLE_DESCR = 
+  """
+  Constructor.  Creates a CBOR simple value object.""";
+
+  static final String W_SIMPLE_PARAM_DESCR = 
+  """
+  Simple value.""";
+
+  static final String W_SIMPLE_GETVAL_DESCR = 
+  """
+  Get simple value.""";
+  
+  static final String W_SIMPLE_GETVAL_RETURN_DESCR = 
+  """
+  Returned simple value.""";
+
   // encode()
 
   static final String ENCODE_DESCR = 
@@ -866,6 +885,7 @@ public class CreateDocument {
     CBOR_ARRAY("CBOR.Array"),
     CBOR_MAP("CBOR.Map"),
     CBOR_TAG("CBOR.Tag"),
+    CBOR_SIMPLE("CBOR.Simple"),
 
     JS_THIS("this"),
 
@@ -1570,6 +1590,14 @@ a201fb4046d9999999999a0269486920746865726521
       .addMethod("update", W_TAG_UPDATE_DESCR)
       .addParameter("object", DataTypes.CBOR_Any, W_TAG_UPDATE_P1_DESCR)
       .setReturn(DataTypes.CBOR_Any, W_TAG_UPDATE_RETURN_DESCR);
+
+    // CBOR.Simple
+
+      addWrapper(DataTypes.CBOR_SIMPLE, W_SIMPLE_DESCR)
+      .addWrapperParameter("value", DataTypes.JS_NUMBER, W_SIMPLE_PARAM_DESCR)
+
+      .addMethod("getSimple", W_SIMPLE_GETVAL_DESCR)
+      .setReturn(DataTypes.JS_NUMBER, W_SIMPLE_GETVAL_RETURN_DESCR);
 
     // Common
 

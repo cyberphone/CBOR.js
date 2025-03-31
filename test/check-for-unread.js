@@ -71,6 +71,14 @@ oneTurn("CBOR.Tag(8n, CBOR.Map())",
         "res.get()",
         "Tagged object 8 of type=CBOR.Map with value={} was never read");
 
+oneTurn("CBOR.Simple(8)",
+        "res",
+        "Data of type=CBOR.Simple with value=simple(8) was never read");
+
+oneTurn("CBOR.Simple(8)",
+        "res.getSimple()",
+        null);
+
 oneTurn("CBOR.Tag(8n, CBOR.Map())",
         "res.get().scan()",
         null);
