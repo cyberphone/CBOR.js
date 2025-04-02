@@ -1003,6 +1003,9 @@ class XYZDecoder {
     // There MUST be exactly three key/value pairs.
     // CBOR data items are type-checked as well.
     let map = CBOR.decode(cbor);
+    // If the top-level object is not a CBOR map, the next
+    // JavaScript line will throw an exception because there is
+    // only one get-method that has a CBOR wrapper as input parameter.
     this.#counter = map.get(XYZDecoder.COUNTER).getUint8();
     this.#temperature = map.get(XYZDecoder.TEMPERATURE).getFloat64();
     this.#greeting = map.get(XYZDecoder.GREETING).getString();
