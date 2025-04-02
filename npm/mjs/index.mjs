@@ -162,6 +162,10 @@ export default class CBOR {
       return CBOR.decode(this.encode());
     }
 
+    get = function() {
+      CBOR.#error('Method not available in: CBOR.' + this.constructor.name); 
+    }
+
     toDiag = function(prettyPrint) {
       let cborPrinter = new CBOR.#CborPrinter(CBOR.#typeCheck(prettyPrint, 'boolean'));
       this.internalToString(cborPrinter);
