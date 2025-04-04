@@ -5,788 +5,644 @@ import org.webpki.util.IO;
 import org.webpki.util.UTF8;
 
 public class CreateDocument {
-  
-  static final String WRAPPER_RETURN_DESCR = 
-  """
-  Object.""";
 
-  static final String CURRENT_RETURN_DESCR = 
-  """
-  Current object.""";
+  static final String WRAPPER_RETURN_DESCR = """
+      Object.""";
 
-  static final String KEY_PARAMETER_DESCR = 
-  """
-  Key (name).""";
+  static final String CURRENT_RETURN_DESCR = """
+      Current object.""";
 
-  static final String OBJECT_PARAMETER_DESCR = 
-  """
-  Object (value).""";
+  static final String KEY_PARAMETER_DESCR = """
+      Key (name).""";
 
-  static final String ARRAY_INDEX_P1_DESCR = 
-  """
-  Index <code>(0..length-1)</code> of array.
-  <div style='margin-top:0.5em'>
-  Note that a non-integer <kbd><i>index</i></kbd>
-  causes an exception to be thrown.</div>""";
+  static final String OBJECT_PARAMETER_DESCR = """
+      Object (value).""";
 
+  static final String ARRAY_INDEX_P1_DESCR = """
+      Index <code>(0..length-1)</code> of array.
+      <div style='margin-top:0.5em'>
+      Note that a non-integer <kbd><i>index</i></kbd>
+      causes an exception to be thrown.</div>""";
 
   // CBOR.Int
 
-  static final String W_INT_DESCR = 
-  """
-  Constructor.  Creates a CBOR integer object.
-  <div style='margin-top:0.5em'>
-  See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
-  
-  static final String W_INT_P1_DESCR = 
-  """
-  Integer to be wrapped.
-  <div style='margin-top:0.5em'>
-  Note that a non-integer <kbd><i>value</i></kbd>
-  causes an exception to be thrown.</div>""";
+  static final String W_INT_DESCR = """
+      Constructor.  Creates a CBOR integer object.
+      <div style='margin-top:0.5em'>
+      See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
+
+  static final String W_INT_P1_DESCR = """
+      Integer to be wrapped.
+      <div style='margin-top:0.5em'>
+      Note that a non-integer <kbd><i>value</i></kbd>
+      causes an exception to be thrown.</div>""";
 
   // CBOR.BigInt
 
-  static final String W_BIGINT_DESCR = 
-  """
-  Constructor.  Creates a CBOR big integer object.
-  <div style='margin-top:0.5em'>
-  See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
- 
-  
-  static final String W_BIGINT_P1_DESCR = 
-  """
-  Big integer to be wrapped.""";
+  static final String W_BIGINT_DESCR = """
+      Constructor.  Creates a CBOR big integer object.
+      <div style='margin-top:0.5em'>
+      See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
 
-  static final String W_GETBIGINT_DESCR = 
-  """
-  Get CBOR integer of any size.
-  <div style='margin-top:0.5em'>
-  See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
-  
-  static final String W_GETBIGINT_RETURN_DESCR = 
-  """
-  Decoded big integer.""";
+  static final String W_BIGINT_P1_DESCR = """
+      Big integer to be wrapped.""";
+
+  static final String W_GETBIGINT_DESCR = """
+      Get CBOR integer of any size.
+      <div style='margin-top:0.5em'>
+      See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
+
+  static final String W_GETBIGINT_RETURN_DESCR = """
+      Decoded big integer.""";
 
   // CBOR.Float
 
-  static final String W_FLOAT_DESCR = 
-  """
-  Constructor.  Creates a CBOR <code>float</code> object.
-  See also <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.""";
-    
-  static final String W_FLOAT_P1_DESCR = 
-  """
-  Floating-point number to be wrapped.""";
+  static final String W_FLOAT_DESCR = """
+      Constructor.  Creates a CBOR <code>float</code> object.
+      See also <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.""";
 
+  static final String W_FLOAT_P1_DESCR = """
+      Floating-point number to be wrapped.""";
 
-  static final String W_GETFLOAT_DESCR = 
-  """
-  Get CBOR floating-point value.""";
-  
-  static final String W_GETFLOAT_RETURN_DESCR = 
-  """
-  Decoded floating-point number.""";
+  static final String W_GETFLOAT_DESCR = """
+      Get CBOR floating-point value.""";
 
-  static final String W_FLOAT_PROP_DESCR = 
-  """
-  Length in bytes of the underlying CBOR IEEE 754 type."""; 
+  static final String W_GETFLOAT_RETURN_DESCR = """
+      Decoded floating-point number.""";
+
+  static final String W_FLOAT_PROP_DESCR = """
+      Length in bytes of the underlying CBOR IEEE 754 type.""";
 
   // CBOR.String
 
-  static final String W_STRING_DESCR = 
-  """
-  Constructor.  Creates a CBOR text-string (<code>tstr</code>) object.""";
-    
-  static final String W_STRING_P1_DESCR = 
-  """
-  String to be wrapped.""";
+  static final String W_STRING_DESCR = """
+      Constructor.  Creates a CBOR text-string (<code>tstr</code>) object.""";
 
+  static final String W_STRING_P1_DESCR = """
+      String to be wrapped.""";
 
-  static final String W_GETSTRING_DESCR = 
-  """
-  Get CBOR text-string.""";
+  static final String W_GETSTRING_DESCR = """
+      Get CBOR text-string.""";
+
+  static final String W_GETSTRING_RETURN_DESCR = """
+      Decoded text-string.""";
+
+  static final String W_GETDATETIME_DESCR = """
+      Get Date object.
+      <div style='margin-top:0.5em'>
+      This method performs a regular
+      <a href='#cbor.string.getstring'>getString()</a> and then uses
+      the result to initiate a JavaScript <kbd>Date</kbd> object.
+      An exception will be thrown if the read object
+      does not match an ISO date/time string
+      [<a href="https://www.rfc-editor.org/rfc/rfc3339.html"
+                    title="ISO">RFC3339<img src="xtl.svg" alt="link"></a>].</div>""";
+
+  static final String W_GETDATETIME_RETURN_DESCR = """
+      Date object""";
+
+  static final String W_GETEPOCHTIME_DESCR = """
+      Get Date object.
+      <div style='margin-top:0.5em'>
+      This method assumes that the underlying object
+      is an <a href='#wrapper.cbor.int'>CBOR.Int</a> or
+      a <a href='#wrapper.cbor.int'>CBOR.Float</a>,
+      otherwise an exception will be thrown.""";
   
-  static final String W_GETSTRING_RETURN_DESCR = 
-  """
-  Decoded text-string.""";
-
-  static final String W_GETDATETIME_DESCR = 
-  """
-  Get Date object.
-  <div style='margin-top:0.5em'>
-  This method performs a regular 
-  <a href='#cbor.string.getstring'>getString()</a> and then uses
-  the result to initiate a JavaScript <kbd>Date</kbd> object.
-  An exception will be thrown if the read object
-  does not match an ISO date/time string
-  [<a href="https://www.rfc-editor.org/rfc/rfc3339.html"
-                title="ISO">RFC3339<img src="xtl.svg" alt="link"></a>].</div>""";
-  
-  static final String W_GETDATETIME_RETURN_DESCR = 
-  """
-  Date object""";
+  static final String W_GETEPOCHTIME_RETURN_DESCR = """
+      Date object""";
 
   // CBOR.Bytes
 
-  static final String W_BYTES_DESCR = 
-  """
-  Constructor.  Creates a CBOR byte-string (<code>bstr</code>) object.""";
-    
-  static final String W_BYTES_P1_DESCR = 
-  """
-  Binary data to be wrapped.""";
+  static final String W_BYTES_DESCR = """
+      Constructor.  Creates a CBOR byte-string (<code>bstr</code>) object.""";
 
+  static final String W_BYTES_P1_DESCR = """
+      Binary data to be wrapped.""";
 
-  static final String W_GETBYTES_DESCR = 
-  """
-  Get CBOR byte-string.""";
-  
-  static final String W_GETBYTES_RETURN_DESCR = 
-  """
-  Decoded byte-string.""";
+  static final String W_GETBYTES_DESCR = """
+      Get CBOR byte-string.""";
+
+  static final String W_GETBYTES_RETURN_DESCR = """
+      Decoded byte-string.""";
 
   // CBOR.Boolean
 
-  static final String W_BOOLEAN_DESCR = 
-  """
-  Constructor.  Creates a CBOR boolean (<code>bool</code>) object.""";
-    
-  static final String W_BOOLEAN_P1_DESCR = 
-  """
-  Boolean to be wrapped.""";
+  static final String W_BOOLEAN_DESCR = """
+      Constructor.  Creates a CBOR boolean (<code>bool</code>) object.""";
 
+  static final String W_BOOLEAN_P1_DESCR = """
+      Boolean to be wrapped.""";
 
-  static final String W_GETBOOL_DESCR = 
-  """
-  Get CBOR boolean.""";
-  
-  static final String W_GETBOOL_RETURN_DESCR = 
-  """
-  Decoded boolean.""";
+  static final String W_GETBOOL_DESCR = """
+      Get CBOR boolean.""";
+
+  static final String W_GETBOOL_RETURN_DESCR = """
+      Decoded boolean.""";
 
   // CBOR.Null
 
-  static final String W_NULL_DESCR = 
-  """
-  Constructor.  Creates a CBOR <code>null</code> object.
-  See also <a href='#common.isnull'>isNull()</a>.""";
+  static final String W_NULL_DESCR = """
+      Constructor.  Creates a CBOR <code>null</code> object.
+      See also <a href='#common.isnull'>isNull()</a>.""";
 
   // CBOR.Array
 
-  static final String W_ARRAY_DESCR = 
-  """
-  Constructor.  Creates an empty CBOR <code>array</code> object.""";
-  
+  static final String W_ARRAY_DESCR = """
+      Constructor.  Creates an empty CBOR <code>array</code> object.""";
 
-  static final String W_ARRAY_ADD_DESCR = 
-  """
-  Add CBOR object to the array.""";
+  static final String W_ARRAY_ADD_DESCR = """
+      Add CBOR object to the array.""";
 
-  static final String W_ARRAY_ADD_P1_DESCR = 
-  """
-  Object to be appended to the array.""";
+  static final String W_ARRAY_ADD_P1_DESCR = """
+      Object to be appended to the array.""";
 
+  static final String W_ARRAY_GET_DESCR = """
+      Get CBOR object at a specific position in the array.
+      If <kbd><i>index</i></kbd> is out of range, an exception is thrown.""";
 
-  static final String W_ARRAY_GET_DESCR = 
-  """
-  Get CBOR object at a specific position in the array.
-  If <kbd><i>index</i></kbd> is out of range, an exception is thrown.""";
-  
-  static final String W_ARRAY_GET_RETURN_DESCR = 
-  """
-  Retrieved object."""; 
+  static final String W_ARRAY_GET_RETURN_DESCR = """
+      Retrieved object.""";
 
+  static final String W_ARRAY_UPDATE_DESCR = """
+      Update CBOR object at a specific position in the array.
+      If <kbd><i>index</i></kbd> is out of range, an exception is thrown.""";
 
-  static final String W_ARRAY_UPDATE_DESCR = 
-  """
-  Update CBOR object at a specific position in the array.
-  If <kbd><i>index</i></kbd> is out of range, an exception is thrown.""";
+  static final String W_ARRAY_UPDATE_P2_DESCR = """
+      Update object.""";
 
-  static final String W_ARRAY_UPDATE_P2_DESCR = 
-  """
-  Update object.""";
+  static final String W_ARRAY_UPDATE_RETURN_DESCR = """
+      Previous object.""";
 
-  static final String W_ARRAY_UPDATE_RETURN_DESCR = 
-  """
-  Previous object.""";    
+  static final String W_ARRAY_TOARR_DESCR = """
+      Copy array.""";
 
-  
+  static final String W_ARRAY_TOARR_RETURN_DESCR = "JavaScript array holding a copy of current <kbd>"
+      + DataTypes.CBOR_Any + "</kbd> objects.";
 
-  static final String W_ARRAY_TOARR_DESCR = 
-  """
-  Copy array.""";
-
-  static final String W_ARRAY_TOARR_RETURN_DESCR = 
-  "JavaScript array holding a copy of current <kbd>" + DataTypes.CBOR_Any + "</kbd> objects.";  
-  
-  
-  static final String W_ARRAY_PROP_DESCR = 
-  """
-  Number of objects in the array."""; 
+  static final String W_ARRAY_PROP_DESCR = """
+      Number of objects in the array.""";
 
   // CBOR.Map
 
-  static final String W_MAP_DESCR = 
-  """
-  Constructor.  Creates an empty CBOR <code>map</code> object.""";
+  static final String W_MAP_DESCR = """
+      Constructor.  Creates an empty CBOR <code>map</code> object.""";
 
+  static final String W_MAP_SET_DESCR = """
+      Set map entry.
+      If <kbd><i>key</i></kbd> is already defined, an exception is thrown.
+      <div style='margin-top:0.5em'>Note: <kbd><i>key</i></kbd> order is of no importance since
+      <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>
+      performs the required map sorting <i>automatically</i>.
+      See also <a href='#cbor.map.setsortingmode'>setSortingMode()</a>
+      and <a href='#decoder.cbor.initdecoder'>CBOR.initDecoder()</a>.</div>
+      <div style='margin-top:0.5em'>Note: this implementation
+      presumes that <kbd>key</kbd> objects are <i>immutable</i>.
+      That is, the following code will throw an exception:</div>
+      <div style='margin:0.3em 0 0 1.2em'><code>let key = CBOR.Array();<br>
+      let map = CBOR.Map().set(key, CBOR.Int(5));<br>
+      key.add(CBOR.String("data"));  // Mutating key object</code></div>
+      <div style='margin-top:0.3em'>By defining <kbd>key</kbd> objects inline
+      (<i>chaining</i>) or by <i>preset variable declarations</i>, <kbd>key</kbd> objects
+      of <i>any</i> complexity can be used.</div>""";
 
-  static final String W_MAP_SET_DESCR = 
-  """
-  Set map entry.
-  If <kbd><i>key</i></kbd> is already defined, an exception is thrown.
-  <div style='margin-top:0.5em'>Note: <kbd><i>key</i></kbd> order is of no importance since
-  <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>
-  performs the required map sorting <i>automatically</i>.
-  See also <a href='#cbor.map.setsortingmode'>setSortingMode()</a>
-  and <a href='#decoder.cbor.initdecoder'>CBOR.initDecoder()</a>.</div>
-  <div style='margin-top:0.5em'>Note: this implementation
-  presumes that <kbd>key</kbd> objects are <i>immutable</i>.
-  That is, the following code will throw an exception:</div>
-  <div style='margin:0.3em 0 0 1.2em'><code>let key = CBOR.Array();<br>
-  let map = CBOR.Map().set(key, CBOR.Int(5));<br>
-  key.add(CBOR.String("data"));  // Mutating key object</code></div>
-  <div style='margin-top:0.3em'>By defining <kbd>key</kbd> objects inline
-  (<i>chaining</i>) or by <i>preset variable declarations</i>, <kbd>key</kbd> objects
-  of <i>any</i> complexity can be used.</div>""";
+  static final String W_MAP_MERGE_DESCR = """
+      Merge maps.
+      Performs a <a href='#cbor.map.set'>set()</a> operation
+      for each member of the <kbd><i>map</i></kbd> argument.""";
 
+  static final String W_MAP_MERGE_P1_DESCR = """
+      CBOR <code>map</code> wrapper object.""";
 
-  static final String W_MAP_MERGE_DESCR = 
-  """
-  Merge maps.
-  Performs a <a href='#cbor.map.set'>set()</a> operation
-  for each member of the <kbd><i>map</i></kbd> argument.""";
+  static final String W_MAP_UPDATE_DESCR = """
+      Update map entry.""";
 
-  static final String W_MAP_MERGE_P1_DESCR = 
-  """
-  CBOR <code>map</code> wrapper object.""";
+  static final String W_MAP_UPDATE_P3_DESCR = """
+      If <kbd><i>existing</i></kbd> is <code>true</code>,
+      <kbd><i>key</i></kbd> must be defined, else an exception is thrown.
+      <div style='margin-top:0.5em'>If <kbd><i>existing</i></kbd> is <code>false</code>,
+      a <code>map</code> entry will be created for <kbd><i>key</i></kbd> if not already defined.</div>""";
 
+  static final String W_MAP_UPDATE_RETURN_DESCR = """
+      Previous object.  May be <code>null</code>.""";
 
-  static final String W_MAP_UPDATE_DESCR = 
-  """
-  Update map entry.""";
+  static final String W_MAP_GET_DESCR = """
+      Get map entry.
+      If <kbd><i>key</i></kbd> is undefined, an exception is thrown.""";;
 
-  static final String W_MAP_UPDATE_P3_DESCR =
-  """
-  If <kbd><i>existing</i></kbd> is <code>true</code>,  
-  <kbd><i>key</i></kbd> must be defined, else an exception is thrown. 
-  <div style='margin-top:0.5em'>If <kbd><i>existing</i></kbd> is <code>false</code>,  
-  a <code>map</code> entry will be created for <kbd><i>key</i></kbd> if not already defined.</div>""";
+  static final String W_MAP_GET_RETURN_DESCR = """
+      Retrieved object.""";
 
-  static final String W_MAP_UPDATE_RETURN_DESCR = 
-  """
-  Previous object.  May be <code>null</code>.""";
-  
-  
-  static final String W_MAP_GET_DESCR = 
-  """
-  Get map entry.
-  If <kbd><i>key</i></kbd> is undefined, an exception is thrown.""";
-;
+  static final String W_MAP_REMOVE_DESCR = """
+      Remove map entry.
+      If <kbd><i>key</i></kbd> is undefined, an exception is thrown.""";
 
-  static final String W_MAP_GET_RETURN_DESCR = 
-  """
-  Retrieved object.""";
+  static final String W_MAP_REMOVE_RETURN_DESCR = """
+      Removed object (value).""";
 
+  static final String W_MAP_GETCOND_DESCR = """
+      Get map entry conditionally.""";
 
-  static final String W_MAP_REMOVE_DESCR = 
-  """
-  Remove map entry.
-  If <kbd><i>key</i></kbd> is undefined, an exception is thrown.""";
+  static final String W_MAP_GETCOND_P2_DESCR = """
+      Object to return if <kbd><i>key</i></kbd> is undefined.
+      <div style='margin-top:0.5em'>Note:
+      <kbd><i>defaultObject</i></kbd> may be <code>null</code>.</div>""";
 
-  static final String W_MAP_REMOVE_RETURN_DESCR = 
-  """
-  Removed object (value).""";
+  static final String W_MAP_GETCOND_RETURN_DESCR = """
+      Retrieved or default object.""";
 
+  static final String W_MAP_CONTAINS_DESCR = """
+      Check map for key presence.""";
 
-  static final String W_MAP_GETCOND_DESCR = 
-  """
-  Get map entry conditionally.""";
+  static final String W_MAP_CONTAINS_RETURN_DESCR = """
+      <code>true</code> or <code>false</code>.""";
 
+  static final String W_MAP_GETKEYS_DESCR = """
+      Get map keys.""";
 
-  static final String W_MAP_GETCOND_P2_DESCR = 
-  """
-  Object to return if <kbd><i>key</i></kbd> is undefined.
-  <div style='margin-top:0.5em'>Note: 
-  <kbd><i>defaultObject</i></kbd> may be <code>null</code>.</div>""";
+  static final String W_MAP_GETKEYS_RETURN_DESCR = "JavaScript array holding a copy of current key objects.";
 
-  static final String W_MAP_GETCOND_RETURN_DESCR = 
-  """
-  Retrieved or default object.""";  
+  static final String W_MAP_SET_SORTING_MODE_DESCR = """
+      Set the sorting mode of the
+      <a href='#wrapper.cbor.map'>CBOR.Map()</a> object during
+      <a href='#cbor.map.set'>set()</a> operations.
+      <div style='margin:0.5em 0'>Typical usage:</div>
+      <div style='margin:0.3em 0 0.3em 1.2em'><code>let map = CBOR.Map().setSortingMode(true)</code></div>
+      This method may be called multiple times which could be
+      useful if you have a moderate set of unsorted meta data keys
+      combined with a sorted large table-like set of keys.
+      Note that this method has no effect on decoding operations.""";
 
-  
-  static final String W_MAP_CONTAINS_DESCR = 
-  """
-  Check map for key presence.""";
+  static final String W_MAP_SET_SORTING_MODE_P1_DESCR = """
+      If <code>true</code>,
+      keys must be provided in (CBOR wise) ascending order
+      which can improve performance for maps having a huge number of keys.
+      Improper key order causes an exception to be thrown.
+      By default, map keys are sorted <i>internally</i>.""";
 
+  static final String W_MAP_PROP_DESCR = """
+      Number of map entries.""";
 
-  static final String W_MAP_CONTAINS_RETURN_DESCR = 
-  """
-  <code>true</code> or <code>false</code>.""";   
-
-
-  static final String W_MAP_GETKEYS_DESCR = 
-  """
-  Get map keys.""";
-  
-  static final String W_MAP_GETKEYS_RETURN_DESCR = 
-  "JavaScript array holding a copy of current key objects.";   
-
-  static final String W_MAP_SET_SORTING_MODE_DESCR =
-  """
-  Set the sorting mode of the
-  <a href='#wrapper.cbor.map'>CBOR.Map()</a> object during
-  <a href='#cbor.map.set'>set()</a> operations.
-  <div style='margin:0.5em 0'>Typical usage:</div>
-  <div style='margin:0.3em 0 0.3em 1.2em'><code>let map = CBOR.Map().setSortingMode(true)</code></div>
-  This method may be called multiple times which could be
-  useful if you have a moderate set of unsorted meta data keys
-  combined with a sorted large table-like set of keys.
-  Note that this method has no effect on decoding operations.""";
-
-  static final String W_MAP_SET_SORTING_MODE_P1_DESCR =
-  """
-  If <code>true</code>,
-  keys must be provided in (CBOR wise) ascending order 
-  which can improve performance for maps having a huge number of keys.
-  Improper key order causes an exception to be thrown.
-  By default, map keys are sorted <i>internally</i>.""";
-
-
-  static final String W_MAP_PROP_DESCR = 
-  """
-  Number of map entries.""";
-  
   // CBOR.Tag
 
-  static final String W_TAG_DESCR = 
-  """
-  Constructor.  Creates a CBOR tag object.
-  <div style='margin-top:0.5em'>
-  The CBOR tag constructor accepts any valid parameters but performs
-  thorough syntax checks on tag 0 (CBOR date/time) and tag 1010
-  [<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/'
-    title="COTX">COTX<img src="xtl.svg" alt="link"></a>].
-  </div>""";
+  static final String W_TAG_DESCR = """
+      Constructor.  Creates a CBOR tag object.
+      <div style='margin-top:0.5em'>
+      The CBOR tag constructor accepts any valid parameters but performs
+      thorough syntax checks on tag 0 (CBOR date/time) and tag 1010
+      [<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/'
+        title="COTX">COTX<img src="xtl.svg" alt="link"></a>].
+      </div>""";
 
-  static final String W_TAG_P1_DESCR = 
-  """
-  Tag number.""";
+  static final String W_TAG_P1_DESCR = """
+      Tag number.""";
 
-  static final String W_TAG_P2_DESCR = 
-  """
-  Object to be wrapped in a tag.""";
+  static final String W_TAG_P2_DESCR = """
+      Object to be wrapped in a tag.""";
 
+  static final String W_TAG_GETNUM_DESCR = """
+      Get CBOR tag number.""";
 
-  static final String W_TAG_GETNUM_DESCR = 
-  """
- Get CBOR tag number.""";
-  
-  static final String W_TAG_GETNUM_RETURN_DESCR = 
-  """
-  Decoded tag number.""";
+  static final String W_TAG_GETNUM_RETURN_DESCR = """
+      Decoded tag number.""";
 
+  static final String W_TAG_GET_DESCR = """
+      Get tagged CBOR object.""";
 
-  static final String W_TAG_GET_DESCR = 
-  """
-  Get tagged CBOR object.""";
-  
-  static final String W_TAG_GET_RETURN_DESCR = 
-  """
-  Retrieved object.""";
+  static final String W_TAG_GET_RETURN_DESCR = """
+      Retrieved object.""";
 
+  static final String W_TAG_UPDATE_DESCR = """
+      Update tagged CBOR object.""";
 
-  static final String W_TAG_UPDATE_DESCR = 
-  """
-  Update tagged CBOR object.""";
+  static final String W_TAG_UPDATE_P1_DESCR = """
+      Update object.""";
 
-  static final String W_TAG_UPDATE_P1_DESCR = 
-  """
-  Update object.""";
-  
-  static final String W_TAG_UPDATE_RETURN_DESCR = 
-  """
-  Previous object.""";
-
+  static final String W_TAG_UPDATE_RETURN_DESCR = """
+      Previous object.""";
 
   // CBOR.Simple
 
-  static final String W_SIMPLE_DESCR = 
-  """
-  Constructor.  Creates a CBOR simple value object.""";
+  static final String W_SIMPLE_DESCR = """
+      Constructor.  Creates a CBOR simple value object.""";
 
-  static final String W_SIMPLE_PARAM_DESCR = 
-  """
-  Simple value.""";
+  static final String W_SIMPLE_PARAM_DESCR = """
+      Simple value.""";
 
-  static final String W_SIMPLE_GETVAL_DESCR = 
-  """
-  Get simple value.""";
-  
-  static final String W_SIMPLE_GETVAL_RETURN_DESCR = 
-  """
-  Returned simple value.""";
+  static final String W_SIMPLE_GETVAL_DESCR = """
+      Get simple value.""";
+
+  static final String W_SIMPLE_GETVAL_RETURN_DESCR = """
+      Returned simple value.""";
 
   // encode()
 
-  static final String ENCODE_DESCR = 
-  """
-  Encode <kbd>this</kbd> object.
-  <div style='margin-top:0.5em'>Note: this method always return CBOR data using 
-  <a href='#main.deterministic'>Deterministic Encoding</a>.</div>""";
+  static final String ENCODE_DESCR = """
+      Encode <kbd>this</kbd> object.
+      <div style='margin-top:0.5em'>Note: this method always return CBOR data using
+      <a href='#main.deterministic'>Deterministic Encoding</a>.</div>""";
 
-  static final String ENCODE_RETURN_DESCR = 
-  """
-  CBOR encoded data.""";
+  static final String ENCODE_RETURN_DESCR = """
+      CBOR encoded data.""";
 
   // clone()
 
-  static final String CLONE_DESCR = 
-  """
-  Create a new instance of <kbd>this</kbd> object, initialized
-  with the original CBOR content.""";
+  static final String CLONE_DESCR = """
+      Create a new instance of <kbd>this</kbd> object, initialized
+      with the original CBOR content.""";
 
-  static final String CLONE_RETURN_DESCR = 
-  """
-  Deep copy of <kbd>this</kbd> object.""";
+  static final String CLONE_RETURN_DESCR = """
+      Deep copy of <kbd>this</kbd> object.""";
 
   // equals()
 
-  static final String EQUALS_DESCR = 
-  """
-  Compare <kbd>this</kbd> object with another object with respect to CBOR data.""";
-  
-  static final String EQUALS_P1_DESCR = 
-  """
-  The object to compare with.""";
+  static final String EQUALS_DESCR = """
+      Compare <kbd>this</kbd> object with another object with respect to CBOR data.""";
 
-  static final String EQUALS_RETURN_DESCR = 
-  """
-  <code>true</code> if <kbd>this</kbd> object is equal to <kbd><i>object</i></kbd>,
-  otherwise <code>false</code>.""";
+  static final String EQUALS_P1_DESCR = """
+      The object to compare with.""";
+
+  static final String EQUALS_RETURN_DESCR = """
+      <code>true</code> if <kbd>this</kbd> object is equal to <kbd><i>object</i></kbd>,
+      otherwise <code>false</code>.""";
 
   // isNull()
-      
-  static final String ISNULL_DESCR = 
-  """
-  Check for CBOR <code>null</code>.
-  <div style='margin:0.5em 0'>Note: if <a href='#common.checkforunread'>checkForUnread()</a>
-  is used, <kbd>this</kbd> object will only be regarded as &quot;read&quot;
-  if it actually is a CBOR <code>null</code> item.</div>
-  See also <a href='#wrapper.cbor.null'>CBOR.Null()</a>.""";
-  
-  static final String ISNULL_RETURN_DESCR = 
-  """
-  Returns <code>true</code> if <kbd>this</kbd> object
-  holds a CBOR <code>null</code> item, otherwise <code>false</code>
-  is returned.""";
+
+  static final String ISNULL_DESCR = """
+      Check for CBOR <code>null</code>.
+      <div style='margin:0.5em 0'>Note: if <a href='#common.checkforunread'>checkForUnread()</a>
+      is used, <kbd>this</kbd> object will only be regarded as &quot;read&quot;
+      if it actually is a CBOR <code>null</code> item.</div>
+      See also <a href='#wrapper.cbor.null'>CBOR.Null()</a>.""";
+
+  static final String ISNULL_RETURN_DESCR = """
+      Returns <code>true</code> if <kbd>this</kbd> object
+      holds a CBOR <code>null</code> item, otherwise <code>false</code>
+      is returned.""";
 
   // scan()
 
-   static final String SCAN_DESCR = 
-  """
-  Scan <kbd>this</kbd> object as well as possible child objects
-  in order to make them appear as &quot;read&quot;.
-  This is only meaningful in conjunction with
-  <a href='#common.checkforunread'>checkForUnread()</a>.""";
-
+  static final String SCAN_DESCR = """
+      Scan <kbd>this</kbd> object as well as possible child objects
+      in order to make them appear as &quot;read&quot;.
+      This is only meaningful in conjunction with
+      <a href='#common.checkforunread'>checkForUnread()</a>.""";
 
   // checkForUnread()
 
-   static final String CHECK4_DESCR = 
-  """
-   Check if <kbd>this</kbd> object including possible child objects has been read
-   (like calling <a href='#cbor.int.getint'>getInt()</a>).
-   If any of the associated objects have not been read, an exception will be thrown.
-   <div style='margin:0.5em 0'>
-   The purpose of this method is to detect possible misunderstandings between parties
-   using CBOR based protocols.  Together with the strict type checking performed
-   by the CBOR.js API, a programmatic counterpart to schema-based decoding
-   can be achieved.
-   </div>
-   Note that array <a href='#cbor.array.get'>get()</a>,
-   map <a href='#cbor.map.get'>get()</a>, and
-   tag <a href='#cbor.tag.get'>get()</a>
-   only <i>locate</i> objects,
-   and thus do not count as &quot;read&quot;.
-   <div style='margin-top:0.5em'>To cope with elements that are redundant,
-   <a href='#common.scan'>scan()</a> can be used:</div>
-  <div style='margin:0.3em 0 0 1.2em'><code>let array = CBOR.diagDecode(`[3, {}]`);<br>
-  let operation = array.get(0).getInt8();<br>
-  array.get(1).scan();&nbsp;&nbsp;&nbsp;&nbsp;// mark array[1] as read<br>
-  array.checkForUnread();</code></div>""";
- 
+  static final String CHECK4_DESCR = """
+       Check if <kbd>this</kbd> object including possible child objects has been read
+       (like calling <a href='#cbor.int.getint'>getInt()</a>).
+       If any of the associated objects have not been read, an exception will be thrown.
+       <div style='margin:0.5em 0'>
+       The purpose of this method is to detect possible misunderstandings between parties
+       using CBOR based protocols.  Together with the strict type checking performed
+       by the CBOR.js API, a programmatic counterpart to schema-based decoding
+       can be achieved.
+       </div>
+       Note that array <a href='#cbor.array.get'>get()</a>,
+       map <a href='#cbor.map.get'>get()</a>, and
+       tag <a href='#cbor.tag.get'>get()</a>
+       only <i>locate</i> objects,
+       and thus do not count as &quot;read&quot;.
+       <div style='margin-top:0.5em'>To cope with elements that are redundant,
+       <a href='#common.scan'>scan()</a> can be used:</div>
+      <div style='margin:0.3em 0 0 1.2em'><code>let array = CBOR.diagDecode(`[3, {}]`);<br>
+      let operation = array.get(0).getInt8();<br>
+      array.get(1).scan();&nbsp;&nbsp;&nbsp;&nbsp;// mark array[1] as read<br>
+      array.checkForUnread();</code></div>""";
 
   // toDiag()
 
-  static final String TODIAG_DESCR = 
-  """
-  Render <kbd>this</kbd> object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
-  In similarity to <a href='#common.encode'>encode()</a>, this method always produce
-  data in <a href='#main.deterministic'>Deterministic Encoding</a>, irrespective to how 
-  the data was created.
-  See also: <a href='#common.tostring'>toString()</a>.""";
-  
-  static final String TODIAG_P1_DESCR = 
-  """
-  If <kbd><i>prettyPrint</i></kbd> is <code>true</code>,
-  additional white space is inserted between individual objects
-  in maps and arrays, to make the result easier to read.""";
+  static final String TODIAG_DESCR = """
+      Render <kbd>this</kbd> object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
+      In similarity to <a href='#common.encode'>encode()</a>, this method always produce
+      data in <a href='#main.deterministic'>Deterministic Encoding</a>, irrespective to how
+      the data was created.
+      See also: <a href='#common.tostring'>toString()</a>.""";
 
-  static final String TODIAG_RETURN_DESCR = 
-  """
-  Textual version of the wrapped CBOR content.""";
+  static final String TODIAG_P1_DESCR = """
+      If <kbd><i>prettyPrint</i></kbd> is <code>true</code>,
+      additional white space is inserted between individual objects
+      in maps and arrays, to make the result easier to read.""";
 
-  static final String TOSTRING_DESCR = 
-  """
-  Render <kbd>this</kbd> object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
-  Equivalent to calling <a href='#common.todiag'>toDiag()</a>
-  with a <code>true</code> argument.""";
+  static final String TODIAG_RETURN_DESCR = """
+      Textual version of the wrapped CBOR content.""";
 
-   // CBOR.addArrays()
+  static final String TOSTRING_DESCR = """
+      Render <kbd>this</kbd> object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
+      Equivalent to calling <a href='#common.todiag'>toDiag()</a>
+      with a <code>true</code> argument.""";
 
-  static final String ADDARRAYS_DESCR = 
-  """
-  Add two arrays.""";
-  
-  static final String ADDARRAYS_P1_DESCR = 
-  """
-  First array.""";
+  // CBOR.addArrays()
 
-  static final String ADDARRAYS_P2_DESCR = 
-  """
-  Second array.""";
+  static final String ADDARRAYS_DESCR = """
+      Add two arrays.""";
 
-  static final String ADDARRAYS_RETURN_DESCR = 
-  """
-  Concatenation of array <kbd><i>a</i></kbd> and <kbd><i>b</i></kbd>.""";
+  static final String ADDARRAYS_P1_DESCR = """
+      First array.""";
 
-   // CBOR.compareArrays()
+  static final String ADDARRAYS_P2_DESCR = """
+      Second array.""";
 
-  static final String CMPARRAYS_DESCR = 
-  """
-  Compare two arrays lexicographically.""";
-  
-  static final String CMPARRAYS_P1_DESCR = 
-  """
-  First array.""";
+  static final String ADDARRAYS_RETURN_DESCR = """
+      Concatenation of array <kbd><i>a</i></kbd> and <kbd><i>b</i></kbd>.""";
 
-  static final String CMPARRAYS_P2_DESCR = 
-  """
-  Second array.""";
+  // CBOR.compareArrays()
 
-  static final String CMPARRAYS_RETURN_DESCR = 
-  """
-  If <kbd><i>a</i></kbd> and <kbd><i>b</i></kbd> are identical,
-  <kbd>0</kbd> is retuned. 
-  If <kbd><i>a</i>&nbsp;&gt;&nbsp;<i>b</i></kbd>,
-  a positive number is returned.
-  If <kbd><i>a</i>&nbsp;&lt;&nbsp;<i>b</i></kbd>,
-  a negative number is returned.""";
+  static final String CMPARRAYS_DESCR = """
+      Compare two arrays lexicographically.""";
+
+  static final String CMPARRAYS_P1_DESCR = """
+      First array.""";
+
+  static final String CMPARRAYS_P2_DESCR = """
+      Second array.""";
+
+  static final String CMPARRAYS_RETURN_DESCR = """
+      If <kbd><i>a</i></kbd> and <kbd><i>b</i></kbd> are identical,
+      <kbd>0</kbd> is retuned.
+      If <kbd><i>a</i>&nbsp;&gt;&nbsp;<i>b</i></kbd>,
+      a positive number is returned.
+      If <kbd><i>a</i>&nbsp;&lt;&nbsp;<i>b</i></kbd>,
+      a negative number is returned.""";
 
   // CBOR.toHex()
 
-  static final String TOHEX_DESCR = 
-  """
-  Encode binary data to hexadecimal.""";
-  
-  static final String TOHEX_P1_DESCR = 
-  """
-  Zero or more bytes to be encoded.""";
+  static final String TOHEX_DESCR = """
+      Encode binary data to hexadecimal.""";
 
-  static final String TOHEX_RETURN_DESCR = 
-  """
-  Hexadecimal encoded data.""";
+  static final String TOHEX_P1_DESCR = """
+      Zero or more bytes to be encoded.""";
+
+  static final String TOHEX_RETURN_DESCR = """
+      Hexadecimal encoded data.""";
 
   // CBOR.fromHex()
 
-  static final String FROMHEX_DESCR = 
-  """
-  Decode hexadecimal data into binary.""";
-  
-  static final String FROMHEX_P1_DESCR = 
-  """
-  String with zero or more hexadecimal pairs. Each pair represents one byte.""";
+  static final String FROMHEX_DESCR = """
+      Decode hexadecimal data into binary.""";
 
-  static final String FROMHEX_RETURN_DESCR = 
-  """
-  The resulting binary (bytes).""";
+  static final String FROMHEX_P1_DESCR = """
+      String with zero or more hexadecimal pairs. Each pair represents one byte.""";
+
+  static final String FROMHEX_RETURN_DESCR = """
+      The resulting binary (bytes).""";
 
   // CBOR.toBase64Url()
 
-  static final String TOB64U_DESCR = 
-  """
-  Encode binary data to base64Url.""";
-  
-  static final String TOB64U_P1_DESCR = 
-  """
-  Zero or more bytes to be encoded.""";
+  static final String TOB64U_DESCR = """
+      Encode binary data to base64Url.""";
 
-  static final String TOB64U_RETURN_DESCR = 
-  """
-  Base64Url encoded data.""";
+  static final String TOB64U_P1_DESCR = """
+      Zero or more bytes to be encoded.""";
+
+  static final String TOB64U_RETURN_DESCR = """
+      Base64Url encoded data.""";
 
   // CBOR.fromBase64Url()
 
-  static final String FROMB64U_DESCR = 
-  """
-  Decode base64Url encoded data into binary.
-  Note that this method is <i>permissive</i>; it accepts
-  base64 encoded data as well as data with or without
-  <kbd>'='</kbd> padding.""";
-  
-  static final String FROMB64U_P1_DESCR = 
-  """
-  String in base64Url notation.  The string may be empty.""";
+  static final String FROMB64U_DESCR = """
+      Decode base64Url encoded data into binary.
+      Note that this method is <i>permissive</i>; it accepts
+      base64 encoded data as well as data with or without
+      <kbd>'='</kbd> padding.""";
 
-  static final String FROMB64U_RETURN_DESCR = 
-  """
-  The resulting binary (bytes).""";
+  static final String FROMB64U_P1_DESCR = """
+      String in base64Url notation.  The string may be empty.""";
+
+  static final String FROMB64U_RETURN_DESCR = """
+      The resulting binary (bytes).""";
 
   // CBOR.decode()
 
-  static final String DECODE_DESCR = 
-  """
-  Decode a CBOR object.
-  <div style='margin-top:0.5em'>This method is equivalent to:</div>
-  <div style='margin:0.3em 0 0.5em 1.2em'>
-  <code style='white-space:nowrap'>CBOR.initDecoder(<i>cbor</i>, 0).decodeWithOptions()</code></div>
-  Unsupported or malformed CBOR data cause an exception to be thrown.""";
-  
-  static final String DECODE_P1_DESCR = 
-  """
- CBOR binary data <i>holding exactly one CBOR object</i>.""";
+  static final String DECODE_DESCR = """
+      Decode a CBOR object.
+      <div style='margin-top:0.5em'>This method is equivalent to:</div>
+      <div style='margin:0.3em 0 0.5em 1.2em'>
+      <code style='white-space:nowrap'>CBOR.initDecoder(<i>cbor</i>, 0).decodeWithOptions()</code></div>
+      Unsupported or malformed CBOR data cause an exception to be thrown.""";
 
-  static final String DECODE_RETURN_DESCR = 
-  """
-  Object.""";
+  static final String DECODE_P1_DESCR = """
+      CBOR binary data <i>holding exactly one CBOR object</i>.""";
+
+  static final String DECODE_RETURN_DESCR = """
+      Object.""";
 
   // CBOR.initDecoder()
 
-  static final String INITEXT_DESCR = 
-  """
-  Create a customized CBOR decoder.
-  This decoding method presumes that the actual
-  decoding is performed by one or more (for sequences only) calls to
-  <a href='#decoder.decoder.decodewithoptions'><i>Decoder</i>.decodeWithOptions()</a>.
-  <div style='margin-top:0.5em'>
-  Note that irrespective of options, the decoder maintains parsed data in the form required for  
-  <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>.</div>
-  <div style='margin-top:0.5em'>
-  See also 
-  <a href='#decoder.decoder.getbytecount'><i>Decoder</i>.getByteCount()</a>.</div>""";
-  
-  static final String INITEXT_P1_DESCR = 
-  """
-  The CBOR data (bytes) to be decoded.""";
+  static final String INITEXT_DESCR = """
+      Create a customized CBOR decoder.
+      This decoding method presumes that the actual
+      decoding is performed by one or more (for sequences only) calls to
+      <a href='#decoder.decoder.decodewithoptions'><i>Decoder</i>.decodeWithOptions()</a>.
+      <div style='margin-top:0.5em'>
+      Note that irrespective of options, the decoder maintains parsed data in the form required for
+      <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>.</div>
+      <div style='margin-top:0.5em'>
+      See also
+      <a href='#decoder.decoder.getbytecount'><i>Decoder</i>.getByteCount()</a>.</div>""";
 
-  static final String INITEXT_P2_DESCR = 
-  """
-  The decoder options.
-  Multiple options can be combined using the binary OR-operator
-  ("<code>|</code>").
-  A zero (0) sets the decoder default mode.
-  The options are defined by the following constants:
-  <div style='margin-top:0.5em'><kbd>CBOR.SEQUENCE_MODE</kbd>:</div>
-  <div style='padding:0.2em 0 0 1.2em'>If the <kbd>CBOR.SEQUENCE_MODE</kbd>
-  option is defined, the following apply:
-  <ul style='padding:0;margin:0 0 0.5em 1.2em'>
-  <li style='margin-top:0'>The decoder returns after having decoded
-  a <i>single</i> CBOR object, while preparing for the next object.</li>
-  <li>If no data is found (EOF), <code>null</code> is returned
-  (<i>empty</i> sequences are permitted).</li>
-  </ul>
-  Note that data that has not yet been decoded, is not verified for correctness.</div>
-  <div style='margin-top:0.8em'><kbd>CBOR.LENIENT_MAP_DECODING</kbd>:</div>
-  <div style='padding:0.2em 0 0 1.2em'>By default, the decoder requires
-  that CBOR maps conform to the
-  <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a> 
-  rules.
-  The&nbsp;<kbd>CBOR.LENIENT_MAP_DECODING</kbd> option forces the decoder
-  to accept CBOR maps with arbitrary key ordering.
-  Note that duplicate keys still cause an exception to be thrown.
-  </div>
-  <div style='margin-top:0.8em'><kbd>CBOR.LENIENT_NUMBER_DECODING</kbd>:</div>
-  <div style='padding:0.2em 0 0 1.2em'>By default, the decoder requires
-  that CBOR numbers conform to the
-  <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a> rules.<br>
-  The&nbsp;<kbd>CBOR.LENIENT_NUMBER_DECODING</kbd> option forces the decoder to
-  accept different representations of CBOR <code>int</code>, <code>bigint</code>,
-  and <code>float</code> items, only limited by RFC&nbsp;8949.</div>
-  <div style='margin-top:0.8em'><kbd>CBOR.REJECT_INVALID_FLOATS</kbd>:</div>
-  <div style='padding:0.2em 0 0 1.2em'>By default, the decoder supports 
-  <kbd>NaN</kbd> and <kbd>Infinity</kbd> values. 
-  In case these variants are not applicable for the application in question,
-  the <kbd>CBOR.REJECT_INVALID_FLOATS</kbd> option
-  causes such numbers to throw an exception.</div>""";
+  static final String INITEXT_P1_DESCR = """
+      The CBOR data (bytes) to be decoded.""";
 
-  static final String INITEXT_RETURN_DESCR = 
-  """
-  Decoder object to be used with
-  <a href='#decoder.decoder.decodewithoptions'><i>Decoder</i>.decodeWithOptions()</a>.""";
+  static final String INITEXT_P2_DESCR = """
+      The decoder options.
+      Multiple options can be combined using the binary OR-operator
+      ("<code>|</code>").
+      A zero (0) sets the decoder default mode.
+      The options are defined by the following constants:
+      <div style='margin-top:0.5em'><kbd>CBOR.SEQUENCE_MODE</kbd>:</div>
+      <div style='padding:0.2em 0 0 1.2em'>If the <kbd>CBOR.SEQUENCE_MODE</kbd>
+      option is defined, the following apply:
+      <ul style='padding:0;margin:0 0 0.5em 1.2em'>
+      <li style='margin-top:0'>The decoder returns after having decoded
+      a <i>single</i> CBOR object, while preparing for the next object.</li>
+      <li>If no data is found (EOF), <code>null</code> is returned
+      (<i>empty</i> sequences are permitted).</li>
+      </ul>
+      Note that data that has not yet been decoded, is not verified for correctness.</div>
+      <div style='margin-top:0.8em'><kbd>CBOR.LENIENT_MAP_DECODING</kbd>:</div>
+      <div style='padding:0.2em 0 0 1.2em'>By default, the decoder requires
+      that CBOR maps conform to the
+      <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>
+      rules.
+      The&nbsp;<kbd>CBOR.LENIENT_MAP_DECODING</kbd> option forces the decoder
+      to accept CBOR maps with arbitrary key ordering.
+      Note that duplicate keys still cause an exception to be thrown.
+      </div>
+      <div style='margin-top:0.8em'><kbd>CBOR.LENIENT_NUMBER_DECODING</kbd>:</div>
+      <div style='padding:0.2em 0 0 1.2em'>By default, the decoder requires
+      that CBOR numbers conform to the
+      <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a> rules.<br>
+      The&nbsp;<kbd>CBOR.LENIENT_NUMBER_DECODING</kbd> option forces the decoder to
+      accept different representations of CBOR <code>int</code>, <code>bigint</code>,
+      and <code>float</code> items, only limited by RFC&nbsp;8949.</div>
+      <div style='margin-top:0.8em'><kbd>CBOR.REJECT_INVALID_FLOATS</kbd>:</div>
+      <div style='padding:0.2em 0 0 1.2em'>By default, the decoder supports
+      <kbd>NaN</kbd> and <kbd>Infinity</kbd> values.
+      In case these variants are not applicable for the application in question,
+      the <kbd>CBOR.REJECT_INVALID_FLOATS</kbd> option
+      causes such numbers to throw an exception.</div>""";
 
- 
+  static final String INITEXT_RETURN_DESCR = """
+      Decoder object to be used with
+      <a href='#decoder.decoder.decodewithoptions'><i>Decoder</i>.decodeWithOptions()</a>.""";
+
   // Decoder.decodeWithOptions()
 
-  static final String DECODEEXT_DESCR = 
-  """
-  Decode CBOR data with options.
-  <div style='margin-top:0.5em'>
-  Unsupported or malformed CBOR data cause an exception to be thrown.</div>""";
-  
-  static final String DECODEEXT_RETURN_DESCR = 
-  """
-  Object or <code>null</code> (for EOF sequences only).""";
+  static final String DECODEEXT_DESCR = """
+      Decode CBOR data with options.
+      <div style='margin-top:0.5em'>
+      Unsupported or malformed CBOR data cause an exception to be thrown.</div>""";
+
+  static final String DECODEEXT_RETURN_DESCR = """
+      Object or <code>null</code> (for EOF sequences only).""";
 
   // Decoder.getByteCount()
 
-  static final String GETBYTECOUNT_DESCR = 
-  """
-  Get decoder byte count.
-  <div style='margin-top:0.5em'>
-  This is equivalent to the position of the next item to be read.</div>""";
+  static final String GETBYTECOUNT_DESCR = """
+      Get decoder byte count.
+      <div style='margin-top:0.5em'>
+      This is equivalent to the position of the next item to be read.</div>""";
 
-  static final String GETBYTECOUNT_RETURN_DESCR = 
-  """
-  The number of bytes read so far.""";
+  static final String GETBYTECOUNT_RETURN_DESCR = """
+      The number of bytes read so far.""";
 
   // CBOR.diagDecode()
 
-  static final String DIAGDEC_DESCR = 
-  """
-  Decode a CBOR object provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
-  See also <a href='#decoder.cbor.diagdecodesequence'>CBOR.diagDecodeSequence()</a>.
-  <div style='margin-top:0.5em'>Note: this method always returns CBOR data using 
-  <a href='#main.deterministic'>Deterministic Encoding</a>.</div>""";
-  
-  static final String DIAGDEC_P1_DESCR = 
-  """
-  CBOR in textual format.""";
+  static final String DIAGDEC_DESCR = """
+      Decode a CBOR object provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
+      See also <a href='#decoder.cbor.diagdecodesequence'>CBOR.diagDecodeSequence()</a>.
+      <div style='margin-top:0.5em'>Note: this method always returns CBOR data using
+      <a href='#main.deterministic'>Deterministic Encoding</a>.</div>""";
 
-  static final String DIAGDEC_RETURN_DESCR = 
-  """
-  Object.""";
+  static final String DIAGDEC_P1_DESCR = """
+      CBOR in textual format.""";
+
+  static final String DIAGDEC_RETURN_DESCR = """
+      Object.""";
 
   // CBOR.diagDecodeSequence()
 
-  static final String DIAGDECSEQ_DESCR = 
-  """
-  Decode CBOR objects provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
-  Unlike <a href='#decoder.cbor.diagdecode'>CBOR.diagDecode()</a>,
-  this method also accepts CBOR sequences, using a comma
-  character (<kbd>','</kbd>) as a separator.
-  <div style='margin-top:0.5em'>Note: empty sequences are permitted.</div>""";
-  
+  static final String DIAGDECSEQ_DESCR = """
+      Decode CBOR objects provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
+      Unlike <a href='#decoder.cbor.diagdecode'>CBOR.diagDecode()</a>,
+      this method also accepts CBOR sequences, using a comma
+      character (<kbd>','</kbd>) as a separator.
+      <div style='margin-top:0.5em'>Note: empty sequences are permitted.</div>""";
+
   static final String DIAGDECSEQ_P1_DESCR = DIAGDEC_P1_DESCR;
 
-  static final String DIAGDECSEQ_RETURN_DESCR = 
-  "JavaScript array holding zero or more objects.";
-
+  static final String DIAGDECSEQ_RETURN_DESCR = "JavaScript array holding zero or more objects.";
 
   static final String INTRO = "${INTRO}";
 
   static final String WRAPPER_INTRO = "${WRAPPER_INTRO}";
+
+  static final String TIME_OBJECTS = "${TIME_OBJECTS}";
+
+  static final String TIME_METHODS = "${TIME_METHODS}";
 
   static final String COMMON_INTRO = "${COMMON_INTRO}";
 
@@ -794,9 +650,9 @@ public class CreateDocument {
 
   static final String UTILITY_INTRO = "${UTILITY_INTRO}";
 
-  static final String JS_NUMBER_CONS = "${JS_NUMBER_CONS}"; 
+  static final String JS_NUMBER_CONS = "${JS_NUMBER_CONS}";
 
-  static final String DIAGNOSTIC_NOTATION = "${DIAGNOSTIC_NOTATION}"; 
+  static final String DIAGNOSTIC_NOTATION = "${DIAGNOSTIC_NOTATION}";
 
   static final String DETERMINISTIC_ENCODING = "${DETERMINISTIC_ENCODING}";
 
@@ -808,11 +664,11 @@ public class CreateDocument {
 
   static final String EXAMPLES_DN_DEC = "${EXAMPLES_DN_DEC}";
 
-  static final String VERSION_INFO = "${VERSION_INFO}"; 
+  static final String VERSION_INFO = "${VERSION_INFO}";
 
-  static final String JS_NUMBER_CONS_INT = "${JS_NUMBER_CONS_INT}"; 
+  static final String JS_NUMBER_CONS_INT = "${JS_NUMBER_CONS_INT}";
 
-  static final String JS_NUMBER_CONS_FP = "${JS_NUMBER_CONS_FP}"; 
+  static final String JS_NUMBER_CONS_FP = "${JS_NUMBER_CONS_FP}";
 
   static final String TOC = "${TOC}";
 
@@ -829,7 +685,7 @@ public class CreateDocument {
   ArrayList<TOCEntry> tocEntries = new ArrayList<>();
 
   static class Outline implements Cloneable {
-    int[] header = {1,1,1,1};
+    int[] header = { 1, 1, 1, 1 };
     int ind = 0;
 
     String getHeader() {
@@ -890,7 +746,7 @@ public class CreateDocument {
     JS_THIS("this"),
 
     JS_NUMBER("Number"),
-    JS_ARRAY("[{CBOR.<i>Wrapper</i>}...]"),
+    JS_ARRAY("[CBOR.<i>Wrapper</i>...]"),
     JS_BIGINT("BigInt"),
     JS_DATE("Date"),
     JS_BOOLEAN("Boolean"),
@@ -917,7 +773,7 @@ public class CreateDocument {
 
   void beginTable() {
     s.append("<div class='webpkifloat'>\n<table class='webpkitable'" +
-             " style='margin-left:2em;width:50em'>\n");
+        " style='margin-left:2em;width:50em'>\n");
   }
 
   void endTable() {
@@ -947,11 +803,11 @@ public class CreateDocument {
   void separator(int columns) {
     rowBegin();
     s.append("<td colspan='")
-     .append(columns)
-     .append("' class='webpkidiv'></td>");
+        .append(columns)
+        .append("' class='webpkidiv'></td>");
     rowEnd();
   }
-  
+
   void tableCell(String text, int columns) {
     s.append("<td");
     if (columns > 1) {
@@ -984,8 +840,8 @@ public class CreateDocument {
   }
 
   void printMethod(String prefix, Method method) {
-    String iFix = method.name.replace("<i>","").replace("</i>", "");
-    s.append(printSubHeader((prefix + "." + iFix).toLowerCase(),  method.name + 
+    String iFix = method.name.replace("<i>", "").replace("</i>", "");
+    s.append(printSubHeader((prefix + "." + iFix).toLowerCase(), method.name +
         (method instanceof Wrapper ? "" : "()")));
     beginTable();
     rowBegin();
@@ -1073,6 +929,17 @@ public class CreateDocument {
     return s.toString();
   }
 
+  String printTimeMethods() {
+    s = new StringBuilder();
+    outline.indent();
+    for (Method method : timeMethods) {
+      printMethod("time", method);
+      outline.increment();
+    }
+    outline.undent();
+    return s.toString();
+  }
+
   String printCborWrappers() {
     s = new StringBuilder();
     outline.indent();
@@ -1143,7 +1010,7 @@ public class CreateDocument {
       optionalReturnValue.description = description;
       return this;
     }
-  
+
     Method addParameter(String name, DataTypes dataType, String description) {
       Parameter parameter = new Parameter();
       parameter.name = name;
@@ -1152,7 +1019,7 @@ public class CreateDocument {
       parameters.add(parameter);
       return this;
     }
-    
+
   }
 
   ArrayList<Method> commonMethods = new ArrayList<>();
@@ -1182,6 +1049,16 @@ public class CreateDocument {
     method.name = name;
     method.description = description;
     utilityMethods.add(method);
+    return method;
+  }
+
+  ArrayList<Method> timeMethods = new ArrayList<>();
+
+  Method addTimeMethod(String name, String description) {
+    Method method = new Method();
+    method.name = name;
+    method.description = description;
+    timeMethods.add(method);
     return method;
   }
 
@@ -1233,7 +1110,7 @@ public class CreateDocument {
       property.description = description;
       return this;
     }
-  } 
+  }
 
   Wrapper addWrapper(DataTypes dataType, String description) {
     Wrapper wrapper = new Wrapper();
@@ -1243,7 +1120,7 @@ public class CreateDocument {
     wrapper.optionalReturnValue = new ReturnValue();
     wrapper.optionalReturnValue.dataType = dataType;
     wrapper.optionalReturnValue.description = WRAPPER_RETURN_DESCR;
-    
+
     wrappers.add(wrapper);
 
     return wrapper;
@@ -1260,17 +1137,17 @@ public class CreateDocument {
       if (next > tocEntry.indent && next < 3) {
         startOf = true;
         image = "closed.svg' onclick='tocSwitch(this)' " +
-        "style='height:1em;margin-right:1em;cursor:pointer";
+            "style='height:1em;margin-right:1em;cursor:pointer";
       }
       s.append("<div style='margin:0 0 0.4em ")
-       .append((tocEntry.indent * 2) + 2)
-       .append("em'><img alt='n/a' src='")
-       .append(image)
-       .append("'><a href='#")
-       .append(tocEntry.link)
-       .append("'>")
-       .append(tocEntry.title)
-       .append("</a></div>");
+          .append((tocEntry.indent * 2) + 2)
+          .append("em'><img alt='n/a' src='")
+          .append(image)
+          .append("'><a href='#")
+          .append(tocEntry.link)
+          .append("'>")
+          .append(tocEntry.title)
+          .append("</a></div>");
       if (startOf) {
         s.append("<div style='display:none'>");
       }
@@ -1290,85 +1167,82 @@ public class CreateDocument {
 
   String htmlize(String text) {
     return text.replace("&", "&amp;")
-               .replace("\"", "&quot;")
-               .replace("<", "&lt;")
-               .replace(">", "&gt;")
-               .replace(" ", "&nbsp;")
-               .replace("\n", "<br>");
+        .replace("\"", "&quot;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace(" ", "&nbsp;")
+        .replace("\n", "<br>");
   }
 
   String codeBlock(String rawCode) {
-    return 
-    "<div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>" + 
-    htmlize(rawCode) +
-    "</div></div>";
+    return "<div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>" +
+        htmlize(rawCode) +
+        "</div></div>";
   }
 
   String exampleEncode() {
-    return 
-      """
-      The following code shows how you can <i>create</i> CBOR-encoded data:
-      """ +
-      codeBlock("""
-let cbor = CBOR.Map()
-               .set(CBOR.Int(1), CBOR.Float(45.7))
-               .set(CBOR.Int(2), CBOR.String("Hi there!")).encode();
+    return """
+        The following code shows how you can <i>create</i> CBOR-encoded data:
+        """ +
+        codeBlock("""
+            let cbor = CBOR.Map()
+                           .set(CBOR.Int(1), CBOR.Float(45.7))
+                           .set(CBOR.Int(2), CBOR.String("Hi there!")).encode();
 
-console.log(CBOR.toHex(cbor));
---------------------------------------------
-a201fb4046d9999999999a0269486920746865726521
-      """);
+            console.log(CBOR.toHex(cbor));
+            --------------------------------------------
+            a201fb4046d9999999999a0269486920746865726521
+                  """);
   }
 
   String exampleDecode() {
-    return 
-      """
-      The following code shows how you can <i>decode</i> CBOR-encoded data,
-      here using the result of the <i>encoding</i> example:
-      """ +
-      codeBlock("""
-let map = CBOR.decode(cbor);
-console.log(map.toString());  // Diagnostic notation
-----------------------------------------------------
-{
-  1: 45.7,
-  2: "Hi there!"
-}
+    return """
+        The following code shows how you can <i>decode</i> CBOR-encoded data,
+        here using the result of the <i>encoding</i> example:
+        """ +
+        codeBlock("""
+            let map = CBOR.decode(cbor);
+            console.log(map.toString());  // Diagnostic notation
+            ----------------------------------------------------
+            {
+              1: 45.7,
+              2: "Hi there!"
+            }
 
-console.log('Value=' + map.get(CBOR.Int(1)));
----------------------------------------------
-Value=45.7
-      """);
+            console.log('Value=' + map.get(CBOR.Int(1)));
+            ---------------------------------------------
+            Value=45.7
+                  """);
   }
 
   String exampleDNDecode() {
-    return 
-      """
-      The following code shows how you can <i>decode</i> CBOR specified in
-      <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>:
-      """ +
-      codeBlock("""
-let cbor = CBOR.diagDecode(`{
-# Comments are also permitted
-  1: 45.7,
-  2: "Hi there!"
-}`).encode();
+    return """
+        The following code shows how you can <i>decode</i> CBOR specified in
+        <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>:
+        """ +
+        codeBlock("""
+            let cbor = CBOR.diagDecode(`{
+            # Comments are also permitted
+              1: 45.7,
+              2: "Hi there!"
+            }`).encode();
 
-console.log(CBOR.toHex(cbor));
-------------------------------
-a201fb4046d9999999999a0269486920746865726521
-      """);
+            console.log(CBOR.toHex(cbor));
+            ------------------------------
+            a201fb4046d9999999999a0269486920746865726521
+                  """);
   }
 
   void replace(String handle, String with) {
     int length = template.length();
     template = template.replace(handle, with);
-    if (length == template.length()) throw new RuntimeException("handle: " + handle);
+    if (length == template.length())
+      throw new RuntimeException("handle: " + handle);
   }
 
   void rangedIntMethod(Wrapper wrapper, String method, String min, String max, String optionalText) {
-    StringBuilder description = 
-      new StringBuilder("Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>")
+    StringBuilder description = new StringBuilder(
+        "Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>")
         .append(min).append(" </code>to<code> ")
         .append(max).append("</code> cause an exception to be thrown.");
     if (optionalText != null) {
@@ -1376,337 +1250,346 @@ a201fb4046d9999999999a0269486920746865726521
     }
     description.append("</div>");
     wrapper.addMethod(method, description.toString())
-           .setReturn(DataTypes.JS_NUMBER, "Decoded integer.");
+        .setReturn(DataTypes.JS_NUMBER, "Decoded integer.");
   }
 
   void rangedBigIntMethod(Wrapper wrapper, String method, String min, String max) {
-    StringBuilder description = 
-      new StringBuilder("Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>")
+    StringBuilder description = new StringBuilder(
+        "Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>")
         .append(min).append(" </code>to<code> ")
         .append(max).append("</code> cause an exception to be thrown.</div>");
     wrapper.addMethod(method, description.toString())
-           .setReturn(DataTypes.JS_BIGINT, W_GETBIGINT_RETURN_DESCR);
+        .setReturn(DataTypes.JS_BIGINT, W_GETBIGINT_RETURN_DESCR);
   }
 
   void bigIntMethods(Wrapper wrapper) {
 
-    rangedBigIntMethod(wrapper,"getInt64", 
-                   "-0x8000000000000000", 
-                  "0x7fffffffffffffff");
+    rangedBigIntMethod(wrapper, "getInt64",
+        "-0x8000000000000000",
+        "0x7fffffffffffffff");
 
-    rangedBigIntMethod(wrapper,"getUint64", 
-                   "0", 
-                   "0xffffffffffffffff");
+    rangedBigIntMethod(wrapper, "getUint64",
+        "0",
+        "0xffffffffffffffff");
 
     wrapper.addMethod("getBigInt", W_GETBIGINT_DESCR)
-           .setReturn(DataTypes.JS_BIGINT, W_GETBIGINT_RETURN_DESCR);
+        .setReturn(DataTypes.JS_BIGINT, W_GETBIGINT_RETURN_DESCR);
   }
 
   void intMethods(Wrapper wrapper) {
 
-    rangedIntMethod(wrapper,"getInt", 
-                    "-2<sup>53</sup>+1", 
-                    "2<sup>53</sup>-1", 
-                    " See also <a href='#cbor.int.getbigint'>getBigInt()</a>.");
-    
-    rangedIntMethod(wrapper,"getInt8", 
-                    "-0x80", 
-                    "0x7f", 
-                    null);
+    rangedIntMethod(wrapper, "getInt",
+        "-2<sup>53</sup>+1",
+        "2<sup>53</sup>-1",
+        " See also <a href='#cbor.int.getbigint'>getBigInt()</a>.");
 
-    rangedIntMethod(wrapper,"getUint8", 
-                    "0", 
-                    "0xff", 
-                    null);
-                    
-    rangedIntMethod(wrapper,"getInt16", 
-                    "-0x8000", 
-                    "0x7fff", 
-                    null);
-                    
-    rangedIntMethod(wrapper,"getUint16", 
-                    "0", 
-                    "0xffff", 
-                    null);
-                    
-    rangedIntMethod(wrapper,"getInt32", 
-                    "-0x80000000", 
-                    "0x7fffffff", 
-                    null);
-                    
-    rangedIntMethod(wrapper,"getUint32", 
-                    "0", 
-                    "0xffffffff", 
-                    null);
+    rangedIntMethod(wrapper, "getInt8",
+        "-0x80",
+        "0x7f",
+        null);
 
-    bigIntMethods(wrapper);    
+    rangedIntMethod(wrapper, "getUint8",
+        "0",
+        "0xff",
+        null);
+
+    rangedIntMethod(wrapper, "getInt16",
+        "-0x8000",
+        "0x7fff",
+        null);
+
+    rangedIntMethod(wrapper, "getUint16",
+        "0",
+        "0xffff",
+        null);
+
+    rangedIntMethod(wrapper, "getInt32",
+        "-0x80000000",
+        "0x7fffffff",
+        null);
+
+    rangedIntMethod(wrapper, "getUint32",
+        "0",
+        "0xffffffff",
+        null);
+
+    bigIntMethods(wrapper);
   }
 
   CreateDocument(String templateFileName, String documentFileName) {
     template = UTF8.decode(IO.readFile(templateFileName));
 
-      // CBOR.Int
+    // CBOR.Int
 
-  intMethods(addWrapper(DataTypes.CBOR_INT, W_INT_DESCR)
-      .addWrapperParameter("value", DataTypes.JS_NUMBER, W_INT_P1_DESCR));
+    intMethods(addWrapper(DataTypes.CBOR_INT, W_INT_DESCR)
+        .addWrapperParameter("value", DataTypes.JS_NUMBER, W_INT_P1_DESCR));
 
-      // CBIR.BigInt
+    // CBIR.BigInt
 
     bigIntMethods(addWrapper(DataTypes.CBOR_BIGINT, W_BIGINT_DESCR)
-      .addWrapperParameter("value", DataTypes.JS_BIGINT, W_BIGINT_P1_DESCR));
+        .addWrapperParameter("value", DataTypes.JS_BIGINT, W_BIGINT_P1_DESCR));
 
-      // CBOR.Float
+    // CBOR.Float
 
     addWrapper(DataTypes.CBOR_FLOAT, W_FLOAT_DESCR)
-      .addWrapperParameter("value", DataTypes.JS_NUMBER, W_FLOAT_P1_DESCR)
+        .addWrapperParameter("value", DataTypes.JS_NUMBER, W_FLOAT_P1_DESCR)
 
-      .addMethod("getFloat16", W_GETFLOAT_DESCR + 
-          "<div style='margin-top:0.5em'>" +
-          "Note: the CBOR object must be a 16-bit IEEE-754 item, " +
-          "otherwise an exception will be thrown.</div>")
-      .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
+        .addMethod("getFloat16", W_GETFLOAT_DESCR +
+            "<div style='margin-top:0.5em'>" +
+            "Note: the CBOR object must be a 16-bit IEEE-754 item, " +
+            "otherwise an exception will be thrown.</div>")
+        .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
 
-      .addMethod("getFloat32", W_GETFLOAT_DESCR + 
-          "<div style='margin-top:0.5em'>" +
-          "Note: the CBOR object must be a 16-bit or 32-bit IEEE-754 item, " +
-          "otherwise an exception will be thrown.</div>")
-      .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
+        .addMethod("getFloat32", W_GETFLOAT_DESCR +
+            "<div style='margin-top:0.5em'>" +
+            "Note: the CBOR object must be a 16-bit or 32-bit IEEE-754 item, " +
+            "otherwise an exception will be thrown.</div>")
+        .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
 
-      .addMethod("getFloat64", W_GETFLOAT_DESCR)
-      .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
- 
-      .setProperty("length", DataTypes.JS_NUMBER, W_FLOAT_PROP_DESCR);
+        .addMethod("getFloat64", W_GETFLOAT_DESCR)
+        .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
 
-      // CBOR.String
+        .setProperty("length", DataTypes.JS_NUMBER, W_FLOAT_PROP_DESCR);
+
+    // CBOR.String
 
     addWrapper(DataTypes.CBOR_STRING, W_STRING_DESCR)
-      .addWrapperParameter("textString", DataTypes.JS_STRING, W_STRING_P1_DESCR)
+        .addWrapperParameter("textString", DataTypes.JS_STRING, W_STRING_P1_DESCR)
 
-      .addMethod("getString", W_GETSTRING_DESCR)
-      .setReturn(DataTypes.JS_STRING, W_GETSTRING_RETURN_DESCR)
+        .addMethod("getString", W_GETSTRING_DESCR)
+        .setReturn(DataTypes.JS_STRING, W_GETSTRING_RETURN_DESCR);
 
-      .addMethod("getDateTime", W_GETDATETIME_DESCR)
-      .setReturn(DataTypes.JS_DATE, W_GETDATETIME_RETURN_DESCR);
-
-      // CBOR.Bytes
+    // CBOR.Bytes
 
     addWrapper(DataTypes.CBOR_BYTES, W_BYTES_DESCR)
-      .addWrapperParameter("byteString", DataTypes.JS_UINT8ARRAY, W_BYTES_P1_DESCR)
+        .addWrapperParameter("byteString", DataTypes.JS_UINT8ARRAY, W_BYTES_P1_DESCR)
 
-      .addMethod("getBytes", W_GETBYTES_DESCR)
-      .setReturn(DataTypes.JS_UINT8ARRAY, W_GETBYTES_RETURN_DESCR);
+        .addMethod("getBytes", W_GETBYTES_DESCR)
+        .setReturn(DataTypes.JS_UINT8ARRAY, W_GETBYTES_RETURN_DESCR);
 
-      // CBOR.Boolean
+    // CBOR.Boolean
 
     addWrapper(DataTypes.CBOR_BOOLEAN, W_BOOLEAN_DESCR)
-      .addWrapperParameter("value", DataTypes.JS_BOOLEAN, W_BOOLEAN_P1_DESCR)
+        .addWrapperParameter("value", DataTypes.JS_BOOLEAN, W_BOOLEAN_P1_DESCR)
 
-      .addMethod("getBoolean", W_GETBOOL_DESCR)
-      .setReturn(DataTypes.JS_BOOLEAN, W_GETBOOL_RETURN_DESCR);
+        .addMethod("getBoolean", W_GETBOOL_DESCR)
+        .setReturn(DataTypes.JS_BOOLEAN, W_GETBOOL_RETURN_DESCR);
 
-      // CBOR.Null
+    // CBOR.Null
 
     addWrapper(DataTypes.CBOR_NULL, W_NULL_DESCR);
 
-      // CBOR.Array
+    // CBOR.Array
 
     addWrapper(DataTypes.CBOR_ARRAY, W_ARRAY_DESCR)
 
-      .addMethod("add", W_ARRAY_ADD_DESCR)
-      .addParameter("object", DataTypes.CBOR_Any, W_ARRAY_ADD_P1_DESCR)
-      .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR)
+        .addMethod("add", W_ARRAY_ADD_DESCR)
+        .addParameter("object", DataTypes.CBOR_Any, W_ARRAY_ADD_P1_DESCR)
+        .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR)
 
-      .addMethod("get", W_ARRAY_GET_DESCR)
-      .addParameter("index", DataTypes.JS_NUMBER, ARRAY_INDEX_P1_DESCR)
-      .setReturn(DataTypes.CBOR_Any, W_ARRAY_GET_RETURN_DESCR)
+        .addMethod("get", W_ARRAY_GET_DESCR)
+        .addParameter("index", DataTypes.JS_NUMBER, ARRAY_INDEX_P1_DESCR)
+        .setReturn(DataTypes.CBOR_Any, W_ARRAY_GET_RETURN_DESCR)
 
-      .addMethod("update", W_ARRAY_UPDATE_DESCR)
-      .addParameter("index", DataTypes.JS_NUMBER, ARRAY_INDEX_P1_DESCR)
-      .addParameter("object", DataTypes.CBOR_Any, W_ARRAY_UPDATE_P2_DESCR)
-      .setReturn(DataTypes.CBOR_Any, W_ARRAY_UPDATE_RETURN_DESCR)
+        .addMethod("update", W_ARRAY_UPDATE_DESCR)
+        .addParameter("index", DataTypes.JS_NUMBER, ARRAY_INDEX_P1_DESCR)
+        .addParameter("object", DataTypes.CBOR_Any, W_ARRAY_UPDATE_P2_DESCR)
+        .setReturn(DataTypes.CBOR_Any, W_ARRAY_UPDATE_RETURN_DESCR)
 
-      .addMethod("toArray", W_ARRAY_TOARR_DESCR)
-      .setReturn(DataTypes.JS_ARRAY, W_ARRAY_TOARR_RETURN_DESCR)
+        .addMethod("toArray", W_ARRAY_TOARR_DESCR)
+        .setReturn(DataTypes.JS_ARRAY, W_ARRAY_TOARR_RETURN_DESCR)
 
-      .setProperty("length", DataTypes.JS_NUMBER, W_ARRAY_PROP_DESCR);
+        .setProperty("length", DataTypes.JS_NUMBER, W_ARRAY_PROP_DESCR);
 
-      // CBOR.Map
+    // CBOR.Map
 
     addWrapper(DataTypes.CBOR_MAP, W_MAP_DESCR)
 
-      .addMethod("set", W_MAP_SET_DESCR)
-      .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
-      .addParameter("object", DataTypes.CBOR_Any, OBJECT_PARAMETER_DESCR)
-      .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR)
+        .addMethod("set", W_MAP_SET_DESCR)
+        .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
+        .addParameter("object", DataTypes.CBOR_Any, OBJECT_PARAMETER_DESCR)
+        .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR)
 
-      .addMethod("merge", W_MAP_MERGE_DESCR)
-      .addParameter("map", DataTypes.CBOR_MAP, W_MAP_MERGE_P1_DESCR)
-      .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR)
+        .addMethod("merge", W_MAP_MERGE_DESCR)
+        .addParameter("map", DataTypes.CBOR_MAP, W_MAP_MERGE_P1_DESCR)
+        .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR)
 
-      .addMethod("update", W_MAP_UPDATE_DESCR)
-      .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
-      .addParameter("object", DataTypes.CBOR_Any, OBJECT_PARAMETER_DESCR)
-      .addParameter("existing", DataTypes.JS_BOOLEAN, W_MAP_UPDATE_P3_DESCR)
-      .setReturn(DataTypes.CBOR_Any, W_MAP_UPDATE_RETURN_DESCR)
+        .addMethod("update", W_MAP_UPDATE_DESCR)
+        .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
+        .addParameter("object", DataTypes.CBOR_Any, OBJECT_PARAMETER_DESCR)
+        .addParameter("existing", DataTypes.JS_BOOLEAN, W_MAP_UPDATE_P3_DESCR)
+        .setReturn(DataTypes.CBOR_Any, W_MAP_UPDATE_RETURN_DESCR)
 
-      .addMethod("get", W_MAP_GET_DESCR)
-      .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
-      .setReturn(DataTypes.CBOR_Any, W_MAP_GET_RETURN_DESCR)
+        .addMethod("get", W_MAP_GET_DESCR)
+        .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
+        .setReturn(DataTypes.CBOR_Any, W_MAP_GET_RETURN_DESCR)
 
-      .addMethod("getConditional", W_MAP_GETCOND_DESCR)
-      .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
-      .addParameter("defaultObject", DataTypes.CBOR_Any, W_MAP_GETCOND_P2_DESCR)
-      .setReturn(DataTypes.CBOR_Any, W_MAP_GETCOND_RETURN_DESCR)
+        .addMethod("getConditional", W_MAP_GETCOND_DESCR)
+        .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
+        .addParameter("defaultObject", DataTypes.CBOR_Any, W_MAP_GETCOND_P2_DESCR)
+        .setReturn(DataTypes.CBOR_Any, W_MAP_GETCOND_RETURN_DESCR)
 
-      .addMethod("containsKey", W_MAP_CONTAINS_DESCR)
-      .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
-      .setReturn(DataTypes.JS_BOOLEAN, W_MAP_CONTAINS_RETURN_DESCR)
+        .addMethod("containsKey", W_MAP_CONTAINS_DESCR)
+        .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
+        .setReturn(DataTypes.JS_BOOLEAN, W_MAP_CONTAINS_RETURN_DESCR)
 
-      .addMethod("remove", W_MAP_REMOVE_DESCR)
-      .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
-      .setReturn(DataTypes.CBOR_Any, W_MAP_REMOVE_RETURN_DESCR)
+        .addMethod("remove", W_MAP_REMOVE_DESCR)
+        .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
+        .setReturn(DataTypes.CBOR_Any, W_MAP_REMOVE_RETURN_DESCR)
 
-      .addMethod("getKeys", W_MAP_GETKEYS_DESCR)
-      .setReturn(DataTypes.JS_ARRAY, W_MAP_GETKEYS_RETURN_DESCR)
+        .addMethod("getKeys", W_MAP_GETKEYS_DESCR)
+        .setReturn(DataTypes.JS_ARRAY, W_MAP_GETKEYS_RETURN_DESCR)
 
-      .addMethod("setSortingMode", W_MAP_SET_SORTING_MODE_DESCR)
-      .addParameter("preSortedKeys", DataTypes.JS_BOOLEAN, W_MAP_SET_SORTING_MODE_P1_DESCR)
-      .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR)
+        .addMethod("setSortingMode", W_MAP_SET_SORTING_MODE_DESCR)
+        .addParameter("preSortedKeys", DataTypes.JS_BOOLEAN, W_MAP_SET_SORTING_MODE_P1_DESCR)
+        .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR)
 
-      .setProperty("length", DataTypes.JS_NUMBER, W_MAP_PROP_DESCR);
+        .setProperty("length", DataTypes.JS_NUMBER, W_MAP_PROP_DESCR);
 
-      // CBOR.Tag
+    // CBOR.Tag
 
     addWrapper(DataTypes.CBOR_TAG, W_TAG_DESCR)
-      .addWrapperParameter("tagNumber", DataTypes.JS_BIGINT, W_TAG_P1_DESCR)
-      .addWrapperParameter("object", DataTypes.CBOR_Any, W_TAG_P2_DESCR)
+        .addWrapperParameter("tagNumber", DataTypes.JS_BIGINT, W_TAG_P1_DESCR)
+        .addWrapperParameter("object", DataTypes.CBOR_Any, W_TAG_P2_DESCR)
 
-      .addMethod("getTagNumber", W_TAG_GETNUM_DESCR)
-      .setReturn(DataTypes.JS_BIGINT, W_TAG_GETNUM_RETURN_DESCR)
+        .addMethod("getTagNumber", W_TAG_GETNUM_DESCR)
+        .setReturn(DataTypes.JS_BIGINT, W_TAG_GETNUM_RETURN_DESCR)
 
-      .addMethod("get", W_TAG_GET_DESCR)
-      .setReturn(DataTypes.CBOR_Any, W_TAG_GET_RETURN_DESCR)
+        .addMethod("get", W_TAG_GET_DESCR)
+        .setReturn(DataTypes.CBOR_Any, W_TAG_GET_RETURN_DESCR)
 
-      .addMethod("update", W_TAG_UPDATE_DESCR)
-      .addParameter("object", DataTypes.CBOR_Any, W_TAG_UPDATE_P1_DESCR)
-      .setReturn(DataTypes.CBOR_Any, W_TAG_UPDATE_RETURN_DESCR);
+        .addMethod("update", W_TAG_UPDATE_DESCR)
+        .addParameter("object", DataTypes.CBOR_Any, W_TAG_UPDATE_P1_DESCR)
+        .setReturn(DataTypes.CBOR_Any, W_TAG_UPDATE_RETURN_DESCR);
 
     // CBOR.Simple
 
-      addWrapper(DataTypes.CBOR_SIMPLE, W_SIMPLE_DESCR)
-      .addWrapperParameter("value", DataTypes.JS_NUMBER, W_SIMPLE_PARAM_DESCR)
+    addWrapper(DataTypes.CBOR_SIMPLE, W_SIMPLE_DESCR)
+        .addWrapperParameter("value", DataTypes.JS_NUMBER, W_SIMPLE_PARAM_DESCR)
 
-      .addMethod("getSimple", W_SIMPLE_GETVAL_DESCR)
-      .setReturn(DataTypes.JS_NUMBER, W_SIMPLE_GETVAL_RETURN_DESCR);
+        .addMethod("getSimple", W_SIMPLE_GETVAL_DESCR)
+        .setReturn(DataTypes.JS_NUMBER, W_SIMPLE_GETVAL_RETURN_DESCR);
+
+    // Time
+
+    addTimeMethod("getDateTime", W_GETDATETIME_DESCR)
+        .setReturn(DataTypes.JS_DATE, W_GETDATETIME_RETURN_DESCR);
+
+    addTimeMethod("getEpochTime", W_GETEPOCHTIME_DESCR)
+        .setReturn(DataTypes.JS_DATE, W_GETEPOCHTIME_RETURN_DESCR);
 
     // Common
 
     addCommonMethod("encode", ENCODE_DESCR)
-      .setReturn(DataTypes.JS_UINT8ARRAY, ENCODE_RETURN_DESCR);
+        .setReturn(DataTypes.JS_UINT8ARRAY, ENCODE_RETURN_DESCR);
 
     addCommonMethod("clone", CLONE_DESCR)
-      .setReturn(DataTypes.CBOR_Any, CLONE_RETURN_DESCR);
+        .setReturn(DataTypes.CBOR_Any, CLONE_RETURN_DESCR);
 
     addCommonMethod("equals", EQUALS_DESCR)
-      .addParameter("object", DataTypes.CBOR_Any, EQUALS_P1_DESCR)
-      .setReturn(DataTypes.JS_BOOLEAN, EQUALS_RETURN_DESCR);
- 
+        .addParameter("object", DataTypes.CBOR_Any, EQUALS_P1_DESCR)
+        .setReturn(DataTypes.JS_BOOLEAN, EQUALS_RETURN_DESCR);
+
     addCommonMethod("toDiag", TODIAG_DESCR)
-      .addParameter("prettyPrint", DataTypes.JS_BOOLEAN, TODIAG_P1_DESCR)
-      .setReturn(DataTypes.JS_STRING, TODIAG_RETURN_DESCR);
-   
+        .addParameter("prettyPrint", DataTypes.JS_BOOLEAN, TODIAG_P1_DESCR)
+        .setReturn(DataTypes.JS_STRING, TODIAG_RETURN_DESCR);
+
     addCommonMethod("toString", TOSTRING_DESCR)
-      .setReturn(DataTypes.JS_STRING, TODIAG_RETURN_DESCR);
+        .setReturn(DataTypes.JS_STRING, TODIAG_RETURN_DESCR);
 
     addCommonMethod("isNull", ISNULL_DESCR)
-      .setReturn(DataTypes.JS_BOOLEAN, ISNULL_RETURN_DESCR);
+        .setReturn(DataTypes.JS_BOOLEAN, ISNULL_RETURN_DESCR);
 
     addCommonMethod("checkForUnread", CHECK4_DESCR)
-      .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR);
+        .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR);
 
     addCommonMethod("scan", SCAN_DESCR)
-      .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR);
+        .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR);
 
-      // CBOR.decode()
+    // CBOR.decode()
 
     addDecoderMethod("CBOR.decode", DECODE_DESCR)
-      .addParameter("cbor", DataTypes.JS_UINT8ARRAY, DECODE_P1_DESCR)
-      .setReturn(DataTypes.CBOR_Any, DECODE_RETURN_DESCR);
+        .addParameter("cbor", DataTypes.JS_UINT8ARRAY, DECODE_P1_DESCR)
+        .setReturn(DataTypes.CBOR_Any, DECODE_RETURN_DESCR);
 
-      // CBOR.initDecoder()
+    // CBOR.initDecoder()
 
     addDecoderMethod("CBOR.initDecoder", INITEXT_DESCR)
-      .addParameter("cbor", DataTypes.JS_UINT8ARRAY, INITEXT_P1_DESCR)
-      .addParameter("options", DataTypes.JS_NUMBER, INITEXT_P2_DESCR)
-      .setReturn(DataTypes.ExtendedDecoder, INITEXT_RETURN_DESCR);
-      
-      // Decoder.decodeWithOptions()
+        .addParameter("cbor", DataTypes.JS_UINT8ARRAY, INITEXT_P1_DESCR)
+        .addParameter("options", DataTypes.JS_NUMBER, INITEXT_P2_DESCR)
+        .setReturn(DataTypes.ExtendedDecoder, INITEXT_RETURN_DESCR);
+
+    // Decoder.decodeWithOptions()
 
     addDecoderMethod("<i>Decoder</i>.decodeWithOptions", DECODEEXT_DESCR)
-      .setReturn(DataTypes.CBOR_Any, DECODEEXT_RETURN_DESCR);
+        .setReturn(DataTypes.CBOR_Any, DECODEEXT_RETURN_DESCR);
 
-      // Decoder.getByteCount()
+    // Decoder.getByteCount()
 
     addDecoderMethod("<i>Decoder</i>.getByteCount", GETBYTECOUNT_DESCR)
-      .setReturn(DataTypes.JS_NUMBER, GETBYTECOUNT_RETURN_DESCR);
+        .setReturn(DataTypes.JS_NUMBER, GETBYTECOUNT_RETURN_DESCR);
 
-      // CBOR.diagDecode()
+    // CBOR.diagDecode()
 
     addDecoderMethod("CBOR.diagDecode", DIAGDEC_DESCR)
-      .addParameter("cborText", DataTypes.JS_STRING, DIAGDEC_P1_DESCR)
-      .setReturn(DataTypes.CBOR_Any, DIAGDEC_RETURN_DESCR);
+        .addParameter("cborText", DataTypes.JS_STRING, DIAGDEC_P1_DESCR)
+        .setReturn(DataTypes.CBOR_Any, DIAGDEC_RETURN_DESCR);
 
-      // CBOR.diagDecodeSequence()
+    // CBOR.diagDecodeSequence()
 
     addDecoderMethod("CBOR.diagDecodeSequence", DIAGDECSEQ_DESCR)
-      .addParameter("cborText", DataTypes.JS_STRING, DIAGDECSEQ_P1_DESCR)
-      .setReturn(DataTypes.JS_ARRAY, DIAGDECSEQ_RETURN_DESCR);
+        .addParameter("cborText", DataTypes.JS_STRING, DIAGDECSEQ_P1_DESCR)
+        .setReturn(DataTypes.JS_ARRAY, DIAGDECSEQ_RETURN_DESCR);
 
-       // CBOR.addArrays()
+    // CBOR.addArrays()
 
     addUtilityMethod("CBOR.addArrays", ADDARRAYS_DESCR)
-      .addParameter("a", DataTypes.JS_UINT8ARRAY, ADDARRAYS_P1_DESCR)
-      .addParameter("b", DataTypes.JS_UINT8ARRAY, ADDARRAYS_P2_DESCR)
-      .setReturn(DataTypes.JS_UINT8ARRAY, ADDARRAYS_RETURN_DESCR);
+        .addParameter("a", DataTypes.JS_UINT8ARRAY, ADDARRAYS_P1_DESCR)
+        .addParameter("b", DataTypes.JS_UINT8ARRAY, ADDARRAYS_P2_DESCR)
+        .setReturn(DataTypes.JS_UINT8ARRAY, ADDARRAYS_RETURN_DESCR);
 
-       // CBOR.compareArrays()
+    // CBOR.compareArrays()
 
     addUtilityMethod("CBOR.compareArrays", CMPARRAYS_DESCR)
-      .addParameter("a", DataTypes.JS_UINT8ARRAY, CMPARRAYS_P1_DESCR)
-      .addParameter("b", DataTypes.JS_UINT8ARRAY, CMPARRAYS_P2_DESCR)
-      .setReturn(DataTypes.JS_NUMBER, CMPARRAYS_RETURN_DESCR);
+        .addParameter("a", DataTypes.JS_UINT8ARRAY, CMPARRAYS_P1_DESCR)
+        .addParameter("b", DataTypes.JS_UINT8ARRAY, CMPARRAYS_P2_DESCR)
+        .setReturn(DataTypes.JS_NUMBER, CMPARRAYS_RETURN_DESCR);
 
-      // CBOR.toHex()
+    // CBOR.toHex()
 
     addUtilityMethod("CBOR.toHex", TOHEX_DESCR)
-      .addParameter("byteArray", DataTypes.JS_UINT8ARRAY, TOHEX_P1_DESCR)
-      .setReturn(DataTypes.JS_STRING, TOHEX_RETURN_DESCR);
+        .addParameter("byteArray", DataTypes.JS_UINT8ARRAY, TOHEX_P1_DESCR)
+        .setReturn(DataTypes.JS_STRING, TOHEX_RETURN_DESCR);
 
-      // CBOR.fromHex()
+    // CBOR.fromHex()
 
     addUtilityMethod("CBOR.fromHex", FROMHEX_DESCR)
-      .addParameter("hexString", DataTypes.JS_STRING, FROMHEX_P1_DESCR)
-      .setReturn(DataTypes.JS_UINT8ARRAY, FROMHEX_RETURN_DESCR);
+        .addParameter("hexString", DataTypes.JS_STRING, FROMHEX_P1_DESCR)
+        .setReturn(DataTypes.JS_UINT8ARRAY, FROMHEX_RETURN_DESCR);
 
-      // CBOR.toBase64Url()
+    // CBOR.toBase64Url()
 
     addUtilityMethod("CBOR.toBase64Url", TOB64U_DESCR)
-      .addParameter("byteArray", DataTypes.JS_UINT8ARRAY, TOB64U_P1_DESCR)
-      .setReturn(DataTypes.JS_STRING, TOB64U_RETURN_DESCR);
+        .addParameter("byteArray", DataTypes.JS_UINT8ARRAY, TOB64U_P1_DESCR)
+        .setReturn(DataTypes.JS_STRING, TOB64U_RETURN_DESCR);
 
-      // CBOR.fromBase64Url()
+    // CBOR.fromBase64Url()
 
     addUtilityMethod("CBOR.fromBase64Url", FROMB64U_DESCR)
-      .addParameter("base64", DataTypes.JS_STRING, FROMB64U_P1_DESCR)
-      .setReturn(DataTypes.JS_UINT8ARRAY, FROMB64U_RETURN_DESCR);
+        .addParameter("base64", DataTypes.JS_STRING, FROMB64U_P1_DESCR)
+        .setReturn(DataTypes.JS_UINT8ARRAY, FROMB64U_RETURN_DESCR);
 
     replace(INTRO, printMainHeader("intro", "Introduction"));
     outline.increment();
-    
+
     replace(WRAPPER_INTRO, printMainHeader("wrappers", "CBOR Wrapper Objects"));
     replace(CBOR_WRAPPERS, printCborWrappers());
     outline.increment();
- 
+
+    replace(TIME_OBJECTS, printMainHeader("time", "Time Objects"));
+    replace(TIME_METHODS, printTimeMethods());
+    outline.increment();
+
     replace(COMMON_INTRO, printMainHeader("common", "Common Wrapper Methods"));
     replace(COMMON_METHODS, printCommonMethods());
     outline.increment();
@@ -1736,13 +1619,13 @@ a201fb4046d9999999999a0269486920746865726521
     replace(EXAMPLES, printMainHeader("examples", "Using the CBOR API"));
     outline.indent();
     replace(EXAMPLES_ENC, printSubHeader("examples.encoding", "Encode CBOR") +
-                          exampleEncode());
+        exampleEncode());
     outline.increment();
     replace(EXAMPLES_DEC, printSubHeader("examples.decoding", "Decode CBOR") +
-                          exampleDecode());
+        exampleDecode());
     outline.increment();
     replace(EXAMPLES_DN_DEC, printSubHeader("examples.dn-decoding", "Using Diagnostic Notation") +
-                             exampleDNDecode());
+        exampleDNDecode());
     outline.undent();
     outline.increment();
 
@@ -1753,6 +1636,7 @@ a201fb4046d9999999999a0269486920746865726521
 
     IO.writeFile(documentFileName, template);
   }
+
   public static void main(String[] args) {
     new CreateDocument(args[0], args[1]);
   }

@@ -25,6 +25,7 @@
   </target>
 
   <target name="doc">
+    <property file="dn-table.xml"/>
     <delete dir="${temp.dir}"/>
     <mkdir dir="${temp.dir}"/>
     <javac debug="${debug}"
@@ -49,6 +50,7 @@
       <arg line="${document-template.file} ${doc.file}"/>
     </java>
     <delete dir="${temp.dir}"/>
+    <replace file="${doc.file}" token="@dn-table@" value="${dn-table}"/>
   </target>
 
   <target name="build">
