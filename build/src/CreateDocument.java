@@ -87,14 +87,17 @@ public class CreateDocument {
   static final String W_GETSTRING_RETURN_DESCR = """
       Decoded text-string.""";
 
+  // Time Objects
+
   static final String W_GETDATETIME_DESCR = """
       Get Date object.
       <div style='margin-top:0.5em'>
-      This method performs a regular
+      This method performs a
       <a href='#cbor.string.getstring'>getString()</a> and then uses
       the result to initiate a JavaScript <kbd>Date</kbd> object.
-      An exception will be thrown if the read object
-      does not match an ISO date/time string
+      An exception will be thrown if the underlying object is not a
+      <a href='#wrapper.cbor.int'>CBOR.String</a>, or if
+      the read string does not match an ISO date/time string
       [<a href="https://www.rfc-editor.org/rfc/rfc3339.html"
                     title="ISO">RFC3339<img src="xtl.svg" alt="link"></a>].</div>""";
 
@@ -104,10 +107,13 @@ public class CreateDocument {
   static final String W_GETEPOCHTIME_DESCR = """
       Get Date object.
       <div style='margin-top:0.5em'>
-      This method assumes that the underlying object
-      is an <a href='#wrapper.cbor.int'>CBOR.Int</a> or
-      a <a href='#wrapper.cbor.int'>CBOR.Float</a>,
-      otherwise an exception will be thrown.""";
+      This method performs a
+      <a href='#cbor.int.getint'>getInt()</a> or 
+      <a href='#cbor.float.getfloat64'>getFloat64()</a> and then uses
+      the result to initiate a JavaScript <kbd>Date</kbd> object.
+      An exception will be thrown if the underlying object
+      is not an <a href='#wrapper.cbor.int'>CBOR.Int</a> or
+      a <a href='#wrapper.cbor.int'>CBOR.Float</a>.""";
   
   static final String W_GETEPOCHTIME_RETURN_DESCR = """
       Date object""";
@@ -289,7 +295,8 @@ public class CreateDocument {
       Constructor.  Creates a CBOR tag object.
       <div style='margin-top:0.5em'>
       The CBOR tag constructor accepts any valid parameters but performs
-      thorough syntax checks on tag 0 (CBOR date/time) and tag 1010
+      thorough syntax checks on tag&nbsp;<code>0</code> (CBOR date/time),
+      tag&nbsp;<code>1</code> (CBOR epoch time), and tag&nbsp;<code>1010</code>
       [<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/'
         title="COTX">COTX<img src="xtl.svg" alt="link"></a>].
       </div>""";
@@ -679,6 +686,8 @@ public class CreateDocument {
   static final String UTILITY_METHODS = "${UTILITY_METHODS}";
 
   static final String CBOR_WRAPPERS = "${CBOR_WRAPPERS}";
+
+  static final String CBOR_CORE = "${CORE}";
 
   String template;
 
@@ -1633,6 +1642,10 @@ public class CreateDocument {
     outline.increment();
 
     replace(TOC, printTableOfContents());
+
+    replace(CBOR_CORE, "&quot;CBOR&nbsp;Core&quot;&nbsp;" + 
+            "[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-02.html' " +
+            "title='CBOR Core'>CBOR/c<img src='xtl.svg' alt='link'></a>]");
 
     IO.writeFile(documentFileName, template);
   }

@@ -175,7 +175,10 @@
     <li><i>Optional</i>: <a href='#common.checkforunread'>check for unread elements</a></li>
   </ul>
   Note: in this specification CBOR data items are subsequently referred to as CBOR objects.
-  <div id='cross-platform' class='webpkicomment' style='margin:1.2em 0 0.5em 0'>
+  <p>
+    CBOR.js is fully compatible with the &quot;CBOR&nbsp;Core&quot;&nbsp;[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-02.html' title='CBOR Core'>CBOR/c<img src='xtl.svg' alt='link'></a>] specification.
+  </p>
+  <div id='cross-platform' class='webpkicomment' style='margin:0.5em 0'>
     Although this document describes a JavaScript API, it could also serve
     as a guide for CBOR implementations for other software platforms,
     with the goal of creating the foundation for cross platform interoperability.
@@ -796,7 +799,8 @@ By default, map keys are sorted <i>internally</i>.</td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Constructor.  Creates a CBOR tag object.
 <div style='margin-top:0.5em'>
 The CBOR tag constructor accepts any valid parameters but performs
-thorough syntax checks on tag 0 (CBOR date/time) and tag 1010
+thorough syntax checks on tag&nbsp;<code>0</code> (CBOR date/time),
+tag&nbsp;<code>1</code> (CBOR epoch time), and tag&nbsp;<code>1010</code>
 [<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/'
   title="COTX">COTX<img src="xtl.svg" alt="link"></a>].
 </div></td></tr>
@@ -864,9 +868,9 @@ thorough syntax checks on tag 0 (CBOR date/time) and tag 1010
 
   <h3 id='main.time'>3.&nbsp;&nbsp;Time Objects</h3>
 
-  Since CBOR does not provide dedicated native time-objects,
+  Since CBOR lacks dedicated (native) time-objects,
   section 3.4.1 and 3.4.2 of
-  RFC8949 define tag <code>0</code> and <code>1</code> for this purpose.
+  RFC&nbsp;8949 define tag <code>0</code> and <code>1</code> for this purpose.
   CBOR.js provides built-in decoders for these tags.
   That is, if the current object is a tag <code>0</code>, it is sufficient
   calling <a href='#time.getdatetime'>getDateTime()</a>.
@@ -877,11 +881,12 @@ thorough syntax checks on tag 0 (CBOR date/time) and tag 1010
 <tr><th>Syntax</th><td style='width:100%'><kbd>getDateTime()</kbd></td></tr>
 <tr><th>Description</th><td style='width:100%'>Get Date object.
 <div style='margin-top:0.5em'>
-This method performs a regular
+This method performs a
 <a href='#cbor.string.getstring'>getString()</a> and then uses
 the result to initiate a JavaScript <kbd>Date</kbd> object.
-An exception will be thrown if the read object
-does not match an ISO date/time string
+An exception will be thrown if the underlying object is not a
+<a href='#wrapper.cbor.int'>CBOR.String</a>, or if
+the read string does not match an ISO date/time string
 [<a href="https://www.rfc-editor.org/rfc/rfc3339.html"
               title="ISO">RFC3339<img src="xtl.svg" alt="link"></a>].</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
@@ -894,10 +899,13 @@ does not match an ISO date/time string
 <tr><th>Syntax</th><td style='width:100%'><kbd>getEpochTime()</kbd></td></tr>
 <tr><th>Description</th><td style='width:100%'>Get Date object.
 <div style='margin-top:0.5em'>
-This method assumes that the underlying object
-is an <a href='#wrapper.cbor.int'>CBOR.Int</a> or
-a <a href='#wrapper.cbor.int'>CBOR.Float</a>,
-otherwise an exception will be thrown.</td></tr>
+This method performs a
+<a href='#cbor.int.getint'>getInt()</a> or
+<a href='#cbor.float.getfloat64'>getFloat64()</a> and then uses
+the result to initiate a JavaScript <kbd>Date</kbd> object.
+An exception will be thrown if the underlying object
+is not an <a href='#wrapper.cbor.int'>CBOR.Int</a> or
+a <a href='#wrapper.cbor.int'>CBOR.Float</a>.</td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Date</kbd></td><td style='width:100%'>Date object</td></tr>
@@ -1503,9 +1511,7 @@ base64 encoded data as well as data with or without
   encoding schemes as well.
   </p>
   <p>
-  The determinism scheme (and some more), is described in
-  <a href="https://www.ietf.org/archive/id/draft-rundgren-cbor-core-01.html"
-    title="Deterministic CBOR">https://www.ietf.org/archive/id/draft-rundgren-cbor-core-01.html<img src="xtl.svg" alt="link"></a>.
+  The determinism scheme is described in &quot;CBOR&nbsp;Core&quot;&nbsp;[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-02.html' title='CBOR Core'>CBOR/c<img src='xtl.svg' alt='link'></a>].
   </p>
   <h3 id='main.examples'>10.&nbsp;&nbsp;Using the CBOR API</h3>
 
@@ -1525,6 +1531,6 @@ The following code shows how you can <i>decode</i> CBOR specified in
 
   API version: 1.0.12.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-04-04
+  Document version: 2025-04-05
 </body>
 </html>
