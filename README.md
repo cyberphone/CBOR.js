@@ -14,7 +14,7 @@ as well as being the result of CBOR decoding.
 
 ### Design Rationale
 
-The proposed API is intended to provide CBOR
+The described API is intended to provide CBOR
 [[RFC8949](https://rfc-editor.org/rfc/rfc8949.html)]
 "baseline" functionality that can easily be implemented
 in standard platforms with an emphasis on computationally advanced systems like 
@@ -72,7 +72,7 @@ For usage with Node.js and Deno, a NPM version is available: https://npmjs.com/p
 
 ### Deterministic Encoding
 
-The JavaScript API implements deterministic encoding based on section 4.2 of [[RFC8949](https://rfc-editor.org/rfc/rfc8949.html)].
+The JavaScript API implements [deterministic encoding](https://cyberphone.github.io/CBOR.js/doc/index.html#main.deterministic).
 
 To shield developers from having to know the inner workings of deterministic encoding, the CBOR.js API performs
 all necessary transformations _automatically_.  This for example means that if the 
@@ -110,4 +110,4 @@ while remaining faithful to the native CBOR representation.
 |JDK&nbsp;21+|https://github.com/cyberphone/openkeystore|
 |Android/Java|https://github.com/cyberphone/android-cbor|
 
-Updated: 2024-09-22
+Updated: 2025-04-05
