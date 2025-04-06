@@ -57,7 +57,7 @@ console.log(map.toString());  // Diagnostic notation
 }
 
 console.log('Value=' + map.get(CBOR.Int(1)).getFloat64());
----------------------------------------------
+----------------------------------------------------------
 Value=45.7
 ```
 
