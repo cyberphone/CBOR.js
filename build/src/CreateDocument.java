@@ -1218,8 +1218,8 @@ public class CreateDocument {
               2: "Hi there!"
             }
 
-            console.log('Value=' + map.get(CBOR.Int(1)));
-            ---------------------------------------------
+            console.log('Value=' + map.get(CBOR.Int(1)).getFloat64());
+            ----------------------------------------------------------
             Value=45.7
                   """);
   }

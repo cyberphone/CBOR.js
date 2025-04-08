@@ -1522,7 +1522,7 @@ The following code shows how you can <i>create</i> CBOR-encoded data:
   <h5 id='examples.decoding'>10.2.&nbsp;&nbsp;Decode CBOR</h5>
 The following code shows how you can <i>decode</i> CBOR-encoded data,
 here using the result of the <i>encoding</i> example:
-<div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>let&nbsp;map&nbsp;=&nbsp;CBOR.decode(cbor);<br>console.log(map.toString());&nbsp;&nbsp;//&nbsp;Diagnostic&nbsp;notation<br>----------------------------------------------------<br>{<br>&nbsp;&nbsp;1:&nbsp;45.7,<br>&nbsp;&nbsp;2:&nbsp;&quot;Hi&nbsp;there!&quot;<br>}<br><br>console.log('Value='&nbsp;+&nbsp;map.get(CBOR.Int(1)));<br>---------------------------------------------<br>Value=45.7<br></div></div>
+<div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>let&nbsp;map&nbsp;=&nbsp;CBOR.decode(cbor);<br>console.log(map.toString());&nbsp;&nbsp;//&nbsp;Diagnostic&nbsp;notation<br>----------------------------------------------------<br>{<br>&nbsp;&nbsp;1:&nbsp;45.7,<br>&nbsp;&nbsp;2:&nbsp;&quot;Hi&nbsp;there!&quot;<br>}<br><br>console.log('Value='&nbsp;+&nbsp;map.get(CBOR.Int(1)).getFloat64());<br>----------------------------------------------------------<br>Value=45.7<br></div></div>
   <h5 id='examples.dn-decoding'>10.3.&nbsp;&nbsp;Using Diagnostic Notation</h5>
 The following code shows how you can <i>decode</i> CBOR specified in
 <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>:
