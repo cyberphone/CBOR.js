@@ -23,22 +23,11 @@
   <a href='https://github.com/cyberphone/CBOR.js#cborjs'>
   <img style="max-width:30%" src="cbor.js.svg" alt="logo" title="CBOR.js logotype"></a>
   <div style="text-align:center;font-weight:normal;font-size:1.8em;margin-top:0.5em">CBOR.js - JavaScript API</div>
-  <h3>Abstract</h3>
-  <i>
-    This document describes a JavaScript API for encoding and decoding data in the
-    CBOR&nbsp;[<a href="https://www.rfc-editor.org/rfc/rfc8949.html"
-    title="CBOR">RFC8949<img src="xtl.svg" alt="link"></a>] format.
-    Through platform independent definitions of deterministic encoding and
-    a textual representation of CBOR data items, compatible implementations could,
-    together with the rich set of <a href='#main.wrappers'>data&nbsp;types</a>,
-    provide a viable alternative to JSON.
-  </i>
   <h3 id='toc'>Table of Contents</h3>
   ${TOC}
   ${INTRO}
-  This document describes a JavaScript API for encoding and decoding data in the
-  CBOR&nbsp;[<a href="https://www.rfc-editor.org/rfc/rfc8949.html"
-                title="CBOR">RFC8949<img src="xtl.svg" alt="link"></a>] format.
+  This document describes a JavaScript API for encoding and decoding CBOR data using the
+  ${CORE} profile.
   The API loosely mimics the &quot;JSON&quot; object by exposing a <i>single global object</i>,
   unsurprisingly named &quot;CBOR&quot;.
 
@@ -55,10 +44,9 @@
     <li>Strict type checking</li>
     <li><i>Optional</i>: <a href='#common.checkforunread'>check for unread elements</a></li>
   </ul>
-  Note: in this specification CBOR data items are subsequently referred to as CBOR objects.
   <p>
-    CBOR.js is fully compatible with the ${CORE} specification.
-  </p>
+  Note: in this specification CBOR data items are subsequently referred to as CBOR objects.
+</p>
   <div id='cross-platform' class='webpkicomment' style='margin:0.5em 0'>
     Although this document describes a JavaScript API, it could also serve
     as a guide for CBOR implementations for other software platforms,
@@ -163,13 +151,15 @@
   <a href='#main.time'>Time Objects</a>.
   ${CBOR_WRAPPERS}
   ${TIME_OBJECTS}
-  Since CBOR lacks dedicated (native) time-objects,
-  section 3.4.1 and 3.4.2 of
-  RFC&nbsp;8949 define tag <code>0</code> and <code>1</code> for this purpose.
+  Since CBOR lacks dedicated (native) time-objects, section 3.4.1 and 3.4.2 of
+  CBOR&nbsp;[<a href="https://www.rfc-editor.org/rfc/rfc8949.html"
+  title="CBOR">RFC8949<img src="xtl.svg" alt="link"></a>]
+  define tag <code>0</code> and <code>1</code> for this purpose.
   CBOR.js provides built-in decoders for these tags.
   That is, if the current object is a tag <code>0</code>, it is sufficient
   calling <a href='#time.getdatetime'>getDateTime()</a>.
   Note that these methods are also available without the tag construct.
+  See also <a href='#wrapper.cbor.tag'>CBOR.Tag</a>.
   ${TIME_METHODS}
   ${COMMON_INTRO}
   The <a href='#main.wrappers'>CBOR wrapper objects</a>
@@ -231,11 +221,11 @@
   method.
   </p>
   ${DIAGNOSTIC_NOTATION}
-  Creating CBOR data in diagnostic notation (as described in section 8 of RFC&nbsp;8949),
-  is provided by the <a href='#common.tostring'>toString()</a> method.
+  Creating CBOR data in diagnostic (textual) notation is provided by the
+  <a href='#common.tostring'>toString()</a> method.
   <p>
     However, through the <a href='#decoder.cbor.diagdecode'>CBOR.diagDecode()</a>
-    method, CBOR data may also be provided in diagnostic (textual) notation,
+    method, CBOR data may also be provided in diagnostic notation,
     making CBOR useful for <i>local</i> "config" and test data files as well.
   </p>
   <p>
@@ -275,6 +265,6 @@
   ${VERSION_INFO}
   API version: 1.0.12.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-04-05
+  Document version: 2025-04-08
 </body>
 </html>

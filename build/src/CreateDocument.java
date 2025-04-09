@@ -295,8 +295,11 @@ public class CreateDocument {
       Constructor.  Creates a CBOR tag object.
       <div style='margin-top:0.5em'>
       The CBOR tag constructor accepts any valid parameters but performs
-      thorough syntax checks on tag&nbsp;<code>0</code> (CBOR date/time),
-      tag&nbsp;<code>1</code> (CBOR epoch time), and tag&nbsp;<code>1010</code>
+      thorough syntax checks on tag&nbsp;<code>0</code>
+      (<a href='#time.getdatetime'>CBOR&nbsp;date/time</a>),
+      tag&nbsp;<code>1</code>
+      (<a href='#time.getepochtime'>CBOR&nbsp;epoch&nbsp;time</a>),
+      and tag&nbsp;<code>1010</code>
       [<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/'
         title="COTX">COTX<img src="xtl.svg" alt="link"></a>].
       </div>""";
