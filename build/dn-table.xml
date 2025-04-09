@@ -3,30 +3,29 @@
     <entry key="dn-table"><![CDATA[
   <div class='webpkifloat'>
     <table class='webpkitable' style='margin-left:2em'>
-      <tr><th>CBOR</th><th>Syntax</th><th>Notes</th><th style='min-width:30em'>Description</th></tr>
+      <tr><th>CBOR</th><th>Syntax</th><th style='min-width:30em'>Comment</th><th>Notes</th></tr>
       <tr style='text-align:center'>
         <td rowspan='2'></td>
         <td><kbd><b>/</b></kbd>&nbsp;<i>comment&nbsp;text</i>&nbsp;<kbd><b>/</b></kbd></td>
-        <td>6</td>
         <td style='text-align:left'>
           Multi-line comment.
           Multi-line comments are treated as whitespace and may thus also be used
           <i>between</i> CBOR objects.
         </td>
+        <td>6</td>
       </tr>
       <tr style='text-align:center'>
         <td><kbd><b>#</b></kbd>&nbsp;<i>comment&nbsp;text</i></td>
-        <td>6</td>
         <td style='text-align:left'>
           Single-line comment.
           Single-line comments are terminated by a newline character (<kbd><b>'\n'</b></kbd>) or <kbd><b>EOF</b></kbd>.
           Single-line comments may also terminate lines holding regular CBOR items.
         </td>
+        <td>6</td>
       </tr>
       <tr style='text-align:center' id='int-diag'>
         <td><code>integer</code></td>
         <td><span style='white-space:nowrap'><i>{sign}</i><i>{</i>&#x200a;<kbd><b>0b</b></kbd>&#x200a;|&#x200a;<kbd><b>0o</b></kbd>&#x200a;|&#x200a;<kbd><b>0x</b></kbd><i>}&#x200a;n</i></span></td>
-        <td>1, 2</td>
         <td style='text-align:left'>
           Arbitrary sized integers without fractional components or exponents.
           <div style='margin-top:0.5em'>
@@ -36,107 +35,109 @@
             enable grouping of data like <code>0b100_000000001</code>.
           </div>
         </td>
+        <td>1, 2</td>
       </tr>
       <tr style='text-align:center' id='float-diag'>
         <td rowspan='3'><code>float</code></td>
         <td><i>{sign}</i><i>n</i><kbd><b>.</b></kbd><i>n</i><i>{</i><kbd><b>e</b></kbd>&#x2009;<kbd><b>&pm;</b></kbd>&#x2009;<i>n}</i></td>
-        <td>1, 2</td>
         <td style='text-align:left'>
           Floating point values
           must include a decimal point and an <i>optional</i> exponent.
         </td>
+        <td>1, 2</td>
       </tr>
       <tr style='text-align:center'>
         <td><kbd><b>NaN</b></kbd></td>
-        <td></td>
         <td style='text-align:left'>
           Not a number.
         </td>
+        <td></td>
       </tr>
       <tr style='text-align:center'>
         <td><i>{sign}</i><kbd><b>Infinity</b></kbd></td>
-        <td>2</td>
         <td style='text-align:left'>
           Infinity.
         </td>
+        <td>2</td>
       </tr>
       <tr style='text-align:center'>
         <td rowspan='4'><code>bstr</code></td>
         <td><kbd><b>h'</b></kbd><i>hex&nbsp;data</i><kbd><b>'</b></kbd></td>
-        <td>3</td>
         <td style='text-align:left'>
           Byte data provided in hexadecimal notation.
           Each byte must be represented by two hexadecimal digits.
         </td>
+        <td>3</td>
       </tr>
       <tr style='text-align:center'>
         <td><kbd><b>b64'</b></kbd><i>base64&nbsp;data</i><kbd><b>'</b></kbd></td>
-        <td>3, 6</td>
         <td style='text-align:left'>
           Byte data provided in base64 or base64URL notation.
           Padding with <kbd><b>'='</b></kbd> characters is <i>optional</i>.
         </td>
+        <td>3, 6</td>
       </tr>
       <tr style='text-align:center'>
         <td><kbd><b>'</b></kbd><i>text</i><kbd><b>'</b></kbd></td>
-        <td>4,&nbsp;5,&nbsp;6</td>
         <td style='text-align:left'>Byte data provided as UTF-8 encoded text.</td>
+        <td>4,&nbsp;5,&nbsp;6</td>
       </tr>
       <tr style='text-align:center'>
         <td><kbd><b>&lt;&lt;</b></kbd>&nbsp;<i>object...</i>&nbsp;<kbd><b>&gt;&gt;</b></kbd></td>
-        <td>6</td>
         <td style='text-align:left'>Construct holding zero or more comma-separated CBOR objects
           that are subsequently wrapped in a byte string.</td>
+        <td>6</td>
       </tr>
       <tr style='text-align:center'>
         <td><code>tstr</code></td>
         <td><kbd><b>&quot;</b></kbd><i>text</i><kbd><b>&quot;</b></kbd>
-        <td>4, 5</td>
         <td style='text-align:left'>UTF-8 encoded text string.</td>
+        <td>4, 5</td>
       </tr>
       <tr style='text-align:center'>
-        <td><code>bool</code></td><td><kbd><b>true</b></kbd>&#x200a;|&#x200a;<kbd><b>false</b></kbd></td>
-        <td></td>
+        <td><code>bool</code></td>
+        <td><kbd><b>true</b></kbd>&#x200a;|&#x200a;<kbd><b>false</b></kbd></td>
         <td style='text-align:left'>Boolean value.</td>
+        <td></td>
       </tr>
       <tr style='text-align:center'>
         <td><code>null</code></td>
         <td><kbd><b>null</b></kbd></td>
-        <td></td>
         <td style='text-align:left'>Null value.</td>
+        <td></td>
       </tr>
       <tr style='text-align:center'>
         <td><code>[]</code></td>
         <td><kbd><b>[</b></kbd>&nbsp;<i>object...</i>&nbsp;<kbd><b>]</b></kbd></td>
-        <td></td>
         <td style='text-align:left'>Array with zero or more comma-separated CBOR objects.</td>
+        <td></td>
       </tr>
       <tr style='text-align:center'>
         <td><code>{}</code></td>
         <td><kbd><b>{</b></kbd>&nbsp;<i>key</i><kbd><b>:</b></kbd><i>value...</i>&nbsp;<kbd><b>}</b></kbd></td>
-        <td></td>
         <td style='text-align:left'>
           Map with zero or more comma-separated key/value pairs.
           Key and value pairs are expressed as CBOR objects, separated by a <kbd><b>':'</b></kbd> character.
         </td>
+        <td></td>
       </tr>
       <tr style='text-align:center'>
         <td><code>#6.nnn</code></td>
         <td><i>n</i><kbd><b>(</b></kbd>&nbsp;<i>object</i>&nbsp;<kbd><b>)</b></kbd></td>
-        <td>1</td>
         <td style='text-align:left'>Tag holding a CBOR object.</td>
+        <td>1</td>
       </tr>
       <tr style='text-align:center'>
         <td><code>#7.nnn</code></td>
         <td><kbd><b>simple(</b></kbd><i>n</i><kbd><b>)</b></kbd></td>
-        <td>1</td>
         <td style='text-align:left'>Simple value.</td>
+        <td>1</td>
       </tr>
       <tr style='text-align:center'>
         <td></td>
         <td><kbd><b>,</b></kbd></td>
-        <td>6</td>
         <td style='text-align:left'>Separator character for CBOR sequences.</td>
+        <td>6</td>
       </tr>
     </table>
   </div>
