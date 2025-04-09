@@ -86,13 +86,13 @@
         <td><kbd><b>&lt;&lt;</b></kbd>&nbsp;<i>object...</i>&nbsp;<kbd><b>&gt;&gt;</b></kbd></td>
         <td>6</td>
         <td style='text-align:left'>Construct holding zero or more comma-separated CBOR objects
-          that are subsequently wrapped in a byte-string.</td>
+          that are subsequently wrapped in a byte string.</td>
       </tr>
       <tr style='text-align:center'>
         <td><code>tstr</code></td>
         <td><kbd><b>&quot;</b></kbd><i>text</i><kbd><b>&quot;</b></kbd>
         <td>4, 5</td>
-        <td style='text-align:left'>UTF-8 encoded text-string.</td>
+        <td style='text-align:left'>UTF-8 encoded text string.</td>
       </tr>
       <tr style='text-align:center'>
         <td><code>bool</code></td><td><kbd><b>true</b></kbd>&#x200a;|&#x200a;<kbd><b>false</b></kbd></td>
