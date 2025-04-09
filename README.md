@@ -14,11 +14,10 @@ as well as being the result of CBOR decoding.
 
 ### Design Rationale
 
-The described API is intended to provide CBOR
-[[RFC8949](https://rfc-editor.org/rfc/rfc8949.html)]
-"baseline" functionality that can easily be implemented
-in standard platforms with an emphasis on computationally advanced systems like 
-_Web browsers_, _mobile phones_, and _Web servers_.
+The described API builds on the 
+[CBOR Core](https://www.ietf.org/archive/id/draft-rundgren-cbor-core-03.html)
+specification.
+
 Due to the desire maintaining interoperability across different platforms,
 the API "by design" does not address JavaScript specific
 types like `undefined` and binary data beyond `Uint8Array`.
@@ -41,7 +40,7 @@ console.log(CBOR.toHex(cbor));
 ------------------------------
 a201fb4046d9999999999a0269486920746865726521
 ```
-Note: there are no requirments "chaining" objects as shown above; items
+Note: there are no requirements "chaining" objects as shown above; items
 may be added to [CBOR.Map](https://cyberphone.github.io/CBOR.js/doc/#wrapper.cbor.map)
 and [CBOR.Array](https://cyberphone.github.io/CBOR.js/doc/#wrapper.cbor.array) objects in separate steps.
 
@@ -72,22 +71,20 @@ For usage with Node.js and Deno, a NPM version is available: https://npmjs.com/p
 
 ### Deterministic Encoding
 
-The JavaScript API implements [deterministic encoding](https://cyberphone.github.io/CBOR.js/doc/index.html#main.deterministic).
+For maintaining cross-platform interoperability, CBOR.js implements
+[deterministic encoding](https://cyberphone.github.io/CBOR.js/doc/index.html#main.deterministic).
 
-To shield developers from having to know the inner workings of deterministic encoding, the CBOR.js API performs
+To shield developers from having to know the inner workings of deterministic encoding, CBOR.js performs
 all necessary transformations _automatically_.  This for example means that if the 
 [set()](https://cyberphone.github.io/CBOR.js/doc/#cbor.map.set) operations
 in the [Encoding&nbsp;Example](#encoding-example) were swapped, the generated CBOR would still be the same.
 
 ### Diagnostic Notation Support
 
-Diagnostic notation as described in section 8 of [RFC8949](https://www.rfc-editor.org/rfc/rfc8949.html)
-permits displaying CBOR data as human-readable text.  This is practical for _logging_,
-_documentation_, and _debugging_ purposes.  Diagnostic notation is an intrinsic part of the CBOR.js API through the
-[toString()](https://cyberphone.github.io/CBOR.js/doc/#common.tostring) method.
+To simplify _logging_, _documentation_, and _debugging_, CBOR.js includes support for
+[diagnostic notation](https://cyberphone.github.io/CBOR.js/doc/index.html#main.diagnostic).
 
-However, the  CBOR.js API extends the scope of diagnostic notation by supporting using it as
-_input_ for creating CBOR based _test data_ and
+However, diagnostic notation can also be used as _input_ for creating CBOR based _test data_ and
 _configuration files_ from text.  Example:
 ```javascript
 let cbor = CBOR.diagDecode(`{
