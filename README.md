@@ -85,7 +85,7 @@ To simplify _logging_, _documentation_, and _debugging_, CBOR.js includes suppor
 [diagnostic notation](https://cyberphone.github.io/CBOR.js/doc/index.html#main.diagnostic).
 
 However, diagnostic notation can also be used as _input_ for creating CBOR based _test data_ and
-_configuration files_ from text.  Example:
+_configuration files_ from text:
 ```javascript
 let cbor = CBOR.diagDecode(`{
 # Comments are also permitted
