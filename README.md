@@ -15,7 +15,7 @@ as well as being the result of CBOR decoding.
 ### Design Rationale
 
 The described API builds on the 
-[CBOR Core](https://www.ietf.org/archive/id/draft-rundgren-cbor-core-03.html)
+[CBOR Core](https://www.ietf.org/archive/id/draft-rundgren-cbor-core-04.html)
 specification.
 
 Due to the desire maintaining interoperability across different platforms,
