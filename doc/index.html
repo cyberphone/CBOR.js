@@ -78,14 +78,15 @@
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#wrapper.cbor.map'>2.9.&nbsp;&nbsp;CBOR.Map</a></div><div style='display:none'>
 <div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#methods.cbor.map'>2.9.1.&nbsp;&nbsp;CBOR.Map Methods</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.set'>2.9.1.1.&nbsp;&nbsp;set()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.merge'>2.9.1.2.&nbsp;&nbsp;merge()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.update'>2.9.1.3.&nbsp;&nbsp;update()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.get'>2.9.1.4.&nbsp;&nbsp;get()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.getconditional'>2.9.1.5.&nbsp;&nbsp;getConditional()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.containskey'>2.9.1.6.&nbsp;&nbsp;containsKey()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.remove'>2.9.1.7.&nbsp;&nbsp;remove()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.getkeys'>2.9.1.8.&nbsp;&nbsp;getKeys()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.setsortingmode'>2.9.1.9.&nbsp;&nbsp;setSortingMode()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.setdynamic'>2.9.1.2.&nbsp;&nbsp;setDynamic()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.merge'>2.9.1.3.&nbsp;&nbsp;merge()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.update'>2.9.1.4.&nbsp;&nbsp;update()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.get'>2.9.1.5.&nbsp;&nbsp;get()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.getconditional'>2.9.1.6.&nbsp;&nbsp;getConditional()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.containskey'>2.9.1.7.&nbsp;&nbsp;containsKey()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.remove'>2.9.1.8.&nbsp;&nbsp;remove()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.getkeys'>2.9.1.9.&nbsp;&nbsp;getKeys()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.setsortingmode'>2.9.1.10.&nbsp;&nbsp;setSortingMode()</a></div>
 <div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#properties.cbor.map'>2.9.2.&nbsp;&nbsp;CBOR.Map Properties</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.length'>2.9.2.1.&nbsp;&nbsp;length</a></div>
 </div>
@@ -656,7 +657,22 @@ of <i>any</i> complexity can be used.</div></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>this</kbd></td><td colspan='2' style='width:100%'>Current object.</td></tr>
 </table></div>
-<h5 id='cbor.map.merge'>2.9.1.2.&nbsp;&nbsp;merge()</h5>
+<h5 id='cbor.map.setdynamic'>2.9.1.2.&nbsp;&nbsp;setDynamic()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>setDynamic(<i>dynamic</i>)</kbd></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Set map entries using a function or =>.
+<div style='margin-top:0.5em'>This method permits using
+chaining with dynamic or optional map elements.
+Consult test file <code>dynamic.js</code> for examples.</div></td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><kbd><i>dynamic</i></kbd></td><td style='text-align:center'><kbd>function|=&gt;</kbd></td><td style='width:100%'>Function or =&gt operator with one parameter holding <kbd>this</kbd>.</td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><kbd>this</kbd></td><td colspan='2' style='width:100%'>Current object.</td></tr>
+</table></div>
+<h5 id='cbor.map.merge'>2.9.1.3.&nbsp;&nbsp;merge()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>merge(<i>map</i>)</kbd></td></tr>
@@ -670,7 +686,7 @@ for each member of the <kbd><i>map</i></kbd> argument.</td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>this</kbd></td><td colspan='2' style='width:100%'>Current object.</td></tr>
 </table></div>
-<h5 id='cbor.map.update'>2.9.1.3.&nbsp;&nbsp;update()</h5>
+<h5 id='cbor.map.update'>2.9.1.4.&nbsp;&nbsp;update()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>update(<i>key</i>, <i>object</i>, <i>existing</i>)</kbd></td></tr>
@@ -687,7 +703,7 @@ a <code>map</code> entry will be created for <kbd><i>key</i></kbd> if not alread
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Previous object.  May be <code>null</code>.</td></tr>
 </table></div>
-<h5 id='cbor.map.get'>2.9.1.4.&nbsp;&nbsp;get()</h5>
+<h5 id='cbor.map.get'>2.9.1.5.&nbsp;&nbsp;get()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>get(<i>key</i>)</kbd></td></tr>
@@ -700,7 +716,7 @@ If <kbd><i>key</i></kbd> is undefined, an exception is thrown.</td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Retrieved object.</td></tr>
 </table></div>
-<h5 id='cbor.map.getconditional'>2.9.1.5.&nbsp;&nbsp;getConditional()</h5>
+<h5 id='cbor.map.getconditional'>2.9.1.6.&nbsp;&nbsp;getConditional()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>getConditional(<i>key</i>, <i>defaultObject</i>)</kbd></td></tr>
@@ -715,7 +731,7 @@ If <kbd><i>key</i></kbd> is undefined, an exception is thrown.</td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Retrieved or default object.</td></tr>
 </table></div>
-<h5 id='cbor.map.containskey'>2.9.1.6.&nbsp;&nbsp;containsKey()</h5>
+<h5 id='cbor.map.containskey'>2.9.1.7.&nbsp;&nbsp;containsKey()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>containsKey(<i>key</i>)</kbd></td></tr>
@@ -727,7 +743,7 @@ If <kbd><i>key</i></kbd> is undefined, an exception is thrown.</td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Boolean</kbd></td><td colspan='2' style='width:100%'><code>true</code> or <code>false</code>.</td></tr>
 </table></div>
-<h5 id='cbor.map.remove'>2.9.1.7.&nbsp;&nbsp;remove()</h5>
+<h5 id='cbor.map.remove'>2.9.1.8.&nbsp;&nbsp;remove()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>remove(<i>key</i>)</kbd></td></tr>
@@ -740,7 +756,7 @@ If <kbd><i>key</i></kbd> is undefined, an exception is thrown.</td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Removed object (value).</td></tr>
 </table></div>
-<h5 id='cbor.map.getkeys'>2.9.1.8.&nbsp;&nbsp;getKeys()</h5>
+<h5 id='cbor.map.getkeys'>2.9.1.9.&nbsp;&nbsp;getKeys()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getKeys()</kbd></td></tr>
@@ -749,7 +765,7 @@ If <kbd><i>key</i></kbd> is undefined, an exception is thrown.</td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>[CBOR.<i>Wrapper</i>...]</kbd></td><td style='width:100%'>JavaScript array holding a copy of current key objects.</td></tr>
 </table></div>
-<h5 id='cbor.map.setsortingmode'>2.9.1.9.&nbsp;&nbsp;setSortingMode()</h5>
+<h5 id='cbor.map.setsortingmode'>2.9.1.10.&nbsp;&nbsp;setSortingMode()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>setSortingMode(<i>preSortedKeys</i>)</kbd></td></tr>
@@ -1525,6 +1541,6 @@ The following code shows how you can <i>decode</i> CBOR specified in
 
   API version: 1.0.12.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-04-08
+  Document version: 2025-04-10
 </body>
 </html>

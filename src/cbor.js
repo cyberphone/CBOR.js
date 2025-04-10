@@ -745,6 +745,10 @@ class CBOR {
       return this;
     }
 
+    setDynamic = function(dynamic) {
+      return dynamic(this);
+    }
+
     #getKey = function(key) {
       return CBOR.#cborArgumentCheck(key);
     }

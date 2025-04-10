@@ -212,6 +212,15 @@ public class CreateDocument {
       (<i>chaining</i>) or by <i>preset variable declarations</i>, <kbd>key</kbd> objects
       of <i>any</i> complexity can be used.</div>""";
 
+  static final String W_MAP_SET_DYN_DESCR = """
+      Set map entries using a function or =>.
+      <div style='margin-top:0.5em'>This method permits using
+      chaining with dynamic or optional map elements.
+      Consult test file <code>dynamic.js</code> for examples.</div>""";
+
+  static final String W_MAP_SET_DYN_PARAMETER_DESCR = """
+      Function or =&gt operator with one parameter holding <kbd>this</kbd>.""";
+
   static final String W_MAP_MERGE_DESCR = """
       Merge maps.
       Performs a <a href='#cbor.map.set'>set()</a> operation
@@ -763,6 +772,7 @@ public class CreateDocument {
     JS_DATE("Date"),
     JS_BOOLEAN("Boolean"),
     JS_STRING("String"),
+    JS_DYNAMIC("function|=&gt;"),
     JS_UINT8ARRAY("Uint8Array");
 
     String text;
@@ -1420,6 +1430,10 @@ public class CreateDocument {
         .addMethod("set", W_MAP_SET_DESCR)
         .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
         .addParameter("object", DataTypes.CBOR_Any, OBJECT_PARAMETER_DESCR)
+        .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR)
+
+        .addMethod("setDynamic", W_MAP_SET_DYN_DESCR)
+        .addParameter("dynamic", DataTypes.JS_DYNAMIC, W_MAP_SET_DYN_PARAMETER_DESCR)
         .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR)
 
         .addMethod("merge", W_MAP_MERGE_DESCR)

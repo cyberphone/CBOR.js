@@ -42,6 +42,7 @@ public class BuildSystem {
     addFile("tags.js");
     addFile("simple.js");
     addFile("dates.js");
+    addFile("dynamic.js");
     addFile("utf8.js");
     addFile("xyz-encoder.js");
     addFile("xyz-decoder.js");
