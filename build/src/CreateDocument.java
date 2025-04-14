@@ -343,7 +343,10 @@ public class CreateDocument {
   // CBOR.Simple
 
   static final String W_SIMPLE_DESCR = """
-      Constructor.  Creates a CBOR simple value object.""";
+      Constructor.  Creates a CBOR simple value object.
+      <div style='margin-top:0.5em'>Note that <kbd><i>value</i></kbd> must be in
+      the range <code>0-23</code> or <code>32-255</code>, otherwise an
+      exception will be thrown.</div>""";
 
   static final String W_SIMPLE_PARAM_DESCR = """
       Simple value.""";
