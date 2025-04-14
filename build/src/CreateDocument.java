@@ -112,7 +112,7 @@ public class CreateDocument {
       <a href='#cbor.float.getfloat64'>getFloat64()</a> and then uses
       the result to initiate a JavaScript <kbd>Date</kbd> object.
       An exception will be thrown if the underlying object
-      is not an <a href='#wrapper.cbor.int'>CBOR.Int</a> or
+      is not a <a href='#wrapper.cbor.int'>CBOR.Int</a> or
       a <a href='#wrapper.cbor.int'>CBOR.Float</a>.""";
   
   static final String W_GETEPOCHTIME_RETURN_DESCR = """
