@@ -1663,9 +1663,8 @@ public class CreateDocument {
 
     replace(TOC, printTableOfContents());
 
-    replace(CBOR_CORE, "&quot;CBOR&nbsp;Core&quot;&nbsp;" + 
-            "[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-06.html' " +
-            "title='CBOR Core'>CBOR/c<img src='xtl.svg' alt='link'></a>]");
+    replace(CBOR_CORE, "[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-07.html' " +
+                       "title='CBOR/Core'>CBOR/Core<img src='xtl.svg' alt='link'></a>]");
 
     IO.writeFile(documentFileName, template);
   }
