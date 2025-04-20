@@ -16,7 +16,7 @@ as well as being the result of CBOR decoding.
 
 The described API builds on the 
 [CBOR::Core](https://www.ietf.org/archive/id/draft-rundgren-cbor-core-08.html)
-specification.
+profile.
 
 Due to the desire maintaining interoperability across different platforms,
 the API "by design" does not address JavaScript specific
