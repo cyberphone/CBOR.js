@@ -113,7 +113,7 @@ public class CreateDocument {
       the result to initiate a JavaScript <kbd>Date</kbd> object.
       An exception will be thrown if the underlying object
       is not a <a href='#wrapper.cbor.int'>CBOR.Int</a> or
-      a <a href='#wrapper.cbor.int'>CBOR.Float</a>.""";
+      a <a href='#wrapper.cbor.int'>CBOR.Float</a>.</div>""";
   
   static final String W_GETEPOCHTIME_RETURN_DESCR = """
       Date object""";
@@ -219,7 +219,7 @@ public class CreateDocument {
       Consult test file <code>dynamic.js</code> for examples.</div>""";
 
   static final String W_MAP_SET_DYN_PARAMETER_DESCR = """
-      Function or =&gt operator with one parameter holding <kbd>this</kbd>.""";
+      Function or =&gt; operator with one parameter holding <kbd>this</kbd>.""";
 
   static final String W_MAP_MERGE_DESCR = """
       Merge maps.
