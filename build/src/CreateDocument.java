@@ -362,7 +362,7 @@ public class CreateDocument {
   static final String ENCODE_DESCR = """
       Encode <kbd>this</kbd> object.
       <div style='margin-top:0.5em'>Note: this method always return CBOR data using
-      <a href='#main.deterministic'>Deterministic Encoding</a>.</div>""";
+      <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>.</div>""";
 
   static final String ENCODE_RETURN_DESCR = """
       CBOR encoded data.""";
@@ -379,7 +379,10 @@ public class CreateDocument {
   // equals()
 
   static final String EQUALS_DESCR = """
-      Compare <kbd>this</kbd> object with another object with respect to CBOR data.""";
+      Compare <kbd>this</kbd> object with another CBOR object.
+      <div style='margin-top:0.5em'>
+      Equality in CBOR depends on the actual binary encoding which in turn depends on
+      <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>.</div>""";
 
   static final String EQUALS_P1_DESCR = """
       The object to compare with.""";

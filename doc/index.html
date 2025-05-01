@@ -933,7 +933,7 @@ a <a href='#wrapper.cbor.int'>CBOR.Float</a>.</div></td></tr>
 <tr><th>Syntax</th><td style='width:100%'><kbd>encode()</kbd></td></tr>
 <tr><th>Description</th><td style='width:100%'>Encode <kbd>this</kbd> object.
 <div style='margin-top:0.5em'>Note: this method always return CBOR data using
-<a href='#main.deterministic'>Deterministic Encoding</a>.</div></td></tr>
+<a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Uint8Array</kbd></td><td style='width:100%'>CBOR encoded data.</td></tr>
@@ -952,7 +952,10 @@ with the original CBOR content.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>equals(<i>object</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Compare <kbd>this</kbd> object with another object with respect to CBOR data.</td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Compare <kbd>this</kbd> object with another CBOR object.
+<div style='margin-top:0.5em'>
+Equality in CBOR depends on the actual binary encoding which in turn depends on
+<a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>object</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>The object to compare with.</td></tr>
@@ -1544,6 +1547,6 @@ The following code shows how you can <i>decode</i> CBOR specified in
 
   API version: 1.0.12.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-04-20
+  Document version: 2025-05-01
 </body>
 </html>
