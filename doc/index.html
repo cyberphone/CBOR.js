@@ -171,9 +171,6 @@
     Although this document describes a JavaScript API, it could also serve
     as a guide for CBOR implementations for other software platforms,
     with the goal of creating the foundation for cross platform interoperability.
-    Due to this consideration, the level of CBOR support provided by the API is
-    of the type &quot;general purpose&quot;, avoiding constructs that are specific to JavaScript,
-    like <kbd>undefined</kbd> and typed arrays beyond <kbd>Uint8Array</kbd>.
   </div>
   <h3 id='main.wrappers'>2.&nbsp;&nbsp;CBOR Wrapper Objects</h3>
 
@@ -972,7 +969,10 @@ otherwise <code>false</code>.</td></tr>
 In similarity to <a href='#common.encode'>encode()</a>, this method always produce
 data in <a href='#main.deterministic'>Deterministic Encoding</a>, irrespective to how
 the data was created.
-See also: <a href='#common.tostring'>toString()</a>.</td></tr>
+See also: <a href='#common.tostring'>toString()</a>.
+<div style='margin-top:0.5em'>If <kbd>this</kbd> object (as well as possible
+child objects), conforms to the subset supported by JSON,
+this method can also be used to generate JSON data.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>prettyPrint</i></kbd></td><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'>If <kbd><i>prettyPrint</i></kbd> is <code>true</code>,
@@ -1158,8 +1158,10 @@ This is equivalent to the position of the next item to be read.</div></td></tr>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.diagDecode(<i>cborText</i>)</kbd></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Decode a CBOR object provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
 See also <a href='#decoder.cbor.diagdecodesequence'>CBOR.diagDecodeSequence()</a>.
-<div style='margin-top:0.5em'>Note: this method always returns CBOR data using
-<a href='#main.deterministic'>Deterministic Encoding</a>.</div></td></tr>
+<div style='margin-top:0.5em'>This method always returns CBOR data using
+<a href='#main.deterministic'>Deterministic Encoding</a>.</div>
+<div style='margin-top:0.5em'>This method can also be used for decoding
+JSON data.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>cborText</i></kbd></td><td style='text-align:center'><kbd>String</kbd></td><td style='width:100%'>CBOR in textual format.</td></tr>
@@ -1547,6 +1549,6 @@ The following code shows how you can <i>decode</i> CBOR specified in
 
   API version: 1.0.12.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-05-01
+  Document version: 2025-06-06
 </body>
 </html>

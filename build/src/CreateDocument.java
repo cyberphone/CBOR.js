@@ -444,7 +444,10 @@ public class CreateDocument {
       In similarity to <a href='#common.encode'>encode()</a>, this method always produce
       data in <a href='#main.deterministic'>Deterministic Encoding</a>, irrespective to how
       the data was created.
-      See also: <a href='#common.tostring'>toString()</a>.""";
+      See also: <a href='#common.tostring'>toString()</a>.
+      <div style='margin-top:0.5em'>If <kbd>this</kbd> object (as well as possible
+      child objects), conforms to the subset supported by JSON,
+      this method can also be used to generate JSON data.</div>""";
 
   static final String TODIAG_P1_DESCR = """
       If <kbd><i>prettyPrint</i></kbd> is <code>true</code>,
@@ -639,8 +642,10 @@ public class CreateDocument {
   static final String DIAGDEC_DESCR = """
       Decode a CBOR object provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
       See also <a href='#decoder.cbor.diagdecodesequence'>CBOR.diagDecodeSequence()</a>.
-      <div style='margin-top:0.5em'>Note: this method always returns CBOR data using
-      <a href='#main.deterministic'>Deterministic Encoding</a>.</div>""";
+      <div style='margin-top:0.5em'>This method always returns CBOR data using
+      <a href='#main.deterministic'>Deterministic Encoding</a>.</div>
+      <div style='margin-top:0.5em'>This method can also be used for decoding
+      JSON data.</div>""";
 
   static final String DIAGDEC_P1_DESCR = """
       CBOR in textual format.""";
