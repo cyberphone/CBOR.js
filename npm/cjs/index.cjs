@@ -389,14 +389,14 @@ class CBOR {
         // Get the full F64 binary.
         const buffer = new ArrayBuffer(8);
         new DataView(buffer).setFloat64(0, value, false);
-        const u8 = new Uint8Array(buffer)
+        const u8 = new Uint8Array(buffer);
         let f32exp;
         let f32signif;
         while (true) {  // "goto" surely beats quirky loop/break/return/flag constructs...
           // The following code depends on that Math.fround works as expected.
           if (value == Math.fround(value)) {
             // Nothing was lost during the conversion, F32 or F16 is on the menu.
-            f32exp = ((u8[0] & 0x7f) << 4) + ((u8[1] & 0xf0) >> 4) - 0x380;
+            f32exp = ((u8[0] & 0x7f) << 4) + (u8[1] >> 4) - 0x380;
             f32signif = ((u8[1] & 0x0f) << 19) + (u8[2] << 11) + (u8[3] << 3) + (u8[4] >> 5);
             // Very small F32 numbers may require subnormal representation.
             if (f32exp <= 0) {
