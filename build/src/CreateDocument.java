@@ -446,7 +446,7 @@ public class CreateDocument {
       the data was created.
       See also: <a href='#common.tostring'>toString()</a>.
       <div style='margin-top:0.5em'>If <kbd>this</kbd> object (as well as possible
-      child objects), conforms to the subset supported by JSON,
+      child objects), conforms to the subset of data types supported by JSON,
       this method can also be used to generate JSON data.</div>""";
 
   static final String TODIAG_P1_DESCR = """
