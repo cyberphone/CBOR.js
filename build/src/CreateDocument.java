@@ -1684,10 +1684,10 @@ public class CreateDocument {
     replace(EXAMPLES_DEC, printSubHeader("examples.decoding", "Decode CBOR") +
         exampleDecode());
     outline.increment();
-    replace(EXAMPLES_VARIANT, printSubHeader("examples.variant-decoding", "Decoding Variant CBOR Data") +
+    replace(EXAMPLES_VARIANT, printSubHeader("examples.variant-decoding", "Decode Variant CBOR Data") +
         exampleVariantCBOR());
     outline.increment();
-    replace(EXAMPLES_DN_DEC, printSubHeader("examples.dn-decoding", "Decoding CBOR Diagnostic Notation") +
+    replace(EXAMPLES_DN_DEC, printSubHeader("examples.dn-decoding", "Decode CBOR Diagnostic Notation") +
         exampleDNDecode());
     outline.undent();
     outline.increment();
