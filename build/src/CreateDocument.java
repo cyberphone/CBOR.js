@@ -1206,15 +1206,14 @@ public class CreateDocument {
   static final Pattern CONSOLE_LOG_PATTERN = Pattern.compile("%%(.*?)%%", Pattern.DOTALL);
 
   String htmlize(String text) {
-    String temp = text.replace("&", "&amp;")
-        .replace("\"", "&quot;")
-        .replace("<", "&lt;")
-        .replace(">", "&gt;")
-        .replace(" ", "&nbsp;")
-        .replace("\n", "<br>");
-    Matcher m = CONSOLE_LOG_PATTERN.matcher(temp);
-    temp =  m.replaceAll("<span style='color:blue'>$1</span>");
-    return temp;
+    return CONSOLE_LOG_PATTERN.matcher(text
+            .replace("&", "&amp;")
+            .replace("\"", "&quot;")
+            .replace("<", "&lt;")
+            .replace(">", "&gt;")
+            .replace(" ", "&nbsp;")
+            .replace("\n", "<br>"))
+        .replaceAll("<span style='color:blue'>$1</span>");
   }
 
   String codeBlock(String rawCode) {
