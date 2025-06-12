@@ -1217,7 +1217,7 @@ public class CreateDocument {
 
   String exampleEncode() {
     return """
-        The following code shows how you can <i>create</i> CBOR-encoded data:
+        The following code shows how you can create CBOR-encoded data:
         """ +
         codeBlock("""
             let cbor = CBOR.Map()
@@ -1232,8 +1232,8 @@ public class CreateDocument {
 
   String exampleDecode() {
     return """
-        The following code shows how you can <i>decode</i> CBOR-encoded data,
-        here using the result of the <i>encoding</i> example:
+        The following code shows how you can decode CBOR-encoded data,
+        here using the result of the previous encoding example:
         """ +
         codeBlock("""
             let map = CBOR.decode(cbor);
@@ -1250,9 +1250,26 @@ public class CreateDocument {
                   """);
   }
 
+  String exampleVariantCBOR() {
+    return """
+        The following code shows how you can decode variant CBOR-encoded data:
+        """ +
+        codeBlock("""
+            let intOrString = CBOR.decode(cbor);
+            if (intOrString instanceof CBOR.Int) {
+              let i = intOrString.getInt();
+              // Do something with i...
+            } else {
+              // This line will throw an exception if the object is not a CBOR.String
+              let s = intOrString.getString();
+              // Do something with s...
+            }
+                  """);
+  }
+
   String exampleDNDecode() {
     return """
-        The following code shows how you can <i>decode</i> CBOR specified in
+        The following code shows how you can decode CBOR provided in
         <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>:
         """ +
         codeBlock("""
@@ -1265,23 +1282,6 @@ public class CreateDocument {
             console.log(CBOR.toHex(cbor));
             ------------------------------
             a201fb4046d9999999999a0269486920746865726521
-                  """);
-  }
-
-    String exampleVariantCBOR() {
-    return """
-        The following sample code shows how you can deal with variant CBOR data:
-        """ +
-        codeBlock("""
-            let intOrString = CBOR.decode(cbor);
-            if (intOrString instanceof CBOR.Int) {
-              let i = intOrString.getInt();
-              // Do something with i...
-            } else {
-              // This line will throw an exception if the object is not a CBOR.String
-              let s = intOrString.getString();
-              // Do something with s...
-            }
                   """);
   }
 
@@ -1680,11 +1680,11 @@ public class CreateDocument {
     replace(EXAMPLES_DEC, printSubHeader("examples.decoding", "Decode CBOR") +
         exampleDecode());
     outline.increment();
-    replace(EXAMPLES_DN_DEC, printSubHeader("examples.dn-decoding", "Using Diagnostic Notation") +
-        exampleDNDecode());
-    outline.increment();
     replace(EXAMPLES_VARIANT, printSubHeader("examples.variant-decoding", "Decoding Variant CBOR Data") +
         exampleVariantCBOR());
+    outline.increment();
+    replace(EXAMPLES_DN_DEC, printSubHeader("examples.dn-decoding", "Decoding CBOR Diagnostic Notation") +
+        exampleDNDecode());
     outline.undent();
     outline.increment();
 
