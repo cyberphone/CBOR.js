@@ -1,6 +1,9 @@
 
 import java.util.ArrayList;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.webpki.util.IO;
 import org.webpki.util.UTF8;
 
@@ -1200,13 +1203,18 @@ public class CreateDocument {
     return s.toString();
   }
 
+  static final Pattern CONSOLE_LOG_PATTERN = Pattern.compile("%%(.*?)%%", Pattern.DOTALL);
+
   String htmlize(String text) {
-    return text.replace("&", "&amp;")
+    String temp = text.replace("&", "&amp;")
         .replace("\"", "&quot;")
         .replace("<", "&lt;")
         .replace(">", "&gt;")
         .replace(" ", "&nbsp;")
         .replace("\n", "<br>");
+    Matcher m = CONSOLE_LOG_PATTERN.matcher(temp);
+    temp =  m.replaceAll("<span style='color:blue'>$1</span>");
+    return temp;
   }
 
   String codeBlock(String rawCode) {
@@ -1225,8 +1233,7 @@ public class CreateDocument {
                            .set(CBOR.Int(2), CBOR.String("Hi there!")).encode();
 
             console.log(CBOR.toHex(cbor));
-            --------------------------------------------
-            a201fb4046d9999999999a0269486920746865726521
+            %%a201fb4046d9999999999a0269486920746865726521%%
                   """);
   }
 
@@ -1237,16 +1244,15 @@ public class CreateDocument {
         """ +
         codeBlock("""
             let map = CBOR.decode(cbor);
+
             console.log(map.toString());  // Diagnostic notation
-            ----------------------------------------------------
-            {
+            %%{
               1: 45.7,
               2: "Hi there!"
-            }
+            }%%
 
             console.log('Value=' + map.get(CBOR.Int(1)).getFloat64());
-            ----------------------------------------------------------
-            Value=45.7
+            %%Value=45.7%%
                   """);
   }
 
@@ -1280,8 +1286,7 @@ public class CreateDocument {
             }`).encode();
 
             console.log(CBOR.toHex(cbor));
-            ------------------------------
-            a201fb4046d9999999999a0269486920746865726521
+            %%a201fb4046d9999999999a0269486920746865726521%%
                   """);
   }
 
