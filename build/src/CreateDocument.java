@@ -694,6 +694,8 @@ public class CreateDocument {
 
   static final String EXAMPLES_DN_DEC = "${EXAMPLES_DN_DEC}";
 
+  static final String EXAMPLES_VARIANT = "${EXAMPLES_VARIANT}";
+
   static final String VERSION_INFO = "${VERSION_INFO}";
 
   static final String JS_NUMBER_CONS_INT = "${JS_NUMBER_CONS_INT}";
@@ -1266,6 +1268,23 @@ public class CreateDocument {
                   """);
   }
 
+    String exampleVariantCBOR() {
+    return """
+        The following sample code shows how you can deal with variant CBOR data:
+        """ +
+        codeBlock("""
+            let intOrString = CBOR.decode(cbor);
+            if (intOrString instanceof CBOR.Int) {
+              let i = intOrString.getInt();
+              // Do something with i...
+            } else {
+              // This line will throw an exception if the object is not a CBOR.String
+              let s = intOrString.getString();
+              // Do something with s...
+            }
+                  """);
+  }
+
   void replace(String handle, String with) {
     int length = template.length();
     template = template.replace(handle, with);
@@ -1663,6 +1682,9 @@ public class CreateDocument {
     outline.increment();
     replace(EXAMPLES_DN_DEC, printSubHeader("examples.dn-decoding", "Using Diagnostic Notation") +
         exampleDNDecode());
+    outline.increment();
+    replace(EXAMPLES_VARIANT, printSubHeader("examples.variant-decoding", "Decoding Variant CBOR Data") +
+        exampleVariantCBOR());
     outline.undent();
     outline.increment();
 

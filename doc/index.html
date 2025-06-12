@@ -141,6 +141,7 @@
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#examples.encoding'>10.1.&nbsp;&nbsp;Encode CBOR</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#examples.decoding'>10.2.&nbsp;&nbsp;Decode CBOR</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#examples.dn-decoding'>10.3.&nbsp;&nbsp;Using Diagnostic Notation</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#examples.variant-decoding'>10.4.&nbsp;&nbsp;Decoding Variant CBOR Data</a></div>
 </div>
 <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#main.version'>11.&nbsp;&nbsp;Version</a></div>
 
@@ -1545,10 +1546,13 @@ here using the result of the <i>encoding</i> example:
 The following code shows how you can <i>decode</i> CBOR specified in
 <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>:
 <div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>let&nbsp;cbor&nbsp;=&nbsp;CBOR.diagDecode(`{<br>#&nbsp;Comments&nbsp;are&nbsp;also&nbsp;permitted<br>&nbsp;&nbsp;1:&nbsp;45.7,<br>&nbsp;&nbsp;2:&nbsp;&quot;Hi&nbsp;there!&quot;<br>}`).encode();<br><br>console.log(CBOR.toHex(cbor));<br>------------------------------<br>a201fb4046d9999999999a0269486920746865726521<br></div></div>
+  <h5 id='examples.variant-decoding'>10.4.&nbsp;&nbsp;Decoding Variant CBOR Data</h5>
+The following sample code shows how you can deal with variant CBOR data:
+<div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>let&nbsp;intOrString&nbsp;=&nbsp;CBOR.decode(cbor);<br>if&nbsp;(intOrString&nbsp;instanceof&nbsp;CBOR.Int)&nbsp;{<br>&nbsp;&nbsp;let&nbsp;i&nbsp;=&nbsp;intOrString.getInt();<br>&nbsp;&nbsp;//&nbsp;Do&nbsp;something&nbsp;with&nbsp;i...<br>}&nbsp;else&nbsp;{<br>&nbsp;&nbsp;//&nbsp;This&nbsp;line&nbsp;will&nbsp;throw&nbsp;an&nbsp;exception&nbsp;if&nbsp;the&nbsp;object&nbsp;is&nbsp;not&nbsp;a&nbsp;CBOR.String<br>&nbsp;&nbsp;let&nbsp;s&nbsp;=&nbsp;intOrString.getString();<br>&nbsp;&nbsp;//&nbsp;Do&nbsp;something&nbsp;with&nbsp;s...<br>}<br></div></div>
   <h3 id='main.version'>11.&nbsp;&nbsp;Version</h3>
 
   API version: 1.0.12.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-06-06
+  Document version: 2025-06-12
 </body>
 </html>
