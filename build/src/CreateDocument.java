@@ -1262,7 +1262,7 @@ public class CreateDocument {
         codeBlock("""
             let intOrString = CBOR.decode(cbor);
             if (intOrString instanceof CBOR.Int) {
-              let i = intOrString.getInt();
+              let i = intOrString.getInt32();
               // Do something with i...
             } else {
               // This line will throw an exception if the object is not a CBOR.String
