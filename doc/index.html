@@ -28,7 +28,7 @@
 <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.wrappers'>2.&nbsp;&nbsp;CBOR Wrapper Objects</a></div><div style='display:none'>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#wrapper.cbor.int'>2.1.&nbsp;&nbsp;CBOR.Int</a></div><div style='display:none'>
 <div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#methods.cbor.int'>2.1.1.&nbsp;&nbsp;CBOR.Int Methods</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.int.getint'>2.1.1.1.&nbsp;&nbsp;getInt()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.int.getint53'>2.1.1.1.&nbsp;&nbsp;getInt53()</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.int.getint8'>2.1.1.2.&nbsp;&nbsp;getInt8()</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.int.getuint8'>2.1.1.3.&nbsp;&nbsp;getUint8()</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.int.getint16'>2.1.1.4.&nbsp;&nbsp;getInt16()</a></div>
@@ -286,10 +286,10 @@ causes an exception to be thrown.</div></td></tr>
 <tr><td style='text-align:center'><kbd>CBOR.Int</kbd></td><td colspan='2' style='width:100%'>Object.</td></tr>
 </table></div>
 <h5 id='methods.cbor.int'>2.1.1.&nbsp;&nbsp;CBOR.Int Methods</h5>
-<h5 id='cbor.int.getint'>2.1.1.1.&nbsp;&nbsp;getInt()</h5>
+<h5 id='cbor.int.getint53'>2.1.1.1.&nbsp;&nbsp;getInt53()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td style='width:100%'><kbd>getInt()</kbd></td></tr>
+<tr><th>Syntax</th><td style='width:100%'><kbd>getInt53()</kbd></td></tr>
 <tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>-2<sup>53</sup>+1 </code>to<code> 2<sup>53</sup>-1</code> cause an exception to be thrown.  See also <a href='#cbor.int.getbigint'>getBigInt()</a>.</div><div style='margin-top:0.5em'>Since 53-bit integers are specific to JavaScript, this method should be used with great caution in cross-platform scenarios.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
@@ -910,7 +910,7 @@ the read string does not match an ISO date/time string
 <tr><th>Description</th><td style='width:100%'>Get Date object.
 <div style='margin-top:0.5em'>
 This method performs a
-<a href='#cbor.int.getint'>getInt()</a> or
+<a href='#cbor.int.getint53'>getInt53()</a> or
 <a href='#cbor.float.getfloat64'>getFloat64()</a> and then uses
 the result to initiate a JavaScript <kbd>Date</kbd> object.
 An exception will be thrown if the underlying object
@@ -1014,7 +1014,7 @@ is returned.</td></tr>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>checkForUnread()</kbd></td></tr>
 <tr><th>Description</th><td style='width:100%'> Check if <kbd>this</kbd> object including possible child objects has been read
- (like calling <a href='#cbor.int.getint'>getInt()</a>).
+ (like calling <a href='#cbor.int.getint53'>getInt53()</a>).
  If any of the associated objects have not been read, an exception will be thrown.
  <div style='margin:0.5em 0'>
  The purpose of this method is to detect possible misunderstandings between parties
@@ -1288,7 +1288,7 @@ base64 encoded data as well as data with or without
   <code>2<sup>53</sup>-1</code>, must
   for such objects turn to <kbd>BigInt</kbd>,
   otherwise run-time errors may occur when accessing integer data using
-  <a href='#cbor.int.getint'>getInt()</a> or
+  <a href='#cbor.int.getint53'>getInt53()</a> or
   during creation of integers using
   <a href='#wrapper.cbor.int'>CBOR.Int()</a>.
   That is, for creation of such integers,

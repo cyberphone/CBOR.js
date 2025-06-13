@@ -34,7 +34,7 @@ function bigMap(sortFlag) {
   printTime("SET", TOTAL_SET_OPERATIONS, startTime, sortFlag);
   startTime = new Date();
   for (let n = 0; n < TOTAL_SET_OPERATIONS ; n++) {
-    if (cborMap.get(SORTED_KEYS[n]).getInt() != n) {
+    if (cborMap.get(SORTED_KEYS[n]).getInt53() != n) {
       throw Error("Big access");
     }
   }
@@ -48,7 +48,7 @@ function bigMap(sortFlag) {
   printTime("Reverse SET", TOTAL_SET_OPERATIONS, startTime, sortFlag);
   startTime = new Date();
   for (let n = 0; n < TOTAL_SET_OPERATIONS ; n++) {
-    if (cborMap.get(REVERSE_KEYS[n]).getInt() != n) {
+    if (cborMap.get(REVERSE_KEYS[n]).getInt53() != n) {
       throw Error("Big access");
     }
   }
@@ -70,7 +70,7 @@ function multipleSmallMaps(mapSize, sortFlag) {
   startTime = new Date();
   for (let q = 0; q < maps; q++) {
     for (let n = 0; n < mapSize; n++) {
-      if (cborMap.get(SORTED_KEYS[n]).getInt() != n) {
+      if (cborMap.get(SORTED_KEYS[n]).getInt53() != n) {
           throw Error("Medium access");
       }
     }            
@@ -89,7 +89,7 @@ function multipleSmallMaps(mapSize, sortFlag) {
   startTime = new Date();
   for (let q = 0; q < maps; q++) {
     for (let n = 0; n < mapSize; n++) {
-      if (cborMap.get(REVERSE_KEYS[n]).getInt() != n) {
+      if (cborMap.get(REVERSE_KEYS[n]).getInt53() != n) {
           throw Error("Medium access");
       }
     }            

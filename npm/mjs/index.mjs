@@ -22,7 +22,7 @@ export default class CBOR {
       this._immutableFlag = false;
     }
 
-    getInt = function() {
+    getInt53 = function() {
       if (this instanceof CBOR.BigInt) {
         // During decoding, integers outside of Number.MAX_SAFE_INTEGER
         // automatically get "BigInt" representation. 
@@ -32,7 +32,7 @@ export default class CBOR {
     }
 
     #rangeInt = function(min, max) {
-      let value = this.getInt();
+      let value = this.getInt53();
       if (value < min || value > max) {
         CBOR.#error("Value out of range: " + value);
       }
@@ -82,7 +82,7 @@ export default class CBOR {
 
     getEpochTime = function() {
       let time = this instanceof CBOR.Int ?
-                     this.getInt() * 1000 : Math.round(this.getFloat64() * 1000);
+                     this.getInt53() * 1000 : Math.round(this.getFloat64() * 1000);
       let epochTime = new Date();
       epochTime.setTime(time);
       return epochTime;
@@ -126,7 +126,7 @@ export default class CBOR {
 
     getBigInt = function() {
       if (this instanceof CBOR.Int) {
-        return BigInt(this.getInt());
+        return BigInt(this.getInt53());
       }
       return this.#checkTypeAndGetValue(CBOR.BigInt);
     }
@@ -2026,6 +2026,6 @@ export default class CBOR {
   }
 
   static get version() {
-    return "1.0.12";
+    return "1.0.13";
   }
 }

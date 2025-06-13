@@ -39,7 +39,7 @@ function multipleSmallMaps(mapSize, sortFlag) {
   startTime = Date.now();
   for (let q = 0; q < maps; q++) {
     for (let n = 0; n < mapSize; n++) {
-      if (cborMap.get(SORTED_KEYS[n]).getInt() != n) {
+      if (cborMap.get(SORTED_KEYS[n]).getInt53() != n) {
         CBORObject.cborError("Medium access");
       }
     }            
@@ -58,7 +58,7 @@ function multipleSmallMaps(mapSize, sortFlag) {
   startTime = Date.now();
   for (let q = 0; q < maps; q++) {
     for (let n = 0; n < mapSize; n++) {
-      if (cborMap.get(REVERSE_KEYS[n]).getInt() != n) {
+      if (cborMap.get(REVERSE_KEYS[n]).getInt53() != n) {
           CBORObject.cborError("Medium access");
       }
     }            

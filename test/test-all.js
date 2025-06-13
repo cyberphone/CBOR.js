@@ -149,7 +149,7 @@ oneTurn("CBOR.Tag(8n, CBOR.Int(2))",
         "Tagged object 8 of type=CBOR.Int with value=2 was never read");  
 
 oneTurn("CBOR.Int(1)",
-        "res.getInt()");
+        "res.getInt53()");
 success();
 `}
 ,
@@ -250,7 +250,7 @@ assertTrue("oneline", cborObject.toDiag(false) ==
 assertTrue("parse", CBOR.diagDecode(cborText).equals(cborObject));
 let sequence = CBOR.diagDecodeSequence('45,{4:7}');
 assertTrue("seq2", sequence.length == 2);
-assertTrue("seq3", sequence[0].getInt() == 45);
+assertTrue("seq3", sequence[0].getInt53() == 45);
 assertTrue("seq4", sequence[1].equals(CBOR.Map().set(CBOR.Int(4),CBOR.Int(7))));
 success();
 `}
@@ -632,7 +632,7 @@ assertFalse("null1", array.get(3).isNull());
 assertTrue("null2", array.get(4).isNull());
 assertFalse("cmp2", CBOR.compareArrays(CBOR.diagDecode(CBOR.decode(cbor).toString()).encode(), bin));
 
-assertTrue("version", CBOR.version == "1.0.12");
+assertTrue("version", CBOR.version == "1.0.13");
 
 success();
 `}
@@ -696,7 +696,7 @@ try {
 }
 let cbor = CBOR.BigInt(BigInt(TOO_BIG)).encode();
 try {
-  CBOR.decode(cbor).getInt();
+  CBOR.decode(cbor).getInt53();
   throw Error('Should not');
 } catch (error) {
   if (error.toString().includes('Should not')) {
@@ -706,9 +706,9 @@ try {
 assertTrue("big", BigInt(TOO_BIG) == CBOR.decode(cbor).getBigInt());
 
 cbor = CBOR.Int(IN_RANGE).encode();
-assertTrue("R0", CBOR.decode(cbor).getInt() == IN_RANGE);
+assertTrue("R0", CBOR.decode(cbor).getInt53() == IN_RANGE);
 cbor = CBOR.Int(-IN_RANGE).encode();
-assertTrue("R0", CBOR.decode(cbor).getInt() == -IN_RANGE);
+assertTrue("R0", CBOR.decode(cbor).getInt53() == -IN_RANGE);
 
 success();
 `}
@@ -754,7 +754,7 @@ assertTrue("t5", CBOR.toHex(cbor) ==
     "dbf0123456789abcde82781c68747470733a2f2f6578616d706c652e636f6d2f6d796f626a65637406");
 tag = CBOR.Tag(5n, CBOR.String("hi"));
 assertTrue("u1", tag.update(CBOR.Int(6)).getString() == "hi");
-assertTrue("u2", tag.get().getInt() == 6);
+assertTrue("u2", tag.get().getInt53() == 6);
 
 [-1n, 0x10000000000000000n].forEach(tagNumber => { 
   try {

@@ -15,7 +15,7 @@ try {
 }
 let cbor = CBOR.BigInt(BigInt(TOO_BIG)).encode();
 try {
-  CBOR.decode(cbor).getInt();
+  CBOR.decode(cbor).getInt53();
   throw Error('Should not');
 } catch (error) {
   if (error.toString().includes('Should not')) {
@@ -25,8 +25,8 @@ try {
 assertTrue("big", BigInt(TOO_BIG) == CBOR.decode(cbor).getBigInt());
 
 cbor = CBOR.Int(IN_RANGE).encode();
-assertTrue("R0", CBOR.decode(cbor).getInt() == IN_RANGE);
+assertTrue("R0", CBOR.decode(cbor).getInt53() == IN_RANGE);
 cbor = CBOR.Int(-IN_RANGE).encode();
-assertTrue("R0", CBOR.decode(cbor).getInt() == -IN_RANGE);
+assertTrue("R0", CBOR.decode(cbor).getInt53() == -IN_RANGE);
 
 success();

@@ -110,7 +110,7 @@ public class CreateDocument {
       Get Date object.
       <div style='margin-top:0.5em'>
       This method performs a
-      <a href='#cbor.int.getint'>getInt()</a> or 
+      <a href='#cbor.int.getint53'>getInt53()</a> or 
       <a href='#cbor.float.getfloat64'>getFloat64()</a> and then uses
       the result to initiate a JavaScript <kbd>Date</kbd> object.
       An exception will be thrown if the underlying object
@@ -419,7 +419,7 @@ public class CreateDocument {
 
   static final String CHECK4_DESCR = """
        Check if <kbd>this</kbd> object including possible child objects has been read
-       (like calling <a href='#cbor.int.getint'>getInt()</a>).
+       (like calling <a href='#cbor.int.getint53'>getInt53()</a>).
        If any of the associated objects have not been read, an exception will be thrown.
        <div style='margin:0.5em 0'>
        The purpose of this method is to detect possible misunderstandings between parties
@@ -1333,7 +1333,7 @@ public class CreateDocument {
 
   void intMethods(Wrapper wrapper) {
 
-    rangedIntMethod(wrapper, "getInt",
+    rangedIntMethod(wrapper, "getInt53",
         "-2<sup>53</sup>+1",
         "2<sup>53</sup>-1",
         " See also <a href='#cbor.int.getbigint'>getBigInt()</a>.</div>" +
