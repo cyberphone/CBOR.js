@@ -1,7 +1,6 @@
 
 import java.util.ArrayList;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.webpki.util.IO;
@@ -32,7 +31,7 @@ public class CreateDocument {
   static final String W_INT_DESCR = """
       Constructor.  Creates a CBOR integer object.
       <div style='margin-top:0.5em'>
-      See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
+      Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
 
   static final String W_INT_P1_DESCR = """
       Integer to be wrapped.
@@ -1337,7 +1336,10 @@ public class CreateDocument {
     rangedIntMethod(wrapper, "getInt",
         "-2<sup>53</sup>+1",
         "2<sup>53</sup>-1",
-        " See also <a href='#cbor.int.getbigint'>getBigInt()</a>.");
+        " See also <a href='#cbor.int.getbigint'>getBigInt()</a>.</div>" +
+        "<div style='margin-top:0.5em'>" +
+        "Since 53-bit integers are specific to JavaScript, this method " +
+        "should be used with great caution in cross-platform scenarios.");
 
     rangedIntMethod(wrapper, "getInt8",
         "-0x80",
