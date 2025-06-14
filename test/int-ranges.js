@@ -16,7 +16,8 @@ function badRun(method, value) {
     eval(test);
     assertTrue("Should fail", false);
   } catch (error) {
-    if (!error.toString().includes('Value out of range:')) {
+    if (!error.toString().includes('Value out of range:') &&
+        !error.toString().includes('Number.MAX_SAFE_INTEGER')) {
       throw error;
     }
   }
@@ -25,6 +26,10 @@ function badRun(method, value) {
 function innerTurn(method, signed, size) {
   let min = signed ? -(1n << BigInt(size) - 1n) : 0n;
   let max = signed ? (1n << BigInt(size) - 1n) - 1n : (1n << BigInt(size)) - 1n;
+  if (size == 53) {
+    max = BigInt(Number.MAX_SAFE_INTEGER);
+    min = -max;
+  }
   goodRun(method, min);
   goodRun(method, max);
   goodRun(method, 10n);
@@ -34,12 +39,15 @@ function innerTurn(method, signed, size) {
 
 function oneTurn(size) {
   innerTurn("getInt" + size, true, size);
-  innerTurn("getUint" + size, false, size);
+  if (size != 53) {
+    innerTurn("getUint" + size, false, size);
+  }
 }
 
 oneTurn(8);
 oneTurn(16);
 oneTurn(32);
+oneTurn(53);
 oneTurn(64);
 
 success();
