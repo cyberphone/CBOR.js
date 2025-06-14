@@ -44,7 +44,7 @@ public class CreateDocument {
   static final String W_BIGINT_DESCR = """
       Constructor.  Creates a CBOR big integer object.
       <div style='margin-top:0.5em'>
-      See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
+      Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
 
   static final String W_BIGINT_P1_DESCR = """
       Big integer to be wrapped.""";
@@ -52,7 +52,7 @@ public class CreateDocument {
   static final String W_GETBIGINT_DESCR = """
       Get CBOR integer of any size.
       <div style='margin-top:0.5em'>
-      See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
+      Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
 
   static final String W_GETBIGINT_RETURN_DESCR = """
       Decoded big integer.""";
@@ -61,7 +61,7 @@ public class CreateDocument {
 
   static final String W_FLOAT_DESCR = """
       Constructor.  Creates a CBOR <code>float</code> object.
-      See also <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.""";
+      Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.""";
 
   static final String W_FLOAT_P1_DESCR = """
       Floating-point number to be wrapped.""";
@@ -152,7 +152,7 @@ public class CreateDocument {
 
   static final String W_NULL_DESCR = """
       Constructor.  Creates a CBOR <code>null</code> object.
-      See also <a href='#common.isnull'>isNull()</a>.""";
+      Also see <a href='#common.isnull'>isNull()</a>.""";
 
   // CBOR.Array
 
@@ -202,7 +202,7 @@ public class CreateDocument {
       <div style='margin-top:0.5em'>Note: <kbd><i>key</i></kbd> order is of no importance since
       <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>
       performs the required map sorting <i>automatically</i>.
-      See also <a href='#cbor.map.setsortingmode'>setSortingMode()</a>
+      Also see <a href='#cbor.map.setsortingmode'>setSortingMode()</a>
       and <a href='#decoder.cbor.initdecoder'>CBOR.initDecoder()</a>.</div>
       <div style='margin-top:0.5em'>Note: this implementation
       presumes that <kbd>key</kbd> objects are <i>immutable</i>.
@@ -400,7 +400,7 @@ public class CreateDocument {
       <div style='margin:0.5em 0'>Note: if <a href='#common.checkforunread'>checkForUnread()</a>
       is used, <kbd>this</kbd> object will only be regarded as &quot;read&quot;
       if it actually is a CBOR <code>null</code> item.</div>
-      See also <a href='#wrapper.cbor.null'>CBOR.Null()</a>.""";
+      Also see <a href='#wrapper.cbor.null'>CBOR.Null()</a>.""";
 
   static final String ISNULL_RETURN_DESCR = """
       Returns <code>true</code> if <kbd>this</kbd> object
@@ -446,7 +446,7 @@ public class CreateDocument {
       In similarity to <a href='#common.encode'>encode()</a>, this method always produce
       data in <a href='#main.deterministic'>Deterministic Encoding</a>, irrespective to how
       the data was created.
-      See also: <a href='#common.tostring'>toString()</a>.
+      Also see: <a href='#common.tostring'>toString()</a>.
       <div style='margin-top:0.5em'>If <kbd>this</kbd> object (as well as possible
       child objects), conforms to the subset of data types supported by JSON,
       this method can also be used to generate JSON data.</div>""";
@@ -570,7 +570,7 @@ public class CreateDocument {
       Note that irrespective of options, the decoder maintains parsed data in the form required for
       <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>.</div>
       <div style='margin-top:0.5em'>
-      See also
+      Also see
       <a href='#decoder.decoder.getbytecount'><i>Decoder</i>.getByteCount()</a>.</div>""";
 
   static final String INITEXT_P1_DESCR = """
@@ -643,7 +643,7 @@ public class CreateDocument {
 
   static final String DIAGDEC_DESCR = """
       Decode a CBOR object provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
-      See also <a href='#decoder.cbor.diagdecodesequence'>CBOR.diagDecodeSequence()</a>.
+      Also see <a href='#decoder.cbor.diagdecodesequence'>CBOR.diagDecodeSequence()</a>.
       <div style='margin-top:0.5em'>This method always returns CBOR data using
       <a href='#main.deterministic'>Deterministic Encoding</a>.</div>
       <div style='margin-top:0.5em'>This method can also be used for decoding
@@ -1336,7 +1336,7 @@ public class CreateDocument {
     rangedIntMethod(wrapper, "getInt53",
         "-2<sup>53</sup>+1",
         "2<sup>53</sup>-1",
-        " See also <a href='#cbor.int.getbigint'>getBigInt()</a>.</div>" +
+        " Also see <a href='#cbor.int.getbigint'>getBigInt()</a>.</div>" +
         "<div style='margin-top:0.5em'>" +
         "Since 53-bit integers are specific to JavaScript, this method " +
         "should be used with great caution in cross-platform scenarios.");
@@ -1680,10 +1680,10 @@ public class CreateDocument {
 
     replace(EXAMPLES, printMainHeader("examples", "Using the CBOR API"));
     outline.indent();
-    replace(EXAMPLES_ENC, printSubHeader("examples.encoding", "Encode CBOR") +
+    replace(EXAMPLES_ENC, printSubHeader("examples.encoding", "Encode CBOR Data") +
         exampleEncode());
     outline.increment();
-    replace(EXAMPLES_DEC, printSubHeader("examples.decoding", "Decode CBOR") +
+    replace(EXAMPLES_DEC, printSubHeader("examples.decoding", "Decode CBOR Data") +
         exampleDecode());
     outline.increment();
     replace(EXAMPLES_VARIANT, printSubHeader("examples.variant-decoding", "Decode Variant CBOR Data") +
