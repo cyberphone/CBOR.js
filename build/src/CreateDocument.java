@@ -1212,7 +1212,7 @@ public class CreateDocument {
             .replace(">", "&gt;")
             .replace(" ", "&nbsp;")
             .replace("\n", "<br>"))
-        .replaceAll("<span style='color:blue'>$1</span>");
+        .replaceAll("<span style='color:#007fdd'>$1</span>");
   }
 
   String codeBlock(String rawCode) {
