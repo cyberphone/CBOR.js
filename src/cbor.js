@@ -685,6 +685,7 @@ class CBOR {
 
     #entries = [];
     #preSortedKeys = false;
+    #lastLookup = 0;
 
     static Entry = class {
 
@@ -762,6 +763,7 @@ class CBOR {
         let entry = this.#entries[midIndex];
         let diff = entry.compare(encodedKey);
         if (diff == 0) {
+          this.#lastLookup = midIndex;
           return entry;
         }
         if (diff < 0) {
@@ -829,12 +831,8 @@ class CBOR {
       CBOR.#checkArgs(arguments, 1);
       this._immutableTest();
       let targetEntry = this.#lookup(key, true);
-      for (let i = 0; i < this.#entries.length; i++) {
-        if (this.#entries[i] == targetEntry) {
-          this.#entries.splice(i, 1);
-          return targetEntry.object;
-        }
-      }
+      this.#entries.splice(this.#lastLookup, 1);
+      return targetEntry.object;
     }
 
     _getLength = function() {
