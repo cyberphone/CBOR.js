@@ -1288,25 +1288,23 @@ base64 encoded data as well as data with or without
   protocols using integer objects where the magnitude may exceed
   <code>2<sup>53</sup>-1</code>, must
   for such objects turn to <kbd>BigInt</kbd>,
-  otherwise run-time errors may occur when accessing integer data using
-  <a href='#cbor.int.getint53'>getInt53()</a> or
-  during creation of integers using
-  <a href='#wrapper.cbor.int'>CBOR.Int()</a>.
-  That is, for creation of such integers,
-  <a href='#wrapper.cbor.bigint'>CBOR.BigInt()</a>
-  is the proper solution, while access requires using
-  <a href='#cbor.bigint.getbigint'>getBigInt()</a>,
-  <a href='#cbor.bigint.getint64'>getInt64()</a>,
-  or <a href='#cbor.bigint.getuint64'>getUint64()</a>,
-  which for convenience reasons is supported by both of the integer wrapper types.
+  otherwise run-time errors may occur.
   <p>
     Note that selecting <a href='#wrapper.cbor.bigint'>CBOR.BigInt()</a>
     or <a href='#wrapper.cbor.int'>CBOR.Int()</a> only affects the maximum
     numeric range with respect to JavaScript limits, not the CBOR encoding.
+  </p>
+  <p>
     During CBOR <i>decoding</i>, the selection between
     <a href='#wrapper.cbor.bigint'>CBOR.BigInt()</a>
     and <a href='#wrapper.cbor.int'>CBOR.Int()</a> is governed by the decoded value
     with respect to JavaScript limits.
+    Since integers below &#xb1;<code>2<sup>53</sup></code> will during decoding
+    return a <a href='#wrapper.cbor.int'>CBOR.Int()</a> although they could be
+    associated by a <kbd>BigInt</kbd> variable,
+    <a href='#cbor.bigint.getint64'>getInt64()</a>, <a href='#cbor.bigint.getuint64'>getUint64()</a>,
+    and <a href='#cbor.bigint.getbigint'>getBigInt()</a>,
+    are supported by both of the integer wrapper types.
   </p>
   <p>
     The selection between the CBOR <code>unsigned</code> and <code>negative</code>
@@ -1554,6 +1552,6 @@ The following code shows how you can decode CBOR provided in
 
   API version: 1.0.12.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-06-14
+  Document version: 2025-06-18
 </body>
 </html>
