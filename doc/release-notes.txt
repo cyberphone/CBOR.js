@@ -43,3 +43,6 @@ Simplifying decoder options solution.  See CBOR.initDecoder()
 Added getDateTime() and getEpochTime methods including in their tagged format.
 Added argument number tests to core methods.
 Added CBOR.Map.setDynamic() method.
+
+2025-06-18 1.0.13
+getInt() => getInt53()
