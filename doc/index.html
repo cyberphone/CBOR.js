@@ -1121,11 +1121,11 @@ that CBOR numbers conform to the
 The&nbsp;<kbd>CBOR.LENIENT_NUMBER_DECODING</kbd> option forces the decoder to
 accept different representations of CBOR <code>int</code>, <code>bigint</code>,
 and <code>float</code> items, only limited by RFC&nbsp;8949.</div>
-<div style='margin-top:0.8em'><kbd>CBOR.REJECT_INVALID_FLOATS</kbd>:</div>
+<div style='margin-top:0.8em'><kbd>CBOR.REJECT_NON_FINITE_FLOATS</kbd>:</div>
 <div style='padding:0.2em 0 0 1.2em'>By default, the decoder supports
 <kbd>NaN</kbd> and <kbd>Infinity</kbd> values.
 In case these variants are not applicable for the application in question,
-the <kbd>CBOR.REJECT_INVALID_FLOATS</kbd> option
+the <kbd>CBOR.REJECT_NON_FINITE_FLOATS</kbd> option
 causes such numbers to throw an exception.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
@@ -1552,6 +1552,6 @@ The following code shows how you can decode CBOR provided in
 
   API version: 1.0.12.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-06-18
+  Document version: 2025-06-25
 </body>
 </html>

@@ -44,5 +44,6 @@ Added getDateTime() and getEpochTime methods including in their tagged format.
 Added argument number tests to core methods.
 Added CBOR.Map.setDynamic() method.
 
-2025-06-18 1.0.13
+2025-06-25 1.0.13
 getInt() => getInt53()
+CBOR.REJECT_INVALID_FLOATS => CBOR.REJECT_NON_FINITE_FLOATS

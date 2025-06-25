@@ -479,10 +479,6 @@ export default class CBOR {
       cborPrinter.append(floatString);
     }
 
-    _isBadFloat = function() {
-      return this.#encoded.length == 2 && (this.#encoded[0] & 0x7c) == 0x7c;
-    }
-
     _compare = function(decoded) {
       return CBOR.compareArrays(this.#encoded, decoded);
     }
@@ -1069,7 +1065,7 @@ export default class CBOR {
     return 0x4;
   }
 
-  static get REJECT_INVALID_FLOATS() {
+  static get REJECT_NON_FINITE_FLOATS() {
     return 0x8;
   }
 
@@ -1082,7 +1078,7 @@ export default class CBOR {
       this.sequenceMode = options & CBOR.SEQUENCE_MODE;
       this.strictMaps = !(options & CBOR.LENIENT_MAP_DECODING);
       this.strictNumbers = !(options & CBOR.LENIENT_NUMBER_DECODING);
-      this.rejectNanInfinity = options & CBOR.REJECT_INVALID_FLOATS;
+      this.rejectNonFiniteFloats = options & CBOR.REJECT_NON_FINITE_FLOATS;
     }
 
     eofError = function() {
@@ -1128,7 +1124,7 @@ export default class CBOR {
       if (this.strictNumbers && cborFloat._compare(decoded)) {
         CBOR.#error("Non-deterministic encoding of: " + f64);
       }
-      if (this.rejectNanInfinity && cborFloat._isBadFloat()) {
+      if (this.rejectNonFiniteFloats && !Number.isFinite(f64)) {
         CBOR.#error('"NaN" and "Infinity" support is disabled');        
       }
       return cborFloat;

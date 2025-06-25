@@ -271,7 +271,7 @@ function overflow(cborObject, length) {
 }
 
 function oneTurn(valueText, expected, invalidFloats) {
-  let decoder = CBOR.initDecoder(CBOR.fromHex(expected), CBOR.REJECT_INVALID_FLOATS);
+  let decoder = CBOR.initDecoder(CBOR.fromHex(expected), CBOR.REJECT_NON_FINITE_FLOATS);
   let value = Number(valueText);
   let text = valueText;
   while (text.length < 25) {

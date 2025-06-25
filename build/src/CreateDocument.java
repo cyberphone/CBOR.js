@@ -608,11 +608,11 @@ public class CreateDocument {
       The&nbsp;<kbd>CBOR.LENIENT_NUMBER_DECODING</kbd> option forces the decoder to
       accept different representations of CBOR <code>int</code>, <code>bigint</code>,
       and <code>float</code> items, only limited by RFC&nbsp;8949.</div>
-      <div style='margin-top:0.8em'><kbd>CBOR.REJECT_INVALID_FLOATS</kbd>:</div>
+      <div style='margin-top:0.8em'><kbd>CBOR.REJECT_NON_FINITE_FLOATS</kbd>:</div>
       <div style='padding:0.2em 0 0 1.2em'>By default, the decoder supports
       <kbd>NaN</kbd> and <kbd>Infinity</kbd> values.
       In case these variants are not applicable for the application in question,
-      the <kbd>CBOR.REJECT_INVALID_FLOATS</kbd> option
+      the <kbd>CBOR.REJECT_NON_FINITE_FLOATS</kbd> option
       causes such numbers to throw an exception.</div>""";
 
   static final String INITEXT_RETURN_DESCR = """

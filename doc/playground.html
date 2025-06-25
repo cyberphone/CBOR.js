@@ -118,7 +118,7 @@ async function doProcess() {
     let decoder = CBOR.initDecoder(cborBytes, 
         (sequenceFlag ? CBOR.SEQUENCE_MODE : 0) |
         (deterministicFlag ? 0 : CBOR.LENIENT_NUMBER_DECODING | CBOR.LENIENT_MAP_DECODING) |
-        (rejectNaNFlag ? CBOR.REJECT_INVALID_FLOATS : 0));
+        (rejectNaNFlag ? CBOR.REJECT_NON_FINITE_FLOATS : 0));
     while (object = decoder.decodeWithOptions()) {
       cborObjects.push(object);
       if (!sequenceFlag) {
