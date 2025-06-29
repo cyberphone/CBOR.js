@@ -188,6 +188,12 @@ public class CreateDocument {
   static final String W_ARRAY_TOARR_RETURN_DESCR = "JavaScript array holding a copy of current <kbd>"
       + DataTypes.CBOR_Any + "</kbd> objects.";
 
+  static final String W_ARRAY_ENC_AS_SEQ_DESCR = """
+      Return the objects in the array as a CBOR sequence.""";
+
+  static final String W_ARRAY_ENC_AS_SEQ_RETURN_DESCR = """
+      CBOR encoded data.""";
+
   static final String W_ARRAY_PROP_DESCR = """
       Number of objects in the array.""";
 
@@ -695,6 +701,10 @@ public class CreateDocument {
   static final String EXAMPLES_DEC = "${EXAMPLES_DEC}";
 
   static final String EXAMPLES_DN_DEC = "${EXAMPLES_DN_DEC}";
+
+  static final String EXAMPLES_SEQ_ENC = "${EXAMPLES_SEQ_ENC}";
+
+  static final String EXAMPLES_SEQ_DEC = "${EXAMPLES_SEQ_DEC}";
 
   static final String EXAMPLES_VARIANT = "${EXAMPLES_VARIANT}";
 
@@ -1288,6 +1298,41 @@ public class CreateDocument {
                   """);
   }
 
+  String exampleSeqEncode() {
+    return """
+        The following code shows how you can create CBOR sequences:
+        """ +
+        codeBlock("""
+            let cbor = CBOR.Array()
+              .add(CBOR.Map().set(CBOR.Int(7), CBOR.String("Hi!")))
+              .add(CBOR.Float(4.5))
+              .encodeAsSequence();
+
+            console.log(CBOR.toHex(cbor));
+            %%a10763486921f94480%%
+                  """);
+  }
+
+  String exampleSeqDecode() {
+    return """
+        The following code shows how you can decode CBOR sequences,
+        here using the result of the previous encoding example:
+        """ +
+        codeBlock("""
+            let decoder = CBOR.initDecoder(cbor, CBOR.SEQUENCE_MODE);
+            let object;
+            while (object = decoder.decodeWithOptions()) {
+              console.log('\\n' + object.toString());
+            }
+            
+            %%{
+              7: "Hi!"
+            }%%
+                   
+            %%4.5%%
+                  """);
+  }
+
   void replace(String handle, String with) {
     int length = template.length();
     template = template.replace(handle, with);
@@ -1456,6 +1501,9 @@ public class CreateDocument {
 
         .addMethod("toArray", W_ARRAY_TOARR_DESCR)
         .setReturn(DataTypes.JS_ARRAY, W_ARRAY_TOARR_RETURN_DESCR)
+
+        .addMethod("encodeAsSequence", W_ARRAY_ENC_AS_SEQ_DESCR)
+        .setReturn(DataTypes.JS_UINT8ARRAY, W_ARRAY_ENC_AS_SEQ_RETURN_DESCR)
 
         .setProperty("length", DataTypes.JS_NUMBER, W_ARRAY_PROP_DESCR);
 
@@ -1691,6 +1739,12 @@ public class CreateDocument {
     outline.increment();
     replace(EXAMPLES_DN_DEC, printSubHeader("examples.dn-decoding", "Decode CBOR Diagnostic Notation") +
         exampleDNDecode());
+    outline.increment();
+    replace(EXAMPLES_SEQ_ENC, printSubHeader("examples.seq-encoding", "Encode CBOR Sequence") +
+        exampleSeqEncode());
+    outline.increment();
+    replace(EXAMPLES_SEQ_DEC, printSubHeader("examples.seq-decoding", "Decode CBOR Sequence") +
+        exampleSeqDecode());
     outline.undent();
     outline.increment();
 

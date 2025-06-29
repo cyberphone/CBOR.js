@@ -738,6 +738,12 @@ assertTrue("Comp2", total.length == decoder.getByteCount());
 decoder = CBOR.initDecoder(new Uint8Array(), CBOR.SEQUENCE_MODE);
 assertFalse("Comp3", decoder.decodeWithOptions());
 assertTrue("Comp4", decoder.getByteCount() == 0);
+let arraySequence = CBOR.Array();
+decoder = CBOR.initDecoder(cbor, CBOR.SEQUENCE_MODE);
+while (object = decoder.decodeWithOptions()) {
+  arraySequence.add(object);
+}
+assertFalse("Comp5", CBOR.compareArrays(arraySequence.encodeAsSequence(), cbor));
 
 success();
 `}

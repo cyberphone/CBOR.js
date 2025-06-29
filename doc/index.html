@@ -72,6 +72,7 @@
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.get'>2.8.1.2.&nbsp;&nbsp;get()</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.update'>2.8.1.3.&nbsp;&nbsp;update()</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.toarray'>2.8.1.4.&nbsp;&nbsp;toArray()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.encodeassequence'>2.8.1.5.&nbsp;&nbsp;encodeAsSequence()</a></div>
 <div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#properties.cbor.array'>2.8.2.&nbsp;&nbsp;CBOR.Array Properties</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.length'>2.8.2.1.&nbsp;&nbsp;length</a></div>
 </div>
@@ -142,6 +143,8 @@
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#examples.decoding'>10.2.&nbsp;&nbsp;Decode CBOR Data</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#examples.variant-decoding'>10.3.&nbsp;&nbsp;Decode Variant CBOR Data</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#examples.dn-decoding'>10.4.&nbsp;&nbsp;Decode CBOR Diagnostic Notation</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#examples.seq-encoding'>10.5.&nbsp;&nbsp;Encode CBOR Sequence</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#examples.seq-decoding'>10.6.&nbsp;&nbsp;Decode CBOR Sequence</a></div>
 </div>
 <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#main.version'>11.&nbsp;&nbsp;Version</a></div>
 
@@ -609,6 +612,15 @@ causes an exception to be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>[CBOR.<i>Wrapper</i>...]</kbd></td><td style='width:100%'>JavaScript array holding a copy of current <kbd>CBOR.<i>Wrapper</i></kbd> objects.</td></tr>
+</table></div>
+<h5 id='cbor.array.encodeassequence'>2.8.1.5.&nbsp;&nbsp;encodeAsSequence()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td style='width:100%'><kbd>encodeAsSequence()</kbd></td></tr>
+<tr><th>Description</th><td style='width:100%'>Return the objects in the array as a CBOR sequence.</td></tr>
+<tr><td colspan='2' class='webpkidiv'></td></tr>
+<tr><th>Returns</th><th>Description</th></tr>
+<tr><td style='text-align:center'><kbd>Uint8Array</kbd></td><td style='width:100%'>CBOR encoded data.</td></tr>
 </table></div>
 <h5 id='properties.cbor.array'>2.8.2.&nbsp;&nbsp;CBOR.Array Properties</h5>
 <h5 id='cbor.array.length'>2.8.2.1.&nbsp;&nbsp;length</h5>
@@ -1548,10 +1560,17 @@ The following code shows how you can decode variant CBOR-encoded data:
 The following code shows how you can decode CBOR provided in
 <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>:
 <div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>let&nbsp;cbor&nbsp;=&nbsp;CBOR.diagDecode(`{<br>#&nbsp;Comments&nbsp;are&nbsp;also&nbsp;permitted<br>&nbsp;&nbsp;1:&nbsp;45.7,<br>&nbsp;&nbsp;2:&nbsp;&quot;Hi&nbsp;there!&quot;<br>}`).encode();<br><br>console.log(CBOR.toHex(cbor));<br><span style='color:#007fdd'>a201fb4046d9999999999a0269486920746865726521</span><br></div></div>
+  <h5 id='examples.seq-encoding'>10.5.&nbsp;&nbsp;Encode CBOR Sequence</h5>
+The following code shows how you can create CBOR sequences:
+<div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>let&nbsp;cbor&nbsp;=&nbsp;CBOR.Array()<br>&nbsp;&nbsp;.add(CBOR.Map().set(CBOR.Int(7),&nbsp;CBOR.String(&quot;Hi!&quot;)))<br>&nbsp;&nbsp;.add(CBOR.Float(4.5))<br>&nbsp;&nbsp;.encodeAsSequence();<br><br>console.log(CBOR.toHex(cbor));<br><span style='color:#007fdd'>a10763486921f94480</span><br></div></div>
+  <h5 id='examples.seq-decoding'>10.6.&nbsp;&nbsp;Decode CBOR Sequence</h5>
+The following code shows how you can decode CBOR sequences,
+here using the result of the previous encoding example:
+<div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>let&nbsp;decoder&nbsp;=&nbsp;CBOR.initDecoder(cbor,&nbsp;CBOR.SEQUENCE_MODE);<br>let&nbsp;object;<br>while&nbsp;(object&nbsp;=&nbsp;decoder.decodeWithOptions())&nbsp;{<br>&nbsp;&nbsp;console.log('\n'&nbsp;+&nbsp;object.toString());<br>}<br><br><span style='color:#007fdd'>{<br>&nbsp;&nbsp;7:&nbsp;&quot;Hi!&quot;<br>}</span><br><br><span style='color:#007fdd'>4.5</span><br></div></div>
   <h3 id='main.version'>11.&nbsp;&nbsp;Version</h3>
 
-  API version: 1.0.12.  Note that the current API version is accessible through
+  API version: 1.0.13.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-06-25
+  Document version: 2025-06-29
 </body>
 </html>

@@ -646,12 +646,19 @@ export default class CBOR {
       return array;
     }
 
-    encode = function() {
-      let encoded = CBOR.#encodeTagAndN(CBOR.#MT_ARRAY, this.#objects.length);
+    #encodeBody = function(header) {
       this.#objects.forEach(object => {
-        encoded = CBOR.addArrays(encoded, object.encode());
+        header = CBOR.addArrays(header, object.encode());
       });
-      return encoded;
+      return header;
+    }
+
+    encodeAsSequence = function() {
+      return this.#encodeBody(new Uint8Array());
+    }
+
+    encode = function() {
+      return this.#encodeBody(CBOR.#encodeTagAndN(CBOR.#MT_ARRAY, this.#objects.length));
     }
 
     internalToString = function(cborPrinter) {

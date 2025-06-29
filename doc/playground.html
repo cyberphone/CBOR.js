@@ -38,20 +38,21 @@ function htmlSanitize(text) {
              .replaceAll(' ', '&nbsp;');
 }
 
-function getFormattedCbor(selected, cborObjects) {
+function getFormattedCbor(selected, cborBytes) {
   if (selected == 'diag') {
     let next = false;
     let diagnosticNotation = '';
-    cborObjects.forEach(o => {
+    let decoder = CBOR.initDecoder(cborBytes, CBOR.SEQUENCE_MODE);
+    let object;
+    while (object = decoder.decodeWithOptions()) {
       if (next) {
         diagnosticNotation += ',\n';
       }
       next = true;
-      diagnosticNotation += o.toString();
-    });
+      diagnosticNotation += object.toString();
+    }
     return htmlSanitize(diagnosticNotation);
   }
-  let cborBytes = getBytesFromCborSequence(cborObjects);
   switch (selected) {
     case 'hexa':
       return CBOR.toHex(cborBytes);
@@ -92,7 +93,7 @@ async function doProcess() {
   try {
     let sequenceFlag = document.getElementById('seq').checked;
     let deterministicFlag = document.getElementById('det').checked;
-    let rejectNaNFlag = document.getElementById('nan').checked;
+    let rejectNonFiniteFlag = document.getElementById('nan').checked;
     let inData = document.getElementById('cborin').value;
     let cborBytes;
     switch (getRadioValue('selin')) {
@@ -113,19 +114,19 @@ async function doProcess() {
       default:
         cborBytes = CBOR.fromBase64Url(inData);
     }
-    let cborObjects = [];
-    let object;
+    let cborObjectCollection = CBOR.Array();
     let decoder = CBOR.initDecoder(cborBytes, 
         (sequenceFlag ? CBOR.SEQUENCE_MODE : 0) |
         (deterministicFlag ? 0 : CBOR.LENIENT_NUMBER_DECODING | CBOR.LENIENT_MAP_DECODING) |
-        (rejectNaNFlag ? CBOR.REJECT_NON_FINITE_FLOATS : 0));
+        (rejectNonFiniteFlag ? CBOR.REJECT_NON_FINITE_FLOATS : 0));
+    let object;
     while (object = decoder.decodeWithOptions()) {
-      cborObjects.push(object);
+      cborObjectCollection.add(object);
       if (!sequenceFlag) {
         break;
       }
     }
-    html = getFormattedCbor(getRadioValue('selout'), cborObjects);
+    html = getFormattedCbor(getRadioValue('selout'), cborObjectCollection.encodeAsSequence());
   } catch (e) {
     // Filter away the Error type. It has no value without the stack trace anyway.
     let errorMessage = e.toString().replace(/.*Error\: \n?/g, '');

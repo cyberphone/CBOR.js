@@ -1,34 +1,34 @@
 1.0.0 - 1.0.1:
-Beta version.
+Beta version
 
 2023-10-14 - 1.0.2:
-First release.
+First release
 
 2023-12-05 - 1.0.3:
-Improved map key handling through binary search and insert.
-Added CBOR.Map.setSortingMode(flag) to cope with huge maps.
+Improved map key handling through binary search and insert
+Added CBOR.Map.setSortingMode(flag) to cope with huge maps
 
 2024-07-21 - 1.0.4:
-Signed and unsigned 8, 16, 32, and 64-bit integer get() methods added.
-CBOR.Float.getFloat() renamed to getFloat64().
-CBOR.Float.getFloat32() method added.
+Signed and unsigned 8, 16, 32, and 64-bit integer get() methods added
+CBOR.Float.getFloat() renamed to getFloat64()
+CBOR.Float.getFloat32() method added
 
 2024-08-19 - 1.0.5
 Completely refactored CBOR.initDecoder() and added a flag for "outlawing"
-NaN/Infinity as well as a Decoder.getByteCount() method. 
-Improved checking of CBOR items requirements against input buffer length.
+NaN/Infinity as well as a Decoder.getByteCount() method
+Improved checking of CBOR items requirements against input buffer length
 
 2024-08-20 - 1.0.6
 Updated documentation
 
 2024-08-30 - 1.0.7
-Improved code.
+Improved code
 
 2024-09-25 - 1.0.8
-getFloat16() and CBOR.version added.
+getFloat16() and CBOR.version added
 
 2024-10-17 - 1.0.9
-Simplification: removed getMap(), getArray(), and getTag().
+Simplification: removed getMap(), getArray(), and getTag()
 
 2025-01-02 - 1.0.10
 Added methods: CBOR.Array.update(), CBOR.Map.update(), CBOR.Map.merge(). CBOR.Tag.update()
@@ -40,10 +40,11 @@ Changed method: Decoder.setNaNSupport() => Decoder.setFloatSupport()
 
 2025-04-10 1.0.12
 Simplifying decoder options solution.  See CBOR.initDecoder()
-Added getDateTime() and getEpochTime methods including in their tagged format.
-Added argument number tests to core methods.
-Added CBOR.Map.setDynamic() method.
+Added getDateTime() and getEpochTime methods including in their tagged format
+Added argument number tests to core methods
+Added CBOR.Map.setDynamic() method
 
-2025-06-25 1.0.13
+2025-06-29 1.0.13
 getInt() => getInt53()
 CBOR.REJECT_INVALID_FLOATS => CBOR.REJECT_NON_FINITE_FLOATS
+Added method: CBOR.Array.encodeAsSequence()
