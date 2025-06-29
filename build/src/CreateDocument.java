@@ -189,7 +189,10 @@ public class CreateDocument {
       + DataTypes.CBOR_Any + "</kbd> objects.";
 
   static final String W_ARRAY_ENC_AS_SEQ_DESCR = """
-      Return the objects in the array as a CBOR sequence.""";
+      Return the objects in the array as a CBOR sequence
+      using <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>.
+      <div style='margin-top:0.5em'>See also
+      <a href='#decoder.cbor.initdecoder'>CBOR.initDecoder()</a>.</div>""";
 
   static final String W_ARRAY_ENC_AS_SEQ_RETURN_DESCR = """
       CBOR encoded data.""";
@@ -370,7 +373,9 @@ public class CreateDocument {
   static final String ENCODE_DESCR = """
       Encode <kbd>this</kbd> object.
       <div style='margin-top:0.5em'>Note: this method always return CBOR data using
-      <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>.</div>""";
+      <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>.</div>
+      <div style='margin-top:0.5em'>
+      See also <a href='#cbor.array.encodeassequence'>encodeAsSequence()</a>.</div>""";
 
   static final String ENCODE_RETURN_DESCR = """
       CBOR encoded data.""";
@@ -597,7 +602,9 @@ public class CreateDocument {
       <li>If no data is found (EOF), <code>null</code> is returned
       (<i>empty</i> sequences are permitted).</li>
       </ul>
-      Note that data that has not yet been decoded, is not verified for correctness.</div>
+      Note that data that has not yet been decoded, is not verified for correctness.
+      <div style='margin-top:0.5em'>
+      See also <a href='#cbor.array.encodeassequence'>encodeAsSequence()</a>.</div></div>
       <div style='margin-top:0.8em'><kbd>CBOR.LENIENT_MAP_DECODING</kbd>:</div>
       <div style='padding:0.2em 0 0 1.2em'>By default, the decoder requires
       that CBOR maps conform to the
