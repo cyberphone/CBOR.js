@@ -38,22 +38,23 @@ function htmlSanitize(text) {
              .replaceAll(' ', '&nbsp;');
 }
 
-function getFormattedCbor(selected, cborBytes) {
-  if (selected == 'diag') {
-    let next = false;
-    let diagnosticNotation = '';
-    let decoder = CBOR.initDecoder(cborBytes, CBOR.SEQUENCE_MODE);
-    let object;
-    while (object = decoder.decodeWithOptions()) {
-      if (next) {
-        diagnosticNotation += ',\n';
-      }
-      next = true;
-      diagnosticNotation += object.toString();
-    }
-    return htmlSanitize(diagnosticNotation);
-  }
+function getFormattedCbor(selected, sequenceBuilder) {
+  let cborBytes = sequenceBuilder.encodeAsSequence();
   switch (selected) {
+    case 'diag':
+      let next = false;
+      let diagnosticNotation = '';
+      let decoder = CBOR.initDecoder(cborBytes, CBOR.SEQUENCE_MODE);
+      let object;
+      while (object = decoder.decodeWithOptions()) {
+        if (next) {
+          diagnosticNotation += ',\n';
+        }
+        next = true;
+        diagnosticNotation += object.toString();
+      }
+      return htmlSanitize(diagnosticNotation);
+
     case 'hexa':
       return CBOR.toHex(cborBytes);
 
@@ -114,19 +115,19 @@ async function doProcess() {
       default:
         cborBytes = CBOR.fromBase64Url(inData);
     }
-    let cborObjectCollection = CBOR.Array();
+    let sequenceBuilder = CBOR.Array();
     let decoder = CBOR.initDecoder(cborBytes, 
         (sequenceFlag ? CBOR.SEQUENCE_MODE : 0) |
         (deterministicFlag ? 0 : CBOR.LENIENT_NUMBER_DECODING | CBOR.LENIENT_MAP_DECODING) |
         (rejectNonFiniteFlag ? CBOR.REJECT_NON_FINITE_FLOATS : 0));
     let object;
     while (object = decoder.decodeWithOptions()) {
-      cborObjectCollection.add(object);
+      sequenceBuilder.add(object);
       if (!sequenceFlag) {
         break;
       }
     }
-    html = getFormattedCbor(getRadioValue('selout'), cborObjectCollection.encodeAsSequence());
+    html = getFormattedCbor(getRadioValue('selout'), sequenceBuilder);
   } catch (e) {
     // Filter away the Error type. It has no value without the stack trace anyway.
     let errorMessage = e.toString().replace(/.*Error\: \n?/g, '');
