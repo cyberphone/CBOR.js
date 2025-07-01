@@ -391,15 +391,14 @@ public class CreateDocument {
 
   // equals()
 
-  static final String EQUALS_DESCR = """
-      Compare <kbd>this</kbd> object with another CBOR object.
-      <div style='margin-top:0.5em'>
-      Equality in CBOR depends on the actual binary encoding which in turn depends on
-      <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>.</div>
-      <div style='margin-top:0.5em'>
-      The result is <code>true</code> if and only if the argument is not
-      <code>null</code> and is a <kbd>""" +
-      DataTypes.CBOR_Any.toString() + "</kbd>.</div>";
+  static final String EQUALS_DESCR = 
+      "Compare <kbd>this</kbd> object with another CBOR object." +
+      "<div style='margin-top:0.5em'>" +
+      "The result is <code>true</code> if and only if <kbd>object</kbd> is not " +
+      "<code>null</code> and is a <kbd>" +
+      DataTypes.CBOR_Any.toString() + "</kbd>, " +
+      "and the actual binary encoding is equivalent (which in turn depends on " +
+      "<a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>).</div>";
 
   static final String EQUALS_P1_DESCR = """
       The object to compare with.""";
