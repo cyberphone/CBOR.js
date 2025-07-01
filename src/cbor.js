@@ -82,7 +82,7 @@ class CBOR {
 
     getEpochTime = function() {
       let time = this instanceof CBOR.Int ?
-                     this.getInt53() * 1000 : Math.round(this.getFloat64() * 1000);
+                   this.getInt53() * 1000 : Math.round(this.getFloat64() * 1000);
       let epochTime = new Date();
       epochTime.setTime(time);
       return epochTime;
