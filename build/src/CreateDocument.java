@@ -397,11 +397,11 @@ public class CreateDocument {
       "The result is <code>true</code> if and only if <kbd>object</kbd> is not " +
       "<code>null</code> and is a <kbd>" +
       DataTypes.CBOR_Any.toString() + "</kbd>, " +
-      "and the actual binary encoding is equivalent (which in turn depends on " +
+      "and the actual binary encodings are equivalent (which in turn depends on " +
       "<a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>).</div>";
 
   static final String EQUALS_P1_DESCR = """
-      The object to compare with.""";
+      Argument to compare with.""";
 
   static final String EQUALS_RETURN_DESCR = """
       <code>true</code> if <kbd>this</kbd> object is equal to <kbd><i>object</i></kbd>,
