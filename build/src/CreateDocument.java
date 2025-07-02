@@ -396,9 +396,8 @@ public class CreateDocument {
       "<div style='margin-top:0.5em'>" +
       "The result is <code>true</code> if and only if <kbd>object</kbd> is not " +
       "<code>null</code> and is a <kbd>" +
-      DataTypes.CBOR_Any.toString() + "</kbd>, " +
-      "and the actual binary encodings are equivalent (which in turn depends on " +
-      "<a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>).</div>";
+      DataTypes.CBOR_Any.toString() + "</kbd>, and the associated binary encodings " +
+      "(as provided by <a href='#common.encode'>encode()</a>) are equivalent.</div>";
 
   static final String EQUALS_P1_DESCR = """
       Argument to compare with.""";
