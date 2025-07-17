@@ -59,6 +59,6 @@ assertTrue("oneline", cborObject.toDiag(false) ==
 assertTrue("parse", CBOR.diagDecode(cborText).equals(cborObject));
 let sequence = CBOR.diagDecodeSequence('45,{4:7}');
 assertTrue("seq2", sequence.length == 2);
-assertTrue("seq3", sequence[0].getInt53() == 45);
+assertTrue("seq3", sequence[0].getInt32() == 45);
 assertTrue("seq4", sequence[1].equals(CBOR.Map().set(CBOR.Int(4),CBOR.Int(7))));
 success();

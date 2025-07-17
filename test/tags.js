@@ -15,7 +15,7 @@ assertTrue("t5", CBOR.toHex(cbor) ==
     "dbf0123456789abcde82781c68747470733a2f2f6578616d706c652e636f6d2f6d796f626a65637406");
 tag = CBOR.Tag(5n, CBOR.String("hi"));
 assertTrue("u1", tag.update(CBOR.Int(6)).getString() == "hi");
-assertTrue("u2", tag.get().getInt53() == 6);
+assertTrue("u2", tag.get().getInt32() == 6);
 
 [-1n, 0x10000000000000000n].forEach(tagNumber => { 
   try {

@@ -33,7 +33,7 @@ function bigMap(sortFlag) {
 
   startTime = new Date();
   for (let n = 0; n < TOTAL_SET_OPERATIONS ; n++) {
-    if (map.get(SORTED_KEYS[n]).getInt53() != n) {
+    if (map.get(SORTED_KEYS[n]).getInt32() != n) {
       throw Error("Big access");
     }
   }
@@ -66,7 +66,7 @@ function multipleSmallMaps(mapSize, sortFlag) {
   startTime = new Date();
   for (let q = 0; q < maps; q++) {
     for (let n = 0; n < mapSize; n++) {
-      if (map.get(SORTED_KEYS[n]).getInt53() != n) {
+      if (map.get(SORTED_KEYS[n]).getInt32() != n) {
           throw Error("Medium access");
       }
     }            

@@ -97,5 +97,5 @@ oneTurn("CBOR.Tag(8n, CBOR.Int(2))",
         "Tagged object 8 of type=CBOR.Int with value=2 was never read");  
 
 oneTurn("CBOR.Int(1)",
-        "res.getInt53()");
+        "res.getInt32()");
 success();
