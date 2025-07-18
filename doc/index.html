@@ -1141,10 +1141,11 @@ and <code>float</code> items, only limited by RFC&nbsp;8949.</div>
 <div id='option.rejectnonfinitefloats' style='margin-top:0.8em'>
 <kbd>CBOR.REJECT_NON_FINITE_FLOATS</kbd>:</div>
 <div style='padding:0.2em 0 0 1.2em'>By default, the decoder supports
-<code>NaN</code> and <code>Infinity</code> values.
-In case these variants are not applicable for the application in question,
+<code>NaN</code> and <code>Infinity</code> numbers.
+In case such numbers represent failed operation
+for the application in question,
 the <kbd>CBOR.REJECT_NON_FINITE_FLOATS</kbd> option
-causes such numbers to throw an exception.</div>
+causes the occurrence of such a number to throw an exception.</div>
 <div style='padding:0.5em 0 0 1.2em'>See also
 <a href='#utility.cbor.nonfinitefloatsmode'>CBOR.nonFiniteFloatsMode()</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
