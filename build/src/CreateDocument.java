@@ -624,27 +624,26 @@ public class CreateDocument {
       <div style='padding:0.2em 0 0 1.2em'>By default, the decoder requires
       that CBOR maps conform to the
       <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>
-      rules.<br>
-      The <kbd>CBOR.LENIENT_MAP_DECODING</kbd> option forces the decoder
+      rules.
+      <div>The <kbd>CBOR.LENIENT_MAP_DECODING</kbd> option forces the decoder
       to accept CBOR maps with arbitrary key ordering.
-      Note that duplicate keys still cause an exception to be thrown.
-      </div>
+      Note that duplicate keys still cause an exception to be thrown.</div></div>
       <div style='margin-top:0.8em'><kbd>CBOR.LENIENT_NUMBER_DECODING</kbd>:</div>
       <div style='padding:0.2em 0 0 1.2em'>By default, the decoder requires
       that CBOR numbers conform to the
-      <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a> rules.<br>
-      The&nbsp;<kbd>CBOR.LENIENT_NUMBER_DECODING</kbd> option forces the decoder to
+      <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a> rules.
+      <div>The <kbd>CBOR.LENIENT_NUMBER_DECODING</kbd> option forces the decoder to
       accept different representations of CBOR <code>int</code>, <code>bigint</code>,
-      and <code>float</code> items, only limited by RFC&nbsp;8949.</div>
+      and <code>float</code> items, only limited by RFC&nbsp;8949.</div></div>
       <div id='option.rejectnonfinitefloats' style='margin-top:0.8em'>
       <kbd>CBOR.REJECT_NON_FINITE_FLOATS</kbd>:</div>
       <div style='padding:0.2em 0 0 1.2em'>By default, the decoder supports
       the special floating-point values 
-      <code>NaN</code>, <code>Infinity</code>, and <code>-Infinity</code>.<br>
-      The <kbd>CBOR.REJECT_NON_FINITE_FLOATS</kbd> option
+      <code>NaN</code>, <code>Infinity</code>, and <code>-Infinity</code>.
+      <div>The <kbd>CBOR.REJECT_NON_FINITE_FLOATS</kbd> option
       causes the occurrence of such a value to throw an exception.</div>
-      <div style='padding:0.5em 0 0 1.2em'>See also
-      <a href='#utility.cbor.nonfinitefloatsmode'>CBOR.nonFiniteFloatsMode()</a>.</div>""";
+      <div style='margin-top:0.5em'>See also
+      <a href='#utility.cbor.nonfinitefloatsmode'>CBOR.nonFiniteFloatsMode()</a>.</div></div>""";
 
   static final String INITEXT_RETURN_DESCR = """
       Decoder object to be used with
