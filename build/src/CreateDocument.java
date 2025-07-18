@@ -624,8 +624,8 @@ public class CreateDocument {
       <div style='padding:0.2em 0 0 1.2em'>By default, the decoder requires
       that CBOR maps conform to the
       <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>
-      rules.
-      The&nbsp;<kbd>CBOR.LENIENT_MAP_DECODING</kbd> option forces the decoder
+      rules.<br>
+      The <kbd>CBOR.LENIENT_MAP_DECODING</kbd> option forces the decoder
       to accept CBOR maps with arbitrary key ordering.
       Note that duplicate keys still cause an exception to be thrown.
       </div>
@@ -639,11 +639,10 @@ public class CreateDocument {
       <div id='option.rejectnonfinitefloats' style='margin-top:0.8em'>
       <kbd>CBOR.REJECT_NON_FINITE_FLOATS</kbd>:</div>
       <div style='padding:0.2em 0 0 1.2em'>By default, the decoder supports
-      <code>NaN</code> and <code>Infinity</code> numbers.
-      In case such numbers represent failed operation
-      for the application in question,
-      the <kbd>CBOR.REJECT_NON_FINITE_FLOATS</kbd> option
-      causes the occurrence of such a number to throw an exception.</div>
+      the special floating-point values 
+      <code>NaN</code>, <code>Infinity</code>, and <code>-Infinity</code>.<br>
+      The <kbd>CBOR.REJECT_NON_FINITE_FLOATS</kbd> option
+      causes the occurrence of such a value to throw an exception.</div>
       <div style='padding:0.5em 0 0 1.2em'>See also
       <a href='#utility.cbor.nonfinitefloatsmode'>CBOR.nonFiniteFloatsMode()</a>.</div>""";
 
