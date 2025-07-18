@@ -32,6 +32,6 @@ assertFalse("null1", array.get(3).isNull());
 assertTrue("null2", array.get(4).isNull());
 assertFalse("cmp2", CBOR.compareArrays(CBOR.diagDecode(CBOR.decode(cbor).toString()).encode(), bin));
 
-assertTrue("version", CBOR.version == "1.0.13");
+assertTrue("version", CBOR.version == "1.0.14");
 
 success();

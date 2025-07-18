@@ -14,9 +14,10 @@ function overflow(cborObject, length) {
   }  
 }
 
-function oneTurn(valueText, expected, invalidFloats) {
+function oneTurn(valueText, expected) {
   let decoder = CBOR.initDecoder(CBOR.fromHex(expected), CBOR.REJECT_NON_FINITE_FLOATS);
   let value = Number(valueText);
+  let invalidFloats = !Number.isFinite(value);
   let text = valueText;
   while (text.length < 25) {
     text += ' ';
@@ -63,12 +64,21 @@ function oneTurn(valueText, expected, invalidFloats) {
   } catch (error) {
     assertTrue("Decode ME1", error.toString().includes('"NaN" and "Infinity"'));
   }
+  CBOR.nonFiniteFloatsMode(true);
+  try {
+    CBOR.decode(cbor);
+    assertFalse('Should not execute', invalidFloats);
+  } catch (error) {
+    assertTrue("Decode ME2", error.toString().includes('"NaN" and "Infinity"'));
+  }
+  CBOR.nonFiniteFloatsMode(false);
+  CBOR.decode(cbor);
 }
 oneTurn('0.0',                      'f90000');
 oneTurn('-0.0',                     'f98000');
-oneTurn('NaN',                      'f97e00', true);
-oneTurn('Infinity',                 'f97c00', true);
-oneTurn('-Infinity',                'f9fc00', true);
+oneTurn('NaN',                      'f97e00');
+oneTurn('Infinity',                 'f97c00');
+oneTurn('-Infinity',                'f9fc00');
 oneTurn('0.0000610649585723877',    'fa38801000');
 oneTurn('10.559998512268066',       'fa4128f5c1');
 oneTurn('65472.0',                  'f97bfe');

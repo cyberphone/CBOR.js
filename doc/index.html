@@ -131,6 +131,7 @@
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.fromhex'>6.4.&nbsp;&nbsp;CBOR.fromHex()</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.tobase64url'>6.5.&nbsp;&nbsp;CBOR.toBase64Url()</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.frombase64url'>6.6.&nbsp;&nbsp;CBOR.fromBase64Url()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.nonfinitefloatsmode'>6.7.&nbsp;&nbsp;CBOR.nonFiniteFloatsMode()</a></div>
 </div>
 <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.jsnumbers'>7.&nbsp;&nbsp;JavaScript Number Considerations</a></div><div style='display:none'>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#jsnumbers.int'>7.1.&nbsp;&nbsp;Integer Numbers</a></div>
@@ -1137,12 +1138,15 @@ that CBOR numbers conform to the
 The&nbsp;<kbd>CBOR.LENIENT_NUMBER_DECODING</kbd> option forces the decoder to
 accept different representations of CBOR <code>int</code>, <code>bigint</code>,
 and <code>float</code> items, only limited by RFC&nbsp;8949.</div>
-<div style='margin-top:0.8em'><kbd>CBOR.REJECT_NON_FINITE_FLOATS</kbd>:</div>
+<div id='option.rejectnonfinitefloats' style='margin-top:0.8em'>
+<kbd>CBOR.REJECT_NON_FINITE_FLOATS</kbd>:</div>
 <div style='padding:0.2em 0 0 1.2em'>By default, the decoder supports
-<kbd>NaN</kbd> and <kbd>Infinity</kbd> values.
+<code>NaN</code> and <code>Infinity</code> values.
 In case these variants are not applicable for the application in question,
 the <kbd>CBOR.REJECT_NON_FINITE_FLOATS</kbd> option
-causes such numbers to throw an exception.</div></td></tr>
+causes such numbers to throw an exception.</div>
+<div style='margin-top:0.5em'>See also
+<a href='#utility.cbor.nonfinitefloatsmode'>CBOR.nonFiniteFloatsMode()</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>Decoder</i></kbd></td><td colspan='2' style='width:100%'>Decoder object to be used with
@@ -1290,6 +1294,20 @@ base64 encoded data as well as data with or without
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Uint8Array</kbd></td><td colspan='2' style='width:100%'>The resulting binary (bytes).</td></tr>
 </table></div>
+<h5 id='utility.cbor.nonfinitefloatsmode'>6.7.&nbsp;&nbsp;CBOR.nonFiniteFloatsMode()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.nonFiniteFloatsMode(<i>reject</i>)</kbd></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Globally disable <code>NaN</code> and <code>Infinity</code>.
+<div style='margin-top:0.5em'>Note that this method unlike
+the <a href='#option.rejectnonfinitefloats'>CBOR.REJECT_NON_FINITE_FLOATS</a>
+decoder option also affects <i>encoding</i> of <code>NaN</code> and
+<code>Infinity</code> values.</div></td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><kbd><i>reject</i></kbd></td><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'>If <code>true</code>, disable <code>NaN</code> and
+<code>Infinity</code> support.</td></tr>
+</table></div>
 
   <h3 id='main.jsnumbers'>7.&nbsp;&nbsp;JavaScript Number Considerations</h3>
 
@@ -1334,8 +1352,8 @@ base64 encoded data as well as data with or without
   transparent. The <a href='#wrapper.cbor.float'>CBOR.Float()</a>
   wrapper object only exposes the JavaScript <kbd>Number</kbd> type.
   <p>
-  Also see the <a href='#decoder.cbor.initdecoder'>CBOR.initDecoder()</a>
-  method.
+  Also see the <a href='#option.rejectnonfinitefloats'>CBOR.REJECT_NON_FINITE_FLOATS</a>
+  decoder option.
   </p>
   <h3 id='main.diagnostic'>8.&nbsp;&nbsp;Diagnostic Notation</h3>
 
@@ -1573,8 +1591,8 @@ here using the result of the previous encoding example:
 <div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>let&nbsp;decoder&nbsp;=&nbsp;CBOR.initDecoder(cbor,&nbsp;CBOR.SEQUENCE_MODE);<br>let&nbsp;object;<br>while&nbsp;(object&nbsp;=&nbsp;decoder.decodeWithOptions())&nbsp;{<br>&nbsp;&nbsp;console.log('\n'&nbsp;+&nbsp;object.toString());<br>}<br><br><span style='color:#007fdd'>{<br>&nbsp;&nbsp;7:&nbsp;&quot;Hi!&quot;<br>}</span><br><br><span style='color:#007fdd'>4.5</span><br></div></div>
   <h3 id='main.version'>11.&nbsp;&nbsp;Version</h3>
 
-  API version: 1.0.13.  Note that the current API version is accessible through
+  API version: 1.0.14.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-07-01
+  Document version: 2025-07-18
 </body>
 </html>

@@ -11,6 +11,8 @@
 // Single global static object.
 class CBOR {
 
+  static #rejectNonFiniteFloats;
+
   // Super class for all CBOR wrappers.
   static #CborObject = class {
 
@@ -366,6 +368,15 @@ class CBOR {
 ///////////////////////////
 //      CBOR.Float       //
 ///////////////////////////
+
+  static #fwrap = class {
+
+    constructor(value, rejectNonFiniteFloats) {
+      this.value = value;
+      this.rejectNonFiniteFloats = rejectNonFiniteFloats;
+    }
+
+  }
  
   static Float = class extends CBOR.#CborObject {
 
@@ -375,13 +386,20 @@ class CBOR {
 
     constructor(value) {
       super();
+      let rejectNonFiniteFloats = false;
+      if (value instanceof CBOR.#fwrap) {
+        rejectNonFiniteFloats = value.rejectNonFiniteFloats;
+        value = value.value;
+      }
       this.#value = CBOR.#typeCheck(value, 'number');
       // Begin catching the F16 edge cases.
       this.#tag = CBOR.#MT_FLOAT16;
-      if (Number.isNaN(value)) {
-        this.#encoded = CBOR.#int16ToByteArray(0x7e00);
-      } else if (!Number.isFinite(value)) {
-        this.#encoded = CBOR.#int16ToByteArray(value < 0 ? 0xfc00 : 0x7c00);
+      if (!Number.isFinite(value)) {
+        if (CBOR.#rejectNonFiniteFloats || rejectNonFiniteFloats) {
+          CBOR.#error('"NaN" and "Infinity" support is disabled');    
+        }
+        this.#encoded = Number.isNaN(value) ? CBOR.#int16ToByteArray(0x7e00) :
+          CBOR.#int16ToByteArray(value < 0 ? 0xfc00 : 0x7c00);
       } else if (value == 0) { // True for -0.0 as well! 
         this.#encoded = CBOR.#int16ToByteArray(Object.is(value,-0) ? 0x8000 : 0x0000);
       } else {
@@ -1127,12 +1145,9 @@ class CBOR {
     }
 
     compareAndReturn = function(decoded, f64) {
-      let cborFloat = CBOR.Float(f64);
+      let cborFloat = CBOR.Float(new CBOR.#fwrap(f64, this.rejectNonFiniteFloats));
       if (this.strictNumbers && cborFloat._compare(decoded)) {
         CBOR.#error("Non-deterministic encoding of: " + f64);
-      }
-      if (this.rejectNonFiniteFloats && !Number.isFinite(f64)) {
-        CBOR.#error('"NaN" and "Infinity" support is disabled');        
       }
       return cborFloat;
     }
@@ -2026,7 +2041,11 @@ class CBOR {
                            c => c.charCodeAt(0));
   }
 
+  static nonFiniteFloatsMode = function(reject) {
+    CBOR.#rejectNonFiniteFloats = reject;
+  }
+
   static get version() {
-    return "1.0.13";
+    return "1.0.14";
   }
 }

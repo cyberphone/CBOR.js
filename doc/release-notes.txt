@@ -48,3 +48,6 @@ Added CBOR.Map.setDynamic() method
 getInt() => getInt53()
 CBOR.REJECT_INVALID_FLOATS => CBOR.REJECT_NON_FINITE_FLOATS
 Added method: CBOR.Array.encodeAsSequence()
+
+2025-07-18 1.0.14
+Added method: CBOR.nonFiniteFloatsMode()
