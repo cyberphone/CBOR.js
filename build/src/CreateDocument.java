@@ -643,7 +643,7 @@ public class CreateDocument {
       In case these variants are not applicable for the application in question,
       the <kbd>CBOR.REJECT_NON_FINITE_FLOATS</kbd> option
       causes such numbers to throw an exception.</div>
-      <div style='margin-top:0.5em'>See also
+      <div style='padding:0.5em 0 0 1.2em'>See also
       <a href='#utility.cbor.nonfinitefloatsmode'>CBOR.nonFiniteFloatsMode()</a>.</div>""";
 
   static final String INITEXT_RETURN_DESCR = """
