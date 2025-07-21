@@ -2,7 +2,7 @@
 //                                                              //
 //                     CBOR JavaScript API                      //
 //                                                              //
-// Author: Anders Rundgren (anders.rundgrn.net@gmail.com)       //
+// Author: Anders Rundgren (anders.rundgren.net@gmail.com)      //
 // Repository: https://github.com/cyberphone/CBOR.js#cborjs     //
 //////////////////////////////////////////////////////////////////
 
