@@ -282,13 +282,15 @@ class CBOR {
   static #MT_FLOAT64      = 0xfb;
 
   static #ESCAPE_CHARACTERS = [
- //   0    1    2    3    4    5    6    7    8    9    A    B    C    D    E    F
+  //  0    1    2    3    4    5    6    7    8    9    A    B    C    D    E    F
       1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 , 'b', 't', 'n',  1 , 'f', 'r',  1 ,  1 ,
       1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 ,
       0 ,  0 , '"',  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
       0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
       0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
       0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 , '\\'];
+
+  static #F64_NAN = new Uint8Array([0x7f, 0xf8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 
   constructor() {
     CBOR.#error("CBOR cannot be instantiated");
@@ -371,9 +373,10 @@ class CBOR {
 
   static #fwrap = class {
 
-    constructor(value, rejectNonFiniteFloats) {
+    constructor(value, rejectNonFiniteFloats, rejectNaNWithPayloads) {
       this.value = value;
       this.rejectNonFiniteFloats = rejectNonFiniteFloats;
+      this.rejectNaNWithPayloads = rejectNaNWithPayloads;
     }
 
   }
@@ -387,35 +390,42 @@ class CBOR {
     constructor(value) {
       super();
       let rejectNonFiniteFloats = false;
+      let rejectNaNWithPayloads = true;
       if (value instanceof CBOR.#fwrap) {
         rejectNonFiniteFloats = value.rejectNonFiniteFloats;
+        rejectNaNWithPayloads = value.rejectNaNWithPayloads;
         value = value.value;
       }
       this.#value = CBOR.#typeCheck(value, 'number');
+      // Get the full F64 binary.
+      const f64b = new Uint8Array(8);
+      new DataView(f64b.buffer, 0, 8).setFloat64(0, value, false);
       // Begin catching the F16 edge cases.
       this.#tag = CBOR.#MT_FLOAT16;
       if (!Number.isFinite(value)) {
         if (CBOR.#rejectNonFiniteFloats || rejectNonFiniteFloats) {
           CBOR.#error('"NaN" and "Infinity" support is disabled');    
         }
-        this.#encoded = Number.isNaN(value) ? CBOR.#int16ToByteArray(0x7e00) :
-          CBOR.#int16ToByteArray(value < 0 ? 0xfc00 : 0x7c00);
+        if (Number.isNaN(value)) {
+          this.#encoded = CBOR.#int16ToByteArray(0x7e00);
+          if (rejectNaNWithPayloads && CBOR.compareArrays(f64b, CBOR.#F64_NAN)) {
+            CBOR.#error('NaN with payloads are not permitted in deterministic mode');
+          }
+        } else {
+          this.#encoded = CBOR.#int16ToByteArray(value < 0 ? 0xfc00 : 0x7c00);
+        }
       } else if (value == 0) { // True for -0.0 as well! 
-        this.#encoded = CBOR.#int16ToByteArray(Object.is(value,-0) ? 0x8000 : 0x0000);
+        this.#encoded = f64b.slice(0, 2);
       } else {
         // It is apparently a genuine (non-zero) number.
-        // Get the full F64 binary.
-        const buffer = new ArrayBuffer(8);
-        new DataView(buffer).setFloat64(0, value, false);
-        const u8 = new Uint8Array(buffer);
         let f32exp;
         let f32signif;
         while (true) {  // "goto" surely beats quirky loop/break/return/flag constructs...
           // The following code depends on that Math.fround works as expected.
           if (value == Math.fround(value)) {
             // Nothing was lost during the conversion, F32 or F16 is on the menu.
-            f32exp = ((u8[0] & 0x7f) << 4) + (u8[1] >> 4) - 0x380;
-            f32signif = ((u8[1] & 0x0f) << 19) + (u8[2] << 11) + (u8[3] << 3) + (u8[4] >> 5);
+            f32exp = ((f64b[0] & 0x7f) << 4) + (f64b[1] >> 4) - 0x380;
+            f32signif = ((f64b[1] & 0x0f) << 19) + (f64b[2] << 11) + (f64b[3] << 3) + (f64b[4] >> 5);
             // Very small F32 numbers may require subnormal representation.
             if (f32exp <= 0) {
               // The implicit "1" becomes explicit using subnormal representation.
@@ -453,7 +463,7 @@ class CBOR {
             // A rarity, 16 bits turned out being sufficient for representing value.
             this.#encoded = CBOR.#int16ToByteArray( 
                 // Put sign bit in position.
-                ((u8[0] & 0x80) << 8) +
+                ((f64b[0] & 0x80) << 8) +
                 // Exponent.  Put it in front of significand.
                 (f16exp << 10) +
                 // Significand.
@@ -462,7 +472,7 @@ class CBOR {
             // Converting value to F32 returned a truncated result.
             // Full 64-bit representation is required.
             this.#tag = CBOR.#MT_FLOAT64;
-            this.#encoded = u8;
+            this.#encoded = f64b;
           }
           // Common F16 and F64 return point.
           return;
@@ -471,7 +481,7 @@ class CBOR {
         this.#tag = CBOR.#MT_FLOAT32;
         let f32bin = 
             // Put sign bit in position. Why not << 24?  JS shift doesn't work above 2^31...
-            ((u8[0] & 0x80) * 0x1000000) +
+            ((f64b[0] & 0x80) * 0x1000000) +
             // Exponent.  Put it in front of significand (<< 23).
             (f32exp * 0x800000) +
             // Significand.
@@ -1145,7 +1155,8 @@ class CBOR {
     }
 
     compareAndReturn = function(decoded, f64) {
-      let cborFloat = CBOR.Float(new CBOR.#fwrap(f64, this.rejectNonFiniteFloats));
+      let cborFloat =
+        CBOR.Float(new CBOR.#fwrap(f64, this.rejectNonFiniteFloats, this.strictNumbers));
       if (this.strictNumbers && cborFloat._compare(decoded)) {
         CBOR.#error("Non-deterministic encoding of: " + f64);
       }
@@ -1165,11 +1176,18 @@ class CBOR {
       let f16Binary = (decoded[0] << 8) + decoded[1];
       let exponent = f16Binary & 0x7c00;
       let significand = f16Binary & 0x3ff;
-      // Catch the three cases of special/reserved numbers.
+      // Catch the three cases of non-finite numbers.
       if (exponent == 0x7c00) {
-        f64 = significand ? Number.NaN : Number.POSITIVE_INFINITY;
+        // Takes NaN payloads as well (for diagnostic purposes only).
+        let f64bin = 0x7ff0000000000000n | (BigInt(significand) << 42n);
+        let f64b = new Uint8Array(8);
+        for (let q = 8; --q >= 0;) {
+          f64b[q] = Number(f64bin & 0xffn);
+          f64bin >>= 8n;
+        }
+        f64 = new DataView(f64b.buffer, 0, 8).getFloat64(0, false);
       } else {
-        // It is a genuine number.
+        // It is a genuine number (including zero).
         if (exponent) {
           // Normal representation, add the implicit "1.".
           significand += 0x400;
@@ -1211,16 +1229,12 @@ class CBOR {
           return this.decompressF16AndReturn();
 
         case CBOR.#MT_FLOAT32:
-           let f32bytes = this.readBytes(4);
-           const f32buffer = new ArrayBuffer(4);
-           new Uint8Array(f32buffer).set(f32bytes);
-           return this.compareAndReturn(f32bytes, new DataView(f32buffer).getFloat32(0, false));
+           let f32b = this.readBytes(4);
+           return this.compareAndReturn(f32b, new DataView(f32b.buffer, 0, 4).getFloat32(0, false));
 
         case CBOR.#MT_FLOAT64:
-           let f64bytes = this.readBytes(8);
-           const f64buffer = new ArrayBuffer(8);
-           new Uint8Array(f64buffer).set(f64bytes);
-           return this.compareAndReturn(f64bytes, new DataView(f64buffer).getFloat64(0, false));
+           let f64b = this.readBytes(8);
+           return this.compareAndReturn(f64b, new DataView(f64b.buffer, 0, 8).getFloat64(0, false));
 
         case CBOR.#MT_NULL:
           return CBOR.Null();

@@ -326,6 +326,82 @@ function oneTurn(valueText, expected) {
   CBOR.nonFiniteFloatsMode(false);
   CBOR.decode(cbor);
 }
+
+const inNanWithPayload = new Uint8Array([0x7f, 0xf8, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00]);
+
+let value = new DataView(inNanWithPayload.buffer, 0, 8).getFloat64(0, false);
+    
+let outNanWithPayload = new Uint8Array(8);
+new DataView(outNanWithPayload.buffer, 0, 8).setFloat64(0, value, false);
+
+let supportNanWithPayloads = true;
+for (let q = 0; q < 8; q++) {
+  if (inNanWithPayload[q] != outNanWithPayload[q]) {
+  //  console.log(outNanWithPayload.toString());
+    console.log('This implementation does not support NaN with payloads');
+    supportNanWithPayloads = false;
+    break;
+  }
+}
+
+function oneNanWithPayloadTurn(nanInHex) {
+  let ieee754 = CBOR.fromHex(nanInHex);
+  let length = ieee754.length;
+  let significand = 0n;
+  for (let q = 0; q < length; q++) {
+    significand <<= 8n;
+    significand += BigInt(ieee754[q]);
+  }
+  let precision;
+  let value;
+  let f64b;
+  let noPayload;
+  let signed;
+  try {
+    switch (length) {
+      case 2:
+        precision = 9n; 
+        break;
+      case 4:
+        precision = 22n; 
+        break;
+      default:
+        precision = 51n; 
+    }
+    significand &= (1n << precision) - 1n;
+    let f64bin = 0x7ff8000000000000n | significand << (51n - precision);
+    f64b = new Uint8Array(8);
+    for (let q = 8; --q >= 0;) {
+      f64b[q] = Number(f64bin & 0xffn);
+      f64bin >>= 8n;
+    }
+    f64b[0] |= (0x80 & ieee754[0]);
+    value = new DataView(f64b.buffer, 0, 8).getFloat64(0, false);
+    signed = ieee754[0] >= 128;
+    noPayload = !significand && !signed;
+   // console.log("p=" + noPayload + " v=" + value + " h=" + CBOR.toHex(f64b));
+    CBOR.Float(value);
+    assertTrue("OK1", noPayload || !supportNanWithPayloads);
+  } catch (error) {
+    assertTrue("PL1", !noPayload && error.toString().includes('payloads'));
+  }
+  let cbor = CBOR.addArrays(new Uint8Array([0xf9 + (length >> 2)]), ieee754);
+  try {
+    let floatObject = CBOR.decode(cbor);
+    assertTrue("OK2", noPayload && length == 2);
+  } catch (error) {
+    if ((!noPayload && supportNanWithPayloads) || (length == 2 && signed)) {
+      assertTrue("PL2", error.toString().includes('payloads'));
+    } else {
+      assertTrue("PL3", error.toString().includes('Non-deterministic'));
+    }
+  }
+  let readFloat = CBOR.initDecoder(cbor, CBOR.LENIENT_NUMBER_DECODING).decodeWithOptions();
+  let f64b2 = new Uint8Array(8);
+  new DataView(f64b2.buffer, 0, 8).setFloat64(0, readFloat.getFloat64(), false);
+  assertTrue("V", !CBOR.compareArrays(f64b2, f64b) || !supportNanWithPayloads);
+}
+
 oneTurn('0.0',                      'f90000');
 oneTurn('-0.0',                     'f98000');
 oneTurn('NaN',                      'f97e00');
@@ -366,6 +442,22 @@ oneTurn('7.52316384526264e-37',     'fa03800000');
 oneTurn('1.1754943508222875e-38',   'fa00800000');
 oneTurn('5.0e-324',                 'fb0000000000000001');
 oneTurn('-1.7976931348623157e+308', 'fbffefffffffffffff');
+
+oneNanWithPayloadTurn('7e00');
+oneNanWithPayloadTurn('7e01');
+oneNanWithPayloadTurn('7f00');
+oneNanWithPayloadTurn('fe00');
+
+oneNanWithPayloadTurn('7fc00000');
+oneNanWithPayloadTurn('7fc00001');
+oneNanWithPayloadTurn('7fe00000');
+oneNanWithPayloadTurn('ffc00000');
+
+oneNanWithPayloadTurn('7ff8000000000000');
+oneNanWithPayloadTurn('7ff8000000000001');
+oneNanWithPayloadTurn('7ffc000000000000');
+oneNanWithPayloadTurn('fff8000000000000');
+
 success();
 `}
 ,
@@ -678,8 +770,6 @@ oneTurn('FA7FC00000', 'NaN');
 oneTurn('FB3ff0000000000000', '1.0');
 oneTurn('c2480100000000000000', '72057594037927936');
 oneTurn('c24900ffffffffffffffff', '18446744073709551615');
-oneTurn('c240', '0');
-oneTurn('f97e01', 'NaN');
 oneTurn('c240', '0');
 
 // This one is actually deterministic...

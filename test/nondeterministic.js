@@ -27,8 +27,6 @@ oneTurn('FB3ff0000000000000', '1.0');
 oneTurn('c2480100000000000000', '72057594037927936');
 oneTurn('c24900ffffffffffffffff', '18446744073709551615');
 oneTurn('c240', '0');
-oneTurn('f97e01', 'NaN');
-oneTurn('c240', '0');
 
 // This one is actually deterministic...
 try {
