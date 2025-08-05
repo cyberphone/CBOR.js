@@ -1163,6 +1163,26 @@ export default class CBOR {
       return cborFloat;
     }
 
+    toNan64 = function (decoded, significand, upshift) {
+      let f64bin = 0x7ff0000000000000n | (BigInt(significand) << upshift);
+      let f64b = new Uint8Array(8);
+      for (let q = 8; --q >= 0;) {
+        f64b[q] = Number(f64bin & 0xffn);
+        f64bin >>= 8n;
+      }
+      f64b[0] |= decoded[0] & 0x80;
+      return new DataView(f64b.buffer, 0, 8).getFloat64(0, false); 
+    }
+
+    toInt = function(array) {
+      let v = 0;
+      for (let i = 0; i < array.length; i++) {
+        v *= 256;
+        v += array[i];
+      }
+      return v;
+    }
+
     // Interesting algorithm...
     // 1. Read the F16 byte string.
     // 2. Convert the F16 byte string to its F64 IEEE-754 equivalent (JavaScript Number).
@@ -1173,19 +1193,13 @@ export default class CBOR {
     decompressF16AndReturn = function() {
       let f64;
       let decoded = this.readBytes(2);
-      let f16Binary = (decoded[0] << 8) + decoded[1];
+      let f16Binary = this.toInt(decoded);
       let exponent = f16Binary & 0x7c00;
       let significand = f16Binary & 0x3ff;
       // Catch the three cases of non-finite numbers.
       if (exponent == 0x7c00) {
         // Takes NaN payloads as well (for diagnostic purposes only).
-        let f64bin = 0x7ff0000000000000n | (BigInt(significand) << 42n);
-        let f64b = new Uint8Array(8);
-        for (let q = 8; --q >= 0;) {
-          f64b[q] = Number(f64bin & 0xffn);
-          f64bin >>= 8n;
-        }
-        f64 = new DataView(f64b.buffer, 0, 8).getFloat64(0, false);
+        f64 = this.toNan64(decoded, significand, 42n);
       } else {
         // It is a genuine number (including zero).
         if (exponent) {
@@ -1196,8 +1210,26 @@ export default class CBOR {
         }
         // Divide with: 2 ^ (Exponent offset + Size of significand - 1).
         f64 = significand / 0x1000000;
+        if (f16Binary >= 0x8000) {
+          f64 = -f64;
+        }
       }
-      return this.compareAndReturn(decoded, f16Binary >= 0x8000 ? -f64 : f64);
+      return this.compareAndReturn(decoded, f64);
+    }
+
+    decompressF32AndReturn = function() {
+      let f64;
+      let decoded = this.readBytes(4);
+      let f32Binary = this.toInt(decoded);
+      // Catch the three cases of non-finite numbers.
+      if ((f32Binary & 0x7f800000) == 0x7f800000) {
+        // Takes NaN payloads as well (for diagnostic purposes only).
+        f64 = this.toNan64(decoded, f32Binary & 0x7fffff, 29n);
+      } else {
+        // It is a genuine number (including zero).
+        f64 = new DataView(decoded.buffer, 0, 4).getFloat32(0, false);
+      }
+      return this.compareAndReturn(decoded, f64);
     }
 
     selectInteger = function(value) {
@@ -1229,8 +1261,7 @@ export default class CBOR {
           return this.decompressF16AndReturn();
 
         case CBOR.#MT_FLOAT32:
-           let f32b = this.readBytes(4);
-           return this.compareAndReturn(f32b, new DataView(f32b.buffer, 0, 4).getFloat32(0, false));
+           return this.decompressF32AndReturn();
 
         case CBOR.#MT_FLOAT64:
            let f64b = this.readBytes(8);

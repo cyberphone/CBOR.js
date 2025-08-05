@@ -355,42 +355,45 @@ function oneNanWithPayloadTurn(nanInHex) {
   let precision;
   let value;
   let f64b;
-  let noPayload;
-  let signed;
+  let quietNan;
   try {
     switch (length) {
       case 2:
-        precision = 9n; 
+        precision = 10n; 
         break;
       case 4:
-        precision = 22n; 
+        precision = 23n; 
         break;
       default:
-        precision = 51n; 
+        precision = 52n; 
     }
     significand &= (1n << precision) - 1n;
-    let f64bin = 0x7ff8000000000000n | significand << (51n - precision);
+    let f64bin = 0x7ff0000000000000n | significand << (52n - precision);
+    if (ieee754[0] >= 128) {
+      f64bin |= 0x8000000000000000n;
+    }
+    quietNan = f64bin == 0x7ff8000000000000n;
     f64b = new Uint8Array(8);
     for (let q = 8; --q >= 0;) {
       f64b[q] = Number(f64bin & 0xffn);
       f64bin >>= 8n;
     }
-    f64b[0] |= (0x80 & ieee754[0]);
     value = new DataView(f64b.buffer, 0, 8).getFloat64(0, false);
-    signed = ieee754[0] >= 128;
-    noPayload = !significand && !signed;
-   // console.log("p=" + noPayload + " v=" + value + " h=" + CBOR.toHex(f64b));
+ //   console.log("q=" + quietNan + " v=" + value + " h=" + CBOR.toHex(f64b) + " x=" + CBOR.toHex(ieee754));
     CBOR.Float(value);
-    assertTrue("OK1", noPayload || !supportNanWithPayloads);
+    assertTrue("OK1", quietNan || !supportNanWithPayloads);
   } catch (error) {
-    assertTrue("PL1", !noPayload && error.toString().includes('payloads'));
+//    console.log("dec1=" + error.toString());
+    assertTrue("PL1", !quietNan && error.toString().includes('payloads'));
   }
   let cbor = CBOR.addArrays(new Uint8Array([0xf9 + (length >> 2)]), ieee754);
+  // console.log("cbor=" + CBOR.toHex(cbor));
   try {
     let floatObject = CBOR.decode(cbor);
-    assertTrue("OK2", noPayload && length == 2);
+    assertTrue("OK2", (quietNan && length == 2) || !supportNanWithPayloads);
   } catch (error) {
-    if ((!noPayload && supportNanWithPayloads) || (length == 2 && signed)) {
+  //  console.log("dec2=" + error.toString());
+    if (!quietNan && supportNanWithPayloads) {
       assertTrue("PL2", error.toString().includes('payloads'));
     } else {
       assertTrue("PL3", error.toString().includes('Non-deterministic'));
@@ -399,6 +402,7 @@ function oneNanWithPayloadTurn(nanInHex) {
   let readFloat = CBOR.initDecoder(cbor, CBOR.LENIENT_NUMBER_DECODING).decodeWithOptions();
   let f64b2 = new Uint8Array(8);
   new DataView(f64b2.buffer, 0, 8).setFloat64(0, readFloat.getFloat64(), false);
+//  console.log("f64b=" + CBOR.toHex(f64b) + " f64b2=" + CBOR.toHex(f64b2));
   assertTrue("V", !CBOR.compareArrays(f64b2, f64b) || !supportNanWithPayloads);
 }
 
@@ -443,20 +447,23 @@ oneTurn('1.1754943508222875e-38',   'fa00800000');
 oneTurn('5.0e-324',                 'fb0000000000000001');
 oneTurn('-1.7976931348623157e+308', 'fbffefffffffffffff');
 
-oneNanWithPayloadTurn('7e00');
-oneNanWithPayloadTurn('7e01');
-oneNanWithPayloadTurn('7f00');
-oneNanWithPayloadTurn('fe00');
+oneNanWithPayloadTurn("7e00");
+oneNanWithPayloadTurn("7c01");
+oneNanWithPayloadTurn("fc01");
+oneNanWithPayloadTurn("7fff");
+oneNanWithPayloadTurn("fe00");
 
-oneNanWithPayloadTurn('7fc00000');
-oneNanWithPayloadTurn('7fc00001');
-oneNanWithPayloadTurn('7fe00000');
-oneNanWithPayloadTurn('ffc00000');
+oneNanWithPayloadTurn("7fc00000");
+oneNanWithPayloadTurn("7f800001");
+oneNanWithPayloadTurn("ff800001");
+oneNanWithPayloadTurn("7fffffff");
+oneNanWithPayloadTurn("ffc00000");
 
-oneNanWithPayloadTurn('7ff8000000000000');
-oneNanWithPayloadTurn('7ff8000000000001');
-oneNanWithPayloadTurn('7ffc000000000000');
-oneNanWithPayloadTurn('fff8000000000000');
+oneNanWithPayloadTurn("7ff8000000000000");
+oneNanWithPayloadTurn("7ff0000000000001");
+oneNanWithPayloadTurn("fff0000000000001");
+oneNanWithPayloadTurn("7fffffffffffffff");
+oneNanWithPayloadTurn("fff8000000000000");
 
 success();
 `}
