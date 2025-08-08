@@ -1049,6 +1049,35 @@ class CBOR {
   }
 
 ///////////////////////////
+//    CBOR.NonFinite     //
+///////////////////////////
+
+  static NonFinite = class extends CBOR.#CborObject {
+
+    #value;
+
+    constructor(value) {
+      super();
+      this.#value = CBOR.#intCheck(value);
+      if (value < 0 || value > 255 || (value > 23 && value < 32)) {
+        CBOR.#error("Simple value out of range: " + value);
+      }
+    }
+
+    encode = function() {
+      return CBOR.#encodeTagAndN(CBOR.#MT_SIMPLE, this.#value);
+    }
+
+    internalToString = function(cborPrinter) {
+      cborPrinter.append('simple(' + this.#value.toString() + ')');
+    }
+
+    _get = function() {
+      return this.#value;
+    }
+  }
+
+///////////////////////////
 //        Proxy          //
 ///////////////////////////
 
@@ -1082,6 +1111,7 @@ class CBOR {
   static Map = new Proxy(CBOR.Map, new CBOR.#handler(0));
   static Tag = new Proxy(CBOR.Tag, new CBOR.#handler(2));
   static Simple = new Proxy(CBOR.Simple, new CBOR.#handler(1));
+  static NonFinite = new Proxy(CBOR.NonFinite, new CBOR.#handler(1));
 
 
 ///////////////////////////
