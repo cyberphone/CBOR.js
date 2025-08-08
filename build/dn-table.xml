@@ -150,8 +150,7 @@
       are <i>ignored</i>.
     </li>
     <li style='padding-top:0.5em'>
-      <i>Input only</i>: the control characters
-      <kbd><b>'\t'</b></kbd> and <kbd><b>'\n'</b></kbd>
+      <i>Input only</i>: the control character <kbd><b>'\n'</b></kbd>
       inside of string quotes <i>become a part of the text</i>.
       For nomalizing line terminators,
       a single <kbd><b>'\r'</b></kbd> or the combination <kbd><b>'\r\n'</b></kbd>

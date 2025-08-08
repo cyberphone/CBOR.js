@@ -1735,7 +1735,6 @@ class CBOR {
             break;
 
           case '\n':
-          case '\t':
             break;
 
           case '\\':
