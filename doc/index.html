@@ -209,6 +209,12 @@
         <td>2</td>
       </tr>
       <tr style='text-align:center'>
+        <td><code>float</code></td>
+        <td><a href='#wrapper.cbor.nonfinite'>CBOR.NonFinite</a></td>
+        <td><code>Number</code><br><code>BigInt</code></td>
+        <td>2</td>
+      </tr>
+      <tr style='text-align:center'>
         <td><code>bstr</code></td>
         <td><a href='#wrapper.cbor.bytes'>CBOR.Bytes</a></td>
         <td><code>Uint8Array</code></td>
@@ -1350,10 +1356,15 @@ decoder option also affects <i>encoding</i> of <code>NaN</code> and
   variants, the CBOR.js implementation makes this
   transparent. The <a href='#wrapper.cbor.float'>CBOR.Float()</a>
   wrapper object only exposes the JavaScript <kbd>Number</kbd> type.
-  <p>
-  Also see the <a href='#option.rejectnonfinitefloats'>CBOR.REJECT_NON_FINITE_FLOATS</a>
-  decoder option.
-  </p>
+<p>
+  In this implementation <code>NaN</code> and <code>Infinity</code> are
+  treated as a specific data type: <a href='#wrapper.cbor.nonfinite'>CBOR.NonFinitite()</a>.
+  The purpose of this arrangement is to eliminate the need for having
+  to test each decoded <code>Number</code>for possible math exceptions.
+  For CBOR applications that exploit non-finite values, the JavaScript
+  test <code>!Double.isFinite(value)</code> is replaced by
+  <code><i>Wrapper</i>&nbsp;instanceof&nbsp;CBOR.NonFinite</code>.
+</p>
   <h3 id='main.diagnostic'>8.&nbsp;&nbsp;Diagnostic Notation</h3>
 
   Creating CBOR data in diagnostic (textual) notation is provided by the
@@ -1413,7 +1424,7 @@ decoder option also affects <i>encoding</i> of <code>NaN</code> and
         <td>1, 2</td>
       </tr>
       <tr style='text-align:center' id='float-diag'>
-        <td rowspan='3'><code>float</code></td>
+        <td rowspan='4'><code>float</code></td>
         <td><i>{sign}</i><i>n</i><kbd><b>.</b></kbd><i>n</i><i>{</i><kbd><b>e</b></kbd>&#x2009;<kbd><b>&pm;</b></kbd>&#x2009;<i>n}</i></td>
         <td style='text-align:left'>
           Floating point values
@@ -1424,7 +1435,15 @@ decoder option also affects <i>encoding</i> of <code>NaN</code> and
       <tr style='text-align:center'>
         <td><kbd><b>NaN</b></kbd></td>
         <td style='text-align:left'>
-          Not a number.
+          Not a number in the default encoding (<code>f97e00</code>).
+        </td>
+        <td></td>
+      </tr>
+      <tr style='text-align:center'>
+        <td><kbd><b>nan'</b></kbd><i>hex&nbsp;data</i><kbd><b>'</b></kbd></td>
+        <td style='text-align:left'>
+          Not a number permitting any valid NaN, including with payloads
+          like <code>nan'7ff0800000000001'</code>.
         </td>
         <td></td>
       </tr>

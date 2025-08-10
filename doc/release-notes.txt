@@ -51,3 +51,7 @@ Added method: CBOR.Array.encodeAsSequence()
 
 2025-07-18 1.0.14
 Added method: CBOR.nonFiniteFloatsMode()
+
+202-08-10 1.0.15
+Elimininated CBOR.REJECT_NON_FINITE_FLOATS and CBOR.nonFiniteFloatsMode()
+through the new wrapper object CBOR.NonFinite().

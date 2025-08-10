@@ -1311,7 +1311,7 @@ class CBOR {
         return this.returnNonFinite(decoded, value, 52n);
       }
       // It is a genuine number (including zero).
-      let f64 = new DataView(decoded.buffer, 0, 4).getFloat32(0, false);
+      let f64 = new DataView(decoded.buffer, 0, 8).getFloat64(0, false);
       return this.returnFloat(decoded, f64);
     }
 
