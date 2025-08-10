@@ -2207,10 +2207,9 @@ export default class CBOR {
 
   static fromBigInt = function(bigint) {
     let array = [];
-    while (bigint) {
+    do {
       array.push(Number(bigint & 0xffn));
-      bigint >>= 8n;
-    }
+    } while (bigint >>= 8n);
     return new Uint8Array(array.reverse());
   }
 
