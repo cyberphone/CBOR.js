@@ -75,6 +75,25 @@ public class CreateDocument {
   static final String W_FLOAT_PROP_DESCR = """
       Length in bytes of the underlying CBOR IEEE 754 type.""";
 
+  // CBOR.NonFinite
+
+  static final String W_NONFIN_DESCR = """
+      Constructor.  Creates a CBOR <code>float</code> object.
+      Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.""";
+
+  static final String W_NONFIN_P1_DESCR = """
+      Floating-point number to be wrapped.""";
+/* 
+  static final String W_GETFLOAT_DESCR = """
+      Get CBOR floating-point value.""";
+
+  static final String W_GETFLOAT_RETURN_DESCR = """
+      Decoded floating-point number.""";
+*/
+
+  static final String W_NONFIN_PROP_DESCR = """
+      Length in bytes of the underlying CBOR IEEE 754 type.""";
+
   // CBOR.String
 
   static final String W_STRING_DESCR = """
@@ -804,6 +823,7 @@ public class CreateDocument {
     CBOR_INT("CBOR.Int"),
     CBOR_BIGINT("CBOR.BigInt"),
     CBOR_FLOAT("CBOR.Float"),
+    CBOR_NONFIN("CBOR.NonFinite"),
     CBOR_STRING("CBOR.String"),
     CBOR_BYTES("CBOR.Bytes"),
     CBOR_NULL("CBOR.Null"),
@@ -816,6 +836,7 @@ public class CreateDocument {
     JS_THIS("this"),
 
     JS_NUMBER("Number"),
+    JS_NUM_BIG("Number<br>BigInt"),
     JS_ARRAY("[CBOR.<i>Wrapper</i>...]"),
     JS_BIGINT("BigInt"),
     JS_DATE("Date"),
@@ -1478,6 +1499,28 @@ public class CreateDocument {
 
         .setProperty("length", DataTypes.JS_NUMBER, W_FLOAT_PROP_DESCR);
 
+    // CBOR.NonFinit
+
+    addWrapper(DataTypes.CBOR_NONFIN, W_NONFIN_DESCR)
+        .addWrapperParameter("value", DataTypes.JS_NUM_BIG, W_NONFIN_P1_DESCR)
+
+        .addMethod("getFloat16", W_GETFLOAT_DESCR +
+            "<div style='margin-top:0.5em'>" +
+            "Note: the CBOR object must be a 16-bit IEEE-754 item, " +
+            "otherwise an exception will be thrown.</div>")
+        .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
+
+        .addMethod("getFloat32", W_GETFLOAT_DESCR +
+            "<div style='margin-top:0.5em'>" +
+            "Note: the CBOR object must be a 16-bit or 32-bit IEEE-754 item, " +
+            "otherwise an exception will be thrown.</div>")
+        .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
+
+        .addMethod("getFloat64", W_GETFLOAT_DESCR)
+        .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
+
+        .setProperty("length", DataTypes.JS_NUMBER, W_FLOAT_PROP_DESCR);
+    
     // CBOR.String
 
     addWrapper(DataTypes.CBOR_STRING, W_STRING_DESCR)

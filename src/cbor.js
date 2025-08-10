@@ -1121,7 +1121,7 @@ class CBOR {
         }
         cborPrinter.append('Infinity'); 
       } else {
-        cborPrinter.append("nan'");
+        cborPrinter.append("float'");
         cborPrinter.append(CBOR.toHex(this.#encoded));
         cborPrinter.append("'");
       }
@@ -1625,16 +1625,17 @@ class CBOR {
           return CBOR.Boolean(true);
      
         case 'f':
-          this.scanFor("alse");
-          return CBOR.Boolean(false);
+          if (this.nextChar() == 'a') {
+            this.scanFor("alse");
+            return CBOR.Boolean(false);
+          }
+          this.scanFor('loat');
+          let floatBin = this.getBytes(false).getBytes();
+          return CBOR.decode(CBOR.add(new Uint8Array([0xf9 + floatBin.length >> 2]), floatBin));
      
         case 'n':
-          if (this.nextChar() == 'u') {
-            this.scanFor("ull");
-            return CBOR.Null();
-          }
-          this.scanFor('an');
-          return CBOR.NonFinite(CBOR.toBigInt(this.getBytes(false).getBytes()));
+          this.scanFor("null");
+          return CBOR.Null();
 
         case 's':
             this.scanFor("imple(");

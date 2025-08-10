@@ -54,10 +54,10 @@
         <td></td>
       </tr>
       <tr style='text-align:center'>
-        <td><kbd><b>nan'</b></kbd><i>hex&nbsp;data</i><kbd><b>'</b></kbd></td>
+        <td><kbd><b>float'</b></kbd><i>hex&nbsp;data</i><kbd><b>'</b></kbd></td>
         <td style='text-align:left'>
-          Not a number permitting any valid NaN, including with payloads
-          like <code>nan'7ff0800000000001'</code>.
+          Any valid 16, 32, or 64-bit float value, including NaN with payloads
+          like <code>float'7ff0800000000001'</code>.
         </td>
         <td></td>
       </tr>
