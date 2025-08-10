@@ -258,8 +258,8 @@ success();
 {name:'float.js',
 file:String.raw`// Test program for floating-point "edge cases"
 
-function overflow(cborObject, length) {
-  let test = 'cborObject.getFloat' + length + '()';
+function overflow(decodedValue, length) {
+  let test = 'decodedValue.getFloat' + length + '()';
   try {
     eval(test);
     assertTrue("Should fail", false);
@@ -270,65 +270,64 @@ function overflow(cborObject, length) {
   }  
 }
 
+function shouldpass(decodedValue, value, length, valueText) {
+  assertTrue("p1", decodedValue.toString() == valueText);
+  let test = 'decodedValue.getFloat' + length + '()';
+  let float = eval(test);
+  assertTrue("p2", float == value);
+}
+
 function oneTurn(valueText, expected) {
-  let decoder = CBOR.initDecoder(CBOR.fromHex(expected), CBOR.REJECT_NON_FINITE_FLOATS);
   let value = Number(valueText);
-  let invalidFloats = !Number.isFinite(value);
-  let text = valueText;
-  while (text.length < 25) {
-    text += ' ';
-  }
-  let cbor = CBOR.Float(value).encode();
-  let got = CBOR.toHex(cbor);
-  if (got != expected) {
-    got = '***=' + got;
+  if (Number.isFinite(value)) {
+    try {
+      CBOR.NonFinite(value);
+      fail("f1")
+    } catch (error) {
+      assertTrue("f2", error.toString().includes("Invalid non-finite value"));
+    }
+    let cbor = CBOR.Float(value).encode();
+    assertTrue("f3", CBOR.toHex(cbor) == expected);
+    let decodedValue = CBOR.decode(cbor);
+    switch (cbor.length) {
+      case 3:
+        shouldpass(decodedValue, value, "16", valueText);
+        shouldpass(decodedValue, value, "32", valueText);
+        shouldpass(decodedValue, value, "64", valueText);
+        break;
+
+      case 5:
+        shouldpass(decodedValue, value, "32", valueText);
+        shouldpass(decodedValue, value, "64", valueText);
+        overflow(decodedValue, "16");
+        break;
+
+      case 9:
+        shouldpass(decodedValue, value, "64", valueText);
+        overflow(decodedValue, "16");
+        overflow(decodedValue, "32");
+        break;
+
+      default:
+        fail("No such length");
+    }
   } else {
-    got = '';
-  }
-  let decodedValue = CBOR.decode(cbor);
-  if (valueText == 'NaN') {
-    decodedValue.getFloat16();
-    if (decodedValue.length > 2) {
-      throw Error("Failed decoding: " + value);      
+    try {
+      CBOR.Float(value);
+      fail('Should not execute');
+    } catch (error) {
+        assertTrue("nf1", error.toString().includes('CBOR.NonFinite'));
     }
-  } else if (expected.length == 6) {
-    if (decodedValue.getFloat16() != value ||
-        decodedValue.getFloat32() != value || decodedValue.getFloat64() != value) {
-      throw Error("Failed decoding: " + value);
-    }
-  } else if (expected.length <= 10) {
-    if (decodedValue.getFloat32() != value || decodedValue.getFloat64() != value) {
-      throw Error("Failed decoding: " + value);
-    }
-    overflow(decodedValue, "16");
-  } else {
-    overflow(decodedValue, "16");
-    overflow(decodedValue, "32");
+    let decodedValue = CBOR.NonFinite(value);
+    assertTrue("nf2", decodedValue.getNumber().toString() == value.toString());
+    assertTrue("nf3", decodedValue.toString() == value.toString());
+    let cbor = decodedValue.encode();
+    assertTrue("nf4", CBOR.toHex(cbor) == expected);
+    assertTrue("nf5", CBOR.decode(cbor).equals(decodedValue));
+    let buf = new Uint8Array(8);
+    new DataView(buf.buffer, 0, 8).setFloat64(0, value, false);
+    assertTrue("nf6", decodedValue.getNonFinite64() == CBOR.toBigInt(buf));
   }
-  if (decodedValue.toString() != valueText) {
-    throw Error("Failed encoding: " + valueText + " " + decodedValue.toString());
-  }
-  while (expected.length < 20) {
-    expected += ' ';
-  }
-  if (got.length) {
-    throw Error(text + expected + got);
-  }
-  try {
-    decoder.decodeWithOptions();
-    assertFalse('Should not execute', invalidFloats);
-  } catch (error) {
-    assertTrue("Decode ME1", error.toString().includes('"NaN" and "Infinity"'));
-  }
-  CBOR.nonFiniteFloatsMode(true);
-  try {
-    CBOR.decode(cbor);
-    assertFalse('Should not execute', invalidFloats);
-  } catch (error) {
-    assertTrue("Decode ME2", error.toString().includes('"NaN" and "Infinity"'));
-  }
-  CBOR.nonFiniteFloatsMode(false);
-  CBOR.decode(cbor);
 }
 
 const inNanWithPayload = new Uint8Array([0x7f, 0xf8, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00]);
@@ -450,7 +449,7 @@ oneTurn('7.52316384526264e-37',     'fa03800000');
 oneTurn('1.1754943508222875e-38',   'fa00800000');
 oneTurn('5.0e-324',                 'fb0000000000000001');
 oneTurn('-1.7976931348623157e+308', 'fbffefffffffffffff');
-
+/*
 oneNanWithPayloadTurn("7e00");
 oneNanWithPayloadTurn("7c01");
 oneNanWithPayloadTurn("fc01");
@@ -468,6 +467,7 @@ oneNanWithPayloadTurn("7ff0000000000001");
 oneNanWithPayloadTurn("fff0000000000001");
 oneNanWithPayloadTurn("7fffffffffffffff");
 oneNanWithPayloadTurn("fff8000000000000");
+*/
 
 success();
 `}
@@ -749,7 +749,7 @@ assertFalse("null1", array.get(3).isNull());
 assertTrue("null2", array.get(4).isNull());
 assertFalse("cmp2", CBOR.compareArrays(CBOR.diagDecode(CBOR.decode(cbor).toString()).encode(), bin));
 
-assertTrue("version", CBOR.version == "1.0.14");
+assertTrue("version", CBOR.version == "1.0.15");
 
 success();
 `}

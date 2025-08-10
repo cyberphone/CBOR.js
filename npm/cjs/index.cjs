@@ -112,7 +112,7 @@ class CBOR {
       return this.#checkTypeAndGetValue(CBOR.Float);
     }
 
-    getNonFinite = function() {
+    getNonFinite64 = function() {
       return this.#checkTypeAndGetValue(CBOR.NonFinite);
     }
 
@@ -1130,8 +1130,22 @@ class CBOR {
     isNaN = function() {
       return (this.#value & 0x7fffn) != 0xfc00n;
     }
-
+  
+    _getLength = function() {
+      return this.#encoded.length;
+    }
+  
     _get = function() {
+      switch (this.#encoded.length) {
+        case 2:
+          return CBOR.#toNonFinite64(this.#encoded, this.#value, 10n);
+        case 4:
+          return CBOR.#toNonFinite64(this.#encoded, this.#value, 23n);
+      }
+      return this.#value;
+    }
+
+    getNonFinite = function() {
       return this.#value;
     }
   }
@@ -1247,12 +1261,7 @@ class CBOR {
     }
 
     returnNonFinite = function (decoded, value, significandLength) { 
-      value &= (1n << significandLength) - 1n;
-      value = 0x7ff0000000000000n | (value << (52n - significandLength));
-      if (decoded[0] & 0x80) {
-        value |= 0x8000000000000000n
-      }
-      let nonFinite = CBOR.NonFinite(value);
+      let nonFinite = CBOR.NonFinite(CBOR.#toNonFinite64(decoded, value, significandLength));
       if (this.strictNumbers && nonFinite._compare(decoded)) {
         CBOR.#error("Non-deterministic encoding of non-finite value: " + 
           CBOR.toHex(CBOR.fromBigInt(nonFinite.getNonFinite())));
@@ -1631,10 +1640,12 @@ class CBOR {
           }
           this.scanFor('loat');
           let float = this.getBytes(false).getBytes();
-          return CBOR.decode(CBOR.addArrays(new Uint8Array([0xf9 + (float.length >> 2)]), float));
+          return CBOR.initDecoder(
+            CBOR.addArrays(new Uint8Array([0xf9 + (float.length >> 2)]), float),
+            CBOR.LENIENT_NUMBER_DECODING).decodeWithOptions();
      
         case 'n':
-          this.scanFor("null");
+          this.scanFor("ull");
           return CBOR.Null();
 
         case 's':
@@ -2110,6 +2121,15 @@ class CBOR {
     if (list.length != expected) {
       CBOR.#error('Expected number of arguments: ' + expected);
     }
+  }
+
+  static #toNonFinite64(decoded, value, significandLength) {
+    value &= (1n << significandLength) - 1n;
+    value = 0x7ff0000000000000n | (value << (52n - significandLength));
+    if (decoded[0] & 0x80) {
+      value |= 0x8000000000000000n
+    }
+    return value;
   }
 
 //================================//

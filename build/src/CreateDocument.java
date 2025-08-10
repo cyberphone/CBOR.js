@@ -576,19 +576,6 @@ public class CreateDocument {
   static final String FROMB64U_RETURN_DESCR = """
       The resulting binary (bytes).""";
 
-  // CBOR.nonFiniteFloatsMode()
-
-  static final String NONFINITE_MODE_DESCR = """
-      Globally disable <code>NaN</code> and <code>Infinity</code>.
-      <div style='margin-top:0.5em'>Note that this method unlike
-      the <a href='#option.rejectnonfinitefloats'>CBOR.REJECT_NON_FINITE_FLOATS</a>
-      decoder option also affects <i>encoding</i> of <code>NaN</code> and
-      <code>Infinity</code> values.</div>""";
-
-  static final String NONFINITE_MODE_P1_DESCR = """
-      If <code>true</code>, disable <code>NaN</code> and
-      <code>Infinity</code> support.""";
-
   // CBOR.decode()
 
   static final String DECODE_DESCR = """
@@ -653,16 +640,7 @@ public class CreateDocument {
       <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a> rules.
       <div>The <kbd>CBOR.LENIENT_NUMBER_DECODING</kbd> option forces the decoder to
       accept different representations of CBOR <code>int</code>, <code>bigint</code>,
-      and <code>float</code> items, only limited by RFC&nbsp;8949.</div></div>
-      <div id='option.rejectnonfinitefloats' style='margin-top:0.8em'>
-      <kbd>CBOR.REJECT_NON_FINITE_FLOATS</kbd>:</div>
-      <div style='padding:0.2em 0 0 1.2em'>By default, the decoder supports
-      the special floating-point values 
-      <code>NaN</code>, <code>Infinity</code>, and <code>-Infinity</code>.
-      <div>The <kbd>CBOR.REJECT_NON_FINITE_FLOATS</kbd> option
-      causes the occurrence of such a value to throw an exception.</div>
-      <div style='margin-top:0.5em'>See also
-      <a href='#utility.cbor.nonfinitefloatsmode'>CBOR.nonFiniteFloatsMode()</a>.</div></div>""";
+      and <code>float</code> items, only limited by RFC&nbsp;8949.</div></div>""";
 
   static final String INITEXT_RETURN_DESCR = """
       Decoder object to be used with
@@ -1755,11 +1733,6 @@ public class CreateDocument {
     addUtilityMethod("CBOR.fromBase64Url", FROMB64U_DESCR)
         .addParameter("base64", DataTypes.JS_STRING, FROMB64U_P1_DESCR)
         .setReturn(DataTypes.JS_UINT8ARRAY, FROMB64U_RETURN_DESCR);
-
-    // CBOR.nonFiniteFloatsMode()
-
-    addUtilityMethod("CBOR.nonFiniteFloatsMode", NONFINITE_MODE_DESCR)
-        .addParameter("reject", DataTypes.JS_BOOLEAN, NONFINITE_MODE_P1_DESCR);
 
     replace(INTRO, printMainHeader("intro", "Introduction"));
     outline.increment();

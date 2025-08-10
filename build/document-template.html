@@ -222,7 +222,7 @@
   In this implementation <code>NaN</code> and <code>Infinity</code> are
   treated as a specific data type: <a href='#wrapper.cbor.nonfinite'>CBOR.NonFinitite()</a>.
   The purpose of this arrangement is to eliminate the need for having
-  to test each decoded <code>Number</code>for possible math exceptions.
+  to test each decoded <code>Number</code> for possible math exceptions.
   For CBOR applications that exploit non-finite values, the JavaScript
   test <code>!Double.isFinite(value)</code> is replaced by
   <code><i>Wrapper</i>&nbsp;instanceof&nbsp;CBOR.NonFinite</code>.
