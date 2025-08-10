@@ -1639,9 +1639,17 @@ class CBOR {
             return CBOR.Boolean(false);
           }
           this.scanFor('loat');
-          let float = this.getBytes(false).getBytes();
+          let floatBytes = this.getBytes(false).getBytes();
+          switch (floatBytes.length) {
+            case 2:
+            case 4:
+            case 8:
+              break;
+            default:
+              this.parserError("Arguments must be 2, 4, or 8 bytes");
+          }
           return CBOR.initDecoder(
-            CBOR.addArrays(new Uint8Array([0xf9 + (float.length >> 2)]), float),
+            CBOR.addArrays(new Uint8Array([0xf9 + (floatBytes.length >> 2)]), floatBytes),
             CBOR.LENIENT_NUMBER_DECODING).decodeWithOptions();
      
         case 'n':
