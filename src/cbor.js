@@ -11,8 +11,6 @@
 // Single global static object.
 class CBOR {
 
-  static #rejectNonFiniteFloats;
-
   // Super class for all CBOR wrappers.
   static #CborObject = class {
 
@@ -112,6 +110,10 @@ class CBOR {
 
     getFloat64 = function() {
       return this.#checkTypeAndGetValue(CBOR.Float);
+    }
+
+    getNonFinite = function() {
+      return this.#checkTypeAndGetValue(CBOR.NonFinite);
     }
 
     getBoolean = function() {
@@ -1034,10 +1036,10 @@ class CBOR {
 
     constructor(value) {
       super();
-      if (value instanceof Number) {
+      if (typeof value == 'number') {
         let f64b = new Uint8Array(8);
-        new DataView(f64b.buffer, 0, 8).getFloat64(0, false);
-        this.#original = CBOR.#arrayToBigInt(f64b);
+        new DataView(f64b.buffer, 0, 8).setFloat64(0, value, false);
+        this.#original = CBOR.toBigInt(f64b);
       } else {
         this.#original = CBOR.#typeCheck(value, 'bigint');
         if (this.#original > 0xffffffffffffffffn || this.#original < 0n) {
@@ -1048,7 +1050,7 @@ class CBOR {
       let pattern;
       while (true) {
         this.#value = current;
-        this.#encoded = CBOR.#bigIntToArray(current);
+        this.#encoded = CBOR.fromBigInt(current);
         switch (this.#encoded.length) {
           case 2:
             pattern = 0x7c00n;
@@ -1094,15 +1096,19 @@ class CBOR {
     }
 
     #badValue = function() {
-      CBOR.#error("Invalid non-finite value: " + CBOR.toHex(CBOR.#bigIntToArray(this.#original)));
+      CBOR.#error("Invalid non-finite value: " + CBOR.toHex(CBOR.fromBigInt(this.#original)));
     }
 
     encode = function() {
       return CBOR.addArrays(new Uint8Array([0xf9 + (this.#encoded.length >> 2)]), this.#encoded);
     }
 
+    _compare = function(decoded) {
+      return CBOR.compareArrays(this.#encoded, decoded);
+    }
+
     internalToString = function(cborPrinter) {
-      if (this.#value == 0x7e00) {
+      if (this.#value == 0x7e00n) {
         cborPrinter.append('NaN');    
       } else if (this.#encoded.length == 2 && !(this.#value & 0x3ffn)) {
         if (this.#encoded[0] & 0x80) {
@@ -1114,6 +1120,14 @@ class CBOR {
         cborPrinter.append(CBOR.toHex(this.#encoded));
         cborPrinter.append("'");
       }
+    }
+
+    isNaN = function() {
+      return (this.#value & 0x7fffn) != 0xfc00n;
+    }
+
+    _get = function() {
+      return this.#value;
     }
   }
 
@@ -1170,10 +1184,6 @@ class CBOR {
     return 0x4;
   }
 
-  static get REJECT_NON_FINITE_FLOATS() {
-    return 0x8;
-  }
-
   static Decoder = class {
 
     constructor(cbor, options) {
@@ -1183,7 +1193,6 @@ class CBOR {
       this.sequenceMode = options & CBOR.SEQUENCE_MODE;
       this.strictMaps = !(options & CBOR.LENIENT_MAP_DECODING);
       this.strictNumbers = !(options & CBOR.LENIENT_NUMBER_DECODING);
-      this.rejectNonFiniteFloats = options & CBOR.REJECT_NON_FINITE_FLOATS;
     }
 
     eofError = function() {
@@ -1224,15 +1233,15 @@ class CBOR {
       return Number(value);
     }
 
-    compareAndReturn = function(decoded, f64) {
+    returnFloat = function(decoded, f64) {
       let cborFloat = CBOR.Float(f64);
       if (this.strictNumbers && cborFloat._compare(decoded)) {
-        CBOR.#error("Non-deterministic encoding of: " + f64);
+        CBOR.#error("Non-deterministic encoding of floating-point value: " + f64);
       }
       return cborFloat;
     }
 
-    toNonFinite = function (decoded, value, significandLength) { 
+    returnNonFinite = function (decoded, value, significandLength) { 
       value &= (1n << significandLength) - 1n;
       value = 0x7ff0000000000000n | (value << (52n - significandLength));
       if (decoded[0] & 0x80) {
@@ -1240,7 +1249,8 @@ class CBOR {
       }
       let nonFinite = CBOR.NonFinite(value);
       if (this.strictNumbers && nonFinite._compare(decoded)) {
-        CBOR.#error("Non-deterministic encoding of: " + CBOR.toHex(decoded));
+        CBOR.#error("Non-deterministic encoding of non-finite value: " + 
+          CBOR.toHex(CBOR.fromBigInt(nonFinite.getNonFinite())));
       }
       return nonFinite;
     }
@@ -1252,15 +1262,15 @@ class CBOR {
     //    create an '#encoded' byte string holding the deterministic IEEE-754 representation.
     // 4. Optionally verify that '#encoded' is equal to the byte string read at step 1.
     // Maybe not the most performant solution, but hey, this is a "Reference Implementation" :)
-    processF16AndReturn = function() {
+    decodeF16 = function() {
       let decoded = this.readBytes(2);
-      let f16Binary = CBOR.#arrayToBigInt(decoded);
-      let exponent = Number(f16Binary & 0x7c00);
-      let significand = Number(f16Binary & 0x3ff);
+      let f16Binary = CBOR.toBigInt(decoded);
+      let exponent = Number(f16Binary & 0x7c00n);
+      let significand = Number(f16Binary & 0x3ffn);
       // Catch the three cases of non-finite numbers.
       if (exponent == 0x7c00) {
         // Takes NaN payloads as well.
-        return this.toNonFinite(decoded, f16Binary, 10n);
+        return this.returnNonFinite(decoded, f16Binary, 10n);
       }
       // It is a genuine number (including zero).
       if (exponent) {
@@ -1271,33 +1281,33 @@ class CBOR {
       }
       // Divide with: 2 ^ (Exponent offset + Size of significand - 1).
       let f64 = significand / 0x1000000;
-      return this.compareAndReturn(decoded, f16Binary < 0x8000 ? f64 : -f64);
+      return this.returnFloat(decoded, decoded[0] < 128 ? f64 : -f64);
     }
 
-    processF32AndReturn = function() {
+    decodeF32 = function() {
       let decoded = this.readBytes(4);
-      let value = CBOR.#arrayToBigInt(decoded);
+      let value = CBOR.toBigInt(decoded);
       // Catch the three cases of non-finite numbers.
       if ((value & 0x7f800000n) == 0x7f800000n) {
         // Takes NaN payloads as well.
-        return this.toNonFinite(decoded, value, 23n);
+        return this.returnNonFinite(decoded, value, 23n);
       }
       // It is a genuine number (including zero).
       let f64 = new DataView(decoded.buffer, 0, 4).getFloat32(0, false);
-      return this.compareAndReturn(decoded, f64);
+      return this.returnFloat(decoded, f64);
     }
 
-    processF64AndReturn = function() {
-      let decoded = this.readBytes(4);
-      let value = CBOR.#arrayToBigInt(decoded);
+    decodeF64 = function() {
+      let decoded = this.readBytes(8);
+      let value = CBOR.toBigInt(decoded);
       // Catch the three cases of non-finite numbers.
       if ((value & 0x7ff0000000000000n) == 0x7ff0000000000000n) {
         // Takes NaN payloads as well.
-        return this.toNonFinite(decoded, value, 52n);
+        return this.returnNonFinite(decoded, value, 52n);
       }
       // It is a genuine number (including zero).
       let f64 = new DataView(decoded.buffer, 0, 4).getFloat32(0, false);
-      return this.compareAndReturn(decoded, f64);
+      return this.returnFloat(decoded, f64);
     }
 
     selectInteger = function(value) {
@@ -1318,17 +1328,17 @@ class CBOR {
           if (this.strictNumbers && (byteArray.length <= 8 || !byteArray[0])) {
             CBOR.#error("Non-deterministic bignum encoding");
           }
-          let value = CBOR.#arrayToBigInt(byteArray);
+          let value = CBOR.toBigInt(byteArray);
           return this.selectInteger(tag == CBOR.#MT_BIG_NEGATIVE ? ~value : value);
 
         case CBOR.#MT_FLOAT16:
-           return processF16AndReturn();
+           return this.decodeF16();
 
         case CBOR.#MT_FLOAT32:
-           return processF32AndReturn();
+           return this.decodeF32();
 
         case CBOR.#MT_FLOAT64:
-           return processF64AndReturn();
+           return this.decodeF64();
 
         case CBOR.#MT_NULL:
           return CBOR.Null();
@@ -1614,8 +1624,12 @@ class CBOR {
           return CBOR.Boolean(false);
      
         case 'n':
-          this.scanFor("ull");
-          return CBOR.Null();
+          if (this.nextChar() == 'u') {
+            this.scanFor("ull");
+            return CBOR.Null();
+          }
+          this.scanFor('an');
+          return CBOR.NonFinite(CBOR.toBigInt(this.getBytes(false).getBytes()));
 
         case 's':
             this.scanFor("imple(");
@@ -1624,7 +1638,7 @@ class CBOR {
         case '-':
           if (this.readChar() == 'I') {
             this.scanFor("nfinity");
-            return CBOR.Float(Number.NEGATIVE_INFINITY);
+            return CBOR.NonFinite(Number.NEGATIVE_INFINITY);
           }
           return this.getNumberOrTag(true);
 
@@ -1642,11 +1656,11 @@ class CBOR {
 
         case 'N':
           this.scanFor("aN");
-          return CBOR.Float(Number.NaN);
+          return CBOR.NonFinite(Number.NaN);
 
         case 'I':
           this.scanFor("nfinity");
-          return CBOR.Float(Number.POSITIVE_INFINITY);
+          return CBOR.NonFinite(Number.POSITIVE_INFINITY);
         
         default:
           this.index--;
@@ -2079,24 +2093,6 @@ class CBOR {
     CBOR.#error("Argument is not a CBOR.* object: " + (object ? object.constructor.name : 'null'));
   }
 
-  static #arrayToBigInt = function(array) {
-    let value = 0n;
-    array.forEach(byte => {
-      value <<= 8n;
-      value += BigInt(byte);
-    });
-    return value;
-  }
-
-  static #bigIntToArray = function(bigint) {
-    let array = [];
-    while (bigint) {
-      array.push(Number(bigint & 0xffn));
-      bigint >>= 8n;
-    }
-    return new Uint8Array(array.reverse());
-  }
-
   static #decodeOneHex(charCode) {
     if (charCode >= 0x30 && charCode <= 0x39) return charCode - 0x30;
     if (charCode >= 0x61 && charCode <= 0x66) return charCode - 0x57;
@@ -2164,6 +2160,24 @@ class CBOR {
     }
     return Uint8Array.from(atob(base64.replace(/-/g, '+').replace(/_/g, '/')),
                            c => c.charCodeAt(0));
+  }
+
+  static toBigInt = function(array) {
+    let value = 0n;
+    array.forEach(byte => {
+      value <<= 8n;
+      value += BigInt(byte);
+    });
+    return value;
+  }
+
+  static fromBigInt = function(bigint) {
+    let array = [];
+    while (bigint) {
+      array.push(Number(bigint & 0xffn));
+      bigint >>= 8n;
+    }
+    return new Uint8Array(array.reverse());
   }
 
   static get version() {
