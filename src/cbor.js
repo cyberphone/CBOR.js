@@ -1107,10 +1107,15 @@ class CBOR {
       return CBOR.compareArrays(this.#encoded, decoded);
     }
 
+    getNumber = function() {
+      return (this.#value & 0xffffffffffff7fffn) == 0x7c00n ? this.#encoded[0] & 0x80 ? 
+        Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY : Number.NaN;
+    }
+
     internalToString = function(cborPrinter) {
       if (this.#value == 0x7e00n) {
         cborPrinter.append('NaN');    
-      } else if (this.#encoded.length == 2 && !(this.#value & 0x3ffn)) {
+      } else if ((this.#value & 0xffffffffffff7fffn) == 0x7c00n) {
         if (this.#encoded[0] & 0x80) {
           cborPrinter.append('-');
         }
