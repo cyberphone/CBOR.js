@@ -360,66 +360,38 @@ for (let q = 0; q < 8; q++) {
   }
 }
 
-function oneNanWithPayloadTurn(nanInHex) {
-  let ieee754 = CBOR.fromHex(nanInHex);
-  let length = ieee754.length;
-  let significand = 0n;
-  for (let q = 0; q < length; q++) {
-    significand <<= 8n;
-    significand += BigInt(ieee754[q]);
-  }
-  let precision;
-  let value;
-  let f64b;
-  let quietNan;
-  try {
-    switch (length) {
-      case 2:
-        precision = 10n; 
-        break;
-      case 4:
-        precision = 23n; 
-        break;
-      default:
-        precision = 52n; 
-    }
-    significand &= (1n << precision) - 1n;
-    let f64bin = 0x7ff0000000000000n | significand << (52n - precision);
-    if (ieee754[0] >= 128) {
-      f64bin |= 0x8000000000000000n;
-    }
-    quietNan = f64bin == 0x7ff8000000000000n;
-    f64b = new Uint8Array(8);
-    for (let q = 8; --q >= 0;) {
-      f64b[q] = Number(f64bin & 0xffn);
-      f64bin >>= 8n;
-    }
-    value = new DataView(f64b.buffer, 0, 8).getFloat64(0, false);
- //   console.log("q=" + quietNan + " v=" + value + " h=" + CBOR.toHex(f64b) + " x=" + CBOR.toHex(ieee754));
-    CBOR.Float(value);
-    assertTrue("OK1", quietNan || !supportNanWithPayloads);
-  } catch (error) {
-//    console.log("dec1=" + error.toString());
-    assertTrue("PL1", !quietNan && error.toString().includes('payloads'));
-  }
-  let cbor = CBOR.addArrays(new Uint8Array([0xf9 + (length >> 2)]), ieee754);
-  // console.log("cbor=" + CBOR.toHex(cbor));
-  try {
-    let floatObject = CBOR.decode(cbor);
-    assertTrue("OK2", (quietNan && length == 2) || !supportNanWithPayloads);
-  } catch (error) {
-  //  console.log("dec2=" + error.toString());
-    if (!quietNan && supportNanWithPayloads) {
-      assertTrue("PL2", error.toString().includes('payloads'));
-    } else {
-      assertTrue("PL3", error.toString().includes('Non-deterministic'));
+function oneNonFiniteTurn(value, binexpect, textexpect) {
+  let nonfinite = CBOR.NonFinite(value);
+  let text = nonfinite.toString();
+  let isNan = nonfinite.isNaN();
+  let returnValue = nonfinite.getNonFinite();
+  let returnValue64 = nonfinite.getNonFinite64();
+  let length = nonfinite.length;
+  let textdecode = CBOR.diagDecode(textexpect);
+  let cbor = nonfinite.encode();
+  let refcbor = CBOR.fromHex(binexpect);
+  let number = nonfinite.getNumber();
+  let hexbin = CBOR.toHex(cbor);
+  assertTrue("eq1", text == textexpect);
+  assertTrue("eq2", hexbin == binexpect);
+  assertTrue("eq3", textexpect.includes("Infinity") != isNaN);
+  assertTrue("eq4", returnValue == CBOR.decode(cbor).getNonFinite());
+  assertTrue("eq5", returnValue == textdecode.getNonFinite());
+  assertTrue("eq6", CBOR.fromBigInt(returnValue).length == nonfinite.length);
+  assertTrue("eq7", CBOR.fromBigInt(returnValue64).length == 8);
+  assertTrue("eq8", nonfinite.equals(CBOR.decode(cbor)));
+  let rawcbor = CBOR.fromBigInt(value);
+  rawcbor = CBOR.addArrays(new Uint8Array([0xf9 + (rawcbor.length >> 2)]), rawcbor);
+  if (rawcbor.length > refcbor.length) {
+    try {
+      CBOR.decode(rawcbor);
+      fail("d1");
+    } catch(error) {
+      assertTrue("d2", error.toString().includes("Non-deterministic"));
     }
   }
-  let readFloat = CBOR.initDecoder(cbor, CBOR.LENIENT_NUMBER_DECODING).decodeWithOptions();
-  let f64b2 = new Uint8Array(8);
-  new DataView(f64b2.buffer, 0, 8).setFloat64(0, readFloat.getFloat64(), false);
-//  console.log("f64b=" + CBOR.toHex(f64b) + " f64b2=" + CBOR.toHex(f64b2));
-  assertTrue("V", !CBOR.compareArrays(f64b2, f64b) || !supportNanWithPayloads);
+  assertTrue("d3", CBOR.initDecoder(rawcbor, CBOR.LENIENT_NUMBER_DECODING)
+    .decodeWithOptions().equals(nonfinite));
 }
 
 oneTurn('0.0',                      'f90000');
@@ -462,25 +434,33 @@ oneTurn('7.52316384526264e-37',     'fa03800000');
 oneTurn('1.1754943508222875e-38',   'fa00800000');
 oneTurn('5.0e-324',                 'fb0000000000000001');
 oneTurn('-1.7976931348623157e+308', 'fbffefffffffffffff');
-/*
-oneNanWithPayloadTurn("7e00");
-oneNanWithPayloadTurn("7c01");
-oneNanWithPayloadTurn("fc01");
-oneNanWithPayloadTurn("7fff");
-oneNanWithPayloadTurn("fe00");
 
-oneNanWithPayloadTurn("7fc00000");
-oneNanWithPayloadTurn("7f800001");
-oneNanWithPayloadTurn("ff800001");
-oneNanWithPayloadTurn("7fffffff");
-oneNanWithPayloadTurn("ffc00000");
+oneNonFiniteTurn(0x7e00n,            "f97e00",              "NaN");
+oneNonFiniteTurn(0x7c01n,            "f97c01",              "float'7c01'");
+oneNonFiniteTurn(0xfc01n,            "f9fc01",              "float'fc01'");
+oneNonFiniteTurn(0x7fffn,            "f97fff",              "float'7fff'");
+oneNonFiniteTurn(0xfe00n,            "f9fe00",              "float'fe00'");
+oneNonFiniteTurn(0x7c00n,            "f97c00",              "Infinity");
+oneNonFiniteTurn(0xfc00n,            "f9fc00",              "-Infinity");
 
-oneNanWithPayloadTurn("7ff8000000000000");
-oneNanWithPayloadTurn("7ff0000000000001");
-oneNanWithPayloadTurn("fff0000000000001");
-oneNanWithPayloadTurn("7fffffffffffffff");
-oneNanWithPayloadTurn("fff8000000000000");
-*/
+oneNonFiniteTurn(0x7fc00000n,         "f97e00",             "NaN");
+oneNonFiniteTurn(0x7f800001n,         "fa7f800001",         "float'7f800001'");
+oneNonFiniteTurn(0xff800001n,         "faff800001",         "float'ff800001'");
+oneNonFiniteTurn(0x7fffffffn,         "fa7fffffff",         "float'7fffffff'");
+oneNonFiniteTurn(0xffc00000n,         "f9fe00",             "float'fe00'");
+oneNonFiniteTurn(0x7f800000n,         "f97c00",             "Infinity");
+oneNonFiniteTurn(0xff800000n,         "f9fc00",             "-Infinity");
+
+oneNonFiniteTurn(0x7ff8000000000000n, "f97e00", "NaN");
+oneNonFiniteTurn(0x7ff0000000000001n, "fb7ff0000000000001", "float'7ff0000000000001'");
+oneNonFiniteTurn(0xfff0000000000001n, "fbfff0000000000001", "float'fff0000000000001'");
+oneNonFiniteTurn(0x7fffffffffffffffn, "fb7fffffffffffffff", "float'7fffffffffffffff'");
+oneNonFiniteTurn(0x7ff0000020000000n, "fa7f800001",         "float'7f800001'");
+oneNonFiniteTurn(0xfff0000020000000n, "faff800001",         "float'ff800001'");
+oneNonFiniteTurn(0xfff8000000000000n, "f9fe00",             "float'fe00'");
+oneNonFiniteTurn(0x7ff0040000000000n, "f97c01",             "float'7c01'");
+oneNonFiniteTurn(0x7ff0000000000000n, "f97c00",             "Infinity");
+oneNonFiniteTurn(0xfff0000000000000n, "f9fc00",             "-Infinity");
 
 success();
 `}
