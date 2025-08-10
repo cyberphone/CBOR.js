@@ -38,7 +38,7 @@
         <td>1, 2</td>
       </tr>
       <tr style='text-align:center' id='float-diag'>
-        <td rowspan='3'><code>float</code></td>
+        <td rowspan='4'><code>float</code></td>
         <td><i>{sign}</i><i>n</i><kbd><b>.</b></kbd><i>n</i><i>{</i><kbd><b>e</b></kbd>&#x2009;<kbd><b>&pm;</b></kbd>&#x2009;<i>n}</i></td>
         <td style='text-align:left'>
           Floating point values
@@ -49,7 +49,15 @@
       <tr style='text-align:center'>
         <td><kbd><b>NaN</b></kbd></td>
         <td style='text-align:left'>
-          Not a number.
+          Not a number in the default encoding (<code>f97e00</code>).
+        </td>
+        <td></td>
+      </tr>
+      <tr style='text-align:center'>
+        <td><kbd><b>float'</b></kbd><i>hex&nbsp;data</i><kbd><b>'</b></kbd></td>
+        <td style='text-align:left'>
+          Any valid 16, 32, or 64-bit float value, including NaN with payloads
+          like <code>float'7ff0800000000001'</code>.
         </td>
         <td></td>
       </tr>

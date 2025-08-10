@@ -75,6 +75,25 @@ public class CreateDocument {
   static final String W_FLOAT_PROP_DESCR = """
       Length in bytes of the underlying CBOR IEEE 754 type.""";
 
+  // CBOR.NonFinite
+
+  static final String W_NONFIN_DESCR = """
+      Constructor.  Creates a CBOR <code>float</code> object.
+      Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.""";
+
+  static final String W_NONFIN_P1_DESCR = """
+      Floating-point number to be wrapped.""";
+/* 
+  static final String W_GETFLOAT_DESCR = """
+      Get CBOR floating-point value.""";
+
+  static final String W_GETFLOAT_RETURN_DESCR = """
+      Decoded floating-point number.""";
+*/
+
+  static final String W_NONFIN_PROP_DESCR = """
+      Length in bytes of the underlying CBOR IEEE 754 type.""";
+
   // CBOR.String
 
   static final String W_STRING_DESCR = """
@@ -557,19 +576,6 @@ public class CreateDocument {
   static final String FROMB64U_RETURN_DESCR = """
       The resulting binary (bytes).""";
 
-  // CBOR.nonFiniteFloatsMode()
-
-  static final String NONFINITE_MODE_DESCR = """
-      Globally disable <code>NaN</code> and <code>Infinity</code>.
-      <div style='margin-top:0.5em'>Note that this method unlike
-      the <a href='#option.rejectnonfinitefloats'>CBOR.REJECT_NON_FINITE_FLOATS</a>
-      decoder option also affects <i>encoding</i> of <code>NaN</code> and
-      <code>Infinity</code> values.</div>""";
-
-  static final String NONFINITE_MODE_P1_DESCR = """
-      If <code>true</code>, disable <code>NaN</code> and
-      <code>Infinity</code> support.""";
-
   // CBOR.decode()
 
   static final String DECODE_DESCR = """
@@ -634,16 +640,7 @@ public class CreateDocument {
       <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a> rules.
       <div>The <kbd>CBOR.LENIENT_NUMBER_DECODING</kbd> option forces the decoder to
       accept different representations of CBOR <code>int</code>, <code>bigint</code>,
-      and <code>float</code> items, only limited by RFC&nbsp;8949.</div></div>
-      <div id='option.rejectnonfinitefloats' style='margin-top:0.8em'>
-      <kbd>CBOR.REJECT_NON_FINITE_FLOATS</kbd>:</div>
-      <div style='padding:0.2em 0 0 1.2em'>By default, the decoder supports
-      the special floating-point values 
-      <code>NaN</code>, <code>Infinity</code>, and <code>-Infinity</code>.
-      <div>The <kbd>CBOR.REJECT_NON_FINITE_FLOATS</kbd> option
-      causes the occurrence of such a value to throw an exception.</div>
-      <div style='margin-top:0.5em'>See also
-      <a href='#utility.cbor.nonfinitefloatsmode'>CBOR.nonFiniteFloatsMode()</a>.</div></div>""";
+      and <code>float</code> items, only limited by RFC&nbsp;8949.</div></div>""";
 
   static final String INITEXT_RETURN_DESCR = """
       Decoder object to be used with
@@ -804,6 +801,7 @@ public class CreateDocument {
     CBOR_INT("CBOR.Int"),
     CBOR_BIGINT("CBOR.BigInt"),
     CBOR_FLOAT("CBOR.Float"),
+    CBOR_NONFIN("CBOR.NonFinite"),
     CBOR_STRING("CBOR.String"),
     CBOR_BYTES("CBOR.Bytes"),
     CBOR_NULL("CBOR.Null"),
@@ -816,6 +814,7 @@ public class CreateDocument {
     JS_THIS("this"),
 
     JS_NUMBER("Number"),
+    JS_NUM_BIG("Number<br>BigInt"),
     JS_ARRAY("[CBOR.<i>Wrapper</i>...]"),
     JS_BIGINT("BigInt"),
     JS_DATE("Date"),
@@ -1478,6 +1477,28 @@ public class CreateDocument {
 
         .setProperty("length", DataTypes.JS_NUMBER, W_FLOAT_PROP_DESCR);
 
+    // CBOR.NonFinit
+
+    addWrapper(DataTypes.CBOR_NONFIN, W_NONFIN_DESCR)
+        .addWrapperParameter("value", DataTypes.JS_NUM_BIG, W_NONFIN_P1_DESCR)
+
+        .addMethod("getFloat16", W_GETFLOAT_DESCR +
+            "<div style='margin-top:0.5em'>" +
+            "Note: the CBOR object must be a 16-bit IEEE-754 item, " +
+            "otherwise an exception will be thrown.</div>")
+        .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
+
+        .addMethod("getFloat32", W_GETFLOAT_DESCR +
+            "<div style='margin-top:0.5em'>" +
+            "Note: the CBOR object must be a 16-bit or 32-bit IEEE-754 item, " +
+            "otherwise an exception will be thrown.</div>")
+        .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
+
+        .addMethod("getFloat64", W_GETFLOAT_DESCR)
+        .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
+
+        .setProperty("length", DataTypes.JS_NUMBER, W_FLOAT_PROP_DESCR);
+    
     // CBOR.String
 
     addWrapper(DataTypes.CBOR_STRING, W_STRING_DESCR)
@@ -1712,11 +1733,6 @@ public class CreateDocument {
     addUtilityMethod("CBOR.fromBase64Url", FROMB64U_DESCR)
         .addParameter("base64", DataTypes.JS_STRING, FROMB64U_P1_DESCR)
         .setReturn(DataTypes.JS_UINT8ARRAY, FROMB64U_RETURN_DESCR);
-
-    // CBOR.nonFiniteFloatsMode()
-
-    addUtilityMethod("CBOR.nonFiniteFloatsMode", NONFINITE_MODE_DESCR)
-        .addParameter("reject", DataTypes.JS_BOOLEAN, NONFINITE_MODE_P1_DESCR);
 
     replace(INTRO, printMainHeader("intro", "Introduction"));
     outline.increment();
