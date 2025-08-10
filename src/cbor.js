@@ -1630,8 +1630,8 @@ class CBOR {
             return CBOR.Boolean(false);
           }
           this.scanFor('loat');
-          let floatBin = this.getBytes(false).getBytes();
-          return CBOR.decode(CBOR.add(new Uint8Array([0xf9 + floatBin.length >> 2]), floatBin));
+          let float = this.getBytes(false).getBytes();
+          return CBOR.decode(CBOR.addArrays(new Uint8Array([0xf9 + (float.length >> 2)]), float));
      
         case 'n':
           this.scanFor("null");
