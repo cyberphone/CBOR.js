@@ -814,7 +814,6 @@ public class CreateDocument {
     JS_THIS("this"),
 
     JS_NUMBER("Number"),
-    JS_NUM_BIG("Number<br>BigInt"),
     JS_ARRAY("[CBOR.<i>Wrapper</i>...]"),
     JS_BIGINT("BigInt"),
     JS_DATE("Date"),
@@ -1480,7 +1479,7 @@ public class CreateDocument {
     // CBOR.NonFinit
 
     addWrapper(DataTypes.CBOR_NONFIN, W_NONFIN_DESCR)
-        .addWrapperParameter("value", DataTypes.JS_NUM_BIG, W_NONFIN_P1_DESCR)
+        .addWrapperParameter("value", DataTypes.JS_BIGINT, W_NONFIN_P1_DESCR)
 
         .addMethod("getFloat16", W_GETFLOAT_DESCR +
             "<div style='margin-top:0.5em'>" +
@@ -1798,7 +1797,7 @@ public class CreateDocument {
 
     replace(TOC, printTableOfContents());
 
-    replace(CBOR_CORE, "[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-11.html' " +
+    replace(CBOR_CORE, "[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-12.html' " +
                        "title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>]");
 
     IO.writeFile(documentFileName, template);

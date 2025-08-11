@@ -159,7 +159,7 @@
   <h3 id='main.intro'>1.&nbsp;&nbsp;Introduction</h3>
 
   This document describes a JavaScript API for encoding and decoding CBOR data using the
-  [<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-11.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>] cross platform profile.
+  [<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-12.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>] cross platform profile.
   The API loosely mimics the &quot;JSON&quot; object by exposing a <i>single global object</i>,
   unsurprisingly named &quot;CBOR&quot;.
 
@@ -210,15 +210,14 @@
         <td>1</td>
       </tr>
       <tr style='text-align:center'>
-        <td><code>float</code></td>
+        <td rowspan='2'><code>float</code></td>
         <td><a href='#wrapper.cbor.float'>CBOR.Float</a></td>
         <td><code>Number</code></td>
         <td>2</td>
       </tr>
       <tr style='text-align:center'>
-        <td><code>float</code></td>
         <td><a href='#wrapper.cbor.nonfinite'>CBOR.NonFinite</a></td>
-        <td><code>Number</code><br><code>BigInt</code></td>
+        <td><code>BigInt</code></td>
         <td>2</td>
       </tr>
       <tr style='text-align:center'>
@@ -495,7 +494,7 @@ Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</td></tr>
 Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number<br>BigInt</kbd></td><td style='width:100%'>Floating-point number to be wrapped.</td></tr>
+<tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Floating-point number to be wrapped.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>CBOR.NonFinite</kbd></td><td colspan='2' style='width:100%'>Object.</td></tr>
@@ -1612,7 +1611,7 @@ base64 encoded data as well as data with or without
   encoding schemes as well.
   </p>
   <p>
-  The determinism scheme is described in [<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-11.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>].
+  The determinism scheme is described in [<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-12.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>].
   </p>
   <h3 id='main.examples'>10.&nbsp;&nbsp;Using the CBOR API</h3>
 
@@ -1640,8 +1639,8 @@ here using the result of the previous encoding example:
 <div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>let&nbsp;decoder&nbsp;=&nbsp;CBOR.initDecoder(cbor,&nbsp;CBOR.SEQUENCE_MODE);<br>let&nbsp;object;<br>while&nbsp;(object&nbsp;=&nbsp;decoder.decodeWithOptions())&nbsp;{<br>&nbsp;&nbsp;console.log('\n'&nbsp;+&nbsp;object.toString());<br>}<br><br><span style='color:#007fdd'>{<br>&nbsp;&nbsp;7:&nbsp;&quot;Hi!&quot;<br>}</span><br><br><span style='color:#007fdd'>4.5</span><br></div></div>
   <h3 id='main.version'>11.&nbsp;&nbsp;Version</h3>
 
-  API version: 1.0.14.  Note that the current API version is accessible through
+  API version: 1.0.15.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-07-18
+  Document version: 2025-08-11
 </body>
 </html>
