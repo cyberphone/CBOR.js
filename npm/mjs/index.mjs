@@ -1271,8 +1271,7 @@ export default class CBOR {
     returnNonFinite = function (decoded, value, significandLength) { 
       let nonFinite = CBOR.NonFinite(CBOR.#toNonFinite64(decoded, value, significandLength));
       if (this.strictNumbers && nonFinite._compare(decoded)) {
-        CBOR.#error("Non-deterministic encoding of non-finite value: " + 
-          CBOR.toHex(CBOR.fromBigInt(nonFinite.getNonFinite())));
+        CBOR.#error("Non-deterministic encoding of non-finite value: " + CBOR.toHex(decoded));
       }
       return nonFinite;
     }
