@@ -284,7 +284,7 @@ function oneTurn(valueText, expected) {
       CBOR.NonFinite(value);
       fail("f1")
     } catch (error) {
-      assertTrue("f2", error.toString().includes("Invalid non-finite value"));
+      assertTrue("f2", error.toString().includes("bigint"));
     }
     let cbor = CBOR.Float(value).encode();
     assertTrue("f3", CBOR.toHex(cbor) == expected);
@@ -318,8 +318,8 @@ function oneTurn(valueText, expected) {
     } catch (error) {
         assertTrue("nf1", error.toString().includes('CBOR.NonFinite'));
     }
-    let decodedValue = CBOR.NonFinite(value);
-    assertTrue("nf2", decodedValue.getNumber().toString() == value.toString());
+    let decodedValue = CBOR.createCombinedFloat64(value);
+    assertTrue("nf2", decodedValue.getCombinedFloat64().toString() == value.toString());
     assertTrue("nf3", decodedValue.toString() == value.toString());
     let cbor = decodedValue.encode();
     assertTrue("nf4", CBOR.toHex(cbor) == expected);
@@ -350,21 +350,17 @@ for (let q = 0; q < 8; q++) {
 function oneNonFiniteTurn(value, binexpect, textexpect) {
   let nonfinite = CBOR.NonFinite(value);
   let text = nonfinite.toString();
-  let isNan = nonfinite.isNaN();
   let returnValue = nonfinite.getNonFinite();
   let returnValue64 = nonfinite.getNonFinite64();
-  let length = nonfinite.length;
   let textdecode = CBOR.diagDecode(textexpect);
   let cbor = nonfinite.encode();
   let refcbor = CBOR.fromHex(binexpect);
-  let number = nonfinite.getNumber();
   let hexbin = CBOR.toHex(cbor);
   assertTrue("eq1", text == textexpect);
   assertTrue("eq2", hexbin == binexpect);
-  assertTrue("eq3", textexpect.includes("Infinity") != isNaN);
-  assertTrue("eq4", returnValue == CBOR.decode(cbor).getNonFinite());
-  assertTrue("eq5", returnValue == textdecode.getNonFinite());
-  assertTrue("eq6", CBOR.fromBigInt(returnValue).length == nonfinite.length);
+  assertTrue("eq3", returnValue == CBOR.decode(cbor).getNonFinite());
+  assertTrue("eq4", returnValue == textdecode.getNonFinite());
+  assertTrue("eq5", CBOR.fromBigInt(returnValue).length == nonfinite.length);
   assertTrue("eq7", CBOR.fromBigInt(returnValue64).length == 8);
   assertTrue("eq8", nonfinite.equals(CBOR.decode(cbor)));
   let rawcbor = CBOR.fromBigInt(value);
@@ -376,9 +372,25 @@ function oneNonFiniteTurn(value, binexpect, textexpect) {
     } catch(error) {
       assertTrue("d2", error.toString().includes("Non-deterministic"));
     }
+  } else {
+    CBOR.decode(rawcbor);
   }
   assertTrue("d3", CBOR.initDecoder(rawcbor, CBOR.LENIENT_NUMBER_DECODING)
     .decodeWithOptions().equals(nonfinite));
+  let object = CBOR.decode(refcbor);
+  if (textexpect.includes("NaN") || textexpect.includes("Infinity")) {
+    assertTrue("d4", object.getCombinedFloat64().toString() == textexpect);
+    assertTrue("d5", object.isBasic(true));
+    assertTrue("d6", textexpect.includes("Infinity") ^ object.isBasic(false));
+  } else {
+    try {
+      object.getCombinedFloat64();
+      fail("d7");
+    } catch (error) {
+      assertTrue("d8", error.toString().includes("7e00"));
+    }
+    assertFalse("d9", object.isBasic(true));
+  }
 }
 
 oneTurn('0.0',                      'f90000');

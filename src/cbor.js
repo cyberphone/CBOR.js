@@ -116,6 +116,22 @@ class CBOR {
       return this.#checkTypeAndGetValue(CBOR.NonFinite);
     }
 
+    getCombinedFloat64 = function() {
+      if (this instanceof CBOR.NonFinite) {
+        switch (this.getNonFinite()) {
+          case 0x7e00n:
+            return Number.NaN;
+          case 0x7c00n:
+            return Number.POSITIVE_INFINITY;
+          case 0xfc00n:
+            return Number.NEGATIVE_INFINITY;
+          default:
+            CBOR.#error('getCombinedFloat64() only supports the "basic" NaN (7e00)');
+        }
+      }
+      return getFloat64();
+    }
+
     getBoolean = function() {
       return this.#checkTypeAndGetValue(CBOR.Boolean);
     }
@@ -1036,21 +1052,14 @@ class CBOR {
 
     constructor(value) {
       super();
-      if (typeof value == 'number') {
-        let f64b = new Uint8Array(8);
-        new DataView(f64b.buffer, 0, 8).setFloat64(0, value, false);
-        this.#original = CBOR.toBigInt(f64b);
-      } else {
-        this.#original = CBOR.#typeCheck(value, 'bigint');
-        if (this.#original > 0xffffffffffffffffn || this.#original < 0n) {
-          this.#badValue();
-        }
+      this.#original = CBOR.#typeCheck(value, 'bigint');
+      if (value > 0xffffffffffffffffn || value < 0n) {
+        this.#badValue();
       }
-      let current = this.#original;
       let pattern;
       while (true) {
-        this.#value = current;
-        this.#encoded = CBOR.fromBigInt(current);
+        this.#value = value;
+        this.#encoded = CBOR.fromBigInt(value);
         switch (this.#encoded.length) {
           case 2:
             pattern = 0x7c00n;
@@ -1065,28 +1074,28 @@ class CBOR {
             this.#badValue();
         }
         let signed = this.#encoded[0] & 0x80;
-        if ((current & pattern) != pattern) {
+        if ((value & pattern) != pattern) {
           this.#badValue();
         }
         switch (this.#encoded.length) {
           case 4:
-            if (current & ((1n << 13n) - 1n)) {
+            if (value & ((1n << 13n) - 1n)) {
               return;
             }
-            current >>= 13n;
-            current &= 0x7fffn;
+            value >>= 13n;
+            value &= 0x7fffn;
             if (signed) {
-              current |= 0x8000n;
+              value |= 0x8000n;
             }
             continue;
           case 8:
-            if (current & ((1n << 29n) - 1n)) {
+            if (value & ((1n << 29n) - 1n)) {
               return;
             }
-            current >>= 29n;
-            current &= 0x7fffffffn;
+            value >>= 29n;
+            value &= 0x7fffffffn;
             if (signed) {
-              current |= 0x80000000n;
+              value |= 0x80000000n;
             }
             continue;
           default:
@@ -1107,28 +1116,27 @@ class CBOR {
       return CBOR.compareArrays(this.#encoded, decoded);
     }
 
-    getNumber = function() {
-      return (this.#value & 0xffffffffffff7fffn) == 0x7c00n ? this.#encoded[0] & 0x80 ? 
-        Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY : Number.NaN;
+    isBasic = function(allFlag) {
+      switch (this.getNonFinite()) {
+        case 0x7e00n:
+          return true;
+        case 0x7c00n:
+        case 0xfc00n:
+          return allFlag;
+        default:
+          return false;
+      }
     }
 
-    internalToString = function(cborPrinter) {
-      if (this.#value == 0x7e00n) {
-        cborPrinter.append('NaN');    
-      } else if ((this.#value & 0xffffffffffff7fffn) == 0x7c00n) {
-        if (this.#encoded[0] & 0x80) {
-          cborPrinter.append('-');
-        }
-        cborPrinter.append('Infinity'); 
+    internalToString = function(cborPrinter) {  
+      if (this.isBasic(true)) {
+          cborPrinter.append(
+            this.isBasic(false) ? 'NaN' : this.#encoded[0] & 0x80 ? '-Infinity' : 'Infinity');
       } else {
         cborPrinter.append("float'");
         cborPrinter.append(CBOR.toHex(this.#encoded));
         cborPrinter.append("'");
       }
-    }
-
-    isNaN = function() {
-      return (this.#value & 0x7fffn) != 0xfc00n;
     }
   
     _getLength = function() {
@@ -1663,7 +1671,7 @@ class CBOR {
         case '-':
           if (this.readChar() == 'I') {
             this.scanFor("nfinity");
-            return CBOR.NonFinite(Number.NEGATIVE_INFINITY);
+            return CBOR.NonFinite(0xfc00n);
           }
           return this.getNumberOrTag(true);
 
@@ -1681,11 +1689,11 @@ class CBOR {
 
         case 'N':
           this.scanFor("aN");
-          return CBOR.NonFinite(Number.NaN);
+          return CBOR.NonFinite(0x7e00n);
 
         case 'I':
           this.scanFor("nfinity");
-          return CBOR.NonFinite(Number.POSITIVE_INFINITY);
+          return CBOR.NonFinite(0x7c00n);
         
         default:
           this.index--;
@@ -2211,6 +2219,15 @@ class CBOR {
       array.push(Number(bigint & 0xffn));
     } while (bigint >>= 8n);
     return new Uint8Array(array.reverse());
+  }
+
+  static createCombinedFloat64 = function(value) {
+    if (Number.isFinite(CBOR.#typeCheck(value, 'number'))) {
+      return CBOR.Float(value);
+    }
+    let f64b = new Uint8Array(8);
+    new DataView(f64b.buffer, 0, 8).setFloat64(0, CBOR.#typeCheck(value, 'number'), false);
+    return CBOR.NonFinite(CBOR.toBigInt(f64b));
   }
 
   static get version() {
