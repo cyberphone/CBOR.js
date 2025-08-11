@@ -62,7 +62,7 @@ function oneTurn(valueText, expected) {
     } catch (error) {
         assertTrue("nf1", error.toString().includes('CBOR.NonFinite'));
     }
-    let decodedValue = CBOR.createCombinedFloat64(value);
+    let decodedValue = CBOR.createCombinedFloat(value);
     assertTrue("nf2", decodedValue.getCombinedFloat64().toString() == value.toString());
     assertTrue("nf3", decodedValue.toString() == value.toString());
     let cbor = decodedValue.encode();
@@ -72,6 +72,7 @@ function oneTurn(valueText, expected) {
     new DataView(buf.buffer, 0, 8).setFloat64(0, value, false);
     assertTrue("nf6", decodedValue.getNonFinite64() == CBOR.toBigInt(buf));
   }
+  assertTrue("d10", CBOR.toHex(CBOR.createCombinedFloat(value).encode()) == expected);
 }
 
 const inNanWithPayload = new Uint8Array([0x7f, 0xf8, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00]);
@@ -178,13 +179,13 @@ oneTurn('1.1754943508222875e-38',   'fa00800000');
 oneTurn('5.0e-324',                 'fb0000000000000001');
 oneTurn('-1.7976931348623157e+308', 'fbffefffffffffffff');
 
-oneNonFiniteTurn(0x7e00n,            "f97e00",              "NaN");
-oneNonFiniteTurn(0x7c01n,            "f97c01",              "float'7c01'");
-oneNonFiniteTurn(0xfc01n,            "f9fc01",              "float'fc01'");
-oneNonFiniteTurn(0x7fffn,            "f97fff",              "float'7fff'");
-oneNonFiniteTurn(0xfe00n,            "f9fe00",              "float'fe00'");
-oneNonFiniteTurn(0x7c00n,            "f97c00",              "Infinity");
-oneNonFiniteTurn(0xfc00n,            "f9fc00",              "-Infinity");
+oneNonFiniteTurn(0x7e00n,             "f97e00",             "NaN");
+oneNonFiniteTurn(0x7c01n,             "f97c01",             "float'7c01'");
+oneNonFiniteTurn(0xfc01n,             "f9fc01",             "float'fc01'");
+oneNonFiniteTurn(0x7fffn,             "f97fff",             "float'7fff'");
+oneNonFiniteTurn(0xfe00n,             "f9fe00",             "float'fe00'");
+oneNonFiniteTurn(0x7c00n,             "f97c00",             "Infinity");
+oneNonFiniteTurn(0xfc00n,             "f9fc00",             "-Infinity");
 
 oneNonFiniteTurn(0x7fc00000n,         "f97e00",             "NaN");
 oneNonFiniteTurn(0x7f800001n,         "fa7f800001",         "float'7f800001'");

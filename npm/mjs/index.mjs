@@ -1654,7 +1654,7 @@ export default class CBOR {
             case 8:
               break;
             default:
-              this.parserError("Arguments must be 2, 4, or 8 bytes");
+              this.parserError("Argument must be a 16, 32, or 64-bit IEEE-754 number");
           }
           return CBOR.initDecoder(
             CBOR.addArrays(new Uint8Array([0xf9 + (floatBytes.length >> 2)]), floatBytes),
@@ -2221,7 +2221,7 @@ export default class CBOR {
     return new Uint8Array(array.reverse());
   }
 
-  static createCombinedFloat64 = function(value) {
+  static createCombinedFloat = function(value) {
     if (Number.isFinite(CBOR.#typeCheck(value, 'number'))) {
       return CBOR.Float(value);
     }
