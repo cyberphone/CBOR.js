@@ -1056,10 +1056,10 @@ export default class CBOR {
       if (value > 0xffffffffffffffffn) {
         CBOR.#error("Argument out of range: " + value);
       }
-      let pattern;
       while (true) {
         this.#value = value;
         this.#encoded = CBOR.fromBigInt(value);
+        let pattern;
         switch (this.#encoded.length) {
           case 2:
             pattern = 0x7c00n;
