@@ -66,7 +66,7 @@ try {
   CBOR.diagDecode("float'000000'");
   fail("bugf");
 } catch (error) {
-  assertTrue("flag-flag", error.toString().includes('IEEE-754'));
+  assertTrue("fp", error.toString().includes('floating-point'));
 }
 
 success();

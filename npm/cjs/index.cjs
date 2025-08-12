@@ -1652,7 +1652,7 @@ class CBOR {
             case 8:
               break;
             default:
-              this.parserError("Argument must be a 16, 32, or 64-bit IEEE-754 number");
+              this.parserError("Argument must be a 16, 32, or 64-bit floating-point number");
           }
           return CBOR.initDecoder(
             CBOR.addArrays(new Uint8Array([0xf9 + (floatBytes.length >> 2)]), floatBytes),
