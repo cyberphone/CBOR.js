@@ -1080,7 +1080,7 @@ export default class CBOR {
         switch (this.#encoded.length) {
           case 4:
             if (value & ((1n << 13n) - 1n)) {
-              return;
+              break;
             }
             value >>= 13n;
             value &= 0x7fffn;
@@ -1090,7 +1090,7 @@ export default class CBOR {
             continue;
           case 8:
             if (value & ((1n << 29n) - 1n)) {
-              return;
+              break;
             }
             value >>= 29n;
             value &= 0x7fffffffn;
@@ -1098,14 +1098,13 @@ export default class CBOR {
               value |= 0x80000000n;
             }
             continue;
-          default:
-            return;
         }
+        return;
       }
     }
 
     #badValue = function() {
-      CBOR.#error("Invalid non-finite value: " + CBOR.toHex(CBOR.fromBigInt(this.#original)));
+      CBOR.#error("Invalid non-finite argument: " + CBOR.toHex(CBOR.fromBigInt(this.#original)));
     }
 
     encode = function() {
@@ -2224,6 +2223,7 @@ export default class CBOR {
     if (Number.isFinite(CBOR.#typeCheck(value, 'number'))) {
       return CBOR.Float(value);
     }
+    if (Number.isNaN(value)) value = Number.NaN;  // Sorry, only the basic NaN is used.
     let f64b = new Uint8Array(8);
     new DataView(f64b.buffer, 0, 8).setFloat64(0, CBOR.#typeCheck(value, 'number'), false);
     return CBOR.NonFinite(CBOR.toBigInt(f64b));

@@ -415,46 +415,46 @@ function oneNonFiniteTurn(value, binexpect, textexpect) {
   }
 }
 
-oneTurn('0.0',                      'f90000');
-oneTurn('-0.0',                     'f98000');
-oneTurn('NaN',                      'f97e00');
-oneTurn('Infinity',                 'f97c00');
-oneTurn('-Infinity',                'f9fc00');
-oneTurn('0.0000610649585723877',    'fa38801000');
-oneTurn('10.559998512268066',       'fa4128f5c1');
-oneTurn('65472.0',                  'f97bfe');
-oneTurn('65472.00390625',           'fa477fc001');
-oneTurn('65503.0',                  'fa477fdf00');
-oneTurn('65504.0',                  'f97bff');
-oneTurn('65504.00000000001',        'fb40effc0000000001');
-oneTurn('65504.00390625',           'fa477fe001');
-oneTurn('65504.5',                  'fa477fe080');
-oneTurn('65505.0',                  'fa477fe100');
-oneTurn('131008.0',                 'fa47ffe000');
-oneTurn('-5.960464477539062e-8',    'fbbe6fffffffffffff');
-oneTurn('-5.960464477539063e-8',    'f98001');
-oneTurn('-5.960464477539064e-8',    'fbbe70000000000001');
-oneTurn('-5.960465188081798e-8',    'fab3800001');
-oneTurn('-5.963374860584736e-8',    'fab3801000');
-oneTurn('-5.966285243630409e-8',    'fab3802000');
-oneTurn('-8.940696716308594e-8',    'fab3c00000');
-oneTurn('-0.00006097555160522461',  'f983ff');
-oneTurn('-0.000060975551605224616', 'fbbf0ff80000000001');
-oneTurn('-0.000060975555243203416', 'fab87fc001');
-oneTurn('0.00006103515625',         'f90400');
-oneTurn('0.00006103515625005551',   'fb3f10000000001000');
-oneTurn('1.4012984643248169e-45',   'fb369fffffffffffff');
-oneTurn('1.401298464324817e-45',    'fa00000001');
-oneTurn('1.4012984643248174e-45',   'fb36a0000000000001');
-oneTurn('1.4012986313726115e-45',   'fb36a0000020000000');
-oneTurn('1.1754942106924411e-38',   'fa007fffff');
-oneTurn('3.4028234663852886e+38',   'fa7f7fffff');
-oneTurn('3.402823466385289e+38',    'fb47efffffe0000001');
-oneTurn('0.00006109476089477539',   'f90401');
-oneTurn('7.52316384526264e-37',     'fa03800000');
-oneTurn('1.1754943508222875e-38',   'fa00800000');
-oneTurn('5.0e-324',                 'fb0000000000000001');
-oneTurn('-1.7976931348623157e+308', 'fbffefffffffffffff');
+oneTurn("0.0",                      "f90000");
+oneTurn("-0.0",                     "f98000");
+oneTurn("NaN",                      "f97e00");
+oneTurn("Infinity",                 "f97c00");
+oneTurn("-Infinity",                "f9fc00");
+oneTurn("0.0000610649585723877",    "fa38801000");
+oneTurn("10.559998512268066",       "fa4128f5c1");
+oneTurn("65472.0",                  "f97bfe");
+oneTurn("65472.00390625",           "fa477fc001");
+oneTurn("65503.0",                  "fa477fdf00");
+oneTurn("65504.0",                  "f97bff");
+oneTurn("65504.00000000001",        "fb40effc0000000001");
+oneTurn("65504.00390625",           "fa477fe001");
+oneTurn("65504.5",                  "fa477fe080");
+oneTurn("65505.0",                  "fa477fe100");
+oneTurn("131008.0",                 "fa47ffe000");
+oneTurn("-5.960464477539062e-8",    "fbbe6fffffffffffff");
+oneTurn("-5.960464477539063e-8",    "f98001");
+oneTurn("-5.960464477539064e-8",    "fbbe70000000000001");
+oneTurn("-5.960465188081798e-8",    "fab3800001");
+oneTurn("-5.963374860584736e-8",    "fab3801000");
+oneTurn("-5.966285243630409e-8",    "fab3802000");
+oneTurn("-8.940696716308594e-8",    "fab3c00000");
+oneTurn("-0.00006097555160522461",  "f983ff");
+oneTurn("-0.000060975551605224616", "fbbf0ff80000000001");
+oneTurn("-0.000060975555243203416", "fab87fc001");
+oneTurn("0.00006103515625",         "f90400");
+oneTurn("0.00006103515625005551",   "fb3f10000000001000");
+oneTurn("1.4012984643248169e-45",   "fb369fffffffffffff");
+oneTurn("1.401298464324817e-45",    "fa00000001");
+oneTurn("1.4012984643248174e-45",   "fb36a0000000000001");
+oneTurn("1.4012986313726115e-45",   "fb36a0000020000000");
+oneTurn("1.1754942106924411e-38",   "fa007fffff");
+oneTurn("3.4028234663852886e+38",   "fa7f7fffff");
+oneTurn("3.402823466385289e+38",    "fb47efffffe0000001");
+oneTurn("0.00006109476089477539",   "f90401");
+oneTurn("7.52316384526264e-37",     "fa03800000");
+oneTurn("1.1754943508222875e-38",   "fa00800000");
+oneTurn("5.0e-324",                 "fb0000000000000001");
+oneTurn("-1.7976931348623157e+308", "fbffefffffffffffff");
 
 oneNonFiniteTurn(0x7e00n,             "f97e00",             "NaN");
 oneNonFiniteTurn(0x7c01n,             "f97c01",             "float'7c01'");
@@ -482,6 +482,16 @@ oneNonFiniteTurn(0xfff8000000000000n, "f9fe00",             "float'fe00'");
 oneNonFiniteTurn(0x7ff0040000000000n, "f97c01",             "float'7c01'");
 oneNonFiniteTurn(0x7ff0000000000000n, "f97c00",             "Infinity");
 oneNonFiniteTurn(0xfff0000000000000n, "f9fc00",             "-Infinity");
+
+// Very special, some JavaScript platforms natively support NaN with payloads, but we don't care
+// "signaling" NaN
+let nanWithPayload = new Uint8Array([0x7f, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01]);
+let object = CBOR.createCombinedFloat(new DataView(nanWithPayload.buffer, 0, 8).getFloat64(0, false));
+assertTrue("conv", object instanceof CBOR.NonFinite);
+assertTrue("truncated", object.getNonFinite64() == 0x7ff8000000000000n);  // Returns "quiet" NaN
+assertTrue("cbor", CBOR.toHex(object.encode()) == "f97e00");              // Encoded as it should
+assertTrue("combined", Number.isNaN(object.getCombinedFloat64()));        // Returns "Number"
+assertTrue("basic", object.isBasic(false));                               // Indeed it is
 
 success();
 `}
