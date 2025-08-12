@@ -1053,6 +1053,9 @@ class CBOR {
     constructor(value) {
       super();
       this.#original = CBOR.#typeCheck(value, 'bigint');
+      if (value > 0xffffffffffffffffn) {
+        CBOR.#error("Argument out of range: " + value);
+      }
       let pattern;
       while (true) {
         this.#value = value;
@@ -2209,7 +2212,7 @@ class CBOR {
   }
 
   static fromBigInt = function(bigint) {
-    if (bigint > 0xffffffffffffffffn || bigint < 0n) {
+    if (bigint < 0n) {
       CBOR.#error("Argument out of range: " + bigint);
     }
     let array = [];
