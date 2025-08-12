@@ -115,13 +115,16 @@ async function doProcess() {
       default:
         cborBytes = CBOR.fromBase64Url(inData);
     }
+  console.log(rejectNonFiniteFlag);
     let sequenceBuilder = CBOR.Array();
     let decoder = CBOR.initDecoder(cborBytes, 
         (sequenceFlag ? CBOR.SEQUENCE_MODE : 0) |
-        (deterministicFlag ? 0 : CBOR.LENIENT_NUMBER_DECODING | CBOR.LENIENT_MAP_DECODING) |
-        (rejectNonFiniteFlag ? CBOR.REJECT_NON_FINITE_FLOATS : 0));
+        (deterministicFlag ? 0 : CBOR.LENIENT_NUMBER_DECODING | CBOR.LENIENT_MAP_DECODING));
     let object;
     while (object = decoder.decodeWithOptions()) {
+      if (rejectNonFiniteFlag && object instanceof CBOR.NonFinite) {
+        throw new Error('"NaN" or "Infinity" were encountered');
+      }
       sequenceBuilder.add(object);
       if (!sequenceFlag) {
         break;
