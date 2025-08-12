@@ -493,6 +493,14 @@ assertTrue("cbor", CBOR.toHex(object.encode()) == "f97e00");              // Enc
 assertTrue("combined", Number.isNaN(object.getCombinedFloat64()));        // Returns "Number"
 assertTrue("basic", object.isBasic(false));                               // Indeed it is
 
+[0x80000000000000000n, -1n].forEach(argument => {
+  try {
+    CBOR.NonFinite(argument);
+  } catch(error) {
+    assertTrue("arg", error.toString().includes("out of range:"));
+  }
+});
+
 success();
 `}
 ,

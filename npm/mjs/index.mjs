@@ -1054,7 +1054,7 @@ export default class CBOR {
       super();
       this.#original = CBOR.#typeCheck(value, 'bigint');
       if (value > 0xffffffffffffffffn || value < 0n) {
-        this.#badValue();
+        CBOR.#error("Argument out of range: " + value);
       }
       let pattern;
       while (true) {
