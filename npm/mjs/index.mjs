@@ -2033,18 +2033,13 @@ export default class CBOR {
 
   static #finishBigIntAndTag = function(tag, value) {
     // Convert BigInt to Uint8Array (but with a twist).
-    let array = [];
-    do {
-      array.push(Number(value & 0xffn));
-    } while (value >>= 8n);
-    let length = array.length;
+    let byteArray = CBOR.fromBigInt(value);
+    let length = byteArray.length;
     // Prepare for "integer" encoding (1, 2, 4, 8).  Only 3, 5, 6, and 7 need an action.
     while (length < 8 && length > 2 && length != 4) {
-      array.push(0);
+      byteArray = CBOR.addArrays(new Uint8Array([0]), byteArray);
       length++;
     }
-    // Make big endian.
-    let byteArray = new Uint8Array(array.reverse());
     // Does this number qualify as a "bignum"?
     if (length <= 8) {
       // Apparently not, encode it as "integer".
