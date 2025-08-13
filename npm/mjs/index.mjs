@@ -1142,12 +1142,22 @@ export default class CBOR {
       return this.#encoded.length;
     }
   
+    #toNonFinite64 = function(significandLength) {
+      let value = this.#value;
+      value &= (1n << significandLength) - 1n;
+      value = 0x7ff0000000000000n | (value << (52n - significandLength));
+      if (this.#encoded[0] & 0x80) {
+        value |= 0x8000000000000000n;
+      }
+      return value;
+    }
+
     _get = function() {
       switch (this.#encoded.length) {
         case 2:
-          return CBOR.#toNonFinite64(this.#encoded, this.#value, 10n);
+          return this.#toNonFinite64(10n);
         case 4:
-          return CBOR.#toNonFinite64(this.#encoded, this.#value, 23n);
+          return this.#toNonFinite64(23n);
       }
       return this.#value;
     }
@@ -1267,8 +1277,8 @@ export default class CBOR {
       return cborFloat;
     }
 
-    returnNonFinite = function (decoded, value, significandLength) { 
-      let nonFinite = CBOR.NonFinite(CBOR.#toNonFinite64(decoded, value, significandLength));
+    returnNonFinite = function (decoded, value) { 
+      let nonFinite = CBOR.NonFinite(value);
       if (this.strictNumbers && nonFinite._compare(decoded)) {
         CBOR.#error("Non-deterministic encoding of non-finite value: " + CBOR.toHex(decoded));
       }
@@ -1284,13 +1294,13 @@ export default class CBOR {
     // Maybe not the most performant solution, but hey, this is a "Reference Implementation" :)
     decodeF16 = function() {
       let decoded = this.readBytes(2);
-      let f16Binary = CBOR.toBigInt(decoded);
-      let exponent = Number(f16Binary & 0x7c00n);
-      let significand = Number(f16Binary & 0x3ffn);
+      let value = CBOR.toBigInt(decoded);
+      let exponent = Number(value & 0x7c00n);
+      let significand = Number(value & 0x3ffn);
       // Catch the three cases of non-finite numbers.
       if (exponent == 0x7c00) {
         // Takes NaN payloads as well.
-        return this.returnNonFinite(decoded, f16Binary, 10n);
+        return this.returnNonFinite(decoded, value);
       }
       // It is a genuine number (including zero).
       if (exponent) {
@@ -1310,7 +1320,7 @@ export default class CBOR {
       // Catch the three cases of non-finite numbers.
       if ((value & 0x7f800000n) == 0x7f800000n) {
         // Takes NaN payloads as well.
-        return this.returnNonFinite(decoded, value, 23n);
+        return this.returnNonFinite(decoded, value);
       }
       // It is a genuine number (including zero).
       let f64 = new DataView(decoded.buffer, 0, 4).getFloat32(0, false);
@@ -1323,7 +1333,7 @@ export default class CBOR {
       // Catch the three cases of non-finite numbers.
       if ((value & 0x7ff0000000000000n) == 0x7ff0000000000000n) {
         // Takes NaN payloads as well.
-        return this.returnNonFinite(decoded, value, 52n);
+        return this.returnNonFinite(decoded, value);
       }
       // It is a genuine number (including zero).
       let f64 = new DataView(decoded.buffer, 0, 8).getFloat64(0, false);
@@ -2130,15 +2140,6 @@ export default class CBOR {
     if (list.length != expected) {
       CBOR.#error('Expected number of arguments: ' + expected);
     }
-  }
-
-  static #toNonFinite64(encoded, value, significandLength) {
-    value &= (1n << significandLength) - 1n;
-    value = 0x7ff0000000000000n | (value << (52n - significandLength));
-    if (encoded[0] & 0x80) {
-      value |= 0x8000000000000000n;
-    }
-    return value;
   }
 
 //================================//
