@@ -26,7 +26,7 @@ function oneTurn(valueText, expected) {
   if (Number.isFinite(value)) {
     try {
       CBOR.NonFinite(value);
-      fail("f1")
+      fail("f1");
     } catch (error) {
       assertTrue("f2", error.toString().includes("bigint"));
     }
@@ -206,7 +206,7 @@ oneNonFiniteTurn(0x7ff0040000000000n, "f97c01",             "float'7c01'");
 oneNonFiniteTurn(0x7ff0000000000000n, "f97c00",             "Infinity");
 oneNonFiniteTurn(0xfff0000000000000n, "f9fc00",             "-Infinity");
 
-// Very special, some JavaScript platforms natively support NaN with payloads, but we don't care
+// Very special, some platforms natively support NaN with payloads, but we don't care
 // "signaling" NaN
 let nanWithPayload = new Uint8Array([0x7f, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01]);
 let object = CBOR.createCombinedFloat(new DataView(nanWithPayload.buffer, 0, 8).getFloat64(0, false));
