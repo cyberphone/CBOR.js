@@ -2132,11 +2132,11 @@ class CBOR {
     }
   }
 
-  static #toNonFinite64(decoded, value, significandLength) {
+  static #toNonFinite64(encoded, value, significandLength) {
     value &= (1n << significandLength) - 1n;
     value = 0x7ff0000000000000n | (value << (52n - significandLength));
-    if (decoded[0] & 0x80) {
-      value |= 0x8000000000000000n
+    if (encoded[0] & 0x80) {
+      value |= 0x8000000000000000n;
     }
     return value;
   }
