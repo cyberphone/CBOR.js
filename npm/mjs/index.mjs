@@ -1111,10 +1111,6 @@ export default class CBOR {
       return CBOR.addArrays(new Uint8Array([0xf9 + (this.#encoded.length >> 2)]), this.#encoded);
     }
 
-    _compare = function(decoded) {
-      return CBOR.compareArrays(this.#encoded, decoded);
-    }
-
     isBasic = function(allFlag) {
       switch (this.getNonFinite()) {
         case 0x7e00n:
@@ -1277,10 +1273,11 @@ export default class CBOR {
       return cborFloat;
     }
 
-    returnNonFinite = function (decoded, value) { 
+    returnNonFinite = function (value) { 
       let nonFinite = CBOR.NonFinite(value);
-      if (this.strictNumbers && nonFinite._compare(decoded)) {
-        CBOR.#error("Non-deterministic encoding of non-finite value: " + CBOR.toHex(decoded));
+      if (this.strictNumbers && nonFinite.getNonFinite() != value) {
+        CBOR.#error("Non-deterministic encoding of non-finite value: " + 
+          CBOR.toHex(CBOR.fromBigInt(value)));
       }
       return nonFinite;
     }
@@ -1300,7 +1297,7 @@ export default class CBOR {
       // Catch the three cases of non-finite numbers.
       if (exponent == 0x7c00) {
         // Takes NaN payloads as well.
-        return this.returnNonFinite(decoded, value);
+        return this.returnNonFinite(value);
       }
       // It is a genuine number (including zero).
       if (exponent) {
@@ -1320,7 +1317,7 @@ export default class CBOR {
       // Catch the three cases of non-finite numbers.
       if ((value & 0x7f800000n) == 0x7f800000n) {
         // Takes NaN payloads as well.
-        return this.returnNonFinite(decoded, value);
+        return this.returnNonFinite(value);
       }
       // It is a genuine number (including zero).
       let f64 = new DataView(decoded.buffer, 0, 4).getFloat32(0, false);
@@ -1333,7 +1330,7 @@ export default class CBOR {
       // Catch the three cases of non-finite numbers.
       if ((value & 0x7ff0000000000000n) == 0x7ff0000000000000n) {
         // Takes NaN payloads as well.
-        return this.returnNonFinite(decoded, value);
+        return this.returnNonFinite(value);
       }
       // It is a genuine number (including zero).
       let f64 = new DataView(decoded.buffer, 0, 8).getFloat64(0, false);
