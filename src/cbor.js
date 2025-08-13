@@ -1139,13 +1139,13 @@ class CBOR {
     }
   
     #toNonFinite64 = function(significandLength) {
-      let value = this.#value;
-      value &= (1n << significandLength) - 1n;
-      value = 0x7ff0000000000000n | (value << (52n - significandLength));
+      let value64 = this.#value;
+      value64 &= (1n << significandLength) - 1n;
+      value64 = 0x7ff0000000000000n | (value64 << (52n - significandLength));
       if (this.#encoded[0] & 0x80) {
-        value |= 0x8000000000000000n;
+        value64 |= 0x8000000000000000n;
       }
-      return value;
+      return value64;
     }
 
     _get = function() {
