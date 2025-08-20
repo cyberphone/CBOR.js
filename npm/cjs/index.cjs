@@ -116,7 +116,7 @@ class CBOR {
       return this.#checkTypeAndGetValue(CBOR.NonFinite);
     }
 
-    getCombinedFloat64 = function() {
+    getExtendedFloat64 = function() {
       if (this instanceof CBOR.NonFinite) {
         switch (this.getNonFinite()) {
           case 0x7e00n:
@@ -126,7 +126,7 @@ class CBOR {
           case 0xfc00n:
             return Number.NEGATIVE_INFINITY;
           default:
-            CBOR.#error('getCombinedFloat64() only supports the "basic" NaN (7e00)');
+            CBOR.#error('getExtendedFloat64() only supports the "basic" NaN (7e00)');
         }
       }
       return getFloat64();
@@ -510,6 +510,16 @@ class CBOR {
     _get = function() {
       return this.#value;
     }
+
+    static createExtended = function(value) {
+      if (Number.isFinite(CBOR.#typeCheck(value, 'number'))) {
+        return CBOR.Float(value);
+      }
+      if (Number.isNaN(value)) value = Number.NaN;  // Sorry, only the basic NaN is used.
+      let f64b = new Uint8Array(8);
+      new DataView(f64b.buffer, 0, 8).setFloat64(0, value, false);
+      return CBOR.NonFinite(CBOR.toBigInt(f64b));
+    }
   }
 
 ///////////////////////////
@@ -539,8 +549,7 @@ class CBOR {
           if (escapedCharacter = CBOR.#ESCAPE_CHARACTERS[c]) {
             cborPrinter.append('\\');
             if (escapedCharacter == 1) {
-              cborPrinter.append('u00');
-              cborPrinter.append(CBOR.#twoHex(c));
+              cborPrinter.append('u00').append(CBOR.#twoHex(c));
             } else {
               cborPrinter.append(escapedCharacter);
             }
@@ -686,8 +695,7 @@ class CBOR {
       let notFirst = false;
       this.#objects.forEach(object => {
         if (notFirst) {
-          cborPrinter.append(',');
-          cborPrinter.space();
+          cborPrinter.append(',').space();
         }
         notFirst = true;
         object.internalToString(cborPrinter);
@@ -886,8 +894,7 @@ class CBOR {
         notFirst = true;
         cborPrinter.newlineAndIndent();
         entry.key.internalToString(cborPrinter);
-        cborPrinter.append(':');
-        cborPrinter.space();
+        cborPrinter.append(':').space();
         entry.object.internalToString(cborPrinter);
       });
       cborPrinter.endMap(notFirst);
@@ -986,8 +993,7 @@ class CBOR {
     }
 
     internalToString = function(cborPrinter) {
-      cborPrinter.append(this.#tagNumber.toString());
-      cborPrinter.append('(');
+      cborPrinter.append(this.#tagNumber.toString()).append('(');
       this.#object.internalToString(cborPrinter);
       cborPrinter.append(')');
     }
@@ -1052,6 +1058,10 @@ class CBOR {
 
     constructor(value) {
       super();
+      this.#createDetermnisticEncoding(value);
+    }
+
+    #createDetermnisticEncoding = function(value) {
       this.#original = CBOR.#typeCheck(value, 'bigint');
       if (value > 0xffffffffffffffffn) {
         CBOR.#error("Argument out of range: " + value);
@@ -1073,7 +1083,7 @@ class CBOR {
           default:
             this.#badValue();
         }
-        let signed = this.#encoded[0] & 0x80;
+        let signed = this.#encoded[0] > 0x7f;
         if ((value & pattern) != pattern) {
           this.#badValue();
         }
@@ -1103,34 +1113,82 @@ class CBOR {
       }
     }
 
+    isSimple = function() {
+      if (this.#encoded.length == 2) {
+        switch (this.#value) {
+          case 0x7e00n:
+          case 0x7c00n:
+          case 0xfc00n:
+            return true;
+        }
+      }
+      return false;
+    }
+
+    setSign = function(on) {
+      let mask = 1n << BigInt((this.#encoded.length * 8) - 1);
+      this.#createDetermnisticEncoding((this.#value & (mask - 1n)) | (on ? mask : 0n));
+      return this;
+    }
+
+    isNaN = function() {
+      let mask;
+      switch (this.#encoded.length) {
+        case 2:
+          mask = 0x3ffn;
+          break;
+        case 4:
+          mask = 0x7fffffn;
+          break;
+        default:
+          mask = 0xfffffffffffffn;
+      }
+      return (mask & this.#value) != 0n;
+    }
+
+    getSign = function() {
+      return this.#encoded[0] > 0x7f;
+    }
+
+    static createPayloadObject = function(payload) {
+      if ((payload & 0xfffffffffffffn) != payload) {
+        CBOR.#error("Payload out of range: " + payload);
+      }
+      return CBOR.NonFinite(0x7ff0000000000000n + CBOR.#reverseBits(payload, 52));
+    }
+
+    getNonFinite = function() {
+      this.scan();
+      return this.#value;
+    }
+
+    #toNonFinite64 = function(significandLength) {
+      let value64 = this.#value;
+      value64 &= (1n << significandLength) - 1n;
+      value64 = 0x7ff0000000000000n | (value64 << (52n - significandLength));
+      if (this.getSign()) {
+        value64 |= 0x8000000000000000n;
+      }
+      return value64;       
+    }
+
+    getPayload = function() {
+      return CBOR.#reverseBits(this.getNonFinite64() & 0xfffffffffffffn, 52);
+    }
+
     #badValue = function() {
-      CBOR.#error("Invalid non-finite argument: " + CBOR.toHex(CBOR.fromBigInt(this.#original)));
+      CBOR.#error("Invalid non-finite argument: " + this.#original);
     }
 
     encode = function() {
       return CBOR.addArrays(new Uint8Array([0xf9 + (this.#encoded.length >> 2)]), this.#encoded);
     }
 
-    isBasic = function(allFlag) {
-      switch (this.getNonFinite()) {
-        case 0x7e00n:
-          return true;
-        case 0x7c00n:
-        case 0xfc00n:
-          return allFlag;
-        default:
-          return false;
-      }
-    }
-
     internalToString = function(cborPrinter) {  
-      if (this.isBasic(true)) {
-          cborPrinter.append(
-            this.isBasic(false) ? 'NaN' : this.#encoded[0] & 0x80 ? '-Infinity' : 'Infinity');
+      if (this.isSimple()) {
+        cborPrinter.append(this.isNaN() ? "NaN" : this.getSign() ? "-Infinity" : "Infinity");
       } else {
-        cborPrinter.append("float'");
-        cborPrinter.append(CBOR.toHex(this.#encoded));
-        cborPrinter.append("'");
+        cborPrinter.append("float'").append(CBOR.toHex(this.#encoded)).append("'");
       }
     }
   
@@ -1138,16 +1196,6 @@ class CBOR {
       return this.#encoded.length;
     }
   
-    #toNonFinite64 = function(significandLength) {
-      let value64 = this.#value;
-      value64 &= (1n << significandLength) - 1n;
-      value64 = 0x7ff0000000000000n | (value64 << (52n - significandLength));
-      if (this.#encoded[0] & 0x80) {
-        value64 |= 0x8000000000000000n;
-      }
-      return value64;
-    }
-
     _get = function() {
       switch (this.#encoded.length) {
         case 2:
@@ -1158,7 +1206,7 @@ class CBOR {
       return this.#value;
     }
 
-    getNonFinite = function() {
+    _getValue = function() {
       return this.#value;
     }
   }
@@ -1275,7 +1323,7 @@ class CBOR {
 
     returnNonFinite = function (value) { 
       let nonFinite = CBOR.NonFinite(value);
-      if (this.strictNumbers && nonFinite.getNonFinite() != value) {
+      if (this.strictNumbers && nonFinite._getValue() != value) {
         CBOR.#error("Non-deterministic encoding of non-finite value: " + 
           CBOR.toHex(CBOR.fromBigInt(value)));
       }
@@ -2062,7 +2110,7 @@ class CBOR {
     // It is a "bignum".
     return CBOR.addArrays(new Uint8Array([tag == CBOR.#MT_NEGATIVE ?
                                              CBOR.#MT_BIG_NEGATIVE : CBOR.#MT_BIG_UNSIGNED]), 
-                                          CBOR.Bytes(byteArray).encode());
+                          CBOR.Bytes(byteArray).encode());
   }
 
   static #CborPrinter = class {
@@ -2081,6 +2129,7 @@ class CBOR {
 
     append = function(string) {
       this.buffer += string;
+      return this;
     }
 
     space = function() {
@@ -2137,6 +2186,22 @@ class CBOR {
     if (list.length != expected) {
       CBOR.#error('Expected number of arguments: ' + expected);
     }
+  }
+
+  static #reverseBits(bits, fieldWidth) {
+    let reversed = 0n;
+    let bitCount = 0;
+    while (bits > 0n) {
+      bitCount++;
+      reversed <<= 1n;
+      if ((bits & 1n) == 1n)
+        reversed |= 1n;
+      bits >>= 1n;
+    }
+    if (bitCount > fieldWidth) {
+      CBOR.#error("Field exceeds fieldWidth");
+    }
+    return reversed << BigInt(fieldWidth - bitCount);
   }
 
 //================================//
@@ -2213,16 +2278,6 @@ class CBOR {
       array.push(Number(bigint & 0xffn));
     } while (bigint >>= 8n);
     return new Uint8Array(array.reverse());
-  }
-
-  static createCombinedFloat = function(value) {
-    if (Number.isFinite(CBOR.#typeCheck(value, 'number'))) {
-      return CBOR.Float(value);
-    }
-    if (Number.isNaN(value)) value = Number.NaN;  // Sorry, only the basic NaN is used.
-    let f64b = new Uint8Array(8);
-    new DataView(f64b.buffer, 0, 8).setFloat64(0, CBOR.#typeCheck(value, 'number'), false);
-    return CBOR.NonFinite(CBOR.toBigInt(f64b));
   }
 
   static get version() {

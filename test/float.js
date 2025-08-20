@@ -62,8 +62,8 @@ function oneTurn(valueText, expected) {
     } catch (error) {
         assertTrue("nf1", error.toString().includes('CBOR.NonFinite'));
     }
-    let decodedValue = CBOR.createCombinedFloat(value);
-    assertTrue("nf2", decodedValue.getCombinedFloat64().toString() == value.toString());
+    let decodedValue = CBOR.Float.createExtended(value);
+    assertTrue("nf2", decodedValue.getExtendedFloat64().toString() == value.toString());
     assertTrue("nf3", decodedValue.toString() == value.toString());
     let cbor = decodedValue.encode();
     assertTrue("nf4", CBOR.toHex(cbor) == expected);
@@ -72,7 +72,7 @@ function oneTurn(valueText, expected) {
     new DataView(buf.buffer, 0, 8).setFloat64(0, value, false);
     assertTrue("nf6", decodedValue.getNonFinite64() == CBOR.toBigInt(buf));
   }
-  assertTrue("d10", CBOR.toHex(CBOR.createCombinedFloat(value).encode()) == expected);
+  assertTrue("d10", CBOR.toHex(CBOR.Float.createExtended(value).encode()) == expected);
 }
 
 const inNanWithPayload = new Uint8Array([0x7f, 0xf8, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00]);
@@ -90,6 +90,25 @@ for (let q = 0; q < 8; q++) {
     supportNanWithPayloads = false;
     break;
   }
+}
+
+function payloadOneTurn(payload, hex, dn) {
+  dn = dn == null ? "float'" + hex.substring(2) + "'" : dn;
+  let cbor = CBOR.NonFinite.createPayloadObject(payload).encode();
+  let object = CBOR.decode(cbor);
+  assertTrue("plo1", object instanceof CBOR.NonFinite);
+  let nonFinite = object;
+  assertTrue("plo2", nonFinite.getPayload() == payload);
+  assertTrue("plo3", CBOR.toHex(cbor) == hex);
+  assertTrue("plo4", nonFinite.toString() == dn);
+  assertTrue("plo5", nonFinite.getNonFinite() == CBOR.toBigInt(CBOR.fromHex(hex.substring(2), 16)));
+  assertFalse("plo6", nonFinite.getSign());
+  let signedHex = hex.substring(0, 2) + "f" +hex.substring(3);
+  nonFinite.setSign(true);
+  assertTrue("plo7", nonFinite.getSign());
+  assertTrue("plo8", CBOR.toHex(nonFinite.encode()) == signedHex);
+  nonFinite = CBOR.NonFinite.createPayloadObject(payload).setSign(true);
+  assertTrue("plo9", CBOR.toHex(nonFinite.encode()) == signedHex);
 }
 
 function oneNonFiniteTurn(value, binexpect, textexpect) {
@@ -124,17 +143,17 @@ function oneNonFiniteTurn(value, binexpect, textexpect) {
     .decodeWithOptions().equals(nonfinite));
   let object = CBOR.decode(refcbor);
   if (textexpect.includes("NaN") || textexpect.includes("Infinity")) {
-    assertTrue("d4", object.getCombinedFloat64().toString() == textexpect);
-    assertTrue("d5", object.isBasic(true));
-    assertTrue("d6", textexpect.includes("Infinity") ^ object.isBasic(false));
+    assertTrue("d4", object.getExtendedFloat64().toString() == textexpect);
+    assertTrue("d5", object.isSimple());
+    assertTrue("d6", textexpect.includes("Infinity") ^ object.isNaN());
   } else {
     try {
-      object.getCombinedFloat64();
+      object.getExtendedFloat64();
       fail("d7");
     } catch (error) {
       assertTrue("d8", error.toString().includes("7e00"));
     }
-    assertFalse("d9", object.isBasic(true));
+    assertFalse("d9", object.isSimple());
   }
 }
 
@@ -209,19 +228,27 @@ oneNonFiniteTurn(0xfff0000000000000n, "f9fc00",             "-Infinity");
 // Very special, some platforms natively support NaN with payloads, but we don't care
 // "signaling" NaN
 let nanWithPayload = new Uint8Array([0x7f, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01]);
-let object = CBOR.createCombinedFloat(new DataView(nanWithPayload.buffer, 0, 8).getFloat64(0, false));
-assertTrue("conv", object instanceof CBOR.NonFinite);
-assertTrue("truncated", object.getNonFinite64() == 0x7ff8000000000000n);  // Returns "quiet" NaN
-assertTrue("cbor", CBOR.toHex(object.encode()) == "f97e00");              // Encoded as it should
-assertTrue("combined", Number.isNaN(object.getCombinedFloat64()));        // Returns "Number"
-assertTrue("basic", object.isBasic(false));                               // Indeed it is
+let nonFinite = CBOR.Float.createExtended(new DataView(nanWithPayload.buffer, 0, 8).getFloat64(0, false));
+assertTrue("conv", nonFinite instanceof CBOR.NonFinite);
+assertTrue("truncated", nonFinite.getNonFinite64() == 0x7ff8000000000000n);  // Returns "quiet" NaN
+assertTrue("cbor", CBOR.toHex(nonFinite.encode()) == "f97e00");              // Encoded as it should
+assertTrue("combined", Number.isNaN(nonFinite.getExtendedFloat64()));        // Returns "Number"
+assertTrue("nan", nonFinite.isNaN(false));                                   // Indeed it is
 
-[0x80000000000000000n, -1n].forEach(argument => {
-  try {
-    CBOR.NonFinite(argument);
-  } catch(error) {
-    assertTrue("arg", error.toString().includes("out of range:"));
-  }
-});
+payloadOneTurn(0n,               "f97c00",       "Infinity");
+payloadOneTurn(1n,               "f97e00",            "NaN");
+payloadOneTurn(2n,               "f97d00",             null);
+payloadOneTurn((1n << 10n) - 1n, "f97fff",             null);
+payloadOneTurn(1n << 10n,        "fa7f801000",         null);
+payloadOneTurn((1n << 23n) - 1n, "fa7fffffff",         null);
+payloadOneTurn(1n << 23n,        "fb7ff0000010000000", null);
+payloadOneTurn((1n << 52n) - 1n, "fb7fffffffffffffff", null);
+
+try {
+  CBOR.NonFinite.createPayloadObject(1n << 52n).encode();
+  fail("pl8");
+} catch(error) {
+  assertTrue("p18a", error.toString().includes("Payload out of range"));
+}
 
 success();
