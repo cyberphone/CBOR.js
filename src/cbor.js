@@ -1171,21 +1171,8 @@ class CBOR {
       }
       return value64;       
     }
-/*
-    getNonFinite64 = function() {
-      this.scan();
-      switch (this.#encoded.length) {
-        case 2:
-          return this.#toNonFinite64(10n);
-        case 4:
-          return this.#toNonFinite64(23n);
-        default:
-          return this.#value;
-      }
-    }
-      */
 
-    getPayloadData = function() {
+    getPayload = function() {
       return CBOR.#reverseBits(this.getNonFinite64() & 0xfffffffffffffn, 52);
     }
 
@@ -1219,7 +1206,7 @@ class CBOR {
       return this.#value;
     }
 
-    getNonFinite = function() {
+    _getValue = function() {
       return this.#value;
     }
   }
@@ -1336,7 +1323,7 @@ class CBOR {
 
     returnNonFinite = function (value) { 
       let nonFinite = CBOR.NonFinite(value);
-      if (this.strictNumbers && nonFinite.getNonFinite() != value) {
+      if (this.strictNumbers && nonFinite._getValue() != value) {
         CBOR.#error("Non-deterministic encoding of non-finite value: " + 
           CBOR.toHex(CBOR.fromBigInt(value)));
       }

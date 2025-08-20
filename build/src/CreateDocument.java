@@ -8,6 +8,9 @@ import org.webpki.util.UTF8;
 
 public class CreateDocument {
 
+  static final String NR = """
+    <b style='color:red'>NOT READY NOT READY NOT READY</b>
+    """;
   static final String WRAPPER_RETURN_DESCR = """
       Object.""";
 
@@ -1474,27 +1477,48 @@ public class CreateDocument {
         .addMethod("getFloat64", W_GETFLOAT_DESCR)
         .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
 
+        .addMethod("CBOR.Float.createExtendedFloat", NR)
+        .addParameter("value", DataTypes.JS_NUMBER, NR)
+        .setReturn(DataTypes.CBOR_Any, NR)
+
+        .addMethod("getExtendedFloat64", NR)
+        .setReturn(DataTypes.JS_NUMBER, NR)
+
         .setProperty("length", DataTypes.JS_NUMBER, W_FLOAT_PROP_DESCR);
 
     // CBOR.NonFinit
 
     addWrapper(DataTypes.CBOR_NONFIN, W_NONFIN_DESCR)
-        .addWrapperParameter("value", DataTypes.JS_BIGINT, W_NONFIN_P1_DESCR)
+        .addWrapperParameter("value", DataTypes.JS_BIGINT, NR)
 
-        .addMethod("getFloat16", W_GETFLOAT_DESCR +
-            "<div style='margin-top:0.5em'>" +
-            "Note: the CBOR object must be a 16-bit IEEE-754 item, " +
-            "otherwise an exception will be thrown.</div>")
-        .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
+        .addMethod("getExtendedFloat64", NR)
+        .setReturn(DataTypes.JS_NUMBER, NR)
 
-        .addMethod("getFloat32", W_GETFLOAT_DESCR +
-            "<div style='margin-top:0.5em'>" +
-            "Note: the CBOR object must be a 16-bit or 32-bit IEEE-754 item, " +
-            "otherwise an exception will be thrown.</div>")
-        .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
+        .addMethod("getNonFinite", NR)
+        .setReturn(DataTypes.JS_BIGINT, NR)
 
-        .addMethod("getFloat64", W_GETFLOAT_DESCR)
-        .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
+        .addMethod("getNonFinite64", NR)
+        .setReturn(DataTypes.JS_BIGINT, NR)
+
+        .addMethod("isNaN", NR)
+        .setReturn(DataTypes.JS_BIGINT, NR)
+
+        .addMethod("isSimple", NR)
+        .setReturn(DataTypes.JS_BIGINT, NR)
+
+        .addMethod("getSign", NR)
+        .setReturn(DataTypes.JS_BIGINT, NR)
+
+        .addMethod("setSign", NR)
+        .addParameter("on", DataTypes.JS_BOOLEAN, NR)
+        .setReturn(DataTypes.JS_BIGINT, NR)
+
+        .addMethod("CBOR.NonFinite.createPayloadObject", NR)
+        .addParameter("payload", DataTypes.JS_BIGINT, NR)
+        .setReturn(DataTypes.CBOR_NONFIN, NR)
+
+        .addMethod("getPayload", NR)
+        .setReturn(DataTypes.JS_BIGINT, NR)
 
         .setProperty("length", DataTypes.JS_NUMBER, W_FLOAT_PROP_DESCR);
     
@@ -1732,6 +1756,18 @@ public class CreateDocument {
     addUtilityMethod("CBOR.fromBase64Url", FROMB64U_DESCR)
         .addParameter("base64", DataTypes.JS_STRING, FROMB64U_P1_DESCR)
         .setReturn(DataTypes.JS_UINT8ARRAY, FROMB64U_RETURN_DESCR);
+
+    // CBOR.toBigInt()
+
+    addUtilityMethod("CBOR.toBigInt", NR)
+        .addParameter("byteArray", DataTypes.JS_UINT8ARRAY, NR)
+        .setReturn(DataTypes.JS_BIGINT, NR);
+
+    // CBOR.fromBigInt()
+
+    addUtilityMethod("CBOR.fromBigInt", NR)
+        .addParameter("value", DataTypes.JS_BIGINT, NR)
+        .setReturn(DataTypes.JS_UINT8ARRAY, NR);
 
     replace(INTRO, printMainHeader("intro", "Introduction"));
     outline.increment();
