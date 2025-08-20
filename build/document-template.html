@@ -218,13 +218,9 @@
   transparent. The <a href='#wrapper.cbor.float'>CBOR.Float()</a>
   wrapper object only exposes the JavaScript <kbd>Number</kbd> type.
 <p>
-  In this implementation <code>NaN</code> and <code>Infinity</code> are
-  treated as a specific data type: <a href='#wrapper.cbor.nonfinite'>CBOR.NonFinitite()</a>.
-  The purpose of this arrangement is to eliminate the need for having
-  to test each decoded <code>Number</code> for possible math exceptions.
-  For CBOR applications that exploit non-finite values, the JavaScript
-  test <code>!Double.isFinite(value)</code> is replaced by
-  <code><i>Wrapper</i>&nbsp;instanceof&nbsp;CBOR.NonFinite</code>.
+  For supporting non-finite numbers
+  (<code>NaN</code> and <code>Infinity</code>),
+  turn to <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.
 </p>
   ${DIAGNOSTIC_NOTATION}
   Creating CBOR data in diagnostic (textual) notation is provided by the
