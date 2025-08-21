@@ -8,7 +8,7 @@
 <link rel='stylesheet' type='text/css' href='style.css'>
 </head>
 <body>
-<h1>Non-Finite Numbers</h1>
+<h3>Non-Finite Numbers</h3>
 Unlike JSON&nbsp;[<a href='https://www.rfc-editor.org/rfc/rfc8259.html'
 title="JSON">RFC&nbsp;8259<img src="xtl.svg" alt="link"></a>],
 CBOR supports the non-finite floating-point constructs defined by IEEE-754, known as
@@ -17,18 +17,23 @@ This implementation provides multiple levels of support, intended to
 accommodate different needs.
 This is accomplished without specific decoder or encoder options;
 it is entirely based on API method selections.
-The levels are represented by the following table:
-<div class='webpkifloat' style='margin-left:2em'><table class='webpkitable' style='margin-bottom:0;min-width:30em'>
+The following table outlines the supported alternatives:
+<div class='webpkifloat' style='margin-left:2em'><table class='webpkitable' style='min-width:30em'>
 <tr><th>Designation</th><th>Comment</th></tr>
-<tr><td style='text-align:center'><code>STANDARD</code></td><td>Only "regular" floating-point numbers are accepted;
-an encountered non-finite number will couse an throw an exception will be thrown.
+<tr><td style='text-align:center'><code>STANDARD</code></td><td>Only "regular" floating-point numbers are accepted.
 </td></tr>
-<tr><td style='text-align:center'><code>EXTENDED</code></td><td>All but non-trivial non-finite numbers are accepted.
+<tr><td style='text-align:center'><code>EXTENDED</code></td><td>All floating-point numbers except for non-trivial <code>NaNs</code> are accepted.
+In the list below, <code>NaN</code> refers to "simple" <code>NaNs</code>
+(in deterministically encoded CBOR represented by <code>f97e00</code>),
+while <code>Infinity</code> refers to
+positive infinity (<code>f97c00</code>) and negative infinity (<code>f9fc00</code>).
 </td></tr>
 <tr><td style='text-align:center'><code>COMPLETE</code></td><td>All floating-point numbers are accepted.
 </td></tr>
 </table></div>
-<h5 style='margin:1.3em 0 1em 0'>Encoding</h5>
+Non-supported items cause an exception to be thrown.
+Note that the constraints apply to <i>encoding</i> as well.
+<h5 style='margin:1.3em 0 1em 0'>Encoding Methods</h5>
 <div class='webpkifloat'>
 <table style='margin-left:2em;font-family: monospace;white-space:nowrap;border-spacing:0'>
 <tr><td colspan='2'>STANDARD</td></tr>
@@ -42,7 +47,7 @@ an encountered non-finite number will couse an throw an exception will be thrown
 <tr><td style='padding-left:1.5em'><a href='index.html#cbor.nonfinite.cbor.nonfinite.createpayloadobject'>CBOR.NonFinite.createPayloadObject(payload)</a></td><td>// Application-specific data</td></tr>
 </table>
 </div>
-<h5 style='margin:1.3em 0 1em 0'>Decoding</h5>
+<h5 style='margin:1.3em 0 1em 0'>Decoding Methods</h5>
 <div class='webpkifloat'>
 <table style='margin-left:2em;font-family: monospace;white-space:nowrap;border-spacing:0'>
 <tr><td colspan='2'>STANDARD</td></tr>
@@ -69,7 +74,7 @@ math-related problems such as division by zero.
 </div>
 <div style='margin-top:0.5em'>
 However, in some cases there may be a desire providing more application specific data,
-like debug information related to faulty sensors.
+like information related to a faulty sensor that needs attention.
 The <a href='index.html#cbor.nonfinite.cbor.nonfinite.createpayloadobject'>CBOR.NonFinite.createPayloadObject(payload)</a>
 and <a href='index.html#cbor.nonfinite.getpayload'>getPayload()</a>
 methods were designed for this particular purpose.
@@ -113,5 +118,6 @@ The following table shows a few examples:
 <tr><td style='text-align:right'><code>800000</code></td><td style='text-align:right'><code>fb7ff0000010000000</code></td><td><code>float'7ff0000010000000'</code></td></tr>
 <tr><td style='text-align:right'><code>fffffffffffff</code></td><td style='text-align:right'><code>fb7fffffffffffffff</code></td><td><code>float'7fffffffffffffff'</code></td></tr>
 </table></div>
+A payload of <code>0</code> and having the sign bit set, would encode as <code>f9fc00</code> (<code>-Infinity</code>). 
 </body>
 </html>
