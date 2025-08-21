@@ -275,7 +275,7 @@
       <tr style='text-align:center'>
         <td><code>#7.n</code></td>
         <td><a href='#wrapper.cbor.simple'>CBOR.Simple</a></td>
-        <td><code>Number</code></td>
+        <td></td>
         <td></td>
       </tr>
     </table>
@@ -1045,10 +1045,16 @@ and tag&nbsp;<code>1010</code>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.Simple(<i>value</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Constructor.  Creates a CBOR simple value object.
-<div style='margin-top:0.5em'>Note that <kbd><i>value</i></kbd> must be in
-the range <code>0-23</code> or <code>32-255</code>, otherwise an
-exception will be thrown.</div></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>      Constructor.  Creates a CBOR simple value object.
+      <div style='margin-top:0.5em'>Note that <kbd><i>value</i></kbd> must be in
+      the range <code>0-23</code> or <code>32-255</code>, otherwise an
+      exception will be thrown.</div>
+      <div style='margin-top:0.5em'>A primary use case for <code>simple</code>
+      types in the range of <code>0-19</code> and <code>32-255</code>,
+      is serving as a limited set of <i>unique and reserved labels</i> (keys)
+      in CBOR maps.  The <code>simple(99)</code> label featured in
+      <a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-12.html#name-code-example'>Embedded&nbsp;Signatures</a>
+      shows a representative example.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Simple value.</td></tr>
@@ -1414,7 +1420,7 @@ a negative number is returned.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.toHex(<i>byteArray</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Encode binary data to hexadecimal.</td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Encode binary string to hexadecimal.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>byteArray</i></kbd></td><td style='text-align:center'><kbd>Uint8Array</kbd></td><td style='width:100%'>Zero or more bytes to be encoded.</td></tr>
@@ -1438,7 +1444,7 @@ a negative number is returned.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.toBase64Url(<i>byteArray</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Encode binary data to base64Url.</td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Encode binary string to base64Url.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>byteArray</i></kbd></td><td style='text-align:center'><kbd>Uint8Array</kbd></td><td style='width:100%'>Zero or more bytes to be encoded.</td></tr>
@@ -1465,31 +1471,25 @@ base64 encoded data as well as data with or without
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.toBigInt(<i>byteArray</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Convert binary string to a <i>positive</i> BigInt.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>byteArray</i></kbd></td><td style='text-align:center'><kbd>Uint8Array</kbd></td><td style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><td style='text-align:center'><kbd><i>byteArray</i></kbd></td><td style='text-align:center'><kbd>Uint8Array</kbd></td><td style='width:100%'>Zero or more bytes.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>BigInt</kbd></td><td colspan='2' style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><td style='text-align:center'><kbd>BigInt</kbd></td><td colspan='2' style='width:100%'>BigInt.</td></tr>
 </table></div>
 <h5 id='utility.cbor.frombigint'>6.8.&nbsp;&nbsp;CBOR.fromBigInt()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.fromBigInt(<i>value</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Convert <i>positive</i> BigInt into a binary string.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>The value to convert.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>Uint8Array</kbd></td><td colspan='2' style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><td style='text-align:center'><kbd>Uint8Array</kbd></td><td colspan='2' style='width:100%'>The resulting binary (one or more bytes).</td></tr>
 </table></div>
 
   <h3 id='main.jsnumbers'>7.&nbsp;&nbsp;JavaScript Number Considerations</h3>
@@ -1535,7 +1535,7 @@ base64 encoded data as well as data with or without
   transparent. The <a href='#wrapper.cbor.float'>CBOR.Float()</a>
   wrapper object only exposes the JavaScript <kbd>Number</kbd> type.
 <p>
-  For applicatons depending on non-finite numbers
+  For applications depending on non-finite numbers
   (<code>NaN</code> and <code>Infinity</code>),
   turn to <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.
 </p>

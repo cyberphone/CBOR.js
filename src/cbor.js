@@ -1344,7 +1344,7 @@ class CBOR {
       let significand = Number(value & 0x3ffn);
       // Catch the three cases of non-finite numbers.
       if (exponent == 0x7c00) {
-        // Takes NaN payloads as well.
+        // Takes non-trivial NaNs as well.
         return this.returnNonFinite(value);
       }
       // It is a genuine number (including zero).
@@ -1364,7 +1364,7 @@ class CBOR {
       let value = CBOR.toBigInt(decoded);
       // Catch the three cases of non-finite numbers.
       if ((value & 0x7f800000n) == 0x7f800000n) {
-        // Takes NaN payloads as well.
+        // Takes non-trivial NaNs as well.
         return this.returnNonFinite(value);
       }
       // It is a genuine number (including zero).
@@ -1377,7 +1377,7 @@ class CBOR {
       let value = CBOR.toBigInt(decoded);
       // Catch the three cases of non-finite numbers.
       if ((value & 0x7ff0000000000000n) == 0x7ff0000000000000n) {
-        // Takes NaN payloads as well.
+        // Takes non-trivial NaNs as well.
         return this.returnNonFinite(value);
       }
       // It is a genuine number (including zero).

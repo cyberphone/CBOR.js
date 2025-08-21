@@ -379,7 +379,14 @@ public class CreateDocument {
       Constructor.  Creates a CBOR simple value object.
       <div style='margin-top:0.5em'>Note that <kbd><i>value</i></kbd> must be in
       the range <code>0-23</code> or <code>32-255</code>, otherwise an
-      exception will be thrown.</div>""";
+      exception will be thrown.</div>
+      <div style='margin-top:0.5em'>A primary use case for <code>simple</code>
+      types in the range of <code>0-19</code> and <code>32-255</code>,
+      is serving as a limited set of <i>unique and reserved labels</i> (keys)
+      in CBOR maps.  The <code>simple(99)</code> label featured in
+      <a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-12.\
+html#name-code-example'>Embedded&nbsp;Signatures</a>
+      shows a representative example.</div>""";
 
   static final String W_SIMPLE_PARAM_DESCR = """
       Simple value.""";
@@ -535,7 +542,7 @@ public class CreateDocument {
   // CBOR.toHex()
 
   static final String TOHEX_DESCR = """
-      Encode binary data to hexadecimal.""";
+      Encode binary string to hexadecimal.""";
 
   static final String TOHEX_P1_DESCR = """
       Zero or more bytes to be encoded.""";
@@ -557,7 +564,7 @@ public class CreateDocument {
   // CBOR.toBase64Url()
 
   static final String TOB64U_DESCR = """
-      Encode binary data to base64Url.""";
+      Encode binary string to base64Url.""";
 
   static final String TOB64U_P1_DESCR = """
       Zero or more bytes to be encoded.""";
@@ -578,6 +585,28 @@ public class CreateDocument {
 
   static final String FROMB64U_RETURN_DESCR = """
       The resulting binary (bytes).""";
+
+  // CBOR.toBigInt()
+
+  static final String TOBIGINT_DESCR = """
+      Convert binary string to a <i>positive</i> BigInt.""";
+
+  static final String TOBIGINT_P1_DESCR = """
+      Zero or more bytes.""";
+
+  static final String TOBIGINT_RETURN_DESCR = """
+      BigInt.""";
+
+  // CBOR.fromBigInt()
+
+  static final String FROMBIGINT_DESCR = """
+      Convert <i>positive</i> BigInt into a binary string.""";
+
+  static final String FROMBIGINT_P1_DESCR = """
+      The value to convert.""";
+
+  static final String FROMBIGINT_RETURN_DESCR = """
+      The resulting binary (one or more bytes).""";
 
   // CBOR.decode()
 
@@ -1759,15 +1788,15 @@ public class CreateDocument {
 
     // CBOR.toBigInt()
 
-    addUtilityMethod("CBOR.toBigInt", NR)
-        .addParameter("byteArray", DataTypes.JS_UINT8ARRAY, NR)
-        .setReturn(DataTypes.JS_BIGINT, NR);
+    addUtilityMethod("CBOR.toBigInt", TOBIGINT_DESCR)
+        .addParameter("byteArray", DataTypes.JS_UINT8ARRAY, TOBIGINT_P1_DESCR)
+        .setReturn(DataTypes.JS_BIGINT, TOBIGINT_RETURN_DESCR);
 
     // CBOR.fromBigInt()
 
-    addUtilityMethod("CBOR.fromBigInt", NR)
-        .addParameter("value", DataTypes.JS_BIGINT, NR)
-        .setReturn(DataTypes.JS_UINT8ARRAY, NR);
+    addUtilityMethod("CBOR.fromBigInt", FROMBIGINT_DESCR)
+        .addParameter("value", DataTypes.JS_BIGINT, FROMBIGINT_P1_DESCR)
+        .setReturn(DataTypes.JS_UINT8ARRAY, FROMBIGINT_RETURN_DESCR);
 
     replace(INTRO, printMainHeader("intro", "Introduction"));
     outline.increment();
