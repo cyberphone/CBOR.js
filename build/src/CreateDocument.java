@@ -93,7 +93,15 @@ public class CreateDocument {
   static final String W_GETEXTFLOAT_DESCR = """
       Get CBOR floating-point value.
       <div style='margin-top:0.5em'>
-      Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</div>""";
+      Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</div>
+      <div style='margin-top:0.5em'>
+      Note that this method "parallels"
+      <a href='#cbor.nonfinite.getextendedfloat64'>CBOR.NonFinite.getExtendedFloat64()</a>,
+      making it transparent for the developer, if the returned
+      value is a "genuine" <code>float</code>, or one of
+      the non-finite values: <code>Number.NaN</code>,
+      <code>Number.POSITIVIE_INFINITY</code>,
+      or <code>Number.NEGATIVE_INFINITY</code>.</div>""";
 
   static final String W_GETEXTFLOAT_RETURN_DESCR = """
       Decoded floating-point number.""";
@@ -104,11 +112,26 @@ public class CreateDocument {
   // CBOR.NonFinite
 
   static final String W_NONFIN_DESCR = """
-      Constructor.  Creates a CBOR <code>float</code> object.
-      Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.""";
+      Constructor.  Creates a CBOR <i>non-finite</i> <code>float</code> object.
+      <div style='margin-top:0.5em'>
+      Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</div>""";
 
   static final String W_NONFIN_P1_DESCR = """
-      Floating-point number to be wrapped.""";
+      Non-finite floating-point number to be wrapped.""";
+
+  static final String W_GETEXTFLOAT_NONFIN_DESCR = """
+      Get CBOR <i>non-finite</i> floating-point value.
+      <div style='margin-top:0.5em'>
+      Note that this method "parallels"
+      <a href='#cbor.float.getextendedfloat64'>CBOR.Float.getExtendedFloat64()</a>,
+      making it transparent for the developer, if the returned
+      value is a "genuine" <code>float</code>, or one of
+      the non-finite values: <code>Number.NaN</code>,
+      <code>Number.POSITIVIE_INFINITY</code>,
+      or <code>Number.NEGATIVE_INFINITY</code>.</div>""";
+
+  static final String W_GETEXTFLOAT_NONFIN_RETURN_DESCR = """
+      Decoded <i>non-finite</i> floating-point number.""";
 /* 
   static final String W_GETFLOAT_DESCR = """
       Get CBOR floating-point value.""";
@@ -1541,10 +1564,10 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
     // CBOR.NonFinit
 
     addWrapper(DataTypes.CBOR_NONFIN, W_NONFIN_DESCR)
-        .addWrapperParameter("value", DataTypes.JS_BIGINT, NR)
+        .addWrapperParameter("value", DataTypes.JS_BIGINT, W_NONFIN_P1_DESCR)
 
-        .addMethod("getExtendedFloat64", NR)
-        .setReturn(DataTypes.JS_NUMBER, NR)
+        .addMethod("getExtendedFloat64", W_GETEXTFLOAT_NONFIN_DESCR)
+        .setReturn(DataTypes.JS_NUMBER, W_GETEXTFLOAT_NONFIN_RETURN_DESCR)
 
         .addMethod("getNonFinite", NR)
         .setReturn(DataTypes.JS_BIGINT, NR)

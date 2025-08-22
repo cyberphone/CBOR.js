@@ -339,7 +339,7 @@ function oneTurn(valueText, expected) {
     } catch (error) {
         assertTrue("nf1", error.toString().includes('CBOR.NonFinite'));
     }
-    let decodedValue = CBOR.Float.createExtended(value);
+    let decodedValue = CBOR.Float.createExtendedFloat(value);
     assertTrue("nf2", decodedValue.getExtendedFloat64().toString() == value.toString());
     assertTrue("nf3", decodedValue.toString() == value.toString());
     let cbor = decodedValue.encode();
@@ -349,7 +349,7 @@ function oneTurn(valueText, expected) {
     new DataView(buf.buffer, 0, 8).setFloat64(0, value, false);
     assertTrue("nf6", decodedValue.getNonFinite64() == CBOR.toBigInt(buf));
   }
-  assertTrue("d10", CBOR.toHex(CBOR.Float.createExtended(value).encode()) == expected);
+  assertTrue("d10", CBOR.toHex(CBOR.Float.createExtendedFloat(value).encode()) == expected);
 }
 
 const inNanWithPayload = new Uint8Array([0x7f, 0xf8, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00]);
@@ -504,8 +504,14 @@ oneNonFiniteTurn(0xfff0000000000000n, "f9fc00",             "-Infinity");
 
 // Very special, some platforms natively support NaN with payloads, but we don't care
 // "signaling" NaN
-let nanWithPayload = new Uint8Array([0x7f, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01]);
-let nonFinite = CBOR.Float.createExtended(new DataView(nanWithPayload.buffer, 0, 8).getFloat64(0, false));
+try {
+  let nanWithPayload = new Uint8Array([0x7f, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01]);
+  CBOR.Float.createExtendedFloat(new DataView(nanWithPayload.buffer, 0, 8).getFloat64(0, false));
+  assertFalse("must not", supportNanWithPayloads);
+} catch (error) {
+  assertTrue("not", error.toString().includes("non-trivial"));
+}
+let nonFinite = CBOR.Float.createExtendedFloat(Number.NaN);
 assertTrue("conv", nonFinite instanceof CBOR.NonFinite);
 assertTrue("truncated", nonFinite.getNonFinite64() == 0x7ff8000000000000n);  // Returns "quiet" NaN
 assertTrue("cbor", CBOR.toHex(nonFinite.encode()) == "f97e00");              // Encoded as it should
