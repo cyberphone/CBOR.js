@@ -1368,8 +1368,7 @@ class CBOR {
         return this.returnNonFinite(value);
       }
       // It is a genuine number (including zero).
-      let f64 = new DataView(decoded.buffer, 0, 4).getFloat32(0, false);
-      return this.returnFloat(decoded, f64);
+      return this.returnFloat(decoded, new DataView(decoded.buffer, 0, 4).getFloat32(0, false));
     }
 
     decodeF64 = function() {
@@ -1381,8 +1380,7 @@ class CBOR {
         return this.returnNonFinite(value);
       }
       // It is a genuine number (including zero).
-      let f64 = new DataView(decoded.buffer, 0, 8).getFloat64(0, false);
-      return this.returnFloat(decoded, f64);
+      return this.returnFloat(decoded, new DataView(decoded.buffer, 0, 8).getFloat64(0, false));
     }
 
     selectInteger = function(value) {
