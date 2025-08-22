@@ -11,7 +11,7 @@
 <h3>Non-Finite Numbers</h3>
 Unlike JSON&nbsp;[<a href='https://www.rfc-editor.org/rfc/rfc8259.html'
 title="JSON">RFC&nbsp;8259<img src="xtl.svg" alt="link"></a>],
-CBOR supports the non-finite floating-point constructs defined by IEEE-754, known as
+CBOR supports the non-finite floating-point constructs defined by <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span>, known as
 <code>NaN</code> (not a number) and <code>Infinity</code>.
 This implementation provides multiple levels of support, intended to
 accommodate different needs.
@@ -20,13 +20,16 @@ it is entirely based on API method selections.
 The following table outlines the supported alternatives:
 <div class='webpkifloat' style='margin-left:2em'><table class='webpkitable' style='min-width:30em'>
 <tr><th>Designation</th><th>Comment</th></tr>
-<tr><td style='text-align:center'><code>STANDARD</code></td><td>Only "regular" floating-point numbers are accepted.
+<tr><td style='text-align:center'><code>BASIC</code></td><td>Only "regular" floating-point numbers are accepted.
 </td></tr>
 <tr><td style='text-align:center'><code>EXTENDED</code></td><td>All floating-point numbers except for non-trivial <code>NaNs</code> are accepted.
-In the list below, <code>NaN</code> refers to "simple" <code>NaNs</code>
+<div style='margin-top:0.5em'>In the list below, <code>NaN</code> refers to "simple" <code>NaNs</code>
 (in deterministically encoded CBOR represented by <code>f97e00</code>),
 while <code>Infinity</code> refers to
 positive infinity (<code>f97c00</code>) and negative infinity (<code>f9fc00</code>).
+The JavaScript counterparts are represented by <code>Number.NaN</code>,
+<code>Number.POSITIVE_INFINITY</code>,
+and <code>Number.NEGATIVE_INFINITY</code> respectively.</div>
 </td></tr>
 <tr><td style='text-align:center'><code>COMPLETE</code></td><td>All floating-point numbers are accepted.
 </td></tr>
@@ -36,7 +39,7 @@ Note that the constraints apply to <i>encoding</i> as well.
 <h5 style='margin:1.3em 0 1em 0'>Encoding Methods</h5>
 <div class='webpkifloat'>
 <table style='margin-left:2em;font-family: monospace;white-space:nowrap;border-spacing:0'>
-<tr><td colspan='2'>STANDARD</td></tr>
+<tr><td colspan='2'>BASIC</td></tr>
 <tr><td style='padding-left:1.5em'><a href='index.html#wrapper.cbor.float'>CBOR.Float(value)</a></td><td>// "Regular" number</td></tr>
 <tr><td colspan='2' style='padding-top:0.8em'>EXTENDED</td></tr>
 <tr><td style='padding-left:1.5em'><a href='index.html#cbor.float.cbor.float.createextendedfloat'>CBOR.Float.createExtendedFloat(value)</a></td><td>// "Regular" number, NaN, or Infinity</td></tr>
@@ -50,7 +53,7 @@ Note that the constraints apply to <i>encoding</i> as well.
 <h5 style='margin:1.3em 0 1em 0'>Decoding Methods</h5>
 <div class='webpkifloat'>
 <table style='margin-left:2em;font-family: monospace;white-space:nowrap;border-spacing:0'>
-<tr><td colspan='2'>STANDARD</td></tr>
+<tr><td colspan='2'>BASIC</td></tr>
 <tr><td style='padding-left:1.5em'>cborObject.<a href='index.html#cbor.float.getfloat64'>getFloat64()</a></td><td>// "Regular" number</td></tr>
 <tr><td colspan='2' style='padding-top:0.8em'>EXTENDED</td></tr>
 <tr><td style='padding-left:1.5em'>cborObject.<a href='index.html#cbor.float.getextendedfloat64'>getExtendedFloat64()</a></td><td>// "Regular" number, NaN, or Infinity</td></tr>
@@ -59,7 +62,7 @@ Note that the constraints apply to <i>encoding</i> as well.
 <tr><td colspan='2' style='padding-left:1.5em'>if (cborObject instanceof CBOR.NonFinite) {</td></tr>
 <tr><td style='padding-left:1.5em'>&nbsp;&nbsp;// Non-finite number to process</td><td></td></tr>
 <tr><td style='padding-left:1.5em'>&nbsp;&nbsp;// Select suitable method:</td><td></td></tr>
-<tr><td style='padding-left:1.5em'>&nbsp;&nbsp;cborObject.<a href='index.html#cbor.nonfinite.getnonfinite'>getNonFinite()</a></td><td>// Arbitrary non-finite number</td></tr>
+<tr><td style='padding-left:1.5em'>&nbsp;&nbsp;cborObject.<a href='index.html#cbor.nonfinite.getnonfinite64'>getNonFinite64()</a></td><td>// Arbitrary non-finite number</td></tr>
 <tr><td style='padding-left:1.5em'>&nbsp;&nbsp;cborObject.<a href='index.html#cbor.nonfinite.getpayload'>getPayload()</a></td><td>// Application-specific data</td></tr>
 <tr><td style='padding-left:1.5em'>} else {</td><td></td></tr>
 <tr><td style='padding-left:1.5em'>&nbsp;&nbsp;// "Regular" number to process</td><td></td></tr>
@@ -87,7 +90,7 @@ The following table represents these methods from a <i>developer</i> perspective
 <tr><td><code>d51-d0</code> in <i>big-endian</i> order</td></tr>
 </table></div>
 <div style='margin-top:0.5em'>
-The payload bits are conceptually put into an <code>IEEE-754</code>
+The payload bits are conceptually put into an <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span>
 <code>64</code>-bit object having the following layout:
 </div>
 <div class='webpkifloat'><table class='webpkitable' style='margin-left:2em'>
@@ -100,7 +103,7 @@ For setting the sign bit, see <a href='index.html#cbor.nonfinite.setsign'>setSig
 <div style='margin-top:0.7em'>
 The reason for <i>reversing</i> the payload bits is to ensure that a specific bit will remain
 in a fix position (maintain the same value), independent of the size of the
-<code>IEEE-754</code> variant used for encoding.
+<code>IEEE 754</code> variant used for encoding.
 </div>
 <div style='margin-top:0.7em'>
 Note that the encoder will (due to CBOR deterministic encoding rules), select

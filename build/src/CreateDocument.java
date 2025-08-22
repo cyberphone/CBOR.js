@@ -64,10 +64,25 @@ public class CreateDocument {
 
   static final String W_FLOAT_DESCR = """
       Constructor.  Creates a CBOR <code>float</code> object.
-      Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.""";
+      <div style='margin-top:0.5em'>
+      Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</div>""";
 
   static final String W_FLOAT_P1_DESCR = """
       Floating-point number to be wrapped.""";
+
+  static final String W_CREEXTFLOAT_DESCR = """
+      Constructor.  Creates a CBOR <code>float</code> object.
+      <div style='margin-top:0.5em'>
+      Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</div>""";
+
+  static final String W_CREEXTFLOAT_P1_DESCR = """
+      Floating-point number to be wrapped, potentially
+      including non-finite values as well.""";
+
+  static final String W_CREEXTFLOAT_RETURN_DESCR = """
+      <a href='#wrapper.cbor.float'>CBOR.Float</a> or
+      <a href='#wrapper.cbor.nonfinite'>CBOR.NonFinite</a>
+      object.""";
 
   static final String W_GETFLOAT_DESCR = """
       Get CBOR floating-point value.""";
@@ -75,8 +90,16 @@ public class CreateDocument {
   static final String W_GETFLOAT_RETURN_DESCR = """
       Decoded floating-point number.""";
 
+  static final String W_GETEXTFLOAT_DESCR = """
+      Get CBOR floating-point value.
+      <div style='margin-top:0.5em'>
+      Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</div>""";
+
+  static final String W_GETEXTFLOAT_RETURN_DESCR = """
+      Decoded floating-point number.""";
+
   static final String W_FLOAT_PROP_DESCR = """
-      Length in bytes of the underlying CBOR IEEE 754 type.""";
+      Length in bytes of the underlying CBOR <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> type.""";
 
   // CBOR.NonFinite
 
@@ -95,7 +118,7 @@ public class CreateDocument {
 */
 
   static final String W_NONFIN_PROP_DESCR = """
-      Length in bytes of the underlying CBOR IEEE 754 type.""";
+      Length in bytes of the underlying CBOR <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> type.""";
 
   // CBOR.String
 
@@ -589,21 +612,21 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
   // CBOR.toBigInt()
 
   static final String TOBIGINT_DESCR = """
-      Convert binary string to a <i>positive</i> BigInt.""";
+      Convert binary string to BigInt.""";
 
   static final String TOBIGINT_P1_DESCR = """
-      Zero or more bytes.""";
+      Zero or more bytes representing an <i>unsigned</i> number.""";
 
   static final String TOBIGINT_RETURN_DESCR = """
-      BigInt.""";
+      Resulting BigInt number.""";
 
   // CBOR.fromBigInt()
 
   static final String FROMBIGINT_DESCR = """
-      Convert <i>positive</i> BigInt into a binary string.""";
+      Convert BigInt into binary string.""";
 
   static final String FROMBIGINT_P1_DESCR = """
-      The value to convert.""";
+      Value to be converted must be greater or equal to zero.""";
 
   static final String FROMBIGINT_RETURN_DESCR = """
       The resulting binary (one or more bytes).""";
@@ -1493,25 +1516,25 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
 
         .addMethod("getFloat16", W_GETFLOAT_DESCR +
             "<div style='margin-top:0.5em'>" +
-            "Note: the CBOR object must be a 16-bit IEEE-754 item, " +
+            "Note: the CBOR object must be a 16-bit <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> item, " +
             "otherwise an exception will be thrown.</div>")
         .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
 
         .addMethod("getFloat32", W_GETFLOAT_DESCR +
             "<div style='margin-top:0.5em'>" +
-            "Note: the CBOR object must be a 16-bit or 32-bit IEEE-754 item, " +
+            "Note: the CBOR object must be a 16-bit or 32-bit <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> item, " +
             "otherwise an exception will be thrown.</div>")
         .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
 
         .addMethod("getFloat64", W_GETFLOAT_DESCR)
         .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
 
-        .addMethod("CBOR.Float.createExtendedFloat", NR)
-        .addParameter("value", DataTypes.JS_NUMBER, NR)
-        .setReturn(DataTypes.CBOR_Any, NR)
+        .addMethod("CBOR.Float.createExtendedFloat", W_CREEXTFLOAT_DESCR)
+        .addParameter("value", DataTypes.JS_NUMBER, W_CREEXTFLOAT_P1_DESCR)
+        .setReturn(DataTypes.CBOR_Any, W_CREEXTFLOAT_RETURN_DESCR)
 
-        .addMethod("getExtendedFloat64", NR)
-        .setReturn(DataTypes.JS_NUMBER, NR)
+        .addMethod("getExtendedFloat64", W_GETEXTFLOAT_DESCR)
+        .setReturn(DataTypes.JS_NUMBER, W_GETEXTFLOAT_RETURN_DESCR)
 
         .setProperty("length", DataTypes.JS_NUMBER, W_FLOAT_PROP_DESCR);
 

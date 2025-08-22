@@ -1332,9 +1332,9 @@ class CBOR {
 
     // Interesting algorithm...
     // 1. Read the F16 byte string.
-    // 2. Convert the F16 byte string to its F64 IEEE-754 equivalent (JavaScript Number).
+    // 2. Convert the F16 byte string to its F64 IEEE 754 equivalent (JavaScript Number).
     // 3. Create a CBOR.Float object using the F64 Number as input. This causes CBOR.Float to
-    //    create an '#encoded' byte string holding the deterministic IEEE-754 representation.
+    //    create an '#encoded' byte string holding the deterministic IEEE 754 representation.
     // 4. Optionally verify that '#encoded' is equal to the byte string read at step 1.
     // Maybe not the most performant solution, but hey, this is a "Reference Implementation" :)
     decodeF16 = function() {
