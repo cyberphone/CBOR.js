@@ -1345,12 +1345,12 @@ class CBOR {
       let value = CBOR.toBigInt(decoded);
       let exponent = Number(value & 0x7c00n);
       let significand = Number(value & 0x3ffn);
-      // Catch the three cases of non-finite numbers.
+      // Is it a non-finite number?
       if (exponent == 0x7c00) {
-        // Takes non-trivial NaNs as well.
+        // Yes, deal with it separately.
         return this.returnNonFinite(value);
       }
-      // It is a genuine number (including zero).
+      // It is a "regular" number.
       if (exponent) {
         // Normal representation, add the implicit "1.".
         significand += 0x400;
@@ -1365,24 +1365,24 @@ class CBOR {
     decodeF32 = function() {
       let decoded = this.readBytes(4);
       let value = CBOR.toBigInt(decoded);
-      // Catch the three cases of non-finite numbers.
+      // Is it a non-finite number?
       if ((value & 0x7f800000n) == 0x7f800000n) {
-        // Takes non-trivial NaNs as well.
+        // Yes, deal with it separately.
         return this.returnNonFinite(value);
       }
-      // It is a genuine number (including zero).
+      // It is a "regular" number.
       return this.returnFloat(decoded, new DataView(decoded.buffer, 0, 4).getFloat32(0, false));
     }
 
     decodeF64 = function() {
       let decoded = this.readBytes(8);
       let value = CBOR.toBigInt(decoded);
-      // Catch the three cases of non-finite numbers.
+      // Is it a non-finite number?
       if ((value & 0x7ff0000000000000n) == 0x7ff0000000000000n) {
-        // Takes non-trivial NaNs as well.
+        // Yes, deal with it separately.
         return this.returnNonFinite(value);
       }
-      // It is a genuine number (including zero).
+      // It is a "regular" number.
       return this.returnFloat(decoded, new DataView(decoded.buffer, 0, 8).getFloat64(0, false));
     }
 
