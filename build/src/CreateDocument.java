@@ -132,6 +132,86 @@ public class CreateDocument {
 
   static final String W_GETEXTFLOAT_NONFIN_RETURN_DESCR = """
       Decoded <i>non-finite</i> floating-point number.""";
+
+  static final String W_GET_NONFIN_DESCR = """
+      Get <i>actual</i> non-finite object (value).
+      <div style='margin-top:0.5em'>
+      This method returns the value of a non-finite object. The value is
+      provided in the most compact form based on CBOR serialization rules.</div>""";
+
+  static final String W_GET_NONFIN_RETURN_DESCR = """
+      Decoded <i>non-finite</i> number as a <code>BigInt</code>.""";
+
+  static final String W_GET_NONFIN64_DESCR = """
+      Get <i>expanded</i> non-finite object (value).
+      <div style='margin-top:0.5em'>
+      This method returns the value of a non-finite object after it has been
+      expanded to 64 bits.  That is, a received <code>7c01</code> will be
+      returned as <code>7ff0040000000000</code>.</div>""";
+
+  static final String W_GET_NONFIN64_RETURN_DESCR = """
+      Decoded <i>non-finite</i> number as a <code>BigInt</code>.""";
+
+  static final String W_ISNAN_NONFIN_DESCR = """
+      Check if non-finite object is a <code>NaN</code>.
+      <div style='margin-top:0.5em'>
+      This method returns <code>true</code> for <i>all conformant</i> 
+      <code>NaN</code> variants, else <code>false</code> is returned.</div>""";
+
+  static final String W_ISNAN_NONFIN_RETURN_DESCR = "Result.";
+
+  static final String W_ISSIMPLE_NONFIN_DESCR = """
+      Check if non-finite object is simple.
+      <div style='margin-top:0.5em'>
+      This method returns <code>true</code> if the non-finite object is a 
+      Number.NaN,
+      Number.POSITIVE_INFINITY, or 
+      Number.NEGATIVE_INFINITY,
+      else <code>false</code> is returned.</div>""";
+
+  static final String W_ISSIMPLE_NONFIN_RETURN_DESCR = "Result.";
+
+  static final String W_GETSIGN_NONFIN_DESCR = """
+      Get sign bit of non-finite object.
+      <div style='margin-top:0.5em'>
+      This method returns <code>true</code> if the sign bit is <code>1</code>,
+      else <code>false</code> is returned.</div>
+      <div style='margin-top:0.5em'>
+      Also see <a href='#cbor.nonfinite.setsign'>setSign()</a>.</div>""";
+
+  static final String W_GETSIGN_NONFIN_RETURN_DESCR = "Result.";
+
+  static final String W_SETSIGN_NONFIN_DESCR = """
+      Set sign bit of non-finite object.
+      <div style='margin-top:0.5em'>
+      The sign bit is expressed as a <code>boolean</code>.
+      <code>true</code> = <code>1</code>, <code>false</code> = <code>0</code>.</div>
+      <div style='margin-top:0.5em'>
+      Also see <a href='#cbor.nonfinite.getsign'>getSign()</a>.</div>""";
+
+  static final String W_SETSIGN_NONFIN_P1_DESCR = """
+      Sign bit.""";
+
+  static final String W_SETSIGN_NONFIN_RETURN_DESCR = "Current object.";
+
+  static final String W_CREPAYLOAD_NONFIN_DESCR = """
+      Creates a payload object.
+      <div style='margin-top:0.5em'>
+      For details turn to <a href='non-finite-numbers.html#payload-option'>Payload option</a>.</div>""";
+
+  static final String W_CREPAYLOAD_NONFIN_P1_DESCR = """
+      Payload data.""";
+
+  static final String W_CREPAYLOAD_NONFIN_RETURN_DESCR = "Object.";
+
+  static final String W_GETPAYLOAD_NONFIN_DESCR = """
+      Get payload data.
+      <div style='margin-top:0.5em'>
+      This method is the "consumer" counterpart to
+      <a href='#cbor.nonfinite.cbor.nonfinite.createpayloadobject'>\
+CBOR.NonFinite.createPayloadObject()</a>.</div>""";
+
+  static final String W_GETPAYLOAD_NONFIN_RETURN_DESCR = "Payload.";
 /* 
   static final String W_GETFLOAT_DESCR = """
       Get CBOR floating-point value.""";
@@ -1569,31 +1649,31 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
         .addMethod("getExtendedFloat64", W_GETEXTFLOAT_NONFIN_DESCR)
         .setReturn(DataTypes.JS_NUMBER, W_GETEXTFLOAT_NONFIN_RETURN_DESCR)
 
-        .addMethod("getNonFinite", NR)
-        .setReturn(DataTypes.JS_BIGINT, NR)
+        .addMethod("getNonFinite", W_GET_NONFIN_DESCR)
+        .setReturn(DataTypes.JS_BIGINT, W_GET_NONFIN_RETURN_DESCR)
 
-        .addMethod("getNonFinite64", NR)
-        .setReturn(DataTypes.JS_BIGINT, NR)
+        .addMethod("getNonFinite64", W_GET_NONFIN64_DESCR)
+        .setReturn(DataTypes.JS_BIGINT, W_GET_NONFIN64_RETURN_DESCR)
 
-        .addMethod("isNaN", NR)
-        .setReturn(DataTypes.JS_BIGINT, NR)
+        .addMethod("isNaN", W_ISNAN_NONFIN_DESCR)
+        .setReturn(DataTypes.JS_BOOLEAN, W_ISNAN_NONFIN_RETURN_DESCR)
 
-        .addMethod("isSimple", NR)
-        .setReturn(DataTypes.JS_BIGINT, NR)
+        .addMethod("isSimple", W_ISSIMPLE_NONFIN_DESCR)
+        .setReturn(DataTypes.JS_BOOLEAN, W_ISSIMPLE_NONFIN_RETURN_DESCR)
 
-        .addMethod("getSign", NR)
-        .setReturn(DataTypes.JS_BIGINT, NR)
+        .addMethod("getSign", W_GETSIGN_NONFIN_DESCR)
+        .setReturn(DataTypes.JS_BOOLEAN, W_GETSIGN_NONFIN_RETURN_DESCR)
 
-        .addMethod("setSign", NR)
-        .addParameter("on", DataTypes.JS_BOOLEAN, NR)
-        .setReturn(DataTypes.JS_BIGINT, NR)
+        .addMethod("setSign", W_SETSIGN_NONFIN_DESCR)
+        .addParameter("sign", DataTypes.JS_BOOLEAN, W_SETSIGN_NONFIN_P1_DESCR)
+        .setReturn(DataTypes.JS_THIS, W_SETSIGN_NONFIN_RETURN_DESCR)
 
-        .addMethod("CBOR.NonFinite.createPayloadObject", NR)
-        .addParameter("payload", DataTypes.JS_BIGINT, NR)
-        .setReturn(DataTypes.CBOR_NONFIN, NR)
+        .addMethod("CBOR.NonFinite.createPayloadObject", W_CREPAYLOAD_NONFIN_DESCR)
+        .addParameter("payload", DataTypes.JS_BIGINT, W_CREPAYLOAD_NONFIN_P1_DESCR)
+        .setReturn(DataTypes.CBOR_NONFIN, W_CREPAYLOAD_NONFIN_RETURN_DESCR)
 
-        .addMethod("getPayload", NR)
-        .setReturn(DataTypes.JS_BIGINT, NR)
+        .addMethod("getPayload", W_GETPAYLOAD_NONFIN_DESCR)
+        .setReturn(DataTypes.JS_BIGINT, W_GETPAYLOAD_NONFIN_RETURN_DESCR)
 
         .setProperty("length", DataTypes.JS_NUMBER, W_FLOAT_PROP_DESCR);
     

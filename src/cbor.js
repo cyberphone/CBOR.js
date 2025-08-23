@@ -1154,6 +1154,7 @@ class CBOR {
     }
 
     static createPayloadObject = function(payload) {
+      CBOR.#typeCheck(payload, 'bigint');
       if ((payload & 0xfffffffffffffn) != payload) {
         CBOR.#error("Payload out of range: " + payload);
       }
