@@ -1128,9 +1128,9 @@ class CBOR {
       return false;
     }
 
-    setSign = function(on) {
+    setSign = function(sign) {
       let mask = 1n << BigInt((this.#encoded.length * 8) - 1);
-      this.#createDetermnisticEncoding((this.#value & (mask - 1n)) | (on ? mask : 0n));
+      this.#createDetermnisticEncoding((this.#value & (mask - 1n)) | (sign ? mask : 0n));
       return this;
     }
 
