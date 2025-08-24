@@ -79,7 +79,7 @@ public class CreateDocument {
       Unlike <a href='#wrapper.cbor.float'>CBOR.Float()</a>,
       this method also supports one of
       the non-finite values: <code>Number.NaN</code>,
-      <code>Number.POSITIVIE_INFINITY</code>,
+      <code>Number.POSITIVE_INFINITY</code>,
       or <code>Number.NEGATIVE_INFINITY</code>.</div>
       <div style='margin-top:0.5em'>
       Also see <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</div>""";
@@ -108,7 +108,7 @@ public class CreateDocument {
       making it transparent for applications if the returned
       value is a "genuine" <code>float</code>, or one of
       the non-finite values: <code>Number.NaN</code>,
-      <code>Number.POSITIVIE_INFINITY</code>,
+      <code>Number.POSITIVE_INFINITY</code>,
       or <code>Number.NEGATIVE_INFINITY</code>.</div>""";
 
   static final String W_GETEXTFLOAT_RETURN_DESCR = """
@@ -135,7 +135,7 @@ public class CreateDocument {
       making it transparent for applications if the returned
       value is a "genuine" <code>float</code>, or one of
       the non-finite values: <code>Number.NaN</code>,
-      <code>Number.POSITIVIE_INFINITY</code>,
+      <code>Number.POSITIVE_INFINITY</code>,
       or <code>Number.NEGATIVE_INFINITY</code>.</div>""";
 
   static final String W_GETEXTFLOAT_NONFIN_RETURN_DESCR = """
