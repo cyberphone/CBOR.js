@@ -85,7 +85,7 @@
       <tr style='text-align:center'>
         <td><a href='#wrapper.cbor.nonfinite'>CBOR.NonFinite</a></td>
         <td><code>BigInt</code></td>
-        <td>2</td>
+        <td>3</td>
       </tr>
       <tr style='text-align:center'>
         <td><code>bstr</code></td>
@@ -140,6 +140,7 @@
   <ol style='margin:0 0'>
     <li>Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</li>
     <li>Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</li>
+    <li>Also see <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</li>
   </ol>
   <p>
     The wrapper concept adds strict <i>type checking</i> to the API.
@@ -217,7 +218,7 @@
   variants, the CBOR.js implementation makes this
   transparent. The <a href='#wrapper.cbor.float'>CBOR.Float()</a>
   wrapper object only exposes the JavaScript <kbd>Number</kbd> type.
-<p>
+  <p>
   For applications depending on non-finite numbers
   (<code>NaN</code> and <code>Infinity</code>),
   turn to <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.

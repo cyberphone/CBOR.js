@@ -65,7 +65,10 @@ public class CreateDocument {
   static final String W_FLOAT_DESCR = """
       Constructor.  Creates a CBOR <code>float</code> object.
       <div style='margin-top:0.5em'>
-      Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</div>""";
+      Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</div>
+      <div style='margin-top:0.5em'>
+      For supporting <code>NaN</code> and <code>Infinity</code>, also see
+      <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</div>""";
 
   static final String W_FLOAT_P1_DESCR = """
       Floating-point number to be wrapped.""";
@@ -73,11 +76,16 @@ public class CreateDocument {
   static final String W_CREEXTFLOAT_DESCR = """
       Constructor.  Creates a CBOR <code>float</code> object.
       <div style='margin-top:0.5em'>
-      Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</div>""";
+      Unlike <a href='#wrapper.cbor.float'>CBOR.Float()</a>,
+      this method also supports one of
+      the non-finite values: <code>Number.NaN</code>,
+      <code>Number.POSITIVIE_INFINITY</code>,
+      or <code>Number.NEGATIVE_INFINITY</code>.</div>
+      <div style='margin-top:0.5em'>
+      Also see <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</div>""";
 
   static final String W_CREEXTFLOAT_P1_DESCR = """
-      Floating-point number to be wrapped, potentially
-      including non-finite values as well.""";
+      Floating-point number to be wrapped.""";
 
   static final String W_CREEXTFLOAT_RETURN_DESCR = """
       <a href='#wrapper.cbor.float'>CBOR.Float</a> or
@@ -93,11 +101,11 @@ public class CreateDocument {
   static final String W_GETEXTFLOAT_DESCR = """
       Get CBOR floating-point value.
       <div style='margin-top:0.5em'>
-      Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</div>
+      Also see <a href='#cbor.float.cbor.float.createextendedfloat'>CBOR.Float.createExtendedFloat()</a>.</div>
       <div style='margin-top:0.5em'>
       Note that this method "parallels"
       <a href='#cbor.nonfinite.getextendedfloat64'>CBOR.NonFinite.getExtendedFloat64()</a>,
-      making it transparent for the developer, if the returned
+      making it transparent for applications if the returned
       value is a "genuine" <code>float</code>, or one of
       the non-finite values: <code>Number.NaN</code>,
       <code>Number.POSITIVIE_INFINITY</code>,
@@ -124,7 +132,7 @@ public class CreateDocument {
       <div style='margin-top:0.5em'>
       Note that this method "parallels"
       <a href='#cbor.float.getextendedfloat64'>CBOR.Float.getExtendedFloat64()</a>,
-      making it transparent for the developer, if the returned
+      making it transparent for applications if the returned
       value is a "genuine" <code>float</code>, or one of
       the non-finite values: <code>Number.NaN</code>,
       <code>Number.POSITIVIE_INFINITY</code>,

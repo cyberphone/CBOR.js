@@ -228,7 +228,7 @@
       <tr style='text-align:center'>
         <td><a href='#wrapper.cbor.nonfinite'>CBOR.NonFinite</a></td>
         <td><code>BigInt</code></td>
-        <td>2</td>
+        <td>3</td>
       </tr>
       <tr style='text-align:center'>
         <td><code>bstr</code></td>
@@ -283,6 +283,7 @@
   <ol style='margin:0 0'>
     <li>Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</li>
     <li>Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</li>
+    <li>Also see <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</li>
   </ol>
   <p>
     The wrapper concept adds strict <i>type checking</i> to the API.
@@ -453,7 +454,11 @@ Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.Float(<i>value</i>)</kbd></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Constructor.  Creates a CBOR <code>float</code> object.
-Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</td></tr>
+<div style='margin-top:0.5em'>
+Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</div>
+<div style='margin-top:0.5em'>
+For supporting <code>NaN</code> and <code>Infinity</code>, also see
+<a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Floating-point number to be wrapped.</td></tr>
@@ -466,7 +471,7 @@ Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getFloat16()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR floating-point value.<div style='margin-top:0.5em'>Note: the CBOR object must be a 16-bit IEEE-754 item, otherwise an exception will be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR floating-point value.<div style='margin-top:0.5em'>Note: the CBOR object must be a 16-bit <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> item, otherwise an exception will be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded floating-point number.</td></tr>
@@ -475,7 +480,7 @@ Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getFloat32()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR floating-point value.<div style='margin-top:0.5em'>Note: the CBOR object must be a 16-bit or 32-bit IEEE-754 item, otherwise an exception will be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR floating-point value.<div style='margin-top:0.5em'>Note: the CBOR object must be a 16-bit or 32-bit <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> item, otherwise an exception will be thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded floating-point number.</td></tr>
@@ -493,45 +498,60 @@ Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.Float.createExtendedFloat(<i>value</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Constructor.  Creates a CBOR <code>float</code> object.
+<div style='margin-top:0.5em'>
+Unlike <a href='#wrapper.cbor.float'>CBOR.Float()</a>,
+this method also supports one of
+the non-finite values: <code>Number.NaN</code>,
+<code>Number.POSITIVIE_INFINITY</code>,
+or <code>Number.NEGATIVE_INFINITY</code>.</div>
+<div style='margin-top:0.5em'>
+Also see <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Floating-point number to be wrapped.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'><a href='#wrapper.cbor.float'>CBOR.Float</a> or
+<a href='#wrapper.cbor.nonfinite'>CBOR.NonFinite</a>
+object.</td></tr>
 </table></div>
 <h5 id='cbor.float.getextendedfloat64'>2.3.1.5.&nbsp;&nbsp;getExtendedFloat64()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getExtendedFloat64()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR floating-point value.
+<div style='margin-top:0.5em'>
+Also see <a href='#cbor.float.cbor.float.createextendedfloat'>CBOR.Float.createExtendedFloat()</a>.</div>
+<div style='margin-top:0.5em'>
+Note that this method "parallels"
+<a href='#cbor.nonfinite.getextendedfloat64'>CBOR.NonFinite.getExtendedFloat64()</a>,
+making it transparent for applications if the returned
+value is a "genuine" <code>float</code>, or one of
+the non-finite values: <code>Number.NaN</code>,
+<code>Number.POSITIVIE_INFINITY</code>,
+or <code>Number.NEGATIVE_INFINITY</code>.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded floating-point number.</td></tr>
 </table></div>
 <h5 id='properties.cbor.float'>2.3.2.&nbsp;&nbsp;CBOR.Float Properties</h5>
 <h5 id='cbor.float.length'>2.3.2.1.&nbsp;&nbsp;length</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>length</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Length in bytes of the underlying CBOR IEEE 754 type.</td></tr>
+<tr><td style='text-align:center'><kbd><i>length</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Length in bytes of the underlying CBOR <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> type.</td></tr>
 </table></div>
 <h5 id='wrapper.cbor.nonfinite'>2.4.&nbsp;&nbsp;CBOR.NonFinite</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.NonFinite(<i>value</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Constructor.  Creates a CBOR <code>float</code> object.
-Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Constructor.  Creates a CBOR <i>non-finite</i> <code>float</code> object.
+<div style='margin-top:0.5em'>
+Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Non-finite floating-point number to be wrapped.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>CBOR.NonFinite</kbd></td><td colspan='2' style='width:100%'>Object.</td></tr>
@@ -541,115 +561,134 @@ Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getExtendedFloat64()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR <i>non-finite</i> floating-point value.
+<div style='margin-top:0.5em'>
+Note that this method "parallels"
+<a href='#cbor.float.getextendedfloat64'>CBOR.Float.getExtendedFloat64()</a>,
+making it transparent for applications if the returned
+value is a "genuine" <code>float</code>, or one of
+the non-finite values: <code>Number.NaN</code>,
+<code>Number.POSITIVIE_INFINITY</code>,
+or <code>Number.NEGATIVE_INFINITY</code>.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded <i>non-finite</i> floating-point number.</td></tr>
 </table></div>
 <h5 id='cbor.nonfinite.getnonfinite'>2.4.1.2.&nbsp;&nbsp;getNonFinite()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getNonFinite()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><th>Description</th><td style='width:100%'>Get <i>actual</i> non-finite object (value).
+<div style='margin-top:0.5em'>
+This method returns the value of a non-finite object. The value is
+provided in the most compact form based on CBOR serialization rules.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Decoded <i>non-finite</i> number as a <code>BigInt</code>.</td></tr>
 </table></div>
 <h5 id='cbor.nonfinite.getnonfinite64'>2.4.1.3.&nbsp;&nbsp;getNonFinite64()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getNonFinite64()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><th>Description</th><td style='width:100%'>Get <i>expanded</i> non-finite object (value).
+<div style='margin-top:0.5em'>
+This method returns the value of a non-finite object after it has been
+expanded to 64 bits.  That is, a received <code>7c01</code> will be
+returned as <code>7ff0040000000000</code>.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Decoded <i>non-finite</i> number as a <code>BigInt</code>.</td></tr>
 </table></div>
 <h5 id='cbor.nonfinite.isnan'>2.4.1.4.&nbsp;&nbsp;isNaN()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>isNaN()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><th>Description</th><td style='width:100%'>Check if non-finite object is a <code>NaN</code>.
+<div style='margin-top:0.5em'>
+This method returns <code>true</code> for <i>all conformant</i>
+<code>NaN</code> variants, else <code>false</code> is returned.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'>Result.</td></tr>
 </table></div>
 <h5 id='cbor.nonfinite.issimple'>2.4.1.5.&nbsp;&nbsp;isSimple()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>isSimple()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><th>Description</th><td style='width:100%'>Check if non-finite object is simple.
+<div style='margin-top:0.5em'>
+This method returns <code>true</code> if the non-finite object is a
+Number.NaN,
+Number.POSITIVE_INFINITY, or
+Number.NEGATIVE_INFINITY,
+else <code>false</code> is returned.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'>Result.</td></tr>
 </table></div>
 <h5 id='cbor.nonfinite.getsign'>2.4.1.6.&nbsp;&nbsp;getSign()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getSign()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><th>Description</th><td style='width:100%'>Get sign bit of non-finite object.
+<div style='margin-top:0.5em'>
+This method returns <code>true</code> if the sign bit is <code>1</code>,
+else <code>false</code> is returned.</div>
+<div style='margin-top:0.5em'>
+Also see <a href='#cbor.nonfinite.setsign'>setSign()</a>.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'>Result.</td></tr>
 </table></div>
 <h5 id='cbor.nonfinite.setsign'>2.4.1.7.&nbsp;&nbsp;setSign()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>setSign(<i>on</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>setSign(<i>sign</i>)</kbd></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Set sign bit of non-finite object.
+<div style='margin-top:0.5em'>
+The sign bit is expressed as a <code>boolean</code>.
+<code>true</code> = <code>1</code>, <code>false</code> = <code>0</code>.</div>
+<div style='margin-top:0.5em'>
+Also see <a href='#cbor.nonfinite.getsign'>getSign()</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>on</i></kbd></td><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><td style='text-align:center'><kbd><i>sign</i></kbd></td><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'>Sign bit.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>BigInt</kbd></td><td colspan='2' style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><td style='text-align:center'><kbd>this</kbd></td><td colspan='2' style='width:100%'>Current object.</td></tr>
 </table></div>
 <h5 id='cbor.nonfinite.cbor.nonfinite.createpayloadobject'>2.4.1.8.&nbsp;&nbsp;CBOR.NonFinite.createPayloadObject()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.NonFinite.createPayloadObject(<i>payload</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Creates a payload object.
+<div style='margin-top:0.5em'>
+For details turn to <a href='non-finite-numbers.html#payload-option'>Payload option</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>payload</i></kbd></td><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><td style='text-align:center'><kbd><i>payload</i></kbd></td><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Payload data.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.NonFinite</kbd></td><td colspan='2' style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><td style='text-align:center'><kbd>CBOR.NonFinite</kbd></td><td colspan='2' style='width:100%'>Object.</td></tr>
 </table></div>
 <h5 id='cbor.nonfinite.getpayload'>2.4.1.9.&nbsp;&nbsp;getPayload()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getPayload()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><th>Description</th><td style='width:100%'>      Get payload data.
+      <div style='margin-top:0.5em'>
+      This method is the "consumer" counterpart to
+      <a href='#cbor.nonfinite.cbor.nonfinite.createpayloadobject'>CBOR.NonFinite.createPayloadObject()</a>.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'><b style='color:red'>NOT READY NOT READY NOT READY</b>
-</td></tr>
+<tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Payload.</td></tr>
 </table></div>
 <h5 id='properties.cbor.nonfinite'>2.4.2.&nbsp;&nbsp;CBOR.NonFinite Properties</h5>
 <h5 id='cbor.nonfinite.length'>2.4.2.1.&nbsp;&nbsp;length</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>length</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Length in bytes of the underlying CBOR IEEE 754 type.</td></tr>
+<tr><td style='text-align:center'><kbd><i>length</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Length in bytes of the underlying CBOR <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> type.</td></tr>
 </table></div>
 <h5 id='wrapper.cbor.string'>2.5.&nbsp;&nbsp;CBOR.String</h5>
 <div class='webpkifloat'>
@@ -1471,22 +1510,22 @@ base64 encoded data as well as data with or without
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.toBigInt(<i>byteArray</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Convert binary string to a <i>positive</i> BigInt.</td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Convert binary string to BigInt.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>byteArray</i></kbd></td><td style='text-align:center'><kbd>Uint8Array</kbd></td><td style='width:100%'>Zero or more bytes.</td></tr>
+<tr><td style='text-align:center'><kbd><i>byteArray</i></kbd></td><td style='text-align:center'><kbd>Uint8Array</kbd></td><td style='width:100%'>Zero or more bytes representing an <i>unsigned</i> number.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>BigInt</kbd></td><td colspan='2' style='width:100%'>BigInt.</td></tr>
+<tr><td style='text-align:center'><kbd>BigInt</kbd></td><td colspan='2' style='width:100%'>Resulting BigInt number.</td></tr>
 </table></div>
 <h5 id='utility.cbor.frombigint'>6.8.&nbsp;&nbsp;CBOR.fromBigInt()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.fromBigInt(<i>value</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Convert <i>positive</i> BigInt into a binary string.</td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Convert BigInt into binary string.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>The value to convert.</td></tr>
+<tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Value to be converted must be greater or equal to zero.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Uint8Array</kbd></td><td colspan='2' style='width:100%'>The resulting binary (one or more bytes).</td></tr>
@@ -1534,7 +1573,7 @@ base64 encoded data as well as data with or without
   variants, the CBOR.js implementation makes this
   transparent. The <a href='#wrapper.cbor.float'>CBOR.Float()</a>
   wrapper object only exposes the JavaScript <kbd>Number</kbd> type.
-<p>
+  <p>
   For applications depending on non-finite numbers
   (<code>NaN</code> and <code>Infinity</code>),
   turn to <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.

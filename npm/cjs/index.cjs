@@ -511,14 +511,17 @@ class CBOR {
       return this.#value;
     }
 
-    static createExtended = function(value) {
+    static createExtendedFloat = function(value) {
       if (Number.isFinite(CBOR.#typeCheck(value, 'number'))) {
         return CBOR.Float(value);
       }
-      if (Number.isNaN(value)) value = Number.NaN;  // Sorry, only the basic NaN is used.
       let f64b = new Uint8Array(8);
       new DataView(f64b.buffer, 0, 8).setFloat64(0, value, false);
-      return CBOR.NonFinite(CBOR.toBigInt(f64b));
+      let nf = CBOR.NonFinite(CBOR.toBigInt(f64b));
+      if (!nf.isSimple()) {
+        CBOR.#error("createExtendedFloat() does not support non-trivial NaNs");
+      }
+      return nf;
     }
   }
 
@@ -1125,9 +1128,9 @@ class CBOR {
       return false;
     }
 
-    setSign = function(on) {
+    setSign = function(sign) {
       let mask = 1n << BigInt((this.#encoded.length * 8) - 1);
-      this.#createDetermnisticEncoding((this.#value & (mask - 1n)) | (on ? mask : 0n));
+      this.#createDetermnisticEncoding((this.#value & (mask - 1n)) | (sign ? mask : 0n));
       return this;
     }
 
@@ -1151,6 +1154,7 @@ class CBOR {
     }
 
     static createPayloadObject = function(payload) {
+      CBOR.#typeCheck(payload, 'bigint');
       if ((payload & 0xfffffffffffffn) != payload) {
         CBOR.#error("Payload out of range: " + payload);
       }
@@ -1177,7 +1181,7 @@ class CBOR {
     }
 
     #badValue = function() {
-      CBOR.#error("Invalid non-finite argument: " + this.#original);
+      CBOR.#error("Not a non-finite number: " + this.#original);
     }
 
     encode = function() {
@@ -1321,7 +1325,8 @@ class CBOR {
       return cborFloat;
     }
 
-    returnNonFinite = function (value) { 
+    returnNonFinite = function (decoded) {
+      let value = CBOR.toBigInt(decoded);
       let nonFinite = CBOR.NonFinite(value);
       if (this.strictNumbers && nonFinite._getValue() != value) {
         CBOR.#error("Non-deterministic encoding of non-finite value: " + 
@@ -1332,9 +1337,9 @@ class CBOR {
 
     // Interesting algorithm...
     // 1. Read the F16 byte string.
-    // 2. Convert the F16 byte string to its F64 IEEE-754 equivalent (JavaScript Number).
+    // 2. Convert the F16 byte string to its F64 IEEE 754 equivalent (JavaScript Number).
     // 3. Create a CBOR.Float object using the F64 Number as input. This causes CBOR.Float to
-    //    create an '#encoded' byte string holding the deterministic IEEE-754 representation.
+    //    create an '#encoded' byte string holding the deterministic IEEE 754 representation.
     // 4. Optionally verify that '#encoded' is equal to the byte string read at step 1.
     // Maybe not the most performant solution, but hey, this is a "Reference Implementation" :)
     decodeF16 = function() {
@@ -1342,12 +1347,12 @@ class CBOR {
       let value = CBOR.toBigInt(decoded);
       let exponent = Number(value & 0x7c00n);
       let significand = Number(value & 0x3ffn);
-      // Catch the three cases of non-finite numbers.
+      // Is it a non-finite number?
       if (exponent == 0x7c00) {
-        // Takes non-trivial NaNs as well.
-        return this.returnNonFinite(value);
+        // Yes, deal with it separately.
+        return this.returnNonFinite(decoded);
       }
-      // It is a genuine number (including zero).
+      // It is a "regular" number.
       if (exponent) {
         // Normal representation, add the implicit "1.".
         significand += 0x400;
@@ -1362,27 +1367,24 @@ class CBOR {
     decodeF32 = function() {
       let decoded = this.readBytes(4);
       let value = CBOR.toBigInt(decoded);
-      // Catch the three cases of non-finite numbers.
-      if ((value & 0x7f800000n) == 0x7f800000n) {
-        // Takes non-trivial NaNs as well.
-        return this.returnNonFinite(value);
+      // Is it a non-finite number?
+      if ((decoded[0] & 0x7f) == 0x7f && (decoded[1] & 0x80) == 0x80) {
+        // Yes, deal with it separately.
+        return this.returnNonFinite(decoded);
       }
-      // It is a genuine number (including zero).
-      let f64 = new DataView(decoded.buffer, 0, 4).getFloat32(0, false);
-      return this.returnFloat(decoded, f64);
+      // It is a "regular" number.
+      return this.returnFloat(decoded, new DataView(decoded.buffer, 0, 4).getFloat32(0, false));
     }
 
     decodeF64 = function() {
       let decoded = this.readBytes(8);
-      let value = CBOR.toBigInt(decoded);
-      // Catch the three cases of non-finite numbers.
-      if ((value & 0x7ff0000000000000n) == 0x7ff0000000000000n) {
-        // Takes non-trivial NaNs as well.
-        return this.returnNonFinite(value);
+      // Is it a non-finite number?
+      if ((decoded[0] & 0x7f) == 0x7f && (decoded[1] & 0xf0) == 0xf0) {
+        // Yes, deal with it separately.
+        return this.returnNonFinite(decoded);
       }
-      // It is a genuine number (including zero).
-      let f64 = new DataView(decoded.buffer, 0, 8).getFloat64(0, false);
-      return this.returnFloat(decoded, f64);
+      // It is a "regular" number.
+      return this.returnFloat(decoded, new DataView(decoded.buffer, 0, 8).getFloat64(0, false));
     }
 
     selectInteger = function(value) {

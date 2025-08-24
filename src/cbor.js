@@ -1181,7 +1181,7 @@ class CBOR {
     }
 
     #badValue = function() {
-      CBOR.#error("Invalid non-finite argument: " + this.#original);
+      CBOR.#error("Not a non-finite number: " + this.#original);
     }
 
     encode = function() {
