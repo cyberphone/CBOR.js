@@ -122,7 +122,7 @@ public class CreateDocument {
   static final String W_NONFIN_DESCR = """
       Constructor.  Creates a CBOR <i>non-finite</i> <code>float</code> object.
       <div style='margin-top:0.5em'>
-      Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</div>""";
+      Also see <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</div>""";
 
   static final String W_NONFIN_P1_DESCR = """
       Non-finite floating-point number to be wrapped.""";
