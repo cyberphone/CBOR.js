@@ -129,7 +129,7 @@ class CBOR {
             CBOR.#error('getExtendedFloat64() only supports the "basic" NaN (7e00)');
         }
       }
-      return getFloat64();
+      return this.getFloat64();
     }
 
     getBoolean = function() {
