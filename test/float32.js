@@ -4,18 +4,29 @@ import CBOR from '../npm/mjs/index.mjs';
 let float32 = 0;
 let float16 = 0;
 let runs = 0;
+
+function getF32(f32) {
+  let b32 = CBOR.fromBigInt(f32);
+  while (b32.length < 4) b32 = CBOR.addArrays(new Uint8Array([0]), b32);
+  return new DataView(b32.buffer, 0, 4).getFloat32(0, false);
+}
     
-function convert(i) {
+function convert(f32) {
+  let genuine = true;
+  let simple = true;
+  let cbor = null;
+  let nf = null;
   try {
-    let f32bytes = new Uint8Array(4);
-    for (let q = 3; q >= 0; q--) {
-      f32bytes[q] = i;
-      i = (i / 256).toFixed();
+    if ((f32 & 0x7f800000n) == 0x7f800000n) {
+        nf = CBOR.NonFinite(f32);
+        genuine = false;
+        simple = nf.isSimple();
+        cbor = nf.encode();
     }
-    const f32buffer = new ArrayBuffer(4);
-    new Uint8Array(f32buffer).set(f32bytes);
-    let d = new DataView(f32buffer).getFloat32(0, false);
-    let cbor = CBOR.Float(d).encode();
+    console.log(CBOR.toHex(CBOR.fromBigInt(f32)) + " V=" + (genuine ? "G" : simple ? "S" : "X"));
+    if (simple) {
+        cbor = CBOR.Float.createExtendedFloat(getF32(f32)).encode();
+    }
     switch (cbor.length) {
         case 3:
             float16++;
@@ -24,38 +35,44 @@ function convert(i) {
             float32++;
             break;
         default:
-            throw Error("BUG");
+            throw new Error("BUG");
     }
-    let v = CBOR.decode(cbor).getFloat32();
-    let status = false;
-    if (Number.isNaN(d)) {
-      status = !Number.isNaN(v);
-    } else if (!Number.isFinite(d)) {
-      status = Number.isFinite(v);
-    } else if (Math.abs(d) == 0) {
-      status = Object.is(d,-0) != Object.is(v,-0);
+    let object = CBOR.decode(cbor);
+//    console.log((object instanceof CBOR.Float) + " " + object.toString());
+    if (simple) {
+      let d = getF32(f32);
+      let v = object.getExtendedFloat64();
+      if (v.toString() != d.toString()) {
+          throw new Error ("Fail");
+      }
+      if (genuine) {
+          v = object.getFloat64();
+          if (v.toString() != d.toString()) {
+              throw new Error ("Fail2");
+          }
+      }
     } else {
-      status = d != v;
+        if ((((nf.getNonFinite64() >> 29n) ^ f32) & 0x7fffffn) != 0n) {
+            throw new Error ("Fail3");
+        }
     }
-    if (status) {
-        throw Error("Fail" + v + " " + d);
-    }
-    if ((++runs % 1000000) == 0) {
-        console.log(" 16=" + float16 + " 32=" + float32);
-    }
+    ++runs;
+
   } catch (error) {
-    console.log("**********=" + i + " e=" + error);
-   }
+    console.log("**********=" + f32 + " e=" + error.toString());
+    throw error;
+  }
 
 }
     
-let f = 0;
+let f = 0n;
 while (f < 0x800000) {
-  let e = 0;
-  while (e < 0x100) {
-    convert((e * 0x800000) + f);
-    e++;
+  let e = 0n;
+  while (e < 0x100000000n) {
+//    console.log(CBOR.toHex(CBOR.fromBigInt(f)));
+    convert(e + f);
+    e += 0x800000n;
   }
-  f++;
+  f = f ? f + f : 1n
 }
 console.log("Runs=" + runs);
