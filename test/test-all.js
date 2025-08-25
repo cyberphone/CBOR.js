@@ -283,6 +283,11 @@ function shouldpass(decodedValue, value, length, valueText) {
   let test = 'decodedValue.getFloat' + length + '()';
   let float = eval(test);
   assertTrue("p2", float == value);
+  if (length == "64") {
+    test = 'decodedValue.getExtendedFloat' + length + '()';
+    float = eval(test);
+    assertTrue("p3", float == value);
+  }
 }
 
 function oneTurn(valueText, expected) {
