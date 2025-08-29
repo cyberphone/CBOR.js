@@ -122,6 +122,9 @@ public class CreateDocument {
   static final String W_NONFIN_DESCR = """
       Constructor.  Creates a CBOR <i>non-finite</i> <code>float</code> object.
       <div style='margin-top:0.5em'>
+      The argument must be a valid <code>16</code>, <code>32</code>, or <code>64</code>-bit
+      non-finite number in <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> encoding.</div>
+      <div style='margin-top:0.5em'>
       Also see <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</div>""";
 
   static final String W_NONFIN_P1_DESCR = """
