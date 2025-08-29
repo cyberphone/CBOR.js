@@ -57,15 +57,14 @@
 </div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#wrapper.cbor.nonfinite'>2.4.&nbsp;&nbsp;CBOR.NonFinite</a></div><div style='display:none'>
 <div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#methods.cbor.nonfinite'>2.4.1.&nbsp;&nbsp;CBOR.NonFinite Methods</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.getextendedfloat64'>2.4.1.1.&nbsp;&nbsp;getExtendedFloat64()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.getnonfinite'>2.4.1.2.&nbsp;&nbsp;getNonFinite()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.getnonfinite64'>2.4.1.3.&nbsp;&nbsp;getNonFinite64()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.isnan'>2.4.1.4.&nbsp;&nbsp;isNaN()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.issimple'>2.4.1.5.&nbsp;&nbsp;isSimple()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.getsign'>2.4.1.6.&nbsp;&nbsp;getSign()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.setsign'>2.4.1.7.&nbsp;&nbsp;setSign()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.cbor.nonfinite.createpayloadobject'>2.4.1.8.&nbsp;&nbsp;CBOR.NonFinite.createPayloadObject()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.getpayload'>2.4.1.9.&nbsp;&nbsp;getPayload()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.getnonfinite'>2.4.1.1.&nbsp;&nbsp;getNonFinite()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.getnonfinite64'>2.4.1.2.&nbsp;&nbsp;getNonFinite64()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.isnan'>2.4.1.3.&nbsp;&nbsp;isNaN()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.issimple'>2.4.1.4.&nbsp;&nbsp;isSimple()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.getsign'>2.4.1.5.&nbsp;&nbsp;getSign()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.setsign'>2.4.1.6.&nbsp;&nbsp;setSign()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.cbor.nonfinite.createpayloadobject'>2.4.1.7.&nbsp;&nbsp;CBOR.NonFinite.createPayloadObject()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.getpayload'>2.4.1.8.&nbsp;&nbsp;getPayload()</a></div>
 <div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#properties.cbor.nonfinite'>2.4.2.&nbsp;&nbsp;CBOR.NonFinite Properties</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.length'>2.4.2.1.&nbsp;&nbsp;length</a></div>
 </div>
@@ -524,9 +523,7 @@ object.</td></tr>
 <div style='margin-top:0.5em'>
 Also see <a href='#cbor.float.cbor.float.createextendedfloat'>CBOR.Float.createExtendedFloat()</a>.</div>
 <div style='margin-top:0.5em'>
-Note that this method "parallels"
-<a href='#cbor.nonfinite.getextendedfloat64'>CBOR.NonFinite.getExtendedFloat64()</a>,
-making it transparent for applications if the returned
+Note that this method makes it transparent for applications if the returned
 value is a "genuine" <code>float</code>, or one of
 the non-finite values: <code>Number.NaN</code>,
 <code>Number.POSITIVE_INFINITY</code>,
@@ -560,24 +557,7 @@ Also see <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</div></td></t
 <tr><td style='text-align:center'><kbd>CBOR.NonFinite</kbd></td><td colspan='2' style='width:100%'>Object.</td></tr>
 </table></div>
 <h5 id='methods.cbor.nonfinite'>2.4.1.&nbsp;&nbsp;CBOR.NonFinite Methods</h5>
-<h5 id='cbor.nonfinite.getextendedfloat64'>2.4.1.1.&nbsp;&nbsp;getExtendedFloat64()</h5>
-<div class='webpkifloat'>
-<table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td style='width:100%'><kbd>getExtendedFloat64()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR <i>non-finite</i> floating-point value.
-<div style='margin-top:0.5em'>
-Note that this method "parallels"
-<a href='#cbor.float.getextendedfloat64'>CBOR.Float.getExtendedFloat64()</a>,
-making it transparent for applications if the returned
-value is a "genuine" <code>float</code>, or one of
-the non-finite values: <code>Number.NaN</code>,
-<code>Number.POSITIVE_INFINITY</code>,
-or <code>Number.NEGATIVE_INFINITY</code>.</div></td></tr>
-<tr><td colspan='2' class='webpkidiv'></td></tr>
-<tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded <i>non-finite</i> floating-point number.</td></tr>
-</table></div>
-<h5 id='cbor.nonfinite.getnonfinite'>2.4.1.2.&nbsp;&nbsp;getNonFinite()</h5>
+<h5 id='cbor.nonfinite.getnonfinite'>2.4.1.1.&nbsp;&nbsp;getNonFinite()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getNonFinite()</kbd></td></tr>
@@ -589,7 +569,7 @@ provided in the most compact form based on CBOR serialization rules.</div></td><
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Decoded <i>non-finite</i> number as a <code>BigInt</code>.</td></tr>
 </table></div>
-<h5 id='cbor.nonfinite.getnonfinite64'>2.4.1.3.&nbsp;&nbsp;getNonFinite64()</h5>
+<h5 id='cbor.nonfinite.getnonfinite64'>2.4.1.2.&nbsp;&nbsp;getNonFinite64()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getNonFinite64()</kbd></td></tr>
@@ -602,7 +582,7 @@ returned as <code>7ff0040000000000</code>.</div></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Decoded <i>non-finite</i> number as a <code>BigInt</code>.</td></tr>
 </table></div>
-<h5 id='cbor.nonfinite.isnan'>2.4.1.4.&nbsp;&nbsp;isNaN()</h5>
+<h5 id='cbor.nonfinite.isnan'>2.4.1.3.&nbsp;&nbsp;isNaN()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>isNaN()</kbd></td></tr>
@@ -614,7 +594,7 @@ This method returns <code>true</code> for <i>all conformant</i>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'>Result.</td></tr>
 </table></div>
-<h5 id='cbor.nonfinite.issimple'>2.4.1.5.&nbsp;&nbsp;isSimple()</h5>
+<h5 id='cbor.nonfinite.issimple'>2.4.1.4.&nbsp;&nbsp;isSimple()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>isSimple()</kbd></td></tr>
@@ -629,7 +609,7 @@ else <code>false</code> is returned.</div></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'>Result.</td></tr>
 </table></div>
-<h5 id='cbor.nonfinite.getsign'>2.4.1.6.&nbsp;&nbsp;getSign()</h5>
+<h5 id='cbor.nonfinite.getsign'>2.4.1.5.&nbsp;&nbsp;getSign()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getSign()</kbd></td></tr>
@@ -643,7 +623,7 @@ Also see <a href='#cbor.nonfinite.setsign'>setSign()</a>.</div></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'>Result.</td></tr>
 </table></div>
-<h5 id='cbor.nonfinite.setsign'>2.4.1.7.&nbsp;&nbsp;setSign()</h5>
+<h5 id='cbor.nonfinite.setsign'>2.4.1.6.&nbsp;&nbsp;setSign()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>setSign(<i>sign</i>)</kbd></td></tr>
@@ -660,7 +640,7 @@ Also see <a href='#cbor.nonfinite.getsign'>getSign()</a>.</div></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>this</kbd></td><td colspan='2' style='width:100%'>Current object.</td></tr>
 </table></div>
-<h5 id='cbor.nonfinite.cbor.nonfinite.createpayloadobject'>2.4.1.8.&nbsp;&nbsp;CBOR.NonFinite.createPayloadObject()</h5>
+<h5 id='cbor.nonfinite.cbor.nonfinite.createpayloadobject'>2.4.1.7.&nbsp;&nbsp;CBOR.NonFinite.createPayloadObject()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.NonFinite.createPayloadObject(<i>payload</i>)</kbd></td></tr>
@@ -674,7 +654,7 @@ For details turn to <a href='non-finite-numbers.html#payload-option'>Payload opt
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>CBOR.NonFinite</kbd></td><td colspan='2' style='width:100%'>Object.</td></tr>
 </table></div>
-<h5 id='cbor.nonfinite.getpayload'>2.4.1.9.&nbsp;&nbsp;getPayload()</h5>
+<h5 id='cbor.nonfinite.getpayload'>2.4.1.8.&nbsp;&nbsp;getPayload()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getPayload()</kbd></td></tr>
@@ -1826,6 +1806,6 @@ here using the result of the previous encoding example:
 
   API version: 1.0.15.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-08-11
+  Document version: 2025-08-29
 </body>
 </html>

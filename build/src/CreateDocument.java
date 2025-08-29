@@ -103,9 +103,7 @@ public class CreateDocument {
       <div style='margin-top:0.5em'>
       Also see <a href='#cbor.float.cbor.float.createextendedfloat'>CBOR.Float.createExtendedFloat()</a>.</div>
       <div style='margin-top:0.5em'>
-      Note that this method "parallels"
-      <a href='#cbor.nonfinite.getextendedfloat64'>CBOR.NonFinite.getExtendedFloat64()</a>,
-      making it transparent for applications if the returned
+      Note that this method makes it transparent for applications if the returned
       value is a "genuine" <code>float</code>, or one of
       the non-finite values: <code>Number.NaN</code>,
       <code>Number.POSITIVE_INFINITY</code>,
@@ -129,20 +127,6 @@ public class CreateDocument {
 
   static final String W_NONFIN_P1_DESCR = """
       Non-finite floating-point number to be wrapped.""";
-
-  static final String W_GETEXTFLOAT_NONFIN_DESCR = """
-      Get CBOR <i>non-finite</i> floating-point value.
-      <div style='margin-top:0.5em'>
-      Note that this method "parallels"
-      <a href='#cbor.float.getextendedfloat64'>CBOR.Float.getExtendedFloat64()</a>,
-      making it transparent for applications if the returned
-      value is a "genuine" <code>float</code>, or one of
-      the non-finite values: <code>Number.NaN</code>,
-      <code>Number.POSITIVE_INFINITY</code>,
-      or <code>Number.NEGATIVE_INFINITY</code>.</div>""";
-
-  static final String W_GETEXTFLOAT_NONFIN_RETURN_DESCR = """
-      Decoded <i>non-finite</i> floating-point number.""";
 
   static final String W_GET_NONFIN_DESCR = """
       Get <i>actual</i> non-finite object (value).
@@ -1656,9 +1640,6 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
 
     addWrapper(DataTypes.CBOR_NONFIN, W_NONFIN_DESCR)
         .addWrapperParameter("value", DataTypes.JS_BIGINT, W_NONFIN_P1_DESCR)
-
-        .addMethod("getExtendedFloat64", W_GETEXTFLOAT_NONFIN_DESCR)
-        .setReturn(DataTypes.JS_NUMBER, W_GETEXTFLOAT_NONFIN_RETURN_DESCR)
 
         .addMethod("getNonFinite", W_GET_NONFIN_DESCR)
         .setReturn(DataTypes.JS_BIGINT, W_GET_NONFIN_RETURN_DESCR)
