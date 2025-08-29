@@ -128,7 +128,6 @@ async function doProcess() {
       default:
         cborBytes = CBOR.fromBase64Url(inData);
     }
-  console.log(rejectNonFiniteFlag);
     let sequenceBuilder = CBOR.Array();
     let decoder = CBOR.initDecoder(cborBytes, 
         (sequenceFlag ? CBOR.SEQUENCE_MODE : 0) |
