@@ -82,6 +82,19 @@ function setSample() {
    new Date().toISOString().replace(/\.\d{1,3}/g,'') + '")]\n}';
 }
 
+function checkForNonFinites(object) {
+  if (object instanceof CBOR.Array) {
+    object.toArray().forEach(element => checkForNonFinites(element));
+  } else if (object instanceof CBOR.Map) {
+    object.getKeys().forEach(key => {
+      checkForNonFinites(key);
+      checkForNonFinites(object.get(key));
+    });
+  } else if (object instanceof CBOR.NonFinite) {
+    throw new Error('"NaN" or "Infinity" were encountered');
+  }
+}
+
 async function delayedProcess() {
   document.getElementById('cborout').innerHTML = 'Working...';
   setTimeout(function() {
@@ -122,8 +135,8 @@ async function doProcess() {
         (deterministicFlag ? 0 : CBOR.LENIENT_NUMBER_DECODING | CBOR.LENIENT_MAP_DECODING));
     let object;
     while (object = decoder.decodeWithOptions()) {
-      if (rejectNonFiniteFlag && object instanceof CBOR.NonFinite) {
-        throw new Error('"NaN" or "Infinity" were encountered');
+      if (rejectNonFiniteFlag) {
+        checkForNonFinites(object);
       }
       sequenceBuilder.add(object);
       if (!sequenceFlag) {
