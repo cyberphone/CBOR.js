@@ -1630,7 +1630,11 @@ export default class CBOR {
         this.readChar();
         return true;
       }
-      this.scanFor(validStop);
+      let actual = this.readChar();
+      if (actual != validStop) {
+        this.parserError(
+          "Expected: ',' or '" + validStop + "' actual: " + this.toReadableChar(actual));
+      }
       this.index--;
       return false;
     }
@@ -1752,7 +1756,7 @@ export default class CBOR {
         
         default:
           this.index--;
-          this.parserError("Unexpected character: " + this.toChar(this.readChar()));
+          this.parserError("Unexpected character: " + this.toReadableChar(this.readChar()));
       }
     }
 
@@ -1872,7 +1876,7 @@ export default class CBOR {
       return c;
     }
 
-    toChar = function(c) {
+    toReadableChar = function(c) {
       let charCode = c.charCodeAt(0); 
       return charCode < 0x20 ? "\\u00" + CBOR.#twoHex(charCode) : "'" + c + "'";
     }
@@ -1881,7 +1885,7 @@ export default class CBOR {
       [...expected].forEach(c => {
         let actual = this.readChar(); 
         if (c != actual) {
-          this.parserError("Expected: '" + c + "' actual: " + this.toChar(actual));
+          this.parserError("Expected: '" + c + "' actual: " + this.toReadableChar(actual));
         }
       });
     }
@@ -1941,7 +1945,7 @@ export default class CBOR {
                 break;
   
               default:
-                this.parserError("Invalid escape character " + this.toChar(c));
+                this.parserError("Invalid escape character " + this.toReadableChar(c));
             }
             break;
  
@@ -1959,7 +1963,7 @@ export default class CBOR {
           
           default:
             if (c.charCodeAt(0) < 0x20) {
-              this.parserError("Unexpected control character: " + this.toChar(c));
+              this.parserError("Unexpected control character: " + this.toReadableChar(c));
             }
         }
         s += c;
