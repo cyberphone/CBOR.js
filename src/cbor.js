@@ -393,7 +393,6 @@ class CBOR {
 
     #value;
     #encoded;
-    #tag;
 
     constructor(value) {
       super();
@@ -402,7 +401,6 @@ class CBOR {
       const f64b = new Uint8Array(8);
       new DataView(f64b.buffer, 0, 8).setFloat64(0, value, false);
       // Begin catching the forbidden cases.
-      this.#tag = CBOR.#MT_FLOAT16;
       if (!Number.isFinite(value)) {
         CBOR.#error('Use CBOR.NonFinite for "NaN" and "Infinity" support');    
       }
@@ -463,14 +461,12 @@ class CBOR {
           } else {
             // Converting value to F32 returned a truncated result.
             // Full 64-bit representation is required.
-            this.#tag = CBOR.#MT_FLOAT64;
             this.#encoded = f64b;
           }
           // Common F16 and F64 return point.
           return;
         }
         // Broken loop: 32 bits are apparently needed for maintaining magnitude and precision.
-        this.#tag = CBOR.#MT_FLOAT32;
         let f32bin = 
             // Put sign bit in position. Why not << 24?  JS shift doesn't work above 2^31...
             ((f64b[0] & 0x80) * 0x1000000) +
@@ -484,7 +480,8 @@ class CBOR {
     }
     
     encode = function() {
-      return CBOR.addArrays(new Uint8Array([this.#tag]), this.#encoded);
+      return CBOR.addArrays(new Uint8Array([(this.#encoded.length >> 2) + CBOR.#MT_FLOAT16]),
+                            this.#encoded);
     }
 
     internalToString = function(cborPrinter) {
