@@ -1314,10 +1314,16 @@ export default class CBOR {
       return Number(value);
     }
 
+    printFloatDetErr = function(decoded) {
+      CBOR.#error("Non-deterministic encoding of floating-point value: " + 
+        CBOR.#twoHex((decoded.length >> 2) + CBOR.#MT_FLOAT16) + 
+        CBOR.toHex(decoded));
+    } 
+
     returnFloat = function(decoded, f64) {
       let cborFloat = CBOR.Float(f64);
       if (this.strictNumbers && cborFloat._compare(decoded)) {
-        CBOR.#error("Non-deterministic encoding of floating-point value: " + f64);
+        this.printFloatDetErr(decoded);
       }
       return cborFloat;
     }
@@ -1326,8 +1332,7 @@ export default class CBOR {
       let value = CBOR.toBigInt(decoded);
       let nonFinite = CBOR.NonFinite(value);
       if (this.strictNumbers && nonFinite._getValue() != value) {
-        CBOR.#error("Non-deterministic encoding of non-finite value: " + 
-          CBOR.toHex(CBOR.fromBigInt(value)));
+        this.printFloatDetErr(decoded);
       }
       return nonFinite;
     }
