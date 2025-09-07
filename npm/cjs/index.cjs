@@ -691,16 +691,30 @@ class CBOR {
     }
 
     internalToString = function(cborPrinter) {
-      cborPrinter.append('[');
-      let notFirst = false;
-      this.#objects.forEach(object => {
-        if (notFirst) {
-          cborPrinter.append(',').space();
-        }
-        notFirst = true;
-        object.internalToString(cborPrinter);
-      });
-      cborPrinter.append(']');
+      if (cborPrinter.arrayFolding(this)) {
+        cborPrinter.beginList('[');
+        let notFirst = false;
+        this.#objects.forEach(object => {
+          if (notFirst) {
+            cborPrinter.append(',');
+          }
+          notFirst = true;
+          cborPrinter.newlineAndIndent();
+          object.internalToString(cborPrinter);
+        });
+        cborPrinter.endList(notFirst, ']');
+      } else {
+        cborPrinter.append('[');
+        let notFirst = false;
+        this.#objects.forEach(object => {
+          if (notFirst) {
+            cborPrinter.append(',').space();
+          }
+          notFirst = true;
+          object.internalToString(cborPrinter);
+        });
+        cborPrinter.append(']');
+      }
     }
 
     _getLength = function() {
@@ -886,7 +900,7 @@ class CBOR {
 
     internalToString = function(cborPrinter) {
       let notFirst = false;
-      cborPrinter.beginMap();
+      cborPrinter.beginList('{');
       this.#entries.forEach(entry => {
         if (notFirst) {
           cborPrinter.append(',');
@@ -897,7 +911,7 @@ class CBOR {
         cborPrinter.append(':').space();
         entry.object.internalToString(cborPrinter);
       });
-      cborPrinter.endMap(notFirst);
+      cborPrinter.endList(notFirst, '}');
     }
 
     setSortingMode = function(preSortedKeys) {
@@ -943,6 +957,9 @@ class CBOR {
     #dateTime;
     #epochTime;
 
+    #cotxId;
+    #cotxObject;
+
     constructor(tagNumber, object) {
       super();
       this.#tagNumber = CBOR.#typeCheck(tagNumber, 'bigint');
@@ -960,10 +977,11 @@ class CBOR {
         // Note: clone() because we have mot read it really.
         this.#epochTime = object.clone().getEpochTime();
       } else if (tagNumber == CBOR.Tag.TAG_COTX) {
-        if (!(object instanceof CBOR.Array) || object.length != 2 ||
-            !(object.get(0) instanceof CBOR.String)) {
+        if (!(object instanceof CBOR.Array) || object.length != 2) {
           this.#errorInObject(CBOR.Tag.ERR_COTX);
         }
+        this.#cotxId = object.get(0).getString();
+        this.#cotxObject = object.get(1);
       }
     }
 
@@ -994,26 +1012,41 @@ class CBOR {
 
     internalToString = function(cborPrinter) {
       cborPrinter.append(this.#tagNumber.toString()).append('(');
-      this.#object.internalToString(cborPrinter);
+      if (this.#cotxObject == null) {
+        this.#object.internalToString(cborPrinter);
+      } else {
+        cborPrinter.append('[');
+        this.#object.get(0).internalToString(cborPrinter);
+        cborPrinter.append(',').space();
+        this.#object.get(1).internalToString(cborPrinter);
+        cborPrinter.append(']');
+      }
       cborPrinter.append(')');
     }
 
     getTagNumber = function() {
       return this.#tagNumber;
     }
-
-    update = function(object) {
-      CBOR.#checkArgs(arguments, 1);
-      this._immutableTest();
-      let previous = this.#object;
-      this.#object = CBOR.#cborArgumentCheck(object);
-      return previous;
-    }
-
+    
     get = function() {
       CBOR.#checkArgs(arguments, 0);
       this._markAsRead();
       return this.#object;
+    }
+
+    _checkCotx = function() {
+      if (!this.#cotxObject) {
+        this.#errorInObject(CBOR.Tag.ERR_COTX);
+      }
+    }
+
+    get cotxId() {
+      this._checkCotx();
+      return this.#cotxId;
+    }
+
+    get cotxObject() {
+      return this.#cotxObject;
     }
   }
 
@@ -1782,6 +1815,7 @@ class CBOR {
           break;
       }
       this.readChar();
+      // clone() converts a numerical Simple into Boolean etc. if applicable. 
       return CBOR.Simple(Number(token.trim())).clone();
     }
 
@@ -2124,15 +2158,16 @@ class CBOR {
   static #CborPrinter = class {
 
     indentationLevel = 0;
+    startOfLine = 0;
     buffer = '';
 
     constructor(prettyPrint) {
       this.prettyPrint = prettyPrint;
     }
 
-    beginMap = function() {
+    beginList = function(endChar) {
       this.indentationLevel++;
-      this.buffer += '{';
+      this.buffer += endChar;
     }
 
     append = function(string) {
@@ -2146,8 +2181,34 @@ class CBOR {
       }
     }
 
+    arrayFolding = function(array) {
+      if (this.prettyPrint) {
+        if (array.length == 0) {
+          return false;
+        }
+        let arraysInArrays = true;
+        for (let q = 0; q < array.length; q++) {
+          if (!(array.get(q) instanceof CBOR.Array)) {
+            arraysInArrays = false;
+            break;
+          }
+        }
+        if (arraysInArrays) {
+            return true;
+        }
+        if (this.buffer.length - this.startOfLine + // Where we are staing at the moment.
+          array.length +                            // space after comma.
+          2 +                                       // [] 
+          array.toDiag(false).length > 70) {
+          return true;
+        }
+      }
+      return false;
+    }
+
     newlineAndIndent = function() {
       if (this.prettyPrint) {
+        this.startOfLine = this.buffer.length;
         this.buffer += '\n';
         for (let i = 0; i < this.indentationLevel; i++) {
           this.buffer += '  ';
@@ -2155,12 +2216,12 @@ class CBOR {
       }
     }
 
-    endMap = function(notEmpty) {
+    endList = function(notEmpty, endChar) {
       this.indentationLevel--;
       if (notEmpty) {
         this.newlineAndIndent();
       }
-      this.buffer += '}';
+      this.buffer += endChar;
     }
   }
   

@@ -485,15 +485,6 @@ CBOR.NonFinite.createPayloadObject()</a>.</div>""";
   static final String W_TAG_GET_RETURN_DESCR = """
       Retrieved object.""";
 
-  static final String W_TAG_UPDATE_DESCR = """
-      Update tagged CBOR object.""";
-
-  static final String W_TAG_UPDATE_P1_DESCR = """
-      Update object.""";
-
-  static final String W_TAG_UPDATE_RETURN_DESCR = """
-      Previous object.""";
-
   // CBOR.Simple
 
   static final String W_SIMPLE_DESCR = """
@@ -1781,11 +1772,7 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
         .setReturn(DataTypes.JS_BIGINT, W_TAG_GETNUM_RETURN_DESCR)
 
         .addMethod("get", W_TAG_GET_DESCR)
-        .setReturn(DataTypes.CBOR_Any, W_TAG_GET_RETURN_DESCR)
-
-        .addMethod("update", W_TAG_UPDATE_DESCR)
-        .addParameter("object", DataTypes.CBOR_Any, W_TAG_UPDATE_P1_DESCR)
-        .setReturn(DataTypes.CBOR_Any, W_TAG_UPDATE_RETURN_DESCR);
+        .setReturn(DataTypes.CBOR_Any, W_TAG_GET_RETURN_DESCR);
 
     // CBOR.Simple
 
