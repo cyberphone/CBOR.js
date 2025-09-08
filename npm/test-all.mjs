@@ -929,8 +929,8 @@ let cbor = CBOR.Tag(CBOR.Tag.TAG_COTX, object).encode();
 let tag = CBOR.decode(cbor);
 assertTrue("t3", tag.getTagNumber()== CBOR.Tag.TAG_COTX);
 assertTrue("t3.1", object.equals(tag.get()));
-tag = CBOR.decode(cbor); 
-assertTrue("t3.2", object.equals(tag.get()));
+assertTrue("t3.2", tag.cotxId == "https://example.com/myobject");
+assertTrue("t3.3", tag.cotxObject.equals(CBOR.Int(6)));
 cbor = CBOR.Tag(0xf0123456789abcden, object).encode();
 assertTrue("t14", CBOR.decode(cbor).getTagNumber()== 0xf0123456789abcden);
 assertTrue("t5", CBOR.toHex(cbor) == 

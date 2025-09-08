@@ -110,6 +110,9 @@
 <div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#methods.cbor.tag'>2.11.1.&nbsp;&nbsp;CBOR.Tag Methods</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.tag.gettagnumber'>2.11.1.1.&nbsp;&nbsp;getTagNumber()</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.tag.get'>2.11.1.2.&nbsp;&nbsp;get()</a></div>
+<div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#properties.cbor.tag'>2.11.2.&nbsp;&nbsp;CBOR.Tag Properties</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.tag.cotxid'>2.11.2.1.&nbsp;&nbsp;cotxId</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.tag.cotxobject'>2.11.2.2.&nbsp;&nbsp;cotxObject</a></div>
 </div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#wrapper.cbor.simple'>2.12.&nbsp;&nbsp;CBOR.Simple</a></div><div style='display:none'>
 <div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#methods.cbor.simple'>2.12.1.&nbsp;&nbsp;CBOR.Simple Methods</a></div>
@@ -1050,6 +1053,23 @@ and tag&nbsp;<code>1010</code>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Retrieved object.</td></tr>
 </table></div>
+<h5 id='properties.cbor.tag'>2.11.2.&nbsp;&nbsp;CBOR.Tag Properties</h5>
+<h5 id='cbor.tag.cotxid'>2.11.2.1.&nbsp;&nbsp;cotxId</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><kbd><i>cotxId</i></kbd></td><td style='text-align:center'><kbd>String</kbd></td><td style='width:100%'>COTX [<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/'
+title="COTX">COTX<img src="xtl.svg" alt="link"></a>] support:
+object ID string.</td></tr>
+</table></div>
+<h5 id='cbor.tag.cotxobject'>2.11.2.2.&nbsp;&nbsp;cotxObject</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><kbd><i>cotxObject</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>COTX [<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/'
+title="COTX">COTX<img src="xtl.svg" alt="link"></a>] support:
+wrapped object.</td></tr>
+</table></div>
 <h5 id='wrapper.cbor.simple'>2.12.&nbsp;&nbsp;CBOR.Simple</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
@@ -1793,6 +1813,6 @@ here using the result of the previous encoding example:
 
   API version: 1.0.15.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-08-29
+  Document version: 2025-09-08
 </body>
 </html>

@@ -485,6 +485,16 @@ CBOR.NonFinite.createPayloadObject()</a>.</div>""";
   static final String W_TAG_GET_RETURN_DESCR = """
       Retrieved object.""";
 
+  static final String W_TAG_PROP_COTX_ID_DESCR = """
+      COTX [<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/'
+      title="COTX">COTX<img src="xtl.svg" alt="link"></a>] support:
+      object ID string.""";
+
+  static final String W_TAG_PROP_COTX_OBJECT_DESCR = """
+      COTX [<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/'
+      title="COTX">COTX<img src="xtl.svg" alt="link"></a>] support:
+      wrapped object.""";
+
   // CBOR.Simple
 
   static final String W_SIMPLE_DESCR = """
@@ -1169,11 +1179,13 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
         }
         outline.undent();
       }
-      if (wrapper.property != null) {
+      if (!wrapper.properties.isEmpty()) {
         outline.increment();
         s.append(printSubHeader("properties." + suffix, wrapper.name + " Properties"));
         outline.indent();
-        printProperty(wrapper.name, wrapper.property);
+        for (Property property : wrapper.properties) {
+          printProperty(wrapper.name, property);
+        }
         outline.undent();
       }
       outline.undent();
@@ -1285,7 +1297,7 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
 
   static class Wrapper extends Method {
 
-    Property property;
+    ArrayList<Property> properties = new ArrayList<>();
 
     ArrayList<Method> methods = new ArrayList<>();
 
@@ -1317,7 +1329,8 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
     }
 
     Wrapper setProperty(String name, DataTypes dataType, String description) {
-      property = new Property();
+      Property property = new Property();
+      properties.add(property);
       property.name = name;
       property.dataType = dataType;
       property.description = description;
@@ -1772,7 +1785,10 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
         .setReturn(DataTypes.JS_BIGINT, W_TAG_GETNUM_RETURN_DESCR)
 
         .addMethod("get", W_TAG_GET_DESCR)
-        .setReturn(DataTypes.CBOR_Any, W_TAG_GET_RETURN_DESCR);
+        .setReturn(DataTypes.CBOR_Any, W_TAG_GET_RETURN_DESCR)
+
+        .setProperty("cotxId", DataTypes.JS_STRING, W_TAG_PROP_COTX_ID_DESCR)
+        .setProperty("cotxObject", DataTypes.CBOR_Any, W_TAG_PROP_COTX_OBJECT_DESCR);
 
     // CBOR.Simple
 
