@@ -26,8 +26,7 @@ public class CreateDocument {
   static final String ARRAY_INDEX_P1_DESCR = """
       Index <code>(0..length-1)</code> of array.
       <div style='margin-top:0.5em'>
-      Note that a non-integer <kbd><i>index</i></kbd>
-      causes an exception to be thrown.</div>""";
+      If <kbd><i>index</i></kbd> is out of range, an exception is thrown.</div>""";
 
   // CBOR.Int
 
@@ -299,6 +298,14 @@ CBOR.NonFinite.createPayloadObject()</a>.</div>""";
 
   // CBOR.Array
 
+  static final String ARRAY_INDEX_INSERT_P1_DESCR = """
+      Index <code>(0..length)</code> of array.
+      <div style='margin-top:0.5em'>If <kbd><i>index</i></kbd>
+      is equal to <code>length</code>, <kbd><i>object</i></kbd> is appended.</div>
+      <div style='margin-top:0.5em'>
+      If <kbd><i>index</i></kbd> is out of range, an exception is thrown.</div>""";
+
+
   static final String W_ARRAY_DESCR = """
       Constructor.  Creates an empty CBOR <code>array</code> object.""";
 
@@ -309,15 +316,19 @@ CBOR.NonFinite.createPayloadObject()</a>.</div>""";
       Object to be appended to the array.""";
 
   static final String W_ARRAY_GET_DESCR = """
-      Get CBOR object at a specific position in the array.
-      If <kbd><i>index</i></kbd> is out of range, an exception is thrown.""";
+      Get CBOR object at a specific position in the array.""";
+
+  static final String W_ARRAY_REMOVE_DESCR = """
+      Remove CBOR object at a specific position in the array.""";
 
   static final String W_ARRAY_GET_RETURN_DESCR = """
       Retrieved object.""";
 
   static final String W_ARRAY_UPDATE_DESCR = """
-      Update CBOR object at a specific position in the array.
-      If <kbd><i>index</i></kbd> is out of range, an exception is thrown.""";
+      Update CBOR object at a specific position in the array.""";
+
+  static final String W_ARRAY_INSERT_DESCR = """
+      Insert CBOR object <i>before</i> an object at specific position in the array.""";
 
   static final String W_ARRAY_UPDATE_P2_DESCR = """
       Update object.""";
@@ -1713,10 +1724,19 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
         .addParameter("index", DataTypes.JS_NUMBER, ARRAY_INDEX_P1_DESCR)
         .setReturn(DataTypes.CBOR_Any, W_ARRAY_GET_RETURN_DESCR)
 
+        .addMethod("remove", W_ARRAY_REMOVE_DESCR)
+        .addParameter("index", DataTypes.JS_NUMBER, ARRAY_INDEX_P1_DESCR)
+        .setReturn(DataTypes.CBOR_Any, W_ARRAY_UPDATE_RETURN_DESCR)
+
         .addMethod("update", W_ARRAY_UPDATE_DESCR)
         .addParameter("index", DataTypes.JS_NUMBER, ARRAY_INDEX_P1_DESCR)
         .addParameter("object", DataTypes.CBOR_Any, W_ARRAY_UPDATE_P2_DESCR)
         .setReturn(DataTypes.CBOR_Any, W_ARRAY_UPDATE_RETURN_DESCR)
+
+        .addMethod("insert", W_ARRAY_INSERT_DESCR)
+        .addParameter("index", DataTypes.JS_NUMBER, ARRAY_INDEX_INSERT_P1_DESCR)
+        .addParameter("object", DataTypes.CBOR_Any, W_ARRAY_UPDATE_P2_DESCR)
+        .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR)
 
         .addMethod("toArray", W_ARRAY_TOARR_DESCR)
         .setReturn(DataTypes.JS_ARRAY, W_ARRAY_TOARR_RETURN_DESCR)

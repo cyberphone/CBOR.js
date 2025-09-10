@@ -85,9 +85,11 @@
 <div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#methods.cbor.array'>2.9.1.&nbsp;&nbsp;CBOR.Array Methods</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.add'>2.9.1.1.&nbsp;&nbsp;add()</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.get'>2.9.1.2.&nbsp;&nbsp;get()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.update'>2.9.1.3.&nbsp;&nbsp;update()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.toarray'>2.9.1.4.&nbsp;&nbsp;toArray()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.encodeassequence'>2.9.1.5.&nbsp;&nbsp;encodeAsSequence()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.remove'>2.9.1.3.&nbsp;&nbsp;remove()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.update'>2.9.1.4.&nbsp;&nbsp;update()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.insert'>2.9.1.5.&nbsp;&nbsp;insert()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.toarray'>2.9.1.6.&nbsp;&nbsp;toArray()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.encodeassequence'>2.9.1.7.&nbsp;&nbsp;encodeAsSequence()</a></div>
 <div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#properties.cbor.array'>2.9.2.&nbsp;&nbsp;CBOR.Array Properties</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.array.length'>2.9.2.1.&nbsp;&nbsp;length</a></div>
 </div>
@@ -777,36 +779,63 @@ Also see <a href='#common.isnull'>isNull()</a>.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>get(<i>index</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Get CBOR object at a specific position in the array.
-If <kbd><i>index</i></kbd> is out of range, an exception is thrown.</td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Get CBOR object at a specific position in the array.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>index</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Index <code>(0..length-1)</code> of array.
 <div style='margin-top:0.5em'>
-Note that a non-integer <kbd><i>index</i></kbd>
-causes an exception to be thrown.</div></td></tr>
+If <kbd><i>index</i></kbd> is out of range, an exception is thrown.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Retrieved object.</td></tr>
 </table></div>
-<h5 id='cbor.array.update'>2.9.1.3.&nbsp;&nbsp;update()</h5>
+<h5 id='cbor.array.remove'>2.9.1.3.&nbsp;&nbsp;remove()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>update(<i>index</i>, <i>object</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Update CBOR object at a specific position in the array.
-If <kbd><i>index</i></kbd> is out of range, an exception is thrown.</td></tr>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>remove(<i>index</i>)</kbd></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Remove CBOR object at a specific position in the array.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>index</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Index <code>(0..length-1)</code> of array.
 <div style='margin-top:0.5em'>
-Note that a non-integer <kbd><i>index</i></kbd>
-causes an exception to be thrown.</div></td></tr>
+If <kbd><i>index</i></kbd> is out of range, an exception is thrown.</div></td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Previous object.</td></tr>
+</table></div>
+<h5 id='cbor.array.update'>2.9.1.4.&nbsp;&nbsp;update()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>update(<i>index</i>, <i>object</i>)</kbd></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Update CBOR object at a specific position in the array.</td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><kbd><i>index</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Index <code>(0..length-1)</code> of array.
+<div style='margin-top:0.5em'>
+If <kbd><i>index</i></kbd> is out of range, an exception is thrown.</div></td></tr>
 <tr><td style='text-align:center'><kbd><i>object</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Update object.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Previous object.</td></tr>
 </table></div>
-<h5 id='cbor.array.toarray'>2.9.1.4.&nbsp;&nbsp;toArray()</h5>
+<h5 id='cbor.array.insert'>2.9.1.5.&nbsp;&nbsp;insert()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>insert(<i>index</i>, <i>object</i>)</kbd></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Insert CBOR object <i>before</i> an object at specific position in the array.</td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><kbd><i>index</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Index <code>(0..length)</code> of array.
+<div style='margin-top:0.5em'>If <kbd><i>index</i></kbd>
+is equal to <code>length</code>, <kbd><i>object</i></kbd> is appended.</div>
+<div style='margin-top:0.5em'>
+If <kbd><i>index</i></kbd> is out of range, an exception is thrown.</div></td></tr>
+<tr><td style='text-align:center'><kbd><i>object</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Update object.</td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><kbd>this</kbd></td><td colspan='2' style='width:100%'>Current object.</td></tr>
+</table></div>
+<h5 id='cbor.array.toarray'>2.9.1.6.&nbsp;&nbsp;toArray()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>toArray()</kbd></td></tr>
@@ -815,7 +844,7 @@ causes an exception to be thrown.</div></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>[CBOR.<i>Wrapper</i>...]</kbd></td><td style='width:100%'>JavaScript array holding a copy of current <kbd>CBOR.<i>Wrapper</i></kbd> objects.</td></tr>
 </table></div>
-<h5 id='cbor.array.encodeassequence'>2.9.1.5.&nbsp;&nbsp;encodeAsSequence()</h5>
+<h5 id='cbor.array.encodeassequence'>2.9.1.7.&nbsp;&nbsp;encodeAsSequence()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>encodeAsSequence()</kbd></td></tr>
@@ -1813,6 +1842,6 @@ here using the result of the previous encoding example:
 
   API version: 1.0.15.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-09-08
+  Document version: 2025-09-10
 </body>
 </html>
