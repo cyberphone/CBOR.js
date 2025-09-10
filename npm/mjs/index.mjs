@@ -649,24 +649,37 @@ export default class CBOR {
       return this;
     }
 
+    #getIndex = function(index, offset) {
+      index = CBOR.#intCheck(index);
+      if (index < 0 || index >= this.#objects.length + offset) {
+        CBOR.#error("Array index out of range: " + index);
+      }
+      return index;
+    }
+
     get = function(index) {
       CBOR.#checkArgs(arguments, 1);
       this._markAsRead();
-      index = CBOR.#intCheck(index);
-      if (index < 0 || index >= this.#objects.length) {
-        CBOR.#error("Array index out of range: " + index);
-      }
-      return this.#objects[index];
+      return this.#objects[this.#getIndex(index, 0)];
+    }
+
+    insert = function(index, object) {
+      CBOR.#checkArgs(arguments, 2);
+      this._immutableTest();
+      this.#objects.splice(this.#getIndex(index, 1), 0, CBOR.#cborArgumentCheck(object));
+      return this;
     }
 
     update = function(index, object) {
       CBOR.#checkArgs(arguments, 2);
       this._immutableTest();
-      index = CBOR.#intCheck(index);
-      if (index < 0 || index >= this.#objects.length) {
-        CBOR.#error("Array index out of range: " + index);
-      } 
-      return this.#objects.splice(index, 1, CBOR.#cborArgumentCheck(object))[0]; 
+      return this.#objects.splice(this.#getIndex(index, 0), 1, CBOR.#cborArgumentCheck(object))[0];
+    }
+
+    remove = function(index) {
+      CBOR.#checkArgs(arguments, 1);
+      this._immutableTest();
+      return this.#objects.splice(this.#getIndex(index, 0), 1)[0]; 
     }
 
     toArray = function() {
