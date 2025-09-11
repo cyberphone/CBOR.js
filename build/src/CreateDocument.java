@@ -24,9 +24,7 @@ public class CreateDocument {
       Object (value).""";
 
   static final String ARRAY_INDEX_P1_DESCR = """
-      Index <code>(0..length-1)</code> of array.
-      <div style='margin-top:0.5em'>
-      If <kbd><i>index</i></kbd> is out of range, an exception is thrown.</div>""";
+      Array index <code>(0..length-1)</code>.""";
 
   // CBOR.Int
 
@@ -299,11 +297,9 @@ CBOR.NonFinite.createPayloadObject()</a>.</div>""";
   // CBOR.Array
 
   static final String ARRAY_INDEX_INSERT_P1_DESCR = """
-      Index <code>(0..length)</code> of array.
+      Array index <code>(0..length)</code>.
       <div style='margin-top:0.5em'>If <kbd><i>index</i></kbd>
-      is equal to <code>length</code>, <kbd><i>object</i></kbd> is appended.</div>
-      <div style='margin-top:0.5em'>
-      If <kbd><i>index</i></kbd> is out of range, an exception is thrown.</div>""";
+      is equal to <code>length</code>, <kbd><i>object</i></kbd> is <i>appended</i>.</div>""";
 
 
   static final String W_ARRAY_DESCR = """

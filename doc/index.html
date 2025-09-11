@@ -782,9 +782,7 @@ Also see <a href='#common.isnull'>isNull()</a>.</td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Get CBOR object at a specific position in the array.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>index</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Index <code>(0..length-1)</code> of array.
-<div style='margin-top:0.5em'>
-If <kbd><i>index</i></kbd> is out of range, an exception is thrown.</div></td></tr>
+<tr><td style='text-align:center'><kbd><i>index</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Array index <code>(0..length-1)</code>.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Retrieved object.</td></tr>
@@ -796,9 +794,7 @@ If <kbd><i>index</i></kbd> is out of range, an exception is thrown.</div></td></
 <tr><th>Description</th><td colspan='2' style='width:100%'>Remove CBOR object at a specific position in the array.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>index</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Index <code>(0..length-1)</code> of array.
-<div style='margin-top:0.5em'>
-If <kbd><i>index</i></kbd> is out of range, an exception is thrown.</div></td></tr>
+<tr><td style='text-align:center'><kbd><i>index</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Array index <code>(0..length-1)</code>.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Previous object.</td></tr>
@@ -810,9 +806,7 @@ If <kbd><i>index</i></kbd> is out of range, an exception is thrown.</div></td></
 <tr><th>Description</th><td colspan='2' style='width:100%'>Update CBOR object at a specific position in the array.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>index</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Index <code>(0..length-1)</code> of array.
-<div style='margin-top:0.5em'>
-If <kbd><i>index</i></kbd> is out of range, an exception is thrown.</div></td></tr>
+<tr><td style='text-align:center'><kbd><i>index</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Array index <code>(0..length-1)</code>.</td></tr>
 <tr><td style='text-align:center'><kbd><i>object</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Update object.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
@@ -825,11 +819,9 @@ If <kbd><i>index</i></kbd> is out of range, an exception is thrown.</div></td></
 <tr><th>Description</th><td colspan='2' style='width:100%'>Insert CBOR object <i>before</i> an object at specific position in the array.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>index</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Index <code>(0..length)</code> of array.
+<tr><td style='text-align:center'><kbd><i>index</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Array index <code>(0..length)</code>.
 <div style='margin-top:0.5em'>If <kbd><i>index</i></kbd>
-is equal to <code>length</code>, <kbd><i>object</i></kbd> is appended.</div>
-<div style='margin-top:0.5em'>
-If <kbd><i>index</i></kbd> is out of range, an exception is thrown.</div></td></tr>
+is equal to <code>length</code>, <kbd><i>object</i></kbd> is <i>appended</i>.</div></td></tr>
 <tr><td style='text-align:center'><kbd><i>object</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Update object.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
