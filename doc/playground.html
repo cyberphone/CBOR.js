@@ -90,6 +90,8 @@ function checkForNonFinites(object) {
       checkForNonFinites(key);
       checkForNonFinites(object.get(key));
     });
+  } else if (object instanceof CBOR.Tag) {
+    checkForNonFinites(object.get());
   } else if (object instanceof CBOR.NonFinite) {
     throw new Error('"NaN" or "Infinity" were encountered');
   }
