@@ -324,7 +324,7 @@ CBOR.NonFinite.createPayloadObject()</a>.</div>""";
       Update CBOR object at a specific position in the array.""";
 
   static final String W_ARRAY_INSERT_DESCR = """
-      Insert CBOR object <i>before</i> an object at specific position in the array.""";
+      Insert CBOR object <i>before</i> an object at a specific position in the array.""";
 
   static final String W_ARRAY_UPDATE_P2_DESCR = """
       Update object.""";
