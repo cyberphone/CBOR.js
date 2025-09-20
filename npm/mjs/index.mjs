@@ -1104,10 +1104,10 @@ export default class CBOR {
 
     constructor(value) {
       super();
-      this.#createDetermnisticEncoding(value);
+      this.#createDetEnc(value);
     }
 
-    #createDetermnisticEncoding = function(value) {
+    #createDetEnc = function(value) {
       this.#original = CBOR.#typeCheck(value, 'bigint');
       if (value > 0xffffffffffffffffn) {
         CBOR.#error("Argument out of range: " + value);
@@ -1173,7 +1173,7 @@ export default class CBOR {
 
     setSign = function(sign) {
       let mask = 1n << BigInt((this.#encoded.length * 8) - 1);
-      this.#createDetermnisticEncoding((this.#value & (mask - 1n)) | (sign ? mask : 0n));
+      this.#createDetEnc((this.#value & (mask - 1n)) | (sign ? mask : 0n));
       return this;
     }
 
