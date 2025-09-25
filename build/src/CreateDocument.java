@@ -1769,7 +1769,7 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
         .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
         .setReturn(DataTypes.CBOR_Any, W_MAP_GET_RETURN_DESCR)
 
-        .addMethod("getConditional", W_MAP_GETCOND_DESCR)
+        .addMethod("getConditionally", W_MAP_GETCOND_DESCR)
         .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
         .addParameter("defaultObject", DataTypes.CBOR_Any, W_MAP_GETCOND_P2_DESCR)
         .setReturn(DataTypes.CBOR_Any, W_MAP_GETCOND_RETURN_DESCR)
