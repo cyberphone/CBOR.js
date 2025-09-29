@@ -1763,13 +1763,13 @@ base64 encoded data as well as data with or without
     <li>The letter <i>n</i> in the Syntax column denotes one or more digits.</li>
     <li style='padding-top:0.5em'>The optional <i>{sign}</i> must be a single hyphen (<kbd><b>'-'</b></kbd>) character.</li>
     <li style='padding-top:0.5em'>
-      <i>Input only</i>: between the quotes, the whitespace characters
+      <i>Input only</i>: between tokens, the whitespace characters
       (<kbd><b>' '</b></kbd>, <kbd><b>'\t'</b></kbd>, <kbd><b>'\r'</b></kbd>, <kbd><b>'\n'</b></kbd>)
       are <i>ignored</i>.
     </li>
     <li style='padding-top:0.5em'>
-      <i>Input only</i>: the control character <kbd><b>'\n'</b></kbd>
-      inside of string quotes <i>become a part of the text</i>.
+      <i>Input only</i>: inside of string quotes,
+      the control character <kbd><b>'\n'</b></kbd> becomes a part of the text string.
       For nomalizing line terminators,
       a single <kbd><b>'\r'</b></kbd> or the combination <kbd><b>'\r\n'</b></kbd>
       are rewritten as <kbd><b>'\n'</b></kbd>.
