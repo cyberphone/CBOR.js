@@ -15,7 +15,7 @@ as well as being the result of CBOR decoding.
 ### Design Rationale
 
 The described API builds on the 
-[CBOR::Core](https://www.ietf.org/archive/id/draft-rundgren-cbor-core-12.html)
+[CBOR::Core](https://www.ietf.org/archive/id/draft-rundgren-cbor-core-13.html)
 platform profile.
 
 Due to the desire maintaining interoperability across different platforms,
@@ -107,4 +107,4 @@ while remaining faithful to the native CBOR representation.
 |JDK&nbsp;21+|https://github.com/cyberphone/openkeystore|
 |Android/Java|https://github.com/cyberphone/android-cbor|
 
-Updated: 2025-08-11
+Updated: 2025-10-01

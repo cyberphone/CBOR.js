@@ -513,7 +513,7 @@ CBOR.NonFinite.createPayloadObject()</a>.</div>""";
       types in the range of <code>0-19</code> and <code>32-255</code>,
       is serving as a limited set of <i>unique and reserved labels</i> (keys)
       in CBOR maps.  The <code>simple(99)</code> label featured in
-      <a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-12.\
+      <a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-13.\
 html#name-code-example'>Embedded&nbsp;Signatures</a>
       shows a representative example.</div>""";
 
@@ -1999,7 +1999,7 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
 
     replace(TOC, printTableOfContents());
 
-    replace(CBOR_CORE, "[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-12.html' " +
+    replace(CBOR_CORE, "[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-13.html' " +
                        "title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>]");
 
     IO.writeFile(documentFileName, template);
