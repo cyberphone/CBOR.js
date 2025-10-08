@@ -63,7 +63,7 @@
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.issimple'>2.4.1.4.&nbsp;&nbsp;isSimple()</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.getsign'>2.4.1.5.&nbsp;&nbsp;getSign()</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.setsign'>2.4.1.6.&nbsp;&nbsp;setSign()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.cbor.nonfinite.createpayloadobject'>2.4.1.7.&nbsp;&nbsp;CBOR.NonFinite.createPayloadObject()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.cbor.nonfinite.createpayload'>2.4.1.7.&nbsp;&nbsp;CBOR.NonFinite.createPayload()</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.getpayload'>2.4.1.8.&nbsp;&nbsp;getPayload()</a></div>
 <div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#properties.cbor.nonfinite'>2.4.2.&nbsp;&nbsp;CBOR.NonFinite Properties</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.nonfinite.length'>2.4.2.1.&nbsp;&nbsp;length</a></div>
@@ -644,10 +644,10 @@ Also see <a href='#cbor.nonfinite.getsign'>getSign()</a>.</div></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>this</kbd></td><td colspan='2' style='width:100%'>Current object.</td></tr>
 </table></div>
-<h5 id='cbor.nonfinite.cbor.nonfinite.createpayloadobject'>2.4.1.7.&nbsp;&nbsp;CBOR.NonFinite.createPayloadObject()</h5>
+<h5 id='cbor.nonfinite.cbor.nonfinite.createpayload'>2.4.1.7.&nbsp;&nbsp;CBOR.NonFinite.createPayload()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.NonFinite.createPayloadObject(<i>payload</i>)</kbd></td></tr>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.NonFinite.createPayload(<i>payload</i>)</kbd></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Creates a payload object.
 <div style='margin-top:0.5em'>
 For details turn to <a href='non-finite-numbers.html#payload-option'>Payload option</a>.</div></td></tr>
@@ -665,7 +665,7 @@ For details turn to <a href='non-finite-numbers.html#payload-option'>Payload opt
 <tr><th>Description</th><td style='width:100%'>      Get payload data.
       <div style='margin-top:0.5em'>
       This method is the "consumer" counterpart to
-      <a href='#cbor.nonfinite.cbor.nonfinite.createpayloadobject'>CBOR.NonFinite.createPayloadObject()</a>.</div></td></tr>
+      <a href='#cbor.nonfinite.cbor.nonfinite.createpayloadobject'>CBOR.NonFinite.createPayload()</a>.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Payload.</td></tr>
@@ -1834,6 +1834,6 @@ here using the result of the previous encoding example:
 
   API version: 1.0.15.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-10-01
+  Document version: 2025-10-08
 </body>
 </html>

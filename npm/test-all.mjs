@@ -368,7 +368,7 @@ for (let q = 0; q < 8; q++) {
 
 function payloadOneTurn(payload, hex, dn) {
   dn = dn == null ? "float'" + hex.substring(2) + "'" : dn;
-  let cbor = CBOR.NonFinite.createPayloadObject(payload).encode();
+  let cbor = CBOR.NonFinite.createPayload(payload).encode();
   let object = CBOR.decode(cbor);
   assertTrue("plo1", object instanceof CBOR.NonFinite);
   let nonFinite = object;
@@ -381,7 +381,7 @@ function payloadOneTurn(payload, hex, dn) {
   nonFinite.setSign(true);
   assertTrue("plo7", nonFinite.getSign());
   assertTrue("plo8", CBOR.toHex(nonFinite.encode()) == signedHex);
-  nonFinite = CBOR.NonFinite.createPayloadObject(payload).setSign(true);
+  nonFinite = CBOR.NonFinite.createPayload(payload).setSign(true);
   assertTrue("plo9", CBOR.toHex(nonFinite.encode()) == signedHex);
 }
 
@@ -525,7 +525,7 @@ payloadOneTurn(1n << 23n,        "fb7ff0000010000000", null);
 payloadOneTurn((1n << 52n) - 1n, "fb7fffffffffffffff", null);
 
 try {
-  CBOR.NonFinite.createPayloadObject(1n << 52n).encode();
+  CBOR.NonFinite.createPayload(1n << 52n).encode();
   fail("pl8");
 } catch(error) {
   assertTrue("p18a", error.toString().includes("Payload out of range"));

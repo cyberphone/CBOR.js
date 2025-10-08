@@ -201,7 +201,7 @@ public class CreateDocument {
       <div style='margin-top:0.5em'>
       This method is the "consumer" counterpart to
       <a href='#cbor.nonfinite.cbor.nonfinite.createpayloadobject'>\
-CBOR.NonFinite.createPayloadObject()</a>.</div>""";
+CBOR.NonFinite.createPayload()</a>.</div>""";
 
   static final String W_GETPAYLOAD_NONFIN_RETURN_DESCR = "Payload.";
 /* 
@@ -1647,7 +1647,7 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
 
         .setProperty("length", DataTypes.JS_NUMBER, W_FLOAT_PROP_DESCR);
 
-    // CBOR.NonFinit
+    // CBOR.NonFinite
 
     addWrapper(DataTypes.CBOR_NONFIN, W_NONFIN_DESCR)
         .addWrapperParameter("value", DataTypes.JS_BIGINT, W_NONFIN_P1_DESCR)
@@ -1671,7 +1671,7 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
         .addParameter("sign", DataTypes.JS_BOOLEAN, W_SETSIGN_NONFIN_P1_DESCR)
         .setReturn(DataTypes.JS_THIS, W_SETSIGN_NONFIN_RETURN_DESCR)
 
-        .addMethod("CBOR.NonFinite.createPayloadObject", W_CREPAYLOAD_NONFIN_DESCR)
+        .addMethod("CBOR.NonFinite.createPayload", W_CREPAYLOAD_NONFIN_DESCR)
         .addParameter("payload", DataTypes.JS_BIGINT, W_CREPAYLOAD_NONFIN_P1_DESCR)
         .setReturn(DataTypes.CBOR_NONFIN, W_CREPAYLOAD_NONFIN_RETURN_DESCR)
 
