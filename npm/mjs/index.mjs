@@ -516,7 +516,7 @@ export default class CBOR {
       new DataView(f64b.buffer, 0, 8).setFloat64(0, value, false);
       let nf = CBOR.NonFinite(CBOR.toBigInt(f64b));
       if (!nf.isSimple()) {
-        CBOR.#error("createExtendedFloat() does not support non-trivial NaNs");
+        CBOR.#error("createExtendedFloat() does not support NaN with payloads");
       }
       return nf;
     }
