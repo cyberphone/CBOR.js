@@ -12,18 +12,18 @@ function getF32(f32) {
 }
     
 function convert(f32) {
-  let genuine = true;
+  let regular = true;
   let simple = true;
   let cbor = null;
   let nf = null;
   try {
     if ((f32 & 0x7f800000n) == 0x7f800000n) {
         nf = CBOR.NonFinite(f32);
-        genuine = false;
+        regular = false;
         simple = nf.isSimple();
         cbor = nf.encode();
     }
-    console.log(CBOR.toHex(CBOR.fromBigInt(f32)) + " V=" + (genuine ? "G" : simple ? "S" : "X"));
+    console.log(CBOR.toHex(CBOR.fromBigInt(f32)) + " V=" + (regular ? "G" : simple ? "S" : "X"));
     if (simple) {
         cbor = CBOR.Float.createExtendedFloat(getF32(f32)).encode();
     }
@@ -45,7 +45,7 @@ function convert(f32) {
       if (v.toString() != d.toString()) {
           throw new Error ("Fail");
       }
-      if (genuine) {
+      if (regular) {
           v = object.getFloat64();
           if (v.toString() != d.toString()) {
               throw new Error ("Fail2");

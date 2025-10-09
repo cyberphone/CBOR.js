@@ -126,7 +126,7 @@ class CBOR {
           case 0xfc00n:
             return Number.NEGATIVE_INFINITY;
           default:
-            CBOR.#error('getExtendedFloat64() only supports the "basic" NaN (7e00)');
+            CBOR.#error('getExtendedFloat64() only supports "simple" NaN (7e00)');
         }
       }
       return this.getFloat64();
@@ -407,7 +407,7 @@ class CBOR {
       if (value == 0) { // True for -0.0 as well! 
         this.#encoded = f64b.slice(0, 2);
       } else {
-        // It is apparently a genuine (non-zero) number.
+        // It is apparently a regular (non-zero) number.
         let f32exp;
         let f32signif;
         while (true) {  // "goto" surely beats quirky loop/break/return/flag constructs...

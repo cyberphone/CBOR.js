@@ -237,7 +237,7 @@ try {
   CBOR.Float.createExtendedFloat(new DataView(nanWithPayload.buffer, 0, 8).getFloat64(0, false));
   assertFalse("must not", supportNanWithPayloads);
 } catch (error) {
-  assertTrue("not", error.toString().includes("non-trivial"));
+  assertTrue("not", error.toString().includes("payloads"));
 }
 let nonFinite = CBOR.Float.createExtendedFloat(Number.NaN);
 assertTrue("conv", nonFinite instanceof CBOR.NonFinite);
