@@ -172,7 +172,7 @@
   <h3 id='main.intro'>1.&nbsp;&nbsp;Introduction</h3>
 
   This document describes a JavaScript API for encoding and decoding CBOR data using the
-  [<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-13.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>] cross platform profile.
+  [<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-14.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>] cross platform profile.
   The API loosely mimics the &quot;JSON&quot; object by exposing a <i>single global object</i>,
   unsurprisingly named &quot;CBOR&quot;.
 
@@ -1081,7 +1081,9 @@ and tag&nbsp;<code>1010</code>
 <tr><th>Name</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>cotxId</i></kbd></td><td style='text-align:center'><kbd>String</kbd></td><td style='width:100%'>COTX [<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/'
 title="COTX">COTX<img src="xtl.svg" alt="link"></a>] support:
-object ID string.</td></tr>
+object ID string.<div style='margin-top:0.5em'>
+Only valid for COTX tags.
+See also <a href='#cbor.tag.gettagnumber'>getTagNumber()</a>.</div></td></tr>
 </table></div>
 <h5 id='cbor.tag.cotxobject'>2.11.2.2.&nbsp;&nbsp;cotxObject</h5>
 <div class='webpkifloat'>
@@ -1089,7 +1091,9 @@ object ID string.</td></tr>
 <tr><th>Name</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>cotxObject</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>COTX [<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/'
 title="COTX">COTX<img src="xtl.svg" alt="link"></a>] support:
-wrapped object.</td></tr>
+wrapped object.<div style='margin-top:0.5em'>
+Only valid for COTX tags.
+See also <a href='#cbor.tag.gettagnumber'>getTagNumber()</a>.</div></td></tr>
 </table></div>
 <h5 id='wrapper.cbor.simple'>2.12.&nbsp;&nbsp;CBOR.Simple</h5>
 <div class='webpkifloat'>
@@ -1804,7 +1808,7 @@ base64 encoded data as well as data with or without
   encoding schemes as well.
   </p>
   <p>
-  The determinism scheme is described in [<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-13.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>].
+  The determinism scheme is described in [<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-14.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>].
   </p>
   <h3 id='main.examples'>10.&nbsp;&nbsp;Using the CBOR API</h3>
 

@@ -495,12 +495,16 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
   static final String W_TAG_PROP_COTX_ID_DESCR = """
       COTX [<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/'
       title="COTX">COTX<img src="xtl.svg" alt="link"></a>] support:
-      object ID string.""";
+      object ID string.<div style='margin-top:0.5em'>
+      Only valid for COTX tags.
+      See also <a href='#cbor.tag.gettagnumber'>getTagNumber()</a>.</div>""";
 
   static final String W_TAG_PROP_COTX_OBJECT_DESCR = """
       COTX [<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/'
       title="COTX">COTX<img src="xtl.svg" alt="link"></a>] support:
-      wrapped object.""";
+      wrapped object.<div style='margin-top:0.5em'>
+      Only valid for COTX tags.
+      See also <a href='#cbor.tag.gettagnumber'>getTagNumber()</a>.</div>""";
 
   // CBOR.Simple
 
@@ -1999,7 +2003,7 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
 
     replace(TOC, printTableOfContents());
 
-    replace(CBOR_CORE, "[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-13.html' " +
+    replace(CBOR_CORE, "[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-14.html' " +
                        "title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>]");
 
     IO.writeFile(documentFileName, template);
