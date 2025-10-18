@@ -1104,11 +1104,11 @@ class CBOR {
 
     constructor(value) {
       super();
+      this.#original = CBOR.#typeCheck(value, 'bigint');
       this.#createDetEnc(value);
     }
 
     #createDetEnc = function(value) {
-      this.#original = CBOR.#typeCheck(value, 'bigint');
       if (value > 0xffffffffffffffffn) {
         CBOR.#error("Argument out of range: " + value);
       }
@@ -1210,13 +1210,13 @@ class CBOR {
     }
 
     #toNonFinite64 = function(significandLength) {
-      let value64 = this.#value;
-      value64 &= (1n << significandLength) - 1n;
-      value64 = 0x7ff0000000000000n | (value64 << (52n - significandLength));
+      let nf64 = this.#value;
+      nf64 &= (1n << significandLength) - 1n;
+      nf64 = 0x7ff0000000000000n | (nf64 << (52n - significandLength));
       if (this.getSign()) {
-        value64 |= 0x8000000000000000n;
+        nf64 |= 0x8000000000000000n;
       }
-      return value64;       
+      return nf64;       
     }
 
     getPayload = function() {
