@@ -1100,7 +1100,7 @@ export default class CBOR {
 
     #value;
     #original;
-    #encoded;
+    #ieee754;
 
     constructor(value) {
       super();
@@ -1110,34 +1110,33 @@ export default class CBOR {
 
     #createDetEnc = function(value) {
       while (true) {
-        this.#value = value;
-        this.#encoded = CBOR.fromBigInt(value);
-        let pattern;
-        switch (this.#encoded.length) {
+        this.#ieee754 = CBOR.fromBigInt(value);
+        let exponent;
+        switch (this.#ieee754.length) {
           case 2:
-            pattern = 0x7c00n;
+            exponent = 0x7c00n;
             break;
           case 4:
-            pattern = 0x7f800000n;
+            exponent = 0x7f800000n;
             break;
           case 8:
-            pattern = 0x7ff0000000000000n;
+            exponent = 0x7ff0000000000000n;
             break;
           default:
             this.#badValue();
         }
-        let signed = this.#encoded[0] > 0x7f;
-        if ((value & pattern) != pattern) {
+        let sign = this.#ieee754[0] > 0x7f;
+        if ((value & exponent) != exponent) {
           this.#badValue();
         }
-        switch (this.#encoded.length) {
+        switch (this.#ieee754.length) {
           case 4:
             if (value & ((1n << 13n) - 1n)) {
               break;
             }
             value >>= 13n;
             value &= 0x7fffn;
-            if (signed) {
+            if (sign) {
               value |= 0x8000n;
             }
             continue;
@@ -1147,17 +1146,18 @@ export default class CBOR {
             }
             value >>= 29n;
             value &= 0x7fffffffn;
-            if (signed) {
+            if (sign) {
               value |= 0x80000000n;
             }
             continue;
         }
+        this.#value = value;
         return;
       }
     }
 
     isSimple = function() {
-      if (this.#encoded.length == 2) {
+      if (this.#ieee754.length == 2) {
         switch (this.#value) {
           case 0x7e00n:
           case 0x7c00n:
@@ -1169,14 +1169,14 @@ export default class CBOR {
     }
 
     setSign = function(sign) {
-      let mask = 1n << BigInt((this.#encoded.length * 8) - 1);
+      let mask = 1n << BigInt((this.#ieee754.length * 8) - 1);
       this.#createDetEnc((this.#value & (mask - 1n)) | (sign ? mask : 0n));
       return this;
     }
 
     isNaN = function() {
       let mask;
-      switch (this.#encoded.length) {
+      switch (this.#ieee754.length) {
         case 2:
           mask = 0x3ffn;
           break;
@@ -1190,7 +1190,7 @@ export default class CBOR {
     }
 
     getSign = function() {
-      return this.#encoded[0] > 0x7f;
+      return this.#ieee754[0] > 0x7f;
     }
 
     static createPayload = function(payload) {
@@ -1225,23 +1225,23 @@ export default class CBOR {
     }
 
     encode = function() {
-      return CBOR.addArrays(new Uint8Array([0xf9 + (this.#encoded.length >> 2)]), this.#encoded);
+      return CBOR.addArrays(new Uint8Array([0xf9 + (this.#ieee754.length >> 2)]), this.#ieee754);
     }
 
     internalToString = function(cborPrinter) {  
       if (this.isSimple()) {
         cborPrinter.append(this.isNaN() ? "NaN" : this.getSign() ? "-Infinity" : "Infinity");
       } else {
-        cborPrinter.append("float'").append(CBOR.toHex(this.#encoded)).append("'");
+        cborPrinter.append("float'").append(CBOR.toHex(this.#ieee754)).append("'");
       }
     }
   
     _getLength = function() {
-      return this.#encoded.length;
+      return this.#ieee754.length;
     }
   
     _get = function() {
-      switch (this.#encoded.length) {
+      switch (this.#ieee754.length) {
         case 2:
           return this.#toNonFinite64(10n);
         case 4:
