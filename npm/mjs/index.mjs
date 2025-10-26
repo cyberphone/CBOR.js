@@ -1109,9 +1109,6 @@ export default class CBOR {
     }
 
     #createDetEnc = function(value) {
-      if (value > 0xffffffffffffffffn) {
-        CBOR.#error("Argument out of range: " + value);
-      }
       while (true) {
         this.#value = value;
         this.#encoded = CBOR.fromBigInt(value);
