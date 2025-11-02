@@ -85,7 +85,7 @@ public class CreateDocument {
       Floating-point number to be wrapped.""";
 
   static final String W_CREEXTFLOAT_RETURN_DESCR = """
-      <a href='#wrapper.cbor.float'>CBOR.Float</a> or
+      Instantiated <a href='#wrapper.cbor.float'>CBOR.Float</a> or
       <a href='#wrapper.cbor.nonfinite'>CBOR.NonFinite</a>
       object.""";
 
@@ -194,7 +194,9 @@ public class CreateDocument {
   static final String W_CREPAYLOAD_NONFIN_P1_DESCR = """
       Payload data.""";
 
-  static final String W_CREPAYLOAD_NONFIN_RETURN_DESCR = "Object.";
+  static final String W_CREPAYLOAD_NONFIN_RETURN_DESCR = """
+      Instantiated <a href='#wrapper.cbor.nonfinite'>CBOR.NonFinite</a>
+      object.""";
 
   static final String W_GETPAYLOAD_NONFIN_DESCR = """
       Get payload data.
@@ -1677,7 +1679,7 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
 
         .addMethod("CBOR.NonFinite.createPayload", W_CREPAYLOAD_NONFIN_DESCR)
         .addParameter("payload", DataTypes.JS_BIGINT, W_CREPAYLOAD_NONFIN_P1_DESCR)
-        .setReturn(DataTypes.CBOR_NONFIN, W_CREPAYLOAD_NONFIN_RETURN_DESCR)
+        .setReturn(DataTypes.CBOR_Any, W_CREPAYLOAD_NONFIN_RETURN_DESCR)
 
         .addMethod("getPayload", W_GETPAYLOAD_NONFIN_DESCR)
         .setReturn(DataTypes.JS_BIGINT, W_GETPAYLOAD_NONFIN_RETURN_DESCR)
@@ -2003,7 +2005,7 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
 
     replace(TOC, printTableOfContents());
 
-    replace(CBOR_CORE, "[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-15.html' " +
+    replace(CBOR_CORE, "[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-16.html' " +
                        "title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>]");
 
     IO.writeFile(documentFileName, template);

@@ -172,7 +172,7 @@
   <h3 id='main.intro'>1.&nbsp;&nbsp;Introduction</h3>
 
   This document describes a JavaScript API for encoding and decoding CBOR data using the
-  [<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-15.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>] cross platform profile.
+  [<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-16.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>] cross platform profile.
   The API loosely mimics the &quot;JSON&quot; object by exposing a <i>single global object</i>,
   unsurprisingly named &quot;CBOR&quot;.
 
@@ -515,7 +515,7 @@ Also see <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</div></td></t
 <tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Floating-point number to be wrapped.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'><a href='#wrapper.cbor.float'>CBOR.Float</a> or
+<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Instantiated <a href='#wrapper.cbor.float'>CBOR.Float</a> or
 <a href='#wrapper.cbor.nonfinite'>CBOR.NonFinite</a>
 object.</td></tr>
 </table></div>
@@ -656,7 +656,8 @@ For details turn to <a href='non-finite-numbers.html#payload-option'>Payload opt
 <tr><td style='text-align:center'><kbd><i>payload</i></kbd></td><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Payload data.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.NonFinite</kbd></td><td colspan='2' style='width:100%'>Object.</td></tr>
+<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Instantiated <a href='#wrapper.cbor.nonfinite'>CBOR.NonFinite</a>
+object.</td></tr>
 </table></div>
 <h5 id='cbor.nonfinite.getpayload'>2.4.1.8.&nbsp;&nbsp;getPayload()</h5>
 <div class='webpkifloat'>
@@ -1808,7 +1809,7 @@ base64 encoded data as well as data with or without
   encoding schemes as well.
   </p>
   <p>
-  The determinism scheme is described in [<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-15.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>].
+  The determinism scheme is described in [<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-16.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>].
   </p>
   <h3 id='main.examples'>10.&nbsp;&nbsp;Using the CBOR API</h3>
 
@@ -1838,6 +1839,6 @@ here using the result of the previous encoding example:
 
   API version: 1.0.15.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-10-08
+  Document version: 2025-11-02
 </body>
 </html>
