@@ -1109,51 +1109,47 @@ class CBOR {
     }
 
     #createDetEnc = function(value) {
-      while (true) {
-        this.#ieee754 = CBOR.fromBigInt(value);
-        let exponent;
-        switch (this.#ieee754.length) {
-          case 2:
-            exponent = 0x7c00n;
-            break;
-          case 4:
-            exponent = 0x7f800000n;
-            break;
-          case 8:
-            exponent = 0x7ff0000000000000n;
-            break;
-          default:
-            this.#badValue();
-        }
-        let sign = this.#ieee754[0] > 0x7f;
-        if ((value & exponent) != exponent) {
-          this.#badValue();
-        }
-        switch (this.#ieee754.length) {
-          case 4:
-            if (value & ((1n << 13n) - 1n)) {
+      badValue:
+        while (true) {
+          this.#ieee754 = CBOR.fromBigInt(value);
+          let exponent;
+          switch (this.#ieee754.length) {
+            case 2:
+              exponent = 0x7c00n;
               break;
-            }
-            value >>= 13n;
-            value &= 0x7fffn;
-            if (sign) {
-              value |= 0x8000n;
-            }
-            continue;
-          case 8:
-            if (value & ((1n << 29n) - 1n)) {
+            case 4:
+              exponent = 0x7f800000n;
               break;
-            }
-            value >>= 29n;
-            value &= 0x7fffffffn;
-            if (sign) {
-              value |= 0x80000000n;
-            }
-            continue;
+            case 8:
+              exponent = 0x7ff0000000000000n;
+              break;
+            default:
+              break badValue;
+          }
+          let sign = this.#ieee754[0] > 0x7f;
+          if ((value & exponent) != exponent) break badValue;
+          switch (this.#ieee754.length) {
+            case 4:
+              if (value & ((1n << 13n) - 1n)) break;
+              value >>= 13n;
+              value &= 0x7fffn;
+              if (sign) {
+                value |= 0x8000n;
+              }
+              continue;
+            case 8:
+              if (value & ((1n << 29n) - 1n)) break;
+              value >>= 29n;
+              value &= 0x7fffffffn;
+              if (sign) {
+                value |= 0x80000000n;
+              }
+              continue;
+          }
+          this.#value = value;
+          return;
         }
-        this.#value = value;
-        return;
-      }
+        CBOR.#error("Not a non-finite number: " + this.#original);
     }
 
     isSimple = function() {
@@ -1218,10 +1214,6 @@ class CBOR {
 
     getPayload = function() {
       return CBOR.#reverseBits(this.getNonFinite64() & 0xfffffffffffffn, 52);
-    }
-
-    #badValue = function() {
-      CBOR.#error("Not a non-finite number: " + this.#original);
     }
 
     encode = function() {
