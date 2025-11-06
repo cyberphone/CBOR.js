@@ -202,7 +202,7 @@ public class CreateDocument {
       Get payload data.
       <div style='margin-top:0.5em'>
       This method is the "consumer" counterpart to
-      <a href='#cbor.nonfinite.cbor.nonfinite.createpayloadobject'>\
+      <a href='#cbor.nonfinite.cbor.nonfinite.createpayload'>\
 CBOR.NonFinite.createPayload()</a>.</div>""";
 
   static final String W_GETPAYLOAD_NONFIN_RETURN_DESCR = "Payload.";
