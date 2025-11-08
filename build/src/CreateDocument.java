@@ -535,7 +535,7 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
   // encode()
 
   static final String ENCODE_DESCR = """
-      Encode <kbd>this</kbd> object.
+      Encode (aka &quot;serialize&quot;) <kbd>this</kbd> object.
       <div style='margin-top:0.5em'>Note: this method always return CBOR data using
       <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>.</div>
       <div style='margin-top:0.5em'>
@@ -746,7 +746,7 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
   // CBOR.decode()
 
   static final String DECODE_DESCR = """
-      Decode a CBOR object.
+      Decode (aka &quot;deserialize&quot;) CBOR object.
       <div style='margin-top:0.5em'>This method is equivalent to:</div>
       <div style='margin:0.3em 0 0.5em 1.2em'>
       <code style='white-space:nowrap'>CBOR.initDecoder(<i>cbor</i>, 0).decodeWithOptions()</code></div>

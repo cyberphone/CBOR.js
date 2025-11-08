@@ -1183,7 +1183,7 @@ a <a href='#wrapper.cbor.int'>CBOR.Float</a>.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>encode()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Encode <kbd>this</kbd> object.
+<tr><th>Description</th><td style='width:100%'>Encode (aka &quot;serialize&quot;) <kbd>this</kbd> object.
 <div style='margin-top:0.5em'>Note: this method always return CBOR data using
 <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>.</div>
 <div style='margin-top:0.5em'>
@@ -1314,7 +1314,7 @@ This is only meaningful in conjunction with
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.decode(<i>cbor</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Decode a CBOR object.
+<tr><th>Description</th><td colspan='2' style='width:100%'>Decode (aka &quot;deserialize&quot;) CBOR object.
 <div style='margin-top:0.5em'>This method is equivalent to:</div>
 <div style='margin:0.3em 0 0.5em 1.2em'>
 <code style='white-space:nowrap'>CBOR.initDecoder(<i>cbor</i>, 0).decodeWithOptions()</code></div>
@@ -1839,6 +1839,6 @@ here using the result of the previous encoding example:
 
   API version: 1.0.15.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-11-02
+  Document version: 2025-11-08
 </body>
 </html>
