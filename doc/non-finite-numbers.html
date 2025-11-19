@@ -33,9 +33,12 @@ The JavaScript counterparts are represented by <code>Number.NaN</code>,
 and <code>Number.NEGATIVE_INFINITY</code> respectively.</div>
 </td></tr>
 <tr><td style='text-align:center'><code>COMPLETE</code></td><td>All floating-point numbers are accepted.
+<div style='margin-top:0.5em'>Note that the JavaScript runtime do not generate
+non-finite numbers beyond those supported by <code>EXTENDED</code>.
+Also see: <a href='#payload-option'>Payload Option</a>.</div>
 </td></tr>
 </table></div>
-Non-supported items cause an exception to be thrown.
+Non-supported items cause an <i>exception</i> to be thrown.
 Note that the constraints apply to <i>encoding</i> as well.
 <h5 style='margin:1.3em 0 1em 0'>Encoding Methods</h5>
 <div class='webpkifloat'>
