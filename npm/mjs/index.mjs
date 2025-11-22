@@ -84,7 +84,9 @@ export default class CBOR {
       let time = this instanceof CBOR.Int ?
                    this.getInt53() * 1000 : Math.round(this.getFloat64() * 1000);
       let epochTime = new Date();
-      epochTime.setTime(time);
+      if (!Number.isFinite(epochTime.setTime(time))) {
+        CBOR.#error("Epoch out of range: " + time + "ms");
+      }
       return epochTime;
     }
 
