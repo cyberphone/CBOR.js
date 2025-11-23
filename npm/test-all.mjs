@@ -1089,6 +1089,7 @@ badDate("c16135", "got: CBOR.String");
 
 oneEpoch("FB41D9EDCDE113645A", 1740060548.303, "Data of type=CBOR.Float with value=174");
 oneEpoch("c1FB41D9EDCDE113645A", 1740060548.303, "Tagged object 1 of type=CBOR.Float");
+oneEpoch("c11b000007dba8218000", 8640000000000, "Tagged object 1 of type=CBOR.Int");
 oneEpoch("00", 0, "Data of type=CBOR.Int");
 
 try {
@@ -1107,6 +1108,16 @@ try {
   throw Error("Should not");
 } catch (error) {
   if (!error.toString().includes("ISO")) {
+    throw error;
+  }
+}
+
+try {
+  // Out of range for Date().
+  CBOR.Tag(1n, CBOR.Int(8640000000001));
+  throw Error("Should not");
+} catch (error) {
+  if (!error.toString().includes("Epoch out of")) {
     throw error;
   }
 }
