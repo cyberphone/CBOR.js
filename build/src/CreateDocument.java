@@ -2004,7 +2004,7 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
 
     replace(TOC, printTableOfContents());
 
-    replace(CBOR_CORE, "[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-16.html' " +
+    replace(CBOR_CORE, "[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-18.html' " +
                        "title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>]");
 
     IO.writeFile(documentFileName, template);

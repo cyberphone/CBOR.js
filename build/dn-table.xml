@@ -3,7 +3,7 @@
     <entry key="dn-table"><![CDATA[
   <div class='webpkifloat'>
     <table class='webpkitable' style='margin-left:2em'>
-      <tr><th>CBOR</th><th>Syntax</th><th style='min-width:30em'>Comment</th><th>Notes</th></tr>
+      <tr><th>CDDL</th><th>Syntax</th><th style='min-width:30em'>Comment</th><th>Notes</th></tr>
       <tr style='text-align:center'>
         <td rowspan='2'></td>
         <td><kbd><b>/</b></kbd>&nbsp;<i>comment&nbsp;text</i>&nbsp;<kbd><b>/</b></kbd></td>
