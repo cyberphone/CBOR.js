@@ -75,9 +75,9 @@ public class CreateDocument {
       <div style='margin-top:0.5em'>
       Unlike <a href='#wrapper.cbor.float'>CBOR.Float()</a>,
       this method also supports one of
-      the non-finite values: <code>Number.NaN</code>,
-      <code>Number.POSITIVE_INFINITY</code>,
-      or <code>Number.NEGATIVE_INFINITY</code>.</div>
+      the non-finite values: <kbd>Number.NaN</kbd>,
+      <kbd>Number.POSITIVE_INFINITY</kbd>,
+      or <kbd>Number.NEGATIVE_INFINITY</kbd>.</div>
       <div style='margin-top:0.5em'>
       Also see <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</div>""";
 
@@ -102,9 +102,9 @@ public class CreateDocument {
       <div style='margin-top:0.5em'>
       Note that this method makes it transparent for applications if the returned
       value is a "regular" <code>float</code>, or one of
-      the non-finite values: <code>Number.NaN</code>,
-      <code>Number.POSITIVE_INFINITY</code>,
-      or <code>Number.NEGATIVE_INFINITY</code>.</div>""";
+      the non-finite values: <kbd>Number.NaN</kbd>,
+      <kbd>Number.POSITIVE_INFINITY</kbd>,
+      or <kbd>Number.NEGATIVE_INFINITY</kbd>.</div>""";
 
   static final String W_GETEXTFLOAT_RETURN_DESCR = """
       Decoded floating-point number.""";
@@ -156,9 +156,9 @@ public class CreateDocument {
       Check if non-finite object is simple.
       <div style='margin-top:0.5em'>
       This method returns <code>true</code> if the non-finite object is a 
-      Number.NaN,
-      Number.POSITIVE_INFINITY, or 
-      Number.NEGATIVE_INFINITY,
+      <kbd>Number.NaN</kbd>,
+      <kbd>Number.POSITIVE_INFINITY</kbd>, or 
+      <kbd>Number.NEGATIVE_INFINITY</kbd>,
       else <code>false</code> is returned.</div>""";
 
   static final String W_ISSIMPLE_NONFIN_RETURN_DESCR = "Result.";
