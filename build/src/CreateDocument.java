@@ -249,7 +249,8 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       Date object""";
 
   static final String W_GETEPOCHTIME_DESCR = """
-      Get Date object.
+      Get [<a href="https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap04.html#tag_04_19"
+       title="EPOCH">Epoch<img src="xtl.svg" alt="link"></a>] object.
       <div style='margin-top:0.5em'>
       This method performs a
       <a href='#cbor.int.getint53'>getInt53()</a> or 
@@ -257,7 +258,8 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       the result to initiate a JavaScript <kbd>Date</kbd> object.
       An exception will be thrown if the underlying object
       is not a <a href='#wrapper.cbor.int'>CBOR.Int</a> or
-      a <a href='#wrapper.cbor.int'>CBOR.Float</a>.</div>""";
+      <a href='#wrapper.cbor.int'>CBOR.Float</a>, or
+      if the Epoch value is less than zero.</div>""";
   
   static final String W_GETEPOCHTIME_RETURN_DESCR = """
       Date object""";

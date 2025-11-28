@@ -1160,7 +1160,8 @@ the read string does not match an ISO date/time string
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getEpochTime()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get Date object.
+<tr><th>Description</th><td style='width:100%'>Get [<a href="https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap04.html#tag_04_19"
+ title="EPOCH">Epoch<img src="xtl.svg" alt="link"></a>] object.
 <div style='margin-top:0.5em'>
 This method performs a
 <a href='#cbor.int.getint53'>getInt53()</a> or
@@ -1168,7 +1169,8 @@ This method performs a
 the result to initiate a JavaScript <kbd>Date</kbd> object.
 An exception will be thrown if the underlying object
 is not a <a href='#wrapper.cbor.int'>CBOR.Int</a> or
-a <a href='#wrapper.cbor.int'>CBOR.Float</a>.</div></td></tr>
+<a href='#wrapper.cbor.int'>CBOR.Float</a>, or
+if the Epoch value is less than zero.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Date</kbd></td><td style='width:100%'>Date object</td></tr>
@@ -1838,6 +1840,6 @@ here using the result of the previous encoding example:
 
   API version: 1.0.15.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-11-08
+  Document version: 2025-11-27
 </body>
 </html>

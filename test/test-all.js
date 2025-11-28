@@ -1118,7 +1118,7 @@ try {
 
 try {
   // Out of range for Date().
-  CBOR.Tag(1n, CBOR.Int(8640000000001));
+  CBOR.Tag(1n, CBOR.Int(-1));
   throw Error("Should not");
 } catch (error) {
   if (!error.toString().includes("Epoch out of")) {
