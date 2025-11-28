@@ -1149,7 +1149,7 @@ This method performs a
 the result to initiate a JavaScript <kbd>Date</kbd> object.
 An exception will be thrown if the underlying object is not a
 <a href='#wrapper.cbor.int'>CBOR.String</a>, or if
-the read string does not match an ISO date/time string
+the string does not match an ISO date/time string
 [<a href="https://www.rfc-editor.org/rfc/rfc3339.html"
               title="ISO">RFC3339<img src="xtl.svg" alt="link"></a>].</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
@@ -1558,8 +1558,8 @@ base64 encoded data as well as data with or without
   <h5 id='jsnumbers.int'>7.1.&nbsp;&nbsp;Integer Numbers</h5>
 
   Due to the <kbd>Number.MAX_SAFE_INTEGER</kbd> limitation, CBOR
-  protocols using integer objects where the magnitude may exceed
-  <code>2<sup>53</sup>-1</code>, must
+  protocols using integer objects where the <i>magnitude</i> may exceed
+  <code>9007199254740991</code> (<code>2<sup>53</sup>-1</code>), must
   for such objects turn to <kbd>BigInt</kbd>,
   otherwise run-time errors may occur.
   <p>
@@ -1572,12 +1572,12 @@ base64 encoded data as well as data with or without
     <a href='#wrapper.cbor.bigint'>CBOR.BigInt()</a>
     and <a href='#wrapper.cbor.int'>CBOR.Int()</a> is governed by the decoded value
     with respect to JavaScript limits.
-    Since integers below &#xb1;<code>2<sup>53</sup></code> will during decoding
-    return a <a href='#wrapper.cbor.int'>CBOR.Int()</a> although they could be
-    associated by a <kbd>BigInt</kbd> variable,
+    Since integers within the range <code>-9007199254740991</code> to <code>9007199254740991</code>,
+    will during decoding return a <a href='#wrapper.cbor.int'>CBOR.Int()</a> although they could be
+    associated by a <kbd>BigInt</kbd> variable, the methods
     <a href='#cbor.bigint.getint64'>getInt64()</a>, <a href='#cbor.bigint.getuint64'>getUint64()</a>,
     and <a href='#cbor.bigint.getbigint'>getBigInt()</a>,
-    are supported by both of the integer wrapper types.
+    are supported by the <a href='#wrapper.cbor.int'>CBOR.Int()</a> wrapper as well.
   </p>
   <p>
     The selection between the CBOR <code>unsigned</code> and <code>negative</code>

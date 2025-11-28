@@ -187,8 +187,8 @@
   two variants of integers and three variants of floating-point types.
   ${JS_NUMBER_CONS_INT}
   Due to the <kbd>Number.MAX_SAFE_INTEGER</kbd> limitation, CBOR
-  protocols using integer objects where the magnitude may exceed
-  <code>2<sup>53</sup>-1</code>, must
+  protocols using integer objects where the <i>magnitude</i> may exceed
+  <code>9007199254740991</code> (<code>2<sup>53</sup>-1</code>), must
   for such objects turn to <kbd>BigInt</kbd>,
   otherwise run-time errors may occur.
   <p>
@@ -201,12 +201,12 @@
     <a href='#wrapper.cbor.bigint'>CBOR.BigInt()</a>
     and <a href='#wrapper.cbor.int'>CBOR.Int()</a> is governed by the decoded value
     with respect to JavaScript limits.
-    Since integers below &#xb1;<code>2<sup>53</sup></code> will during decoding
-    return a <a href='#wrapper.cbor.int'>CBOR.Int()</a> although they could be
-    associated by a <kbd>BigInt</kbd> variable,
+    Since integers within the range <code>-9007199254740991</code> to <code>9007199254740991</code>,
+    will during decoding return a <a href='#wrapper.cbor.int'>CBOR.Int()</a> although they could be
+    associated by a <kbd>BigInt</kbd> variable, the methods
     <a href='#cbor.bigint.getint64'>getInt64()</a>, <a href='#cbor.bigint.getuint64'>getUint64()</a>,
     and <a href='#cbor.bigint.getbigint'>getBigInt()</a>,
-    are supported by both of the integer wrapper types.
+    are supported by the <a href='#wrapper.cbor.int'>CBOR.Int()</a> wrapper as well.
   </p>
   <p>
     The selection between the CBOR <code>unsigned</code> and <code>negative</code>

@@ -241,7 +241,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       the result to initiate a JavaScript <kbd>Date</kbd> object.
       An exception will be thrown if the underlying object is not a
       <a href='#wrapper.cbor.int'>CBOR.String</a>, or if
-      the read string does not match an ISO date/time string
+      the string does not match an ISO date/time string
       [<a href="https://www.rfc-editor.org/rfc/rfc3339.html"
                     title="ISO">RFC3339<img src="xtl.svg" alt="link"></a>].</div>""";
 
