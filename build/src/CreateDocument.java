@@ -1007,10 +1007,6 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
     }
   }
 
-  enum JSType {
-
-  }
-
   StringBuilder s;
 
   void beginTable() {
