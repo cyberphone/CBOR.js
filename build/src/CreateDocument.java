@@ -1572,8 +1572,8 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
   void intMethods(Wrapper wrapper) {
 
     rangedIntMethod(wrapper, "getInt53",
-        "-2<sup>53</sup>+1",
-        "2<sup>53</sup>-1",
+        "</code><kbd>Number.MIN_SAFE_INTEGER</kbd>&nbsp;(<code>-9007199254740991</code>)<code>",
+        "</code><kbd>Number.MAX_SAFE_INTEGER</kbd>&nbsp;(<code>9007199254740991</code>)<code>",
         " Also see <a href='#cbor.int.getbigint'>getBigInt()</a>.</div>" +
         "<div style='margin-top:0.5em'>" +
         "Since 53-bit integers are specific to JavaScript, this method " +
