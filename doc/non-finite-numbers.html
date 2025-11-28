@@ -28,9 +28,9 @@ The following table outlines the supported levels:
 (in deterministically encoded CBOR represented by <code>f97e00</code>),
 while <code>Infinity</code> refers to
 positive infinity (<code>f97c00</code>) and negative infinity (<code>f9fc00</code>).
-The JavaScript counterparts are represented by <code>Number.NaN</code>,
-<code>Number.POSITIVE_INFINITY</code>,
-and <code>Number.NEGATIVE_INFINITY</code> respectively.</div>
+The JavaScript counterparts are represented by <kbd>Number.NaN</kbd>,
+<kbd>Number.POSITIVE_INFINITY</kbd>,
+and <kbd>Number.NEGATIVE_INFINITY</kbd> respectively.</div>
 </td></tr>
 <tr><td style='text-align:center'><code>COMPLETE</code></td><td>All floating-point numbers are accepted.
 <div style='margin-top:0.5em'>Note that the JavaScript runtime does not generate
@@ -92,7 +92,7 @@ The following table represents these methods from a <i>developer</i> perspective
 <tr><td><code>d51-d0</code> in <i>big-endian</i> order</td></tr>
 </table></div>
 <div style='margin-top:0.5em'>
-The payload bits are conceptually put into an <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span>
+The payload bits are conceptually put into an <span style='white-space:nowrap'><span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span></span>
 <code>64</code>-bit object having the following layout:
 </div>
 <div class='webpkifloat'><table class='webpkitable' style='margin-left:2em'>
@@ -105,7 +105,7 @@ For setting the sign bit, see <a href='index.html#cbor.nonfinite.setsign'>setSig
 <div style='margin-top:0.7em'>
 The reason for <i>reversing</i> the payload bits is to ensure that a specific bit will remain
 in a fix position (maintain the same value), independent of the size of the
-<code>IEEE 754</code> variant used for encoding.
+<span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> variant used for encoding.
 </div>
 <div style='margin-top:0.7em'>
 Note that the encoder will (due to CBOR deterministic encoding rules), select
