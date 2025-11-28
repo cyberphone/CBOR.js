@@ -26,8 +26,8 @@
   <h3 id='toc'>Table of Contents</h3>
   ${TOC}
   ${INTRO}
-  This document describes a JavaScript API for encoding and decoding CBOR data using the
-  ${CORE} cross platform profile.
+  This document describes a JavaScript API for encoding and decoding CBOR&nbsp;${RFC8949} data using the
+  ${CBOR::Core} cross platform profile.
   The API loosely mimics the &quot;JSON&quot; object by exposing a <i>single global object</i>,
   unsurprisingly named &quot;CBOR&quot;.
 
@@ -58,9 +58,7 @@
   is flagged as an <i>error</i>.
   The following table lists the wrapper objects and their relation to
   the CBOR objects (here expressed in
-  CDDL&nbsp;[<a href="https://www.rfc-editor.org/rfc/rfc8610.html"
-                title="CDDL">RFC8610<img src="xtl.svg" alt="link"></a>]
-  notation) supported by this specification:
+  CDDL&nbsp;${RFC8610} notation) supported by this specification:
   <div class='webpkifloat'>
     <table class='webpkitable' style='margin-left:2em'>
       <tr><th>CDDL</th><th>Wrapper&nbsp;Object</th><th>JavaScript</th><th>Notes</th></tr>
@@ -155,9 +153,7 @@
   ${CBOR_WRAPPERS}
   ${TIME_OBJECTS}
   Since CBOR lacks dedicated (native) time-objects, section 3.4.1 and 3.4.2 of
-  CBOR&nbsp;[<a href="https://www.rfc-editor.org/rfc/rfc8949.html"
-  title="CBOR">RFC8949<img src="xtl.svg" alt="link"></a>]
-  define tag <code>0</code> and <code>1</code> for this purpose.
+  CBOR&nbsp;${RFC8949} define tag <code>0</code> and <code>1</code> for this purpose.
   CBOR.js provides built-in decoders for these tags.
   That is, if the current object is a tag <code>0</code>, it is sufficient
   calling <a href='#time.getdatetime'>getDateTime()</a>.
@@ -258,7 +254,7 @@
   encoding schemes as well.
   </p>
   <p>
-  The determinism scheme is described in ${CORE}.
+  The determinism scheme is described in ${CBOR::Core}.
   </p>
   ${EXAMPLES}
   This section provides a few examples on how to use the CBOR API.
@@ -271,6 +267,6 @@
   ${VERSION_INFO}
   API version: 1.0.15.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-11-27
+  Document version: 2025-11-28
 </body>
 </html>

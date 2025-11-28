@@ -171,8 +171,8 @@
 
   <h3 id='main.intro'>1.&nbsp;&nbsp;Introduction</h3>
 
-  This document describes a JavaScript API for encoding and decoding CBOR data using the
-  [<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-18.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>] cross platform profile.
+  This document describes a JavaScript API for encoding and decoding CBOR&nbsp;<span style='white-space:nowrap'>[<a href='https://www.rfc-editor.org/rfc/rfc8949.html' title='RFC8949'>RFC8949<img src='xtl.svg' alt='link'></a>]</span> data using the
+  <span style='white-space:nowrap'>[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-18.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>]</span> cross platform profile.
   The API loosely mimics the &quot;JSON&quot; object by exposing a <i>single global object</i>,
   unsurprisingly named &quot;CBOR&quot;.
 
@@ -204,9 +204,7 @@
   is flagged as an <i>error</i>.
   The following table lists the wrapper objects and their relation to
   the CBOR objects (here expressed in
-  CDDL&nbsp;[<a href="https://www.rfc-editor.org/rfc/rfc8610.html"
-                title="CDDL">RFC8610<img src="xtl.svg" alt="link"></a>]
-  notation) supported by this specification:
+  CDDL&nbsp;<span style='white-space:nowrap'>[<a href='https://www.rfc-editor.org/rfc/rfc8610.html' title='RFC8610'>RFC8610<img src='xtl.svg' alt='link'></a>]</span> notation) supported by this specification:
   <div class='webpkifloat'>
     <table class='webpkitable' style='margin-left:2em'>
       <tr><th>CDDL</th><th>Wrapper&nbsp;Object</th><th>JavaScript</th><th>Notes</th></tr>
@@ -1043,9 +1041,7 @@ thorough syntax checks on tag&nbsp;<code>0</code>
 (<a href='#time.getdatetime'>CBOR&nbsp;date/time</a>),
 tag&nbsp;<code>1</code>
 (<a href='#time.getepochtime'>CBOR&nbsp;epoch&nbsp;time</a>),
-and tag&nbsp;<code>1010</code>
-[<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/'
-  title="COTX">COTX<img src="xtl.svg" alt="link"></a>].
+and tag&nbsp;<code>1010</code> <span style='white-space:nowrap'>[<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/' title='COTX'>COTX<img src='xtl.svg' alt='link'></a>]</span>.
 </div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
@@ -1079,8 +1075,7 @@ and tag&nbsp;<code>1010</code>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>cotxId</i></kbd></td><td style='text-align:center'><kbd>String</kbd></td><td style='width:100%'>COTX [<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/'
-title="COTX">COTX<img src="xtl.svg" alt="link"></a>] support:
+<tr><td style='text-align:center'><kbd><i>cotxId</i></kbd></td><td style='text-align:center'><kbd>String</kbd></td><td style='width:100%'>COTX <span style='white-space:nowrap'>[<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/' title='COTX'>COTX<img src='xtl.svg' alt='link'></a>]</span> support:
 object ID string.<div style='margin-top:0.5em'>
 Only valid for COTX tags.
 See also <a href='#cbor.tag.gettagnumber'>getTagNumber()</a>.</div></td></tr>
@@ -1089,8 +1084,7 @@ See also <a href='#cbor.tag.gettagnumber'>getTagNumber()</a>.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>cotxObject</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>COTX [<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/'
-title="COTX">COTX<img src="xtl.svg" alt="link"></a>] support:
+<tr><td style='text-align:center'><kbd><i>cotxObject</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>COTX <span style='white-space:nowrap'>[<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/' title='COTX'>COTX<img src='xtl.svg' alt='link'></a>]</span> support:
 wrapped object.<div style='margin-top:0.5em'>
 Only valid for COTX tags.
 See also <a href='#cbor.tag.gettagnumber'>getTagNumber()</a>.</div></td></tr>
@@ -1099,16 +1093,14 @@ See also <a href='#cbor.tag.gettagnumber'>getTagNumber()</a>.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.Simple(<i>value</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>      Constructor.  Creates a CBOR simple value object.
-      <div style='margin-top:0.5em'>Note that <kbd><i>value</i></kbd> must be in
-      the range <code>0-23</code> or <code>32-255</code>, otherwise an
-      exception will be thrown.</div>
-      <div style='margin-top:0.5em'>A primary use case for <code>simple</code>
-      types in the range of <code>0-19</code> and <code>32-255</code>,
-      is serving as a limited set of <i>unique and reserved labels</i> (keys)
-      in CBOR maps.  The <code>simple(99)</code> label featured in
-      <a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-13.html#name-code-example'>Embedded&nbsp;Signatures</a>
-      shows a representative example.</div></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Constructor.  Creates a CBOR simple value object.
+<div style='margin-top:0.5em'>Note that <kbd><i>value</i></kbd> must be in
+the range <code>0-23</code> or <code>32-255</code>, otherwise an
+exception will be thrown.</div>
+<div style='margin-top:0.5em'>A primary use case for <code>simple</code>
+types in the range of <code>0-19</code> and <code>32-255</code>,
+is serving as a limited set of <i>unique and reserved labels</i> (keys)
+in CBOR maps.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Simple value.</td></tr>
@@ -1130,9 +1122,7 @@ See also <a href='#cbor.tag.gettagnumber'>getTagNumber()</a>.</div></td></tr>
   <h3 id='main.time'>3.&nbsp;&nbsp;Time Objects</h3>
 
   Since CBOR lacks dedicated (native) time-objects, section 3.4.1 and 3.4.2 of
-  CBOR&nbsp;[<a href="https://www.rfc-editor.org/rfc/rfc8949.html"
-  title="CBOR">RFC8949<img src="xtl.svg" alt="link"></a>]
-  define tag <code>0</code> and <code>1</code> for this purpose.
+  CBOR&nbsp;<span style='white-space:nowrap'>[<a href='https://www.rfc-editor.org/rfc/rfc8949.html' title='RFC8949'>RFC8949<img src='xtl.svg' alt='link'></a>]</span> define tag <code>0</code> and <code>1</code> for this purpose.
   CBOR.js provides built-in decoders for these tags.
   That is, if the current object is a tag <code>0</code>, it is sufficient
   calling <a href='#time.getdatetime'>getDateTime()</a>.
@@ -1149,9 +1139,7 @@ This method performs a
 the result to initiate a JavaScript <kbd>Date</kbd> object.
 An exception will be thrown if the underlying object is not a
 <a href='#wrapper.cbor.int'>CBOR.String</a>, or if
-the string does not match an ISO date/time string
-[<a href="https://www.rfc-editor.org/rfc/rfc3339.html"
-              title="ISO">RFC3339<img src="xtl.svg" alt="link"></a>].</div></td></tr>
+the string does not match an ISO date/time string <span style='white-space:nowrap'>[<a href='https://www.rfc-editor.org/rfc/rfc3339.html' title='RFC3339'>RFC3339<img src='xtl.svg' alt='link'></a>]</span>.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Date</kbd></td><td style='width:100%'>Date object</td></tr>
@@ -1160,8 +1148,7 @@ the string does not match an ISO date/time string
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getEpochTime()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get [<a href="https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap04.html#tag_04_19"
- title="EPOCH">Epoch<img src="xtl.svg" alt="link"></a>] object.
+<tr><th>Description</th><td style='width:100%'>Get Date object.
 <div style='margin-top:0.5em'>
 This method performs a
 <a href='#cbor.int.getint53'>getInt53()</a> or
@@ -1170,7 +1157,7 @@ the result to initiate a JavaScript <kbd>Date</kbd> object.
 An exception will be thrown if the underlying object
 is not a <a href='#wrapper.cbor.int'>CBOR.Int</a> or
 <a href='#wrapper.cbor.int'>CBOR.Float</a>, or
-if the Epoch value is less than zero.</div></td></tr>
+if the Epoch <span style='white-space:nowrap'>[<a href='https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap04.html#tag_04_19' title='TIME'>TIME<img src='xtl.svg' alt='link'></a>]</span> is less than zero.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Date</kbd></td><td style='width:100%'>Date object</td></tr>
@@ -1810,7 +1797,7 @@ base64 encoded data as well as data with or without
   encoding schemes as well.
   </p>
   <p>
-  The determinism scheme is described in [<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-18.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>].
+  The determinism scheme is described in <span style='white-space:nowrap'>[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-18.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>]</span>.
   </p>
   <h3 id='main.examples'>10.&nbsp;&nbsp;Using the CBOR API</h3>
 
@@ -1840,6 +1827,6 @@ here using the result of the previous encoding example:
 
   API version: 1.0.15.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-11-27
+  Document version: 2025-11-28
 </body>
 </html>

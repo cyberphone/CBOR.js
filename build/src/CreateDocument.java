@@ -241,16 +241,13 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       the result to initiate a JavaScript <kbd>Date</kbd> object.
       An exception will be thrown if the underlying object is not a
       <a href='#wrapper.cbor.int'>CBOR.String</a>, or if
-      the string does not match an ISO date/time string
-      [<a href="https://www.rfc-editor.org/rfc/rfc3339.html"
-                    title="ISO">RFC3339<img src="xtl.svg" alt="link"></a>].</div>""";
+      the string does not match an ISO date/time string ${RFC3339}.</div>""";
 
   static final String W_GETDATETIME_RETURN_DESCR = """
       Date object""";
 
   static final String W_GETEPOCHTIME_DESCR = """
-      Get [<a href="https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap04.html#tag_04_19"
-       title="EPOCH">Epoch<img src="xtl.svg" alt="link"></a>] object.
+      Get Date object.
       <div style='margin-top:0.5em'>
       This method performs a
       <a href='#cbor.int.getint53'>getInt53()</a> or 
@@ -259,7 +256,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       An exception will be thrown if the underlying object
       is not a <a href='#wrapper.cbor.int'>CBOR.Int</a> or
       <a href='#wrapper.cbor.int'>CBOR.Float</a>, or
-      if the Epoch value is less than zero.</div>""";
+      if the Epoch ${TIME} is less than zero.</div>""";
   
   static final String W_GETEPOCHTIME_RETURN_DESCR = """
       Date object""";
@@ -472,9 +469,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       (<a href='#time.getdatetime'>CBOR&nbsp;date/time</a>),
       tag&nbsp;<code>1</code>
       (<a href='#time.getepochtime'>CBOR&nbsp;epoch&nbsp;time</a>),
-      and tag&nbsp;<code>1010</code>
-      [<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/'
-        title="COTX">COTX<img src="xtl.svg" alt="link"></a>].
+      and tag&nbsp;<code>1010</code> ${COTX}.
       </div>""";
 
   static final String W_TAG_P1_DESCR = """
@@ -496,15 +491,13 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       Retrieved object.""";
 
   static final String W_TAG_PROP_COTX_ID_DESCR = """
-      COTX [<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/'
-      title="COTX">COTX<img src="xtl.svg" alt="link"></a>] support:
+      COTX ${COTX} support:
       object ID string.<div style='margin-top:0.5em'>
       Only valid for COTX tags.
       See also <a href='#cbor.tag.gettagnumber'>getTagNumber()</a>.</div>""";
 
   static final String W_TAG_PROP_COTX_OBJECT_DESCR = """
-      COTX [<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/'
-      title="COTX">COTX<img src="xtl.svg" alt="link"></a>] support:
+      COTX ${COTX} support:
       wrapped object.<div style='margin-top:0.5em'>
       Only valid for COTX tags.
       See also <a href='#cbor.tag.gettagnumber'>getTagNumber()</a>.</div>""";
@@ -519,10 +512,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <div style='margin-top:0.5em'>A primary use case for <code>simple</code>
       types in the range of <code>0-19</code> and <code>32-255</code>,
       is serving as a limited set of <i>unique and reserved labels</i> (keys)
-      in CBOR maps.  The <code>simple(99)</code> label featured in
-      <a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-13.\
-html#name-code-example'>Embedded&nbsp;Signatures</a>
-      shows a representative example.</div>""";
+      in CBOR maps.</div>""";
 
   static final String W_SIMPLE_PARAM_DESCR = """
       Simple value.""";
@@ -913,8 +903,6 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
 
   static final String CBOR_WRAPPERS = "${CBOR_WRAPPERS}";
 
-  static final String CBOR_CORE = "${CORE}";
-
   String template;
 
   ArrayList<TOCEntry> tocEntries = new ArrayList<>();
@@ -999,6 +987,23 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
     @Override
     public String toString() {
       return text;
+    }
+  }
+
+  enum ExternalReferences {
+    CBOR_CORE ("CBOR::Core", "https://www.ietf.org/archive/id/draft-rundgren-cbor-core-18.html"),
+    CBOR   ("RFC8949", "https://www.rfc-editor.org/rfc/rfc8949.html"),
+    CDDL   ("RFC8610", "https://www.rfc-editor.org/rfc/rfc8610.html"),
+    ISO_TIME ("RFC3339", "https://www.rfc-editor.org/rfc/rfc3339.html"),
+    EPOCH_TIME ("TIME", "https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap04.html#tag_04_19"),
+    COTX ("COTX", "https://datatracker.ietf.org/doc/draft-rundgren-cotx/");
+
+    String moniker;
+    String url;
+
+    ExternalReferences(String moniker, String url) {
+        this.moniker = moniker;
+        this.url = url;
     }
   }
 
@@ -2006,8 +2011,12 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
 
     replace(TOC, printTableOfContents());
 
-    replace(CBOR_CORE, "[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-18.html' " +
-                       "title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>]");
+    for (ExternalReferences ref: ExternalReferences.values()) {
+        replace("${" + ref.moniker + "}",
+                "<span style='white-space:nowrap'>[<a href='" + ref.url + "' " +
+                "title='" + ref.moniker + "'>" + ref.moniker + 
+                "<img src='xtl.svg' alt='link'></a>]</span>");
+    }
 
     IO.writeFile(documentFileName, template);
   }
