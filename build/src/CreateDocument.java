@@ -1680,7 +1680,7 @@ html#name-code-example'>Embedded&nbsp;Signatures</a>
 
         .addMethod("CBOR.NonFinite.createPayload", W_CREPAYLOAD_NONFIN_DESCR)
         .addParameter("payload", DataTypes.JS_BIGINT, W_CREPAYLOAD_NONFIN_P1_DESCR)
-        .setReturn(DataTypes.CBOR_Any, W_CREPAYLOAD_NONFIN_RETURN_DESCR)
+        .setReturn(DataTypes.CBOR_NONFIN, W_CREPAYLOAD_NONFIN_RETURN_DESCR)
 
         .addMethod("getPayload", W_GETPAYLOAD_NONFIN_DESCR)
         .setReturn(DataTypes.JS_BIGINT, W_GETPAYLOAD_NONFIN_RETURN_DESCR)
