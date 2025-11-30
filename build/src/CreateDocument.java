@@ -238,10 +238,12 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <div style='margin-top:0.5em'>
       This method performs a
       <a href='#cbor.string.getstring'>getString()</a> and then uses
-      the result to initiate a JavaScript <kbd>Date</kbd> object.
+      the result to initiate a JavaScript <kbd>Date</kbd> object.</div>
+      <div style='margin-top:0.5em'>
       An exception will be thrown if the underlying object is not a
-      <a href='#wrapper.cbor.int'>CBOR.String</a>, or if
-      the string does not match an ISO date/time string ${RFC3339}.</div>""";
+      <a href='#wrapper.cbor.int'>CBOR.String</a>, if
+      the string does not match an ISO date/time string ${RFC3339},
+      or if the year is negative.</div>""";
 
   static final String W_GETDATETIME_RETURN_DESCR = """
       Date object""";
@@ -252,11 +254,13 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       This method performs a
       <a href='#cbor.int.getint53'>getInt53()</a> or 
       <a href='#cbor.float.getfloat64'>getFloat64()</a> and then uses
-      the result to initiate a JavaScript <kbd>Date</kbd> object.
+      the result to initiate a JavaScript <kbd>Date</kbd> object.</div>
+      <div style='margin-top:0.5em'>
       An exception will be thrown if the underlying object
       is not a <a href='#wrapper.cbor.int'>CBOR.Int</a> or
       <a href='#wrapper.cbor.int'>CBOR.Float</a>, or
-      if the Epoch ${TIME} is less than zero.</div>""";
+      if the Epoch ${TIME} is less than zero or greater than
+      <code>253402300799</code> (<code>"9999-12-31T23:59:59Z"</code>).</div>""";
   
   static final String W_GETEPOCHTIME_RETURN_DESCR = """
       Date object""";

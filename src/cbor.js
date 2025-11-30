@@ -81,12 +81,12 @@ class CBOR {
     }
 
     getEpochTime = function() {
-      let time = this instanceof CBOR.Int ?
-                   this.getInt53() * 1000 : Math.round(this.getFloat64() * 1000);
-      let epochTime = new Date();
-      if (!Number.isFinite(epochTime.setTime(time)) || time < 0) {
-        CBOR.#error("Epoch out of range: " + time + "ms");
+      let epochSeconds = this instanceof CBOR.Int ? this.getInt53() : this.getFloat64();
+      if (epochSeconds < 0 || epochSeconds > 253402300799 /* "9999-12-31T23:59:59Z" */) {
+        CBOR.#error("Epoch out of range: " + epochSeconds);
       }
+      let epochTime = new Date();
+      epochTime.setTime(Math.round(epochSeconds * 1000));
       return epochTime;
     }
 
