@@ -995,7 +995,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
   }
 
   enum ExternalReferences {
-    CBOR_CORE ("CBOR::Core", "https://www.ietf.org/archive/id/draft-rundgren-cbor-core-18.html"),
+    CBOR_CORE ("CBOR::Core", "https://www.ietf.org/archive/id/draft-rundgren-cbor-core-19.html"),
     CBOR   ("RFC8949", "https://www.rfc-editor.org/rfc/rfc8949.html"),
     CDDL   ("RFC8610", "https://www.rfc-editor.org/rfc/rfc8610.html"),
     ISO_TIME ("RFC3339", "https://www.rfc-editor.org/rfc/rfc3339.html"),
