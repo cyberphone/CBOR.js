@@ -71,6 +71,7 @@ class CBOR {
       let iso = this.getString();
       // Fails on https://www.rfc-editor.org/rfc/rfc3339.html#section-5.8
       // Leap second 1990-12-31T15:59:60-08:00
+      // Truncates sub-milliseconds as well.
       if (iso.match(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(\.\d+)?((\-|\+)\d{2}:\d{2}|Z)$/m)) {
         let dateTime = new Date(iso);
         if (Number.isFinite(dateTime.getTime())) {
@@ -81,12 +82,10 @@ class CBOR {
     }
 
     getEpochTime = function() {
-      let epochSeconds = this instanceof CBOR.Int ? this.getInt53() : this.getFloat64();
-      if (epochSeconds < 0 || epochSeconds > 253402300799 /* "9999-12-31T23:59:59Z" */) {
-        CBOR.#error("Epoch out of range: " + epochSeconds);
-      }
+      let time = CBOR.#epochCheck(Math.floor(
+        (this instanceof CBOR.Int ? this.getInt53() : this.getFloat64()) * 1000));
       let epochTime = new Date();
-      epochTime.setTime(Math.round(epochSeconds * 1000));
+      epochTime.setTime(time);
       return epochTime;
     }
 
@@ -2261,6 +2260,22 @@ class CBOR {
     }
   }
 
+  static #epochCheck(epochMillis) {
+    if (epochMillis < 0 || epochMillis > 253402300799000 /* "9999-12-31T23:59:59Z" */) {
+      CBOR.#error("Epoch out of range: " + epochMillis);
+    }
+    return epochMillis;
+  }
+
+  static #timeRound(time, millis) {
+    if (!millis) {
+      if (time % 1000 > 500) {
+        time += 1000;
+      }
+    }
+    return time;
+  }
+
   static #reverseBits(bits, fieldWidth) {
     let reversed = 0n;
     let bitCount = 0;
@@ -2353,7 +2368,42 @@ class CBOR {
     return new Uint8Array(array.reverse());
   }
 
+  static createDateTime = function(date, utc, millis) {
+    let time = CBOR.#timeRound(date.getTime(), millis);
+    if (time < -62167219200000 || time > 253402300799000) {
+      CBOR.#error("Date object out of range: " + date.toISOString());
+    }
+    let offset = date.getTimezoneOffset();
+    if (!utc) {
+      time -= offset * 60000;
+    }
+    date = new Date();
+    date.setTime(time);
+    let dateTime = date.toISOString();
+    if (!millis) {
+      dateTime = dateTime.substring(0, 19) + dateTime.substring(23);
+    }
+    if (!utc) {
+      dateTime = dateTime.substring(0, dateTime.length - 1);
+      if (offset >  0) {
+        dateTime += '-';
+      } else {
+        dateTime += '+';
+        offset = -offset;
+      }
+      dateTime += String(Math.floor(offset / 60)).padStart(2, "0") + ":" +
+        String(Math.floor(offset % 60)).padStart(2, "0");
+    }
+    return CBOR.String(dateTime);
+  }
+
+  static createEpochTime = function(date, millis) {
+    let epochSeconds = CBOR.#timeRound(CBOR.#epochCheck(date.getTime()), millis) / 1000;
+    return millis ? CBOR.Float(epochSeconds) : CBOR.Int(Math.floor(epochSeconds));
+  }
+
+
   static get version() {
-    return "1.0.15";
+    return "1.0.16";
   }
 }
