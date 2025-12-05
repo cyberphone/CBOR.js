@@ -74,7 +74,9 @@ export default class CBOR {
       // Truncates sub-milliseconds as well.
       if (iso.match(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(\.\d+)?((\-|\+)\d{2}:\d{2}|Z)$/m)) {
         let dateTime = new Date(iso);
-        if (Number.isFinite(dateTime.getTime())) {
+        let time = dateTime.getTime();
+        if (Number.isFinite(time)) {
+          CBOR.#dateCheck(time, dateTime);
           return dateTime;
         }
       }
@@ -2267,6 +2269,13 @@ export default class CBOR {
     return epochMillis;
   }
 
+  static #dateCheck(time, date) {
+    if (time < -62167219200000 || time > 253402300799000) {
+      CBOR.#error("Date object out of range: " + date.toISOString());
+    }
+    return time;
+  }
+
   static #timeRound(time, millis) {
     if (!millis) {
       if (time % 1000 > 500) {
@@ -2368,11 +2377,8 @@ export default class CBOR {
     return new Uint8Array(array.reverse());
   }
 
-  static createDateTime = function(date, utc, millis) {
-    let time = CBOR.#timeRound(date.getTime(), millis);
-    if (time < -62167219200000 || time > 253402300799000) {
-      CBOR.#error("Date object out of range: " + date.toISOString());
-    }
+  static createDateTime = function(date, millis, utc) {
+    let time = CBOR.#timeRound(CBOR.#dateCheck(date.getTime(), date), millis);
     let offset = date.getTimezoneOffset();
     if (!utc) {
       time -= offset * 60000;

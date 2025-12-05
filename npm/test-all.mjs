@@ -1159,7 +1159,7 @@ function oneCreateDateTime(dateOrTime, utc, millis, bad) {
   date.setTime(time);
   if (bad) {
     try {
-      CBOR.createDateTime(date, utc, millis);
+      CBOR.createDateTime(date, millis, utc);
       throw Error("Should not");
     } catch (error) {
       if (!error.toString().includes("Date object out of range")) {
@@ -1167,7 +1167,7 @@ function oneCreateDateTime(dateOrTime, utc, millis, bad) {
       }
     }
   } else {
-    let dateTime = CBOR.createDateTime(date, utc, millis);
+    let dateTime = CBOR.createDateTime(date, millis, utc);
     if (millis || !(time % 1000)) {
       assertTrue("cdt1" + dateTime, dateTime.getDateTime().getTime() == time);
     } else if (!millis && time % 1000) {

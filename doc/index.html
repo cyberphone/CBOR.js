@@ -152,6 +152,8 @@
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.frombase64url'>6.6.&nbsp;&nbsp;CBOR.fromBase64Url()</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.tobigint'>6.7.&nbsp;&nbsp;CBOR.toBigInt()</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.frombigint'>6.8.&nbsp;&nbsp;CBOR.fromBigInt()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.createdatetime'>6.9.&nbsp;&nbsp;CBOR.createDateTime()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.createepochtime'>6.10.&nbsp;&nbsp;CBOR.createEpochTime()</a></div>
 </div>
 <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.jsnumbers'>7.&nbsp;&nbsp;JavaScript Number Considerations</a></div><div style='display:none'>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#jsnumbers.int'>7.1.&nbsp;&nbsp;Integer Numbers</a></div>
@@ -190,12 +192,11 @@
     <li><i>Optional</i>: <a href='#common.checkforunread'>check for unread elements</a></li>
   </ul>
   <p>
-  Note: in this specification CBOR data items are subsequently referred to as CBOR objects.
+  Note: in this specification CBOR data items are subsequently referred to as "CBOR objects".
 </p>
-  <div id='cross-platform' class='webpkicomment' style='margin:0.5em 0'>
-    Although this document describes a JavaScript API, it could also serve
-    as a guide for CBOR implementations for other software platforms,
-    with the goal of creating the foundation for cross platform interoperability.
+  <div id='cross-platform' class='webpkicomment' style='margin:0.5em 2em'>
+    Although this document describes a JavaScript API, it may also serve
+    as a guide for <code>CBOR::Core</code> implementations for other software platforms.
   </div>
   <h3 id='main.wrappers'>2.&nbsp;&nbsp;CBOR Wrapper Objects</h3>
 
@@ -218,18 +219,18 @@
         <td><code>bigint</code></td>
         <td><a href='#wrapper.cbor.bigint'>CBOR.BigInt</a></td>
         <td><code>BigInt</code></td>
-        <td>1</td>
+        <td><code>1</code></td>
       </tr>
       <tr style='text-align:center'>
         <td rowspan='2'><code>float</code></td>
         <td><a href='#wrapper.cbor.float'>CBOR.Float</a></td>
         <td><code>Number</code></td>
-        <td>2</td>
+        <td><code>2</code>, <code>3</code></td>
       </tr>
       <tr style='text-align:center'>
         <td><a href='#wrapper.cbor.nonfinite'>CBOR.NonFinite</a></td>
         <td><code>BigInt</code></td>
-        <td>3</td>
+        <td><code>3</code></td>
       </tr>
       <tr style='text-align:center'>
         <td><code>bstr</code></td>
@@ -292,7 +293,7 @@
     <a href='#cbor.int.getint32'>getInt32()</a>, an exception will
     be thrown if the referenced object is not an instance of
     <a href='#wrapper.cbor.int'>CBOR.Int</a> or if the CBOR integer
-    does not fit in a 32-bit two-complement representation.
+    is out of range for signed 32-bit objects.
   </p>
   Also see <a href='#main.common'>Common Wrapper Methods</a> and
   <a href='#main.time'>Time Objects</a>.
@@ -1139,9 +1140,12 @@ This method performs a
 the result to initiate a JavaScript <kbd>Date</kbd> object.</div>
 <div style='margin-top:0.5em'>
 An exception will be thrown if the underlying object is not a
-<a href='#wrapper.cbor.int'>CBOR.String</a>, if
+<a href='#wrapper.cbor.string'>CBOR.String</a>, if
 the string does not match an ISO date/time string <span style='white-space:nowrap'>[<a href='https://www.rfc-editor.org/rfc/rfc3339.html' title='RFC3339'>RFC3339<img src='xtl.svg' alt='link'></a>]</span>,
-or if the year is negative.</div></td></tr>
+or if the date is not within the range <code>"0000-01-01T00:00:00Z"</code> to
+<code>"9999-12-31T23:59:59Z"</code>.
+</div><div style='margin-top:0.5em'>
+Also see <a href='#utility.cbor.createdatetime'>CBOR.createDateTime()</a>.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Date</kbd></td><td style='width:100%'>Date object</td></tr>
@@ -1159,9 +1163,12 @@ the result to initiate a JavaScript <kbd>Date</kbd> object.</div>
 <div style='margin-top:0.5em'>
 An exception will be thrown if the underlying object
 is not a <a href='#wrapper.cbor.int'>CBOR.Int</a> or
-<a href='#wrapper.cbor.int'>CBOR.Float</a>, or
-if the Epoch <span style='white-space:nowrap'>[<a href='https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap04.html#tag_04_19' title='TIME'>TIME<img src='xtl.svg' alt='link'></a>]</span> is less than zero or greater than
-<code>253402300799</code> (<code>"9999-12-31T23:59:59Z"</code>).</div></td></tr>
+<a href='#wrapper.cbor.float'>CBOR.Float</a>, or
+if the Epoch <span style='white-space:nowrap'>[<a href='https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap04.html#tag_04_19' title='TIME'>TIME<img src='xtl.svg' alt='link'></a>]</span> is not within the range
+<code>0</code> (<code>1970-01-01T00:00:00Z</code>) to
+<code>253402300799</code> (<code>"9999-12-31T23:59:59Z"</code>).</div>
+<div style='margin-top:0.5em'>
+Also see <a href='#utility.cbor.createepochtime'>CBOR.createEpochTime()</a>.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Date</kbd></td><td style='width:100%'>Date object</td></tr>
@@ -1340,7 +1347,7 @@ Multiple options can be combined using the binary OR-operator
 ("<code>|</code>").
 A zero (0) sets the decoder default mode.
 The options are defined by the following constants:
-<div style='margin-top:0.5em'><kbd>CBOR.SEQUENCE_MODE</kbd>:</div>
+<div id='CBOR.SEQUENCE_MODE' style='margin-top:0.5em'><kbd>CBOR.SEQUENCE_MODE</kbd>:</div>
 <div style='padding:0.2em 0 0 1.2em'>If the <kbd>CBOR.SEQUENCE_MODE</kbd>
 option is defined, the following apply:
 <ul style='padding:0;margin:0 0 0.5em 1.2em'>
@@ -1352,7 +1359,8 @@ a <i>single</i> CBOR object, while preparing for the next object.</li>
 Note that data that has not yet been decoded, is not verified for correctness.
 <div style='margin-top:0.5em'>
 See also <a href='#cbor.array.encodeassequence'>encodeAsSequence()</a>.</div></div>
-<div style='margin-top:0.8em'><kbd>CBOR.LENIENT_MAP_DECODING</kbd>:</div>
+<div id='CBOR.LENIENT_MAP_DECODING' style='margin-top:0.8em'>
+<kbd>CBOR.LENIENT_MAP_DECODING</kbd>:</div>
 <div style='padding:0.2em 0 0 1.2em'>By default, the decoder requires
 that CBOR maps conform to the
 <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>
@@ -1360,13 +1368,14 @@ rules.
 <div>The <kbd>CBOR.LENIENT_MAP_DECODING</kbd> option makes the decoder
 accept CBOR maps with arbitrary key ordering.
 Note that duplicate keys still cause an exception to be thrown.</div></div>
-<div style='margin-top:0.8em'><kbd>CBOR.LENIENT_NUMBER_DECODING</kbd>:</div>
+<div id='CBOR.LENIENT_NUMBER_DECODING' style='margin-top:0.8em'>
+<kbd>CBOR.LENIENT_NUMBER_DECODING</kbd>:</div>
 <div style='padding:0.2em 0 0 1.2em'>By default, the decoder requires
 that CBOR numbers conform to the
 <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a> rules.
 <div>The <kbd>CBOR.LENIENT_NUMBER_DECODING</kbd> option makes the decoder
-accept different representations of CBOR <code>int</code>, <code>bigint</code>,
-and <code>float</code> items, only limited by RFC&nbsp;8949.</div></div></td></tr>
+accept different representations of CBOR <code>int/bigint</code>
+and <code>float</code> objects, only limited by <span style='white-space:nowrap'>[<a href='https://www.rfc-editor.org/rfc/rfc8949.html' title='RFC8949'>RFC8949<img src='xtl.svg' alt='link'></a>]</span>.</div></div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>Decoder</i></kbd></td><td colspan='2' style='width:100%'>Decoder object to be used with
@@ -1537,6 +1546,81 @@ base64 encoded data as well as data with or without
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Uint8Array</kbd></td><td colspan='2' style='width:100%'>The resulting binary (one or more bytes).</td></tr>
+</table></div>
+<h5 id='utility.cbor.createdatetime'>6.9.&nbsp;&nbsp;CBOR.createDateTime()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.createDateTime(<i>date</i>, <i>millis</i>, <i>utc</i>)</kbd></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Create <code>DateTime</code> object.
+<div style='margin-top:0.5em'>
+This method creates an ISO <span style='white-space:nowrap'>[<a href='https://www.rfc-editor.org/rfc/rfc3339.html' title='RFC3339'>RFC3339<img src='xtl.svg' alt='link'></a>]</span> date/time string and wraps it in
+a <a href='#wrapper.cbor.string'>CBOR.String</a> object.</div>
+<div style='margin-top:0.5em'>
+An exception will be thrown if the <kbd>date</kbd> object is not within
+the range <code style='white-space:nowrap'>"0000-01-01T00:00:00Z"</code> to
+<code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</div>
+<div style='margin-top:0.5em'>
+If <kbd>millis</kbd> is <code>true</code> the date/time string will feature
+milliseconds (<code>.nnn</code>) as well.</div>
+<div style='margin-top:0.5em'>Example code:</div>
+<div style='margin:0.3em 0 0 1.2em'><code>let iso = CBOR.createDateTime(new Date(), true, false);<br>
+console.log(iso.getString());<br>
+<span style='color:#007fdd'>2025-12-05T13:55:42.418+01:00</span></code></div>
+<div style='margin-top:0.5em'>
+Also see <a href='#time.getdatetime'>getDateTime()</a>.</div></td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><kbd><i>date</i></kbd></td><td style='text-align:center'><kbd>Date</kbd></td><td style='width:100%'>Time source object.</td></tr>
+<tr><td style='text-align:center'><kbd><i>millis</i></kbd></td><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'>If <kbd><i>millis</i></kbd> is <code>true</code>,
+the milliseconds of the <kbd><i>date</i></kbd> object will be
+featured in the created time object.
+<div style='margin-top:0.5em'>If <kbd><i>millis</i></kbd> is
+<code>false</code>, the milliseconds of the <kbd><i>date</i></kbd>
+object will not be used but may after <i>rounding</i>,
+add a second to the created time object.</div></td></tr>
+<tr><td style='text-align:center'><kbd><i>utc</i></kbd></td><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'>If <kbd><i>utc</i></kbd> is <code>true</code>,
+the <code>UTC</code> time zone (denoted by a terminating <code>Z</code>) will be used,
+else the local time followed by the <code>UTC</code> offset
+(<code>&plusmn;hh:mm</code>) will be used.</td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><kbd>CBOR.String</kbd></td><td colspan='2' style='width:100%'>Wrapper holding a <code>DateTime</code> object.</td></tr>
+</table></div>
+<h5 id='utility.cbor.createepochtime'>6.10.&nbsp;&nbsp;CBOR.createEpochTime()</h5>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.createEpochTime(<i>date</i>, <i>millis</i>)</kbd></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Create <code>EpochTime</code> object.
+<div style='margin-top:0.5em'>
+This method creates an Epoch <span style='white-space:nowrap'>[<a href='https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap04.html#tag_04_19' title='TIME'>TIME<img src='xtl.svg' alt='link'></a>]</span> time stamp.</div>
+<div style='margin-top:0.5em'>
+An exception will be thrown if the <kbd>date</kbd> object is not within
+the range <code style='white-space:nowrap'>"1970-01-01T00:00:00Z"</code> to
+<code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</div>
+<div style='margin-top:0.5em'>
+If <kbd>millis</kbd> is <code>true</code> a <a href='#wrapper.cbor.float'>CBOR.Float</a>
+object holding seconds with a milliseconds fraction will be created,
+else a <a href='#wrapper.cbor.int'>CBOR.Int</a>
+object holding seconds will be created.</div>
+<div style='margin-top:0.5em'>Example code:</div>
+<div style='margin:0.3em 0 0 1.2em'><code>let epoch = CBOR.createEpochTime(new Date(), false);<br>
+console.log(epoch.getInt53());<br>
+<span style='color:#007fdd'>1764939916</span></code></div>
+<div style='margin-top:0.5em'>
+Also see <a href='#time.getepochtime'>getEpochTime()</a>.</div></td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><kbd><i>date</i></kbd></td><td style='text-align:center'><kbd>Date</kbd></td><td style='width:100%'>Time source object.</td></tr>
+<tr><td style='text-align:center'><kbd><i>millis</i></kbd></td><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'>If <kbd><i>millis</i></kbd> is <code>true</code>,
+the milliseconds of the <kbd><i>date</i></kbd> object will be
+featured in the created time object.
+<div style='margin-top:0.5em'>If <kbd><i>millis</i></kbd> is
+<code>false</code>, the milliseconds of the <kbd><i>date</i></kbd>
+object will not be used but may after <i>rounding</i>,
+add a second to the created time object.</div></td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Wrapper holding an <code>EpochTime</code> object.</td></tr>
 </table></div>
 
   <h3 id='main.jsnumbers'>7.&nbsp;&nbsp;JavaScript Number Considerations</h3>
@@ -1829,8 +1913,8 @@ here using the result of the previous encoding example:
 <div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>let&nbsp;decoder&nbsp;=&nbsp;CBOR.initDecoder(cbor,&nbsp;CBOR.SEQUENCE_MODE);<br>let&nbsp;object;<br>while&nbsp;(object&nbsp;=&nbsp;decoder.decodeWithOptions())&nbsp;{<br>&nbsp;&nbsp;console.log('\n'&nbsp;+&nbsp;object.toString());<br>}<br><br><span style='color:#007fdd'>{<br>&nbsp;&nbsp;7:&nbsp;&quot;Hi!&quot;<br>}</span><br><br><span style='color:#007fdd'>4.5</span><br></div></div>
   <h3 id='main.version'>11.&nbsp;&nbsp;Version</h3>
 
-  API version: 1.0.15.  Note that the current API version is accessible through
+  API version: 1.0.16.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-11-28
+  Document version: 2025-12-05
 </body>
 </html>

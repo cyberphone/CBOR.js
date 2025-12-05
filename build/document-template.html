@@ -45,12 +45,11 @@
     <li><i>Optional</i>: <a href='#common.checkforunread'>check for unread elements</a></li>
   </ul>
   <p>
-  Note: in this specification CBOR data items are subsequently referred to as CBOR objects.
+  Note: in this specification CBOR data items are subsequently referred to as "CBOR objects".
 </p>
-  <div id='cross-platform' class='webpkicomment' style='margin:0.5em 0'>
-    Although this document describes a JavaScript API, it could also serve
-    as a guide for CBOR implementations for other software platforms,
-    with the goal of creating the foundation for cross platform interoperability.
+  <div id='cross-platform' class='webpkicomment' style='margin:0.5em 2em'>
+    Although this document describes a JavaScript API, it may also serve
+    as a guide for <code>CBOR::Core</code> implementations for other software platforms.
   </div>
   ${WRAPPER_INTRO}
   This section describes the wrapper objects and their specific methods.
@@ -72,18 +71,18 @@
         <td><code>bigint</code></td>
         <td><a href='#wrapper.cbor.bigint'>CBOR.BigInt</a></td>
         <td><code>BigInt</code></td>
-        <td>1</td>
+        <td><code>1</code></td>
       </tr>
       <tr style='text-align:center'>
         <td rowspan='2'><code>float</code></td>
         <td><a href='#wrapper.cbor.float'>CBOR.Float</a></td>
         <td><code>Number</code></td>
-        <td>2</td>
+        <td><code>2</code>, <code>3</code></td>
       </tr>
       <tr style='text-align:center'>
         <td><a href='#wrapper.cbor.nonfinite'>CBOR.NonFinite</a></td>
         <td><code>BigInt</code></td>
-        <td>3</td>
+        <td><code>3</code></td>
       </tr>
       <tr style='text-align:center'>
         <td><code>bstr</code></td>
@@ -146,7 +145,7 @@
     <a href='#cbor.int.getint32'>getInt32()</a>, an exception will
     be thrown if the referenced object is not an instance of
     <a href='#wrapper.cbor.int'>CBOR.Int</a> or if the CBOR integer
-    does not fit in a 32-bit two-complement representation.
+    is out of range for signed 32-bit objects.
   </p>
   Also see <a href='#main.common'>Common Wrapper Methods</a> and
   <a href='#main.time'>Time Objects</a>.
@@ -265,8 +264,8 @@
   ${EXAMPLES_SEQ_ENC}
   ${EXAMPLES_SEQ_DEC}
   ${VERSION_INFO}
-  API version: 1.0.15.  Note that the current API version is accessible through
+  API version: 1.0.16.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-11-28
+  Document version: 2025-12-05
 </body>
 </html>

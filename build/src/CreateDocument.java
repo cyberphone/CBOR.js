@@ -241,9 +241,12 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       the result to initiate a JavaScript <kbd>Date</kbd> object.</div>
       <div style='margin-top:0.5em'>
       An exception will be thrown if the underlying object is not a
-      <a href='#wrapper.cbor.int'>CBOR.String</a>, if
+      <a href='#wrapper.cbor.string'>CBOR.String</a>, if
       the string does not match an ISO date/time string ${RFC3339},
-      or if the year is negative.</div>""";
+      or if the date is not within the range <code>"0000-01-01T00:00:00Z"</code> to
+      <code>"9999-12-31T23:59:59Z"</code>.
+      </div><div style='margin-top:0.5em'>
+      Also see <a href='#utility.cbor.createdatetime'>CBOR.createDateTime()</a>.</div>""";
 
   static final String W_GETDATETIME_RETURN_DESCR = """
       Date object""";
@@ -258,9 +261,12 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <div style='margin-top:0.5em'>
       An exception will be thrown if the underlying object
       is not a <a href='#wrapper.cbor.int'>CBOR.Int</a> or
-      <a href='#wrapper.cbor.int'>CBOR.Float</a>, or
-      if the Epoch ${TIME} is less than zero or greater than
-      <code>253402300799</code> (<code>"9999-12-31T23:59:59Z"</code>).</div>""";
+      <a href='#wrapper.cbor.float'>CBOR.Float</a>, or
+      if the Epoch ${TIME} is not within the range
+      <code>0</code> (<code>1970-01-01T00:00:00Z</code>) to
+      <code>253402300799</code> (<code>"9999-12-31T23:59:59Z"</code>).</div>
+      <div style='margin-top:0.5em'>
+      Also see <a href='#utility.cbor.createepochtime'>CBOR.createEpochTime()</a>.</div>""";
   
   static final String W_GETEPOCHTIME_RETURN_DESCR = """
       Date object""";
@@ -738,6 +744,73 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
   static final String FROMBIGINT_RETURN_DESCR = """
       The resulting binary (one or more bytes).""";
 
+  // CBOR.createEpochTime()
+
+  static final String CREATE_EPOCHTIME_DESCR = """
+      Create <code>EpochTime</code> object.
+      <div style='margin-top:0.5em'>
+      This method creates an Epoch ${TIME} time stamp.</div>
+      <div style='margin-top:0.5em'>
+      An exception will be thrown if the <kbd>date</kbd> object is not within
+      the range <code style='white-space:nowrap'>"1970-01-01T00:00:00Z"</code> to
+      <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</div>
+      <div style='margin-top:0.5em'>
+      If <kbd>millis</kbd> is <code>true</code> a <a href='#wrapper.cbor.float'>CBOR.Float</a>
+      object holding seconds with a milliseconds fraction will be created,
+      else a <a href='#wrapper.cbor.int'>CBOR.Int</a>
+      object holding seconds will be created.</div>
+      <div style='margin-top:0.5em'>Example code:</div>
+      <div style='margin:0.3em 0 0 1.2em'><code>let epoch = CBOR.createEpochTime(new Date(), false);<br>
+      console.log(epoch.getInt53());<br>
+      <span style='color:#007fdd'>1764939916</span></code></div>
+      <div style='margin-top:0.5em'>
+      Also see <a href='#time.getepochtime'>getEpochTime()</a>.</div>""";
+
+  static final String CREATE_TIME_P_DATE = """
+      Time source object.""";
+
+  static final String CREATE_TIME_P_MILLIS = """
+      If <kbd><i>millis</i></kbd> is <code>true</code>,
+      the milliseconds of the <kbd><i>date</i></kbd> object will be
+      featured in the created time object.
+      <div style='margin-top:0.5em'>If <kbd><i>millis</i></kbd> is
+      <code>false</code>, the milliseconds of the <kbd><i>date</i></kbd>
+      object will not be used but may after <i>rounding</i>,
+      add a second to the created time object.</div>""";
+  
+  static final String CREATE_EPOCHTIME_RETURN_DESCR = """
+      Wrapper holding an <code>EpochTime</code> object.""";
+
+  static final String CREATE_TIME_P_UTC = """
+      If <kbd><i>utc</i></kbd> is <code>true</code>,
+      the <code>UTC</code> time zone (denoted by a terminating <code>Z</code>) will be used,
+      else the local time followed by the <code>UTC</code> offset
+      (<code>&plusmn;hh:mm</code>) will be used.""";
+ 
+  // CBOR.createEpochTime()
+
+  static final String CREATE_DATETIME_DESCR = """
+      Create <code>DateTime</code> object.
+      <div style='margin-top:0.5em'>
+      This method creates an ISO ${RFC3339} date/time string and wraps it in 
+      a <a href='#wrapper.cbor.string'>CBOR.String</a> object.</div>
+      <div style='margin-top:0.5em'>
+      An exception will be thrown if the <kbd>date</kbd> object is not within
+      the range <code style='white-space:nowrap'>"0000-01-01T00:00:00Z"</code> to
+      <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</div>
+      <div style='margin-top:0.5em'>
+      If <kbd>millis</kbd> is <code>true</code> the date/time string will feature
+      milliseconds (<code>.nnn</code>) as well.</div>
+      <div style='margin-top:0.5em'>Example code:</div>
+      <div style='margin:0.3em 0 0 1.2em'><code>let iso = CBOR.createDateTime(new Date(), true, false);<br>
+      console.log(iso.getString());<br>
+      <span style='color:#007fdd'>2025-12-05T13:55:42.418+01:00</span></code></div>
+      <div style='margin-top:0.5em'>
+      Also see <a href='#time.getdatetime'>getDateTime()</a>.</div>""";
+  
+  static final String CREATE_DATETIME_RETURN_DESCR = """
+      Wrapper holding a <code>DateTime</code> object.""";
+
   // CBOR.decode()
 
   static final String DECODE_DESCR = """
@@ -776,7 +849,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       ("<code>|</code>").
       A zero (0) sets the decoder default mode.
       The options are defined by the following constants:
-      <div style='margin-top:0.5em'><kbd>CBOR.SEQUENCE_MODE</kbd>:</div>
+      <div id='CBOR.SEQUENCE_MODE' style='margin-top:0.5em'><kbd>CBOR.SEQUENCE_MODE</kbd>:</div>
       <div style='padding:0.2em 0 0 1.2em'>If the <kbd>CBOR.SEQUENCE_MODE</kbd>
       option is defined, the following apply:
       <ul style='padding:0;margin:0 0 0.5em 1.2em'>
@@ -788,7 +861,8 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       Note that data that has not yet been decoded, is not verified for correctness.
       <div style='margin-top:0.5em'>
       See also <a href='#cbor.array.encodeassequence'>encodeAsSequence()</a>.</div></div>
-      <div style='margin-top:0.8em'><kbd>CBOR.LENIENT_MAP_DECODING</kbd>:</div>
+      <div id='CBOR.LENIENT_MAP_DECODING' style='margin-top:0.8em'>
+      <kbd>CBOR.LENIENT_MAP_DECODING</kbd>:</div>
       <div style='padding:0.2em 0 0 1.2em'>By default, the decoder requires
       that CBOR maps conform to the
       <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>
@@ -796,13 +870,14 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <div>The <kbd>CBOR.LENIENT_MAP_DECODING</kbd> option makes the decoder
       accept CBOR maps with arbitrary key ordering.
       Note that duplicate keys still cause an exception to be thrown.</div></div>
-      <div style='margin-top:0.8em'><kbd>CBOR.LENIENT_NUMBER_DECODING</kbd>:</div>
+      <div id='CBOR.LENIENT_NUMBER_DECODING' style='margin-top:0.8em'>
+      <kbd>CBOR.LENIENT_NUMBER_DECODING</kbd>:</div>
       <div style='padding:0.2em 0 0 1.2em'>By default, the decoder requires
       that CBOR numbers conform to the
       <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a> rules.
       <div>The <kbd>CBOR.LENIENT_NUMBER_DECODING</kbd> option makes the decoder
-      accept different representations of CBOR <code>int</code>, <code>bigint</code>,
-      and <code>float</code> items, only limited by RFC&nbsp;8949.</div></div>""";
+      accept different representations of CBOR <code>int/bigint</code>
+      and <code>float</code> objects, only limited by ${RFC8949}.</div></div>""";
 
   static final String INITEXT_RETURN_DESCR = """
       Decoder object to be used with
@@ -1946,6 +2021,21 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
     addUtilityMethod("CBOR.fromBigInt", FROMBIGINT_DESCR)
         .addParameter("value", DataTypes.JS_BIGINT, FROMBIGINT_P1_DESCR)
         .setReturn(DataTypes.JS_UINT8ARRAY, FROMBIGINT_RETURN_DESCR);
+
+     // CBOR.createDateTime()
+
+    addUtilityMethod("CBOR.createDateTime", CREATE_DATETIME_DESCR)
+        .addParameter("date", DataTypes.JS_DATE, CREATE_TIME_P_DATE)
+        .addParameter("millis", DataTypes.JS_BOOLEAN, CREATE_TIME_P_MILLIS)
+        .addParameter("utc", DataTypes.JS_BOOLEAN, CREATE_TIME_P_UTC)
+        .setReturn(DataTypes.CBOR_STRING, CREATE_DATETIME_RETURN_DESCR);
+
+     // CBOR.createEpochTime()
+
+    addUtilityMethod("CBOR.createEpochTime", CREATE_EPOCHTIME_DESCR)
+        .addParameter("date", DataTypes.JS_DATE, CREATE_TIME_P_DATE)
+        .addParameter("millis", DataTypes.JS_BOOLEAN, CREATE_TIME_P_MILLIS)
+        .setReturn(DataTypes.CBOR_Any, CREATE_EPOCHTIME_RETURN_DESCR);
 
     replace(INTRO, printMainHeader("intro", "Introduction"));
     outline.increment();
