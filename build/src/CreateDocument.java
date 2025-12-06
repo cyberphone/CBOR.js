@@ -234,7 +234,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
   // Time Objects
 
   static final String W_GETDATETIME_DESCR = """
-      Get Date object.
+      Get <code>DateTime</code> object.
       <div style='margin-top:0.5em'>
       This method performs a
       <a href='#cbor.string.getstring'>getString()</a> and then uses
@@ -252,7 +252,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       Date object""";
 
   static final String W_GETEPOCHTIME_DESCR = """
-      Get Date object.
+      Get <code>EpochTime</code> object.
       <div style='margin-top:0.5em'>
       This method performs a
       <a href='#cbor.int.getint53'>getInt53()</a> or 
