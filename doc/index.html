@@ -1142,12 +1142,12 @@ An exception will be thrown if:
 <ul style='padding:0;margin:0 0 0.5em 1.2em'>
 <li style='margin-top:0'>the underlying object is not a
 <a href='#wrapper.cbor.string'>CBOR.String</a>.</li>
-<li>strings do not match the ISO date/time format <span style='white-space:nowrap'>[<a href='https://www.rfc-editor.org/rfc/rfc3339.html' title='RFC3339'>RFC3339<img src='xtl.svg' alt='link'></a>]</span>.</li>
+<li>strings do not match the ISO date/time format described
+in section&nbsp;5.6 of <span style='white-space:nowrap'>[<a href='https://www.rfc-editor.org/rfc/rfc3339.html#section-5.6' title='RFC3339'>RFC3339<img src='xtl.svg' alt='link'></a>]</span>.</li>
 <li>date/time objects are not within the range
 <code style='white-space:nowrap'>"0000-01-01T00:00:00Z"</code> to
 <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</li>
 <li>sub-second fields (<code>.nnn</code>) feature more than nine digits.</li>
-<li>time-offsets do not use the <code>&plusmn;hh:mm</code> notation.</li>
 </ul>
 </div><div style='margin-top:0.5em'>
 Also see <a href='#utility.cbor.createdatetime'>CBOR.createDateTime()</a>.</div></td></tr>
@@ -1562,7 +1562,7 @@ base64 encoded data as well as data with or without
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.createDateTime(<i>date</i>, <i>millis</i>, <i>utc</i>)</kbd></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Create <code>DateTime</code> object.
 <div style='margin-top:0.5em'>
-This method creates an ISO <span style='white-space:nowrap'>[<a href='https://www.rfc-editor.org/rfc/rfc3339.html' title='RFC3339'>RFC3339<img src='xtl.svg' alt='link'></a>]</span> date/time string and wraps it in
+This method creates an ISO <span style='white-space:nowrap'>[<a href='https://www.rfc-editor.org/rfc/rfc3339.html#section-5.6' title='RFC3339'>RFC3339<img src='xtl.svg' alt='link'></a>]</span> date/time string and wraps it in
 a <a href='#wrapper.cbor.string'>CBOR.String</a> object.</div>
 <div style='margin-top:0.5em'>
 An exception will be thrown if the <kbd><i>date</i></kbd> object is not within

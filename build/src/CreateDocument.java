@@ -244,12 +244,12 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <ul style='padding:0;margin:0 0 0.5em 1.2em'>
       <li style='margin-top:0'>the underlying object is not a
       <a href='#wrapper.cbor.string'>CBOR.String</a>.</li>
-      <li>strings do not match the ISO date/time format ${RFC3339}.</li>
+      <li>strings do not match the ISO date/time format described
+      in section&nbsp;5.6 of ${RFC3339}.</li>
       <li>date/time objects are not within the range
       <code style='white-space:nowrap'>"0000-01-01T00:00:00Z"</code> to
       <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</li>
       <li>sub-second fields (<code>.nnn</code>) feature more than nine digits.</li>
-      <li>time-offsets do not use the <code>&plusmn;hh:mm</code> notation.</li>
       </ul>
       </div><div style='margin-top:0.5em'>
       Also see <a href='#utility.cbor.createdatetime'>CBOR.createDateTime()</a>.</div>""";
@@ -1083,7 +1083,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
     CBOR_CORE ("CBOR::Core", "https://www.ietf.org/archive/id/draft-rundgren-cbor-core-19.html"),
     CBOR   ("RFC8949", "https://www.rfc-editor.org/rfc/rfc8949.html"),
     CDDL   ("RFC8610", "https://www.rfc-editor.org/rfc/rfc8610.html"),
-    ISO_TIME ("RFC3339", "https://www.rfc-editor.org/rfc/rfc3339.html"),
+    ISO_TIME ("RFC3339", "https://www.rfc-editor.org/rfc/rfc3339.html#section-5.6"),
     EPOCH_TIME ("TIME", "https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap04.html#tag_04_19"),
     COTX ("COTX", "https://datatracker.ietf.org/doc/draft-rundgren-cotx/");
 
