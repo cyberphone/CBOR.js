@@ -248,7 +248,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <li>date/time objects are not within the range
       <code style='white-space:nowrap'>"0000-01-01T00:00:00Z"</code> to
       <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</li>
-      <li>sub-second fields (<code>.nnn</code>) feature zero or more than nine digits.</li>
+      <li>sub-second fields (<code>.nnn</code>) feature more than nine digits.</li>
       <li>time-offsets do not use the <code>&plusmn;hh:mm</code> notation.</li>
       </ul>
       </div><div style='margin-top:0.5em'>
