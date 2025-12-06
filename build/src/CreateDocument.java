@@ -269,7 +269,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <ul style='padding:0;margin:0 0 0.5em 1.2em'>
       <li style='margin-top:0'>the underlying object
       is not a <a href='#wrapper.cbor.int'>CBOR.Int</a> or
-      <a href='#wrapper.cbor.float'>CBOR.Float</a></li>
+      <a href='#wrapper.cbor.float'>CBOR.Float</a>.</li>
       <li>Epoch ${TIME} objects are not within the range
       <span style='white-space:nowrap'><code>0</code> (<code>"1970-01-01T00:00:00Z"</code>)</span> to
       <span style='white-space:nowrap'><code>253402300799</code> (<code>"9999-12-31T23:59:59Z"</code>)</span>.</li>
