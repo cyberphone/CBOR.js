@@ -153,11 +153,10 @@
   ${TIME_OBJECTS}
   Since CBOR lacks dedicated (native) time-objects, section 3.4.1 and 3.4.2 of
   CBOR&nbsp;${RFC8949} define tag <code>0</code> and <code>1</code> for this purpose.
-  CBOR.js provides built-in decoders for these tags.
+  CBOR.js provides built-in decoders for these tags (<a href='#wrapper.cbor.tag'>CBOR.Tag</a>).
   That is, if the current object is a tag <code>0</code>, it is sufficient
   calling <a href='#time.getdatetime'>getDateTime()</a>.
   Note that these methods are also available without the tag construct.
-  Also see <a href='#wrapper.cbor.tag'>CBOR.Tag</a>.
   ${TIME_METHODS}
   ${COMMON_INTRO}
   The <a href='#main.wrappers'>CBOR wrapper objects</a>

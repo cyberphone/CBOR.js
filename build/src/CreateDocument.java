@@ -75,9 +75,9 @@ public class CreateDocument {
       <div style='margin-top:0.5em'>
       Unlike <a href='#wrapper.cbor.float'>CBOR.Float()</a>,
       this method also supports one of
-      the non-finite values: <kbd>Number.NaN</kbd>,
+      the non-finite values, <kbd>Number.NaN</kbd>,
       <kbd>Number.POSITIVE_INFINITY</kbd>,
-      or <kbd>Number.NEGATIVE_INFINITY</kbd>.</div>
+      and <kbd>Number.NEGATIVE_INFINITY</kbd>.</div>
       <div style='margin-top:0.5em'>
       Also see <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</div>""";
 
@@ -102,7 +102,7 @@ public class CreateDocument {
       <div style='margin-top:0.5em'>
       Note that this method makes it transparent for applications if the returned
       value is a "regular" <code>float</code>, or one of
-      the non-finite values: <kbd>Number.NaN</kbd>,
+      the non-finite values, <kbd>Number.NaN</kbd>,
       <kbd>Number.POSITIVE_INFINITY</kbd>,
       or <kbd>Number.NEGATIVE_INFINITY</kbd>.</div>""";
 
@@ -263,7 +263,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       is not a <a href='#wrapper.cbor.int'>CBOR.Int</a> or
       <a href='#wrapper.cbor.float'>CBOR.Float</a>, or
       if the Epoch ${TIME} is not within the range
-      <code>0</code> (<code>1970-01-01T00:00:00Z</code>) to
+      <code>0</code> (<code>"1970-01-01T00:00:00Z"</code>) to
       <code>253402300799</code> (<code>"9999-12-31T23:59:59Z"</code>).</div>
       <div style='margin-top:0.5em'>
       Also see <a href='#utility.cbor.createepochtime'>CBOR.createEpochTime()</a>.</div>""";
@@ -751,7 +751,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <div style='margin-top:0.5em'>
       This method creates an Epoch ${TIME} time stamp.</div>
       <div style='margin-top:0.5em'>
-      An exception will be thrown if the <kbd>date</kbd> object is not within
+      An exception will be thrown if the <kbd><i>date</i></kbd> object is not within
       the range <code style='white-space:nowrap'>"1970-01-01T00:00:00Z"</code> to
       <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</div>
       <div style='margin-top:0.5em'>
@@ -759,9 +759,9 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       object holding seconds with a milliseconds fraction will be created,
       else a <a href='#wrapper.cbor.int'>CBOR.Int</a>
       object holding seconds will be created.</div>
-      <div style='margin-top:0.5em'>Example code:</div>
+      <div style='margin-top:0.5em'>Sample code:</div>
       <div style='margin:0.3em 0 0 1.2em'><code>let epoch = CBOR.createEpochTime(new Date(), false);<br>
-      console.log(epoch.getInt53());<br>
+      console.log(epoch.toString());<br>
       <span style='color:#007fdd'>1764939916</span></code></div>
       <div style='margin-top:0.5em'>
       Also see <a href='#time.getepochtime'>getEpochTime()</a>.</div>""";
@@ -795,16 +795,16 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       This method creates an ISO ${RFC3339} date/time string and wraps it in 
       a <a href='#wrapper.cbor.string'>CBOR.String</a> object.</div>
       <div style='margin-top:0.5em'>
-      An exception will be thrown if the <kbd>date</kbd> object is not within
+      An exception will be thrown if the <kbd><i>date</i></kbd> object is not within
       the range <code style='white-space:nowrap'>"0000-01-01T00:00:00Z"</code> to
       <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</div>
       <div style='margin-top:0.5em'>
       If <kbd>millis</kbd> is <code>true</code> the date/time string will feature
       milliseconds (<code>.nnn</code>) as well.</div>
-      <div style='margin-top:0.5em'>Example code:</div>
+      <div style='margin-top:0.5em'>Sample code:</div>
       <div style='margin:0.3em 0 0 1.2em'><code>let iso = CBOR.createDateTime(new Date(), true, false);<br>
-      console.log(iso.getString());<br>
-      <span style='color:#007fdd'>2025-12-05T13:55:42.418+01:00</span></code></div>
+      console.log(iso.toString());<br>
+      <span style='color:#007fdd'>"2025-12-05T13:55:42.418+01:00"</span></code></div>
       <div style='margin-top:0.5em'>
       Also see <a href='#time.getdatetime'>getDateTime()</a>.</div>""";
   

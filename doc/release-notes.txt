@@ -52,10 +52,13 @@ Added method: CBOR.Array.encodeAsSequence()
 2025-07-18 1.0.14
 Added method: CBOR.nonFiniteFloatsMode()
 
-202-09-10 1.0.15
+2025-09-10 1.0.15
 Elimininated CBOR.REJECT_NON_FINITE_FLOATS and CBOR.nonFiniteFloatsMode()
 through the new wrapper object CBOR.NonFinite().
 Major update for non-finite numbers
 Dropped Tag.update()
 Added COTX properties to Tag 
-Added remove() and insert() to Array 
+Added remove() and insert() to Array
+
+2025-12-05 1.0.16
+Added utility methods CBOR.createEpochTime() and CBOR.createDateTime()
