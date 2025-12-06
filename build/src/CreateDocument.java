@@ -765,7 +765,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       the range <code style='white-space:nowrap'>"1970-01-01T00:00:00Z"</code> to
       <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</div>
       <div style='margin-top:0.5em'>
-      If <kbd>millis</kbd> is <code>true</code> a <a href='#wrapper.cbor.float'>CBOR.Float</a>
+      If <kbd><i>millis</i></kbd> is <code>true</code> a <a href='#wrapper.cbor.float'>CBOR.Float</a>
       object holding seconds with a milliseconds fraction will be created,
       else a <a href='#wrapper.cbor.int'>CBOR.Int</a>
       object holding seconds will be created.</div>
@@ -802,14 +802,15 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
   static final String CREATE_DATETIME_DESCR = """
       Create <code>DateTime</code> object.
       <div style='margin-top:0.5em'>
-      This method creates an ISO ${RFC3339} date/time string and wraps it in 
-      a <a href='#wrapper.cbor.string'>CBOR.String</a> object.</div>
+      This method creates a date/time string in the ISO format 
+      described in section 5.6&nbsp;of ${RFC3339}, and wraps it in a
+      <a href='#wrapper.cbor.string'>CBOR.String</a> object.</div>
       <div style='margin-top:0.5em'>
       An exception will be thrown if the <kbd><i>date</i></kbd> object is not within
       the range <code style='white-space:nowrap'>"0000-01-01T00:00:00Z"</code> to
       <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</div>
       <div style='margin-top:0.5em'>
-      If <kbd>millis</kbd> is <code>true</code> the date/time string will feature
+      If <kbd><i>millis</i></kbd> is <code>true</code> the date/time string will feature
       milliseconds (<code>.nnn</code>) as well.</div>
       <div style='margin-top:0.5em'>Sample code:</div>
       <div style='margin:0.3em 0 0 1.2em'><code>let iso = CBOR.createDateTime(new Date(), true, false);<br>
