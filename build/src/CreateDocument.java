@@ -240,11 +240,17 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <a href='#cbor.string.getstring'>getString()</a> and then uses
       the result to initiate a JavaScript <kbd>Date</kbd> object.</div>
       <div style='margin-top:0.5em'>
-      An exception will be thrown if the underlying object is not a
-      <a href='#wrapper.cbor.string'>CBOR.String</a>, if
-      the string does not match an ISO date/time string ${RFC3339},
-      or if the date is not within the range <code>"0000-01-01T00:00:00Z"</code> to
-      <code>"9999-12-31T23:59:59Z"</code>.
+      An exception will be thrown if:
+      <ul style='padding:0;margin:0 0 0.5em 1.2em'>
+      <li style='margin-top:0'>the underlying object is not a
+      <a href='#wrapper.cbor.string'>CBOR.String</a>.</li>
+      <li>strings do not match the ISO date/time format ${RFC3339}.</li>
+      <li>date/time objects are not within the range
+      <code style='white-space:nowrap'>"0000-01-01T00:00:00Z"</code> to
+      <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</li>
+      <li>sub-second fields (<code>.nnn</code>) feature zero or more than nine digits.</li>
+      <li>time-offsets do not use the <code>&plusmn;hh:mm</code> notation.</li>
+      </ul>
       </div><div style='margin-top:0.5em'>
       Also see <a href='#utility.cbor.createdatetime'>CBOR.createDateTime()</a>.</div>""";
 
@@ -259,12 +265,16 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <a href='#cbor.float.getfloat64'>getFloat64()</a> and then uses
       the result to initiate a JavaScript <kbd>Date</kbd> object.</div>
       <div style='margin-top:0.5em'>
-      An exception will be thrown if the underlying object
+      An exception will be thrown if:
+      <ul style='padding:0;margin:0 0 0.5em 1.2em'>
+      <li style='margin-top:0'>the underlying object
       is not a <a href='#wrapper.cbor.int'>CBOR.Int</a> or
-      <a href='#wrapper.cbor.float'>CBOR.Float</a>, or
-      if the Epoch ${TIME} is not within the range
-      <code>0</code> (<code>"1970-01-01T00:00:00Z"</code>) to
-      <code>253402300799</code> (<code>"9999-12-31T23:59:59Z"</code>).</div>
+      <a href='#wrapper.cbor.float'>CBOR.Float</a></li>
+      <li>Epoch ${TIME} objects are not within the range
+      <span style='white-space:nowrap'><code>0</code> (<code>"1970-01-01T00:00:00Z"</code>)</span> to
+      <span style='white-space:nowrap'><code>253402300799</code> (<code>"9999-12-31T23:59:59Z"</code>)</span>.</li>
+      </ul>
+      </div>
       <div style='margin-top:0.5em'>
       Also see <a href='#utility.cbor.createepochtime'>CBOR.createEpochTime()</a>.</div>""";
   
