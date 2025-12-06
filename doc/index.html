@@ -1136,18 +1136,18 @@ in CBOR maps.</div></td></tr>
 <div style='margin-top:0.5em'>
 This method performs a
 <a href='#cbor.string.getstring'>getString()</a> and then uses
-the result to initiate a JavaScript <kbd>Date</kbd> object.</div>
+the returned string to initiate a JavaScript <kbd>Date</kbd> object.</div>
 <div style='margin-top:0.5em'>
-An exception will be thrown if:
+An exception will be thrown if any of the following conditions are not met:
 <ul style='padding:0;margin:0 0 0.5em 1.2em'>
-<li style='margin-top:0'>the underlying object is not a
+<li style='margin-top:0'>the underlying object is a
 <a href='#wrapper.cbor.string'>CBOR.String</a>.</li>
-<li>strings do not match the ISO date/time format described
+<li>the string matches the ISO date/time format described
 in section&nbsp;5.6 of <span style='white-space:nowrap'>[<a href='https://www.rfc-editor.org/rfc/rfc3339.html#section-5.6' title='RFC3339'>RFC3339<img src='xtl.svg' alt='link'></a>]</span>.</li>
-<li>date/time objects are not within the range
+<li>the <i>optional</i> sub-second field (<code>.nnn</code>) features <i>less</i> than ten digits.</li>
+<li>the date/time object is within:
 <code style='white-space:nowrap'>"0000-01-01T00:00:00Z"</code> to
 <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</li>
-<li>sub-second fields (<code>.nnn</code>) feature more than nine digits.</li>
 </ul>
 </div><div style='margin-top:0.5em'>
 Also see <a href='#utility.cbor.createdatetime'>CBOR.createDateTime()</a>.</div></td></tr>
@@ -1164,14 +1164,14 @@ Also see <a href='#utility.cbor.createdatetime'>CBOR.createDateTime()</a>.</div>
 This method performs a
 <a href='#cbor.int.getint53'>getInt53()</a> or
 <a href='#cbor.float.getfloat64'>getFloat64()</a> and then uses
-the result to initiate a JavaScript <kbd>Date</kbd> object.</div>
+the returned number to initiate a JavaScript <kbd>Date</kbd> object.</div>
 <div style='margin-top:0.5em'>
-An exception will be thrown if:
+An exception will be thrown if any of the following conditions are not met:
 <ul style='padding:0;margin:0 0 0.5em 1.2em'>
 <li style='margin-top:0'>the underlying object
-is not a <a href='#wrapper.cbor.int'>CBOR.Int</a> or
+is a <a href='#wrapper.cbor.int'>CBOR.Int</a> or
 <a href='#wrapper.cbor.float'>CBOR.Float</a>.</li>
-<li>Epoch <span style='white-space:nowrap'>[<a href='https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap04.html#tag_04_19' title='TIME'>TIME<img src='xtl.svg' alt='link'></a>]</span> objects are not within the range
+<li>the Epoch <span style='white-space:nowrap'>[<a href='https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap04.html#tag_04_19' title='TIME'>TIME<img src='xtl.svg' alt='link'></a>]</span> object is within:
 <span style='white-space:nowrap'><code>0</code> (<code>"1970-01-01T00:00:00Z"</code>)</span> to
 <span style='white-space:nowrap'><code>253402300799</code> (<code>"9999-12-31T23:59:59Z"</code>)</span>.</li>
 </ul>
@@ -1647,21 +1647,21 @@ add a second to the created time object.</div></td></tr>
   for such objects turn to <kbd>BigInt</kbd>,
   otherwise run-time errors may occur.
   <p>
-    Note that selecting <a href='#wrapper.cbor.bigint'>CBOR.BigInt()</a>
-    or <a href='#wrapper.cbor.int'>CBOR.Int()</a> only affects the maximum
+    Note that selecting between <a href='#wrapper.cbor.bigint'>CBOR.BigInt</a>
+    or <a href='#wrapper.cbor.int'>CBOR.Int</a> only affects the maximum
     numeric range with respect to JavaScript limits, not the CBOR encoding.
   </p>
   <p>
     During CBOR <i>decoding</i>, the selection between
-    <a href='#wrapper.cbor.bigint'>CBOR.BigInt()</a>
-    and <a href='#wrapper.cbor.int'>CBOR.Int()</a> is governed by the decoded value
+    <a href='#wrapper.cbor.bigint'>CBOR.BigInt</a>
+    and <a href='#wrapper.cbor.int'>CBOR.Int</a> is governed by the decoded value
     with respect to JavaScript limits.
     Since integers within the range <code>-9007199254740991</code> to <code>9007199254740991</code>,
-    will during decoding return a <a href='#wrapper.cbor.int'>CBOR.Int()</a> although they could be
+    will during decoding return a <a href='#wrapper.cbor.int'>CBOR.Int</a> although they could be
     associated by a <kbd>BigInt</kbd> variable, the methods
     <a href='#cbor.bigint.getint64'>getInt64()</a>, <a href='#cbor.bigint.getuint64'>getUint64()</a>,
     and <a href='#cbor.bigint.getbigint'>getBigInt()</a>,
-    are supported by the <a href='#wrapper.cbor.int'>CBOR.Int()</a> wrapper as well.
+    are supported by the <a href='#wrapper.cbor.int'>CBOR.Int</a> wrapper as well.
   </p>
   <p>
     The selection between the CBOR <code>unsigned</code> and <code>negative</code>
@@ -1672,7 +1672,7 @@ add a second to the created time object.</div></td></tr>
 
   Although CBOR encoding depends on 16, 32, and 64-bit IEEE&nbsp;754
   variants, the CBOR.js implementation makes this
-  transparent. The <a href='#wrapper.cbor.float'>CBOR.Float()</a>
+  transparent. The <a href='#wrapper.cbor.float'>CBOR.Float</a>
   wrapper object only exposes the JavaScript <kbd>Number</kbd> type.
   <p>
   For applications depending on non-finite numbers

@@ -238,18 +238,18 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <div style='margin-top:0.5em'>
       This method performs a
       <a href='#cbor.string.getstring'>getString()</a> and then uses
-      the result to initiate a JavaScript <kbd>Date</kbd> object.</div>
+      the returned string to initiate a JavaScript <kbd>Date</kbd> object.</div>
       <div style='margin-top:0.5em'>
-      An exception will be thrown if:
+      An exception will be thrown if any of the following conditions are not met:
       <ul style='padding:0;margin:0 0 0.5em 1.2em'>
-      <li style='margin-top:0'>the underlying object is not a
+      <li style='margin-top:0'>the underlying object is a
       <a href='#wrapper.cbor.string'>CBOR.String</a>.</li>
-      <li>strings do not match the ISO date/time format described
+      <li>the string matches the ISO date/time format described
       in section&nbsp;5.6 of ${RFC3339}.</li>
-      <li>date/time objects are not within the range
+      <li>the <i>optional</i> sub-second field (<code>.nnn</code>) features <i>less</i> than ten digits.</li>
+      <li>the date/time object is within:
       <code style='white-space:nowrap'>"0000-01-01T00:00:00Z"</code> to
       <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</li>
-      <li>sub-second fields (<code>.nnn</code>) feature more than nine digits.</li>
       </ul>
       </div><div style='margin-top:0.5em'>
       Also see <a href='#utility.cbor.createdatetime'>CBOR.createDateTime()</a>.</div>""";
@@ -263,14 +263,14 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       This method performs a
       <a href='#cbor.int.getint53'>getInt53()</a> or 
       <a href='#cbor.float.getfloat64'>getFloat64()</a> and then uses
-      the result to initiate a JavaScript <kbd>Date</kbd> object.</div>
+      the returned number to initiate a JavaScript <kbd>Date</kbd> object.</div>
       <div style='margin-top:0.5em'>
-      An exception will be thrown if:
+      An exception will be thrown if any of the following conditions are not met:
       <ul style='padding:0;margin:0 0 0.5em 1.2em'>
       <li style='margin-top:0'>the underlying object
-      is not a <a href='#wrapper.cbor.int'>CBOR.Int</a> or
+      is a <a href='#wrapper.cbor.int'>CBOR.Int</a> or
       <a href='#wrapper.cbor.float'>CBOR.Float</a>.</li>
-      <li>Epoch ${TIME} objects are not within the range
+      <li>the Epoch ${TIME} object is within:
       <span style='white-space:nowrap'><code>0</code> (<code>"1970-01-01T00:00:00Z"</code>)</span> to
       <span style='white-space:nowrap'><code>253402300799</code> (<code>"9999-12-31T23:59:59Z"</code>)</span>.</li>
       </ul>

@@ -186,21 +186,21 @@
   for such objects turn to <kbd>BigInt</kbd>,
   otherwise run-time errors may occur.
   <p>
-    Note that selecting <a href='#wrapper.cbor.bigint'>CBOR.BigInt()</a>
-    or <a href='#wrapper.cbor.int'>CBOR.Int()</a> only affects the maximum
+    Note that selecting between <a href='#wrapper.cbor.bigint'>CBOR.BigInt</a>
+    or <a href='#wrapper.cbor.int'>CBOR.Int</a> only affects the maximum
     numeric range with respect to JavaScript limits, not the CBOR encoding.
   </p>
   <p>
     During CBOR <i>decoding</i>, the selection between
-    <a href='#wrapper.cbor.bigint'>CBOR.BigInt()</a>
-    and <a href='#wrapper.cbor.int'>CBOR.Int()</a> is governed by the decoded value
+    <a href='#wrapper.cbor.bigint'>CBOR.BigInt</a>
+    and <a href='#wrapper.cbor.int'>CBOR.Int</a> is governed by the decoded value
     with respect to JavaScript limits.
     Since integers within the range <code>-9007199254740991</code> to <code>9007199254740991</code>,
-    will during decoding return a <a href='#wrapper.cbor.int'>CBOR.Int()</a> although they could be
+    will during decoding return a <a href='#wrapper.cbor.int'>CBOR.Int</a> although they could be
     associated by a <kbd>BigInt</kbd> variable, the methods
     <a href='#cbor.bigint.getint64'>getInt64()</a>, <a href='#cbor.bigint.getuint64'>getUint64()</a>,
     and <a href='#cbor.bigint.getbigint'>getBigInt()</a>,
-    are supported by the <a href='#wrapper.cbor.int'>CBOR.Int()</a> wrapper as well.
+    are supported by the <a href='#wrapper.cbor.int'>CBOR.Int</a> wrapper as well.
   </p>
   <p>
     The selection between the CBOR <code>unsigned</code> and <code>negative</code>
@@ -210,7 +210,7 @@
   ${JS_NUMBER_CONS_FP}
   Although CBOR encoding depends on 16, 32, and 64-bit IEEE&nbsp;754
   variants, the CBOR.js implementation makes this
-  transparent. The <a href='#wrapper.cbor.float'>CBOR.Float()</a>
+  transparent. The <a href='#wrapper.cbor.float'>CBOR.Float</a>
   wrapper object only exposes the JavaScript <kbd>Number</kbd> type.
   <p>
   For applications depending on non-finite numbers
