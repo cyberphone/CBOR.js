@@ -72,7 +72,7 @@ export default class CBOR {
       // Fails on https://www.rfc-editor.org/rfc/rfc3339.html#section-5.8
       // Leap second 1990-12-31T15:59:60-08:00
       // Truncates sub-milliseconds as well.
-      if (iso.match(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(\.\d+)?((\-|\+)\d{2}:\d{2}|Z)$/m)) {
+      if (iso.match(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(\.\d{1,9})?((\-|\+)\d{2}:\d{2}|Z)$/m)) {
         let dateTime = new Date(iso);
         let time = dateTime.getTime();
         if (Number.isFinite(time)) {
