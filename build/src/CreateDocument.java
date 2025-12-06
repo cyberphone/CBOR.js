@@ -240,7 +240,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <a href='#cbor.string.getstring'>getString()</a> and then uses
       the returned string to initiate a JavaScript <kbd>Date</kbd> object.</div>
       <div style='margin-top:0.5em'>
-      An exception will be thrown if any of the following conditions are not met:
+      An exception will be thrown if not all of the following conditions are met:
       <ul style='padding:0;margin:0 0 0.5em 1.2em'>
       <li style='margin-top:0'>the underlying object is a
       <a href='#wrapper.cbor.string'>CBOR.String</a>.</li>
@@ -265,7 +265,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <a href='#cbor.float.getfloat64'>getFloat64()</a> and then uses
       the returned number to initiate a JavaScript <kbd>Date</kbd> object.</div>
       <div style='margin-top:0.5em'>
-      An exception will be thrown if any of the following conditions are not met:
+      An exception will be thrown if not all of the following conditions are met:
       <ul style='padding:0;margin:0 0 0.5em 1.2em'>
       <li style='margin-top:0'>the underlying object
       is a <a href='#wrapper.cbor.int'>CBOR.Int</a> or
