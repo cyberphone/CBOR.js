@@ -1559,14 +1559,14 @@ base64 encoded data as well as data with or without
 <h5 id='utility.cbor.createdatetime'>6.9.&nbsp;&nbsp;CBOR.createDateTime()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.createDateTime(<i>date</i>, <i>millis</i>, <i>utc</i>)</kbd></td></tr>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.createDateTime(<i>instant</i>, <i>millis</i>, <i>utc</i>)</kbd></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Create <code>DateTime</code> object.
 <div style='margin-top:0.5em'>
 This method creates a date/time string in the ISO format
-described in section 5.6&nbsp;of <span style='white-space:nowrap'>[<a href='https://www.rfc-editor.org/rfc/rfc3339.html#section-5.6' title='RFC3339'>RFC3339<img src='xtl.svg' alt='link'></a>]</span>, and wraps it in a
-<a href='#wrapper.cbor.string'>CBOR.String</a> object.</div>
+described in section 5.6&nbsp;of <span style='white-space:nowrap'>[<a href='https://www.rfc-editor.org/rfc/rfc3339.html#section-5.6' title='RFC3339'>RFC3339<img src='xtl.svg' alt='link'></a>]</span>. The string is subsequently wrapped
+in a <a href='#wrapper.cbor.string'>CBOR.String</a> object.</div>
 <div style='margin-top:0.5em'>
-An exception will be thrown if the <kbd><i>date</i></kbd> object is not within
+An exception will be thrown if the <kbd><i>instant</i></kbd> object is not within
 the range <code style='white-space:nowrap'>"0000-01-01T00:00:00Z"</code> to
 <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</div>
 <div style='margin-top:0.5em'>
@@ -1580,14 +1580,14 @@ console.log(iso.toString());<br>
 Also see <a href='#time.getdatetime'>getDateTime()</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>date</i></kbd></td><td style='text-align:center'><kbd>Date</kbd></td><td style='width:100%'>Time source object.</td></tr>
+<tr><td style='text-align:center'><kbd><i>instant</i></kbd></td><td style='text-align:center'><kbd>Date</kbd></td><td style='width:100%'>Time source object.</td></tr>
 <tr><td style='text-align:center'><kbd><i>millis</i></kbd></td><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'>If <kbd><i>millis</i></kbd> is <code>true</code>,
-the milliseconds of the <kbd><i>date</i></kbd> object will be
+the milliseconds of the <kbd><i>instant</i></kbd> object will be
 featured in the created time object.  Note: if the millisecond
-part of the <kbd><i>date</i></kbd> object is zero,
+part of the <kbd><i>instant</i></kbd> object is zero,
 <kbd><i>millis</i></kbd> is considered to be <code>false</code>.
 <div style='margin-top:0.5em'>If <kbd><i>millis</i></kbd> is
-<code>false</code>, the millisecond part of the <kbd><i>date</i></kbd>
+<code>false</code>, the millisecond part of the <kbd><i>instant</i></kbd>
 object will not be used, but may after <i>rounding</i>,
 add a second to the created time object.</div></td></tr>
 <tr><td style='text-align:center'><kbd><i>utc</i></kbd></td><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'>If <kbd><i>utc</i></kbd> is <code>true</code>,
@@ -1601,12 +1601,12 @@ else the local time followed by the <code>UTC</code> offset
 <h5 id='utility.cbor.createepochtime'>6.10.&nbsp;&nbsp;CBOR.createEpochTime()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.createEpochTime(<i>date</i>, <i>millis</i>)</kbd></td></tr>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.createEpochTime(<i>instant</i>, <i>millis</i>)</kbd></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Create <code>EpochTime</code> object.
 <div style='margin-top:0.5em'>
 This method creates an Epoch <span style='white-space:nowrap'>[<a href='https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap04.html#tag_04_19' title='TIME'>TIME<img src='xtl.svg' alt='link'></a>]</span> time stamp.</div>
 <div style='margin-top:0.5em'>
-An exception will be thrown if the <kbd><i>date</i></kbd> object is not within
+An exception will be thrown if the <kbd><i>instant</i></kbd> object is not within
 the range <code style='white-space:nowrap'>"1970-01-01T00:00:00Z"</code> to
 <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</div>
 <div style='margin-top:0.5em'>
@@ -1622,14 +1622,14 @@ console.log(epoch.toString());<br>
 Also see <a href='#time.getepochtime'>getEpochTime()</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>date</i></kbd></td><td style='text-align:center'><kbd>Date</kbd></td><td style='width:100%'>Time source object.</td></tr>
+<tr><td style='text-align:center'><kbd><i>instant</i></kbd></td><td style='text-align:center'><kbd>Date</kbd></td><td style='width:100%'>Time source object.</td></tr>
 <tr><td style='text-align:center'><kbd><i>millis</i></kbd></td><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'>If <kbd><i>millis</i></kbd> is <code>true</code>,
-the milliseconds of the <kbd><i>date</i></kbd> object will be
+the milliseconds of the <kbd><i>instant</i></kbd> object will be
 featured in the created time object.  Note: if the millisecond
-part of the <kbd><i>date</i></kbd> object is zero,
+part of the <kbd><i>instant</i></kbd> object is zero,
 <kbd><i>millis</i></kbd> is considered to be <code>false</code>.
 <div style='margin-top:0.5em'>If <kbd><i>millis</i></kbd> is
-<code>false</code>, the millisecond part of the <kbd><i>date</i></kbd>
+<code>false</code>, the millisecond part of the <kbd><i>instant</i></kbd>
 object will not be used, but may after <i>rounding</i>,
 add a second to the created time object.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>

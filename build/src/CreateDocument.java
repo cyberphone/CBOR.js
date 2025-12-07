@@ -761,7 +761,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <div style='margin-top:0.5em'>
       This method creates an Epoch ${TIME} time stamp.</div>
       <div style='margin-top:0.5em'>
-      An exception will be thrown if the <kbd><i>date</i></kbd> object is not within
+      An exception will be thrown if the <kbd><i>instant</i></kbd> object is not within
       the range <code style='white-space:nowrap'>"1970-01-01T00:00:00Z"</code> to
       <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</div>
       <div style='margin-top:0.5em'>
@@ -781,12 +781,12 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
   static final String CREATE_TIME_P_MILLIS = """
       If <kbd><i>millis</i></kbd> is <code>true</code>,
-      the milliseconds of the <kbd><i>date</i></kbd> object will be
+      the milliseconds of the <kbd><i>instant</i></kbd> object will be
       featured in the created time object.  Note: if the millisecond
-      part of the <kbd><i>date</i></kbd> object is zero,
+      part of the <kbd><i>instant</i></kbd> object is zero,
       <kbd><i>millis</i></kbd> is considered to be <code>false</code>.
       <div style='margin-top:0.5em'>If <kbd><i>millis</i></kbd> is
-      <code>false</code>, the millisecond part of the <kbd><i>date</i></kbd>
+      <code>false</code>, the millisecond part of the <kbd><i>instant</i></kbd>
       object will not be used, but may after <i>rounding</i>,
       add a second to the created time object.</div>""";
   
@@ -805,10 +805,10 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       Create <code>DateTime</code> object.
       <div style='margin-top:0.5em'>
       This method creates a date/time string in the ISO format 
-      described in section 5.6&nbsp;of ${RFC3339}, and wraps it in a
-      <a href='#wrapper.cbor.string'>CBOR.String</a> object.</div>
+      described in section 5.6&nbsp;of ${RFC3339}. The string is subsequently wrapped
+      in a <a href='#wrapper.cbor.string'>CBOR.String</a> object.</div>
       <div style='margin-top:0.5em'>
-      An exception will be thrown if the <kbd><i>date</i></kbd> object is not within
+      An exception will be thrown if the <kbd><i>instant</i></kbd> object is not within
       the range <code style='white-space:nowrap'>"0000-01-01T00:00:00Z"</code> to
       <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</div>
       <div style='margin-top:0.5em'>
@@ -2038,7 +2038,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
      // CBOR.createDateTime()
 
     addUtilityMethod("CBOR.createDateTime", CREATE_DATETIME_DESCR)
-        .addParameter("date", DataTypes.JS_DATE, CREATE_TIME_P_DATE)
+        .addParameter("instant", DataTypes.JS_DATE, CREATE_TIME_P_DATE)
         .addParameter("millis", DataTypes.JS_BOOLEAN, CREATE_TIME_P_MILLIS)
         .addParameter("utc", DataTypes.JS_BOOLEAN, CREATE_TIME_P_UTC)
         .setReturn(DataTypes.CBOR_STRING, CREATE_DATETIME_RETURN_DESCR);
@@ -2046,7 +2046,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
      // CBOR.createEpochTime()
 
     addUtilityMethod("CBOR.createEpochTime", CREATE_EPOCHTIME_DESCR)
-        .addParameter("date", DataTypes.JS_DATE, CREATE_TIME_P_DATE)
+        .addParameter("instant", DataTypes.JS_DATE, CREATE_TIME_P_DATE)
         .addParameter("millis", DataTypes.JS_BOOLEAN, CREATE_TIME_P_MILLIS)
         .setReturn(DataTypes.CBOR_Any, CREATE_EPOCHTIME_RETURN_DESCR);
 

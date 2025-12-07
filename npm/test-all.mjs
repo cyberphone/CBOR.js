@@ -1029,7 +1029,7 @@ success();
 `}
 ,
 {name:'dates.js',
-file:String.raw`// Testing date methods
+file:String.raw`// Testing instant methods
 
 function oneGetDateTime(epoch, isoString) {
   assertTrue("date1", CBOR.String(isoString).getDateTime().getTime() == epoch);
@@ -1051,29 +1051,29 @@ function badDate(hexBor, err) {
 
 function oneGetEpochTime(hexBor, epoch, err) {
   let time = Math.floor(epoch * 1000);
-  let date = CBOR.decode(CBOR.fromHex(hexBor)).getEpochTime();
-  assertTrue("epoch1", date.getTime() == time);
-  let cborObject = CBOR.createEpochTime(date, time % 1000);
+  let instant = CBOR.decode(CBOR.fromHex(hexBor)).getEpochTime();
+  assertTrue("epoch1", instant.getTime() == time);
+  let cborObject = CBOR.createEpochTime(instant, time % 1000);
   // console.log("E=" + cborObject.toString());
   // console.log("1=" + cborObject.getEpochTime().getTime() + " 2=" + time);
   assertTrue("epoch2", cborObject.getEpochTime().getTime() == time);
   if (time % 1000 > 500) {
     let p1 = Math.floor(epoch + 1.0) * 1000;
-    cborObject = CBOR.createEpochTime(date, false);
+    cborObject = CBOR.createEpochTime(instant, false);
     // console.log("r1=" + cborObject.getEpochTime().getTime() + " r2=" + p1);
     assertTrue("epoch3", cborObject.getEpochTime().getTime() == p1);
   }
-  date = CBOR.decode(CBOR.fromHex(hexBor));
+  instant = CBOR.decode(CBOR.fromHex(hexBor));
   try {
-    date.checkForUnread();
+    instant.checkForUnread();
     fail("must not");
   } catch (error) {
     if (!error.toString().includes(err)) {
       throw error;
     }
   }
-  date.getEpochTime();
-  date.checkForUnread();
+  instant.getEpochTime();
+  instant.checkForUnread();
 }
 
 oneGetDateTime(1740060548000, "2025-02-20T14:09:08+00:00");
@@ -1103,13 +1103,13 @@ oneGetEpochTime("c11b0000003afff4417f", 253402300799, "Tagged object 1 of type=C
 oneGetEpochTime("00", 0, "Data of type=CBOR.Int");
 
 function oneMillis(time, iso) {
-  let date = new Date();
-  date.setTime(time);
-  assertTrue("cdt1=", CBOR.createDateTime(date, true, true).getString() == iso);
-  let created = CBOR.createDateTime(date, true, false);
+  let instant = new Date();
+  instant.setTime(time);
+  assertTrue("cdt1=", CBOR.createDateTime(instant, true, true).getString() == iso);
+  let created = CBOR.createDateTime(instant, true, false);
   assertTrue("cdt2=", created.getDateTime().getTime() == time);
   assertTrue("cdt3=", created.getString().length == iso.length + 5);
-  created = CBOR.createEpochTime(date, true);
+  created = CBOR.createEpochTime(instant, true);
   assertTrue("cet1=", created.getEpochTime().getTime() == time);
   assertTrue("cet2=", created instanceof CBOR.Float == iso.includes("."));
 }
@@ -1161,9 +1161,9 @@ try {
   }
   try {
     // Out of range for Date().
-    let date = new Date();
-    date.setTime(epoch * 1000);
-    CBOR.createEpochTime(date, true);
+    let instant = new Date();
+    instant.setTime(epoch * 1000);
+    CBOR.createEpochTime(instant, true);
     throw Error("Should not");
   } catch (error) {
     if (!error.toString().includes("Epoch out of")) {
@@ -1181,12 +1181,12 @@ console.log("Now=" + now.getTime() + " iso=" + now.toISOString() +
 */
 
 function oneCreateDateTime(dateOrTime, utc, millis, bad) {
-  let date = new Date();
+  let instant = new Date();
   let time = typeof dateOrTime == 'number' ? Math.round(dateOrTime) : dateOrTime.getTime();
-  date.setTime(time);
+  instant.setTime(time);
   if (bad) {
     try {
-      CBOR.createDateTime(date, millis, utc);
+      CBOR.createDateTime(instant, millis, utc);
       throw Error("Should not");
     } catch (error) {
       if (!error.toString().includes("Date object out of range")) {
@@ -1194,7 +1194,7 @@ function oneCreateDateTime(dateOrTime, utc, millis, bad) {
       }
     }
   } else {
-    let dateTime = CBOR.createDateTime(date, millis, utc);
+    let dateTime = CBOR.createDateTime(instant, millis, utc);
     if (millis || !(time % 1000)) {
       assertTrue("cdt1" + dateTime, dateTime.getDateTime().getTime() == time);
     } else if (!millis && time % 1000) {

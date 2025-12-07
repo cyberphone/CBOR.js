@@ -2269,9 +2269,9 @@ class CBOR {
     return epochMillis;
   }
 
-  static #dateCheck(time, date) {
+  static #dateCheck(time, instant) {
     if (time < -62167219200000 || time > 253402300799000) {
-      CBOR.#error("Date object out of range: " + date.toISOString());
+      CBOR.#error("Date object out of range: " + instant.toISOString());
     }
     return time;
   }
@@ -2381,17 +2381,17 @@ class CBOR {
     return new Uint8Array(array.reverse());
   }
 
-  static createDateTime = function(date, millis, utc) {
-    let time = date.getTime();
+  static createDateTime = function(instant, millis, utc) {
+    let time = instant.getTime();
     millis = CBOR.#millisCheck(time, millis);
-    time = CBOR.#timeRound(CBOR.#dateCheck(time, date), millis);
-    let offset = date.getTimezoneOffset();
+    time = CBOR.#timeRound(CBOR.#dateCheck(time, instant), millis);
+    let offset = instant.getTimezoneOffset();
     if (!utc) {
       time -= offset * 60000;
     }
-    date = new Date();
-    date.setTime(time);
-    let dateTime = date.toISOString();
+    instant = new Date();
+    instant.setTime(time);
+    let dateTime = instant.toISOString();
     if (millis) {
       // Remove trailing zeros.
       dateTime = dateTime.substring(0, 23);
@@ -2417,8 +2417,8 @@ class CBOR {
     return CBOR.String(dateTime);
   }
 
-  static createEpochTime = function(date, millis) {
-    let time = date.getTime();
+  static createEpochTime = function(instant, millis) {
+    let time = instant.getTime();
     millis = CBOR.#millisCheck(time, millis);
     let epochSeconds = CBOR.#timeRound(CBOR.#epochCheck(time), millis) / 1000;
     return millis ? CBOR.Float(epochSeconds) : CBOR.Int(Math.floor(epochSeconds));
