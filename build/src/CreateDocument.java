@@ -237,8 +237,8 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       Get <code>DateTime</code> object.
       <div style='margin-top:0.5em'>
       This method performs a
-      <a href='#cbor.string.getstring'>getString()</a> and then uses
-      the returned string to initiate a JavaScript <kbd>Date</kbd> object.</div>
+      <a href='#cbor.string.getstring'>getString()</a>.
+      The returned string is subsequently used to initiate a JavaScript <kbd>Date</kbd> object.</div>
       <div style='margin-top:0.5em'>
       An exception will be thrown if not all of the following conditions are met:
       <ul style='padding:0;margin:0 0 0.5em 1.2em'>
@@ -260,10 +260,10 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
   static final String W_GETEPOCHTIME_DESCR = """
       Get <code>EpochTime</code> object.
       <div style='margin-top:0.5em'>
-      This method performs a
-      <a href='#cbor.int.getint53'>getInt53()</a> or 
-      <a href='#cbor.float.getfloat64'>getFloat64()</a> and then uses
-      the returned number to initiate a JavaScript <kbd>Date</kbd> object.</div>
+      Depending on current object, this method performs a
+      <a href='#cbor.int.getint53'>getInt53()</a> or a 
+      <a href='#cbor.float.getfloat64'>getFloat64()</a>.
+      The returned number is subsequently used to initiate a JavaScript <kbd>Date</kbd> object.</div>
       <div style='margin-top:0.5em'>
       An exception will be thrown if not all of the following conditions are met:
       <ul style='padding:0;margin:0 0 0.5em 1.2em'>
