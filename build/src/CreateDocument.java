@@ -782,10 +782,12 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
   static final String CREATE_TIME_P_MILLIS = """
       If <kbd><i>millis</i></kbd> is <code>true</code>,
       the milliseconds of the <kbd><i>date</i></kbd> object will be
-      featured in the created time object.
+      featured in the created time object.  Note: if the millisecond
+      part of the <kbd><i>date</i></kbd> object is zero,
+      <kbd><i>millis</i></kbd> is considered to be <code>false</code>.
       <div style='margin-top:0.5em'>If <kbd><i>millis</i></kbd> is
-      <code>false</code>, the milliseconds of the <kbd><i>date</i></kbd>
-      object will not be used but may after <i>rounding</i>,
+      <code>false</code>, the millisecond part of the <kbd><i>date</i></kbd>
+      object will not be used, but may after <i>rounding</i>,
       add a second to the created time object.</div>""";
   
   static final String CREATE_EPOCHTIME_RETURN_DESCR = """

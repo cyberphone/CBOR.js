@@ -1583,10 +1583,12 @@ Also see <a href='#time.getdatetime'>getDateTime()</a>.</div></td></tr>
 <tr><td style='text-align:center'><kbd><i>date</i></kbd></td><td style='text-align:center'><kbd>Date</kbd></td><td style='width:100%'>Time source object.</td></tr>
 <tr><td style='text-align:center'><kbd><i>millis</i></kbd></td><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'>If <kbd><i>millis</i></kbd> is <code>true</code>,
 the milliseconds of the <kbd><i>date</i></kbd> object will be
-featured in the created time object.
+featured in the created time object.  Note: if the millisecond
+part of the <kbd><i>date</i></kbd> object is zero,
+<kbd><i>millis</i></kbd> is considered to be <code>false</code>.
 <div style='margin-top:0.5em'>If <kbd><i>millis</i></kbd> is
-<code>false</code>, the milliseconds of the <kbd><i>date</i></kbd>
-object will not be used but may after <i>rounding</i>,
+<code>false</code>, the millisecond part of the <kbd><i>date</i></kbd>
+object will not be used, but may after <i>rounding</i>,
 add a second to the created time object.</div></td></tr>
 <tr><td style='text-align:center'><kbd><i>utc</i></kbd></td><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'>If <kbd><i>utc</i></kbd> is <code>true</code>,
 the <code>UTC</code> time zone (denoted by a terminating <code>Z</code>) will be used,
@@ -1623,10 +1625,12 @@ Also see <a href='#time.getepochtime'>getEpochTime()</a>.</div></td></tr>
 <tr><td style='text-align:center'><kbd><i>date</i></kbd></td><td style='text-align:center'><kbd>Date</kbd></td><td style='width:100%'>Time source object.</td></tr>
 <tr><td style='text-align:center'><kbd><i>millis</i></kbd></td><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'>If <kbd><i>millis</i></kbd> is <code>true</code>,
 the milliseconds of the <kbd><i>date</i></kbd> object will be
-featured in the created time object.
+featured in the created time object.  Note: if the millisecond
+part of the <kbd><i>date</i></kbd> object is zero,
+<kbd><i>millis</i></kbd> is considered to be <code>false</code>.
 <div style='margin-top:0.5em'>If <kbd><i>millis</i></kbd> is
-<code>false</code>, the milliseconds of the <kbd><i>date</i></kbd>
-object will not be used but may after <i>rounding</i>,
+<code>false</code>, the millisecond part of the <kbd><i>date</i></kbd>
+object will not be used, but may after <i>rounding</i>,
 add a second to the created time object.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>

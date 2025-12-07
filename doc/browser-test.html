@@ -1119,6 +1119,23 @@ oneGetEpochTime("c1fb41d9edcde1203958", 1740060548.5035, "Tagged object 1 of typ
 oneGetEpochTime("c11b0000003afff4417f", 253402300799, "Tagged object 1 of type=CBOR.Int");
 oneGetEpochTime("00", 0, "Data of type=CBOR.Int");
 
+function oneMillis(time, iso) {
+  let date = new Date();
+  date.setTime(time);
+  assertTrue("cdt1=", CBOR.createDateTime(date, true, true).getString() == iso);
+  let created = CBOR.createDateTime(date, true, false);
+  assertTrue("cdt2=", created.getDateTime().getTime() == time);
+  assertTrue("cdt3=", created.getString().length == iso.length + 5);
+  created = CBOR.createEpochTime(date, true);
+  assertTrue("cet1=", created.getEpochTime().getTime() == time);
+  assertTrue("cet2=", created instanceof CBOR.Float == iso.includes("."));
+}
+
+oneMillis(1752189147000, "2025-07-10T23:12:27Z");
+oneMillis(1752189147123, "2025-07-10T23:12:27.123Z");
+oneMillis(1752189147120, "2025-07-10T23:12:27.12Z");
+oneMillis(1752189147100, "2025-07-10T23:12:27.1Z");
+
 try {
   // Z or -+local offset needed.
   CBOR.Tag(0n, CBOR.String("2023-06-22T00:01:43"));

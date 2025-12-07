@@ -2276,6 +2276,10 @@ export default class CBOR {
     return time;
   }
 
+  static #millisCheck(time, millis) {
+    return time % 1000 ? millis : false;
+  }
+
   static #timeRound(time, millis) {
     if (!millis) {
       if (time % 1000 > 500) {
@@ -2378,7 +2382,9 @@ export default class CBOR {
   }
 
   static createDateTime = function(date, millis, utc) {
-    let time = CBOR.#timeRound(CBOR.#dateCheck(date.getTime(), date), millis);
+    let time = date.getTime();
+    millis = CBOR.#millisCheck(time, millis);
+    time = CBOR.#timeRound(CBOR.#dateCheck(time, date), millis);
     let offset = date.getTimezoneOffset();
     if (!utc) {
       time -= offset * 60000;
@@ -2386,11 +2392,19 @@ export default class CBOR {
     date = new Date();
     date.setTime(time);
     let dateTime = date.toISOString();
-    if (!millis) {
-      dateTime = dateTime.substring(0, 19) + dateTime.substring(23);
+    if (millis) {
+      // Remove trailing zeros.
+      dateTime = dateTime.substring(0, 23);
+      let i = 22;
+      while (dateTime.charAt(i) == '0') {
+        dateTime = dateTime.substring(0, i--);
+      }
+    } else {
+      dateTime = dateTime.substring(0, 19);
     }
-    if (!utc) {
-      dateTime = dateTime.substring(0, dateTime.length - 1);
+    if (utc) {
+      dateTime += 'Z';
+    } else {
       if (offset >  0) {
         dateTime += '-';
       } else {
@@ -2404,10 +2418,11 @@ export default class CBOR {
   }
 
   static createEpochTime = function(date, millis) {
-    let epochSeconds = CBOR.#timeRound(CBOR.#epochCheck(date.getTime()), millis) / 1000;
+    let time = date.getTime();
+    millis = CBOR.#millisCheck(time, millis);
+    let epochSeconds = CBOR.#timeRound(CBOR.#epochCheck(time), millis) / 1000;
     return millis ? CBOR.Float(epochSeconds) : CBOR.Int(Math.floor(epochSeconds));
   }
-
 
   static get version() {
     return "1.0.16";
