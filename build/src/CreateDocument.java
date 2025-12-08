@@ -244,7 +244,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <li>The string matches the ISO date/time format described
       in section&nbsp;5.6 of ${RFC3339}.</li>
       <li>The <i>optional</i> sub-second field (<code>.nnn</code>) features <i>less</i> than ten digits.</li>
-      <li>The date/time object is within the range:
+      <li>The date/time object is within the range
       <code style='white-space:nowrap'>"0000-01-01T00:00:00Z"</code> to
       <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</li>
       </ul>
@@ -267,7 +267,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <li style='margin-top:0'>The underlying object
       is a <a href='#wrapper.cbor.int'>CBOR.Int</a> or
       <a href='#wrapper.cbor.float'>CBOR.Float</a>.</li>
-      <li>The Epoch ${TIME} object is within the range:
+      <li>The Epoch ${TIME} object is within the range
       <span style='white-space:nowrap'><code>0</code> (<code>"1970-01-01T00:00:00Z"</code>)</span> to
       <span style='white-space:nowrap'><code>253402300799</code> (<code>"9999-12-31T23:59:59Z"</code>)</span>.</li>
       </ul>
