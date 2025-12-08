@@ -1629,9 +1629,9 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
   void rangedIntMethod(Wrapper wrapper, String method, String min, String max, String optionalText) {
     StringBuilder description = new StringBuilder(
-        "Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>")
+        "Get CBOR integer.<div style='margin-top:0.5em'>Values outside of the range <code>")
         .append(min).append(" </code>to<code> ")
-        .append(max).append("</code> cause a <a href='#main.errors'>CborException</a> to be thrown.");
+        .append(max).append("</code>, cause a <a href='#main.errors'>CborException</a> to be thrown.");
     if (optionalText != null) {
       description.append(" ").append(optionalText);
     }
@@ -1642,9 +1642,9 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
   void rangedBigIntMethod(Wrapper wrapper, String method, String min, String max) {
     StringBuilder description = new StringBuilder(
-        "Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>")
+        "Get CBOR integer.<div style='margin-top:0.5em'>Values outside of the range <code>")
         .append(min).append(" </code>to<code> ")
-        .append(max).append("</code> cause a <a href='#main.errors'>CborException</a> to be thrown.</div>");
+        .append(max).append("</code>, cause a <a href='#main.errors'>CborException</a> to be thrown.</div>");
     wrapper.addMethod(method, description.toString())
         .setReturn(DataTypes.JS_BIGINT, W_GETBIGINT_RETURN_DESCR);
   }
