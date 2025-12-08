@@ -36,8 +36,8 @@ public class CreateDocument {
   static final String W_INT_P1_DESCR = """
       Integer to be wrapped.
       <div style='margin-top:0.5em'>
-      Note that a non-integer <kbd><i>value</i></kbd>
-      causes a <a href='#main.errors'>CborException</a> to be thrown.</div>""";
+      If <kbd><i>value</i></kbd> is a non-integer (see <code>Number.isInteger()</code>),
+      a <a href='#main.errors'>CborException</a> is thrown.</div>""";
 
   // CBOR.BigInt
 
@@ -240,7 +240,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <a href='#cbor.string.getstring'>getString()</a>.
       The returned string is subsequently used to initiate a JavaScript <kbd>Date</kbd> object.</div>
       <div style='margin-top:0.5em'>
-      If not <i>all</i> of the following conditions are met, a <a href='#main.errors'>CborException</a> will be thrown:
+      If not <i>all</i> of the following conditions are met, a <a href='#main.errors'>CborException</a> is thrown:
       <ul style='padding:0;margin:0 0 0.5em 1.2em'>
       <li style='margin-top:0'>The underlying object is a
       <a href='#wrapper.cbor.string'>CBOR.String</a>.</li>
@@ -265,7 +265,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <a href='#cbor.float.getfloat64'>getFloat64()</a>.
       The returned number is subsequently used to initiate a JavaScript <kbd>Date</kbd> object.</div>
       <div style='margin-top:0.5em'>
-      If not <i>all</i> of the following conditions are met, a <a href='#main.errors'>CborException</a> will be thrown:
+      If not <i>all</i> of the following conditions are met, a <a href='#main.errors'>CborException</a> is thrown:
       <ul style='padding:0;margin:0 0 0.5em 1.2em'>
       <li style='margin-top:0'>The underlying object
       is a <a href='#wrapper.cbor.int'>CBOR.Int</a> or
@@ -526,9 +526,9 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
   static final String W_SIMPLE_DESCR = """
       Constructor.  Creates a CBOR simple value object.
-      <div style='margin-top:0.5em'>Note that <kbd><i>value</i></kbd> must be in
-      the range <code>0-23</code> or <code>32-255</code>, otherwise
-      a <a href='#main.errors'>CborException</a> will be thrown.</div>
+      <div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is not
+      within the range <code>0-23</code> or <code>32-255</code>,
+      a <a href='#main.errors'>CborException</a> is thrown.</div>
       <div style='margin-top:0.5em'>A primary use case for <code>simple</code>
       types in the range of <code>0-19</code> and <code>32-255</code>,
       is serving as a limited set of <i>unique and reserved labels</i> (keys)
@@ -608,7 +608,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
   static final String CHECK4_DESCR = """
        Check if <kbd>this</kbd> object including possible child objects has been read
        (like calling <a href='#cbor.int.getint53'>getInt53()</a>).
-       If any of the associated objects have not been read, a <a href='#main.errors'>CborException</a> will be thrown.
+       If not <i>all</i> of the associated objects have been read, a <a href='#main.errors'>CborException</a> is thrown.
        <div style='margin:0.5em 0'>
        The purpose of this method is to detect possible misunderstandings between parties
        using CBOR based protocols.  Together with the strict type checking performed
@@ -764,7 +764,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       If the <kbd><i>instant</i></kbd> object is not within
       the range <code style='white-space:nowrap'>"1970-01-01T00:00:00Z"</code> to
       <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>,
-      a <a href='#main.errors'>CborException</a> will be thrown .</div>
+      a <a href='#main.errors'>CborException</a> is thrown .</div>
       <div style='margin-top:0.5em'>
       If <kbd><i>millis</i></kbd> is <code>true</code> a <a href='#wrapper.cbor.float'>CBOR.Float</a>
       object holding seconds with a milliseconds fraction will be created,
@@ -812,7 +812,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       If the <kbd><i>instant</i></kbd> object is not within
       the range <code style='white-space:nowrap'>"0000-01-01T00:00:00Z"</code> to
       <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>,
-      a <a href='#main.errors'>CborException</a> will be thrown .</div>
+      a <a href='#main.errors'>CborException</a> is thrown .</div>
       <div style='margin-top:0.5em'>
       If <kbd><i>millis</i></kbd> is <code>true</code> the date/time string will feature
       milliseconds (<code>.nnn</code>) as well.</div>
@@ -1729,14 +1729,14 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
         .addMethod("getFloat16", W_GETFLOAT_DESCR +
             "<div style='margin-top:0.5em'>" +
-            "Note: the CBOR object must be a 16-bit <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> item, " +
-            "otherwise a <a href='#main.errors'>CborException</a> will be thrown.</div>")
+            "If the CBOR object is not a 16-bit <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> item, " +
+            "a <a href='#main.errors'>CborException</a> is thrown.</div>")
         .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
 
         .addMethod("getFloat32", W_GETFLOAT_DESCR +
             "<div style='margin-top:0.5em'>" +
-            "Note: the CBOR object must be a 16-bit or 32-bit <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> item, " +
-            "otherwise a <a href='#main.errors'>CborException</a> will be thrown.</div>")
+            "If the CBOR object is not a 16-bit or 32-bit <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> item, " +
+            "a <a href='#main.errors'>CborException</a> is thrown.</div>")
         .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
 
         .addMethod("getFloat64", W_GETFLOAT_DESCR)
