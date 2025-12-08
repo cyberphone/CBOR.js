@@ -317,7 +317,7 @@ Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getInt53()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of the range <code></code><kbd>Number.MIN_SAFE_INTEGER</kbd>&nbsp;(<code>-9007199254740991</code>)<code> </code>to<code> </code><kbd>Number.MAX_SAFE_INTEGER</kbd>&nbsp;(<code>9007199254740991</code>)<code></code>, cause a <a href='#main.errors'>CborException</a> to be thrown.  Also see <a href='#cbor.int.getbigint'>getBigInt()</a>.</div><div style='margin-top:0.5em'>Since 53-bit integers are specific to JavaScript, this method should be used with great caution in cross-platform scenarios.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code></code><kbd>Number.MIN_SAFE_INTEGER</kbd>&nbsp;(<code>-9007199254740991</code>)<code> </code>to<code> </code><kbd>Number.MAX_SAFE_INTEGER</kbd>&nbsp;(<code>9007199254740991</code>)<code></code>, a <a href='#main.errors'>CborException</a> is thrown. </div><div style='margin-top:0.5em'>Also see <a href='#cbor.int.getbigint'>getBigInt()</a>.</div><div style='margin-top:0.5em'>Since 53-bit integers are specific to JavaScript, this method should be used with caution in cross-platform scenarios.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -326,7 +326,7 @@ Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getInt8()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of the range <code>-0x80 </code>to<code> 0x7f</code>, cause a <a href='#main.errors'>CborException</a> to be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>-0x80 </code>to<code> 0x7f</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -335,7 +335,7 @@ Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getUint8()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of the range <code>0 </code>to<code> 0xff</code>, cause a <a href='#main.errors'>CborException</a> to be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>0 </code>to<code> 0xff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -344,7 +344,7 @@ Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getInt16()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of the range <code>-0x8000 </code>to<code> 0x7fff</code>, cause a <a href='#main.errors'>CborException</a> to be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>-0x8000 </code>to<code> 0x7fff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -353,7 +353,7 @@ Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getUint16()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of the range <code>0 </code>to<code> 0xffff</code>, cause a <a href='#main.errors'>CborException</a> to be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>0 </code>to<code> 0xffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -362,7 +362,7 @@ Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getInt32()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of the range <code>-0x80000000 </code>to<code> 0x7fffffff</code>, cause a <a href='#main.errors'>CborException</a> to be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>-0x80000000 </code>to<code> 0x7fffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -371,7 +371,7 @@ Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getUint32()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of the range <code>0 </code>to<code> 0xffffffff</code>, cause a <a href='#main.errors'>CborException</a> to be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>0 </code>to<code> 0xffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -380,7 +380,7 @@ Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getInt64()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of the range <code>-0x8000000000000000 </code>to<code> 0x7fffffffffffffff</code>, cause a <a href='#main.errors'>CborException</a> to be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>-0x8000000000000000 </code>to<code> 0x7fffffffffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Decoded big integer.</td></tr>
@@ -389,7 +389,7 @@ Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getUint64()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of the range <code>0 </code>to<code> 0xffffffffffffffff</code>, cause a <a href='#main.errors'>CborException</a> to be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>0 </code>to<code> 0xffffffffffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Decoded big integer.</td></tr>
@@ -424,7 +424,7 @@ Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getInt64()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of the range <code>-0x8000000000000000 </code>to<code> 0x7fffffffffffffff</code>, cause a <a href='#main.errors'>CborException</a> to be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>-0x8000000000000000 </code>to<code> 0x7fffffffffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Decoded big integer.</td></tr>
@@ -433,7 +433,7 @@ Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getUint64()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>Values outside of the range <code>0 </code>to<code> 0xffffffffffffffff</code>, cause a <a href='#main.errors'>CborException</a> to be thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>0 </code>to<code> 0xffffffffffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Decoded big integer.</td></tr>
@@ -1093,8 +1093,8 @@ See also <a href='#cbor.tag.gettagnumber'>getTagNumber()</a>.</div></td></tr>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.Simple(<i>value</i>)</kbd></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Constructor.  Creates a CBOR simple value object.
-<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is not
-within the range <code>0-23</code> or <code>32-255</code>,
+<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside
+the range <code>0-23</code> and <code>32-255</code>,
 a <a href='#main.errors'>CborException</a> is thrown.</div>
 <div style='margin-top:0.5em'>A primary use case for <code>simple</code>
 types in the range of <code>0-19</code> and <code>32-255</code>,
@@ -1125,7 +1125,7 @@ in CBOR maps.</div></td></tr>
   CBOR.js provides built-in decoders for these tags (<a href='#wrapper.cbor.tag'>CBOR.Tag</a>).
   That is, if the current object is a tag <code>0</code>, it is sufficient
   calling <a href='#time.getdatetime'>getDateTime()</a>.
-  Note that these methods are also available without the tag construct.
+  Note that these methods are also available <i>without</i> the tag construct.
   <h5 id='time.getdatetime'>3.1.&nbsp;&nbsp;getDateTime()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
@@ -1564,7 +1564,7 @@ This method creates a date/time string in the ISO format
 described in section 5.6&nbsp;of <span style='white-space:nowrap'>[<a href='https://www.rfc-editor.org/rfc/rfc3339.html#section-5.6' title='RFC3339'>RFC3339<img src='xtl.svg' alt='link'></a>]</span>. The string is subsequently wrapped
 in a <a href='#wrapper.cbor.string'>CBOR.String</a> object.</div>
 <div style='margin-top:0.5em'>
-If the <kbd><i>instant</i></kbd> object is not within
+If the <kbd><i>instant</i></kbd> object is outside
 the range <code style='white-space:nowrap'>"0000-01-01T00:00:00Z"</code> to
 <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>,
 a <a href='#main.errors'>CborException</a> is thrown.</div>
@@ -1605,7 +1605,7 @@ else the local time followed by the <code>UTC</code> offset
 <div style='margin-top:0.5em'>
 This method creates an Epoch <span style='white-space:nowrap'>[<a href='https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap04.html#tag_04_19' title='TIME'>TIME<img src='xtl.svg' alt='link'></a>]</span> time stamp.</div>
 <div style='margin-top:0.5em'>
-If the <kbd><i>instant</i></kbd> object is not within
+If the <kbd><i>instant</i></kbd> object is outside
 the range <code style='white-space:nowrap'>"1970-01-01T00:00:00Z"</code> to
 <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>,
 a <a href='#main.errors'>CborException</a> is thrown.</div>

@@ -523,8 +523,8 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
   static final String W_SIMPLE_DESCR = """
       Constructor.  Creates a CBOR simple value object.
-      <div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is not
-      within the range <code>0-23</code> or <code>32-255</code>,
+      <div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside
+      the range <code>0-23</code> and <code>32-255</code>,
       a <a href='#main.errors'>CborException</a> is thrown.</div>
       <div style='margin-top:0.5em'>A primary use case for <code>simple</code>
       types in the range of <code>0-19</code> and <code>32-255</code>,
@@ -758,7 +758,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <div style='margin-top:0.5em'>
       This method creates an Epoch ${TIME} time stamp.</div>
       <div style='margin-top:0.5em'>
-      If the <kbd><i>instant</i></kbd> object is not within
+      If the <kbd><i>instant</i></kbd> object is outside
       the range <code style='white-space:nowrap'>"1970-01-01T00:00:00Z"</code> to
       <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>,
       a <a href='#main.errors'>CborException</a> is thrown.</div>
@@ -806,7 +806,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       described in section 5.6&nbsp;of ${RFC3339}. The string is subsequently wrapped
       in a <a href='#wrapper.cbor.string'>CBOR.String</a> object.</div>
       <div style='margin-top:0.5em'>
-      If the <kbd><i>instant</i></kbd> object is not within
+      If the <kbd><i>instant</i></kbd> object is outside
       the range <code style='white-space:nowrap'>"0000-01-01T00:00:00Z"</code> to
       <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>,
       a <a href='#main.errors'>CborException</a> is thrown.</div>
@@ -1629,9 +1629,9 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
   void rangedIntMethod(Wrapper wrapper, String method, String min, String max, String optionalText) {
     StringBuilder description = new StringBuilder(
-        "Get CBOR integer.<div style='margin-top:0.5em'>Values outside of the range <code>")
+        "Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>")
         .append(min).append(" </code>to<code> ")
-        .append(max).append("</code>, cause a <a href='#main.errors'>CborException</a> to be thrown.");
+        .append(max).append("</code>, a <a href='#main.errors'>CborException</a> is thrown.");
     if (optionalText != null) {
       description.append(" ").append(optionalText);
     }
@@ -1642,9 +1642,9 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
   void rangedBigIntMethod(Wrapper wrapper, String method, String min, String max) {
     StringBuilder description = new StringBuilder(
-        "Get CBOR integer.<div style='margin-top:0.5em'>Values outside of the range <code>")
+        "Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>")
         .append(min).append(" </code>to<code> ")
-        .append(max).append("</code>, cause a <a href='#main.errors'>CborException</a> to be thrown.</div>");
+        .append(max).append("</code>, a <a href='#main.errors'>CborException</a> is thrown.</div>");
     wrapper.addMethod(method, description.toString())
         .setReturn(DataTypes.JS_BIGINT, W_GETBIGINT_RETURN_DESCR);
   }
@@ -1668,10 +1668,10 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
     rangedIntMethod(wrapper, "getInt53",
         "</code><kbd>Number.MIN_SAFE_INTEGER</kbd>&nbsp;(<code>-9007199254740991</code>)<code>",
         "</code><kbd>Number.MAX_SAFE_INTEGER</kbd>&nbsp;(<code>9007199254740991</code>)<code>",
-        " Also see <a href='#cbor.int.getbigint'>getBigInt()</a>.</div>" +
+        "</div><div style='margin-top:0.5em'>Also see <a href='#cbor.int.getbigint'>getBigInt()</a>.</div>" +
         "<div style='margin-top:0.5em'>" +
         "Since 53-bit integers are specific to JavaScript, this method " +
-        "should be used with great caution in cross-platform scenarios.");
+        "should be used with caution in cross-platform scenarios.");
 
     rangedIntMethod(wrapper, "getInt8",
         "-0x80",
