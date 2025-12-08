@@ -307,10 +307,7 @@
 Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Integer to be wrapped.
-<div style='margin-top:0.5em'>
-If <kbd><i>value</i></kbd> is a non-integer (see <code>Number.isInteger()</code>),
-a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
+<tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Integer to be wrapped.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>CBOR.Int</kbd></td><td colspan='2' style='width:100%'>Object.</td></tr>
@@ -1146,7 +1143,7 @@ If not <i>all</i> of the following conditions are met, a <a href='#main.errors'>
 <li>The string matches the ISO date/time format described
 in section&nbsp;5.6 of <span style='white-space:nowrap'>[<a href='https://www.rfc-editor.org/rfc/rfc3339.html#section-5.6' title='RFC3339'>RFC3339<img src='xtl.svg' alt='link'></a>]</span>.</li>
 <li>The <i>optional</i> sub-second field (<code>.nnn</code>) features <i>less</i> than ten digits.</li>
-<li>The date/time object is within:
+<li>The date/time object is within the range:
 <code style='white-space:nowrap'>"0000-01-01T00:00:00Z"</code> to
 <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</li>
 </ul>
@@ -1172,7 +1169,7 @@ If not <i>all</i> of the following conditions are met, a <a href='#main.errors'>
 <li style='margin-top:0'>The underlying object
 is a <a href='#wrapper.cbor.int'>CBOR.Int</a> or
 <a href='#wrapper.cbor.float'>CBOR.Float</a>.</li>
-<li>The Epoch <span style='white-space:nowrap'>[<a href='https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap04.html#tag_04_19' title='TIME'>TIME<img src='xtl.svg' alt='link'></a>]</span> object is within:
+<li>The Epoch <span style='white-space:nowrap'>[<a href='https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap04.html#tag_04_19' title='TIME'>TIME<img src='xtl.svg' alt='link'></a>]</span> object is within the range:
 <span style='white-space:nowrap'><code>0</code> (<code>"1970-01-01T00:00:00Z"</code>)</span> to
 <span style='white-space:nowrap'><code>253402300799</code> (<code>"9999-12-31T23:59:59Z"</code>)</span>.</li>
 </ul>
@@ -1570,7 +1567,7 @@ in a <a href='#wrapper.cbor.string'>CBOR.String</a> object.</div>
 If the <kbd><i>instant</i></kbd> object is not within
 the range <code style='white-space:nowrap'>"0000-01-01T00:00:00Z"</code> to
 <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>,
-a <a href='#main.errors'>CborException</a> is thrown .</div>
+a <a href='#main.errors'>CborException</a> is thrown.</div>
 <div style='margin-top:0.5em'>
 If <kbd><i>millis</i></kbd> is <code>true</code> the date/time string will feature
 milliseconds (<code>.nnn</code>) as well.</div>
@@ -1611,7 +1608,7 @@ This method creates an Epoch <span style='white-space:nowrap'>[<a href='https://
 If the <kbd><i>instant</i></kbd> object is not within
 the range <code style='white-space:nowrap'>"1970-01-01T00:00:00Z"</code> to
 <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>,
-a <a href='#main.errors'>CborException</a> is thrown .</div>
+a <a href='#main.errors'>CborException</a> is thrown.</div>
 <div style='margin-top:0.5em'>
 If <kbd><i>millis</i></kbd> is <code>true</code> a <a href='#wrapper.cbor.float'>CBOR.Float</a>
 object holding seconds with a milliseconds fraction will be created,
@@ -1654,6 +1651,11 @@ add a second to the created time object.</div></td></tr>
   <code>9007199254740991</code> (<code>2<sup>53</sup>-1</code>), must
   for such objects turn to <kbd>BigInt</kbd>,
   otherwise run-time errors may occur.
+  <p>
+  Note that in all places in the <code>CBOR.js</code> API where an integer
+  in the form of a JavaScript <kbd>Number</kbd> is expected, <kbd>Number.isInteger(<i>value</i>)</kbd>
+  must be <code>true</code>, else a <a href='#main.errors'>CborException</a> will be thrown.
+  </p>
   <p>
     Note that selecting between <a href='#wrapper.cbor.bigint'>CBOR.BigInt</a>
     or <a href='#wrapper.cbor.int'>CBOR.Int</a> only affects the maximum
@@ -1936,6 +1938,6 @@ here using the result of the previous encoding example:
 
   API version: 1.0.16.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-12-05
+  Document version: 2025-12-08
 </body>
 </html>

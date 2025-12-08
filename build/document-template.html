@@ -186,6 +186,11 @@
   for such objects turn to <kbd>BigInt</kbd>,
   otherwise run-time errors may occur.
   <p>
+  Note that in all places in the <code>CBOR.js</code> API where an integer
+  in the form of a JavaScript <kbd>Number</kbd> is expected, <kbd>Number.isInteger(<i>value</i>)</kbd>
+  must be <code>true</code>, else a <a href='#main.errors'>CborException</a> will be thrown.
+  </p>
+  <p>
     Note that selecting between <a href='#wrapper.cbor.bigint'>CBOR.BigInt</a>
     or <a href='#wrapper.cbor.int'>CBOR.Int</a> only affects the maximum
     numeric range with respect to JavaScript limits, not the CBOR encoding.
@@ -268,6 +273,6 @@
   ${VERSION_INFO}
   API version: 1.0.16.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-12-05
+  Document version: 2025-12-08
 </body>
 </html>

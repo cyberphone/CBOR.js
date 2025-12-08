@@ -34,10 +34,7 @@ public class CreateDocument {
       Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
 
   static final String W_INT_P1_DESCR = """
-      Integer to be wrapped.
-      <div style='margin-top:0.5em'>
-      If <kbd><i>value</i></kbd> is a non-integer (see <code>Number.isInteger()</code>),
-      a <a href='#main.errors'>CborException</a> is thrown.</div>""";
+      Integer to be wrapped.""";
 
   // CBOR.BigInt
 
@@ -247,7 +244,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <li>The string matches the ISO date/time format described
       in section&nbsp;5.6 of ${RFC3339}.</li>
       <li>The <i>optional</i> sub-second field (<code>.nnn</code>) features <i>less</i> than ten digits.</li>
-      <li>The date/time object is within:
+      <li>The date/time object is within the range:
       <code style='white-space:nowrap'>"0000-01-01T00:00:00Z"</code> to
       <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</li>
       </ul>
@@ -270,7 +267,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <li style='margin-top:0'>The underlying object
       is a <a href='#wrapper.cbor.int'>CBOR.Int</a> or
       <a href='#wrapper.cbor.float'>CBOR.Float</a>.</li>
-      <li>The Epoch ${TIME} object is within:
+      <li>The Epoch ${TIME} object is within the range:
       <span style='white-space:nowrap'><code>0</code> (<code>"1970-01-01T00:00:00Z"</code>)</span> to
       <span style='white-space:nowrap'><code>253402300799</code> (<code>"9999-12-31T23:59:59Z"</code>)</span>.</li>
       </ul>
@@ -764,7 +761,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       If the <kbd><i>instant</i></kbd> object is not within
       the range <code style='white-space:nowrap'>"1970-01-01T00:00:00Z"</code> to
       <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>,
-      a <a href='#main.errors'>CborException</a> is thrown .</div>
+      a <a href='#main.errors'>CborException</a> is thrown.</div>
       <div style='margin-top:0.5em'>
       If <kbd><i>millis</i></kbd> is <code>true</code> a <a href='#wrapper.cbor.float'>CBOR.Float</a>
       object holding seconds with a milliseconds fraction will be created,
@@ -812,7 +809,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       If the <kbd><i>instant</i></kbd> object is not within
       the range <code style='white-space:nowrap'>"0000-01-01T00:00:00Z"</code> to
       <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>,
-      a <a href='#main.errors'>CborException</a> is thrown .</div>
+      a <a href='#main.errors'>CborException</a> is thrown.</div>
       <div style='margin-top:0.5em'>
       If <kbd><i>millis</i></kbd> is <code>true</code> the date/time string will feature
       milliseconds (<code>.nnn</code>) as well.</div>
