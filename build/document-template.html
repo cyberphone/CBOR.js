@@ -142,7 +142,7 @@
   <p>
     The wrapper concept adds strict <i>type checking</i> to the API.
     That is, if an application expects a CBOR integer and calls 
-    <a href='#cbor.int.getint32'>getInt32()</a>, an exception will
+    <a href='#cbor.int.getint32'>getInt32()</a>, a <a href='#main.errors'>CborException</a> will
     be thrown if the referenced object is not an instance of
     <a href='#wrapper.cbor.int'>CBOR.Int</a> or if the CBOR integer
     is out of range for signed 32-bit objects.
@@ -262,6 +262,9 @@
   ${EXAMPLES_DN_DEC}
   ${EXAMPLES_SEQ_ENC}
   ${EXAMPLES_SEQ_DEC}
+  ${ERROR_HANDLING}
+  Encoding and decoding errors throw <code>CborException</code>,
+  derived from the JavaScript <code>Error</code> object.
   ${VERSION_INFO}
   API version: 1.0.16.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>

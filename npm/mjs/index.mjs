@@ -272,7 +272,7 @@ export default class CBOR {
 
   }
 
-  static CborError = class extends Error {
+  static CborException = class extends Error {
     constructor(message) {
       super(message);
     }
@@ -282,7 +282,7 @@ export default class CBOR {
     if (message.length > 100) {
       message = message.substring(0, 100) + ' ...';
     }
-    throw new CBOR.CborError(message);
+    throw new CBOR.CborException(message);
   }
 
   static #MT_UNSIGNED     = 0x00;

@@ -37,7 +37,7 @@ public class CreateDocument {
       Integer to be wrapped.
       <div style='margin-top:0.5em'>
       Note that a non-integer <kbd><i>value</i></kbd>
-      causes an exception to be thrown.</div>""";
+      causes a <a href='#main.errors'>CborException</a> to be thrown.</div>""";
 
   // CBOR.BigInt
 
@@ -240,7 +240,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <a href='#cbor.string.getstring'>getString()</a>.
       The returned string is subsequently used to initiate a JavaScript <kbd>Date</kbd> object.</div>
       <div style='margin-top:0.5em'>
-      An exception will be thrown if not all of the following conditions are met:
+      If not <i>all</i> of the following conditions are met, a <a href='#main.errors'>CborException</a> will be thrown:
       <ul style='padding:0;margin:0 0 0.5em 1.2em'>
       <li style='margin-top:0'>The underlying object is a
       <a href='#wrapper.cbor.string'>CBOR.String</a>.</li>
@@ -265,7 +265,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <a href='#cbor.float.getfloat64'>getFloat64()</a>.
       The returned number is subsequently used to initiate a JavaScript <kbd>Date</kbd> object.</div>
       <div style='margin-top:0.5em'>
-      An exception will be thrown if not all of the following conditions are met:
+      If not <i>all</i> of the following conditions are met, a <a href='#main.errors'>CborException</a> will be thrown:
       <ul style='padding:0;margin:0 0 0.5em 1.2em'>
       <li style='margin-top:0'>The underlying object
       is a <a href='#wrapper.cbor.int'>CBOR.Int</a> or
@@ -378,14 +378,14 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
   static final String W_MAP_SET_DESCR = """
       Set map entry.
-      If <kbd><i>key</i></kbd> is already defined, an exception is thrown.
+      If <kbd><i>key</i></kbd> is already defined, a <a href='#main.errors'>CborException</a> is thrown.
       <div style='margin-top:0.5em'>Note: <kbd><i>key</i></kbd> order is of no importance since
       <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>
       performs the required map sorting <i>automatically</i>.
       Also see <a href='#cbor.map.setsortingmode'>setSortingMode()</a>.</div>
       <div style='margin-top:0.5em'>Note: this implementation
       presumes that <kbd>key</kbd> objects are <i>immutable</i>.
-      That is, the following code will throw an exception:</div>
+      That is, the following code will throw a <a href='#main.errors'>CborException</a>:</div>
       <div style='margin:0.3em 0 0 1.2em'><code>let key = CBOR.Array();<br>
       let map = CBOR.Map().set(key, CBOR.Int(5));<br>
       key.add(CBOR.String("data"));  // Mutating key object</code></div>
@@ -415,7 +415,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
   static final String W_MAP_UPDATE_P3_DESCR = """
       If <kbd><i>existing</i></kbd> is <code>true</code>,
-      <kbd><i>key</i></kbd> must be defined, else an exception is thrown.
+      <kbd><i>key</i></kbd> must be defined, else a <a href='#main.errors'>CborException</a> is thrown.
       <div style='margin-top:0.5em'>If <kbd><i>existing</i></kbd> is <code>false</code>,
       a <code>map</code> entry will be created for <kbd><i>key</i></kbd> if not already defined.</div>""";
 
@@ -424,14 +424,14 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
   static final String W_MAP_GET_DESCR = """
       Get map entry.
-      If <kbd><i>key</i></kbd> is undefined, an exception is thrown.""";;
+      If <kbd><i>key</i></kbd> is undefined, a <a href='#main.errors'>CborException</a> is thrown.""";;
 
   static final String W_MAP_GET_RETURN_DESCR = """
       Retrieved object.""";
 
   static final String W_MAP_REMOVE_DESCR = """
       Remove map entry.
-      If <kbd><i>key</i></kbd> is undefined, an exception is thrown.""";
+      If <kbd><i>key</i></kbd> is undefined, a <a href='#main.errors'>CborException</a> is thrown.""";
 
   static final String W_MAP_REMOVE_RETURN_DESCR = """
       Removed object (value).""";
@@ -473,7 +473,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       If <code>true</code>,
       keys must be provided in (CBOR wise) ascending order
       which can improve performance for maps having a huge number of keys.
-      Improper key order causes an exception to be thrown.
+      Improper key order causes a <a href='#main.errors'>CborException</a> to be thrown.
       By default, map keys are sorted <i>internally</i>.""";
 
   static final String W_MAP_PROP_DESCR = """
@@ -527,8 +527,8 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
   static final String W_SIMPLE_DESCR = """
       Constructor.  Creates a CBOR simple value object.
       <div style='margin-top:0.5em'>Note that <kbd><i>value</i></kbd> must be in
-      the range <code>0-23</code> or <code>32-255</code>, otherwise an
-      exception will be thrown.</div>
+      the range <code>0-23</code> or <code>32-255</code>, otherwise
+      a <a href='#main.errors'>CborException</a> will be thrown.</div>
       <div style='margin-top:0.5em'>A primary use case for <code>simple</code>
       types in the range of <code>0-19</code> and <code>32-255</code>,
       is serving as a limited set of <i>unique and reserved labels</i> (keys)
@@ -608,7 +608,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
   static final String CHECK4_DESCR = """
        Check if <kbd>this</kbd> object including possible child objects has been read
        (like calling <a href='#cbor.int.getint53'>getInt53()</a>).
-       If any of the associated objects have not been read, an exception will be thrown.
+       If any of the associated objects have not been read, a <a href='#main.errors'>CborException</a> will be thrown.
        <div style='margin:0.5em 0'>
        The purpose of this method is to detect possible misunderstandings between parties
        using CBOR based protocols.  Together with the strict type checking performed
@@ -761,9 +761,10 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <div style='margin-top:0.5em'>
       This method creates an Epoch ${TIME} time stamp.</div>
       <div style='margin-top:0.5em'>
-      An exception will be thrown if the <kbd><i>instant</i></kbd> object is not within
+      If the <kbd><i>instant</i></kbd> object is not within
       the range <code style='white-space:nowrap'>"1970-01-01T00:00:00Z"</code> to
-      <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</div>
+      <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>,
+      a <a href='#main.errors'>CborException</a> will be thrown .</div>
       <div style='margin-top:0.5em'>
       If <kbd><i>millis</i></kbd> is <code>true</code> a <a href='#wrapper.cbor.float'>CBOR.Float</a>
       object holding seconds with a milliseconds fraction will be created,
@@ -808,9 +809,10 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       described in section 5.6&nbsp;of ${RFC3339}. The string is subsequently wrapped
       in a <a href='#wrapper.cbor.string'>CBOR.String</a> object.</div>
       <div style='margin-top:0.5em'>
-      An exception will be thrown if the <kbd><i>instant</i></kbd> object is not within
+      If the <kbd><i>instant</i></kbd> object is not within
       the range <code style='white-space:nowrap'>"0000-01-01T00:00:00Z"</code> to
-      <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</div>
+      <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>,
+      a <a href='#main.errors'>CborException</a> will be thrown .</div>
       <div style='margin-top:0.5em'>
       If <kbd><i>millis</i></kbd> is <code>true</code> the date/time string will feature
       milliseconds (<code>.nnn</code>) as well.</div>
@@ -831,7 +833,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <div style='margin-top:0.5em'>This method is equivalent to:</div>
       <div style='margin:0.3em 0 0.5em 1.2em'>
       <code style='white-space:nowrap'>CBOR.initDecoder(<i>cbor</i>, 0).decodeWithOptions()</code></div>
-      Unsupported or malformed CBOR data cause an exception to be thrown.""";
+      Unsupported or malformed CBOR data cause a <a href='#main.errors'>CborException</a> to be thrown.""";
 
   static final String DECODE_P1_DESCR = """
       CBOR binary data <i>holding exactly one CBOR object</i>.""";
@@ -882,7 +884,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       rules.
       <div>The <kbd>CBOR.LENIENT_MAP_DECODING</kbd> option makes the decoder
       accept CBOR maps with arbitrary key ordering.
-      Note that duplicate keys still cause an exception to be thrown.</div></div>
+      Note that duplicate keys still cause a <a href='#main.errors'>CborException</a> to be thrown.</div></div>
       <div id='CBOR.LENIENT_NUMBER_DECODING' style='margin-top:0.8em'>
       <kbd>CBOR.LENIENT_NUMBER_DECODING</kbd>:</div>
       <div style='padding:0.2em 0 0 1.2em'>By default, the decoder requires
@@ -901,7 +903,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
   static final String DECODEEXT_DESCR = """
       Decode CBOR data with options.
       <div style='margin-top:0.5em'>
-      Unsupported or malformed CBOR data cause an exception to be thrown.</div>""";
+      Unsupported or malformed CBOR data cause a <a href='#main.errors'>CborException</a> to be thrown.</div>""";
 
   static final String DECODEEXT_RETURN_DESCR = """
       Object or <code>null</code> (for EOF sequences only).""";
@@ -978,6 +980,8 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
   static final String EXAMPLES_SEQ_DEC = "${EXAMPLES_SEQ_DEC}";
 
   static final String EXAMPLES_VARIANT = "${EXAMPLES_VARIANT}";
+
+  static final String ERROR_HANDLING = "${ERROR_HANDLING}";
 
   static final String VERSION_INFO = "${VERSION_INFO}";
 
@@ -1560,7 +1564,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
               let i = intOrString.getInt32();
               // Do something with i...
             } else {
-              // This line will throw an exception if the object is not a CBOR.String
+              // Throws a CborException if the object is not a CBOR.String
               let s = intOrString.getString();
               // Do something with s...
             }
@@ -1630,7 +1634,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
     StringBuilder description = new StringBuilder(
         "Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>")
         .append(min).append(" </code>to<code> ")
-        .append(max).append("</code> cause an exception to be thrown.");
+        .append(max).append("</code> cause a <a href='#main.errors'>CborException</a> to be thrown.");
     if (optionalText != null) {
       description.append(" ").append(optionalText);
     }
@@ -1643,7 +1647,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
     StringBuilder description = new StringBuilder(
         "Get CBOR integer.<div style='margin-top:0.5em'>Values outside of <code>")
         .append(min).append(" </code>to<code> ")
-        .append(max).append("</code> cause an exception to be thrown.</div>");
+        .append(max).append("</code> cause a <a href='#main.errors'>CborException</a> to be thrown.</div>");
     wrapper.addMethod(method, description.toString())
         .setReturn(DataTypes.JS_BIGINT, W_GETBIGINT_RETURN_DESCR);
   }
@@ -1726,13 +1730,13 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
         .addMethod("getFloat16", W_GETFLOAT_DESCR +
             "<div style='margin-top:0.5em'>" +
             "Note: the CBOR object must be a 16-bit <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> item, " +
-            "otherwise an exception will be thrown.</div>")
+            "otherwise a <a href='#main.errors'>CborException</a> will be thrown.</div>")
         .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
 
         .addMethod("getFloat32", W_GETFLOAT_DESCR +
             "<div style='margin-top:0.5em'>" +
             "Note: the CBOR object must be a 16-bit or 32-bit <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> item, " +
-            "otherwise an exception will be thrown.</div>")
+            "otherwise a <a href='#main.errors'>CborException</a> will be thrown.</div>")
         .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
 
         .addMethod("getFloat64", W_GETFLOAT_DESCR)
@@ -2107,6 +2111,9 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
     replace(EXAMPLES_SEQ_DEC, printSubHeader("examples.seq-decoding", "Decode CBOR Sequence") +
         exampleSeqDecode());
     outline.undent();
+    outline.increment();
+
+    replace(ERROR_HANDLING, printMainHeader("errors", "Error Handling"));
     outline.increment();
 
     replace(VERSION_INFO, printMainHeader("version", "Version"));
