@@ -242,12 +242,12 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <div style='margin-top:0.5em'>
       An exception will be thrown if not all of the following conditions are met:
       <ul style='padding:0;margin:0 0 0.5em 1.2em'>
-      <li style='margin-top:0'>the underlying object is a
+      <li style='margin-top:0'>The underlying object is a
       <a href='#wrapper.cbor.string'>CBOR.String</a>.</li>
-      <li>the string matches the ISO date/time format described
+      <li>The string matches the ISO date/time format described
       in section&nbsp;5.6 of ${RFC3339}.</li>
-      <li>the <i>optional</i> sub-second field (<code>.nnn</code>) features <i>less</i> than ten digits.</li>
-      <li>the date/time object is within:
+      <li>The <i>optional</i> sub-second field (<code>.nnn</code>) features <i>less</i> than ten digits.</li>
+      <li>The date/time object is within:
       <code style='white-space:nowrap'>"0000-01-01T00:00:00Z"</code> to
       <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</li>
       </ul>
@@ -267,10 +267,10 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <div style='margin-top:0.5em'>
       An exception will be thrown if not all of the following conditions are met:
       <ul style='padding:0;margin:0 0 0.5em 1.2em'>
-      <li style='margin-top:0'>the underlying object
+      <li style='margin-top:0'>The underlying object
       is a <a href='#wrapper.cbor.int'>CBOR.Int</a> or
       <a href='#wrapper.cbor.float'>CBOR.Float</a>.</li>
-      <li>the Epoch ${TIME} object is within:
+      <li>The Epoch ${TIME} object is within:
       <span style='white-space:nowrap'><code>0</code> (<code>"1970-01-01T00:00:00Z"</code>)</span> to
       <span style='white-space:nowrap'><code>253402300799</code> (<code>"9999-12-31T23:59:59Z"</code>)</span>.</li>
       </ul>
