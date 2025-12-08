@@ -260,7 +260,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
   static final String W_GETEPOCHTIME_DESCR = """
       Get <code>EpochTime</code> object.
       <div style='margin-top:0.5em'>
-      Depending on current object, this method performs a
+      Depending on the type of the current object, this method performs a
       <a href='#cbor.int.getint53'>getInt53()</a> or a 
       <a href='#cbor.float.getfloat64'>getFloat64()</a>.
       The returned number is subsequently used to initiate a JavaScript <kbd>Date</kbd> object.</div>
