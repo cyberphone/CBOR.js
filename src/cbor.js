@@ -84,10 +84,10 @@ class CBOR {
     }
 
     getEpochTime = function() {
-      let time = CBOR.#epochCheck(Math.floor(
+      let epochMillis = CBOR.#epochCheck(Math.floor(
         (this instanceof CBOR.Int ? this.getInt53() : this.getFloat64()) * 1000));
       let epochTime = new Date();
-      epochTime.setTime(time);
+      epochTime.setTime(epochMillis);
       return epochTime;
     }
 
@@ -2418,9 +2418,9 @@ class CBOR {
   }
 
   static createEpochTime = function(instant, millis) {
-    let time = instant.getTime();
-    millis = CBOR.#millisCheck(time, millis);
-    let epochSeconds = CBOR.#timeRound(CBOR.#epochCheck(time), millis) / 1000;
+    let epochMillis = CBOR.#epochCheck(instant.getTime());
+    millis = CBOR.#millisCheck(epochMillis, millis);
+    let epochSeconds = CBOR.#timeRound(epochMillis, millis) / 1000;
     return millis ? CBOR.Float(epochSeconds) : CBOR.Int(Math.floor(epochSeconds));
   }
 
