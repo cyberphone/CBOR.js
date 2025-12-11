@@ -84,10 +84,10 @@ export default class CBOR {
     }
 
     getEpochTime = function() {
-      let epochMillis = CBOR.#epochCheck(Math.floor(
-        (this instanceof CBOR.Int ? this.getInt53() : this.getFloat64()) * 1000));
+      let epochMillis =
+        CBOR.#epochCheck((this instanceof CBOR.Int ? this.getInt53() : this.getFloat64()) * 1000);
       let epochTime = new Date();
-      epochTime.setTime(epochMillis);
+      epochTime.setTime(Math.floor(epochMillis + 0.5));
       return epochTime;
     }
 
@@ -2263,7 +2263,8 @@ export default class CBOR {
   }
 
   static #epochCheck(epochMillis) {
-    if (epochMillis < 0 || epochMillis > 253402300799000 /* "9999-12-31T23:59:59Z" */) {
+    if (!Number.isFinite(epochMillis) ||
+        epochMillis < 0 || epochMillis > 253402300799000 /* "9999-12-31T23:59:59Z" */) {
       CBOR.#error("Epoch out of range: " + epochMillis);
     }
     return epochMillis;
@@ -2282,9 +2283,17 @@ export default class CBOR {
 
   static #timeRound(time, millis) {
     if (!millis) {
-      if (time % 1000 > 500) {
-        time += 1000;
+      let reminder = time % 1000;
+      if (time < 0) {
+        if (reminder < -500) {
+          time -= 1000;
+        }
+      } else {
+        if (reminder >= 500) {
+          time += 1000;
+        }
       }
+      time -= reminder;
     }
     return time;
   }

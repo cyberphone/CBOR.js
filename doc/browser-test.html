@@ -1066,8 +1066,22 @@ function badDate(hexBor, err) {
   }
 }
 
+function truncateDateTime(iso, millis, seconds) {
+  let dateTime = CBOR.String(iso).getDateTime();
+  assertTrue("trdt1", dateTime.getTime() == millis);
+  assertTrue("trdt2", CBOR.createDateTime(dateTime, true, false).getDateTime().getTime() == millis);
+  assertTrue("trdt3", CBOR.createDateTime(dateTime, false, false).getDateTime().getTime() == seconds * 1000);
+}
+
+function truncateEpochTime(float, millis, seconds) {
+  let epoch = CBOR.Float(float).getEpochTime();
+  assertTrue("tr1", epoch.getTime() == millis);
+  assertTrue("tr2", CBOR.createEpochTime(epoch, true).getEpochTime().getTime() == millis);
+  assertTrue("tr3", CBOR.createEpochTime(epoch, false).getEpochTime().getTime() == seconds * 1000);
+}
+
 function oneGetEpochTime(hexBor, epoch, err) {
-  let time = Math.floor(epoch * 1000);
+  let time = Math.floor((epoch * 1000) + 0.5);
   let instant = CBOR.decode(CBOR.fromHex(hexBor)).getEpochTime();
   assertTrue("epoch1", instant.getTime() == time);
   let cborObject = CBOR.createEpochTime(instant, time % 1000);
@@ -1114,8 +1128,8 @@ oneGetEpochTime("1A67B73784", 1740060548, "Data of type=CBOR.Int");
 oneGetEpochTime("FB41D9EDCDE113645A", 1740060548.303, "Data of type=CBOR.Float with value=174");
 oneGetEpochTime("c1FB41D9EDCDE113645A", 1740060548.303, "Tagged object 1 of type=CBOR.Float");
 // Next: Truncates!
-oneGetEpochTime("c1FB41D9EDCDE113645A", 1740060548.3035, "Tagged object 1 of type=CBOR.Float");
-oneGetEpochTime("c1fb41d9edcde1203958", 1740060548.5035, "Tagged object 1 of type=CBOR.Float");
+// oneGetEpochTime("c1fb41d9edcde1136c8b", 1740060548.3035, "Tagged object 1 of type=CBOR.Float");
+// oneGetEpochTime("c1fb41d9edcde1204189", 1740060548.5045, "Tagged object 1 of type=CBOR.Float");
 oneGetEpochTime("c11b0000003afff4417f", 253402300799, "Tagged object 1 of type=CBOR.Int");
 oneGetEpochTime("00", 0, "Data of type=CBOR.Int");
 
@@ -1135,6 +1149,29 @@ oneMillis(1752189147000, "2025-07-10T23:12:27Z");
 oneMillis(1752189147123, "2025-07-10T23:12:27.123Z");
 oneMillis(1752189147120, "2025-07-10T23:12:27.12Z");
 oneMillis(1752189147100, "2025-07-10T23:12:27.1Z");
+
+truncateEpochTime(1740060548.000, 1740060548000, 1740060548);
+truncateEpochTime(0.0, 0, 0);
+truncateEpochTime(1740060548.0004, 1740060548000, 1740060548);
+truncateEpochTime(1740060548.0005, 1740060548001, 1740060548);
+
+truncateDateTime("2025-07-10T23:12:27Z", 1752189147000, 1752189147);
+truncateDateTime("2025-07-10T23:12:27.1Z", 1752189147100, 1752189147);
+truncateDateTime("2025-07-10T23:12:27.12Z", 1752189147120, 1752189147);
+truncateDateTime("2025-07-10T23:12:27.123Z", 1752189147123, 1752189147);
+truncateDateTime("2025-07-10T23:12:27.1233Z", 1752189147123, 1752189147);
+truncateDateTime("2025-07-10T23:12:27.1235Z", 1752189147123, 1752189147);
+truncateDateTime("2025-07-10T23:12:27.523Z", 1752189147523, 1752189148);
+
+truncateDateTime("1925-07-10T23:12:27Z", -1403570853000, -1403570853);
+truncateDateTime("1925-07-10T23:12:27.1Z", -1403570852900, -1403570853);
+truncateDateTime("1925-07-10T23:12:27.12Z", -1403570852880, -1403570853);
+truncateDateTime("1925-07-10T23:12:27.123Z", -1403570852877, -1403570853);
+truncateDateTime("1925-07-10T23:12:27.1233Z", -1403570852877, -1403570853);
+truncateDateTime("1925-07-10T23:12:27.1235Z", -1403570852877, -1403570853);
+truncateDateTime("1925-07-10T23:12:27.499Z", -1403570852501, -1403570853);
+truncateDateTime("1925-07-10T23:12:27.500Z", -1403570852500, -1403570852);
+truncateDateTime("1925-07-10T23:12:27.700Z", -1403570852300, -1403570852);
 
 try {
   // Z or -+local offset needed.

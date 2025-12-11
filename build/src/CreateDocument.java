@@ -759,8 +759,9 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       This method creates an Epoch ${TIME} time stamp.</div>
       <div style='margin-top:0.5em'>
       If the <kbd><i>instant</i></kbd> object is outside
-      the range <code style='white-space:nowrap'>"1970-01-01T00:00:00Z"</code> to
-      <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>,
+      the range
+      <span style='white-space:nowrap'><code>0</code> (<code>"1970-01-01T00:00:00Z"</code>)</span> to
+      <span style='white-space:nowrap'><code>253402300799</code> (<code>"9999-12-31T23:59:59Z"</code>)</span>,
       a <a href='#main.errors'>CborException</a> is thrown.</div>
       <div style='margin-top:0.5em'>
       If <kbd><i>millis</i></kbd> is <code>true</code> a <a href='#wrapper.cbor.float'>CBOR.Float</a>
