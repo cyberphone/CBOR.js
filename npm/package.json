@@ -5,9 +5,13 @@
   "homepage": "https://github.com/cyberphone/CBOR.js#cborjs",
   "repository": {
     "type": "git",
-    "url": "https://github.com/cyberphone/CBOR.js/tree/main/npm"
+    "url": "git+https://github.com/cyberphone/CBOR.js.git#main"
   },
-  "keywords": [ "CBOR", "RFC8949", "Deterministic, API" ],
+  "keywords": [
+    "CBOR",
+    "RFC8949",
+    "Deterministic, API"
+  ],
   "exports": {
     ".": {
       "import": "./mjs/index.mjs",
