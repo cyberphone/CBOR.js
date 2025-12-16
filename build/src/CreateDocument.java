@@ -235,7 +235,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <div style='margin-top:0.5em'>
       This method performs a
       <a href='#cbor.string.getstring'>getString()</a>.
-      The returned string is subsequently used to initiate a JavaScript <kbd>Date</kbd> object.</div>
+      The returned string is subsequently used for initiating a JavaScript <kbd>Date</kbd> object.</div>
       <div style='margin-top:0.5em'>
       If not <i>all</i> of the following conditions are met, a <a href='#main.errors'>CborException</a> is thrown:
       <ul style='padding:0;margin:0 0 0.5em 1.2em'>
@@ -260,7 +260,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       Depending on the type of the current object, this method performs a
       <a href='#cbor.int.getint53'>getInt53()</a> or a 
       <a href='#cbor.float.getfloat64'>getFloat64()</a>.
-      The returned number is subsequently used to initiate a JavaScript <kbd>Date</kbd> object.</div>
+      The returned number is subsequently used for initiating a JavaScript <kbd>Date</kbd> object.</div>
       <div style='margin-top:0.5em'>
       If not <i>all</i> of the following conditions are met, a <a href='#main.errors'>CborException</a> is thrown:
       <ul style='padding:0;margin:0 0 0.5em 1.2em'>
