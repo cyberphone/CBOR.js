@@ -86,6 +86,34 @@ public class CreateDocument {
       <a href='#wrapper.cbor.nonfinite'>CBOR.NonFinite</a>
       object.""";
 
+  static final String W_CREFLOAT16_DESCR = """
+      Constructor.  Creates a CBOR <code>float</code> object,
+      where the value is converted into a <span>16-bit</span>
+      <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> object.
+      <div style='margin-top:0.5em'>
+      If the value (after rounding), is too large, a
+      <a href='#main.errors'>CborException</a> is thrown.</div>""";
+
+  static final String W_CREFLOAT16_P1_DESCR = """
+      Floating-point number to be wrapped.""";
+
+  static final String W_CREFLOAT16_RETURN_DESCR = """
+      Instantiated <a href='#wrapper.cbor.float'>CBOR.Float</a> object.""";
+
+  static final String W_CREFLOAT32_DESCR = """
+      Constructor.  Creates a CBOR <code>float</code> object,
+      where the value is converted into a <span>32-bit</span> or <span>16-bit</span>
+      <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> object.
+      <div style='margin-top:0.5em'>
+      If the value (after rounding), is too large, a
+      <a href='#main.errors'>CborException</a> is thrown.</div>""";
+
+  static final String W_CREFLOAT32_P1_DESCR = """
+      Floating-point number to be wrapped.""";
+
+  static final String W_CREFLOAT32_RETURN_DESCR = """
+      Instantiated <a href='#wrapper.cbor.float'>CBOR.Float</a> object.""";
+
   static final String W_GETFLOAT_DESCR = """
       Get CBOR floating-point value.""";
 
@@ -237,7 +265,8 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <a href='#cbor.string.getstring'>getString()</a>.
       The returned string is subsequently used for initiating a JavaScript <kbd>Date</kbd> object.</div>
       <div style='margin-top:0.5em'>
-      If not <i>all</i> of the following conditions are met, a <a href='#main.errors'>CborException</a> is thrown:
+      If not <i>all</i> of the following conditions are met, a 
+      <a href='#main.errors'>CborException</a> is thrown:
       <ul style='padding:0;margin:0 0 0.5em 1.2em'>
       <li style='margin-top:0'>The underlying object is a
       <a href='#wrapper.cbor.string'>CBOR.String</a>.</li>
@@ -1746,6 +1775,14 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
         .addMethod("getExtendedFloat64", W_GETEXTFLOAT_DESCR)
         .setReturn(DataTypes.JS_NUMBER, W_GETEXTFLOAT_RETURN_DESCR)
+        
+        .addMethod("CBOR.Float.createFloat16", W_CREFLOAT16_DESCR)
+        .addParameter("value", DataTypes.JS_NUMBER, W_CREFLOAT16_P1_DESCR)
+        .setReturn(DataTypes.CBOR_FLOAT, W_CREFLOAT16_RETURN_DESCR)
+
+        .addMethod("CBOR.Float.createFloat32", W_CREFLOAT32_DESCR)
+        .addParameter("value", DataTypes.JS_NUMBER, W_CREFLOAT32_P1_DESCR)
+        .setReturn(DataTypes.CBOR_FLOAT, W_CREFLOAT32_RETURN_DESCR)
 
         .setProperty("length", DataTypes.JS_NUMBER, W_FLOAT_PROP_DESCR);
 
