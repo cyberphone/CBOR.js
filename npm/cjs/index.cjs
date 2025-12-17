@@ -523,6 +523,14 @@ class CBOR {
       }
       return nf;
     }
+
+    static createFloat32(value) {
+      return CBOR.Float(CBOR.#reduce32Check(value));
+    }
+
+    static createFloat16(value) {
+      return CBOR.Float(CBOR.#overflowCheck(Math.f16round(CBOR.#reduce32Check(value))));
+    }
   }
 
 ///////////////////////////
@@ -2131,6 +2139,21 @@ class CBOR {
     } else {
       CBOR.#error("Invalid integer: " + value.toString());
     }
+  }
+
+  static #overflowCheck(value) {
+    if (!Number.isFinite(value)) {
+      CBOR.#error("Value out of range for this floating-point type");
+    }
+    return value;
+  }
+
+  static #reduce32Check(value) {
+    value = CBOR.#typeCheck(value, 'number');
+    if (!Number.isFinite(value)) {
+      CBOR.#error("Not permitted: 'NaN/Infinity'");
+    }
+    return CBOR.#overflowCheck(Math.fround(value));
   }
 
   static #finishBigIntAndTag = function(tag, value) {
