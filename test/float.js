@@ -262,4 +262,16 @@ try {
   assertTrue("p18a", error.toString().includes("Payload out of range"));
 }
 
+function reducedOneTurn(f16, ok, value, result) {
+  try {
+    let reduced = f16 ? CBOR.Float.createFloat16(value) : CBOR.Float.createFloat32(value);
+    assertTrue("Shoukld not", ok);
+    assertTrue("Compare=" + reduced, reduced == result);
+  } catch (e) {
+    assertFalse("shoukld", ok);
+  }
+}
+
+reducedOneTurn(true, true, 60000, 60000);
+
 success();

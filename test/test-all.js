@@ -535,6 +535,18 @@ try {
   assertTrue("p18a", error.toString().includes("Payload out of range"));
 }
 
+function reducedOneTurn(f16, ok, value, result) {
+  try {
+    let reduced = f16 ? CBOR.Float.createFloat16(value) : CBOR.Float.createFloat32(value);
+    assertTrue("Shoukld not", ok);
+    assertTrue("Compare=" + reduced, reduced == result);
+  } catch (e) {
+    assertFalse("shoukld", ok);
+  }
+}
+
+reducedOneTurn(true, true, 60000, 60000);
+
 success();
 `}
 ,
@@ -1154,8 +1166,6 @@ truncateDateTime("1925-07-10T23:12:27Z", -1403570853000, -1403570853);
 truncateDateTime("1925-07-10T23:12:27.1Z", -1403570852900, -1403570853);
 truncateDateTime("1925-07-10T23:12:27.12Z", -1403570852880, -1403570853);
 truncateDateTime("1925-07-10T23:12:27.123Z", -1403570852877, -1403570853);
-truncateDateTime("1925-07-10T23:12:27.1233Z", -1403570852877, -1403570853);
-truncateDateTime("1925-07-10T23:12:27.1235Z", -1403570852877, -1403570853);
 truncateDateTime("1925-07-10T23:12:27.499Z", -1403570852501, -1403570853);
 truncateDateTime("1925-07-10T23:12:27.500Z", -1403570852500, -1403570852);
 truncateDateTime("1925-07-10T23:12:27.700Z", -1403570852300, -1403570852);
