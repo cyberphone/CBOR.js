@@ -641,7 +641,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
   static final String CHECK4_DESCR = """
        Check if <kbd>this</kbd> object including possible child objects has been read
-       (like calling <a href='#cbor.int.getint53'>getInt53()</a>).
+       (like calling <a href='#cbor.int.getint32'>getInt32()</a>).
        If not <i>all</i> of the associated objects have been read, a <a href='#main.errors'>CborException</a> is thrown.
        <div style='margin:0.5em 0'>
        The purpose of this method is to detect possible misunderstandings between parties
