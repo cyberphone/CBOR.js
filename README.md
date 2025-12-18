@@ -16,9 +16,9 @@ as well as being the result of CBOR decoding.
 
 The described API builds on the 
 [CBOR::Core](https://www.ietf.org/archive/id/draft-rundgren-cbor-core-19.html)
-platform profile.
+cross-platform profile.
 
-Due to the desire maintaining interoperability across different platforms,
+Due to a desire maintaining interoperability between different platforms,
 the API "by design" does not address JavaScript specific
 types like binary data beyond `Uint8Array`.
 Also see: [CBOR Everywhere](https://github.com/cyberphone/cbor-everywhere/).
@@ -108,4 +108,5 @@ while remaining faithful to the native CBOR representation.
 |Android/Java|https://github.com/cyberphone/android-cbor|
 
 Updated: 2025-12-18
+
 
