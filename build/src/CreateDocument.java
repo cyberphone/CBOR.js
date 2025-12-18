@@ -87,12 +87,14 @@ public class CreateDocument {
       object.""";
 
   static final String W_CREFLOAT16_DESCR = """
-      Constructor.  Creates a CBOR <code>float</code> object,
-      where the value is converted into a <span>16-bit</span>
-      <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> object.
+      Constructor.  Creates a <a href='#wrapper.cbor.float'>CBOR.Float</a> object,
+      where the value is converted to fit CBOR <code>float16</code> representation.
       <div style='margin-top:0.5em'>
-      If the value (after rounding), is too large, a
-      <a href='#main.errors'>CborException</a> is thrown.</div>""";
+      If the value (after applying
+      <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> rounding rules),
+      is out of range, a <a href='#main.errors'>CborException</a> is thrown.</div>
+      <div style='margin-top:0.5em'>
+      Also see <a href='#cbor.float.getfloat16'>getFloat16()</a>.</div>""";
 
   static final String W_CREFLOAT16_P1_DESCR = """
       Floating-point number to be wrapped.""";
@@ -101,16 +103,18 @@ public class CreateDocument {
       Instantiated <a href='#wrapper.cbor.float'>CBOR.Float</a> object.""";
 
   static final String W_CREFLOAT32_DESCR = """
-      Constructor.  Creates a CBOR <code>float</code> object,
-      where the value is converted into a <span>32-bit</span>
-      <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> object.
+      Constructor.  Creates a <a href='#wrapper.cbor.float'>CBOR.Float</a> object,
+      where the value is converted to fit CBOR <code>float32</code> representation.
       <div style='margin-top:0.5em'>
-      If the value (after rounding), is too large, a
-      <a href='#main.errors'>CborException</a> is thrown.</div>
+      If the value (after applying
+      <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> rounding rules),
+      is out of range, a <a href='#main.errors'>CborException</a> is thrown.</div>
       <div style='margin-top:0.5em'>
-      Note that the conversion process returns a <span>16-bit</span> object,
-      if the value and precision would be <i>identical</i> to the
-      <span>32-bit</span> representation.</div>""";
+      Note that this method returns a <code>float16</code> compatible object
+      if the value and precision is <i>equivalent</i> to the <code>float32</code>
+      representation (e.g. <code>2.5</code>).</div>
+      <div style='margin-top:0.5em'>
+      Also see <a href='#cbor.float.getfloat32'>getFloat32()</a>.</div>""";
 
   static final String W_CREFLOAT32_P1_DESCR = """
       Floating-point number to be wrapped.""";
