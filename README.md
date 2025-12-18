@@ -6,7 +6,7 @@ and an associated _reference implementation_.
 The API loosely mimics the JavaScript "JSON" object by _exposing a single global object_,
 unsurprisingly named "CBOR".  To minimize the need for application developers 
 having detailed knowledge of CBOR,
-the API provides a set of high level CBOR
+the API provides a set of high-level CBOR
 [Wrapper Objects](https://cyberphone.github.io/CBOR.js/doc/#main.wrappers)
 that serve as a "bridge" between CBOR and JavaScript.
 
@@ -109,6 +109,7 @@ while remaining faithful to the native CBOR representation.
 |Android/Java|https://github.com/cyberphone/android-cbor|
 
 Updated: 2025-12-18
+
 
 
 
