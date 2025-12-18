@@ -795,8 +795,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <div style='margin-top:0.5em'>
       This method creates an Epoch ${TIME} time stamp.</div>
       <div style='margin-top:0.5em'>
-      If the <kbd><i>instant</i></kbd> object is outside
-      the range
+      If <kbd><i>instant</i></kbd> is outside the range
       <span style='white-space:nowrap'><code>0</code> (<code>"1970-01-01T00:00:00Z"</code>)</span> to
       <span style='white-space:nowrap'><code>253402300799</code> (<code>"9999-12-31T23:59:59Z"</code>)</span>,
       a <a href='#main.errors'>CborException</a> is thrown.</div>
@@ -844,7 +843,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       described in section 5.6&nbsp;of ${RFC3339}. The string is subsequently wrapped
       in a <a href='#wrapper.cbor.string'>CBOR.String</a> object.</div>
       <div style='margin-top:0.5em'>
-      If the <kbd><i>instant</i></kbd> object is outside
+      If <kbd><i>instant</i></kbd> is outside
       the range <code style='white-space:nowrap'>"0000-01-01T00:00:00Z"</code> to
       <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>,
       a <a href='#main.errors'>CborException</a> is thrown.</div>
