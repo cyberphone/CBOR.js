@@ -27,7 +27,7 @@ Also see: [CBOR Everywhere](https://github.com/cyberphone/cbor-everywhere/).
 - Self-encoding wrapper objects
 - Decoder
 - Diagnostic Notation decoder
-- Utility functions
+- Utility methods
 
 ### Encoding Example
 
@@ -108,5 +108,6 @@ while remaining faithful to the native CBOR representation.
 |Android/Java|https://github.com/cyberphone/android-cbor|
 
 Updated: 2025-12-18
+
 
 
