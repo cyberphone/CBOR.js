@@ -102,11 +102,15 @@ public class CreateDocument {
 
   static final String W_CREFLOAT32_DESCR = """
       Constructor.  Creates a CBOR <code>float</code> object,
-      where the value is converted into a <span>32-bit</span> or <span>16-bit</span>
+      where the value is converted into a <span>32-bit</span>
       <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> object.
       <div style='margin-top:0.5em'>
       If the value (after rounding), is too large, a
-      <a href='#main.errors'>CborException</a> is thrown.</div>""";
+      <a href='#main.errors'>CborException</a> is thrown.</div>
+      <div style='margin-top:0.5em'>
+      Note that the conversion process returns a <span>16-bit</span> object,
+      if the value and precision would be <i>identical</i> to the
+      <span>32-bit</span> representation.</div>""";
 
   static final String W_CREFLOAT32_P1_DESCR = """
       Floating-point number to be wrapped.""";

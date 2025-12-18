@@ -557,11 +557,15 @@ If the value (after rounding), is too large, a
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.Float.createFloat32(<i>value</i>)</kbd></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Constructor.  Creates a CBOR <code>float</code> object,
-where the value is converted into a <span>32-bit</span> or <span>16-bit</span>
+where the value is converted into a <span>32-bit</span>
 <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> object.
 <div style='margin-top:0.5em'>
 If the value (after rounding), is too large, a
-<a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
+<a href='#main.errors'>CborException</a> is thrown.</div>
+<div style='margin-top:0.5em'>
+Note that the conversion process returns a <span>16-bit</span> object,
+if the value and precision would be <i>identical</i> to the
+<span>32-bit</span> representation.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Floating-point number to be wrapped.</td></tr>
@@ -1726,6 +1730,10 @@ add a second to the created time object.</div></td></tr>
   (<code>NaN</code> and <code>Infinity</code>),
   turn to <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.
 </p>
+<p>
+  Also see <a href='#cbor.float.cbor.float.createfloat16'>CBOR.Float.createFloat16()</a>
+  and <a href='#cbor.float.cbor.float.createfloat32'>CBOR.Float.createFloat32()</a>.
+</p>
   <h3 id='main.diagnostic'>8.&nbsp;&nbsp;Diagnostic Notation</h3>
 
   Creating CBOR data in diagnostic (textual) notation is provided by the
@@ -1973,8 +1981,8 @@ here using the result of the previous encoding example:
   derived from the JavaScript <code>Error</code> object.
   <h3 id='main.version'>12.&nbsp;&nbsp;Version</h3>
 
-  API version: 1.0.16.  Note that the current API version is accessible through
+  API version: 1.0.17.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2025-12-08
+  Document version: 2025-12-18
 </body>
 </html>
