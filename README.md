@@ -7,7 +7,7 @@ unsurprisingly named "CBOR".  To minimize the need for application developers
 having detailed knowledge of CBOR,
 the API provides a set of high level CBOR
 [Wrapper Objects](https://cyberphone.github.io/CBOR.js/doc/#main.wrappers)
-which also serve as "bridge" between CBOR and JavaScript.
+which also serve as a "bridge" between CBOR and JavaScript.
 
 The wrapper objects are used for encoding CBOR data items,
 as well as being the result of CBOR decoding.
@@ -107,4 +107,5 @@ while remaining faithful to the native CBOR representation.
 |JDK&nbsp;21+|https://github.com/cyberphone/openkeystore|
 |Android/Java|https://github.com/cyberphone/android-cbor|
 
-Updated: 2025-10-01
+Updated: 2025-12-18
+
