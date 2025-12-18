@@ -115,9 +115,9 @@ async function doProcess() {
     switch (getRadioValue('selin')) {
       case 'diag':
         cborBytes = sequenceFlag ?
-           getBytesFromCborSequence(CBOR.diagDecodeSequence(inData))
+           getBytesFromCborSequence(CBOR.fromDiagnosticSeq(inData))
                                  :
-          CBOR.diagDecode(inData).encode();
+          CBOR.fromDiagnostic(inData).encode();
         break;
 
       case 'cstyle':

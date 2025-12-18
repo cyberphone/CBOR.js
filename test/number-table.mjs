@@ -24,7 +24,7 @@ let table = rfcMode ? `<table align="left">\n<name>` + (intMode ? "Integers" : "
 <tbody>\n`: `<table>`;
 
 function oneTurn(numberText, cborHex, comment) {
-  let cbor = CBOR.diagDecode(numberText);
+  let cbor = CBOR.fromDiagnostic(numberText);
   if (cbor.toString() != numberText) {
     throw numberText;
   }

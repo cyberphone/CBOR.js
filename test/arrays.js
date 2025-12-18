@@ -24,7 +24,7 @@ let l = array.length;
 assertTrue("upd-6", array.remove(0).equals(CBOR.Int(-9)));
 assertTrue("upd-7", l == array.length + 1);
 assertTrue("upd-8", array.get(0).getString() == "three");
-assertTrue("upd-9", array.toDiag(false) == '["three",1,-8]');
+assertTrue("upd-9", array.toDiagnostic(false) == '["three",1,-8]');
 
 function aBadOne(expression) {
   try {

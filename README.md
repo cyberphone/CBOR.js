@@ -88,7 +88,7 @@ To simplify _logging_, _documentation_, and _debugging_, CBOR.js includes suppor
 However, diagnostic notation can also be used as _input_ for creating CBOR based _test data_ and
 _configuration files_ from text:
 ```javascript
-let cbor = CBOR.diagDecode(`{
+let cbor = CBOR.fromDiagnostic(`{
 # Comments are also permitted
   1: 45.7,
   2: "Hi there!"

@@ -656,12 +656,12 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
        and thus do not count as &quot;read&quot;.
        <div style='margin-top:0.5em'>To cope with elements that are redundant,
        <a href='#common.scan'>scan()</a> can be used:</div>
-      <div style='margin:0.3em 0 0 1.2em'><code>let array = CBOR.diagDecode(`[3, {}]`);<br>
+      <div style='margin:0.3em 0 0 1.2em'><code>let array = CBOR.fromDiagnostic(`[3, {}]`);<br>
       let operation = array.get(0).getInt8();<br>
       array.get(1).scan();&nbsp;&nbsp;&nbsp;&nbsp;// mark array[1] as read<br>
       array.checkForUnread();</code></div>""";
 
-  // toDiag()
+  // toDiagnostic()
 
   static final String TODIAG_DESCR = """
       Render <kbd>this</kbd> object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
@@ -683,7 +683,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
   static final String TOSTRING_DESCR = """
       Render <kbd>this</kbd> object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
-      Equivalent to calling <a href='#common.todiag'>toDiag()</a>
+      Equivalent to calling <a href='#common.todiagnostic'>toDiagnostic()</a>
       with a <code>true</code> argument.""";
 
   // CBOR.addArrays()
@@ -952,11 +952,11 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
   static final String GETBYTECOUNT_RETURN_DESCR = """
       The number of bytes read so far.""";
 
-  // CBOR.diagDecode()
+  // CBOR.fromDiagnostic()
 
   static final String DIAGDEC_DESCR = """
       Decode a CBOR object provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
-      Also see <a href='#decoder.cbor.diagdecodesequence'>CBOR.diagDecodeSequence()</a>.
+      Also see <a href='#decoder.cbor.fromdiagnosticseq'>CBOR.fromDiagnosticSeq()</a>.
       <div style='margin-top:0.5em'>This method always returns CBOR data using
       <a href='#main.deterministic'>Deterministic Encoding</a>.</div>
       <div style='margin-top:0.5em'>This method can also be used for decoding
@@ -968,11 +968,11 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
   static final String DIAGDEC_RETURN_DESCR = """
       Object.""";
 
-  // CBOR.diagDecodeSequence()
+  // CBOR.fromDiagnosticSeq()
 
   static final String DIAGDECSEQ_DESCR = """
       Decode CBOR objects provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
-      Unlike <a href='#decoder.cbor.diagdecode'>CBOR.diagDecode()</a>,
+      Unlike <a href='#decoder.cbor.fromdiagnostic'>CBOR.fromDiagnostic()</a>,
       this method also accepts CBOR sequences, using a comma
       character (<kbd>','</kbd>) as a separator.
       <div style='margin-top:0.5em'>Note: empty sequences are permitted.</div>""";
@@ -1611,7 +1611,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
         <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>:
         """ +
         codeBlock("""
-            let cbor = CBOR.diagDecode(`{
+            let cbor = CBOR.fromDiagnostic(`{
             # Comments are also permitted
               1: 45.7,
               2: "Hi there!"
@@ -1980,7 +1980,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
         .addParameter("object", DataTypes.CBOR_Any, EQUALS_P1_DESCR)
         .setReturn(DataTypes.JS_BOOLEAN, EQUALS_RETURN_DESCR);
 
-    addCommonMethod("toDiag", TODIAG_DESCR)
+    addCommonMethod("toDiagnostic", TODIAG_DESCR)
         .addParameter("prettyPrint", DataTypes.JS_BOOLEAN, TODIAG_P1_DESCR)
         .setReturn(DataTypes.JS_STRING, TODIAG_RETURN_DESCR);
 
@@ -2019,15 +2019,15 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
     addDecoderMethod("<i>Decoder</i>.getByteCount", GETBYTECOUNT_DESCR)
         .setReturn(DataTypes.JS_NUMBER, GETBYTECOUNT_RETURN_DESCR);
 
-    // CBOR.diagDecode()
+    // CBOR.fromDiagnostic()
 
-    addDecoderMethod("CBOR.diagDecode", DIAGDEC_DESCR)
+    addDecoderMethod("CBOR.fromDiagnostic", DIAGDEC_DESCR)
         .addParameter("cborText", DataTypes.JS_STRING, DIAGDEC_P1_DESCR)
         .setReturn(DataTypes.CBOR_Any, DIAGDEC_RETURN_DESCR);
 
-    // CBOR.diagDecodeSequence()
+    // CBOR.fromDiagnosticSeq()
 
-    addDecoderMethod("CBOR.diagDecodeSequence", DIAGDECSEQ_DESCR)
+    addDecoderMethod("CBOR.fromDiagnosticSeq", DIAGDECSEQ_DESCR)
         .addParameter("cborText", DataTypes.JS_STRING, DIAGDECSEQ_P1_DESCR)
         .setReturn(DataTypes.JS_ARRAY, DIAGDECSEQ_RETURN_DESCR);
 

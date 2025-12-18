@@ -209,9 +209,9 @@ file:String.raw`// Testing "diagnostic notation"
 function oneTurn(cborText, ok, compareWithOrNull) {
   try {
     let compareText = compareWithOrNull ? compareWithOrNull : cborText;
-    let result = CBOR.diagDecode(cborText);
+    let result = CBOR.fromDiagnostic(cborText);
     assertTrue("Should not", ok);
-    let sequence = CBOR.diagDecodeSequence(cborText);
+    let sequence = CBOR.fromDiagnosticSeq(cborText);
     if (result.toString() != compareText) {
       throw Error("input:\n" + cborText + "\nresult:\n" + result);
     }
@@ -225,7 +225,7 @@ function oneTurn(cborText, ok, compareWithOrNull) {
 }
 
 function oneBinaryTurn(diag, hex) {
-  assertTrue("bin", CBOR.toHex(CBOR.diagDecode(diag).encode()) == hex);
+  assertTrue("bin", CBOR.toHex(CBOR.fromDiagnostic(diag).encode()) == hex);
 }
 
 oneTurn("2", true, null);
@@ -266,17 +266,17 @@ let cborText = '{\n' +
 '  ]\n' +
 '}';
 
-assertTrue("pretty", cborObject.toDiag(true) == cborText);
-assertTrue("oneline", cborObject.toDiag(false) == 
+assertTrue("pretty", cborObject.toDiagnostic(true) == cborText);
+assertTrue("oneline", cborObject.toDiagnostic(false) == 
                    cborText.replaceAll('\n', '').replaceAll(' ',''));
-assertTrue("parse", CBOR.diagDecode(cborText).equals(cborObject));
-let sequence = CBOR.diagDecodeSequence('45,{4:7}');
+assertTrue("parse", CBOR.fromDiagnostic(cborText).equals(cborObject));
+let sequence = CBOR.fromDiagnosticSeq('45,{4:7}');
 assertTrue("seq2", sequence.length == 2);
 assertTrue("seq3", sequence[0].getInt32() == 45);
 assertTrue("seq4", sequence[1].equals(CBOR.Map().set(CBOR.Int(4),CBOR.Int(7))));
 
 try {
-  CBOR.diagDecode("float'000000'");
+  CBOR.fromDiagnostic("float'000000'");
   fail("bugf");
 } catch (error) {
   assertTrue("fp", error.toString().includes('floating-point'));
@@ -407,7 +407,7 @@ function oneNonFiniteTurn(value, binexpect, textexpect) {
   let text = nonfinite.toString();
   let returnValue = nonfinite.getNonFinite();
   let returnValue64 = nonfinite.getNonFinite64();
-  let textdecode = CBOR.diagDecode(textexpect);
+  let textdecode = CBOR.fromDiagnostic(textexpect);
   let cbor = nonfinite.encode();
   let refcbor = CBOR.fromHex(binexpect);
   let hexbin = CBOR.toHex(cbor);
@@ -834,7 +834,7 @@ let l = array.length;
 assertTrue("upd-6", array.remove(0).equals(CBOR.Int(-9)));
 assertTrue("upd-7", l == array.length + 1);
 assertTrue("upd-8", array.get(0).getString() == "three");
-assertTrue("upd-9", array.toDiag(false) == '["three",1,-8]');
+assertTrue("upd-9", array.toDiagnostic(false) == '["three",1,-8]');
 
 function aBadOne(expression) {
   try {
@@ -896,9 +896,9 @@ assertTrue("bool1", array.get(2).getBoolean());
 assertFalse("bool1", array.get(3).getBoolean());
 assertFalse("null1", array.get(3).isNull());
 assertTrue("null2", array.get(4).isNull());
-assertFalse("cmp2", CBOR.compareArrays(CBOR.diagDecode(CBOR.decode(cbor).toString()).encode(), bin));
+assertFalse("cmp2", CBOR.compareArrays(CBOR.fromDiagnostic(CBOR.decode(cbor).toString()).encode(), bin));
 
-assertTrue("version", CBOR.version == "1.0.17");
+assertTrue("version", CBOR.version == "1.0.18");
 
 success();
 `}

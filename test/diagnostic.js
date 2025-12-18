@@ -5,9 +5,9 @@ import { assertTrue, assertFalse, success } from './assertions.js';
 function oneTurn(cborText, ok, compareWithOrNull) {
   try {
     let compareText = compareWithOrNull ? compareWithOrNull : cborText;
-    let result = CBOR.diagDecode(cborText);
+    let result = CBOR.fromDiagnostic(cborText);
     assertTrue("Should not", ok);
-    let sequence = CBOR.diagDecodeSequence(cborText);
+    let sequence = CBOR.fromDiagnosticSeq(cborText);
     if (result.toString() != compareText) {
       throw Error("input:\n" + cborText + "\nresult:\n" + result);
     }
@@ -21,7 +21,7 @@ function oneTurn(cborText, ok, compareWithOrNull) {
 }
 
 function oneBinaryTurn(diag, hex) {
-  assertTrue("bin", CBOR.toHex(CBOR.diagDecode(diag).encode()) == hex);
+  assertTrue("bin", CBOR.toHex(CBOR.fromDiagnostic(diag).encode()) == hex);
 }
 
 oneTurn("2", true, null);
@@ -62,17 +62,17 @@ let cborText = '{\n' +
 '  ]\n' +
 '}';
 
-assertTrue("pretty", cborObject.toDiag(true) == cborText);
-assertTrue("oneline", cborObject.toDiag(false) == 
+assertTrue("pretty", cborObject.toDiagnostic(true) == cborText);
+assertTrue("oneline", cborObject.toDiagnostic(false) == 
                    cborText.replaceAll('\n', '').replaceAll(' ',''));
-assertTrue("parse", CBOR.diagDecode(cborText).equals(cborObject));
-let sequence = CBOR.diagDecodeSequence('45,{4:7}');
+assertTrue("parse", CBOR.fromDiagnostic(cborText).equals(cborObject));
+let sequence = CBOR.fromDiagnosticSeq('45,{4:7}');
 assertTrue("seq2", sequence.length == 2);
 assertTrue("seq3", sequence[0].getInt32() == 45);
 assertTrue("seq4", sequence[1].equals(CBOR.Map().set(CBOR.Int(4),CBOR.Int(7))));
 
 try {
-  CBOR.diagDecode("float'000000'");
+  CBOR.fromDiagnostic("float'000000'");
   fail("bugf");
 } catch (error) {
   assertTrue("fp", error.toString().includes('floating-point'));

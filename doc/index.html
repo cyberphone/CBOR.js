@@ -131,7 +131,7 @@
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#common.encode'>4.1.&nbsp;&nbsp;encode()</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#common.clone'>4.2.&nbsp;&nbsp;clone()</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#common.equals'>4.3.&nbsp;&nbsp;equals()</a></div>
-<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#common.todiag'>4.4.&nbsp;&nbsp;toDiag()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#common.todiagnostic'>4.4.&nbsp;&nbsp;toDiagnostic()</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#common.tostring'>4.5.&nbsp;&nbsp;toString()</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#common.isnull'>4.6.&nbsp;&nbsp;isNull()</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#common.checkforunread'>4.7.&nbsp;&nbsp;checkForUnread()</a></div>
@@ -142,8 +142,8 @@
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.cbor.initdecoder'>5.2.&nbsp;&nbsp;CBOR.initDecoder()</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.decoder.decodewithoptions'>5.3.&nbsp;&nbsp;<i>Decoder</i>.decodeWithOptions()</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.decoder.getbytecount'>5.4.&nbsp;&nbsp;<i>Decoder</i>.getByteCount()</a></div>
-<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.cbor.diagdecode'>5.5.&nbsp;&nbsp;CBOR.diagDecode()</a></div>
-<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.cbor.diagdecodesequence'>5.6.&nbsp;&nbsp;CBOR.diagDecodeSequence()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.cbor.fromdiagnostic'>5.5.&nbsp;&nbsp;CBOR.fromDiagnostic()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.cbor.fromdiagnosticseq'>5.6.&nbsp;&nbsp;CBOR.fromDiagnosticSeq()</a></div>
 </div>
 <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.utility'>6.&nbsp;&nbsp;Utility Methods</a></div><div style='display:none'>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.addarrays'>6.1.&nbsp;&nbsp;CBOR.addArrays()</a></div>
@@ -1266,10 +1266,10 @@ with the original CBOR content.</td></tr>
 <tr><td style='text-align:center'><kbd>Boolean</kbd></td><td colspan='2' style='width:100%'><code>true</code> if <kbd>this</kbd> object is equal to <kbd><i>object</i></kbd>,
 otherwise <code>false</code>.</td></tr>
 </table></div>
-<h5 id='common.todiag'>4.4.&nbsp;&nbsp;toDiag()</h5>
+<h5 id='common.todiagnostic'>4.4.&nbsp;&nbsp;toDiagnostic()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>toDiag(<i>prettyPrint</i>)</kbd></td></tr>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>toDiagnostic(<i>prettyPrint</i>)</kbd></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Render <kbd>this</kbd> object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
 In similarity to <a href='#common.encode'>encode()</a>, this method always produce
 data in <a href='#main.deterministic'>Deterministic Encoding</a>, irrespective to how
@@ -1292,7 +1292,7 @@ in maps and arrays, to make the result easier to read.</td></tr>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>toString()</kbd></td></tr>
 <tr><th>Description</th><td style='width:100%'>Render <kbd>this</kbd> object in <a href='#main.diagnostic'>Diagnostic Notation</a>.
-Equivalent to calling <a href='#common.todiag'>toDiag()</a>
+Equivalent to calling <a href='#common.todiagnostic'>toDiagnostic()</a>
 with a <code>true</code> argument.</td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
@@ -1333,7 +1333,7 @@ is returned.</td></tr>
  and thus do not count as &quot;read&quot;.
  <div style='margin-top:0.5em'>To cope with elements that are redundant,
  <a href='#common.scan'>scan()</a> can be used:</div>
-<div style='margin:0.3em 0 0 1.2em'><code>let array = CBOR.diagDecode(`[3, {}]`);<br>
+<div style='margin:0.3em 0 0 1.2em'><code>let array = CBOR.fromDiagnostic(`[3, {}]`);<br>
 let operation = array.get(0).getInt8();<br>
 array.get(1).scan();&nbsp;&nbsp;&nbsp;&nbsp;// mark array[1] as read<br>
 array.checkForUnread();</code></div></td></tr>
@@ -1455,12 +1455,12 @@ This is equivalent to the position of the next item to be read.</div></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>The number of bytes read so far.</td></tr>
 </table></div>
-<h5 id='decoder.cbor.diagdecode'>5.5.&nbsp;&nbsp;CBOR.diagDecode()</h5>
+<h5 id='decoder.cbor.fromdiagnostic'>5.5.&nbsp;&nbsp;CBOR.fromDiagnostic()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.diagDecode(<i>cborText</i>)</kbd></td></tr>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.fromDiagnostic(<i>cborText</i>)</kbd></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Decode a CBOR object provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
-Also see <a href='#decoder.cbor.diagdecodesequence'>CBOR.diagDecodeSequence()</a>.
+Also see <a href='#decoder.cbor.fromdiagnosticseq'>CBOR.fromDiagnosticSeq()</a>.
 <div style='margin-top:0.5em'>This method always returns CBOR data using
 <a href='#main.deterministic'>Deterministic Encoding</a>.</div>
 <div style='margin-top:0.5em'>This method can also be used for decoding
@@ -1472,12 +1472,12 @@ JSON data.</div></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Object.</td></tr>
 </table></div>
-<h5 id='decoder.cbor.diagdecodesequence'>5.6.&nbsp;&nbsp;CBOR.diagDecodeSequence()</h5>
+<h5 id='decoder.cbor.fromdiagnosticseq'>5.6.&nbsp;&nbsp;CBOR.fromDiagnosticSeq()</h5>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.diagDecodeSequence(<i>cborText</i>)</kbd></td></tr>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.fromDiagnosticSeq(<i>cborText</i>)</kbd></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Decode CBOR objects provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
-Unlike <a href='#decoder.cbor.diagdecode'>CBOR.diagDecode()</a>,
+Unlike <a href='#decoder.cbor.fromdiagnostic'>CBOR.fromDiagnostic()</a>,
 this method also accepts CBOR sequences, using a comma
 character (<kbd>','</kbd>) as a separator.
 <div style='margin-top:0.5em'>Note: empty sequences are permitted.</div></td></tr>
@@ -1742,7 +1742,7 @@ add a second to the created time object.</div></td></tr>
   Creating CBOR data in diagnostic (textual) notation is provided by the
   <a href='#common.tostring'>toString()</a> method.
   <p>
-    However, through the <a href='#decoder.cbor.diagdecode'>CBOR.diagDecode()</a>
+    However, through the <a href='#decoder.cbor.fromdiagnostic'>CBOR.fromDiagnostic()</a>
     method, CBOR data may also be provided in diagnostic notation,
     making CBOR useful for <i>local</i> "config" and test data files as well.
   </p>
@@ -1970,7 +1970,7 @@ The following code shows how you can decode variant CBOR-encoded data:
   <h5 id='examples.dn-decoding'>10.4.&nbsp;&nbsp;Decode CBOR Diagnostic Notation</h5>
 The following code shows how you can decode CBOR provided in
 <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>:
-<div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>let&nbsp;cbor&nbsp;=&nbsp;CBOR.diagDecode(`{<br>#&nbsp;Comments&nbsp;are&nbsp;also&nbsp;permitted<br>&nbsp;&nbsp;1:&nbsp;45.7,<br>&nbsp;&nbsp;2:&nbsp;&quot;Hi&nbsp;there!&quot;<br>}`).encode();<br><br>console.log(CBOR.toHex(cbor));<br><span style='color:#007fdd'>a201fb4046d9999999999a0269486920746865726521</span><br></div></div>
+<div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>let&nbsp;cbor&nbsp;=&nbsp;CBOR.fromDiagnostic(`{<br>#&nbsp;Comments&nbsp;are&nbsp;also&nbsp;permitted<br>&nbsp;&nbsp;1:&nbsp;45.7,<br>&nbsp;&nbsp;2:&nbsp;&quot;Hi&nbsp;there!&quot;<br>}`).encode();<br><br>console.log(CBOR.toHex(cbor));<br><span style='color:#007fdd'>a201fb4046d9999999999a0269486920746865726521</span><br></div></div>
   <h5 id='examples.seq-encoding'>10.5.&nbsp;&nbsp;Encode CBOR Sequence</h5>
 The following code shows how you can create CBOR sequences:
 <div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>let&nbsp;cbor&nbsp;=&nbsp;CBOR.Array()<br>&nbsp;&nbsp;.add(CBOR.Map().set(CBOR.Int(7),&nbsp;CBOR.String(&quot;Hi!&quot;)))<br>&nbsp;&nbsp;.add(CBOR.Float(4.5))<br>&nbsp;&nbsp;.encodeAsSequence();<br><br>console.log(CBOR.toHex(cbor));<br><span style='color:#007fdd'>a10763486921f94480</span><br></div></div>
@@ -1984,7 +1984,7 @@ here using the result of the previous encoding example:
   derived from the JavaScript <code>Error</code> object.
   <h3 id='main.version'>12.&nbsp;&nbsp;Version</h3>
 
-  API version: 1.0.17.  Note that the current API version is accessible through
+  API version: 1.0.18.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
   Document version: 2025-12-18
 </body>

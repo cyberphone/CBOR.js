@@ -193,14 +193,14 @@ class CBOR {
       this.#noSuchMethod("get");
     }
 
-    toDiag = function(prettyPrint) {
+    toDiagnostic = function(prettyPrint) {
       let cborPrinter = new CBOR.#CborPrinter(CBOR.#typeCheck(prettyPrint, 'boolean'));
       this.internalToString(cborPrinter);
       return cborPrinter.buffer;
     }
 
     toString = function() {
-      return this.toDiag(true);
+      return this.toDiagnostic(true);
     }
 
     _immutableTest = function() {
@@ -237,9 +237,9 @@ class CBOR {
             holderObject instanceof CBOR.Array ? "Array element" :
               holderObject instanceof CBOR.Tag ?
               "Tagged object " + holderObject.getTagNumber().toString() : 
-              "Map key " + holderObject.toDiag(false) + " with argument") +                    
+              "Map key " + holderObject.toDiagnostic(false) + " with argument") +                    
             " of type=CBOR." + this.constructor.name + 
-            " with value=" + this.toDiag(false) + " was never read");
+            " with value=" + this.toDiagnostic(false) + " was never read");
         }
       } else {
         this.#readFlag = true;
@@ -1026,7 +1026,7 @@ class CBOR {
     }
 
     #errorInObject = function(message) {
-      CBOR.#error(message + this.toDiag(false));
+      CBOR.#error(message + this.toDiagnostic(false));
     }
 
     encode = function() {
@@ -2079,16 +2079,16 @@ class CBOR {
     }
   }
 
-///////////////////////////////
-// CBOR.diagDecode()         //
-// CBOR.diagDecodeSequence() //
-///////////////////////////////
+///////////////////////////
+//    CBOR.fromDiagnostic()    //
+//   CBOR.fromDiagnosticSeq()  //
+///////////////////////////
 
-  static diagDecode = function(cborText) {
+  static fromDiagnostic = function(cborText) {
     return new CBOR.DiagnosticNotation(cborText, false).readSequenceToEOF()[0];
   }
 
-  static diagDecodeSequence = function(cborText) {
+  static fromDiagnosticSeq = function(cborText) {
     return new CBOR.DiagnosticNotation(cborText, true).readSequenceToEOF();
   }
 
@@ -2227,7 +2227,7 @@ class CBOR {
         if (this.buffer.length - this.startOfLine + // Where we are staing at the moment.
           array.length +                            // space after comma.
           2 +                                       // [] 
-          array.toDiag(false).length > 70) {
+          array.toDiagnostic(false).length > 70) {
           return true;
         }
       }
@@ -2457,7 +2457,7 @@ class CBOR {
   }
 
   static get version() {
-    return "1.0.17";
+    return "1.0.18";
   }
 }
 

@@ -121,7 +121,7 @@ function oneNonFiniteTurn(value, binexpect, textexpect) {
   let text = nonfinite.toString();
   let returnValue = nonfinite.getNonFinite();
   let returnValue64 = nonfinite.getNonFinite64();
-  let textdecode = CBOR.diagDecode(textexpect);
+  let textdecode = CBOR.fromDiagnostic(textexpect);
   let cbor = nonfinite.encode();
   let refcbor = CBOR.fromHex(binexpect);
   let hexbin = CBOR.toHex(cbor);

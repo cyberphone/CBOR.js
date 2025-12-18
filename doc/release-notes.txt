@@ -63,5 +63,8 @@ Added remove() and insert() to Array
 2025-12-05 1.0.16
 Added utility methods CBOR.createEpochTime() and CBOR.createDateTime()
 
-2025-12-18 1.0.17
+2025-12-16 1.0.18
 Added methods CBOR.Float.createFloat16() and CBOR.Float.createFloat32()
+
+2025-12-18 1.0.18
+Renamed CBOR.diagDecode() to CBOR.fromDiagnostic()
