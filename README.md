@@ -68,7 +68,7 @@ permitting testing the encoder, decoder, and diagnostic notation implementation.
 
 ### NPM Version
 
-For usage with Node.js and Deno, a NPM version is available: https://npmjs.com/package/cbor-object 
+For usage with Node.js and Deno, an NPM version is available: https://npmjs.com/package/cbor-object 
 
 ### Deterministic Encoding
 
@@ -109,6 +109,7 @@ while remaining faithful to the native CBOR representation.
 |Android/Java|https://github.com/cyberphone/android-cbor|
 
 Updated: 2025-12-18
+
 
 
 
