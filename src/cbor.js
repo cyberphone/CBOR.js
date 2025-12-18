@@ -2079,10 +2079,10 @@ class CBOR {
     }
   }
 
-///////////////////////////
-//    CBOR.fromDiagnostic()    //
-//   CBOR.fromDiagnosticSeq()  //
-///////////////////////////
+//////////////////////////////////
+//    CBOR.fromDiagnostic()     //
+//   CBOR.fromDiagnosticSeq()   //
+//////////////////////////////////
 
   static fromDiagnostic = function(cborText) {
     return new CBOR.DiagnosticNotation(cborText, false).readSequenceToEOF()[0];
