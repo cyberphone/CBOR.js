@@ -6,7 +6,7 @@ and an associated _reference implementation_.
 The API loosely mimics the JavaScript "JSON" object by _exposing a single global object_,
 unsurprisingly named "CBOR".  To shield application developers 
 from low-level details like CBOR serialization, the API provides a set of high-level
-[Wrapper Objects](https://cyberphone.github.io/CBOR.js/doc/#main.wrappers)
+[Wrapper&nbsp;Objects](https://cyberphone.github.io/CBOR.js/doc/#main.wrappers)
 that serve as a "bridge" between CBOR and JavaScript.
 
 The wrapper objects are used for _encoding_ CBOR objects,
@@ -22,7 +22,7 @@ cross-platform profile.
 Due to a desire maintaining interoperability between different platforms,
 the API "by design" does not address JavaScript specific
 types like binary data beyond `Uint8Array`.
-Also see: [CBOR Everywhere](https://github.com/cyberphone/cbor-everywhere/).
+Also see: [CBOR&nbsp;Everywhere](https://github.com/cyberphone/cbor-everywhere/).
 
 ### "CBOR" Components
 - Self-encoding wrapper objects
@@ -73,7 +73,7 @@ For usage with Node.js and Deno, an NPM version is available: https://npmjs.com/
 ### Deterministic Encoding
 
 For maintaining cross-platform interoperability, CBOR.js implements
-[deterministic encoding](https://cyberphone.github.io/CBOR.js/doc/index.html#main.deterministic).
+[Deterministic&nbsp;Encoding](https://cyberphone.github.io/CBOR.js/doc/index.html#main.deterministic).
 
 To shield developers from having to know the inner workings of deterministic encoding, CBOR.js performs
 all necessary transformations _automatically_.  This for example means that if the 
@@ -83,7 +83,7 @@ in the [Encoding&nbsp;Example](#encoding-example) were swapped, the generated CB
 ### Diagnostic Notation Support
 
 To simplify _logging_, _documentation_, and _debugging_, CBOR.js includes support for
-[diagnostic notation](https://cyberphone.github.io/CBOR.js/doc/index.html#main.diagnostic).
+[Diagnostic&nbsp;Notation](https://cyberphone.github.io/CBOR.js/doc/index.html#main.diagnostic).
 
 However, diagnostic notation can also be used as _input_ for creating CBOR based _test data_ and
 _configuration files_ from text:
@@ -109,6 +109,7 @@ while remaining faithful to the native CBOR representation.
 |Android/Java|https://github.com/cyberphone/android-cbor|
 
 Updated: 2025-12-18
+
 
 
 
