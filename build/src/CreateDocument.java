@@ -612,8 +612,8 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       Argument to compare with.""";
 
   static final String EQUALS_RETURN_DESCR = """
-      <code>true</code> if <kbd>this</kbd> object is equal to <kbd><i>object</i></kbd>,
-      otherwise <code>false</code>.""";
+      Returns <code>true</code> if <kbd>this</kbd> object is equal to <kbd><i>object</i></kbd>,
+      else <code>false</code> is returned.""";
 
   // isNull()
 
@@ -626,8 +626,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
   static final String ISNULL_RETURN_DESCR = """
       Returns <code>true</code> if <kbd>this</kbd> object
-      holds a CBOR <code>null</code> item, otherwise <code>false</code>
-      is returned.""";
+      holds a CBOR <code>null</code> item, else <code>false</code> is returned.""";
 
   // scan()
 
