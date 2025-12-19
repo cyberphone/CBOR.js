@@ -4,14 +4,14 @@ This repository contains a
 [CBOR JavaScript API](https://cyberphone.github.io/CBOR.js/doc/)
 and an associated _reference implementation_.
 The API loosely mimics the JavaScript "JSON" object by _exposing a single global object_,
-unsurprisingly named "CBOR".  To minimize the need for application developers 
-having detailed knowledge of CBOR,
-the API provides a set of high-level CBOR
+unsurprisingly named "CBOR".  To shield application developers 
+from low-level details like CBOR serialization, the API provides a set of high-level
 [Wrapper Objects](https://cyberphone.github.io/CBOR.js/doc/#main.wrappers)
 that serve as a "bridge" between CBOR and JavaScript.
 
-The wrapper objects are used for _encoding_ CBOR data items,
-as well as being the result of CBOR _decoding_.
+The wrapper objects are used for _encoding_ CBOR objects,
+as well as being the result of CBOR _decoding_. The wrapper concept also enables
+strict _type-checking_.
 
 ### Design Rationale
 
@@ -109,6 +109,7 @@ while remaining faithful to the native CBOR representation.
 |Android/Java|https://github.com/cyberphone/android-cbor|
 
 Updated: 2025-12-18
+
 
 
 
