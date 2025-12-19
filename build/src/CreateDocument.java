@@ -91,7 +91,7 @@ public class CreateDocument {
       where the value is converted to fit CBOR <code>float16</code> representation.
       <div style='margin-top:0.5em'>
       If the value (after applying
-      <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> rounding rules),
+      <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> conversion rules),
       is out of range, a <a href='#main.errors'>CborException</a> is thrown.</div>
       <div style='margin-top:0.5em'>
       Also see <a href='#cbor.float.getfloat16'>getFloat16()</a>.</div>""";
@@ -107,7 +107,7 @@ public class CreateDocument {
       where the value is converted to fit CBOR <code>float32</code> representation.
       <div style='margin-top:0.5em'>
       If the value (after applying
-      <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> rounding rules),
+      <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> conversion rules),
       is out of range, a <a href='#main.errors'>CborException</a> is thrown.</div>
       <div style='margin-top:0.5em'>
       Note that this method returns a <code>float16</code> compatible object
