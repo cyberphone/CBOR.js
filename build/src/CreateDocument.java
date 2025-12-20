@@ -806,7 +806,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <div style='margin-top:0.5em'>Sample code:</div>
       <div style='margin:0.3em 0 0 1.2em'>
       <code>let epoch = CBOR.createEpochTime(new Date(), false);<br>
-      console.log(epoch.toString());&nbsp;&nbsp;/ Diagnostic notation<br>
+      console.log(epoch.toString());&nbsp;&nbsp;// Diagnostic notation<br>
       <span style='color:#007fdd'>1764939916</span></code></div>
       <div style='margin-top:0.5em'>
       Also see <a href='#time.getepochtime'>getEpochTime()</a>.</div>""";
@@ -853,7 +853,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <div style='margin-top:0.5em'>Sample code:</div>
       <div style='margin:0.3em 0 0 1.2em'>
       <code>let dateTime = CBOR.createDateTime(new Date(), true, false);<br>
-      console.log(dateTime.toString());&nbsp;&nbsp;/ Diagnostic notation<br>
+      console.log(dateTime.toString());&nbsp;&nbsp;// Diagnostic notation<br>
       <span style='color:#007fdd'>"2025-12-05T13:55:42.418+01:00"</span></code></div>
       <div style='margin-top:0.5em'>
       Also see <a href='#time.getdatetime'>getDateTime()</a>.</div>""";
