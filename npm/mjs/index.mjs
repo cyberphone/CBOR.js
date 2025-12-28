@@ -356,8 +356,6 @@ export default class CBOR {
 
     #value;
 
-    // The CBOR.BigInt wrapper object implements the CBOR integer reduction algorithm.  The
-    // JavaScript "BigInt" object is used for maintaining lossless represention of bignums.
     constructor(value) {
       super();
       this.#value = CBOR.#typeCheck(value, 'bigint');
