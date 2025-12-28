@@ -327,7 +327,7 @@ class CBOR {
       super();
       if (typeof value == 'bigint') {
         if (value < CBOR.#MIN_INT || value > CBOR.#MAX_INT) {
-          CBOR.#error("Integer value is outside of safe range, use CBOR.BigInt");
+          CBOR.#error("Value is out of \"int\" range: " + value);
         }
       } else {
         value = BigInt(CBOR.#intCheck(value));
