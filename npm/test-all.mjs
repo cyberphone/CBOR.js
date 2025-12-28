@@ -705,7 +705,8 @@ function badRun(method, value) {
     assertTrue("Should fail", false);
   } catch (error) {
     if (!error.toString().includes('Value out of range:') &&
-        !error.toString().includes('Number.MAX_SAFE_INTEGER')) {
+        !(error.toString().includes('Expected CBOR.Int, got: CBOR.BigInt') &&
+          method.indexOf("64"))) {
       throw error;
     }
   }
@@ -881,7 +882,7 @@ assertFalse("null1", array.get(3).isNull());
 assertTrue("null2", array.get(4).isNull());
 assertFalse("cmp2", CBOR.compareArrays(CBOR.fromDiagnostic(CBOR.decode(cbor).toString()).encode(), bin));
 
-assertTrue("version", CBOR.version == "1.0.18");
+assertTrue("version", CBOR.version == "1.0.19");
 
 success();
 `}

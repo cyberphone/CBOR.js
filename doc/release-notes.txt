@@ -68,3 +68,6 @@ Added methods CBOR.Float.createFloat16() and CBOR.Float.createFloat32()
 
 2025-12-18 1.0.18
 Renamed CBOR.diagDecode() to CBOR.fromDiagnostic()
+
+2025-12-28 1.0.19
+Revised CBOR.Int to hold the entire "int" range modulo values < -2^63

@@ -22,45 +22,63 @@ class CBOR {
       this._immutableFlag = false;
     }
 
-    getInt53 = function() {
-      if (this instanceof CBOR.BigInt) {
-        // During decoding, integers outside of Number.MAX_SAFE_INTEGER
-        // automatically get "BigInt" representation. 
-        CBOR.#error("Integer is outside of Number.MAX_SAFE_INTEGER, use getBigInt()");
+    #rangeNumber = function(min, max) {
+      let value = this.#checkTypeAndGetValue(CBOR.Int)
+      if (value < min || value > max) {
+        CBOR.#error("Value out of range: " + value);
       }
-      return this.#checkTypeAndGetValue(CBOR.Int);
+      return Number(value);
+    } 
+
+    getInt8 = function() {
+      return this.#rangeNumber(-0x80n, 0x7fn);
     }
 
-    #rangeInt = function(min, max) {
-      let value = this.getInt53();
+    getUint8 = function() {
+      return this.#rangeNumber(0n, 0xffn);
+    }
+
+    getInt16 = function() {
+      return this.#rangeNumber(-0x8000n, 0x7fffn);
+    }
+
+    getUint16 = function() {
+      return this.#rangeNumber(0n, 0xffffn);
+    }
+
+    getInt32 = function() {
+      return this.#rangeNumber(-0x80000000n, 0x7fffffffn);
+    }
+
+    getUint32 = function() {
+      return this.#rangeNumber(0n, 0xffffffffn);
+    }
+
+    getInt53 = function() {
+      return this.#rangeNumber(BigInt(Number.MIN_SAFE_INTEGER), BigInt(Number.MAX_SAFE_INTEGER));
+    }
+
+    #rangeBigInt(min, max) {
+      let value = this.#checkTypeAndGetValue(CBOR.Int);
       if (value < min || value > max) {
         CBOR.#error("Value out of range: " + value);
       }
       return value;
-    } 
-
-    getInt8 = function() {
-      return this.#rangeInt(-0x80, 0x7f);
     }
 
-    getUint8 = function() {
-      return this.#rangeInt(0, 0xff);
+    getInt64 = function() {
+      return this.#rangeBigInt(-0x8000000000000000n, 0x7fffffffffffffffn);
     }
 
-    getInt16 = function() {
-      return this.#rangeInt(-0x8000, 0x7fff);
+    getUint64 = function() {
+      return this.#rangeBigInt(0n, 0xffffffffffffffffn);
     }
 
-    getUint16 = function() {
-      return this.#rangeInt(0, 0xffff);
-    }
-
-    getInt32 = function() {
-      return this.#rangeInt(-0x80000000, 0x7fffffff);
-    }
-
-    getUint32 = function() {
-      return this.#rangeInt(0, 0xffffffff);
+    getBigInt = function() {
+      if (this instanceof CBOR.Int) {
+        return this.#checkTypeAndGetValue(CBOR.Int);
+      }
+      return this.#checkTypeAndGetValue(CBOR.BigInt);
     }
 
     getString = function() {
@@ -145,29 +163,6 @@ class CBOR {
         return true;
       }
       return false;
-    }
-
-    getBigInt = function() {
-      if (this instanceof CBOR.Int) {
-        return BigInt(this.getInt53());
-      }
-      return this.#checkTypeAndGetValue(CBOR.BigInt);
-    }
-
-    #rangeBigInt(min, max) {
-      let value = this.getBigInt();
-      if (value < min || value > max) {
-        CBOR.#error("Value out of range: " + value);
-      }
-      return value;
-    }
-
-    getInt64 = function() {
-      return this.#rangeBigInt(-0x8000000000000000n, 0x7fffffffffffffffn);
-    }
-
-    getUint64 = function() {
-      return this.#rangeBigInt(0n, 0xffffffffffffffffn);
     }
 
     getSimple = function() {
@@ -313,6 +308,9 @@ class CBOR {
 
   static #F64_NAN = new Uint8Array([0x7f, 0xf8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 
+  static #MIN_INT = -0x8000000000000000n;
+  static #MAX_INT =  0xffffffffffffffffn;
+
   constructor() {
     CBOR.#error("CBOR cannot be instantiated");
   }
@@ -325,22 +323,20 @@ class CBOR {
 
     #value;
 
-    // Integers with a magnitude above 2^53 - 1, must use CBOR.BigInt. 
     constructor(value) {
       super();
-      this.#value = CBOR.#intCheck(value);
+      if (typeof value == 'bigint') {
+        if (value < CBOR.#MIN_INT || value > CBOR.#MAX_INT) {
+          CBOR.#error("Integer value is outside of safe range, use CBOR.BigInt");
+        }
+      } else {
+        value = BigInt(CBOR.#intCheck(value));
+      }
+      this.#value = value;
     }
     
     encode = function() {
-      let tag;
-      let n = this.#value;
-      if (n < 0) {
-        tag = CBOR.#MT_NEGATIVE;
-        n = -n - 1;
-      } else {
-        tag = CBOR.#MT_UNSIGNED;
-      }
-      return CBOR.#encodeTagAndN(tag, n);
+      return CBOR.#encodeIntegerOrTag(CBOR.#MT_UNSIGNED, this.#value);
     }
 
     internalToString = function(cborPrinter) {
@@ -368,15 +364,7 @@ class CBOR {
     }
     
     encode = function() {
-      let tag;
-      let value = this.#value
-      if (value < 0) {
-        tag = CBOR.#MT_NEGATIVE;
-        value = ~value;
-      } else {
-        tag = CBOR.#MT_UNSIGNED;
-      }
-      return CBOR.#finishBigIntAndTag(tag, value);
+      return CBOR.#encodeIntegerOrTag(CBOR.#MT_UNSIGNED, this.#value);
     }
 
     internalToString = function(cborPrinter) {
@@ -1030,7 +1018,7 @@ class CBOR {
     }
 
     encode = function() {
-      return CBOR.addArrays(CBOR.#finishBigIntAndTag(CBOR.#MT_TAG, this.#tagNumber),
+      return CBOR.addArrays(CBOR.#encodeIntegerOrTag(CBOR.#MT_TAG, this.#tagNumber),
                             this.#object.encode());
     }
 
@@ -1436,10 +1424,10 @@ class CBOR {
     }
 
     selectInteger = function(value) {
-      if (value > BigInt(Number.MAX_SAFE_INTEGER) || value < BigInt(Number.MIN_SAFE_INTEGER)) {
+      if (value < CBOR.#MIN_INT || value > CBOR.#MAX_INT) {
         return CBOR.BigInt(value);
       } 
-      return CBOR.Int(Number(value));
+      return CBOR.Int(value);
     }
 
     getObject = function() {
@@ -2156,7 +2144,12 @@ class CBOR {
     return CBOR.#overflowCheck(Math.fround(value));
   }
 
-  static #finishBigIntAndTag = function(tag, value) {
+  static #encodeIntegerOrTag = function(tag, value) {
+    // Negative values only applies to integers.
+    if (value < 0n) {
+      value = ~value;
+      tag = CBOR.#MT_NEGATIVE;
+    }
     // Convert BigInt to Uint8Array (but with a twist).
     let byteArray = CBOR.fromBigInt(value);
     let length = byteArray.length;
@@ -2165,9 +2158,9 @@ class CBOR {
       byteArray = CBOR.addArrays(new Uint8Array([0]), byteArray);
       length++;
     }
-    // Does this number qualify as a "bignum"?
+    // Does this number qualify as a "bigint"?
     if (length <= 8) {
-      // Apparently not, encode it as "integer".
+      // Apparently not, encode it as an "int".
       if (length == 1 && byteArray[0] <= 23) {
         return new Uint8Array([tag | byteArray[0]]);
       }
@@ -2177,7 +2170,7 @@ class CBOR {
       }
       return CBOR.addArrays(new Uint8Array([tag | modifier]), byteArray);
     }
-    // It is a "bignum".
+    // It is a "bigint".
     return CBOR.addArrays(new Uint8Array([tag == CBOR.#MT_NEGATIVE ?
                                              CBOR.#MT_BIG_NEGATIVE : CBOR.#MT_BIG_UNSIGNED]), 
                           CBOR.Bytes(byteArray).encode());
@@ -2457,7 +2450,7 @@ class CBOR {
   }
 
   static get version() {
-    return "1.0.18";
+    return "1.0.19";
   }
 }
 

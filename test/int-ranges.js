@@ -17,7 +17,8 @@ function badRun(method, value) {
     assertTrue("Should fail", false);
   } catch (error) {
     if (!error.toString().includes('Value out of range:') &&
-        !error.toString().includes('Number.MAX_SAFE_INTEGER')) {
+        !(error.toString().includes('Expected CBOR.Int, got: CBOR.BigInt') &&
+          method.indexOf("64"))) {
       throw error;
     }
   }
