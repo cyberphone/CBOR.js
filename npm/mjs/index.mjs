@@ -24,64 +24,62 @@ export default class CBOR {
 
     #rangeBigInt(min, max) {
       let value = this.getBigInt();
-      if (value < min || value > max) {
-        CBOR.#error("Value out of range: " + value);
-      }
+      CBOR.#rangeCheck(value, min, max);
       return value;
     }
 
-    #rangeNumber = function(min, max) {
+    #rangeNumber(min, max) {
       return Number(this.#rangeBigInt(min, max));
     } 
 
-    getInt8 = function() {
+    getInt8() {
       return this.#rangeNumber(-0x80n, 0x7fn);
     }
 
-    getUint8 = function() {
+    getUint8() {
       return this.#rangeNumber(0n, 0xffn);
     }
 
-    getInt16 = function() {
+    getInt16() {
       return this.#rangeNumber(-0x8000n, 0x7fffn);
     }
 
-    getUint16 = function() {
+    getUint16() {
       return this.#rangeNumber(0n, 0xffffn);
     }
 
-    getInt32 = function() {
+    getInt32() {
       return this.#rangeNumber(-0x80000000n, 0x7fffffffn);
     }
 
-    getUint32 = function() {
+    getUint32() {
       return this.#rangeNumber(0n, 0xffffffffn);
     }
 
-    getInt53 = function() {
+    getInt53() {
       return this.#rangeNumber(-9007199254740991n, 9007199254740991n);
     }
 
-    getInt64 = function() {
+    getInt64() {
       return this.#rangeBigInt(-0x8000000000000000n, 0x7fffffffffffffffn);
     }
 
-    getUint64 = function() {
+    getUint64() {
       return this.#rangeBigInt(0n, 0xffffffffffffffffn);
     }
 
-    getBigInt = function() {
+    getBigInt() {
       if (this instanceof CBOR.Int) {
         return this.#checkTypeAndGetValue(CBOR.Int);
       }
       return this.#checkTypeAndGetValue(CBOR.BigInt);
     }
 
-    getString = function() {
+    getString() {
       return this.#checkTypeAndGetValue(CBOR.String);
     }
 
-    getDateTime = function() {
+    getDateTime() {
       let iso = this.getString();
       // Fails on https://www.rfc-editor.org/rfc/rfc3339.html#section-5.8
       // Leap second 1990-12-31T15:59:60-08:00
@@ -97,7 +95,7 @@ export default class CBOR {
       CBOR.#error("Invalid ISO date string: " + iso);
     }
 
-    getEpochTime = function() {
+    getEpochTime() {
       let epochMillis =
         CBOR.#epochCheck((this instanceof CBOR.Int ? this.getInt53() : this.getFloat64()) * 1000);
       let epochTime = new Date();
@@ -105,11 +103,11 @@ export default class CBOR {
       return epochTime;
     }
 
-    getBytes = function() {
+    getBytes() {
       return this.#checkTypeAndGetValue(CBOR.Bytes);
     }
 
-    #rangeFloat = function(max) {
+    #rangeFloat(max) {
       let value = this.getFloat64();
       if (this.length > max) {
         CBOR.#error("Value out of range: " + this.toString());
@@ -117,23 +115,23 @@ export default class CBOR {
       return value;
     }
 
-    getFloat16 = function() {
+    getFloat16() {
       return this.#rangeFloat(2);
     }
 
-    getFloat32 = function() {
+    getFloat32() {
       return this.#rangeFloat(4);
     }
 
-    getFloat64 = function() {
+    getFloat64() {
       return this.#checkTypeAndGetValue(CBOR.Float);
     }
 
-    getNonFinite64 = function() {
+    getNonFinite64() {
       return this.#checkTypeAndGetValue(CBOR.NonFinite);
     }
 
-    getExtendedFloat64 = function() {
+    getExtendedFloat64() {
       if (this instanceof CBOR.NonFinite) {
         switch (this.getNonFinite()) {
           case 0x7e00n:
@@ -149,11 +147,11 @@ export default class CBOR {
       return this.getFloat64();
     }
 
-    getBoolean = function() {
+    getBoolean() {
       return this.#checkTypeAndGetValue(CBOR.Boolean);
     }
 
-    isNull = function() {
+    isNull() {
       if (this instanceof CBOR.Null) {
         this.#readFlag = true;
         return true;
@@ -161,46 +159,46 @@ export default class CBOR {
       return false;
     }
 
-    getSimple = function() {
+    getSimple() {
       return this.#checkTypeAndGetValue(CBOR.Simple);
     }
 
-    equals = function(object) {
+    equals(object) {
       if (object && object instanceof CBOR.#CborObject) {
         return CBOR.compareArrays(this.encode(), object.encode()) == 0;
       }
       return false;
     }
 
-    clone = function() {
+    clone() {
       return CBOR.decode(this.encode());
     }
 
-    #noSuchMethod = function(method) {
+    #noSuchMethod(method) {
       CBOR.#error(method + '() not available in: CBOR.' + this.constructor.name); 
     }
 
-    get = function() {
+    get() {
       this.#noSuchMethod("get");
     }
 
-    toDiagnostic = function(prettyPrint) {
+    toDiagnostic(prettyPrint) {
       let cborPrinter = new CBOR.#CborPrinter(CBOR.#typeCheck(prettyPrint, 'boolean'));
       this.internalToString(cborPrinter);
       return cborPrinter.buffer;
     }
 
-    toString = function() {
+    toString() {
       return this.toDiagnostic(true);
     }
 
-    _immutableTest = function() {
+    _immutableTest() {
       if (this._immutableFlag) {
         CBOR.#error('Map keys are immutable'); 
       }
     }
 
-    _markAsRead = function() {
+    _markAsRead() {
       this.#readFlag = true;
     }
 
@@ -237,12 +235,12 @@ export default class CBOR {
       }
     }
 
-    scan = function() {
+    scan() {
       this.#traverse(null, false);
       return this;
     }
 
-    checkForUnread = function() {
+    checkForUnread() {
       this.#traverse(null, true);
     }
 
@@ -253,7 +251,7 @@ export default class CBOR {
       return this._getLength();
     }
  
-    #checkTypeAndGetValue = function(className) {
+    #checkTypeAndGetValue(className) {
       if (!(this instanceof className)) {
         CBOR.#error("Expected CBOR." + className.name + ", got: CBOR." + this.constructor.name);
       }
@@ -269,7 +267,7 @@ export default class CBOR {
     }
   }
 
-  static #error = function(message) {
+  static #error(message) {
     if (message.length > 100) {
       message = message.substring(0, 100) + ' ...';
     }
@@ -327,44 +325,52 @@ export default class CBOR {
       }
     }
     
-    encode = function() {
+    encode() {
       return CBOR.#encodeIntegerOrTag(CBOR.#MT_UNSIGNED, this.#value);
     }
 
-    internalToString = function(cborPrinter) {
+    internalToString(cborPrinter) {
       cborPrinter.append(this.#value.toString());
     }
 
-    _get = function() {
+    _get() {
       return this.#value;
     }
 
-    static createInt8 = function(value) {
-      return CBOR.#rangeCheck(value, -0x80n, 0x7fn);
+    static createInt8(value) {
+      return CBOR.#createInt(value, -0x80n, 0x7fn);
     }
 
-    static createUint8 = function(value) {
-      return CBOR.#rangeCheck(value, 0n, 0xffn);
+    static createUint8(value) {
+      return CBOR.#createInt(value, 0n, 0xffn);
     }
 
-    static createInt16 = function(value) {
-      return CBOR.#rangeCheck(value, -0x8000n, 0x7fffn);
+    static createInt16(value) {
+      return CBOR.#createInt(value, -0x8000n, 0x7fffn);
     }
 
-    static createUint16 = function(value) {
-      return CBOR.#rangeCheck(value, 0n, 0xffffn);
+    static createUint16(value) {
+      return CBOR.#createInt(value, 0n, 0xffffn);
     }
 
-    static createInt32 = function(value) {
-      return CBOR.#rangeCheck(value, -0x80000000n, 0x7fffffffn);
+    static createInt32(value) {
+      return CBOR.#createInt(value, -0x80000000n, 0x7fffffffn);
     }
 
-    static createUint32 = function(value) {
-      return CBOR.#rangeCheck(value, 0n, 0xffffffffn);
+    static createUint32(value) {
+      return CBOR.#createInt(value, 0n, 0xffffffffn);
     }
 
-    static createInt53 = function(value) {
-      return CBOR.#rangeCheck(value, -9007199254740991n, 9007199254740991n);
+    static createInt53(value) {
+      return CBOR.#createInt(value, -9007199254740991n, 9007199254740991n);
+    }
+
+    static createInt64(value) {
+      return CBOR.#createInt(value, -0x8000000000000000n, 0x7fffffffffffffffn);
+    }
+
+    static createUint64(value) {
+      return CBOR.#createInt(value, 0n, 0xffffffffffffffffn);
     }
   }
 
@@ -381,15 +387,15 @@ export default class CBOR {
       this.#value = CBOR.#typeCheck(value, 'bigint');
     }
     
-    encode = function() {
+    encode() {
       return CBOR.#encodeIntegerOrTag(CBOR.#MT_UNSIGNED, this.#value);
     }
 
-    internalToString = function(cborPrinter) {
+    internalToString(cborPrinter) {
       cborPrinter.append(this.#value.toString());
     }
  
-    _get = function() {
+    _get() {
       return this.#value;
     }
   }
@@ -488,12 +494,12 @@ export default class CBOR {
       }
     }
     
-    encode = function() {
+    encode() {
       return CBOR.addArrays(new Uint8Array([(this.#encoded.length >> 2) + CBOR.#MT_FLOAT16]),
                             this.#encoded);
     }
 
-    internalToString = function(cborPrinter) {
+    internalToString(cborPrinter) {
       let floatString = Object.is(this.#value,-0) ? '-0.0' : this.#value.toString();
       // Diagnostic Notation support.
       if (floatString.indexOf('.') < 0) {
@@ -505,19 +511,19 @@ export default class CBOR {
       cborPrinter.append(floatString);
     }
 
-    _compare = function(decoded) {
+    _compare(decoded) {
       return CBOR.compareArrays(this.#encoded, decoded);
     }
 
-    _getLength = function() {
+    _getLength() {
       return this.#encoded.length;
     }
 
-    _get = function() {
+    _get() {
       return this.#value;
     }
 
-    static createExtendedFloat = function(value) {
+    static createExtendedFloat(value) {
       if (Number.isFinite(CBOR.#typeCheck(value, 'number'))) {
         return CBOR.Float(value);
       }
@@ -552,12 +558,12 @@ export default class CBOR {
       this.#textString = CBOR.#typeCheck(textString, 'string');
     }
     
-    encode = function() {
+    encode() {
       let utf8 = new TextEncoder().encode(this.#textString);
       return CBOR.addArrays(CBOR.#encodeTagAndN(CBOR.#MT_STRING, utf8.length), utf8);
     }
 
-    internalToString = function(cborPrinter) {
+    internalToString(cborPrinter) {
       cborPrinter.append('"');
       for (let q = 0; q < this.#textString.length; q++) {
         let c = this.#textString.charCodeAt(q);
@@ -578,7 +584,7 @@ export default class CBOR {
       cborPrinter.append('"');
     }
 
-    _get = function() {
+    _get() {
       return this.#textString;
     }
   }
@@ -596,16 +602,16 @@ export default class CBOR {
       this.#byteString = CBOR.#bytesCheck(byteString);
     }
     
-    encode = function() {
+    encode() {
       return CBOR.addArrays(CBOR.#encodeTagAndN(CBOR.#MT_BYTES, this.#byteString.length), 
                             this.#byteString);
     }
 
-    internalToString = function(cborPrinter) {
+    internalToString(cborPrinter) {
       cborPrinter.append("h'" + CBOR.toHex(this.#byteString) + "'");
     }
 
-    _get = function() {
+    _get() {
       return this.#byteString;
     }
   }
@@ -623,15 +629,15 @@ export default class CBOR {
       this.#value = CBOR.#typeCheck(value, 'boolean');
     }
     
-    encode = function() {
+    encode() {
       return new Uint8Array([this.#value ? CBOR.#MT_TRUE : CBOR.#MT_FALSE]);
     }
 
-    internalToString = function(cborPrinter) {
+    internalToString(cborPrinter) {
       cborPrinter.append(this.#value.toString());
     }
 
-    _get = function() {
+    _get() {
       return this.#value;
     }
   }
@@ -642,11 +648,11 @@ export default class CBOR {
  
   static Null = class extends CBOR.#CborObject {
     
-    encode = function() {
+    encode() {
       return new Uint8Array([CBOR.#MT_NULL]);
     }
 
-    internalToString = function(cborPrinter) {
+    internalToString(cborPrinter) {
       cborPrinter.append('null');
     }
   }
@@ -659,14 +665,14 @@ export default class CBOR {
 
     #objects = [];
 
-    add = function(object) {
+    add(object) {
       CBOR.#checkArgs(arguments, 1);
       this._immutableTest();
       this.#objects.push(CBOR.#cborArgumentCheck(object));
       return this;
     }
 
-    #getIndex = function(index, offset) {
+    #getIndex(index, offset) {
       index = CBOR.#intCheck(index);
       if (index < 0 || index >= this.#objects.length + offset) {
         CBOR.#error("Array index out of range: " + index);
@@ -674,53 +680,53 @@ export default class CBOR {
       return index;
     }
 
-    get = function(index) {
+    get(index) {
       CBOR.#checkArgs(arguments, 1);
       this._markAsRead();
       return this.#objects[this.#getIndex(index, 0)];
     }
 
-    insert = function(index, object) {
+    insert(index, object) {
       CBOR.#checkArgs(arguments, 2);
       this._immutableTest();
       this.#objects.splice(this.#getIndex(index, 1), 0, CBOR.#cborArgumentCheck(object));
       return this;
     }
 
-    update = function(index, object) {
+    update(index, object) {
       CBOR.#checkArgs(arguments, 2);
       this._immutableTest();
       return this.#objects.splice(this.#getIndex(index, 0), 1, CBOR.#cborArgumentCheck(object))[0];
     }
 
-    remove = function(index) {
+    remove(index) {
       CBOR.#checkArgs(arguments, 1);
       this._immutableTest();
       return this.#objects.splice(this.#getIndex(index, 0), 1)[0]; 
     }
 
-    toArray = function() {
+    toArray() {
       let array = [];
       this.#objects.forEach(object => array.push(object));
       return array;
     }
 
-    #encodeBody = function(header) {
+    #encodeBody(header) {
       this.#objects.forEach(object => {
         header = CBOR.addArrays(header, object.encode());
       });
       return header;
     }
 
-    encodeAsSequence = function() {
+    encodeAsSequence() {
       return this.#encodeBody(new Uint8Array());
     }
 
-    encode = function() {
+    encode() {
       return this.#encodeBody(CBOR.#encodeTagAndN(CBOR.#MT_ARRAY, this.#objects.length));
     }
 
-    internalToString = function(cborPrinter) {
+    internalToString(cborPrinter) {
       if (cborPrinter.arrayFolding(this)) {
         cborPrinter.beginList('[');
         let notFirst = false;
@@ -747,7 +753,7 @@ export default class CBOR {
       }
     }
 
-    _getLength = function() {
+    _getLength() {
       return this.#objects.length;
     }
   }
@@ -770,11 +776,11 @@ export default class CBOR {
         this.encodedKey = key.encode();
       }
 
-      compare = function(encodedKey) {
+      compare(encodedKey) {
         return CBOR.compareArrays(this.encodedKey, encodedKey);
       }
 
-      compareAndTest = function(entry) {
+      compareAndTest(entry) {
         let diff = this.compare(entry.encodedKey);
         if (diff == 0) {
           CBOR.#error("Duplicate key: " + this.key);
@@ -783,7 +789,7 @@ export default class CBOR {
       }
     }
 
-    set = function(key, object) {
+    set(key, object) {
       CBOR.#checkArgs(arguments, 2);
       this._immutableTest();
       let newEntry = new CBOR.Map.Entry(this.#getKey(key), CBOR.#cborArgumentCheck(object));
@@ -821,11 +827,11 @@ export default class CBOR {
       return this;
     }
 
-    setDynamic = function(dynamic) {
+    setDynamic(dynamic) {
       return dynamic(this);
     }
 
-    #getKey = function(key) {
+    #getKey(key) {
       return CBOR.#cborArgumentCheck(key);
     }
 
@@ -853,7 +859,7 @@ export default class CBOR {
       return null;
     }
 
-    update = function(key, object, existing) {
+    update(key, object, existing) {
       CBOR.#checkArgs(arguments, 3);
       this._immutableTest();
       let entry = this.#lookup(key, existing);
@@ -868,7 +874,7 @@ export default class CBOR {
       return previous;
     }
 
-    merge = function(map) {
+    merge(map) {
       CBOR.#checkArgs(arguments, 1);
       this._immutableTest();
       if (!(map instanceof CBOR.Map)) {
@@ -880,13 +886,13 @@ export default class CBOR {
       return this;
     }
 
-    get = function(key) {
+    get(key) {
       CBOR.#checkArgs(arguments, 1);
       this._markAsRead();
       return this.#lookup(key, true).object;
     }
 
-    getConditionally = function(key, defaultObject) {
+    getConditionally(key, defaultObject) {
       CBOR.#checkArgs(arguments, 2);
       let entry = this.#lookup(key, false);
       // Note: defaultValue may be 'null'
@@ -894,7 +900,7 @@ export default class CBOR {
       return entry ? entry.object : defaultObject;
     }
 
-    getKeys = function() {
+    getKeys() {
       let keys = [];
       this.#entries.forEach(entry => {
         keys.push(entry.key);
@@ -902,7 +908,7 @@ export default class CBOR {
       return keys;
     }
 
-    remove = function(key) {
+    remove(key) {
       CBOR.#checkArgs(arguments, 1);
       this._immutableTest();
       let targetEntry = this.#lookup(key, true);
@@ -910,16 +916,16 @@ export default class CBOR {
       return targetEntry.object;
     }
 
-    _getLength = function() {
+    _getLength() {
       return this.#entries.length;
     }
 
-    containsKey = function(key) {
+    containsKey(key) {
       CBOR.#checkArgs(arguments, 1);
       return this.#lookup(key, false) != null;
     }
 
-    encode = function() {
+    encode() {
       let encoded = CBOR.#encodeTagAndN(CBOR.#MT_MAP, this.#entries.length);
       this.#entries.forEach(entry => {
         encoded = CBOR.addArrays(encoded, 
@@ -928,7 +934,7 @@ export default class CBOR {
       return encoded;
     }
 
-    internalToString = function(cborPrinter) {
+    internalToString(cborPrinter) {
       let notFirst = false;
       cborPrinter.beginList('{');
       this.#entries.forEach(entry => {
@@ -944,13 +950,13 @@ export default class CBOR {
       cborPrinter.endList(notFirst, '}');
     }
 
-    setSortingMode = function(preSortedKeys) {
+    setSortingMode(preSortedKeys) {
       CBOR.#checkArgs(arguments, 1);
       this.#preSortedKeys = preSortedKeys;
       return this;
     }
 
-    #makeImmutable = function(object) {
+    #makeImmutable(object) {
       object._immutableFlag = true;
       if (object instanceof CBOR.Map) {
         object.getKeys().forEach(key => {
@@ -1018,7 +1024,7 @@ export default class CBOR {
       }
     }
 
-    getDateTime = function() {
+    getDateTime() {
       if (!this.#dateTime) {
         this.#errorInObject(CBOR.Tag.ERR_DATE_TIME);
       }
@@ -1026,7 +1032,7 @@ export default class CBOR {
       return this.#dateTime;
     }
 
-    getEpochTime = function() {
+    getEpochTime() {
       if (!this.#epochTime) {
         this.#errorInObject(CBOR.Tag.ERR_EPOCH_TIME);
       }
@@ -1034,16 +1040,16 @@ export default class CBOR {
       return this.#epochTime;
     }
 
-    #errorInObject = function(message) {
+    #errorInObject(message) {
       CBOR.#error(message + this.toDiagnostic(false));
     }
 
-    encode = function() {
+    encode() {
       return CBOR.addArrays(CBOR.#encodeIntegerOrTag(CBOR.#MT_TAG, this.#tagNumber),
                             this.#object.encode());
     }
 
-    internalToString = function(cborPrinter) {
+    internalToString(cborPrinter) {
       cborPrinter.append(this.#tagNumber.toString()).append('(');
       if (this.#cotxObject == null) {
         this.#object.internalToString(cborPrinter);
@@ -1057,17 +1063,17 @@ export default class CBOR {
       cborPrinter.append(')');
     }
 
-    getTagNumber = function() {
+    getTagNumber() {
       return this.#tagNumber;
     }
     
-    get = function() {
+    get() {
       CBOR.#checkArgs(arguments, 0);
       this._markAsRead();
       return this.#object;
     }
 
-    _checkCotx = function() {
+    _checkCotx() {
       if (!this.#cotxObject) {
         this.#errorInObject(CBOR.Tag.ERR_COTX);
       }
@@ -1099,15 +1105,15 @@ export default class CBOR {
       }
     }
 
-    encode = function() {
+    encode() {
       return CBOR.#encodeTagAndN(CBOR.#MT_SIMPLE, this.#value);
     }
 
-    internalToString = function(cborPrinter) {
+    internalToString(cborPrinter) {
       cborPrinter.append('simple(' + this.#value.toString() + ')');
     }
 
-    _get = function() {
+    _get() {
       return this.#value;
     }
   }
@@ -1128,7 +1134,7 @@ export default class CBOR {
       this.#createDetEnc(value);
     }
 
-    #createDetEnc = function(value) {
+    #createDetEnc(value) {
       badValue:
         while (true) {
           this.#ieee754 = CBOR.fromBigInt(value);
@@ -1172,7 +1178,7 @@ export default class CBOR {
         CBOR.#error("Not a non-finite number: " + this.#original);
     }
 
-    isSimple = function() {
+    isSimple() {
       if (this.#ieee754.length == 2) {
         switch (this.#value) {
           case 0x7e00n:
@@ -1184,13 +1190,13 @@ export default class CBOR {
       return false;
     }
 
-    setSign = function(sign) {
+    setSign(sign) {
       let mask = 1n << BigInt((this.#ieee754.length * 8) - 1);
       this.#createDetEnc((this.#value & (mask - 1n)) | (sign ? mask : 0n));
       return this;
     }
 
-    isNaN = function() {
+    isNaN() {
       let mask;
       switch (this.#ieee754.length) {
         case 2:
@@ -1205,11 +1211,11 @@ export default class CBOR {
       return (mask & this.#value) != 0n;
     }
 
-    getSign = function() {
+    getSign() {
       return this.#ieee754[0] > 0x7f;
     }
 
-    static createPayload = function(payload) {
+    static createPayload(payload) {
       CBOR.#typeCheck(payload, 'bigint');
       if ((payload & 0xfffffffffffffn) != payload) {
         CBOR.#error("Payload out of range: " + payload);
@@ -1217,12 +1223,12 @@ export default class CBOR {
       return CBOR.NonFinite(0x7ff0000000000000n + CBOR.#reverseBits(payload, 52));
     }
 
-    getNonFinite = function() {
+    getNonFinite() {
       this.scan();
       return this.#value;
     }
 
-    #toNonFinite64 = function(significandLength) {
+    #toNonFinite64(significandLength) {
       let nf64 = this.#value;
       nf64 &= (1n << significandLength) - 1n;
       nf64 = 0x7ff0000000000000n | (nf64 << (52n - significandLength));
@@ -1232,15 +1238,15 @@ export default class CBOR {
       return nf64;       
     }
 
-    getPayload = function() {
+    getPayload() {
       return CBOR.#reverseBits(this.getNonFinite64() & 0xfffffffffffffn, 52);
     }
 
-    encode = function() {
+    encode() {
       return CBOR.addArrays(new Uint8Array([0xf9 + (this.#ieee754.length >> 2)]), this.#ieee754);
     }
 
-    internalToString = function(cborPrinter) {  
+    internalToString(cborPrinter) {  
       if (this.isSimple()) {
         cborPrinter.append(this.isNaN() ? "NaN" : this.getSign() ? "-Infinity" : "Infinity");
       } else {
@@ -1248,11 +1254,11 @@ export default class CBOR {
       }
     }
   
-    _getLength = function() {
+    _getLength() {
       return this.#ieee754.length;
     }
   
-    _get = function() {
+    _get() {
       switch (this.#ieee754.length) {
         case 2:
           return this.#toNonFinite64(10n);
@@ -1262,7 +1268,7 @@ export default class CBOR {
       return this.#value;
     }
 
-    _getValue = function() {
+    _getValue() {
       return this.#value;
     }
   }
@@ -1331,11 +1337,11 @@ export default class CBOR {
       this.strictNumbers = !(options & CBOR.LENIENT_NUMBER_DECODING);
     }
 
-    eofError = function() {
+    eofError() {
       CBOR.#error("Reading past end of buffer");
     }
 
-    readByte = function() {
+    readByte() {
       if (this.byteCount >= this.maxLength) {
         if (this.sequenceMode && this.atFirstByte) {
           return 0;
@@ -1346,7 +1352,7 @@ export default class CBOR {
       return this.cbor[this.byteCount++];
     }
         
-    readBytes = function(length) {
+    readBytes(length) {
       if (this.byteCount + length  > this.maxLength) {
         this.eofError();
       }
@@ -1358,24 +1364,24 @@ export default class CBOR {
       return result;
     }
 
-    unsupportedTag = function(tag) {
+    unsupportedTag(tag) {
       CBOR.#error("Unsupported tag: " + CBOR.#twoHex(tag));
     }
 
-    rangeLimitedBigInt = function(value) {
+    rangeLimitedBigInt(value) {
       if (value > 0xffffffffn) {
         CBOR.#error("Length limited to 0xffffffff");
       }
       return Number(value);
     }
 
-    printFloatDetErr = function(decoded) {
+    printFloatDetErr(decoded) {
       CBOR.#error("Non-deterministic encoding of floating-point value: " + 
         CBOR.#twoHex((decoded.length >> 2) + CBOR.#MT_FLOAT16) + 
         CBOR.toHex(decoded));
     } 
 
-    returnFloat = function(decoded, f64) {
+    returnFloat(decoded, f64) {
       let cborFloat = CBOR.Float(f64);
       if (this.strictNumbers && cborFloat._compare(decoded)) {
         this.printFloatDetErr(decoded);
@@ -1383,7 +1389,7 @@ export default class CBOR {
       return cborFloat;
     }
 
-    returnNonFinite = function (decoded) {
+    returnNonFinite (decoded) {
       let value = CBOR.toBigInt(decoded);
       let nonFinite = CBOR.NonFinite(value);
       if (this.strictNumbers && nonFinite._getValue() != value) {
@@ -1399,7 +1405,7 @@ export default class CBOR {
     //    create an '#encoded' byte string holding the deterministic IEEE 754 representation.
     // 4. Optionally verify that '#encoded' is equal to the byte string read at step 1.
     // Maybe not the most performant solution, but hey, this is a "Reference Implementation" :)
-    decodeF16 = function() {
+    decodeF16() {
       let decoded = this.readBytes(2);
       let value = CBOR.toBigInt(decoded);
       let exponent = Number(value & 0x7c00n);
@@ -1421,7 +1427,7 @@ export default class CBOR {
       return this.returnFloat(decoded, decoded[0] < 128 ? f64 : -f64);
     }
 
-    decodeF32 = function() {
+    decodeF32() {
       let decoded = this.readBytes(4);
       let value = CBOR.toBigInt(decoded);
       // Is it a non-finite number?
@@ -1433,7 +1439,7 @@ export default class CBOR {
       return this.returnFloat(decoded, new DataView(decoded.buffer, 0, 4).getFloat32(0, false));
     }
 
-    decodeF64 = function() {
+    decodeF64() {
       let decoded = this.readBytes(8);
       // Is it a non-finite number?
       if ((decoded[0] & 0x7f) == 0x7f && (decoded[1] & 0xf0) == 0xf0) {
@@ -1444,14 +1450,14 @@ export default class CBOR {
       return this.returnFloat(decoded, new DataView(decoded.buffer, 0, 8).getFloat64(0, false));
     }
 
-    selectInteger = function(value) {
+    selectInteger(value) {
       if (value < CBOR.#MIN_INT || value > CBOR.#MAX_INT) {
         return CBOR.BigInt(value);
       } 
       return CBOR.Int(value);
     }
 
-    getObject = function() {
+    getObject() {
       let tag = this.readByte();
 
       // Begin with CBOR types that are uniquely defined by the tag byte.
@@ -1548,7 +1554,7 @@ export default class CBOR {
     // Decoder.* public methods //
     //////////////////////////////
 
-    decodeWithOptions = function() {
+    decodeWithOptions() {
       this.atFirstByte = true;
       let object = this.getObject();
       if (this.sequenceMode) {
@@ -1561,7 +1567,7 @@ export default class CBOR {
       return object;
     }
 
-    getByteCount = function() {
+    getByteCount() {
       return this.byteCount;
     }
   }
@@ -1570,7 +1576,7 @@ export default class CBOR {
 //     CBOR.decode()     //
 ///////////////////////////
 
-  static decode = function(cbor) {
+  static decode(cbor) {
     return CBOR.initDecoder(cbor, 0).decodeWithOptions();
   }
 
@@ -1578,7 +1584,7 @@ export default class CBOR {
 //  CBOR.initDecoder()  //
 ///////////////////////////
 
-  static initDecoder = function(cbor, options) {
+  static initDecoder(cbor, options) {
     return new CBOR.Decoder(cbor, options);
   }
 
@@ -1606,7 +1612,7 @@ export default class CBOR {
     }
  
   
-    parserError = function(error) {
+    parserError(error) {
       // Unsurprisingly, error handling turned out to be the most complex part...
       let start = this.index - 100;
       if (start < 0) {
@@ -1646,7 +1652,7 @@ export default class CBOR {
                 "^\n\nError in line " + lineNumber + ". " + error);
     }
  
-    readSequenceToEOF = function() {
+    readSequenceToEOF() {
       try {
         let sequence = [];
         this.scanNonSignficantData();
@@ -1675,14 +1681,14 @@ export default class CBOR {
       }
     }
 
-    getObject = function() {
+    getObject() {
       this.scanNonSignficantData();
       let cborObject = this.getRawObject();
       this.scanNonSignficantData();
       return cborObject;
     }
   
-    continueList = function(validStop) {
+    continueList(validStop) {
       if (this.nextChar() == ',') {
         this.readChar();
         return true;
@@ -1696,7 +1702,7 @@ export default class CBOR {
       return false;
     }
   
-    getRawObject = function() {
+    getRawObject() {
       switch (this.readChar()) {
     
         case '<':
@@ -1817,7 +1823,7 @@ export default class CBOR {
       }
     }
 
-    simpleType = function() {
+    simpleType() {
       let token = '';
       while (true)  {
         switch (this.nextChar()) {
@@ -1841,7 +1847,7 @@ export default class CBOR {
       return CBOR.Simple(Number(token.trim())).clone();
     }
 
-    getNumberOrTag = function(negative) {
+    getNumberOrTag(negative) {
       let token = '';
       this.index--;
       let prefix = null;
@@ -1921,25 +1927,25 @@ export default class CBOR {
       return CBOR.BigInt(negative ? -bigInt : bigInt).clone();
     }
 
-    testForNonDecimal = function(nonDecimal) {
+    testForNonDecimal(nonDecimal) {
       if (nonDecimal) {
         this.parserError("0b, 0o, and 0x prefixes are only permited for integers");
       }
     }
 
-    nextChar = function() {
+    nextChar() {
       if (this.index == this.cborText.length) return String.fromCharCode(0);
       let c = this.readChar();
       this.index--;
       return c;
     }
 
-    toReadableChar = function(c) {
+    toReadableChar(c) {
       let charCode = c.charCodeAt(0); 
       return charCode < 0x20 ? "\\u00" + CBOR.#twoHex(charCode) : "'" + c + "'";
     }
 
-    scanFor = function(expected) {
+    scanFor(expected) {
       [...expected].forEach(c => {
         let actual = this.readChar(); 
         if (c != actual) {
@@ -1948,7 +1954,7 @@ export default class CBOR {
       });
     }
 
-    getString = function(byteString) {
+    getString(byteString) {
       let s = '';
       while (true) {
         let c;
@@ -2028,7 +2034,7 @@ export default class CBOR {
       }
     }
   
-    getBytes = function(b64) {
+    getBytes(b64) {
       let token = '';
       this.scanFor("'");
       while(true) {
@@ -2052,14 +2058,14 @@ export default class CBOR {
       return CBOR.Bytes(b64 ? CBOR.fromBase64Url(token) : CBOR.fromHex(token));
     }
 
-    readChar = function() {
+    readChar() {
       if (this.index >= this.cborText.length) {
         this.parserError("Unexpected EOF");
       }
       return this.cborText[this.index++];
     }
 
-    scanNonSignficantData = function() {
+    scanNonSignficantData() {
       while (this.index < this.cborText.length) {
         switch (this.nextChar()) {
           case ' ':
@@ -2093,11 +2099,11 @@ export default class CBOR {
 //   CBOR.fromDiagnosticSeq()   //
 //////////////////////////////////
 
-  static fromDiagnostic = function(cborText) {
+  static fromDiagnostic(cborText) {
     return new CBOR.DiagnosticNotation(cborText, false).readSequenceToEOF()[0];
   }
 
-  static fromDiagnosticSeq = function(cborText) {
+  static fromDiagnosticSeq(cborText) {
     return new CBOR.DiagnosticNotation(cborText, true).readSequenceToEOF();
   }
 
@@ -2105,7 +2111,7 @@ export default class CBOR {
 //    Internal Support Methods    //
 //================================//
 
-  static #encodeTagAndN = function(majorType, n) {
+  static #encodeTagAndN(majorType, n) {
     let modifier = n;
     let length = 0;
     if (n > 23) {
@@ -2127,23 +2133,28 @@ export default class CBOR {
     return encoded;
   }
 
-  static #bytesCheck = function(byteArray) {
+  static #bytesCheck(byteArray) {
     if (byteArray instanceof Uint8Array) {
       return byteArray;
     }
     CBOR.#error("Argument is not an 'Uint8Array'");
   }
 
-  static #typeCheck = function(object, type) {
+  static #typeCheck(object, type) {
     if (typeof object != type) {
       CBOR.#error("Argument is not a '" + type + "'");
     }
     return object;
   }
 
-  static #rangeCheck = function(value, min, max) {
+  static #createInt(value, min, max) {
     value = CBOR.#unifiedInt(value);
     let cborInt = CBOR.Int(value);
+    CBOR.#rangeCheck(value, min, max);
+    return cborInt;
+  }
+
+  static #rangeCheck(value, min, max) {
     if (value < min || value > max) {
       if (min < 0n && max != 9007199254740991n) {
         max++;
@@ -2156,14 +2167,13 @@ export default class CBOR {
       let type = (min ? "Int" : "Uint") + bits;
       CBOR.#error("Argument is not a '" + type + "'");
     }
-    return cborInt;
   }
 
-  static #unifiedInt = function(value) {
+  static #unifiedInt(value) {
     return typeof value == 'bigint' ? value : BigInt(CBOR.#intCheck(value));
   }
 
-  static #intCheck = function(value) {
+  static #intCheck(value) {
     CBOR.#typeCheck(value, 'number');
     if (Number.isSafeInteger(value)) {
       return value;
@@ -2172,14 +2182,14 @@ export default class CBOR {
     }
   }
 
-  static #overflowCheck = function(value) {
+  static #overflowCheck(value) {
     if (!Number.isFinite(value)) {
       CBOR.#error("Value out of range for this floating-point type");
     }
     return value;
   }
 
-  static #reduce32Check = function(value) {
+  static #reduce32Check(value) {
     value = CBOR.#typeCheck(value, 'number');
     if (!Number.isFinite(value)) {
       CBOR.#error("Not permitted: 'NaN/Infinity'");
@@ -2187,7 +2197,7 @@ export default class CBOR {
     return CBOR.#overflowCheck(Math.fround(value));
   }
 
-  static #encodeIntegerOrTag = function(tag, value) {
+  static #encodeIntegerOrTag(tag, value) {
     // Negative values only applies to integers.
     if (value < 0n) {
       value = ~value;
@@ -2229,23 +2239,23 @@ export default class CBOR {
       this.prettyPrint = prettyPrint;
     }
 
-    beginList = function(endChar) {
+    beginList(endChar) {
       this.indentationLevel++;
       this.buffer += endChar;
     }
 
-    append = function(string) {
+    append(string) {
       this.buffer += string;
       return this;
     }
 
-    space = function() {
+    space() {
       if (this.prettyPrint) {
         this.buffer += ' ';
       }
     }
 
-    arrayFolding = function(array) {
+    arrayFolding(array) {
       if (this.prettyPrint) {
         if (array.length == 0) {
           return false;
@@ -2270,7 +2280,7 @@ export default class CBOR {
       return false;
     }
 
-    newlineAndIndent = function() {
+    newlineAndIndent() {
       if (this.prettyPrint) {
         this.startOfLine = this.buffer.length;
         this.buffer += '\n';
@@ -2280,7 +2290,7 @@ export default class CBOR {
       }
     }
 
-    endList = function(notEmpty, endChar) {
+    endList(notEmpty, endChar) {
       this.indentationLevel--;
       if (notEmpty) {
         this.newlineAndIndent();
@@ -2289,39 +2299,39 @@ export default class CBOR {
     }
   }
   
-  static #int16ToByteArray = function(int16) {
+  static #int16ToByteArray(int16) {
     return new Uint8Array([int16 / 256, int16 % 256]);
   }
 
-  static #oneHex = function(digit) {
+  static #oneHex(digit) {
     return String.fromCharCode(digit < 10 ? (0x30 + digit) : (0x57 + digit));
   }
 
-  static #twoHex = function(byte) {
+  static #twoHex(byte) {
     return CBOR.#oneHex(byte / 16) + CBOR.#oneHex(byte % 16);
   }
 
-  static #cborArgumentCheck = function(object) {
+  static #cborArgumentCheck(object) {
     if (object instanceof CBOR.#CborObject) {
       return object;
     }
     CBOR.#error("Argument is not a CBOR.* object: " + (object ? object.constructor.name : 'null'));
   }
 
-  static #decodeOneHex = function(charCode) {
+  static #decodeOneHex(charCode) {
     if (charCode >= 0x30 && charCode <= 0x39) return charCode - 0x30;
     if (charCode >= 0x61 && charCode <= 0x66) return charCode - 0x57;
     if (charCode >= 0x41 && charCode <= 0x46) return charCode - 0x37;
     CBOR.#error("Bad hex character: " + String.fromCharCode(charCode));
   }
 
-  static #checkArgs = function(list, expected)  {
+  static #checkArgs(list, expected)  {
     if (list.length != expected) {
       CBOR.#error('Expected number of arguments: ' + expected);
     }
   }
 
-  static #epochCheck = function(epochMillis) {
+  static #epochCheck(epochMillis) {
     if (!Number.isFinite(epochMillis) ||
         epochMillis < 0 || epochMillis > 253402300799000 /* "9999-12-31T23:59:59Z" */) {
       CBOR.#error("Epoch out of range: " + epochMillis);
@@ -2329,18 +2339,18 @@ export default class CBOR {
     return epochMillis;
   }
 
-  static #dateCheck = function(time, instant) {
+  static #dateCheck(time, instant) {
     if (time < -62167219200000 || time > 253402300799000) {
       CBOR.#error("Date object out of range: " + instant.toISOString());
     }
     return time;
   }
 
-  static #millisCheck = function(time, millis) {
+  static #millisCheck(time, millis) {
     return time % 1000 ? millis : false;
   }
 
-  static #timeRound = function(time, millis) {
+  static #timeRound(time, millis) {
     if (!millis) {
       let reminder = time % 1000;
       if (time < 0) {
@@ -2357,7 +2367,7 @@ export default class CBOR {
     return time;
   }
 
-  static #reverseBits = function(bits, fieldWidth) {
+  static #reverseBits(bits, fieldWidth) {
     let reversed = 0n;
     let bitCount = 0;
     while (bits > 0n) {
@@ -2377,14 +2387,14 @@ export default class CBOR {
 //     Public Support Methods     //
 //================================//
 
-  static addArrays = function(a, b) {
+  static addArrays(a, b) {
     let result = new Uint8Array(a.length + b.length);
     result.set(a);
     result.set(b, a.length);
     return result;
   }
 
-  static compareArrays = function(a, b) {
+  static compareArrays(a, b) {
     let minIndex = Math.min(a.length, b.length);
     for (let i = 0; i < minIndex; i++) {
       let diff = a[i] - b[i];
@@ -2395,7 +2405,7 @@ export default class CBOR {
     return a.length - b.length;
   }
   
-  static toHex = function(byteArray) {
+  static toHex(byteArray) {
     let result = '';
     byteArray.forEach((element) => {
       result += CBOR.#twoHex(element);
@@ -2403,7 +2413,7 @@ export default class CBOR {
     return result;
   }
 
-  static fromHex = function(hexString) {
+  static fromHex(hexString) {
     let length = hexString.length;
     if (length & 1) {
       CBOR.#error("Uneven number of characters in hex string");
@@ -2416,12 +2426,12 @@ export default class CBOR {
     return result;
   }
 
-  static toBase64Url = function(byteArray) {
+  static toBase64Url(byteArray) {
     return btoa(String.fromCharCode.apply(null, new Uint8Array(byteArray)))
                .replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
   }
 
-  static fromBase64Url = function(base64) {
+  static fromBase64Url(base64) {
     if (!base64.includes('=')) {
       base64 = base64 +  '===='.substring(0, (4 - (base64.length % 4)) % 4);
     }
@@ -2429,7 +2439,7 @@ export default class CBOR {
                            c => c.charCodeAt(0));
   }
 
-  static toBigInt = function(array) {
+  static toBigInt(array) {
     let value = 0n;
     array.forEach(byte => {
       value <<= 8n;
@@ -2438,7 +2448,7 @@ export default class CBOR {
     return value;
   }
 
-  static fromBigInt = function(bigint) {
+  static fromBigInt(bigint) {
     if (bigint < 0n) {
       CBOR.#error("Argument out of range: " + bigint);
     }
@@ -2449,7 +2459,7 @@ export default class CBOR {
     return new Uint8Array(array.reverse());
   }
 
-  static createDateTime = function(instant, millis, utc) {
+  static createDateTime(instant, millis, utc) {
     let time = instant.getTime();
     millis = CBOR.#millisCheck(time, millis);
     time = CBOR.#timeRound(CBOR.#dateCheck(time, instant), millis);
@@ -2485,7 +2495,7 @@ export default class CBOR {
     return CBOR.String(dateTime);
   }
 
-  static createEpochTime = function(instant, millis) {
+  static createEpochTime(instant, millis) {
     let epochMillis = CBOR.#epochCheck(instant.getTime());
     millis = CBOR.#millisCheck(epochMillis, millis);
     let epochSeconds = CBOR.#timeRound(epochMillis, millis) / 1000;
