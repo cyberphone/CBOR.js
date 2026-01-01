@@ -743,6 +743,8 @@ oneTurn(32);
 oneTurn(53);
 oneTurn(64);
 
+CBOR.Int.createInt8(60);
+
 success();
 `}
 ,
@@ -1022,7 +1024,7 @@ assertTrue("t5", CBOR.toHex(cbor) ==
   }
 });
 
-[2n, 3n].forEach(tagNumber => { 
+[2n, 3n, 2, 3].forEach(tagNumber => { 
   try {
     CBOR.Tag(tagNumber, CBOR.String("any"));
     throw Error("Should not");

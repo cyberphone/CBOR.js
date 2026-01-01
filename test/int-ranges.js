@@ -51,4 +51,6 @@ oneTurn(32);
 oneTurn(53);
 oneTurn(64);
 
+CBOR.Int.createInt8(60);
+
 success();

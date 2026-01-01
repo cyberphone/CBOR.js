@@ -1104,7 +1104,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
     JS_THIS("this"),
 
     JS_NUMBER("Number"),
-    JS_NUMBER_BIGINT("Number<br>BigInt"),
+    JS_NUMBER_BIGINT("Number</kbd>&nbsp;<code>/</code>&nbsp;<kbd>BigInt"),
     JS_ARRAY("[CBOR.<i>Wrapper</i>...]"),
     JS_BIGINT("BigInt"),
     JS_DATE("Date"),
@@ -1945,7 +1945,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
     // CBOR.Tag
 
     addWrapper(DataTypes.CBOR_TAG, W_TAG_DESCR)
-        .addWrapperParameter("tagNumber", DataTypes.JS_BIGINT, W_TAG_P1_DESCR)
+        .addWrapperParameter("tagNumber", DataTypes.JS_NUMBER_BIGINT, W_TAG_P1_DESCR)
         .addWrapperParameter("object", DataTypes.CBOR_Any, W_TAG_P2_DESCR)
 
         .addMethod("getTagNumber", W_TAG_GETNUM_DESCR)

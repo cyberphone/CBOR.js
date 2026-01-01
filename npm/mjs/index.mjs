@@ -22,12 +22,16 @@ export default class CBOR {
       this._immutableFlag = false;
     }
 
-    #rangeNumber = function(min, max) {
-      let value = this.#checkTypeAndGetValue(CBOR.Int)
+    #rangeBigInt(min, max) {
+      let value = this.getBigInt();
       if (value < min || value > max) {
         CBOR.#error("Value out of range: " + value);
       }
-      return Number(value);
+      return value;
+    }
+
+    #rangeNumber = function(min, max) {
+      return Number(this.#rangeBigInt(min, max));
     } 
 
     getInt8 = function() {
@@ -55,15 +59,7 @@ export default class CBOR {
     }
 
     getInt53 = function() {
-      return this.#rangeNumber(BigInt(Number.MIN_SAFE_INTEGER), BigInt(Number.MAX_SAFE_INTEGER));
-    }
-
-    #rangeBigInt(min, max) {
-      let value = this.#checkTypeAndGetValue(CBOR.Int);
-      if (value < min || value > max) {
-        CBOR.#error("Value out of range: " + value);
-      }
-      return value;
+      return this.#rangeNumber(-9007199254740991n, 9007199254740991n);
     }
 
     getInt64 = function() {
@@ -325,14 +321,10 @@ export default class CBOR {
 
     constructor(value) {
       super();
-      if (typeof value == 'bigint') {
-        if (value < CBOR.#MIN_INT || value > CBOR.#MAX_INT) {
-          CBOR.#error("Value is out of \"int\" range: " + value);
-        }
-      } else {
-        value = BigInt(CBOR.#intCheck(value));
+      this.#value = CBOR.#unifiedInt(value);
+      if (this.#value < CBOR.#MIN_INT || this.#value > CBOR.#MAX_INT) {
+        CBOR.#error("Value is out of \"CBOR.Int\" range: " + this.#value);
       }
-      this.#value = value;
     }
     
     encode = function() {
@@ -345,6 +337,34 @@ export default class CBOR {
 
     _get = function() {
       return this.#value;
+    }
+
+    static createInt8 = function(value) {
+      return CBOR.#rangeCheck(value, -0x80n, 0x7fn);
+    }
+
+    static createUint8 = function(value) {
+      return CBOR.#rangeCheck(value, 0n, 0xffn);
+    }
+
+    static createInt16 = function(value) {
+      return CBOR.#rangeCheck(value, -0x8000n, 0x7fffn);
+    }
+
+    static createUint16 = function(value) {
+      return CBOR.#rangeCheck(value, 0n, 0xffffn);
+    }
+
+    static createInt32 = function(value) {
+      return CBOR.#rangeCheck(value, -0x80000000n, 0x7fffffffn);
+    }
+
+    static createUint32 = function(value) {
+      return CBOR.#rangeCheck(value, 0n, 0xffffffffn);
+    }
+
+    static createInt53 = function(value) {
+      return CBOR.#rangeCheck(value, -9007199254740991n, 9007199254740991n);
     }
   }
 
@@ -972,26 +992,29 @@ export default class CBOR {
 
     constructor(tagNumber, object) {
       super();
-      this.#tagNumber = CBOR.#typeCheck(tagNumber, 'bigint');
+      this.#tagNumber = CBOR.#unifiedInt(tagNumber);
       this.#object = CBOR.#cborArgumentCheck(object);
-      if (tagNumber < 0n || tagNumber >= 0x10000000000000000n) {
+      if (this.#tagNumber < 0n || this.#tagNumber >= 0x10000000000000000n) {
         CBOR.#error("Tag number is out of range");
       }
-      if (tagNumber == CBOR.Tag.TAG_BIGINT_POS || tagNumber == CBOR.Tag.TAG_BIGINT_NEG) {
-        CBOR.#error("Tag number reserved for 'bigint'");
-      }
-      if (tagNumber == CBOR.Tag.TAG_DATE_TIME) {
-        // Note: clone() because we have mot read it really.
-        this.#dateTime = object.clone().getDateTime();
-      } else if (tagNumber == CBOR.Tag.TAG_EPOCH_TIME) {
-        // Note: clone() because we have mot read it really.
-        this.#epochTime = object.clone().getEpochTime();
-      } else if (tagNumber == CBOR.Tag.TAG_COTX) {
-        if (!(object instanceof CBOR.Array) || object.length != 2) {
-          this.#errorInObject(CBOR.Tag.ERR_COTX);
-        }
-        this.#cotxId = object.get(0).getString();
-        this.#cotxObject = object.get(1);
+      switch (this.#tagNumber) {
+        case CBOR.Tag.TAG_BIGINT_POS:
+        case CBOR.Tag.TAG_BIGINT_NEG:
+          CBOR.#error("Tag number reserved for 'bigint'");
+        case CBOR.Tag.TAG_DATE_TIME:
+          // Note: clone() because we have mot read it really.
+          this.#dateTime = object.clone().getDateTime();
+          break;
+        case CBOR.Tag.TAG_EPOCH_TIME:
+          // Note: clone() because we have mot read it really.
+          this.#epochTime = object.clone().getEpochTime();
+          break;
+        case CBOR.Tag.TAG_COTX:
+          if (!(object instanceof CBOR.Array) || object.length != 2) {
+            this.#errorInObject(CBOR.Tag.ERR_COTX);
+          }
+          this.#cotxId = object.get(0).getString();
+          this.#cotxObject = object.get(1);
       }
     }
 
@@ -2118,6 +2141,28 @@ export default class CBOR {
     return object;
   }
 
+  static #rangeCheck = function(value, min, max) {
+    value = CBOR.#unifiedInt(value);
+    let cborInt = CBOR.Int(value);
+    if (value < min || value > max) {
+      if (min < 0n && max != 9007199254740991n) {
+        max++;
+      }
+      let bits = 0;
+      while (max) {
+        max >>= 1n;
+        bits++;
+      }
+      let type = (min ? "Int" : "Uint") + bits;
+      CBOR.#error("Argument is not a '" + type + "'");
+    }
+    return cborInt;
+  }
+
+  static #unifiedInt = function(value) {
+    return typeof value == 'bigint' ? value : BigInt(CBOR.#intCheck(value));
+  }
+
   static #intCheck = function(value) {
     CBOR.#typeCheck(value, 'number');
     if (Number.isSafeInteger(value)) {
@@ -2127,14 +2172,14 @@ export default class CBOR {
     }
   }
 
-  static #overflowCheck(value) {
+  static #overflowCheck = function(value) {
     if (!Number.isFinite(value)) {
       CBOR.#error("Value out of range for this floating-point type");
     }
     return value;
   }
 
-  static #reduce32Check(value) {
+  static #reduce32Check = function(value) {
     value = CBOR.#typeCheck(value, 'number');
     if (!Number.isFinite(value)) {
       CBOR.#error("Not permitted: 'NaN/Infinity'");
@@ -2263,20 +2308,20 @@ export default class CBOR {
     CBOR.#error("Argument is not a CBOR.* object: " + (object ? object.constructor.name : 'null'));
   }
 
-  static #decodeOneHex(charCode) {
+  static #decodeOneHex = function(charCode) {
     if (charCode >= 0x30 && charCode <= 0x39) return charCode - 0x30;
     if (charCode >= 0x61 && charCode <= 0x66) return charCode - 0x57;
     if (charCode >= 0x41 && charCode <= 0x46) return charCode - 0x37;
     CBOR.#error("Bad hex character: " + String.fromCharCode(charCode));
   }
 
-  static #checkArgs(list, expected)  {
+  static #checkArgs = function(list, expected)  {
     if (list.length != expected) {
       CBOR.#error('Expected number of arguments: ' + expected);
     }
   }
 
-  static #epochCheck(epochMillis) {
+  static #epochCheck = function(epochMillis) {
     if (!Number.isFinite(epochMillis) ||
         epochMillis < 0 || epochMillis > 253402300799000 /* "9999-12-31T23:59:59Z" */) {
       CBOR.#error("Epoch out of range: " + epochMillis);
@@ -2284,18 +2329,18 @@ export default class CBOR {
     return epochMillis;
   }
 
-  static #dateCheck(time, instant) {
+  static #dateCheck = function(time, instant) {
     if (time < -62167219200000 || time > 253402300799000) {
       CBOR.#error("Date object out of range: " + instant.toISOString());
     }
     return time;
   }
 
-  static #millisCheck(time, millis) {
+  static #millisCheck = function(time, millis) {
     return time % 1000 ? millis : false;
   }
 
-  static #timeRound(time, millis) {
+  static #timeRound = function(time, millis) {
     if (!millis) {
       let reminder = time % 1000;
       if (time < 0) {
@@ -2312,7 +2357,7 @@ export default class CBOR {
     return time;
   }
 
-  static #reverseBits(bits, fieldWidth) {
+  static #reverseBits = function(bits, fieldWidth) {
     let reversed = 0n;
     let bitCount = 0;
     while (bits > 0n) {
