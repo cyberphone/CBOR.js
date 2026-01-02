@@ -225,7 +225,7 @@ public class CreateDocument {
   static final String W_CREPAYLOAD_NONFIN_DESCR = """
       Creates a payload object.
       <div style='margin-top:0.5em'>
-      For details turn to <a href='non-finite-numbers.html#payload-option'>Payload option</a>.</div>""";
+      For details turn to the <a href='non-finite-numbers.html#payload-option'>Payload Option</a>.</div>""";
 
   static final String W_CREPAYLOAD_NONFIN_P1_DESCR = """
       Payload data.""";

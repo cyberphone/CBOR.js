@@ -29,7 +29,9 @@ class CBOR {
     }
 
     #rangeNumber(min, max) {
-      return Number(this.#rangeBigInt(min, max));
+      let value = this.#checkTypeAndGetValue(CBOR.Int);
+      CBOR.#rangeCheck(value, min, max);
+      return Number(value);
     } 
 
     getInt8() {
