@@ -8,7 +8,7 @@ function overflow(decodedValue, length) {
     eval(test);
     assertTrue("Should fail", false);
   } catch (error) {
-    if (!error.toString().includes('Value out of range:')) {
+    if (!error.toString().includes('Value out of range for "Float')) {
       throw error;
     }
   }  

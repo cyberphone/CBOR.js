@@ -68,6 +68,14 @@ export default class CBOR {
       return this.#rangeBigInt(0n, 0xffffffffffffffffn);
     }
 
+    getInt128() {
+      return this.#rangeBigInt(-0x80000000000000000000000000000000n, 0x7fffffffffffffffffffffffffffffffn);
+    }
+
+    getUint128() {
+      return this.#rangeBigInt(0n, 0xffffffffffffffffffffffffffffffffn);
+    }
+
     getBigInt() {
       if (this instanceof CBOR.Int) {
         return this.#checkTypeAndGetValue(CBOR.Int);
@@ -110,7 +118,8 @@ export default class CBOR {
     #rangeFloat(max) {
       let value = this.getFloat64();
       if (this.length > max) {
-        CBOR.#error("Value out of range: " + this.toString());
+        let type = 'Float' + (max * 8);
+        CBOR.#error('Value out of range for "' + type + '": ' + this.toString());
       }
       return value;
     }
@@ -397,6 +406,15 @@ export default class CBOR {
  
     _get() {
       return this.#value;
+    }
+  
+    static createInt128(value) {
+      return CBOR.#createBigInt(value, 
+        -0x80000000000000000000000000000000n, 0x7fffffffffffffffffffffffffffffffn);
+    }
+
+    static createUint128(value) {
+      return CBOR.#createBigInt(value, 0n, 0xffffffffffffffffffffffffffffffffn);
     }
   }
 
@@ -2111,124 +2129,6 @@ export default class CBOR {
 //    Internal Support Methods    //
 //================================//
 
-  static #encodeTagAndN(majorType, n) {
-    let modifier = n;
-    let length = 0;
-    if (n > 23) {
-      modifier = 24;
-      length = 1;
-      let nextRange = 0x100;
-      while (length < 8 && n >= nextRange) {
-        modifier++;
-        length <<= 1;
-        nextRange *= nextRange;
-      }
-    }
-    let encoded = new Uint8Array(length + 1);
-    encoded[0] = majorType | modifier;
-    while (length > 0) {
-      encoded[length--] = n;
-      n /= 256;
-    }
-    return encoded;
-  }
-
-  static #bytesCheck(byteArray) {
-    if (byteArray instanceof Uint8Array) {
-      return byteArray;
-    }
-    CBOR.#error("Argument is not an 'Uint8Array'");
-  }
-
-  static #typeCheck(object, type) {
-    if (typeof object != type) {
-      CBOR.#error("Argument is not a '" + type + "'");
-    }
-    return object;
-  }
-
-  static #createInt(value, min, max) {
-    value = CBOR.#unifiedInt(value);
-    let cborInt = CBOR.Int(value);
-    CBOR.#rangeCheck(value, min, max);
-    return cborInt;
-  }
-
-  static #rangeCheck(value, min, max) {
-    if (value < min || value > max) {
-      if (min < 0n && max != 9007199254740991n) {
-        max++;
-      }
-      let bits = 0;
-      while (max) {
-        max >>= 1n;
-        bits++;
-      }
-      let type = (min ? "Int" : "Uint") + bits;
-      CBOR.#error("Argument is not a '" + type + "'");
-    }
-  }
-
-  static #unifiedInt(value) {
-    return typeof value == 'bigint' ? value : BigInt(CBOR.#intCheck(value));
-  }
-
-  static #intCheck(value) {
-    CBOR.#typeCheck(value, 'number');
-    if (Number.isSafeInteger(value)) {
-      return value;
-    } else {
-      CBOR.#error("Invalid integer: " + value.toString());
-    }
-  }
-
-  static #overflowCheck(value) {
-    if (!Number.isFinite(value)) {
-      CBOR.#error("Value out of range for this floating-point type");
-    }
-    return value;
-  }
-
-  static #reduce32Check(value) {
-    value = CBOR.#typeCheck(value, 'number');
-    if (!Number.isFinite(value)) {
-      CBOR.#error("Not permitted: 'NaN/Infinity'");
-    }
-    return CBOR.#overflowCheck(Math.fround(value));
-  }
-
-  static #encodeIntegerOrTag(tag, value) {
-    // Negative values only applies to integers.
-    if (value < 0n) {
-      value = ~value;
-      tag = CBOR.#MT_NEGATIVE;
-    }
-    // Convert BigInt to Uint8Array (but with a twist).
-    let byteArray = CBOR.fromBigInt(value);
-    let length = byteArray.length;
-    // Prepare for "integer" encoding (1, 2, 4, 8).  Only 3, 5, 6, and 7 need an action.
-    while (length < 8 && length > 2 && length != 4) {
-      byteArray = CBOR.addArrays(new Uint8Array([0]), byteArray);
-      length++;
-    }
-    // Does this number qualify as a "bigint"?
-    if (length <= 8) {
-      // Apparently not, encode it as an "int".
-      if (length == 1 && byteArray[0] <= 23) {
-        return new Uint8Array([tag | byteArray[0]]);
-      }
-      let modifier = 24;
-      while (length >>= 1) {
-          modifier++;
-      }
-      return CBOR.addArrays(new Uint8Array([tag | modifier]), byteArray);
-    }
-    // It is a "bigint".
-    return CBOR.addArrays(new Uint8Array([tag == CBOR.#MT_NEGATIVE ?
-                                             CBOR.#MT_BIG_NEGATIVE : CBOR.#MT_BIG_UNSIGNED]), 
-                          CBOR.Bytes(byteArray).encode());
-  }
-
   static #CborPrinter = class {
 
     indentationLevel = 0;
@@ -2297,6 +2197,131 @@ export default class CBOR {
       }
       this.buffer += endChar;
     }
+  }
+
+  static #encodeTagAndN(majorType, n) {
+    let modifier = n;
+    let length = 0;
+    if (n > 23) {
+      modifier = 24;
+      length = 1;
+      let nextRange = 0x100;
+      while (length < 8 && n >= nextRange) {
+        modifier++;
+        length <<= 1;
+        nextRange *= nextRange;
+      }
+    }
+    let encoded = new Uint8Array(length + 1);
+    encoded[0] = majorType | modifier;
+    while (length > 0) {
+      encoded[length--] = n;
+      n /= 256;
+    }
+    return encoded;
+  }
+
+  static #bytesCheck(byteArray) {
+    if (byteArray instanceof Uint8Array) {
+      return byteArray;
+    }
+    CBOR.#error("Argument is not an 'Uint8Array'");
+  }
+
+  static #typeCheck(object, type) {
+    if (typeof object != type) {
+      CBOR.#error("Argument is not a '" + type + "'");
+    }
+    return object;
+  }
+
+  static #createInt(value, min, max) {
+    value = CBOR.#unifiedInt(value);
+    let cborInt = CBOR.Int(value);
+    CBOR.#rangeCheck(value, min, max);
+    return cborInt;
+  }
+
+  static #createBigInt(value, min, max) {
+    value = CBOR.#unifiedInt(value);
+    let cborInt = CBOR.BigInt(value);
+    CBOR.#rangeCheck(value, min, max);
+    return cborInt;
+  }
+
+  static #rangeCheck(value, min, max) {
+    if (value < min || value > max) {
+      if (min < 0n && max != 9007199254740991n) {
+        max++;
+      }
+      let bits = 0;
+      while (max) {
+        max >>= 1n;
+        bits++;
+      }
+      let type = (min ? "Int" : "Uint") + bits;
+      CBOR.#error('Value out of range for "' + type + '": ' + value);
+    }
+  }
+
+  static #unifiedInt(value) {
+    return typeof value == 'bigint' ? value : BigInt(CBOR.#intCheck(value));
+  }
+
+  static #intCheck(value) {
+    CBOR.#typeCheck(value, 'number');
+    if (Number.isSafeInteger(value)) {
+      return value;
+    } else {
+      CBOR.#error("Invalid integer: " + value.toString());
+    }
+  }
+
+  static #overflowCheck(value) {
+    if (!Number.isFinite(value)) {
+      CBOR.#error("Value out of range for this floating-point type");
+    }
+    return value;
+  }
+
+  static #reduce32Check(value) {
+    value = CBOR.#typeCheck(value, 'number');
+    if (!Number.isFinite(value)) {
+      CBOR.#error("Not permitted: 'NaN/Infinity'");
+    }
+    return CBOR.#overflowCheck(Math.fround(value));
+  }
+
+  static #encodeIntegerOrTag(tag, value) {
+    // Negative values only applies to integers.
+    if (value < 0n) {
+      value = ~value;
+      tag = CBOR.#MT_NEGATIVE;
+    }
+    // Convert BigInt to Uint8Array (but with a twist).
+    let byteArray = CBOR.fromBigInt(value);
+    let length = byteArray.length;
+    // Prepare for "integer" encoding (1, 2, 4, 8).  Only 3, 5, 6, and 7 need an action.
+    while (length < 8 && length > 2 && length != 4) {
+      byteArray = CBOR.addArrays(new Uint8Array([0]), byteArray);
+      length++;
+    }
+    // Does this number qualify as a "bigint"?
+    if (length <= 8) {
+      // Apparently not, encode it as an "int".
+      if (length == 1 && byteArray[0] <= 23) {
+        return new Uint8Array([tag | byteArray[0]]);
+      }
+      let modifier = 24;
+      while (length >>= 1) {
+          modifier++;
+      }
+      return CBOR.addArrays(new Uint8Array([tag | modifier]), byteArray);
+    }
+    // It is a "bigint".
+    return CBOR.addArrays(new Uint8Array([tag == CBOR.#MT_NEGATIVE ?
+                                             CBOR.#MT_BIG_NEGATIVE : CBOR.#MT_BIG_UNSIGNED]), 
+                          CBOR.Bytes(byteArray).encode());
   }
   
   static #int16ToByteArray(int16) {
