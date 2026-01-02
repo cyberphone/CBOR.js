@@ -134,7 +134,7 @@ public class CreateDocument {
   static final String W_GETEXTFLOAT_DESCR = """
       Get CBOR floating-point value.
       <div style='margin-top:0.5em'>
-      Also see <a href='#cbor.float.cbor.float.createextendedfloat'>CBOR.Float.createExtendedFloat()</a>.</div>
+      Also see <a href='#cbor.float.createextendedfloat'>CBOR.Float.createExtendedFloat()</a>.</div>
       <div style='margin-top:0.5em'>
       Note that this method makes it transparent for applications if the returned
       value is a "regular" <code>float</code>, or one of
@@ -238,7 +238,7 @@ public class CreateDocument {
       Get payload data.
       <div style='margin-top:0.5em'>
       This method is the "consumer" counterpart to
-      <a href='#cbor.nonfinite.cbor.nonfinite.createpayload'>\
+      <a href='#cbor.nonfinite.createpayload'>\
 CBOR.NonFinite.createPayload()</a>.</div>""";
 
   static final String W_GETPAYLOAD_NONFIN_RETURN_DESCR = "Payload.";
@@ -1214,8 +1214,11 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
   void printMethod(String prefix, Method method) {
     String iFix = method.name.replace("<i>", "").replace("</i>", "");
-    s.append(printSubHeader((prefix + "." + iFix).toLowerCase(), method.name +
-        (method instanceof Wrapper ? "" : "()")));
+    String link = (prefix + "." + iFix).toLowerCase();
+    if (link.lastIndexOf(prefix.toLowerCase()) > 0 && prefix.startsWith("CBOR.")) {
+        link = link.substring(prefix.length() + 1);
+    }
+    s.append(printSubHeader(link, method.name +(method instanceof Wrapper ? "" : "()")));
     beginTable();
     rowBegin();
     tableHeader("Syntax");
@@ -1700,6 +1703,14 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
         rangedBigIntMethod(wrapper, "getUint64",
             "0",
             "0xffffffffffffffff");
+    } else {
+         rangedBigIntMethod(wrapper, "getInt128",
+            "-0x80000000000000000000000000000000",
+            "0x7fffffffffffffffffffffffffffffff");
+
+        rangedBigIntMethod(wrapper, "getUint128",
+            "0",
+            "0xffffffffffffffffffffffffffffffff");       
     }
 
     wrapper.addMethod("getBigInt", W_GETBIGINT_DESCR)

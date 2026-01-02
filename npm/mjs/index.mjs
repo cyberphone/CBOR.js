@@ -69,7 +69,8 @@ export default class CBOR {
     }
 
     getInt128() {
-      return this.#rangeBigInt(-0x80000000000000000000000000000000n, 0x7fffffffffffffffffffffffffffffffn);
+      return this.#rangeBigInt(-0x80000000000000000000000000000000n,
+        0x7fffffffffffffffffffffffffffffffn);
     }
 
     getUint128() {
@@ -2528,6 +2529,6 @@ export default class CBOR {
   }
 
   static get version() {
-    return "1.0.19";
+    return "1.0.20";
   }
 }

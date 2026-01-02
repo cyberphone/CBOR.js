@@ -71,3 +71,12 @@ Renamed CBOR.diagDecode() to CBOR.fromDiagnostic()
 
 2025-12-28 1.0.19
 Revised CBOR.Int to hold the entire "int" range modulo values < -2^63
+
+2026-01-02 1.0.20
+Added CBOR.Int.createInt8() and CBOR.Int.createUint8()
+Added CBOR.Int.createInt16() and CBOR.Int.createUint16()
+Added CBOR.Int.createInt32() and CBOR.Int.createUint32()
+Added CBOR.Int.createInt53()
+Added CBOR.Int.createInt64() and CBOR.Int.createUint64()
+Added CBOR.BigInt.getInt128() and CBOR.BigInt.getUint128()
+Added CBOR.BigInt.createInt128() and CBOR.BigInt.createUint128()
