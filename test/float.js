@@ -65,7 +65,7 @@ function oneTurn(valueText, expected) {
       CBOR.Float(value);
       fail('Should not execute');
     } catch (error) {
-        assertTrue("nf1", error.toString().includes('CBOR.NonFinite'));
+        assertTrue("nf1", error.toString().includes("Not permitted: 'NaN/Infinity'"));
     }
     let decodedValue = CBOR.Float.createExtendedFloat(value);
     assertTrue("nf2", decodedValue.getExtendedFloat64().toString() == value.toString());

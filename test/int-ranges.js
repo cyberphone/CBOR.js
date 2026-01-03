@@ -9,6 +9,10 @@ function goodRun(type, value) {
   eval(test);
   test = 'CBOR.' + (type.indexOf("128") > 0 ? 'BigInt' : 'Int') + '.create' + type + '(' + value + 'n)';
   eval(test);
+  if (value == 10n) {
+    test = 'CBOR.' + (type.indexOf("128") > 0 ? 'BigInt' : 'Int') + '.create' + type + '(Number(' + value +'))';
+    eval(test);
+  }
 }
 
 function badRun(type, value) {

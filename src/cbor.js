@@ -121,8 +121,7 @@ class CBOR {
     #rangeFloat(max) {
       let value = this.getFloat64();
       if (this.length > max) {
-        let type = 'Float' + (max * 8);
-        CBOR.#error('Value out of range for "' + type + '": ' + this.toString());
+        CBOR.#rangeError('Float' + (max * 8), this);
       }
       return value;
     }
@@ -438,7 +437,7 @@ class CBOR {
       new DataView(f64b.buffer, 0, 8).setFloat64(0, value, false);
       // Begin catching the forbidden cases.
       if (!Number.isFinite(value)) {
-        CBOR.#error('Use CBOR.NonFinite for "NaN" and "Infinity" support');    
+        CBOR.#error("Not permitted: 'NaN/Infinity'");    
       }
       if (value == 0) { // True for -0.0 as well! 
         this.#encoded = f64b.slice(0, 2);
@@ -2252,6 +2251,10 @@ class CBOR {
     return cborInt;
   }
 
+  static #rangeError(type, value) {
+    CBOR.#error('Value out of range for "' + type + '": ' + value.toString());
+  }
+
   static #rangeCheck(value, min, max) {
     if (value < min || value > max) {
       if (min < 0n && max != 9007199254740991n) {
@@ -2262,8 +2265,7 @@ class CBOR {
         max >>= 1n;
         bits++;
       }
-      let type = (min ? "Int" : "Uint") + bits;
-      CBOR.#error('Value out of range for "' + type + '": ' + value);
+      CBOR.#rangeError((min ? "Int" : "Uint") + bits, value);
     }
   }
 
