@@ -121,8 +121,7 @@ class CBOR {
     #rangeFloat(max) {
       let value = this.getFloat64();
       if (this.length > max) {
-        let type = 'Float' + (max * 8);
-        CBOR.#error('Value out of range for "' + type + '": ' + this.toString());
+        CBOR.#rangeError('Float' + (max * 8), this);
       }
       return value;
     }
@@ -396,7 +395,7 @@ class CBOR {
 
     constructor(value) {
       super();
-      this.#value = CBOR.#typeCheck(value, 'bigint');
+      this.#value = CBOR.#unifiedInt(value);
     }
     
     encode() {
@@ -438,7 +437,7 @@ class CBOR {
       new DataView(f64b.buffer, 0, 8).setFloat64(0, value, false);
       // Begin catching the forbidden cases.
       if (!Number.isFinite(value)) {
-        CBOR.#error('Use CBOR.NonFinite for "NaN" and "Infinity" support');    
+        CBOR.#error("Not permitted: 'NaN/Infinity'");    
       }
       if (value == 0) { // True for -0.0 as well! 
         this.#encoded = f64b.slice(0, 2);
@@ -558,11 +557,11 @@ class CBOR {
     }
 
     static createFloat32(value) {
-      return CBOR.Float(CBOR.#reduce32Check(value));
+      return CBOR.#returnConverted(CBOR.#reduce32(value), value, 'Float32');
     }
 
     static createFloat16(value) {
-      return CBOR.Float(CBOR.#overflowCheck(Math.f16round(CBOR.#reduce32Check(value))));
+      return CBOR.#returnConverted(Math.f16round(CBOR.#reduce32(value)), value, 'Float16');
     }
   }
 
@@ -2252,6 +2251,17 @@ class CBOR {
     return cborInt;
   }
 
+  static #rangeError(type, value) {
+    CBOR.#error('Value out of range for "' + type + '": ' + value.toString());
+  }
+
+  static #returnConverted(converted, original, type) {
+    if (Number.isFinite(converted)) {
+        return CBOR.Float(converted);
+    }
+    CBOR.#rangeError(type, CBOR.Float.createExtendedFloat(original));
+  }
+
   static #rangeCheck(value, min, max) {
     if (value < min || value > max) {
       if (min < 0n && max != 9007199254740991n) {
@@ -2262,8 +2272,7 @@ class CBOR {
         max >>= 1n;
         bits++;
       }
-      let type = (min ? "Int" : "Uint") + bits;
-      CBOR.#error('Value out of range for "' + type + '": ' + value);
+      CBOR.#rangeError((min ? "Int" : "Uint") + bits, value);
     }
   }
 
@@ -2280,19 +2289,12 @@ class CBOR {
     }
   }
 
-  static #overflowCheck(value) {
-    if (!Number.isFinite(value)) {
-      CBOR.#error("Value out of range for this floating-point type");
-    }
-    return value;
-  }
-
-  static #reduce32Check(value) {
+  static #reduce32(value) {
     value = CBOR.#typeCheck(value, 'number');
     if (!Number.isFinite(value)) {
       CBOR.#error("Not permitted: 'NaN/Infinity'");
     }
-    return CBOR.#overflowCheck(Math.fround(value));
+    return Math.fround(value);
   }
 
   static #encodeIntegerOrTag(tag, value) {

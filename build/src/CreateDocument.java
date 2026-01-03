@@ -1836,7 +1836,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
     // CBOR.BigInt
 
     bigIntMethods(addWrapper(DataTypes.CBOR_BIGINT, W_BIGINT_DESCR)
-        .addWrapperParameter("value", DataTypes.JS_BIGINT, W_BIGINT_P1_DESCR), false);
+        .addWrapperParameter("value", DataTypes.JS_NUMBER_BIGINT, W_BIGINT_P1_DESCR), false);
 
     // CBOR.Float
 

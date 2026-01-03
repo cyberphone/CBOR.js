@@ -334,7 +334,7 @@ function oneTurn(valueText, expected) {
       CBOR.Float(value);
       fail('Should not execute');
     } catch (error) {
-        assertTrue("nf1", error.toString().includes('CBOR.NonFinite'));
+        assertTrue("nf1", error.toString().includes("Not permitted: 'NaN/Infinity'"));
     }
     let decodedValue = CBOR.Float.createExtendedFloat(value);
     assertTrue("nf2", decodedValue.getExtendedFloat64().toString() == value.toString());
@@ -669,7 +669,7 @@ try {
   CBOR.BigInt("10");
   fail("Should not");
 } catch (error) {
-  assertTrue("msg3", error.toString().includes("Argument is not a 'bigint'"));
+  assertTrue("msg3", error.toString().includes("Argument is not a 'number'"));
 }
 try {
   CBOR.BigInt(1n, 7);
@@ -697,6 +697,10 @@ function goodRun(type, value) {
   eval(test);
   test = 'CBOR.' + (type.indexOf("128") > 0 ? 'BigInt' : 'Int') + '.create' + type + '(' + value + 'n)';
   eval(test);
+  if (value == 10n) {
+    test = 'CBOR.' + (type.indexOf("128") > 0 ? 'BigInt' : 'Int') + '.create' + type + '(Number(' + value +'))';
+    eval(test);
+  }
 }
 
 function badRun(type, value) {

@@ -395,7 +395,7 @@ class CBOR {
 
     constructor(value) {
       super();
-      this.#value = CBOR.#typeCheck(value, 'bigint');
+      this.#value = CBOR.#unifiedInt(value);
     }
     
     encode() {

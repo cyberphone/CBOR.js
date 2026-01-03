@@ -58,7 +58,7 @@ try {
   CBOR.BigInt("10");
   fail("Should not");
 } catch (error) {
-  assertTrue("msg3", error.toString().includes("Argument is not a 'bigint'"));
+  assertTrue("msg3", error.toString().includes("Argument is not a 'number'"));
 }
 try {
   CBOR.BigInt(1n, 7);
