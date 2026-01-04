@@ -34,10 +34,13 @@ public class CreateDocument {
       If <kbd><i>value</i></kbd> is outside the range <code>-0x8000000000000000</code> to <code>0xffffffffffffffff</code>,
       a <a href='#main.errors'>CborException</a> is thrown.</div>
       <div style='margin-top:0.5em'>
-      For fine-grained control of created integers, the <code>CBOR.Int.create*()</code>
-      methods may be used as an alternative to this constructor.</div>
+      Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div>
       <div style='margin-top:0.5em'>
-      Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
+      For fine-grained control of programmatically created integers, a set of <code>CBOR.Int.create*()</code>
+      methods are provided as an <i>alternative</i> to the constructor.
+      Note that these methods <i>do not change data</i>; they
+      only verify that data is within expected limits, and if that is the case,
+      finish the operation using the standard constructor.</div>""";
 
   static final String W_INT_P1_DESCR = """
       Integer to be wrapped.""";

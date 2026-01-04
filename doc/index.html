@@ -320,10 +320,13 @@
 If <kbd><i>value</i></kbd> is outside the range <code>-0x8000000000000000</code> to <code>0xffffffffffffffff</code>,
 a <a href='#main.errors'>CborException</a> is thrown.</div>
 <div style='margin-top:0.5em'>
-For fine-grained control of created integers, the <code>CBOR.Int.create*()</code>
-methods may be used as an alternative to this constructor.</div>
+Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div>
 <div style='margin-top:0.5em'>
-Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
+For fine-grained control of programmatically created integers, a set of <code>CBOR.Int.create*()</code>
+methods are provided as an <i>alternative</i> to the constructor.
+Note that these methods <i>do not change data</i>; they
+only verify that data is within expected limits, and if that is the case,
+finish the operation using the standard constructor.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd>&nbsp;<code>/</code>&nbsp;<kbd>BigInt</kbd></td><td style='width:100%'>Integer to be wrapped.</td></tr>
@@ -2123,6 +2126,6 @@ here using the result of the previous encoding example:
 
   API version: 1.0.20.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2026-01-02
+  Document version: 2026-01-04
 </body>
 </html>
