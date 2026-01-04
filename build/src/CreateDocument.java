@@ -31,7 +31,7 @@ public class CreateDocument {
   static final String W_INT_DESCR = """
       Constructor.  Creates a CBOR integer object.
       <div style='margin-top:0.5em'>
-      If value is outside the range <code>-0x8000000000000000</code> to <code>0xffffffffffffffff</code>,
+      If <kbd><i>value</i></kbd> is outside the range <code>-0x8000000000000000</code> to <code>0xffffffffffffffff</code>,
       a <a href='#main.errors'>CborException</a> is thrown.</div>
       <div style='margin-top:0.5em'>
       Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
@@ -93,7 +93,7 @@ public class CreateDocument {
       Creates a <a href='#wrapper.cbor.float'>CBOR.Float</a> object,
       where the value is converted to fit CBOR <code>float16</code> representation.
       <div style='margin-top:0.5em'>
-      If the value (after applying
+      If <kbd><i>value</i></kbd> (after applying
       <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> conversion rules),
       is out of range, or is <i>non-finite</i>, a <a href='#main.errors'>CborException</a> is thrown.</div>
       <div style='margin-top:0.5em'>
@@ -109,12 +109,12 @@ public class CreateDocument {
       Creates a <a href='#wrapper.cbor.float'>CBOR.Float</a> object,
       where the value is converted to fit CBOR <code>float32</code> representation.
       <div style='margin-top:0.5em'>
-      If the value (after applying
+      If <kbd><i>value</i></kbd> (after applying
       <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> conversion rules),
       is out of range, or is <i>non-finite</i>, a <a href='#main.errors'>CborException</a> is thrown.</div>
       <div style='margin-top:0.5em'>
       Note that this method returns a <code>float16</code> compatible object
-      if the value and precision is <i>equivalent</i> to the <code>float32</code>
+      If <kbd><i>value</i></kbd> and precision is <i>equivalent</i> to the <code>float32</code>
       representation (e.g. <code>2.5</code>).</div>
       <div style='margin-top:0.5em'>
       Also see <a href='#cbor.float.getfloat32'>getFloat32()</a>.</div>""";
@@ -1698,7 +1698,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
     boolean i128 = method.contains("128");
     String ref = method.substring(method.indexOf("create") + 6);
     StringBuilder description = new StringBuilder(
-        "Create CBOR integer.<div style='margin-top:0.5em'>If the value is outside the range <code>")
+        "Create CBOR integer.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>")
         .append(min).append(" </code>to<code> ")
         .append(max).append("</code>, a <a href='#main.errors'>CborException</a> is thrown.</div>" +
         "<div style='margin-top:0.5em'>Also see: <a href='#cbor.")
