@@ -34,7 +34,7 @@ public class CreateDocument {
       If <kbd><i>value</i></kbd> is outside the range <code>-0x8000000000000000</code> to <code>0xffffffffffffffff</code>,
       a <a href='#main.errors'>CborException</a> is thrown.</div>
       <div style='margin-top:0.5em'>
-      Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div>
+      See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div>
       <div style='margin-top:0.5em'>
       For fine-grained control of programmatically created integers, a set of <code>CBOR.Int.create*()</code>
       methods are provided as an <i>alternative</i> to the constructor.
@@ -50,7 +50,7 @@ public class CreateDocument {
   static final String W_BIGINT_DESCR = """
       Constructor.  Creates a CBOR big integer object.
       <div style='margin-top:0.5em'>
-      Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
+      See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
 
   static final String W_BIGINT_P1_DESCR = """
       Big integer to be wrapped.""";
@@ -58,7 +58,7 @@ public class CreateDocument {
   static final String W_GETBIGINT_DESCR = """
       Get CBOR integer of any size.
       <div style='margin-top:0.5em'>
-      Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
+      See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
 
   static final String W_GETBIGINT_RETURN_DESCR = """
       Decoded big integer.""";
@@ -68,9 +68,9 @@ public class CreateDocument {
   static final String W_FLOAT_DESCR = """
       Constructor.  Creates a CBOR <code>float</code> object.
       <div style='margin-top:0.5em'>
-      Also see <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</div>
+      See also <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</div>
       <div style='margin-top:0.5em'>
-      For supporting <code>NaN</code> and <code>Infinity</code>, also see
+      For supporting <code>NaN</code> and <code>Infinity</code>, see also
       <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</div>""";
 
   static final String W_FLOAT_P1_DESCR = """
@@ -85,7 +85,7 @@ public class CreateDocument {
       <kbd>Number.POSITIVE_INFINITY</kbd>,
       and <kbd>Number.NEGATIVE_INFINITY</kbd>.</div>
       <div style='margin-top:0.5em'>
-      Also see <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</div>""";
+      See also <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</div>""";
 
   static final String W_CREEXTFLOAT_P1_DESCR = """
       Floating-point number to be wrapped.""";
@@ -103,7 +103,7 @@ public class CreateDocument {
       <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> conversion rules),
       is out of range, or is <i>non-finite</i>, a <a href='#main.errors'>CborException</a> is thrown.</div>
       <div style='margin-top:0.5em'>
-      Also see <a href='#cbor.float.getfloat16'>getFloat16()</a>.</div>""";
+      See also <a href='#cbor.float.getfloat16'>getFloat16()</a>.</div>""";
 
   static final String W_CREFLOAT16_P1_DESCR = """
       Floating-point number to be wrapped.""";
@@ -123,7 +123,7 @@ public class CreateDocument {
       If <kbd><i>value</i></kbd> and precision is <i>equivalent</i> to the <code>float32</code>
       representation (e.g. <code>2.5</code>).</div>
       <div style='margin-top:0.5em'>
-      Also see <a href='#cbor.float.getfloat32'>getFloat32()</a>.</div>""";
+      See also <a href='#cbor.float.getfloat32'>getFloat32()</a>.</div>""";
 
   static final String W_CREFLOAT32_P1_DESCR = """
       Floating-point number to be wrapped.""";
@@ -140,7 +140,7 @@ public class CreateDocument {
   static final String W_GETEXTFLOAT_DESCR = """
       Get CBOR floating-point value.
       <div style='margin-top:0.5em'>
-      Also see <a href='#cbor.float.createextendedfloat'>CBOR.Float.createExtendedFloat()</a>.</div>
+      See also <a href='#cbor.float.createextendedfloat'>CBOR.Float.createExtendedFloat()</a>.</div>
       <div style='margin-top:0.5em'>
       Note that this method makes it transparent for applications if the returned
       value is a "regular" <code>float</code>, or one of
@@ -162,7 +162,7 @@ public class CreateDocument {
       The argument must be a valid <code>16</code>, <code>32</code>, or <code>64</code>-bit
       non-finite number in <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> encoding.</div>
       <div style='margin-top:0.5em'>
-      Also see <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</div>""";
+      See also <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</div>""";
 
   static final String W_NONFIN_P1_DESCR = """
       Non-finite floating-point number to be wrapped.""";
@@ -211,7 +211,7 @@ public class CreateDocument {
       This method returns <code>true</code> if the sign bit is <code>1</code>,
       else <code>false</code> is returned.</div>
       <div style='margin-top:0.5em'>
-      Also see <a href='#cbor.nonfinite.setsign'>setSign()</a>.</div>""";
+      See also <a href='#cbor.nonfinite.setsign'>setSign()</a>.</div>""";
 
   static final String W_GETSIGN_NONFIN_RETURN_DESCR = "Result.";
 
@@ -221,7 +221,7 @@ public class CreateDocument {
       The sign bit is expressed as a <code>boolean</code>.
       <code>true</code> = <code>1</code>, <code>false</code> = <code>0</code>.</div>
       <div style='margin-top:0.5em'>
-      Also see <a href='#cbor.nonfinite.getsign'>getSign()</a>.</div>""";
+      See also <a href='#cbor.nonfinite.getsign'>getSign()</a>.</div>""";
 
   static final String W_SETSIGN_NONFIN_P1_DESCR = """
       Sign bit.""";
@@ -295,7 +295,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <code style='white-space:nowrap'>"9999-12-31T23:59:59Z"</code>.</li>
       </ul>
       </div><div style='margin-top:0.5em'>
-      Also see <a href='#utility.cbor.createdatetime'>CBOR.createDateTime()</a>.</div>""";
+      See also <a href='#utility.cbor.createdatetime'>CBOR.createDateTime()</a>.</div>""";
 
   static final String W_GETDATETIME_RETURN_DESCR = """
       Date object""";
@@ -319,7 +319,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       </ul>
       </div>
       <div style='margin-top:0.5em'>
-      Also see <a href='#utility.cbor.createepochtime'>CBOR.createEpochTime()</a>.</div>""";
+      See also <a href='#utility.cbor.createepochtime'>CBOR.createEpochTime()</a>.</div>""";
   
   static final String W_GETEPOCHTIME_RETURN_DESCR = """
       Date object""";
@@ -356,7 +356,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
   static final String W_NULL_DESCR = """
       Constructor.  Creates a CBOR <code>null</code> object.
-      Also see <a href='#common.isnull'>isNull()</a>.""";
+      See also <a href='#common.isnull'>isNull()</a>.""";
 
   // CBOR.Array
 
@@ -425,7 +425,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <div style='margin-top:0.5em'>Note: <kbd><i>key</i></kbd> order is of no importance since
       <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>
       performs the required map sorting <i>automatically</i>.
-      Also see <a href='#cbor.map.setsortingmode'>setSortingMode()</a>.</div>
+      See also <a href='#cbor.map.setsortingmode'>setSortingMode()</a>.</div>
       <div style='margin-top:0.5em'>Note: this implementation
       presumes that <kbd>key</kbd> objects are <i>immutable</i>.
       That is, the following code will throw a <a href='#main.errors'>CborException</a>:</div>
@@ -631,7 +631,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       <div style='margin:0.5em 0'>Note: if <a href='#common.checkforunread'>checkForUnread()</a>
       is used, <kbd>this</kbd> object will only be regarded as &quot;read&quot;
       if it actually is a CBOR <code>null</code> item.</div>
-      Also see <a href='#wrapper.cbor.null'>CBOR.Null()</a>.""";
+      See also <a href='#wrapper.cbor.null'>CBOR.Null()</a>.""";
 
   static final String ISNULL_RETURN_DESCR = """
       Returns <code>true</code> if <kbd>this</kbd> object
@@ -676,7 +676,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       In similarity to <a href='#common.encode'>encode()</a>, this method always produce
       data in <a href='#main.deterministic'>Deterministic Encoding</a>, irrespective to how
       the data was created.
-      Also see: <a href='#common.tostring'>toString()</a>.
+      See also <a href='#common.tostring'>toString()</a>.
       <div style='margin-top:0.5em'>If <kbd>this</kbd> object (as well as possible
       child objects), conforms to the subset of data types supported by JSON,
       this method can also be used to generate JSON data.</div>""";
@@ -818,7 +818,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       console.log(epoch.toString());&nbsp;&nbsp;// Diagnostic notation<br>
       <span style='color:#007fdd'>1764939916</span></code></div>
       <div style='margin-top:0.5em'>
-      Also see <a href='#time.getepochtime'>getEpochTime()</a>.</div>""";
+      See also <a href='#time.getepochtime'>getEpochTime()</a>.</div>""";
 
   static final String CREATE_TIME_P_DATE = """
       Time source object.""";
@@ -865,7 +865,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       console.log(dateTime.toString());&nbsp;&nbsp;// Diagnostic notation<br>
       <span style='color:#007fdd'>"2025-12-05T13:55:42.418+01:00"</span></code></div>
       <div style='margin-top:0.5em'>
-      Also see <a href='#time.getdatetime'>getDateTime()</a>.</div>""";
+      See also <a href='#time.getdatetime'>getDateTime()</a>.</div>""";
   
   static final String CREATE_DATETIME_RETURN_DESCR = """
       Wrapper holding a <code>DateTime</code> object.""";
@@ -896,7 +896,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       Note that irrespective of options, the decoder maintains parsed data in the form required for
       <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>.</div>
       <div style='margin-top:0.5em'>
-      Also see
+      See also
       <a href='#decoder.decoder.getbytecount'><i>Decoder</i>.getByteCount()</a>.</div>""";
 
   static final String INITEXT_P1_DESCR = """
@@ -966,7 +966,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
   static final String DIAGDEC_DESCR = """
       Decode a CBOR object provided in <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>.
-      Also see <a href='#decoder.cbor.fromdiagnosticseq'>CBOR.fromDiagnosticSeq()</a>.
+      See also <a href='#decoder.cbor.fromdiagnosticseq'>CBOR.fromDiagnosticSeq()</a>.
       <div style='margin-top:0.5em'>This method always returns CBOR data using
       <a href='#main.deterministic'>Deterministic Encoding</a>.</div>
       <div style='margin-top:0.5em'>This method can also be used for decoding
@@ -1707,7 +1707,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
         "Create CBOR integer.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>")
         .append(min).append(" </code>to<code> ")
         .append(max).append("</code>, a <a href='#main.errors'>CborException</a> is thrown.</div>" +
-        "<div style='margin-top:0.5em'>Also see: <a href='#cbor.")
+        "<div style='margin-top:0.5em'>See also <a href='#cbor.")
         .append(i128 ? "bigint" : "int")
         .append(".get")
         .append(ref.toLowerCase())

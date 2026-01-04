@@ -22,7 +22,7 @@ cross-platform profile.
 Due to a desire maintaining interoperability between different platforms,
 the API "by design" does not address JavaScript specific
 types like binary data beyond `Uint8Array`.
-Also see: [CBOR&nbsp;Everywhere](https://github.com/cyberphone/cbor-everywhere/).
+See also [CBOR&nbsp;Everywhere](https://github.com/cyberphone/cbor-everywhere/).
 
 ### "CBOR" Components
 - Self-encoding wrapper objects
