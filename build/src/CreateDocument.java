@@ -34,6 +34,9 @@ public class CreateDocument {
       If <kbd><i>value</i></kbd> is outside the range <code>-0x8000000000000000</code> to <code>0xffffffffffffffff</code>,
       a <a href='#main.errors'>CborException</a> is thrown.</div>
       <div style='margin-top:0.5em'>
+      For fine-grained control of created integers, the <code>CBOR.Int.create*()</code>
+      methods may be used as an alternative to this constructor.</div>
+      <div style='margin-top:0.5em'>
       Also see <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
 
   static final String W_INT_P1_DESCR = """
