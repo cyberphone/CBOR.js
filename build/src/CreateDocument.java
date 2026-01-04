@@ -1202,7 +1202,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
   String printSubHeader(String link, String name) {
     String title = outline.getHeader() + "&nbsp;&nbsp;" + name;
-    String header = "<h5 id='" + link + "'>" + title + "</h5>\n";
+    String header = "<h4 id='" + link + "'>" + title + "</h4>\n";
     addTocEntry(title, link);
     return header;
   }
