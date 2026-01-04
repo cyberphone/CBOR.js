@@ -23,7 +23,7 @@ The following table outlines the supported levels:
 <tr><th>Level</th><th>Comment</th></tr>
 <tr><td style='text-align:center'><code>NONE</code></td><td>Only "regular" floating-point numbers are accepted.
 </td></tr>
-<tr><td style='text-align:center'><code>BASIC</code></td><td>All floating-point numbers except for <code>NaN</code> with payloads are accepted.
+<tr><td style='text-align:center'><code>EXTENDED</code></td><td>All floating-point numbers except for <code>NaN</code> with payloads are accepted.
 <div style='margin-top:0.5em'>In the list below, <code>NaN</code> refers to "simple" <code>NaNs</code>
 (in deterministically encoded CBOR represented by <code>f97e00</code>),
 while <code>Infinity</code> refers to
@@ -32,9 +32,9 @@ The JavaScript counterparts are represented by <kbd>Number.NaN</kbd>,
 <kbd>Number.POSITIVE_INFINITY</kbd>,
 and <kbd>Number.NEGATIVE_INFINITY</kbd> respectively.</div>
 </td></tr>
-<tr><td style='text-align:center'><code>EXTENDED</code></td><td>All floating-point numbers are accepted.
+<tr><td style='text-align:center'><code>COMPLETE</code></td><td>All floating-point numbers are accepted.
 <div style='margin-top:0.5em'>Note that the JavaScript runtime does not generate
-non-finite numbers beyond those supported by <code>BASIC</code>.
+non-finite numbers beyond those supported by <code>EXTENDED</code>.
 Also see: <a href='#payload-option'>Payload Option</a>.</div>
 </td></tr>
 </table></div>
@@ -45,9 +45,9 @@ Note that the constraints apply to <i>encoding</i> as well.
 <table style='margin-left:2em;font-family: monospace;white-space:nowrap;border-spacing:0'>
 <tr><td colspan='2'>NONE</td></tr>
 <tr><td style='padding-left:1.2em'><a href='index.html#wrapper.cbor.float'>CBOR.Float(value)</a></td><td>// "Regular" number</td></tr>
-<tr><td colspan='2' style='padding-top:0.8em'>BASIC</td></tr>
-<tr><td style='padding-left:1.2em'><a href='index.html#cbor.float.createextendedfloat'>CBOR.Float.createExtendedFloat(value)</a></td><td>// "Regular" number, NaN, or Infinity</td></tr>
 <tr><td colspan='2' style='padding-top:0.8em'>EXTENDED</td></tr>
+<tr><td style='padding-left:1.2em'><a href='index.html#cbor.float.createextendedfloat'>CBOR.Float.createExtendedFloat(value)</a></td><td>// "Regular" number, NaN, or Infinity</td></tr>
+<tr><td colspan='2' style='padding-top:0.8em'>COMPLETE</td></tr>
 <tr><td style='padding-left:1.2em'>// Select suitable method:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td></td></tr>
 <tr><td style='padding-left:1.2em'><a href='index.html#wrapper.cbor.float'>CBOR.Float(value)</a></td><td>// "Regular" number</td></tr>
 <tr><td style='padding-left:1.2em'><a href='index.html#wrapper.cbor.nonfinite'>CBOR.NonFinite(value)</a></td><td>// Arbitrary non-finite number</td></tr>
@@ -59,9 +59,9 @@ Note that the constraints apply to <i>encoding</i> as well.
 <table style='margin-left:2em;font-family: monospace;white-space:nowrap;border-spacing:0'>
 <tr><td colspan='2'>NONE</td></tr>
 <tr><td style='padding-left:1.2em'>cborObject.<a href='index.html#cbor.float.getfloat64'>getFloat64()</a></td><td>// "Regular" number</td></tr>
-<tr><td colspan='2' style='padding-top:0.8em'>BASIC</td></tr>
-<tr><td style='padding-left:1.2em'>cborObject.<a href='index.html#cbor.float.getextendedfloat64'>getExtendedFloat64()</a></td><td>// "Regular" number, NaN, or Infinity</td></tr>
 <tr><td colspan='2' style='padding-top:0.8em'>EXTENDED</td></tr>
+<tr><td style='padding-left:1.2em'>cborObject.<a href='index.html#cbor.float.getextendedfloat64'>getExtendedFloat64()</a></td><td>// "Regular" number, NaN, or Infinity</td></tr>
+<tr><td colspan='2' style='padding-top:0.8em'>COMPLETE</td></tr>
 <tr><td style='padding-left:1.2em'>// Check what the decoder returned:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td></td></tr>
 <tr><td colspan='2' style='padding-left:1.2em'>if (cborObject instanceof CBOR.NonFinite) {</td></tr>
 <tr><td style='padding-left:1.2em'>&nbsp;&nbsp;// Non-finite number to process</td><td></td></tr>
