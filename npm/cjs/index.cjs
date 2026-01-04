@@ -4,6 +4,10 @@
 //                                                              //
 // Author: Anders Rundgren (anders.rundgren.net@gmail.com)      //
 // Repository: https://github.com/cyberphone/CBOR.js#cborjs     //
+//                                                              //
+// Note: this is a "Reference Implementation", not optimized    //
+// for maximum performance.  It is assumed that a productified  //
+// version of CBOR.js would be rewritten in C/C++ or Rust.      //
 //////////////////////////////////////////////////////////////////
 
 'use strict';
