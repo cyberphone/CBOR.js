@@ -175,7 +175,7 @@ export default class CBOR {
     }
 
     equals(object) {
-      if (object && object instanceof CBOR.#CborObject) {
+      if (object instanceof CBOR.#CborObject) {
         return CBOR.compareArrays(this.encode(), object.encode()) == 0;
       }
       return false;
