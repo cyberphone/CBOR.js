@@ -16,7 +16,7 @@ strict _type-checking_.
 ### Design Rationale
 
 The described API builds on the 
-[CBOR::Core](https://www.ietf.org/archive/id/draft-rundgren-cbor-core-20.html)
+[CBOR::Core](https://www.ietf.org/archive/id/draft-rundgren-cbor-core-21.html)
 cross-platform profile.
 
 Due to a desire maintaining interoperability between different platforms,
