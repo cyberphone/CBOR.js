@@ -1858,10 +1858,52 @@ add a second to the created time object.</div></td></tr>
     transparent to the API.
   </p>
   <p>
-    Note that this implementation confines CBOR integers in the range
-    <code>-0x10000000000000000</code> to <code>-0x8000000000000001</code>
-    to <a href='#wrapper.cbor.bigint'>CBOR.BigInt</a> wrappers.
+    Note that during decoding this implementation treats CBOR integers
+    outside the range <code>-0x8000000000000000</code> to <code>-0xffffffffffffffff</code>
+    as <a href='#wrapper.cbor.bigint'>CBOR.BigInt</a> objects.
   </p>
+The following table holds additonal CDDL defintions, imposed by the CBOR.js API and <span style='white-space:nowrap'>[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-21.html#name-additional-cddl-types' title='CDDL-EXT'>CDDL-EXT<img src='xtl.svg' alt='link'></a>]</span>:
+  <div class='webpkifloat'>
+    <table class='webpkitable' style='margin-left:2em'>
+      <tr><th>CDDL</th><th>API&nbsp;Reference</th></tr>
+      <tr style='text-align:center'>
+        <td><code>int8</code></td>
+        <td><a href='#cbor.int.getint8'>getint8()</a></td>
+      </tr>
+      <tr style='text-align:center'>
+        <td><code>uint8</code></td>
+        <td><a href='#cbor.int.getuint8'>getUint8()</a></td>
+      </tr>
+      <tr style='text-align:center'>
+        <td><code>int16</code></td>
+        <td><a href='#cbor.int.getint16'>getint16()</a></td>
+      </tr>
+      <tr style='text-align:center'>
+        <td><code>uint16</code></td>
+        <td><a href='#cbor.int.getuint16'>getUint16()</a></td>
+      </tr>
+      <tr style='text-align:center'>
+        <td><code>int32</code></td>
+        <td><a href='#cbor.int.getint32'>getint32()</a></td>
+      </tr>
+      <tr style='text-align:center'>
+        <td><code>uint32</code></td>
+        <td><a href='#cbor.int.getuint32'>getUint32()</a></td>
+      </tr>
+      <tr style='text-align:center'>
+        <td><code>int53</code></td>
+        <td><a href='#cbor.int.getint53'>getint53()</a></td>
+      </tr>
+      <tr style='text-align:center'>
+        <td><code>int64</code></td>
+        <td><a href='#cbor.int.getint64'>getint64()</a></td>
+      </tr>
+      <tr style='text-align:center'>
+        <td><code>uint64</code></td>
+        <td><a href='#cbor.int.getuint64'>getUint64()</a></td>
+      </tr>
+    </table>
+  </div>
   <h4 id='jsnumbers.fp'>7.2.&nbsp;&nbsp;Floating-Point Numbers</h4>
 
   Although CBOR encoding depends on 16, 32, and 64-bit IEEE&nbsp;754
@@ -2126,6 +2168,6 @@ here using the result of the previous encoding example:
 
   API version: 1.0.20.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2026-01-04
+  Document version: 2026-01-07
 </body>
 </html>
