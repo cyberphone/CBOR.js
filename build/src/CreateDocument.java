@@ -138,7 +138,7 @@ public class CreateDocument {
       Get CBOR <code>float16</code> object.""";
 
   static final String W_GETFLOAT32_DESCR = """
-      Get CBOR <code>float32</code> object.""";
+      Get CBOR <code>float32</code> / <code>float16</code> object.""";
 
   static final String W_GETFLOAT_RETURN_DESCR = """
       Decoded floating-point number.""";
@@ -1874,13 +1874,13 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
         .addMethod("getFloat32", W_GETFLOAT32_DESCR +
             "<div style='margin-top:0.5em'>" +
-            "If the CBOR object is not a 16-bit or 32-bit <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> item, " +
+            "If the CBOR object is not a 32-bit or 16-bit <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> item, " +
             "a <a href='#main.errors'>CborException</a> is thrown.</div>")
         .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
 
         .addMethod("getFloat64", W_GETFLOAT_DESCR + 
             "<div style='margin-top:0.5em'>" +
-            "If the CBOR object is not a 16-bit, 32-bit or 64-bit <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> item, " +
+            "If the CBOR object is not a 64-bit, 32-bit or 16-bit <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> item, " +
             "a <a href='#main.errors'>CborException</a> is thrown.</div>")
         .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
 
