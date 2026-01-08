@@ -1679,9 +1679,13 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       throw new RuntimeException("handle: " + handle);
   }
 
-  void rangedIntMethod(Wrapper wrapper, String method, String min, String max, String optionalText) {
+  void rangedIntMethod(Wrapper wrapper, String bits, String min, String max, String optionalText) {
+    String type = (min.equals("0") ? "Uint" : "Int") + bits;
+    String method = "get" + type;
     StringBuilder description = new StringBuilder(
-        "Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>")
+        "Get CBOR <code>")
+        .append(type.toLowerCase())
+        .append("</code> object.<div style='margin-top:0.5em'>If the return value is outside the range <code>")
         .append(min).append(" </code>to<code> ")
         .append(max).append("</code>, a <a href='#main.errors'>CborException</a> is thrown.");
     if (optionalText != null) {
@@ -1692,28 +1696,34 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
         .setReturn(DataTypes.JS_NUMBER, "Decoded integer.");
   }
 
-  void rangedBigIntMethod(Wrapper wrapper, String method, String min, String max) {
+  void rangedBigIntMethod(Wrapper wrapper, String bits, String min, String max) {
+    String type = (min.equals("0") ? "Uint" : "Int") + bits;
     StringBuilder description = new StringBuilder(
-        "Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>")
+        "Get CBOR <code>")
+        .append(type.toLowerCase())
+        .append("</code> object.<div style='margin-top:0.5em'>If the return value is outside the range <code>")
         .append(min).append(" </code>to<code> ")
         .append(max).append("</code>, a <a href='#main.errors'>CborException</a> is thrown.</div>");
-    wrapper.addMethod(method, description.toString())
+    wrapper.addMethod("get" + type, description.toString())
         .setReturn(DataTypes.JS_BIGINT, W_GETBIGINT_RETURN_DESCR);
   }
 
-  void createRangedMethod(Wrapper wrapper, String method, String min, String max) {
-    boolean i128 = method.contains("128");
-    String ref = method.substring(method.indexOf("create") + 6);
+  void createRangedMethod(Wrapper wrapper, String bits, String min, String max) {
+    boolean i128 = bits.equals("128");
+    String type = (min.equals("0") ? "Uint" : "Int") + bits;
+    String method = "CBOR." + (i128 ? "BigInt" : "Int") + ".create" + type;
     StringBuilder description = new StringBuilder(
-        "Create CBOR integer.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>")
+        "Create CBOR <code>")
+        .append(type.toLowerCase())
+        .append("</code> object.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>")
         .append(min).append(" </code>to<code> ")
         .append(max).append("</code>, a <a href='#main.errors'>CborException</a> is thrown.</div>" +
         "<div style='margin-top:0.5em'>See also <a href='#cbor.")
         .append(i128 ? "bigint" : "int")
         .append(".get")
-        .append(ref.toLowerCase())
+        .append(type.toLowerCase())
         .append("'>get")
-        .append(ref)
+        .append(type)
         .append("()</a>.</div>");
     wrapper.addMethod(method, description.toString())
         .addParameter("value", DataTypes.JS_NUMBER_BIGINT, "Integer to be wrapped.")
@@ -1725,63 +1735,63 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
   void bigIntMethods(Wrapper wrapper, boolean i64Flag) {
     if (i64Flag) {
-        rangedBigIntMethod(wrapper, "getInt64",
+        rangedBigIntMethod(wrapper, "64",
             "-0x8000000000000000",
             "0x7fffffffffffffff");
 
-        rangedBigIntMethod(wrapper, "getUint64",
+        rangedBigIntMethod(wrapper, "64",
             "0",
             "0xffffffffffffffff");
 
-        createRangedMethod(wrapper, "CBOR.Int.createInt8",
+        createRangedMethod(wrapper, "8",
             "-0x80",
             "0x7f");
 
-        createRangedMethod(wrapper, "CBOR.Int.createUint8",
+        createRangedMethod(wrapper, "8",
             "0",
             "0xff");
 
-        createRangedMethod(wrapper, "CBOR.Int.createInt16",
+        createRangedMethod(wrapper, "16",
             "-0x8000",
             "0x7fff");
 
-        createRangedMethod(wrapper, "CBOR.Int.createUint16",
+        createRangedMethod(wrapper, "16",
             "0",
             "0xffff");
 
-        createRangedMethod(wrapper, "CBOR.Int.createInt32",
+        createRangedMethod(wrapper, "32",
             "-0x80000000",
             "0x7fffffff");
 
-        createRangedMethod(wrapper, "CBOR.Int.createUint32",
+        createRangedMethod(wrapper, "32",
             "0",
             "0xffffffff");
 
-        createRangedMethod(wrapper, "CBOR.Int.createInt53",
+        createRangedMethod(wrapper, "53",
             "</code><kbd>Number.MIN_SAFE_INTEGER</kbd>&nbsp;(<code>-9007199254740991</code>)<code>",
             "</code><kbd>Number.MAX_SAFE_INTEGER</kbd>&nbsp;(<code>9007199254740991</code>)<code>");
 
-        createRangedMethod(wrapper, "CBOR.Int.createInt64",
+        createRangedMethod(wrapper, "64",
             "-0x8000000000000000",
             "0x7fffffffffffffff");
 
-        createRangedMethod(wrapper, "CBOR.Int.createUint64",
+        createRangedMethod(wrapper, "64",
             "0",
             "0xffffffffffffffff");
     } else {
-         rangedBigIntMethod(wrapper, "getInt128",
+         rangedBigIntMethod(wrapper, "128",
             "-0x80000000000000000000000000000000",
             "0x7fffffffffffffffffffffffffffffff");
 
-        rangedBigIntMethod(wrapper, "getUint128",
+        rangedBigIntMethod(wrapper, "128",
             "0",
             "0xffffffffffffffffffffffffffffffff");
             
-        createRangedMethod(wrapper, "CBOR.BigInt.createInt128", 
+        createRangedMethod(wrapper, "128", 
             "-0x80000000000000000000000000000000",
             "0x7fffffffffffffffffffffffffffffff");
 
-        createRangedMethod(wrapper, "CBOR.BigInt.createUint128", 
+        createRangedMethod(wrapper, "128", 
             "0", 
             "0xffffffffffffffffffffffffffffffff");
     }
@@ -1792,37 +1802,37 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
   void intMethods(Wrapper wrapper) {
 
-    rangedIntMethod(wrapper, "getInt8",
+    rangedIntMethod(wrapper, "8",
         "-0x80",
         "0x7f",
         null);
 
-    rangedIntMethod(wrapper, "getUint8",
+    rangedIntMethod(wrapper, "8",
         "0",
         "0xff",
         null);
 
-    rangedIntMethod(wrapper, "getInt16",
+    rangedIntMethod(wrapper, "16",
         "-0x8000",
         "0x7fff",
         null);
 
-    rangedIntMethod(wrapper, "getUint16",
+    rangedIntMethod(wrapper, "16",
         "0",
         "0xffff",
         null);
 
-    rangedIntMethod(wrapper, "getInt32",
+    rangedIntMethod(wrapper, "32",
         "-0x80000000",
         "0x7fffffff",
         null);
 
-    rangedIntMethod(wrapper, "getUint32",
+    rangedIntMethod(wrapper, "32",
         "0",
         "0xffffffff",
         null);
 
-    rangedIntMethod(wrapper, "getInt53",
+    rangedIntMethod(wrapper, "53",
         "</code><kbd>Number.MIN_SAFE_INTEGER</kbd>&nbsp;(<code>-9007199254740991</code>)<code>",
         "</code><kbd>Number.MAX_SAFE_INTEGER</kbd>&nbsp;(<code>9007199254740991</code>)<code>",
         "</div><div style='margin-top:0.5em'>" +

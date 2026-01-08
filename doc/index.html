@@ -339,7 +339,7 @@ finish the operation using the standard constructor.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getInt8()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>-0x80 </code>to<code> 0x7f</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR <code>int8</code> object.<div style='margin-top:0.5em'>If the return value is outside the range <code>-0x80 </code>to<code> 0x7f</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -348,7 +348,7 @@ finish the operation using the standard constructor.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getUint8()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>0 </code>to<code> 0xff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR <code>uint8</code> object.<div style='margin-top:0.5em'>If the return value is outside the range <code>0 </code>to<code> 0xff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -357,7 +357,7 @@ finish the operation using the standard constructor.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getInt16()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>-0x8000 </code>to<code> 0x7fff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR <code>int16</code> object.<div style='margin-top:0.5em'>If the return value is outside the range <code>-0x8000 </code>to<code> 0x7fff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -366,7 +366,7 @@ finish the operation using the standard constructor.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getUint16()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>0 </code>to<code> 0xffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR <code>uint16</code> object.<div style='margin-top:0.5em'>If the return value is outside the range <code>0 </code>to<code> 0xffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -375,7 +375,7 @@ finish the operation using the standard constructor.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getInt32()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>-0x80000000 </code>to<code> 0x7fffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR <code>int32</code> object.<div style='margin-top:0.5em'>If the return value is outside the range <code>-0x80000000 </code>to<code> 0x7fffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -384,7 +384,7 @@ finish the operation using the standard constructor.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getUint32()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>0 </code>to<code> 0xffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR <code>uint32</code> object.<div style='margin-top:0.5em'>If the return value is outside the range <code>0 </code>to<code> 0xffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -393,7 +393,7 @@ finish the operation using the standard constructor.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getInt53()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code></code><kbd>Number.MIN_SAFE_INTEGER</kbd>&nbsp;(<code>-9007199254740991</code>)<code> </code>to<code> </code><kbd>Number.MAX_SAFE_INTEGER</kbd>&nbsp;(<code>9007199254740991</code>)<code></code>, a <a href='#main.errors'>CborException</a> is thrown. </div><div style='margin-top:0.5em'>Since 53-bit integers are specific to JavaScript, this method should be used with caution in cross-platform scenarios.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR <code>int53</code> object.<div style='margin-top:0.5em'>If the return value is outside the range <code></code><kbd>Number.MIN_SAFE_INTEGER</kbd>&nbsp;(<code>-9007199254740991</code>)<code> </code>to<code> </code><kbd>Number.MAX_SAFE_INTEGER</kbd>&nbsp;(<code>9007199254740991</code>)<code></code>, a <a href='#main.errors'>CborException</a> is thrown. </div><div style='margin-top:0.5em'>Since 53-bit integers are specific to JavaScript, this method should be used with caution in cross-platform scenarios.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded integer.</td></tr>
@@ -402,7 +402,7 @@ finish the operation using the standard constructor.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getInt64()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>-0x8000000000000000 </code>to<code> 0x7fffffffffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR <code>int64</code> object.<div style='margin-top:0.5em'>If the return value is outside the range <code>-0x8000000000000000 </code>to<code> 0x7fffffffffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Decoded big integer.</td></tr>
@@ -411,7 +411,7 @@ finish the operation using the standard constructor.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getUint64()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>0 </code>to<code> 0xffffffffffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR <code>uint64</code> object.<div style='margin-top:0.5em'>If the return value is outside the range <code>0 </code>to<code> 0xffffffffffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Decoded big integer.</td></tr>
@@ -420,7 +420,7 @@ finish the operation using the standard constructor.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.Int.createInt8(<i>value</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Create CBOR integer.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>-0x80 </code>to<code> 0x7f</code>, a <a href='#main.errors'>CborException</a> is thrown.</div><div style='margin-top:0.5em'>See also <a href='#cbor.int.getint8'>getInt8()</a>.</div></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Create CBOR <code>int8</code> object.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>-0x80 </code>to<code> 0x7f</code>, a <a href='#main.errors'>CborException</a> is thrown.</div><div style='margin-top:0.5em'>See also <a href='#cbor.int.getint8'>getInt8()</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd>&nbsp;<code>/</code>&nbsp;<kbd>BigInt</kbd></td><td style='width:100%'>Integer to be wrapped.</td></tr>
@@ -432,7 +432,7 @@ finish the operation using the standard constructor.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.Int.createUint8(<i>value</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Create CBOR integer.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>0 </code>to<code> 0xff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div><div style='margin-top:0.5em'>See also <a href='#cbor.int.getuint8'>getUint8()</a>.</div></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Create CBOR <code>uint8</code> object.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>0 </code>to<code> 0xff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div><div style='margin-top:0.5em'>See also <a href='#cbor.int.getuint8'>getUint8()</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd>&nbsp;<code>/</code>&nbsp;<kbd>BigInt</kbd></td><td style='width:100%'>Integer to be wrapped.</td></tr>
@@ -444,7 +444,7 @@ finish the operation using the standard constructor.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.Int.createInt16(<i>value</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Create CBOR integer.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>-0x8000 </code>to<code> 0x7fff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div><div style='margin-top:0.5em'>See also <a href='#cbor.int.getint16'>getInt16()</a>.</div></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Create CBOR <code>int16</code> object.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>-0x8000 </code>to<code> 0x7fff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div><div style='margin-top:0.5em'>See also <a href='#cbor.int.getint16'>getInt16()</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd>&nbsp;<code>/</code>&nbsp;<kbd>BigInt</kbd></td><td style='width:100%'>Integer to be wrapped.</td></tr>
@@ -456,7 +456,7 @@ finish the operation using the standard constructor.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.Int.createUint16(<i>value</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Create CBOR integer.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>0 </code>to<code> 0xffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div><div style='margin-top:0.5em'>See also <a href='#cbor.int.getuint16'>getUint16()</a>.</div></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Create CBOR <code>uint16</code> object.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>0 </code>to<code> 0xffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div><div style='margin-top:0.5em'>See also <a href='#cbor.int.getuint16'>getUint16()</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd>&nbsp;<code>/</code>&nbsp;<kbd>BigInt</kbd></td><td style='width:100%'>Integer to be wrapped.</td></tr>
@@ -468,7 +468,7 @@ finish the operation using the standard constructor.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.Int.createInt32(<i>value</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Create CBOR integer.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>-0x80000000 </code>to<code> 0x7fffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div><div style='margin-top:0.5em'>See also <a href='#cbor.int.getint32'>getInt32()</a>.</div></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Create CBOR <code>int32</code> object.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>-0x80000000 </code>to<code> 0x7fffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div><div style='margin-top:0.5em'>See also <a href='#cbor.int.getint32'>getInt32()</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd>&nbsp;<code>/</code>&nbsp;<kbd>BigInt</kbd></td><td style='width:100%'>Integer to be wrapped.</td></tr>
@@ -480,7 +480,7 @@ finish the operation using the standard constructor.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.Int.createUint32(<i>value</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Create CBOR integer.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>0 </code>to<code> 0xffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div><div style='margin-top:0.5em'>See also <a href='#cbor.int.getuint32'>getUint32()</a>.</div></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Create CBOR <code>uint32</code> object.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>0 </code>to<code> 0xffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div><div style='margin-top:0.5em'>See also <a href='#cbor.int.getuint32'>getUint32()</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd>&nbsp;<code>/</code>&nbsp;<kbd>BigInt</kbd></td><td style='width:100%'>Integer to be wrapped.</td></tr>
@@ -492,7 +492,7 @@ finish the operation using the standard constructor.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.Int.createInt53(<i>value</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Create CBOR integer.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code></code><kbd>Number.MIN_SAFE_INTEGER</kbd>&nbsp;(<code>-9007199254740991</code>)<code> </code>to<code> </code><kbd>Number.MAX_SAFE_INTEGER</kbd>&nbsp;(<code>9007199254740991</code>)<code></code>, a <a href='#main.errors'>CborException</a> is thrown.</div><div style='margin-top:0.5em'>See also <a href='#cbor.int.getint53'>getInt53()</a>.</div></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Create CBOR <code>int53</code> object.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code></code><kbd>Number.MIN_SAFE_INTEGER</kbd>&nbsp;(<code>-9007199254740991</code>)<code> </code>to<code> </code><kbd>Number.MAX_SAFE_INTEGER</kbd>&nbsp;(<code>9007199254740991</code>)<code></code>, a <a href='#main.errors'>CborException</a> is thrown.</div><div style='margin-top:0.5em'>See also <a href='#cbor.int.getint53'>getInt53()</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd>&nbsp;<code>/</code>&nbsp;<kbd>BigInt</kbd></td><td style='width:100%'>Integer to be wrapped.</td></tr>
@@ -504,7 +504,7 @@ finish the operation using the standard constructor.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.Int.createInt64(<i>value</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Create CBOR integer.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>-0x8000000000000000 </code>to<code> 0x7fffffffffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div><div style='margin-top:0.5em'>See also <a href='#cbor.int.getint64'>getInt64()</a>.</div></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Create CBOR <code>int64</code> object.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>-0x8000000000000000 </code>to<code> 0x7fffffffffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div><div style='margin-top:0.5em'>See also <a href='#cbor.int.getint64'>getInt64()</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd>&nbsp;<code>/</code>&nbsp;<kbd>BigInt</kbd></td><td style='width:100%'>Integer to be wrapped.</td></tr>
@@ -516,7 +516,7 @@ finish the operation using the standard constructor.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.Int.createUint64(<i>value</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Create CBOR integer.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>0 </code>to<code> 0xffffffffffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div><div style='margin-top:0.5em'>See also <a href='#cbor.int.getuint64'>getUint64()</a>.</div></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Create CBOR <code>uint64</code> object.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>0 </code>to<code> 0xffffffffffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div><div style='margin-top:0.5em'>See also <a href='#cbor.int.getuint64'>getUint64()</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd>&nbsp;<code>/</code>&nbsp;<kbd>BigInt</kbd></td><td style='width:100%'>Integer to be wrapped.</td></tr>
@@ -554,7 +554,7 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getInt128()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>-0x80000000000000000000000000000000 </code>to<code> 0x7fffffffffffffffffffffffffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR <code>int128</code> object.<div style='margin-top:0.5em'>If the return value is outside the range <code>-0x80000000000000000000000000000000 </code>to<code> 0x7fffffffffffffffffffffffffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Decoded big integer.</td></tr>
@@ -563,7 +563,7 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getUint128()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR integer.<div style='margin-top:0.5em'>If the return value is outside the range <code>0 </code>to<code> 0xffffffffffffffffffffffffffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR <code>uint128</code> object.<div style='margin-top:0.5em'>If the return value is outside the range <code>0 </code>to<code> 0xffffffffffffffffffffffffffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Decoded big integer.</td></tr>
@@ -572,7 +572,7 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.BigInt.createInt128(<i>value</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Create CBOR integer.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>-0x80000000000000000000000000000000 </code>to<code> 0x7fffffffffffffffffffffffffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div><div style='margin-top:0.5em'>See also <a href='#cbor.bigint.getint128'>getInt128()</a>.</div></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Create CBOR <code>int128</code> object.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>-0x80000000000000000000000000000000 </code>to<code> 0x7fffffffffffffffffffffffffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div><div style='margin-top:0.5em'>See also <a href='#cbor.bigint.getint128'>getInt128()</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd>&nbsp;<code>/</code>&nbsp;<kbd>BigInt</kbd></td><td style='width:100%'>Integer to be wrapped.</td></tr>
@@ -584,7 +584,7 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.BigInt.createUint128(<i>value</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Create CBOR integer.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>0 </code>to<code> 0xffffffffffffffffffffffffffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div><div style='margin-top:0.5em'>See also <a href='#cbor.bigint.getuint128'>getUint128()</a>.</div></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Create CBOR <code>uint128</code> object.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>0 </code>to<code> 0xffffffffffffffffffffffffffffffff</code>, a <a href='#main.errors'>CborException</a> is thrown.</div><div style='margin-top:0.5em'>See also <a href='#cbor.bigint.getuint128'>getUint128()</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd>&nbsp;<code>/</code>&nbsp;<kbd>BigInt</kbd></td><td style='width:100%'>Integer to be wrapped.</td></tr>
