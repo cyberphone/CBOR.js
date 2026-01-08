@@ -625,7 +625,7 @@ For supporting <code>NaN</code> and <code>Infinity</code>, see also
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getFloat16()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR <code>float16</code> object.<div style='margin-top:0.5em'>If the CBOR object is not a 16-bit <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> item, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR floating-point object.<div style='margin-top:0.5em'>If the CBOR object is not a <code>float16</code> object, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded floating-point number.</td></tr>
@@ -634,7 +634,7 @@ For supporting <code>NaN</code> and <code>Infinity</code>, see also
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getFloat32()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR <code>float32</code> / <code>float16</code> object.<div style='margin-top:0.5em'>If the CBOR object is not a 32-bit or 16-bit <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> item, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR floating-point object.<div style='margin-top:0.5em'>If the CBOR object is not a <code>float32</code> or <code>float16</code> object, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded floating-point number.</td></tr>
@@ -643,7 +643,7 @@ For supporting <code>NaN</code> and <code>Infinity</code>, see also
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getFloat64()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR <code>float</code> object.<div style='margin-top:0.5em'>If the CBOR object is not a 64-bit, 32-bit or 16-bit <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> item, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR floating-point object.<div style='margin-top:0.5em'>If the CBOR object is not a <code>float64</code>, <code>float32</code>, or <code>float16</code> object, a <a href='#main.errors'>CborException</a> is thrown.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Decoded floating-point number.</td></tr>
@@ -674,7 +674,7 @@ object.</td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getExtendedFloat64()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get CBOR <code>float</code> object.
+<tr><th>Description</th><td style='width:100%'>Get CBOR floating-point object.
 <div style='margin-top:0.5em'>
 See also <a href='#cbor.float.createextendedfloat'>CBOR.Float.createExtendedFloat()</a>.</div>
 <div style='margin-top:0.5em'>
@@ -1308,7 +1308,7 @@ in CBOR maps.</div></td></tr>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getSimple()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get <code>simple</code> object.</td></tr>
+<tr><th>Description</th><td style='width:100%'>Get CBOR <code>simple</code> object.</td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Returned simple value.</td></tr>

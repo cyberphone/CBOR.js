@@ -132,19 +132,13 @@ public class CreateDocument {
       Instantiated <a href='#wrapper.cbor.float'>CBOR.Float</a> object.""";
 
   static final String W_GETFLOAT_DESCR = """
-      Get CBOR <code>float</code> object.""";
-
-  static final String W_GETFLOAT16_DESCR = """
-      Get CBOR <code>float16</code> object.""";
-
-  static final String W_GETFLOAT32_DESCR = """
-      Get CBOR <code>float32</code> / <code>float16</code> object.""";
+      Get CBOR floating-point object.""";
 
   static final String W_GETFLOAT_RETURN_DESCR = """
       Decoded floating-point number.""";
 
   static final String W_GETEXTFLOAT_DESCR = """
-      Get CBOR <code>float</code> object.
+      Get CBOR floating-point object.
       <div style='margin-top:0.5em'>
       See also <a href='#cbor.float.createextendedfloat'>CBOR.Float.createExtendedFloat()</a>.</div>
       <div style='margin-top:0.5em'>
@@ -587,7 +581,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       Simple value.""";
 
   static final String W_SIMPLE_GETVAL_DESCR = """
-      Get <code>simple</code> object.""";
+      Get CBOR <code>simple</code> object.""";
 
   static final String W_SIMPLE_GETVAL_RETURN_DESCR = """
       Returned simple value.""";
@@ -1866,21 +1860,21 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
     addWrapper(DataTypes.CBOR_FLOAT, W_FLOAT_DESCR)
         .addWrapperParameter("value", DataTypes.JS_NUMBER, W_FLOAT_P1_DESCR)
 
-        .addMethod("getFloat16", W_GETFLOAT16_DESCR +
+        .addMethod("getFloat16", W_GETFLOAT_DESCR +
             "<div style='margin-top:0.5em'>" +
-            "If the CBOR object is not a 16-bit <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> item, " +
+            "If the CBOR object is not a <code>float16</code> object, " +
             "a <a href='#main.errors'>CborException</a> is thrown.</div>")
         .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
 
-        .addMethod("getFloat32", W_GETFLOAT32_DESCR +
+        .addMethod("getFloat32", W_GETFLOAT_DESCR +
             "<div style='margin-top:0.5em'>" +
-            "If the CBOR object is not a 32-bit or 16-bit <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> item, " +
+            "If the CBOR object is not a <code>float32</code> or <code>float16</code> object, " +
             "a <a href='#main.errors'>CborException</a> is thrown.</div>")
         .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
 
         .addMethod("getFloat64", W_GETFLOAT_DESCR + 
             "<div style='margin-top:0.5em'>" +
-            "If the CBOR object is not a 64-bit, 32-bit or 16-bit <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> item, " +
+            "If the CBOR object is not a <code>float64</code>, <code>float32</code>, or <code>float16</code> object, " +
             "a <a href='#main.errors'>CborException</a> is thrown.</div>")
         .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
 
