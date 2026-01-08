@@ -132,13 +132,19 @@ public class CreateDocument {
       Instantiated <a href='#wrapper.cbor.float'>CBOR.Float</a> object.""";
 
   static final String W_GETFLOAT_DESCR = """
-      Get CBOR floating-point value.""";
+      Get CBOR <code>float</code> object.""";
+
+  static final String W_GETFLOAT16_DESCR = """
+      Get CBOR <code>float16</code> object.""";
+
+  static final String W_GETFLOAT32_DESCR = """
+      Get CBOR <code>float32</code> object.""";
 
   static final String W_GETFLOAT_RETURN_DESCR = """
       Decoded floating-point number.""";
 
   static final String W_GETEXTFLOAT_DESCR = """
-      Get CBOR floating-point value.
+      Get CBOR <code>float</code> object.
       <div style='margin-top:0.5em'>
       See also <a href='#cbor.float.createextendedfloat'>CBOR.Float.createExtendedFloat()</a>.</div>
       <div style='margin-top:0.5em'>
@@ -347,7 +353,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       Boolean to be wrapped.""";
 
   static final String W_GETBOOL_DESCR = """
-      Get CBOR boolean.""";
+      Get CBOR <code>bool</code> object.""";
 
   static final String W_GETBOOL_RETURN_DESCR = """
       Decoded boolean.""";
@@ -568,7 +574,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
   // CBOR.Simple
 
   static final String W_SIMPLE_DESCR = """
-      Constructor.  Creates a CBOR simple value object.
+      Constructor.  Creates a CBOR <code>simple</code> object.
       <div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside
       the range <code>0-23</code> and <code>32-255</code>,
       a <a href='#main.errors'>CborException</a> is thrown.</div>
@@ -581,7 +587,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       Simple value.""";
 
   static final String W_SIMPLE_GETVAL_DESCR = """
-      Get simple value.""";
+      Get <code>simple</code> object.""";
 
   static final String W_SIMPLE_GETVAL_RETURN_DESCR = """
       Returned simple value.""";
@@ -1860,19 +1866,22 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
     addWrapper(DataTypes.CBOR_FLOAT, W_FLOAT_DESCR)
         .addWrapperParameter("value", DataTypes.JS_NUMBER, W_FLOAT_P1_DESCR)
 
-        .addMethod("getFloat16", W_GETFLOAT_DESCR +
+        .addMethod("getFloat16", W_GETFLOAT16_DESCR +
             "<div style='margin-top:0.5em'>" +
             "If the CBOR object is not a 16-bit <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> item, " +
             "a <a href='#main.errors'>CborException</a> is thrown.</div>")
         .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
 
-        .addMethod("getFloat32", W_GETFLOAT_DESCR +
+        .addMethod("getFloat32", W_GETFLOAT32_DESCR +
             "<div style='margin-top:0.5em'>" +
             "If the CBOR object is not a 16-bit or 32-bit <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> item, " +
             "a <a href='#main.errors'>CborException</a> is thrown.</div>")
         .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
 
-        .addMethod("getFloat64", W_GETFLOAT_DESCR)
+        .addMethod("getFloat64", W_GETFLOAT_DESCR + 
+            "<div style='margin-top:0.5em'>" +
+            "If the CBOR object is not a 16-bit, 32-bit or 64-bit <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> item, " +
+            "a <a href='#main.errors'>CborException</a> is thrown.</div>")
         .setReturn(DataTypes.JS_NUMBER, W_GETFLOAT_RETURN_DESCR)
 
         .addMethod("CBOR.Float.createExtendedFloat", W_CREEXTFLOAT_DESCR)
