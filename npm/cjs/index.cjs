@@ -2227,16 +2227,20 @@ class CBOR {
     return encoded;
   }
 
+  static #argTypeError(object, type) {
+    CBOR.#error(object === undefined ? "Undefined argument" : "Argument is not a '" + type + "'");
+  }
+
   static #bytesCheck(byteArray) {
     if (byteArray instanceof Uint8Array) {
       return byteArray;
     }
-    CBOR.#error("Argument is not an 'Uint8Array'");
+    CBOR.#argTypeError(byteArray, 'Uint8Array');
   }
 
   static #typeCheck(object, type) {
     if (typeof object != type) {
-      CBOR.#error("Argument is not a '" + type + "'");
+      CBOR.#argTypeError(object, type);
     }
     return object;
   }
@@ -2441,7 +2445,7 @@ class CBOR {
   
   static toHex(byteArray) {
     let result = '';
-    byteArray.forEach((element) => {
+    CBOR.#bytesCheck(byteArray).forEach((element) => {
       result += CBOR.#twoHex(element);
     });
     return result;
@@ -2461,7 +2465,7 @@ class CBOR {
   }
 
   static toBase64Url(byteArray) {
-    return btoa(String.fromCharCode.apply(null, new Uint8Array(byteArray)))
+    return btoa(String.fromCharCode.apply(null, new Uint8Array(CBOR.#bytesCheck(byteArray))))
                .replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
   }
 
@@ -2473,9 +2477,9 @@ class CBOR {
                            c => c.charCodeAt(0));
   }
 
-  static toBigInt(array) {
+  static toBigInt(byteArray) {
     let value = 0n;
-    array.forEach(byte => {
+    CBOR.#bytesCheck(byteArray).forEach(byte => {
       value <<= 8n;
       value += BigInt(byte);
     });
