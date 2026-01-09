@@ -1132,8 +1132,8 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
   }
 
   enum ExternalReferences {
-    CBOR_CORE ("CBOR::Core", "https://www.ietf.org/archive/id/draft-rundgren-cbor-core-23.html"),
-    CBOR_CDDL_EXT ("CDDL-EXT", "https://www.ietf.org/archive/id/draft-rundgren-cbor-core-23.html#name-additional-cddl-types"),
+    CBOR_CORE ("CBOR::Core", "https://www.ietf.org/archive/id/draft-rundgren-cbor-core-24.html"),
+    CBOR_CDDL_EXT ("CDDL-EXT", "https://www.ietf.org/archive/id/draft-rundgren-cbor-core-24.html#name-additional-cddl-types"),
     CBOR   ("RFC8949", "https://www.rfc-editor.org/rfc/rfc8949.html"),
     CDDL   ("RFC8610", "https://www.rfc-editor.org/rfc/rfc8610.html"),
     ISO_TIME ("RFC3339", "https://www.rfc-editor.org/rfc/rfc3339.html#section-5.6"),
@@ -2221,11 +2221,11 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
     replace(UTILITY_METHODS, printUtilityMethods());
     outline.increment();
 
-    replace(JS_NUMBER_CONS, printMainHeader("jsnumbers", "JavaScript Number Considerations"));
+    replace(JS_NUMBER_CONS, printMainHeader("numbers", "JavaScript Number Considerations"));
     outline.indent();
-    replace(JS_NUMBER_CONS_INT, printSubHeader("jsnumbers.int", "Integer Numbers"));
+    replace(JS_NUMBER_CONS_INT, printSubHeader("numbers.integers", "Integers"));
     outline.increment();
-    replace(JS_NUMBER_CONS_FP, printSubHeader("jsnumbers.fp", "Floating-Point Numbers"));
+    replace(JS_NUMBER_CONS_FP, printSubHeader("numbers.floating-point", "Floating-Point Numbers"));
     outline.undent();
     outline.increment();
 

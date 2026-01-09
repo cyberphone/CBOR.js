@@ -135,8 +135,8 @@
     </table>
   </div>
   <ol style='margin:0 0'>
-    <li>See also <a href='#jsnumbers.int'>Integer Numbers</a>.</li>
-    <li>See also <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</li>
+    <li>See also <a href='#numbers.integers'>Integers</a>.</li>
+    <li>See also <a href='#numbers.floating-point'>Floating-Point Numbers</a>.</li>
     <li>See also <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</li>
   </ol>
   <p>
@@ -178,7 +178,7 @@
   (offering unlimited integers), it is important to understand how these
   number types are mapped to CBOR which offers
   two variants of integers and three variants of floating-point types.
-  ${JS_NUMBER_CONS_INT}
+  <div id='jsnumbers.int'/>${JS_NUMBER_CONS_INT}
   Due to the <kbd>Number.MAX_SAFE_INTEGER</kbd> limitation,
   in all places in the <code>CBOR.js</code> API where an integer
   in the form of a JavaScript <kbd>Number</kbd> is expected, <kbd>Number.isInteger(<i>value</i>)</kbd>
@@ -361,6 +361,6 @@ and their API counterparts:
   ${VERSION_INFO}
   API version: 1.0.20.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2026-01-08
+  Document version: 2026-01-09
 </body>
 </html>

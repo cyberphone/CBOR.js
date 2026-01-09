@@ -168,9 +168,9 @@
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.createdatetime'>6.9.&nbsp;&nbsp;CBOR.createDateTime()</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.createepochtime'>6.10.&nbsp;&nbsp;CBOR.createEpochTime()</a></div>
 </div>
-<div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.jsnumbers'>7.&nbsp;&nbsp;JavaScript Number Considerations</a></div><div style='display:none'>
-<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#jsnumbers.int'>7.1.&nbsp;&nbsp;Integer Numbers</a></div>
-<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#jsnumbers.fp'>7.2.&nbsp;&nbsp;Floating-Point Numbers</a></div>
+<div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.numbers'>7.&nbsp;&nbsp;JavaScript Number Considerations</a></div><div style='display:none'>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#numbers.integers'>7.1.&nbsp;&nbsp;Integers</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#numbers.floating-point'>7.2.&nbsp;&nbsp;Floating-Point Numbers</a></div>
 </div>
 <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#main.diagnostic'>8.&nbsp;&nbsp;Diagnostic Notation</a></div>
 <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#main.deterministic'>9.&nbsp;&nbsp;Deterministic Encoding</a></div>
@@ -188,7 +188,7 @@
   <h3 id='main.intro'>1.&nbsp;&nbsp;Introduction</h3>
 
   This document describes a JavaScript API for encoding and decoding CBOR&nbsp;<span style='white-space:nowrap'>[<a href='https://www.rfc-editor.org/rfc/rfc8949.html' title='RFC8949'>RFC8949<img src='xtl.svg' alt='link'></a>]</span> data using the
-  <span style='white-space:nowrap'>[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-23.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>]</span> cross platform profile.
+  <span style='white-space:nowrap'>[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-24.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>]</span> cross platform profile.
   The API loosely mimics the &quot;JSON&quot; object by exposing a <i>single global object</i>,
   unsurprisingly named &quot;CBOR&quot;.
 
@@ -297,8 +297,8 @@
     </table>
   </div>
   <ol style='margin:0 0'>
-    <li>See also <a href='#jsnumbers.int'>Integer Numbers</a>.</li>
-    <li>See also <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</li>
+    <li>See also <a href='#numbers.integers'>Integers</a>.</li>
+    <li>See also <a href='#numbers.floating-point'>Floating-Point Numbers</a>.</li>
     <li>See also <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</li>
   </ol>
   <p>
@@ -1834,14 +1834,14 @@ add a second to the created time object.</div></td></tr>
 <tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Wrapper holding an <code>EpochTime</code> object.</td></tr>
 </table></div>
 
-  <h3 id='main.jsnumbers'>7.&nbsp;&nbsp;JavaScript Number Considerations</h3>
+  <h3 id='main.numbers'>7.&nbsp;&nbsp;JavaScript Number Considerations</h3>
 
   Since JavaScript <i>natively</i> only supports <kbd>Number</kbd> (backed
   by 64-bit IEEE&nbsp;754 floating-point data), and <kbd>BigInt</kbd>
   (offering unlimited integers), it is important to understand how these
   number types are mapped to CBOR which offers
   two variants of integers and three variants of floating-point types.
-  <h4 id='jsnumbers.int'>7.1.&nbsp;&nbsp;Integer Numbers</h4>
+  <div id='jsnumbers.int'/><h4 id='numbers.integers'>7.1.&nbsp;&nbsp;Integers</h4>
 
   Due to the <kbd>Number.MAX_SAFE_INTEGER</kbd> limitation,
   in all places in the <code>CBOR.js</code> API where an integer
@@ -1862,7 +1862,7 @@ add a second to the created time object.</div></td></tr>
     outside the range <code>-0x8000000000000000</code> to <code>-0xffffffffffffffff</code>
     as <a href='#wrapper.cbor.bigint'>CBOR.BigInt</a> objects.
   </p>
-The following table holds additional CDDL defintions <span style='white-space:nowrap'>[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-23.html#name-additional-cddl-types' title='CDDL-EXT'>CDDL-EXT<img src='xtl.svg' alt='link'></a>]</span>
+The following table holds additional CDDL defintions <span style='white-space:nowrap'>[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-24.html#name-additional-cddl-types' title='CDDL-EXT'>CDDL-EXT<img src='xtl.svg' alt='link'></a>]</span>
 and their API counterparts:
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em'>
@@ -1960,7 +1960,7 @@ and their API counterparts:
   <li style='padding-top:0.5em'>Integer mapping the JavaScript <code>Number</code> type.
   </li>
 </ol>
-  <h4 id='jsnumbers.fp'>7.2.&nbsp;&nbsp;Floating-Point Numbers</h4>
+  <h4 id='numbers.floating-point'>7.2.&nbsp;&nbsp;Floating-Point Numbers</h4>
 
   Although CBOR encoding depends on 16, 32, and 64-bit IEEE&nbsp;754
   variants, the CBOR.js implementation makes this
@@ -2190,7 +2190,7 @@ and their API counterparts:
   encoding schemes as well.
   </p>
   <p>
-  The determinism scheme is described in <span style='white-space:nowrap'>[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-23.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>]</span>.
+  The determinism scheme is described in <span style='white-space:nowrap'>[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-24.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>]</span>.
   </p>
   <h3 id='main.examples'>10.&nbsp;&nbsp;Using the CBOR API</h3>
 
@@ -2224,6 +2224,6 @@ here using the result of the previous encoding example:
 
   API version: 1.0.20.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2026-01-08
+  Document version: 2026-01-09
 </body>
 </html>
