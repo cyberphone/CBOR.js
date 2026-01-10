@@ -155,7 +155,7 @@ public class CreateDocument {
       Decoded floating-point number.""";
 
   static final String W_FLOAT_PROP_DESCR = """
-      Length in bytes of the underlying CBOR <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> type.""";
+      Length in bytes of the underlying <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> type.""";
 
   // CBOR.NonFinite
 
@@ -265,8 +265,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       Decoded floating-point number.""";
 */
 
-  static final String W_NONFIN_PROP_DESCR = """
-      Length in bytes of the underlying CBOR <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> type.""";
+  static final String W_NONFIN_PROP_DESCR = W_FLOAT_PROP_DESCR;
 
   // CBOR.String
 
