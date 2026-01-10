@@ -618,7 +618,7 @@ function oneTurn(value, expected) {
   while (text.length < 25) {
     text += ' ';
   }
-  let cbor = CBOR.BigInt(value).encode();
+  let cbor = CBOR.Int(value).encode();
   let got = CBOR.toHex(cbor);
   if (got != expected) {
     got = '***=' + got;
@@ -666,18 +666,6 @@ try {
   assertTrue("msg2", error.toString().includes("Argument is not a 'number'"));
 }
 try {
-  CBOR.BigInt("10");
-  fail("Should not");
-} catch (error) {
-  assertTrue("msg3", error.toString().includes("Argument is not a 'number'"));
-}
-try {
-  CBOR.BigInt(1n, 7);
-  fail("Should not");
-} catch (error) {
-  assertTrue("msg4", error.toString().includes("CBOR.BigInt expects 1 argument(s)"));
-}
-try {
   CBOR.Int(1, 7);
   fail("Should not");
 } catch (error) {
@@ -692,20 +680,19 @@ file:String.raw`// Testing range-constrained integers
 
 function goodRun(type, value) {
   let bigFlag = type.indexOf("64") > 0 || type.indexOf("128") > 0;
-  let wrapper = CBOR.decode(CBOR.BigInt(value).encode());
+  let wrapper = CBOR.decode(CBOR.Int(value).encode());
   let test = 'assertTrue("good", wrapper.get' + type + '() == ' + (bigFlag ? value + 'n' : Number(value)) + ')';
   eval(test);
-  test = 'CBOR.' + (type.indexOf("128") > 0 ? 'BigInt' : 'Int') + '.create' + type + '(' + value + 'n)';
+  test = 'CBOR.Int.create' + type + '(' + value + 'n)';
   eval(test);
   if (value == 10n) {
-    test = 'CBOR.' + (type.indexOf("128") > 0 ? 'BigInt' : 'Int') + '.create' + type + '(Number(' + value +'))';
+    test = 'CBOR.Int.create' + type + '(Number(' + value +'))';
     eval(test);
   }
 }
 
 function badRun(type, value) {
-  let bigFlag = type.indexOf("64") > 0 || type.indexOf("128") > 0;
-  let wrapper = CBOR.decode(CBOR.BigInt(value).encode());
+  let wrapper = CBOR.decode(CBOR.Int(value).encode());
   let test = 'wrapper.get' + type + '()';
   try {
     eval(test);
@@ -715,13 +702,12 @@ function badRun(type, value) {
       throw error;
     }
   }
-  test = 'CBOR.' + (type.indexOf("128") > 0 ? 'BigInt' : 'Int') + '.create' + type + '(' + value + 'n)';
+  test = 'CBOR.Int.create' + type + '(' + value + 'n)';
   try {
     eval(test);
     fail("Should fail");
   } catch (error) {
-    if (!error.toString().includes('Value out of range for ') &&
-        !(error.toString().includes('CBOR.Int') && bigFlag)) {
+    if (!error.toString().includes('Value out of range for ')) {
       throw error;
     }
   }
@@ -780,9 +766,9 @@ map = map.merge(
     CBOR.Map().set(CBOR.Int(1), CBOR.String("hi")).set(CBOR.Int(5), CBOR.String("yeah")));
 assertTrue("size-3", map.length == 3);
 assertTrue("merge-0", map.get(CBOR.Int(1)).getString() == "hi");
-assertTrue("upd-0", map.update(CBOR.Int(1), CBOR.BigInt(-8n), true).getString() == "hi");
+assertTrue("upd-0", map.update(CBOR.Int(1), CBOR.Int(-8n), true).getString() == "hi");
 assertTrue("upd-1", map.get(CBOR.Int(1)).getBigInt() == -8n);
-assertTrue("upd-2", map.update(CBOR.Int(10), CBOR.BigInt(-8n), false) == null);
+assertTrue("upd-2", map.update(CBOR.Int(10), CBOR.Int(-8n), false) == null);
 assertTrue("upd-3", map.get(CBOR.Int(10)).getBigInt() == -8n);
 
 function badKey(js) {
@@ -888,7 +874,7 @@ let cbor = CBOR.Map()
                                  .add(CBOR.Null())))
                .set(CBOR.Int(4), CBOR.String("Sure"))
                .set(CBOR.Int(2), CBOR.Float(-9.5367431640625e-7))
-               .set(CBOR.Int(6), CBOR.BigInt(123456789123456789123456789n))
+               .set(CBOR.Int(6), CBOR.Int(123456789123456789123456789n))
                .set(CBOR.Int(1), CBOR.Tag(500n, CBOR.Array().add(CBOR.Int(45)))).encode();
 assertFalse("cmp1", CBOR.compareArrays(bin, cbor));
 let array = CBOR.decode(cbor).get(CBOR.Int(5)).get(CBOR.Int(9));
@@ -898,7 +884,7 @@ assertFalse("null1", array.get(3).isNull());
 assertTrue("null2", array.get(4).isNull());
 assertFalse("cmp2", CBOR.compareArrays(CBOR.fromDiagnostic(CBOR.decode(cbor).toString()).encode(), bin));
 
-assertTrue("version", CBOR.version == "1.0.20");
+assertTrue("version", CBOR.version == "1.0.21");
 
 success();
 `}
@@ -958,7 +944,7 @@ try {
     throw error;
   }
 }
-let cbor = CBOR.BigInt(BigInt(TOO_BIG)).encode();
+let cbor = CBOR.Int(BigInt(TOO_BIG)).encode();
 try {
   CBOR.decode(cbor).getInt53();
   throw Error('Should not');

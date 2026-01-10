@@ -184,19 +184,9 @@
   in the form of a JavaScript <kbd>Number</kbd> is expected, <kbd>Number.isInteger(<i>value</i>)</kbd>
   must be <code>true</code>, else a <a href='#main.errors'>CborException</a> will be thrown.
   <p>
-    Since CBOR <code>int</code> objects represent the lower range of the
-    CDDL <code>integer</code> type, the <a href='#cbor.int.getbigint'>getBigInt()</a> method
-    is supported by the <a href='#wrapper.cbor.int'>CBOR.Int</a> wrapper as well.
-  </p>
-  <p>
     The selection between the CBOR <code>unsigned</code> and <code>negative</code>
     integer variants is dealt with by the CBOR.js implementation,
     transparent to the API.
-  </p>
-  <p>
-    Note that during decoding this implementation treats CBOR integers
-    outside the range <code>-0x8000000000000000</code> to <code>-0xffffffffffffffff</code>
-    as <a href='#wrapper.cbor.bigint'>CBOR.BigInt</a> objects.
   </p>
 The following table holds additional CDDL defintions ${CDDL-EXT}
 and their API counterparts:
@@ -280,6 +270,13 @@ and their API counterparts:
     <td style='text-align:center'><a href='#wrapper.cbor.bigint'>CBOR.BigInt()</a></td>
     <td style='text-align:center'><code>1</code>, <code>2</code></td>
   </tr>
+  <tr>
+    <td style='text-align:center'><code>integer</code></td>
+    <td><a href='#cbor.bigint.getbigint'>getBigInt()</a></td>
+    <td></td>
+    <td style='text-align:center'><a href='#wrapper.cbor.bigint'>CBOR.BigInt()</a></td>
+    <td style='text-align:center'></td>
+  </tr>
 </table>
 </div>
 <ol style='margin:0 0'>
@@ -289,9 +286,8 @@ and their API counterparts:
     For a description of the valid range for a specific integer type, lookup
     the associated "Decoding" method.
   </li>
-  <li>Counterparts to the core integer types
-  featured in languages like Java, C and Rust.
-  Value ranges are compatible with <i>two's complement</i> representation.
+  <li>Counterparts to the <i>fixed-size</i>, <i>two's complement</i> integer types,
+  featured in languages like Java, C, and Rust.
   </li>
   <li style='padding-top:0.5em'>Integer mapping the JavaScript <code>Number</code> type.
   </li>

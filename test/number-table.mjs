@@ -47,7 +47,7 @@ function emphasize(word) {
 }
 
 function intGen(largeFlag, value) {
-  let cborObject = CBOR.BigInt(value);
+  let cborObject = CBOR.Int(value);
   let cbor = cborObject.encode();
   let size = " implicit";
   let type = "int";

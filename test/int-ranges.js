@@ -4,20 +4,19 @@ import { assertTrue, assertFalse, fail, success } from './assertions.js';
 
 function goodRun(type, value) {
   let bigFlag = type.indexOf("64") > 0 || type.indexOf("128") > 0;
-  let wrapper = CBOR.decode(CBOR.BigInt(value).encode());
+  let wrapper = CBOR.decode(CBOR.Int(value).encode());
   let test = 'assertTrue("good", wrapper.get' + type + '() == ' + (bigFlag ? value + 'n' : Number(value)) + ')';
   eval(test);
-  test = 'CBOR.' + (type.indexOf("128") > 0 ? 'BigInt' : 'Int') + '.create' + type + '(' + value + 'n)';
+  test = 'CBOR.Int.create' + type + '(' + value + 'n)';
   eval(test);
   if (value == 10n) {
-    test = 'CBOR.' + (type.indexOf("128") > 0 ? 'BigInt' : 'Int') + '.create' + type + '(Number(' + value +'))';
+    test = 'CBOR.Int.create' + type + '(Number(' + value +'))';
     eval(test);
   }
 }
 
 function badRun(type, value) {
-  let bigFlag = type.indexOf("64") > 0 || type.indexOf("128") > 0;
-  let wrapper = CBOR.decode(CBOR.BigInt(value).encode());
+  let wrapper = CBOR.decode(CBOR.Int(value).encode());
   let test = 'wrapper.get' + type + '()';
   try {
     eval(test);
@@ -27,13 +26,12 @@ function badRun(type, value) {
       throw error;
     }
   }
-  test = 'CBOR.' + (type.indexOf("128") > 0 ? 'BigInt' : 'Int') + '.create' + type + '(' + value + 'n)';
+  test = 'CBOR.Int.create' + type + '(' + value + 'n)';
   try {
     eval(test);
     fail("Should fail");
   } catch (error) {
-    if (!error.toString().includes('Value out of range for ') &&
-        !(error.toString().includes('CBOR.Int') && bigFlag)) {
+    if (!error.toString().includes('Value out of range for ')) {
       throw error;
     }
   }

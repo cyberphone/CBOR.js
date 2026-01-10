@@ -13,7 +13,7 @@ try {
     throw error;
   }
 }
-let cbor = CBOR.BigInt(BigInt(TOO_BIG)).encode();
+let cbor = CBOR.Int(BigInt(TOO_BIG)).encode();
 try {
   CBOR.decode(cbor).getInt53();
   throw Error('Should not');

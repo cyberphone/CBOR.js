@@ -22,7 +22,7 @@ let cbor = CBOR.Map()
                                  .add(CBOR.Null())))
                .set(CBOR.Int(4), CBOR.String("Sure"))
                .set(CBOR.Int(2), CBOR.Float(-9.5367431640625e-7))
-               .set(CBOR.Int(6), CBOR.BigInt(123456789123456789123456789n))
+               .set(CBOR.Int(6), CBOR.Int(123456789123456789123456789n))
                .set(CBOR.Int(1), CBOR.Tag(500n, CBOR.Array().add(CBOR.Int(45)))).encode();
 assertFalse("cmp1", CBOR.compareArrays(bin, cbor));
 let array = CBOR.decode(cbor).get(CBOR.Int(5)).get(CBOR.Int(9));
@@ -32,6 +32,6 @@ assertFalse("null1", array.get(3).isNull());
 assertTrue("null2", array.get(4).isNull());
 assertFalse("cmp2", CBOR.compareArrays(CBOR.fromDiagnostic(CBOR.decode(cbor).toString()).encode(), bin));
 
-assertTrue("version", CBOR.version == "1.0.20");
+assertTrue("version", CBOR.version == "1.0.21");
 
 success();

@@ -320,7 +320,7 @@
 If <kbd><i>value</i></kbd> is outside the range <code>-0x8000000000000000</code> to <code>0xffffffffffffffff</code>,
 a <a href='#main.errors'>CborException</a> is thrown.</div>
 <div style='margin-top:0.5em'>
-See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div>
+See also <a href='#numbers.integers'>Integer Numbers</a>.</div>
 <div style='margin-top:0.5em'>
 For fine-grained control of programmatically created integers, a set of <code>CBOR.Int.create*()</code>
 methods are provided as an <i>alternative</i> to the constructor.
@@ -530,7 +530,14 @@ finish the operation using the standard constructor.</div></td></tr>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getBigInt()</kbd></td></tr>
 <tr><th>Description</th><td style='width:100%'>Get CBOR integer of any size.
 <div style='margin-top:0.5em'>
-See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
+Due to the fact that the CBOR integer number space is
+divided between the CDDL <code>int</code> and <code>bigint</code> types,
+the <code>getBigInt()</code> method applies to both
+<a href='#wrapper.cbor.int'>CBOR.Int</a> and
+<a href='#wrapper.cbor.bigint'>CBOR.BigInt</a>.
+This arrangement is transparent for applications.</div>
+<div style='margin-top:0.5em'>
+See also <a href='#numbers.integers'>Integer Numbers</a>.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Decoded big integer.</td></tr>
@@ -541,7 +548,7 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.BigInt(<i>value</i>)</kbd></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Constructor.  Creates a CBOR big integer object.
 <div style='margin-top:0.5em'>
-See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
+See also <a href='#numbers.integers'>Integer Numbers</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd>&nbsp;<code>/</code>&nbsp;<kbd>BigInt</kbd></td><td style='width:100%'>Big integer to be wrapped.</td></tr>
@@ -598,7 +605,14 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getBigInt()</kbd></td></tr>
 <tr><th>Description</th><td style='width:100%'>Get CBOR integer of any size.
 <div style='margin-top:0.5em'>
-See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
+Due to the fact that the CBOR integer number space is
+divided between the CDDL <code>int</code> and <code>bigint</code> types,
+the <code>getBigInt()</code> method applies to both
+<a href='#wrapper.cbor.int'>CBOR.Int</a> and
+<a href='#wrapper.cbor.bigint'>CBOR.BigInt</a>.
+This arrangement is transparent for applications.</div>
+<div style='margin-top:0.5em'>
+See also <a href='#numbers.integers'>Integer Numbers</a>.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Decoded big integer.</td></tr>
@@ -611,7 +625,7 @@ See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div></td></tr>
 <div style='margin-top:0.5em'>
 See also <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</div>
 <div style='margin-top:0.5em'>
-For supporting <code>NaN</code> and <code>Infinity</code>, see also
+For supporting <code>NaN</code> and <code>Infinity</code>, see
 <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
@@ -1857,19 +1871,9 @@ add a second to the created time object.</div></td></tr>
   in the form of a JavaScript <kbd>Number</kbd> is expected, <kbd>Number.isInteger(<i>value</i>)</kbd>
   must be <code>true</code>, else a <a href='#main.errors'>CborException</a> will be thrown.
   <p>
-    Since CBOR <code>int</code> objects represent the lower range of the
-    CDDL <code>integer</code> type, the <a href='#cbor.int.getbigint'>getBigInt()</a> method
-    is supported by the <a href='#wrapper.cbor.int'>CBOR.Int</a> wrapper as well.
-  </p>
-  <p>
     The selection between the CBOR <code>unsigned</code> and <code>negative</code>
     integer variants is dealt with by the CBOR.js implementation,
     transparent to the API.
-  </p>
-  <p>
-    Note that during decoding this implementation treats CBOR integers
-    outside the range <code>-0x8000000000000000</code> to <code>-0xffffffffffffffff</code>
-    as <a href='#wrapper.cbor.bigint'>CBOR.BigInt</a> objects.
   </p>
 The following table holds additional CDDL defintions <span style='white-space:nowrap'>[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-24.html#name-additional-cddl-types' title='CDDL-EXT'>CDDL-EXT<img src='xtl.svg' alt='link'></a>]</span>
 and their API counterparts:
@@ -1953,6 +1957,13 @@ and their API counterparts:
     <td style='text-align:center'><a href='#wrapper.cbor.bigint'>CBOR.BigInt()</a></td>
     <td style='text-align:center'><code>1</code>, <code>2</code></td>
   </tr>
+  <tr>
+    <td style='text-align:center'><code>integer</code></td>
+    <td><a href='#cbor.bigint.getbigint'>getBigInt()</a></td>
+    <td></td>
+    <td style='text-align:center'><a href='#wrapper.cbor.bigint'>CBOR.BigInt()</a></td>
+    <td style='text-align:center'></td>
+  </tr>
 </table>
 </div>
 <ol style='margin:0 0'>
@@ -1962,9 +1973,8 @@ and their API counterparts:
     For a description of the valid range for a specific integer type, lookup
     the associated "Decoding" method.
   </li>
-  <li>Counterparts to the core integer types
-  featured in languages like Java, C and Rust.
-  Value ranges are compatible with <i>two's complement</i> representation.
+  <li>Counterparts to the <i>fixed-size</i>, <i>two's complement</i> integer types,
+  featured in languages like Java, C, and Rust.
   </li>
   <li style='padding-top:0.5em'>Integer mapping the JavaScript <code>Number</code> type.
   </li>

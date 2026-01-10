@@ -34,7 +34,7 @@ public class CreateDocument {
       If <kbd><i>value</i></kbd> is outside the range <code>-0x8000000000000000</code> to <code>0xffffffffffffffff</code>,
       a <a href='#main.errors'>CborException</a> is thrown.</div>
       <div style='margin-top:0.5em'>
-      See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div>
+      See also <a href='#numbers.integers'>Integer Numbers</a>.</div>
       <div style='margin-top:0.5em'>
       For fine-grained control of programmatically created integers, a set of <code>CBOR.Int.create*()</code>
       methods are provided as an <i>alternative</i> to the constructor.
@@ -50,7 +50,7 @@ public class CreateDocument {
   static final String W_BIGINT_DESCR = """
       Constructor.  Creates a CBOR big integer object.
       <div style='margin-top:0.5em'>
-      See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
+      See also <a href='#numbers.integers'>Integer Numbers</a>.</div>""";
 
   static final String W_BIGINT_P1_DESCR = """
       Big integer to be wrapped.""";
@@ -58,7 +58,14 @@ public class CreateDocument {
   static final String W_GETBIGINT_DESCR = """
       Get CBOR integer of any size.
       <div style='margin-top:0.5em'>
-      See also <a href='#jsnumbers.int'>Integer Numbers</a>.</div>""";
+      Due to the fact that the CBOR integer number space is
+      divided between the CDDL <code>int</code> and <code>bigint</code> types,
+      the <code>getBigInt()</code> method applies to both
+      <a href='#wrapper.cbor.int'>CBOR.Int</a> and
+      <a href='#wrapper.cbor.bigint'>CBOR.BigInt</a>.
+      This arrangement is transparent for applications.</div>
+      <div style='margin-top:0.5em'>
+      See also <a href='#numbers.integers'>Integer Numbers</a>.</div>""";
 
   static final String W_GETBIGINT_RETURN_DESCR = """
       Decoded big integer.""";
@@ -70,7 +77,7 @@ public class CreateDocument {
       <div style='margin-top:0.5em'>
       See also <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</div>
       <div style='margin-top:0.5em'>
-      For supporting <code>NaN</code> and <code>Infinity</code>, see also
+      For supporting <code>NaN</code> and <code>Infinity</code>, see
       <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</div>""";
 
   static final String W_FLOAT_P1_DESCR = """

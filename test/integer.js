@@ -7,7 +7,7 @@ function oneTurn(value, expected) {
   while (text.length < 25) {
     text += ' ';
   }
-  let cbor = CBOR.BigInt(value).encode();
+  let cbor = CBOR.Int(value).encode();
   let got = CBOR.toHex(cbor);
   if (got != expected) {
     got = '***=' + got;
@@ -53,18 +53,6 @@ try {
   fail("Should not");
 } catch (error) {
   assertTrue("msg2", error.toString().includes("Argument is not a 'number'"));
-}
-try {
-  CBOR.BigInt("10");
-  fail("Should not");
-} catch (error) {
-  assertTrue("msg3", error.toString().includes("Argument is not a 'number'"));
-}
-try {
-  CBOR.BigInt(1n, 7);
-  fail("Should not");
-} catch (error) {
-  assertTrue("msg4", error.toString().includes("CBOR.BigInt expects 1 argument(s)"));
 }
 try {
   CBOR.Int(1, 7);

@@ -26,6 +26,10 @@ class CBOR {
       this._immutableFlag = false;
     }
 
+    getBigInt() {
+      return this.#checkTypeAndGetValue(CBOR.Int);
+    }
+
     #rangeBigInt(min, max) {
       let value = this.getBigInt();
       CBOR.#rangeCheck(value, min, max);
@@ -33,9 +37,7 @@ class CBOR {
     }
 
     #rangeNumber(min, max) {
-      let value = this.#checkTypeAndGetValue(CBOR.Int);
-      CBOR.#rangeCheck(value, min, max);
-      return Number(value);
+      return Number(this.#rangeBigInt(min, max));
     } 
 
     getInt8() {
@@ -81,13 +83,6 @@ class CBOR {
 
     getUint128() {
       return this.#rangeBigInt(0n, 0xffffffffffffffffffffffffffffffffn);
-    }
-
-    getBigInt() {
-      if (this instanceof CBOR.Int) {
-        return this.#checkTypeAndGetValue(CBOR.Int);
-      }
-      return this.#checkTypeAndGetValue(CBOR.BigInt);
     }
 
     getString() {
@@ -317,9 +312,6 @@ class CBOR {
 
   static #F64_NAN = new Uint8Array([0x7f, 0xf8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 
-  static #MIN_INT = -0x8000000000000000n;
-  static #MAX_INT =  0xffffffffffffffffn;
-
   constructor() {
     CBOR.#error("CBOR cannot be instantiated");
   }
@@ -335,9 +327,6 @@ class CBOR {
     constructor(value) {
       super();
       this.#value = CBOR.#unifiedInt(value);
-      if (this.#value < CBOR.#MIN_INT || this.#value > CBOR.#MAX_INT) {
-        CBOR.#error("Value is out of \"CBOR.Int\" range: " + this.#value);
-      }
     }
     
     encode() {
@@ -387,40 +376,14 @@ class CBOR {
     static createUint64(value) {
       return CBOR.#createInt(value, 0n, 0xffffffffffffffffn);
     }
-  }
-
-///////////////////////////
-//     CBOR.BigInt       //
-///////////////////////////
- 
-  static BigInt = class extends CBOR.#CborObject {
-
-    #value;
-
-    constructor(value) {
-      super();
-      this.#value = CBOR.#unifiedInt(value);
-    }
-    
-    encode() {
-      return CBOR.#encodeIntegerOrTag(CBOR.#MT_UNSIGNED, this.#value);
-    }
-
-    internalToString(cborPrinter) {
-      cborPrinter.append(this.#value.toString());
-    }
- 
-    _get() {
-      return this.#value;
-    }
-  
+      
     static createInt128(value) {
-      return CBOR.#createBigInt(value, 
+      return CBOR.#createInt(value, 
         -0x80000000000000000000000000000000n, 0x7fffffffffffffffffffffffffffffffn);
     }
 
     static createUint128(value) {
-      return CBOR.#createBigInt(value, 0n, 0xffffffffffffffffffffffffffffffffn);
+      return CBOR.#createInt(value, 0n, 0xffffffffffffffffffffffffffffffffn);
     }
   }
 
@@ -1321,7 +1284,6 @@ class CBOR {
   }
 
   static Int = new Proxy(CBOR.Int, new CBOR.#handler(1));
-  static BigInt = new Proxy(CBOR.BigInt, new CBOR.#handler(1));
   static Float = new Proxy(CBOR.Float, new CBOR.#handler(1));
   static String = new Proxy(CBOR.String, new CBOR.#handler(1));
   static Bytes = new Proxy(CBOR.Bytes, new CBOR.#handler(1));
@@ -1474,13 +1436,6 @@ class CBOR {
       return this.returnFloat(decoded, new DataView(decoded.buffer, 0, 8).getFloat64(0, false));
     }
 
-    selectInteger(value) {
-      if (value < CBOR.#MIN_INT || value > CBOR.#MAX_INT) {
-        return CBOR.BigInt(value);
-      } 
-      return CBOR.Int(value);
-    }
-
     getObject() {
       let tag = this.readByte();
 
@@ -1490,10 +1445,10 @@ class CBOR {
         case CBOR.#MT_BIG_UNSIGNED:
           let byteArray = this.getObject().getBytes();
           if (this.strictNumbers && (byteArray.length <= 8 || !byteArray[0])) {
-            CBOR.#error("Non-deterministic bignum encoding");
+            CBOR.#error("Non-deterministic bigint encoding");
           }
           let value = CBOR.toBigInt(byteArray);
-          return this.selectInteger(tag == CBOR.#MT_BIG_NEGATIVE ? ~value : value);
+          return CBOR.Int(tag == CBOR.#MT_BIG_NEGATIVE ? ~value : value);
 
         case CBOR.#MT_FLOAT16:
            return this.decodeF16();
@@ -1542,10 +1497,10 @@ class CBOR {
           return CBOR.Tag(bigN, this.getObject());
 
         case CBOR.#MT_UNSIGNED:
-          return this.selectInteger(bigN);
+          return CBOR.Int(bigN);
 
         case CBOR.#MT_NEGATIVE:
-          return this.selectInteger(~bigN);
+          return CBOR.Int(~bigN);
     
         case CBOR.#MT_BYTES:
           return CBOR.Bytes(this.readBytes(this.rangeLimitedBigInt(bigN)));
@@ -1947,8 +1902,7 @@ class CBOR {
         return cborTag;
       }
       let bigInt = BigInt((prefix == null ? '' : prefix) + token);
-      // Clone: slight quirk to get the optimal CBOR integer type  
-      return CBOR.BigInt(negative ? -bigInt : bigInt).clone();
+      return CBOR.Int(negative ? -bigInt : bigInt);
     }
 
     testForNonDecimal(nonDecimal) {
@@ -2252,13 +2206,6 @@ class CBOR {
     return cborInt;
   }
 
-  static #createBigInt(value, min, max) {
-    value = CBOR.#unifiedInt(value);
-    let cborInt = CBOR.BigInt(value);
-    CBOR.#rangeCheck(value, min, max);
-    return cborInt;
-  }
-
   static #rangeError(type, value) {
     CBOR.#error('Value out of range for "' + type + '": ' + value.toString());
   }
@@ -2541,7 +2488,7 @@ class CBOR {
   }
 
   static get version() {
-    return "1.0.20";
+    return "1.0.21";
   }
 }
 
