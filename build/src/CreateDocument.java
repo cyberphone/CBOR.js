@@ -1684,7 +1684,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
         .append(max).append("</code>, a <a href='#main.errors'>CborException</a> is thrown.");
     if (bits == 53) {
       description.append(" ").append("</div><div style='margin-top:0.5em'>" +
-        "Since 53-bit integers are specific to JavaScript, this method " +
+        "Since 53-bit integers are specific to JavaScript, <code>int53</code> objects " +
         "should be used with caution in cross-platform scenarios.");
     }
     description.append("</div>");
@@ -1708,7 +1708,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
         .append("()</a>.</div>");
     if (bits == 53) {
         description.append("<div style='margin-top:0.5em'>" +
-        "Since 53-bit integers are specific to JavaScript, this method " +
+        "Since 53-bit integers are specific to JavaScript, <code>int53</code> objects " +
         "should be used with caution in cross-platform scenarios.</div>");
     }
     wrapper.addMethod(method, description.toString())
