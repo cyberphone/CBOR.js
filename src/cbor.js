@@ -2303,6 +2303,13 @@ class CBOR {
     CBOR.#error("Argument is not a CBOR.* object: " + (object ? object.constructor.name : 'null'));
   }
 
+  static #getInstant(date) {
+    if (date instanceof Date) {
+      return date.getTime();
+    }
+    CBOR.#error("Argument is not a Date object: " + date);
+  }
+
   static #decodeOneHex(charCode) {
     if (charCode >= 0x30 && charCode <= 0x39) return charCode - 0x30;
     if (charCode >= 0x61 && charCode <= 0x66) return charCode - 0x57;
@@ -2445,7 +2452,7 @@ class CBOR {
   }
 
   static createDateTime(instant, millis, utc) {
-    let time = instant.getTime();
+    let time = CBOR.#getInstant(instant);
     millis = CBOR.#millisCheck(time, millis);
     time = CBOR.#timeRound(CBOR.#dateCheck(time, instant), millis);
     let offset = instant.getTimezoneOffset();
@@ -2481,7 +2488,7 @@ class CBOR {
   }
 
   static createEpochTime(instant, millis) {
-    let epochMillis = CBOR.#epochCheck(instant.getTime());
+    let epochMillis = CBOR.#epochCheck(CBOR.#getInstant(instant));
     millis = CBOR.#millisCheck(epochMillis, millis);
     let epochSeconds = CBOR.#timeRound(epochMillis, millis) / 1000;
     return millis ? CBOR.Float(epochSeconds) : CBOR.Int(Math.floor(epochSeconds));
