@@ -173,15 +173,12 @@
   number types are mapped to CBOR which offers
   two variants of integers and three variants of floating-point types.
 <div id='jsnumbers.int'></div>${JS_NUMBER_CONS_INT}
+<p>
   Due to the <kbd>Number.MAX_SAFE_INTEGER</kbd> limitation,
   in all places in the <code>CBOR.js</code> API where an integer
   in the form of a JavaScript <kbd>Number</kbd> is expected, <kbd>Number.isInteger(<i>value</i>)</kbd>
   must be <code>true</code>, else a <a href='#main.errors'>CborException</a> will be thrown.
-  <p>
-    The selection between the CBOR <code>unsigned</code> and <code>negative</code>
-    integer variants is dealt with by the CBOR.js implementation,
-    transparent to the API.
-  </p>
+</p>
 The following table holds additional CDDL defintions ${CDDL-EXT}
 and their API counterparts:
 <div class='webpkifloat'>

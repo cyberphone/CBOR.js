@@ -1813,15 +1813,12 @@ add a second to the created time object.</div></td></tr>
   two variants of integers and three variants of floating-point types.
 <div id='jsnumbers.int'></div><h4 id='numbers.integers'>7.1.&nbsp;&nbsp;Integers</h4>
 
+<p>
   Due to the <kbd>Number.MAX_SAFE_INTEGER</kbd> limitation,
   in all places in the <code>CBOR.js</code> API where an integer
   in the form of a JavaScript <kbd>Number</kbd> is expected, <kbd>Number.isInteger(<i>value</i>)</kbd>
   must be <code>true</code>, else a <a href='#main.errors'>CborException</a> will be thrown.
-  <p>
-    The selection between the CBOR <code>unsigned</code> and <code>negative</code>
-    integer variants is dealt with by the CBOR.js implementation,
-    transparent to the API.
-  </p>
+</p>
 The following table holds additional CDDL defintions <span style='white-space:nowrap'>[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-24.html#name-additional-cddl-types' title='CDDL-EXT'>CDDL-EXT<img src='xtl.svg' alt='link'></a>]</span>
 and their API counterparts:
 <div class='webpkifloat'>
