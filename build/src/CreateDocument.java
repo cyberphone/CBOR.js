@@ -31,9 +31,6 @@ public class CreateDocument {
   static final String W_INT_DESCR = """
       Constructor.  Creates a CBOR integer object.
       <div style='margin-top:0.5em'>
-      If <kbd><i>value</i></kbd> is outside the range <code>-0x8000000000000000</code> to <code>0xffffffffffffffff</code>,
-      a <a href='#main.errors'>CborException</a> is thrown.</div>
-      <div style='margin-top:0.5em'>
       See also <a href='#numbers.integers'>Integer Numbers</a>.</div>
       <div style='margin-top:0.5em'>
       For fine-grained control of programmatically created integers, a set of <code>CBOR.Int.create*()</code>
@@ -45,30 +42,13 @@ public class CreateDocument {
   static final String W_INT_P1_DESCR = """
       Integer to be wrapped.""";
 
-  // CBOR.BigInt
-
-  static final String W_BIGINT_DESCR = """
-      Constructor.  Creates a CBOR big integer object.
-      <div style='margin-top:0.5em'>
-      See also <a href='#numbers.integers'>Integer Numbers</a>.</div>""";
-
-  static final String W_BIGINT_P1_DESCR = """
-      Big integer to be wrapped.""";
-
   static final String W_GETBIGINT_DESCR = """
       Get CBOR integer of any size.
       <div style='margin-top:0.5em'>
-      Due to the fact that the CBOR integer number space is
-      divided between the CDDL <code>int</code> and <code>bigint</code> types,
-      the <code>getBigInt()</code> method applies to both
-      <a href='#wrapper.cbor.int'>CBOR.Int</a> and
-      <a href='#wrapper.cbor.bigint'>CBOR.BigInt</a>.
-      This arrangement is transparent for applications.</div>
-      <div style='margin-top:0.5em'>
       See also <a href='#numbers.integers'>Integer Numbers</a>.</div>""";
 
-  static final String W_GETBIGINT_RETURN_DESCR = """
-      Decoded big integer.""";
+  static final String W_GETINTNN_RETURN_DESCR = """
+      Decoded integer.""";
 
   // CBOR.Float
 
@@ -1110,7 +1090,6 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
     CBOR_Any("CBOR.<i>Wrapper</i>"),
 
     CBOR_INT("CBOR.Int"),
-    CBOR_BIGINT("CBOR.BigInt"),
     CBOR_FLOAT("CBOR.Float"),
     CBOR_NONFIN("CBOR.NonFinite"),
     CBOR_STRING("CBOR.String"),
@@ -1694,8 +1673,8 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       throw new RuntimeException("handle: " + handle);
   }
 
-  void rangedIntMethod(Wrapper wrapper, String bits, String min, String max, String optionalText) {
-    String type = (min.equals("0") ? "Uint" : "Int") + bits;
+  void rangedIntMethod(Wrapper wrapper, int bits, String min, String max) {
+    String type = (min.equals("0") ? "Uint" : "Int") + String.valueOf(bits);
     String method = "get" + type;
     StringBuilder description = new StringBuilder(
         "Get CBOR <code>")
@@ -1703,158 +1682,133 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
         .append("</code> object.<div style='margin-top:0.5em'>If the return value is outside the range <code>")
         .append(min).append(" </code>to<code> ")
         .append(max).append("</code>, a <a href='#main.errors'>CborException</a> is thrown.");
-    if (optionalText != null) {
-      description.append(" ").append(optionalText);
+    if (bits == 53) {
+      description.append(" ").append("</div><div style='margin-top:0.5em'>" +
+        "Since 53-bit integers are specific to JavaScript, this method " +
+        "should be used with caution in cross-platform scenarios.");
     }
     description.append("</div>");
     wrapper.addMethod(method, description.toString())
-        .setReturn(DataTypes.JS_NUMBER, "Decoded integer.");
+        .setReturn(bits >= 64 ? DataTypes.JS_BIGINT : DataTypes.JS_NUMBER, W_GETINTNN_RETURN_DESCR);
   }
 
-  void rangedBigIntMethod(Wrapper wrapper, String bits, String min, String max) {
-    String type = (min.equals("0") ? "Uint" : "Int") + bits;
-    StringBuilder description = new StringBuilder(
-        "Get CBOR <code>")
-        .append(type.toLowerCase())
-        .append("</code> object.<div style='margin-top:0.5em'>If the return value is outside the range <code>")
-        .append(min).append(" </code>to<code> ")
-        .append(max).append("</code>, a <a href='#main.errors'>CborException</a> is thrown.</div>");
-    wrapper.addMethod("get" + type, description.toString())
-        .setReturn(DataTypes.JS_BIGINT, W_GETBIGINT_RETURN_DESCR);
-  }
-
-  void createRangedMethod(Wrapper wrapper, String bits, String min, String max) {
-    boolean i128 = bits.equals("128");
-    String type = (min.equals("0") ? "Uint" : "Int") + bits;
-    String method = "CBOR." + (i128 ? "BigInt" : "Int") + ".create" + type;
+  void createRangedMethod(Wrapper wrapper, int bits, String min, String max) {
+    String type = (min.equals("0") ? "Uint" : "Int") + String.valueOf(bits);
+    String method = "CBOR.Int.create" + type;
     StringBuilder description = new StringBuilder(
         "Create CBOR <code>")
         .append(type.toLowerCase())
         .append("</code> object.<div style='margin-top:0.5em'>If <kbd><i>value</i></kbd> is outside the range <code>")
         .append(min).append(" </code>to<code> ")
         .append(max).append("</code>, a <a href='#main.errors'>CborException</a> is thrown.</div>" +
-        "<div style='margin-top:0.5em'>See also <a href='#cbor.")
-        .append(i128 ? "bigint" : "int")
-        .append(".get")
+        "<div style='margin-top:0.5em'>See also <a href='#cbor.int.get")
         .append(type.toLowerCase())
         .append("'>get")
         .append(type)
         .append("()</a>.</div>");
+    if (bits == 53) {
+        description.append("<div style='margin-top:0.5em'>" +
+        "Since 53-bit integers are specific to JavaScript, this method " +
+        "should be used with caution in cross-platform scenarios.</div>");
+    }
     wrapper.addMethod(method, description.toString())
         .addParameter("value", DataTypes.JS_NUMBER_BIGINT, "Integer to be wrapped.")
-        .setReturn(i128 ? DataTypes.CBOR_BIGINT : DataTypes.CBOR_INT,
-                   "Instantiated <a href='#wrapper.cbor." +
-                      (i128 ? "bigint" : "int") + "'>CBOR." + 
-                      (i128 ? "BigInt" : "Int") + "</a> object.");
-  }
-
-  void bigIntMethods(Wrapper wrapper, boolean i64Flag) {
-    if (i64Flag) {
-        rangedBigIntMethod(wrapper, "64",
-            "-0x8000000000000000",
-            "0x7fffffffffffffff");
-
-        rangedBigIntMethod(wrapper, "64",
-            "0",
-            "0xffffffffffffffff");
-
-        createRangedMethod(wrapper, "8",
-            "-0x80",
-            "0x7f");
-
-        createRangedMethod(wrapper, "8",
-            "0",
-            "0xff");
-
-        createRangedMethod(wrapper, "16",
-            "-0x8000",
-            "0x7fff");
-
-        createRangedMethod(wrapper, "16",
-            "0",
-            "0xffff");
-
-        createRangedMethod(wrapper, "32",
-            "-0x80000000",
-            "0x7fffffff");
-
-        createRangedMethod(wrapper, "32",
-            "0",
-            "0xffffffff");
-
-        createRangedMethod(wrapper, "53",
-            "</code><kbd>Number.MIN_SAFE_INTEGER</kbd>&nbsp;(<code>-9007199254740991</code>)<code>",
-            "</code><kbd>Number.MAX_SAFE_INTEGER</kbd>&nbsp;(<code>9007199254740991</code>)<code>");
-
-        createRangedMethod(wrapper, "64",
-            "-0x8000000000000000",
-            "0x7fffffffffffffff");
-
-        createRangedMethod(wrapper, "64",
-            "0",
-            "0xffffffffffffffff");
-    } else {
-         rangedBigIntMethod(wrapper, "128",
-            "-0x80000000000000000000000000000000",
-            "0x7fffffffffffffffffffffffffffffff");
-
-        rangedBigIntMethod(wrapper, "128",
-            "0",
-            "0xffffffffffffffffffffffffffffffff");
-            
-        createRangedMethod(wrapper, "128", 
-            "-0x80000000000000000000000000000000",
-            "0x7fffffffffffffffffffffffffffffff");
-
-        createRangedMethod(wrapper, "128", 
-            "0", 
-            "0xffffffffffffffffffffffffffffffff");
-    }
-
-    wrapper.addMethod("getBigInt", W_GETBIGINT_DESCR)
-        .setReturn(DataTypes.JS_BIGINT, W_GETBIGINT_RETURN_DESCR);
+        .setReturn(DataTypes.CBOR_INT,
+                   "Instantiated <a href='#wrapper.cbor.int'>CBOR.Int</a> object.");
   }
 
   void intMethods(Wrapper wrapper) {
 
-    rangedIntMethod(wrapper, "8",
+    rangedIntMethod(wrapper, 8,
         "-0x80",
-        "0x7f",
-        null);
+        "0x7f");
 
-    rangedIntMethod(wrapper, "8",
+    rangedIntMethod(wrapper, 8,
         "0",
-        "0xff",
-        null);
+        "0xff");
 
-    rangedIntMethod(wrapper, "16",
+    rangedIntMethod(wrapper, 16,
         "-0x8000",
-        "0x7fff",
-        null);
+        "0x7fff");
 
-    rangedIntMethod(wrapper, "16",
+    rangedIntMethod(wrapper, 16,
         "0",
-        "0xffff",
-        null);
+        "0xffff");
 
-    rangedIntMethod(wrapper, "32",
+    rangedIntMethod(wrapper, 32,
         "-0x80000000",
-        "0x7fffffff",
-        null);
+        "0x7fffffff");
 
-    rangedIntMethod(wrapper, "32",
+    rangedIntMethod(wrapper, 32,
         "0",
-        "0xffffffff",
-        null);
+        "0xffffffff");
 
-    rangedIntMethod(wrapper, "53",
+    rangedIntMethod(wrapper, 53,
         "</code><kbd>Number.MIN_SAFE_INTEGER</kbd>&nbsp;(<code>-9007199254740991</code>)<code>",
-        "</code><kbd>Number.MAX_SAFE_INTEGER</kbd>&nbsp;(<code>9007199254740991</code>)<code>",
-        "</div><div style='margin-top:0.5em'>" +
-        "Since 53-bit integers are specific to JavaScript, this method " +
-        "should be used with caution in cross-platform scenarios.");
+        "</code><kbd>Number.MAX_SAFE_INTEGER</kbd>&nbsp;(<code>9007199254740991</code>)<code>");
 
-    bigIntMethods(wrapper, true);
+    rangedIntMethod(wrapper, 64,
+        "-0x8000000000000000",
+        "0x7fffffffffffffff");
+
+    rangedIntMethod(wrapper, 64,
+        "0",
+        "0xffffffffffffffff");
+    
+    rangedIntMethod(wrapper, 128,
+        "-0x80000000000000000000000000000000",
+        "0x7fffffffffffffffffffffffffffffff");
+
+    rangedIntMethod(wrapper, 128,
+        "0",
+        "0xffffffffffffffffffffffffffffffff");
+
+    wrapper.addMethod("getBigInt", W_GETBIGINT_DESCR)
+        .setReturn(DataTypes.JS_BIGINT, W_GETINTNN_RETURN_DESCR);
+
+    createRangedMethod(wrapper, 8,
+        "-0x80",
+        "0x7f");
+
+    createRangedMethod(wrapper, 8,
+        "0",
+        "0xff");
+
+    createRangedMethod(wrapper, 16,
+        "-0x8000",
+        "0x7fff");
+
+    createRangedMethod(wrapper, 16,
+        "0",
+        "0xffff");
+
+    createRangedMethod(wrapper, 32,
+        "-0x80000000",
+        "0x7fffffff");
+
+    createRangedMethod(wrapper, 32,
+        "0",
+        "0xffffffff");
+
+    createRangedMethod(wrapper, 53,
+        "</code><kbd>Number.MIN_SAFE_INTEGER</kbd>&nbsp;(<code>-9007199254740991</code>)<code>",
+        "</code><kbd>Number.MAX_SAFE_INTEGER</kbd>&nbsp;(<code>9007199254740991</code>)<code>");
+
+    createRangedMethod(wrapper, 64,
+        "-0x8000000000000000",
+        "0x7fffffffffffffff");
+
+    createRangedMethod(wrapper, 64,
+        "0",
+        "0xffffffffffffffff");
+        
+    createRangedMethod(wrapper, 128, 
+        "-0x80000000000000000000000000000000",
+        "0x7fffffffffffffffffffffffffffffff");
+
+    createRangedMethod(wrapper, 128, 
+        "0", 
+        "0xffffffffffffffffffffffffffffffff");
   }
 
   CreateDocument(String templateFileName, String documentFileName) {
@@ -1864,11 +1818,6 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
     intMethods(addWrapper(DataTypes.CBOR_INT, W_INT_DESCR)
         .addWrapperParameter("value", DataTypes.JS_NUMBER_BIGINT, W_INT_P1_DESCR));
-
-    // CBOR.BigInt
-
-    bigIntMethods(addWrapper(DataTypes.CBOR_BIGINT, W_BIGINT_DESCR)
-        .addWrapperParameter("value", DataTypes.JS_NUMBER_BIGINT, W_BIGINT_P1_DESCR), false);
 
     // CBOR.Float
 

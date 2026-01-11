@@ -62,16 +62,10 @@
     <table class='webpkitable' style='margin-left:2em'>
       <tr><th>CDDL</th><th>Wrapper&nbsp;Object</th><th>JavaScript</th><th>Notes</th></tr>
       <tr style='text-align:center'>
-        <td><code>int</code></td>
+        <td><code>integer</code></td>
         <td><a href='#wrapper.cbor.int'>CBOR.Int</a></td>
         <td><kbd>Number</kbd>&nbsp;<code>/</code>&nbsp;<kbd>BigInt</kbd></td>
         <td>1</td>
-      </tr>
-      <tr style='text-align:center'>
-        <td><code>integer</code></td>
-        <td><a href='#wrapper.cbor.bigint'>CBOR.BigInt</a></td>
-        <td><kbd>BigInt</kbd></td>
-        <td><code>1</code></td>
       </tr>
       <tr style='text-align:center'>
         <td rowspan='2'><code>float</code></td>
@@ -195,86 +189,86 @@ and their API counterparts:
   <tr><th>CDDL</th><th>Decoding</th><th>Encoding</th><th>Constructor</th><th>Notes</th></tr>
   <tr>
     <td style='text-align:center'><code>int8</code></td>
-    <td>&nbsp;<a href='#cbor.int.getint8'>getInt8()</a></td>
-    <td>&nbsp;&nbsp;<a href='#cbor.int.createint8'>CBOR.Int.createInt8()</a></td>
+    <td><a href='#cbor.int.getint8'>getInt8()</a></td>
+    <td><a href='#cbor.int.createint8'>CBOR.Int.createInt8()</a></td>
     <td style='text-align:center'><a href='#wrapper.cbor.int'>CBOR.Int()</a></td>
     <td style='text-align:center'><code>1</code>, <code>2</code></td>
   </tr>
   <tr>
     <td style='text-align:center'><code>uint8</code></td>
-    <td>&nbsp;<a href='#cbor.int.getuint8'>getUint8()</a></td>
-    <td>&nbsp;&nbsp;<a href='#cbor.int.createuint8'>CBOR.Int.createUint8()</a></td>
+    <td><a href='#cbor.int.getuint8'>getUint8()</a></td>
+    <td><a href='#cbor.int.createuint8'>CBOR.Int.createUint8()</a></td>
     <td style='text-align:center'><a href='#wrapper.cbor.int'>CBOR.Int()</a></td>
     <td style='text-align:center'><code>1</code>, <code>2</code></td>
   </tr>
   <tr>
     <td style='text-align:center'><code>int16</code></td>
-    <td>&nbsp;<a href='#cbor.int.getint16'>getInt16()</a></td>
-    <td>&nbsp;&nbsp;<a href='#cbor.int.createint16'>CBOR.Int.createInt16()</a></td>
+    <td><a href='#cbor.int.getint16'>getInt16()</a></td>
+    <td><a href='#cbor.int.createint16'>CBOR.Int.createInt16()</a></td>
     <td style='text-align:center'><a href='#wrapper.cbor.int'>CBOR.Int()</a></td>
     <td style='text-align:center'><code>1</code>, <code>2</code></td>
   </tr>
   <tr>
     <td style='text-align:center'><code>uint16</code></td>
-    <td>&nbsp;<a href='#cbor.int.getuint16'>getUint16()</a></td>
-    <td>&nbsp;&nbsp;<a href='#cbor.int.createuint16'>CBOR.Int.createUint16()</a></td>
+    <td><a href='#cbor.int.getuint16'>getUint16()</a></td>
+    <td><a href='#cbor.int.createuint16'>CBOR.Int.createUint16()</a></td>
     <td style='text-align:center'><a href='#wrapper.cbor.int'>CBOR.Int()</a></td>
     <td style='text-align:center'><code>1</code>, <code>2</code></td>
   </tr>
   <tr>
     <td style='text-align:center'><code>int32</code></td>
-    <td>&nbsp;<a href='#cbor.int.getint32'>getInt32()&nbsp;</a></td>
-    <td>&nbsp;&nbsp;<a href='#cbor.int.createint32'>CBOR.Int.createInt32()&nbsp;</a></td>
+    <td><a href='#cbor.int.getint32'>getInt32()&nbsp;</a></td>
+    <td><a href='#cbor.int.createint32'>CBOR.Int.createInt32()&nbsp;</a></td>
     <td style='text-align:center'><a href='#wrapper.cbor.int'>CBOR.Int()</a></td>
     <td style='text-align:center'><code>1</code>, <code>2</code></td>
   </tr>
   <tr>
     <td style='text-align:center'><code>uint32</code></td>
-    <td>&nbsp;<a href='#cbor.int.getuint32'>getUint32()</a></td>
-    <td>&nbsp;&nbsp;<a href='#cbor.int.createuint32'>CBOR.Int.createUint32()</a></td>
+    <td><a href='#cbor.int.getuint32'>getUint32()</a></td>
+    <td><a href='#cbor.int.createuint32'>CBOR.Int.createUint32()</a></td>
     <td style='text-align:center'><a href='#wrapper.cbor.int'>CBOR.Int()</a></td>
     <td style='text-align:center'><code>1</code>, <code>2</code></td>
   </tr>
   <tr>
     <td style='text-align:center'><code>int53</code></td>
-    <td>&nbsp;<a href='#cbor.int.getint53'>getInt53()&nbsp;</a></td>
-    <td>&nbsp;&nbsp;<a href='#cbor.int.createint53'>CBOR.Int.createInt53()&nbsp;</a></td>
+    <td><a href='#cbor.int.getint53'>getInt53()&nbsp;</a></td>
+    <td><a href='#cbor.int.createint53'>CBOR.Int.createInt53()&nbsp;</a></td>
     <td style='text-align:center'><a href='#wrapper.cbor.int'>CBOR.Int()</a></td>
     <td style='text-align:center'><code>1</code>, <code>3</code></td>
   </tr>
   <tr>
     <td style='text-align:center'><code>int64</code></td>
-    <td>&nbsp;<a href='#cbor.int.getint64'>getInt64()&nbsp;</a></td>
-    <td>&nbsp;&nbsp;<a href='#cbor.int.createint64'>CBOR.Int.createInt64()&nbsp;</a></td>
+    <td><a href='#cbor.int.getint64'>getInt64()&nbsp;</a></td>
+    <td><a href='#cbor.int.createint64'>CBOR.Int.createInt64()&nbsp;</a></td>
     <td style='text-align:center'><a href='#wrapper.cbor.int'>CBOR.Int()</a></td>
     <td style='text-align:center'><code>1</code>, <code>2</code></td>
   </tr>
   <tr>
     <td style='text-align:center'><code>uint64</code></td>
-    <td>&nbsp;<a href='#cbor.int.getuint64'>getUint64()</a></td>
-    <td>&nbsp;&nbsp;<a href='#cbor.int.createuint64'>CBOR.Int.createUint64()</a></td>
+    <td><a href='#cbor.int.getuint64'>getUint64()</a></td>
+    <td><a href='#cbor.int.createuint64'>CBOR.Int.createUint64()</a></td>
     <td style='text-align:center'><a href='#wrapper.cbor.int'>CBOR.Int()</a></td>
     <td style='text-align:center'><code>1</code>, <code>2</code></td>
   </tr>
   <tr>
     <td style='text-align:center'><code>int128</code></td>
-    <td><a href='#cbor.bigint.getint128'>getInt128()&nbsp;</a></td>
-    <td><a href='#cbor.bigint.createint128'>CBOR.BigInt.createInt128()&nbsp;</a></td>
-    <td style='text-align:center'><a href='#wrapper.cbor.bigint'>CBOR.BigInt()</a></td>
+    <td><a href='#cbor.int.getint128'>getInt128()&nbsp;</a></td>
+    <td><a href='#cbor.int.createint128'>CBOR.Int.createInt128()&nbsp;</a></td>
+    <td style='text-align:center'><a href='#wrapper.cbor.int'>CBOR.Int()</a></td>
     <td style='text-align:center'><code>1</code>, <code>2</code></td>
   </tr>
   <tr>
     <td style='text-align:center'><code>uint128</code></td>
-    <td><a href='#cbor.bigint.getuint128'>getUint128()</a></td>
-    <td><a href='#cbor.bigint.createuint128'>CBOR.BigInt.createUint128()</a></td>
-    <td style='text-align:center'><a href='#wrapper.cbor.bigint'>CBOR.BigInt()</a></td>
+    <td><a href='#cbor.int.getuint128'>getUint128()</a></td>
+    <td><a href='#cbor.int.createuint128'>CBOR.Int.createUint128()</a></td>
+    <td style='text-align:center'><a href='#wrapper.cbor.int'>CBOR.Int()</a></td>
     <td style='text-align:center'><code>1</code>, <code>2</code></td>
   </tr>
   <tr>
     <td style='text-align:center'><code>integer</code></td>
-    <td><a href='#cbor.bigint.getbigint'>getBigInt()</a></td>
-    <td></td>
-    <td style='text-align:center'><a href='#wrapper.cbor.bigint'>CBOR.BigInt()</a></td>
+    <td><a href='#cbor.int.getbigint'>getBigInt()</a></td>
+    <td style='text-align:center'>N/A - Constructor Only</td>
+    <td style='text-align:center'><a href='#wrapper.cbor.int'>CBOR.Int()</a></td>
     <td style='text-align:center'></td>
   </tr>
 </table>
@@ -355,8 +349,8 @@ and their API counterparts:
   Encoding and decoding errors throw <code>CborException</code>,
   derived from the JavaScript <code>Error</code> object.
   ${VERSION_INFO}
-  API version: 1.0.20.  Note that the current API version is accessible through
+  API version: 1.0.21.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2026-01-09
+  Document version: 2026-01-11
 </body>
 </html>
