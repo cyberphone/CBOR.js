@@ -967,12 +967,12 @@ export default class CBOR {
     static TAG_EPOCH_TIME = 1n;
     static TAG_COTX       = 1010n;
   
-    static TAG_BIGINT_POS = 2n;
-    static TAG_BIGINT_NEG = 3n;
+    static __TAG_BIG_POS  = 2n;
+    static __TAG_BIG_NEG  = 3n;
 
-    static ERR_COTX       = "Invalid COTX object: ";
-    static ERR_DATE_TIME  = "Invalid ISO date/time object: ";
-    static ERR_EPOCH_TIME = "Invalid Epoch time object: ";
+    static __ERR_COTX     = "Invalid COTX object: ";
+    static __ERR_DATE     = "Invalid ISO date/time object: ";
+    static __ERR_EPOCH    = "Invalid Epoch time object: ";
 
     #tagNumber;
     #object;
@@ -991,8 +991,8 @@ export default class CBOR {
         CBOR.#error("Tag number is out of range");
       }
       switch (this.#tagNumber) {
-        case CBOR.Tag.TAG_BIGINT_POS:
-        case CBOR.Tag.TAG_BIGINT_NEG:
+        case CBOR.Tag.__TAG_BIG_POS:
+        case CBOR.Tag.__TAG_BIG_NEG:
           CBOR.#error("Tag number reserved for 'bigint'");
         case CBOR.Tag.TAG_DATE_TIME:
           // Note: clone() because we have mot read it really.
@@ -1004,7 +1004,7 @@ export default class CBOR {
           break;
         case CBOR.Tag.TAG_COTX:
           if (!(object instanceof CBOR.Array) || object.length != 2) {
-            this.#errorInObject(CBOR.Tag.ERR_COTX);
+            this.#errorInObject(CBOR.Tag.__ERR_COTX);
           }
           this.#cotxId = object.get(0).getString();
           this.#cotxObject = object.get(1);
@@ -1013,7 +1013,7 @@ export default class CBOR {
 
     getDateTime() {
       if (!this.#dateTime) {
-        this.#errorInObject(CBOR.Tag.ERR_DATE_TIME);
+        this.#errorInObject(CBOR.Tag.__ERR_DATE);
       }
       this.#object.scan();
       return this.#dateTime;
@@ -1021,7 +1021,7 @@ export default class CBOR {
 
     getEpochTime() {
       if (!this.#epochTime) {
-        this.#errorInObject(CBOR.Tag.ERR_EPOCH_TIME);
+        this.#errorInObject(CBOR.Tag.__ERR_EPOCH);
       }
       this.#object.scan();
       return this.#epochTime;
@@ -1062,7 +1062,7 @@ export default class CBOR {
 
     _checkCotx() {
       if (!this.#cotxObject) {
-        this.#errorInObject(CBOR.Tag.ERR_COTX);
+        this.#errorInObject(CBOR.Tag.__ERR_COTX);
       }
     }
 
