@@ -166,13 +166,8 @@
   ${UTILITY_INTRO}
   The CBOR.js implementation supports a set of utility methods.
   ${UTILITY_METHODS}
-  ${JS_NUMBER_CONS}
-  Since JavaScript <i>natively</i> only supports <kbd>Number</kbd> (backed
-  by 64-bit IEEE&nbsp;754 floating-point data), and <kbd>BigInt</kbd>
-  (offering unlimited integers), it is important to understand how these
-  number types are mapped to CBOR which offers
-  two variants of integers and three variants of floating-point types.
-<div id='jsnumbers.int'></div>${JS_NUMBER_CONS_INT}
+  ${CBOR_NUMBERS}
+<div id='jsnumbers.int'></div>${INTEGERS}
 <p>
   Due to the <kbd>Number.MAX_SAFE_INTEGER</kbd> limitation,
   in all places in the <code>CBOR.js</code> API where an integer
@@ -283,7 +278,7 @@ and their API counterparts:
   <li style='padding-top:0.5em'>Integer mapping the JavaScript <code>Number</code> type.
   </li>
 </ol>
-  ${JS_NUMBER_CONS_FP}
+  ${FLOATING_POINT}
   Although CBOR encoding depends on 16, 32, and 64-bit IEEE&nbsp;754
   variants, the CBOR.js implementation makes this
   transparent. The <a href='#wrapper.cbor.float'>CBOR.Float</a>

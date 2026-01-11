@@ -164,7 +164,7 @@
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.createdatetime'>6.9.&nbsp;&nbsp;CBOR.createDateTime()</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.createepochtime'>6.10.&nbsp;&nbsp;CBOR.createEpochTime()</a></div>
 </div>
-<div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.numbers'>7.&nbsp;&nbsp;JavaScript Number Considerations</a></div><div style='display:none'>
+<div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.numbers'>7.&nbsp;&nbsp;CBOR Numbers</a></div><div style='display:none'>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#numbers.integers'>7.1.&nbsp;&nbsp;Integers</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#numbers.floating-point'>7.2.&nbsp;&nbsp;Floating-Point Numbers</a></div>
 </div>
@@ -1804,13 +1804,8 @@ add a second to the created time object.</div></td></tr>
 <tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Wrapper holding an <code>EpochTime</code> object.</td></tr>
 </table></div>
 
-  <h3 id='main.numbers'>7.&nbsp;&nbsp;JavaScript Number Considerations</h3>
+  <h3 id='main.numbers'>7.&nbsp;&nbsp;CBOR Numbers</h3>
 
-  Since JavaScript <i>natively</i> only supports <kbd>Number</kbd> (backed
-  by 64-bit IEEE&nbsp;754 floating-point data), and <kbd>BigInt</kbd>
-  (offering unlimited integers), it is important to understand how these
-  number types are mapped to CBOR which offers
-  two variants of integers and three variants of floating-point types.
 <div id='jsnumbers.int'></div><h4 id='numbers.integers'>7.1.&nbsp;&nbsp;Integers</h4>
 
 <p>

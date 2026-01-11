@@ -1000,7 +1000,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
   static final String UTILITY_INTRO = "${UTILITY_INTRO}";
 
-  static final String JS_NUMBER_CONS = "${JS_NUMBER_CONS}";
+  static final String CBOR_NUMBERS = "${CBOR_NUMBERS}";
 
   static final String DIAGNOSTIC_NOTATION = "${DIAGNOSTIC_NOTATION}";
 
@@ -1024,9 +1024,9 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
   static final String VERSION_INFO = "${VERSION_INFO}";
 
-  static final String JS_NUMBER_CONS_INT = "${JS_NUMBER_CONS_INT}";
+  static final String INTEGERS = "${INTEGERS}";
 
-  static final String JS_NUMBER_CONS_FP = "${JS_NUMBER_CONS_FP}";
+  static final String FLOATING_POINT = "${FLOATING_POINT}";
 
   static final String TOC = "${TOC}";
 
@@ -2185,11 +2185,11 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
     replace(UTILITY_METHODS, printUtilityMethods());
     outline.increment();
 
-    replace(JS_NUMBER_CONS, printMainHeader("numbers", "JavaScript Number Considerations"));
+    replace(CBOR_NUMBERS, printMainHeader("numbers", "CBOR Numbers"));
     outline.indent();
-    replace(JS_NUMBER_CONS_INT, printSubHeader("numbers.integers", "Integers"));
+    replace(INTEGERS, printSubHeader("numbers.integers", "Integers"));
     outline.increment();
-    replace(JS_NUMBER_CONS_FP, printSubHeader("numbers.floating-point", "Floating-Point Numbers"));
+    replace(FLOATING_POINT, printSubHeader("numbers.floating-point", "Floating-Point Numbers"));
     outline.undent();
     outline.increment();
 
