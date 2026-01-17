@@ -96,4 +96,4 @@ Successfully received: shanty-the-cat.jpg (2239423)
 ```
 
 ## Other solutions
-Server-based attachments may also be be provided as URLs.
+Server-based attachments may also be provided as URLs.
