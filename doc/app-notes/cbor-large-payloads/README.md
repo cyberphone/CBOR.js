@@ -1,7 +1,8 @@
 # Application note: Combining CBOR and Large Files
 This note shows how you can combine CBOR with large files without embedding the files in CBOR.  The primary goal is to use as little RAM as possible.
 
-Prerequisite: a CBOR decoder being able to read a CBOR object from an _input stream_, while leaving the remaing part of the stream _untouched_.  Using the Java implementation of [CBOR::Core](https://www.ietf.org/archive/id/draft-rundgren-cbor-core-24.html), this works out of the box.
+The sample builds on using a CBOR sequence permitting succeeding data to be non-CBOR as outlined in 
+[CBOR::Core](https://www.ietf.org/archive/id/draft-rundgren-cbor-core-24.html).
 
 CBOR file in diagnostic notation:
 ```cbor
@@ -23,87 +24,71 @@ The concatnation of `metadata.cbor` and `shanty-the-cat.jpg` is subsequently sto
 ```
 
 The sample code below shows how `payload.bin` could be processed by a receiver:
-```java
-// test.java
+```javascript
+// largefile.mjs
 
-import java.io.IOException;
-import java.io.InputStream;
+import CBOR from 'cbor-object';
+const crypto = await import('node:crypto');
 
-import java.net.URI;
+const FILE_KEY = CBOR.String("file");
+const SHA256_KEY = CBOR.String("sha256");
+const BYOB_LENGTH = 1000;
+const CBOR_MAX_LENGTH = 500;
+const hashFunction = crypto.createHash('sha256');
 
-import java.util.HexFormat;
-import java.util.Arrays;
+const response = await fetch('https://cyberphone.github.io/CBOR.js/doc/app-notes/cbor-large-payloads/payload.bin');
+const reader = response.body.getReader({ mode: "byob" });
 
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.BodyHandlers;
+// read the response
+let byobBuffer = new ArrayBuffer(BYOB_LENGTH);
+let metaData = null;
+let cborBuffer;
+let fileSze = 0;
+let outputBuffer = null;
 
-import java.security.MessageDigest;
+reader.read(new Uint8Array(byobBuffer))
+      .then(function processBytes({ done, value }) {
 
-import org.webpki.cbor.CBORDecoder;
-import org.webpki.cbor.CBORMap;
-import org.webpki.cbor.CBORString;
+  if (done) {
+    let sha256 = hashFunction.digest();
+    if (CBOR.compareArrays(metaData.get(SHA256_KEY).getBytes(), sha256)) {
+      throw new Error("Failed on SHA256");
+    }
+    console.log(`Successfully received: ${metaData.get(FILE_KEY).getString()} (${fileSze})`);
+    return;
+  }
 
+  // Have we already processed CBOR?
+  if (metaData) {
+    outputBuffer = Buffer.from(value);
+  } else {
+    // No, but we may still lack some needed input.
+    if (cborBuffer) {
+      cborBuffer = Buffer.concat([cborBuffer, Buffer.from(value)]);
+    } else {
+      cborBuffer = Buffer.from(value);
+    }
+    if (cborBuffer.length > CBOR_MAX_LENGTH) {
+      // The buffer is now sufficient for our meta-data.
+      let decoder = CBOR.initDecoder(cborBuffer, CBOR.SEQUENCE_MODE);
+      metaData = decoder.decodeWithOptions();
+      let bc = decoder.getByteCount();
 
-public class test {
-
-  static final CBORString FILE_KEY = new CBORString("file");
-  static final CBORString SHA256_KEY = new CBORString("sha256");
-
-  static final int BUFFER_SIZE = 1024;
-
-  public static void main(String[] args) {
-    try {
-      // Perform an HTTP request and get a stream to the returned body.
-      HttpRequest request = HttpRequest.newBuilder()
-        .uri(new URI("https://cyberphone.github.io/javaapi/app-notes/cbor-large-payloads/payload.bin"))
-        .GET()
-        .build();
-      HttpResponse<InputStream> response = HttpClient.newBuilder()
-        .build()
-        .send(request, BodyHandlers.ofInputStream());
-      InputStream inputStream = response.body();
-
-      // Begin by reading and decoding the CBOR metadata.
-      // Note: the SEQUENCE_MODE makes decoding stop after reading a CBOR object.
-      CBORMap metaData = new CBORDecoder(inputStream, 
-                                         CBORDecoder.SEQUENCE_MODE,
-                                         10000).decodeWithOptions().getMap();
-
-      // The rest of the payload is assumed to hold the attached file.
-      // Initialize the SHA256 digest system.
-      MessageDigest hashFunction = MessageDigest.getInstance("SHA256");
-
-      // Now read (in modest chunks), the potentially large attached file.
-      byte[] buffer = new byte[BUFFER_SIZE];
-      int byteCount = 0;
-      for (int n; (n = inputStream.read(buffer)) > 0; byteCount += n) {
-        // Each chunk updates the SHA256 calculation.
-        hashFunction.update(buffer, 0, n);
-        /////////////////////////////////////////////////////
-        // Store the chunk in an application-specific way. //
-        /////////////////////////////////////////////////////
-      }
-      inputStream.close();
-    
-      // All is read, now get the completed digest.
-      byte[] calculatedSha256 = hashFunction.digest();
-      // Verify the hash.
-      if (Arrays.compare(calculatedSha256, metaData.get(SHA256_KEY).getBytes()) != 0) {
-        throw new IOException("Failed on SHA256");
-      }
-
-      // We actually did it!
-      System.out.printf("\nSuccessfully received: %s (%d)\n", metaData.get(FILE_KEY).getString(), byteCount);
-
-    } catch (Exception e) {
-      // Something is wrong...
-      e.printStackTrace();
+      // The part of the buffer that is not CBOR holds the beginning of the attached file.
+      outputBuffer = Buffer.copyBytesFrom(cborBuffer, bc, cborBuffer.length - bc);
     }
   }
-}
+  if (outputBuffer) {
+    fileSze += outputBuffer.length;
+    hashFunction.update(outputBuffer);
+    //////////////////////////////////////////////////////
+    // The code for writing to a file would reside here //
+    ////////////////////////////////////////////////////// 
+  }
 
+  return reader.read(new Uint8Array(value.buffer))
+               .then(processBytes);
+});
 ```
 If all is good the result should be:
 ```
