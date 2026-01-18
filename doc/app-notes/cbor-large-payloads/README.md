@@ -81,9 +81,9 @@ reader.read(new Uint8Array(byobBuffer))
   if (outputBuffer) {
     fileSze += outputBuffer.length;
     hashFunction.update(outputBuffer);
-    //////////////////////////////////////////////////////
-    // The code for writing to a file would reside here //
-    ////////////////////////////////////////////////////// 
+    //////////////////////////////////////////////////////////////
+    // The code for storing the attached file would reside here //
+    ////////////////////////////////////////////////////////////// 
   }
 
   return reader.read(new Uint8Array(value.buffer))
