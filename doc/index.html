@@ -147,10 +147,11 @@
 <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.decoding'>5.&nbsp;&nbsp;Decoding CBOR</a></div><div style='display:none'>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.cbor.decode'>5.1.&nbsp;&nbsp;CBOR.decode()</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.cbor.initdecoder'>5.2.&nbsp;&nbsp;CBOR.initDecoder()</a></div>
-<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.decoder.decodewithoptions'>5.3.&nbsp;&nbsp;<i>Decoder</i>.decodeWithOptions()</a></div>
-<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.decoder.getbytecount'>5.4.&nbsp;&nbsp;<i>Decoder</i>.getByteCount()</a></div>
-<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.cbor.fromdiagnostic'>5.5.&nbsp;&nbsp;CBOR.fromDiagnostic()</a></div>
-<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.cbor.fromdiagnosticseq'>5.6.&nbsp;&nbsp;CBOR.fromDiagnosticSeq()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.decoder.setmaxnestinglevel'>5.3.&nbsp;&nbsp;<i>Decoder</i>.setMaxNestingLevel()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.decoder.decodewithoptions'>5.4.&nbsp;&nbsp;<i>Decoder</i>.decodeWithOptions()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.decoder.getbytecount'>5.5.&nbsp;&nbsp;<i>Decoder</i>.getByteCount()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.cbor.fromdiagnostic'>5.6.&nbsp;&nbsp;CBOR.fromDiagnostic()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.cbor.fromdiagnosticseq'>5.7.&nbsp;&nbsp;CBOR.fromDiagnosticSeq()</a></div>
 </div>
 <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.utility'>6.&nbsp;&nbsp;Utility Methods</a></div><div style='display:none'>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.addarrays'>6.1.&nbsp;&nbsp;CBOR.addArrays()</a></div>
@@ -1510,7 +1511,7 @@ decoding is performed by one or more (for sequences only) calls to
 Note that irrespective of options, the decoder maintains parsed data in the form required for
 <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>.</div>
 <div style='margin-top:0.5em'>
-See also
+See also <a href='#decoder.decoder.setmaxnestinglevel'><i>Decoder</i>.setMaxNestingLevel()</a> and
 <a href='#decoder.decoder.getbytecount'><i>Decoder</i>.getByteCount()</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
@@ -1555,7 +1556,28 @@ and <code>float</code> objects, only limited by <span style='white-space:nowrap'
 <tr><td style='text-align:center'><kbd><i>Decoder</i></kbd></td><td colspan='2' style='width:100%'>Decoder object to be used with
 <a href='#decoder.decoder.decodewithoptions'><i>Decoder</i>.decodeWithOptions()</a>.</td></tr>
 </table></div>
-<h4 id='decoder.decoder.decodewithoptions'>5.3.&nbsp;&nbsp;<i>Decoder</i>.decodeWithOptions()</h4>
+<h4 id='decoder.decoder.setmaxnestinglevel'>5.3.&nbsp;&nbsp;<i>Decoder</i>.setMaxNestingLevel()</h4>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd><i>Decoder</i>.setMaxNestingLevel(<i>maxLevel</i>)</kbd></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Set max structure nesting level.
+<div style='margin-top:0.5em'>
+Structure refers to CBOR tags, arrays, and maps.
+Example: <code>[{}]</code> represents a nesting level of <code>2</code>.
+Usage in code:</div>
+<div style='margin:0.3em 0 0 1.2em'>
+<code style='white-space:nowrap'>CBOR.initDecoder(<i>cbor</i>, <i>options</i>)<br>
+&nbsp;&nbsp;.setMaxNestingLevel(20)<br>
+&nbsp;&nbsp;.decodeWithOptions()</code></div></td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><kbd><i>maxLevel</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Maximum nesting level.  The default setting is <code>100</code>.</td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><kbd><i>Decoder</i></kbd></td><td colspan='2' style='width:100%'>Decoder object to be used with
+<a href='#decoder.decoder.decodewithoptions'><i>Decoder</i>.decodeWithOptions()</a>.</td></tr>
+</table></div>
+<h4 id='decoder.decoder.decodewithoptions'>5.4.&nbsp;&nbsp;<i>Decoder</i>.decodeWithOptions()</h4>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd><i>Decoder</i>.decodeWithOptions()</kbd></td></tr>
@@ -1566,7 +1588,7 @@ Unsupported or malformed CBOR data cause a <a href='#main.errors'>CborException<
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Object or <code>null</code> (for EOF sequences only).</td></tr>
 </table></div>
-<h4 id='decoder.decoder.getbytecount'>5.4.&nbsp;&nbsp;<i>Decoder</i>.getByteCount()</h4>
+<h4 id='decoder.decoder.getbytecount'>5.5.&nbsp;&nbsp;<i>Decoder</i>.getByteCount()</h4>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd><i>Decoder</i>.getByteCount()</kbd></td></tr>
@@ -1577,7 +1599,7 @@ This is equivalent to the position of the next item to be read.</div></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>The number of bytes read so far.</td></tr>
 </table></div>
-<h4 id='decoder.cbor.fromdiagnostic'>5.5.&nbsp;&nbsp;CBOR.fromDiagnostic()</h4>
+<h4 id='decoder.cbor.fromdiagnostic'>5.6.&nbsp;&nbsp;CBOR.fromDiagnostic()</h4>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.fromDiagnostic(<i>cborText</i>)</kbd></td></tr>
@@ -1594,7 +1616,7 @@ JSON data.</div></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Object.</td></tr>
 </table></div>
-<h4 id='decoder.cbor.fromdiagnosticseq'>5.6.&nbsp;&nbsp;CBOR.fromDiagnosticSeq()</h4>
+<h4 id='decoder.cbor.fromdiagnosticseq'>5.7.&nbsp;&nbsp;CBOR.fromDiagnosticSeq()</h4>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.fromDiagnosticSeq(<i>cborText</i>)</kbd></td></tr>
@@ -2184,6 +2206,6 @@ here using the result of the previous encoding example:
 
   API version: 1.0.21.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2026-01-19
+  Document version: 2026-01-21
 </body>
 </html>

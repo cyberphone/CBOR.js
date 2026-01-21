@@ -891,7 +891,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       Note that irrespective of options, the decoder maintains parsed data in the form required for
       <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>.</div>
       <div style='margin-top:0.5em'>
-      See also
+      See also <a href='#decoder.decoder.setmaxnestinglevel'><i>Decoder</i>.setMaxNestingLevel()</a> and
       <a href='#decoder.decoder.getbytecount'><i>Decoder</i>.getByteCount()</a>.</div>""";
 
   static final String INITEXT_P1_DESCR = """
@@ -947,6 +947,22 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
 
   static final String DECODEEXT_RETURN_DESCR = """
       Object or <code>null</code> (for EOF sequences only).""";
+  
+  // Decoder.setMaxNestingLevel()
+
+  static final String SETMAXNESTINGLEVEL_DESCR = """
+      Set max structure nesting level.
+      <div style='margin-top:0.5em'>
+      Structure refers to CBOR tags, arrays, and maps.
+      Example: <code>[{}]</code> represents a nesting level of <code>2</code>.
+      Usage in code:</div>
+      <div style='margin:0.3em 0 0 1.2em'>
+      <code style='white-space:nowrap'>CBOR.initDecoder(<i>cbor</i>, <i>options</i>)<br>
+      &nbsp;&nbsp;.setMaxNestingLevel(20)<br>
+      &nbsp;&nbsp;.decodeWithOptions()</code></div>""";
+
+  static final String SETMAXNESTINGLEVEL_P1_DESCR = """
+      Maximum nesting level.  The default setting is <code>100</code>.""";
 
   // Decoder.getByteCount()
 
@@ -2074,6 +2090,12 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
     addDecoderMethod("CBOR.initDecoder", INITEXT_DESCR)
         .addParameter("cbor", DataTypes.JS_UINT8ARRAY, INITEXT_P1_DESCR)
         .addParameter("options", DataTypes.JS_NUMBER, INITEXT_P2_DESCR)
+        .setReturn(DataTypes.ExtendedDecoder, INITEXT_RETURN_DESCR);
+    
+    // Decoder.setMaxNestingLevel()
+
+    addDecoderMethod("<i>Decoder</i>.setMaxNestingLevel", SETMAXNESTINGLEVEL_DESCR)
+        .addParameter("maxLevel", DataTypes.JS_NUMBER, SETMAXNESTINGLEVEL_P1_DESCR)
         .setReturn(DataTypes.ExtendedDecoder, INITEXT_RETURN_DESCR);
 
     // Decoder.decodeWithOptions()

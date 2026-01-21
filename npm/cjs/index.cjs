@@ -1317,14 +1317,28 @@ class CBOR {
     constructor(cbor, options) {
       this.cbor = CBOR.#bytesCheck(cbor);
       this.maxLength = cbor.length;
-      this.byteCount = 0;
       this.sequenceMode = options & CBOR.SEQUENCE_MODE;
       this.strictMaps = !(options & CBOR.LENIENT_MAP_DECODING);
       this.strictNumbers = !(options & CBOR.LENIENT_NUMBER_DECODING);
+      this.maxNestingLevel = 100;
+
+      this.byteCount = 0;
+      this.nestingLevel = 0;
     }
 
     eofError() {
       CBOR.#error("Reading past end of buffer");
+    }
+
+    enterLevel() {
+      if (++this.nestingLevel > this.maxNestingLevel) {
+        CBOR.#error("Structure nesting level exceeding: " + this.maxNestingLevel);
+      }
+    }
+
+    setMaxNestingLevel(maxLevel) {
+      this.maxNestingLevel = CBOR.#intCheck(maxLevel);
+      return this;
     }
 
     readByte() {
@@ -1494,7 +1508,10 @@ class CBOR {
           return CBOR.Simple(this.rangeLimitedBigInt(bigN));
 
         case CBOR.#MT_TAG:
-          return CBOR.Tag(bigN, this.getObject());
+          this.enterLevel();
+          let cborTag = CBOR.Tag(bigN, this.getObject());
+          --this.nestingLevel;
+          return cborTag;
 
         case CBOR.#MT_UNSIGNED:
           return CBOR.Int(bigN);
@@ -1510,17 +1527,21 @@ class CBOR {
                                      this.readBytes(this.rangeLimitedBigInt(bigN))));
     
         case CBOR.#MT_ARRAY:
+          this.enterLevel();
           let cborArray = CBOR.Array();
           for (let q = this.rangeLimitedBigInt(bigN); --q >= 0;) {
             cborArray.add(this.getObject());
           }
+          --this.nestingLevel;
           return cborArray;
     
         case CBOR.#MT_MAP:
+          this.enterLevel();
           let cborMap = CBOR.Map().setSortingMode(this.strictMaps);
           for (let q = this.rangeLimitedBigInt(bigN); --q >= 0;) {
             cborMap.set(this.getObject(), this.getObject());
           }
+          --this.nestingLevel;
           // Programmatically added elements sort automatically. 
           return cborMap.setSortingMode(false);
     

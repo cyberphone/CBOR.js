@@ -44,6 +44,7 @@ public class BuildSystem {
     addFile("dates.js");
     addFile("dynamic.js");
     addFile("utf8.js");
+    addFile("nesting.js");
     addFile("xyz-encoder.js");
     addFile("xyz-decoder.js");
     IO.writeFile(browserTestFileName, template);
