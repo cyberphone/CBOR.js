@@ -36,7 +36,7 @@ const BYOB_LENGTH = 1000;
 const CBOR_MAX_LENGTH = 500;
 const hashFunction = crypto.createHash('sha256');
 
-const response = await fetch('https://cyberphone.github.io/CBOR.js/doc/app-notes/cbor-large-payloads/payload.bin');
+const response = await fetch('https://cyberphone.github.io/CBOR.js/doc/app-notes/large-payloads/payload.bin');
 const reader = response.body.getReader({ mode: "byob" });
 
 // read the response

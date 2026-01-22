@@ -913,7 +913,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       (<i>empty</i> sequences are permitted).</li>
       </ul>
       Note that data that has not yet been decoded, is not verified for correctness.
-      The application note <a href='https://github.com/cyberphone/CBOR.js/tree/main/doc/app-notes/cbor-large-payloads'>Large&nbsp;Payloads</a> shows how this can be utilized.
+      The application note <a href='https://github.com/cyberphone/CBOR.js/tree/main/doc/app-notes/large-payloads'>Large&nbsp;Payloads</a> shows how this can be utilized.
       <div style='margin-top:0.5em'>
       See also <a href='#cbor.array.encodeassequence'>encodeAsSequence()</a>.</div></div>
       <div id='CBOR.LENIENT_MAP_DECODING' style='margin-top:0.8em'>
