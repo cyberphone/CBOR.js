@@ -10,7 +10,7 @@ const hashFunction = crypto.createHash('sha256');
 
 const response = await fetch('https://cyberphone.github.io/CBOR.js/doc/app-notes/large-payloads/payload.bin');
 if (!response.ok) {
-  throw new Error("Request failed");
+  throw new Error("Failed request, status=" + response.status);
 }
 const reader = response.body.getReader({ mode: "byob" });
 
