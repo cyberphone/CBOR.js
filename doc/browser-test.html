@@ -541,12 +541,14 @@ payloadOneTurn((1n << 23n) - 1n, "fa7fffffff",         null);
 payloadOneTurn(1n << 23n,        "fb7ff0000010000000", null);
 payloadOneTurn((1n << 52n) - 1n, "fb7fffffffffffffff", null);
 
-try {
-  CBOR.NonFinite.createPayload(1n << 52n).encode();
-  fail("pl8");
-} catch(error) {
-  assertTrue("p18a", error.toString().includes("Payload out of range"));
-}
+[-1n, 1n << 53n].forEach(payload => { 
+  try {
+    CBOR.NonFinite.createPayload(payload).encode();
+    fail("pl8");
+  } catch(error) {
+    assertTrue("p18a", error.toString().includes("Payload out of range"));
+  }
+});
 
 function reducedOneTurn(f16, length, value, result) {
   let ok = length != null;

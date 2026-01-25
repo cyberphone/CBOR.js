@@ -185,7 +185,7 @@
   <h3 id='main.intro'>1.&nbsp;&nbsp;Introduction</h3>
 
   This document describes a JavaScript API for encoding and decoding CBOR&nbsp;<span style='white-space:nowrap'>[<a href='https://www.rfc-editor.org/rfc/rfc8949.html' title='RFC8949'>RFC8949<img src='xtl.svg' alt='link'></a>]</span> data using the
-  <span style='white-space:nowrap'>[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-24.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>]</span> cross platform profile.
+  <span style='white-space:nowrap'>[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-25.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>]</span> cross platform profile.
   The API loosely mimics the &quot;JSON&quot; object by exposing a <i>single global object</i>,
   unsurprisingly named &quot;CBOR&quot;.
 
@@ -813,6 +813,9 @@ See also <a href='#cbor.nonfinite.getsign'>getSign()</a>.</div></td></tr>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.NonFinite.createPayload(<i>payload</i>)</kbd></td></tr>
 <tr><th>Description</th><td colspan='2' style='width:100%'>Creates a payload object.
+<div style='margin-top:0.5em'>If <kbd><i>payload</i></kbd> is outside the
+range <code>0 </code>to<code> 0x1fffffffffffff</code>,
+a <a href='#main.errors'>CborException</a> is thrown.</div>
 <div style='margin-top:0.5em'>
 For details turn to the <a href='non-finite-numbers.html#payload-option'>Payload Option</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
@@ -1837,7 +1840,7 @@ add a second to the created time object.</div></td></tr>
   in the form of a JavaScript <kbd>Number</kbd> is expected, <kbd>Number.isInteger(<i>value</i>)</kbd>
   must be <code>true</code>, else a <a href='#main.errors'>CborException</a> will be thrown.
 </p>
-The following table holds additional CDDL defintions <span style='white-space:nowrap'>[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-24.html#name-additional-cddl-types' title='CDDL-EXT'>CDDL-EXT<img src='xtl.svg' alt='link'></a>]</span>
+The following table holds additional CDDL defintions <span style='white-space:nowrap'>[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-25.html#name-additional-cddl-types' title='CDDL-EXT'>CDDL-EXT<img src='xtl.svg' alt='link'></a>]</span>
 and their API counterparts:
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em'>
@@ -2172,7 +2175,7 @@ and their API counterparts:
   encoding schemes as well.
   </p>
   <p>
-  The determinism scheme is described in <span style='white-space:nowrap'>[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-24.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>]</span>.
+  The determinism scheme is described in <span style='white-space:nowrap'>[<a href='https://www.ietf.org/archive/id/draft-rundgren-cbor-core-25.html' title='CBOR::Core'>CBOR::Core<img src='xtl.svg' alt='link'></a>]</span>.
   </p>
   <h3 id='main.examples'>10.&nbsp;&nbsp;Using the CBOR API</h3>
 

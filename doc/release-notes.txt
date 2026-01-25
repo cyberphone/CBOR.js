@@ -81,6 +81,7 @@ Added CBOR.Int.createInt64() and CBOR.Int.createUint64()
 Added CBOR.BigInt.getInt128() and CBOR.BigInt.getUint128()
 Added CBOR.BigInt.createInt128() and CBOR.BigInt.createUint128()
 
-2026-01-21 1.0.21
+2026-01-25 1.0.21
 CBOR.Int and CBOR.BigInt merged into CBOR.Int
+Changed CBOR.NonFinite.createPayload() to use 53 bits
 Decoder.setMaxNestingLevel() added

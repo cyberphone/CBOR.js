@@ -2,7 +2,7 @@
 This note shows how you can combine CBOR with large files without embedding the files in CBOR.  The primary goal is to use as little RAM as possible.
 
 The sample builds on using a CBOR sequence permitting succeeding data to be non-CBOR as outlined in 
-[CBOR::Core](https://www.ietf.org/archive/id/draft-rundgren-cbor-core-24.html).
+[CBOR::Core](https://www.ietf.org/archive/id/draft-rundgren-cbor-core-25.html).
 
 CBOR file in diagnostic notation:
 ```cbor

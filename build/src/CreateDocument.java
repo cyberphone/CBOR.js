@@ -226,6 +226,9 @@ public class CreateDocument {
 
   static final String W_CREPAYLOAD_NONFIN_DESCR = """
       Creates a payload object.
+      <div style='margin-top:0.5em'>If <kbd><i>payload</i></kbd> is outside the
+      range <code>0 </code>to<code> 0x1fffffffffffff</code>,
+      a <a href='#main.errors'>CborException</a> is thrown.</div>
       <div style='margin-top:0.5em'>
       For details turn to the <a href='non-finite-numbers.html#payload-option'>Payload Option</a>.</div>""";
 
@@ -1143,8 +1146,8 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
   }
 
   enum ExternalReferences {
-    CBOR_CORE ("CBOR::Core", "https://www.ietf.org/archive/id/draft-rundgren-cbor-core-24.html"),
-    CBOR_CDDL_EXT ("CDDL-EXT", "https://www.ietf.org/archive/id/draft-rundgren-cbor-core-24.html#name-additional-cddl-types"),
+    CBOR_CORE ("CBOR::Core", "https://www.ietf.org/archive/id/draft-rundgren-cbor-core-25.html"),
+    CBOR_CDDL_EXT ("CDDL-EXT", "https://www.ietf.org/archive/id/draft-rundgren-cbor-core-25.html#name-additional-cddl-types"),
     CBOR   ("RFC8949", "https://www.rfc-editor.org/rfc/rfc8949.html"),
     CDDL   ("RFC8610", "https://www.rfc-editor.org/rfc/rfc8610.html"),
     ISO_TIME ("RFC3339", "https://www.rfc-editor.org/rfc/rfc3339.html#section-5.6"),

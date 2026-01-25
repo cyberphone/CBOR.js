@@ -1204,10 +1204,11 @@ class CBOR {
 
     static createPayload(payload) {
       CBOR.#typeCheck(payload, 'bigint');
-      if ((payload & 0xfffffffffffffn) != payload) {
+      if ((payload & 0x1fffffffffffffn) != payload) {
         CBOR.#error("Payload out of range: " + payload);
       }
-      return CBOR.NonFinite(0x7ff0000000000000n + CBOR.#reverseBits(payload, 52));
+      let left64 = (payload & 0x10000000000000n) ? 0xfff0000000000000n : 0x7ff0000000000000n;
+      return CBOR.NonFinite(left64 + CBOR.#reverseBits(payload & 0xfffffffffffffn, 52));
     }
 
     getNonFinite() {
