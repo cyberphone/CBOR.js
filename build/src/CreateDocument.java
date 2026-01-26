@@ -160,9 +160,6 @@ public class CreateDocument {
   static final String W_GET_NONFIN_DESCR = """
       Get <i>actual</i> non-finite object (value).
       <div style='margin-top:0.5em'>
-      If the CBOR object is not a <code>float64</code>, <code>float32</code>, or <code>float16</code> object, a
-      <a href='#main.errors'>CborException</a> is thrown.</div>
-      <div style='margin-top:0.5em'>
       This method returns the value of a non-finite object. The value is
       provided in the most compact form based on CBOR serialization rules.</div>""";
 
@@ -171,9 +168,6 @@ public class CreateDocument {
 
   static final String W_GET_NONFIN64_DESCR = """
       Get <i>expanded</i> non-finite object (value).
-      <div style='margin-top:0.5em'>
-      If the CBOR object is not a <code>float64</code>, <code>float32</code>, or <code>float16</code> object, a
-      <a href='#main.errors'>CborException</a> is thrown.</div>
       <div style='margin-top:0.5em'>
       This method returns the value of a non-finite object after it has been
       expanded to 64 bits.  That is, a received <code>7c01</code> will be

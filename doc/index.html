@@ -725,9 +725,6 @@ See also <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</div></td></t
 <tr><th>Syntax</th><td style='width:100%'><kbd>getNonFinite()</kbd></td></tr>
 <tr><th>Description</th><td style='width:100%'>Get <i>actual</i> non-finite object (value).
 <div style='margin-top:0.5em'>
-If the CBOR object is not a <code>float64</code>, <code>float32</code>, or <code>float16</code> object, a
-<a href='#main.errors'>CborException</a> is thrown.</div>
-<div style='margin-top:0.5em'>
 This method returns the value of a non-finite object. The value is
 provided in the most compact form based on CBOR serialization rules.</div></td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
@@ -739,9 +736,6 @@ provided in the most compact form based on CBOR serialization rules.</div></td><
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getNonFinite64()</kbd></td></tr>
 <tr><th>Description</th><td style='width:100%'>Get <i>expanded</i> non-finite object (value).
-<div style='margin-top:0.5em'>
-If the CBOR object is not a <code>float64</code>, <code>float32</code>, or <code>float16</code> object, a
-<a href='#main.errors'>CborException</a> is thrown.</div>
 <div style='margin-top:0.5em'>
 This method returns the value of a non-finite object after it has been
 expanded to 64 bits.  That is, a received <code>7c01</code> will be
@@ -2209,6 +2203,6 @@ here using the result of the previous encoding example:
 
   API version: 1.0.21.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2026-01-22
+  Document version: 2026-01-26
 </body>
 </html>
