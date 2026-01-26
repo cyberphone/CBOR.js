@@ -1414,7 +1414,7 @@ class XYZEncoder {
   }
 
   setCounter = function(intVal) {
-    this.#map.set(XYZEncoder.COUNTER, CBOR.Int(intVal));
+    this.#map.set(XYZEncoder.COUNTER, CBOR.Int.createUint8(intVal));
     return this;
   }
 
@@ -1434,6 +1434,7 @@ class XYZEncoder {
   }
 }
 
+// Using the "builder" pattern:
 let cbor = new XYZEncoder()
     .setCounter(2)
     .setGreeting('Hi!')
