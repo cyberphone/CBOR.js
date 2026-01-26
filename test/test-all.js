@@ -1428,7 +1428,7 @@ class XYZEncoder {
     return this;
   }
 
-  encode = function() {
+  build = function() {
     assertTrue("incomplete", this.#map.length == 3);
     return this.#map.encode();
   }
@@ -1439,7 +1439,7 @@ let cbor = new XYZEncoder()
     .setCounter(2)
     .setGreeting('Hi!')
     .setTemperature(53.0001)
-    .encode();
+    .build();
 
 assertTrue("bad code", CBOR.toHex(cbor) == 'a3010202fb404a800346dc5d640363486921');
 
