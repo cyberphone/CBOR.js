@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //                                                              //
-//                     CBOR JavaScript API                      //
+//                CBOR::Core API for JavaScript                 //
 //                                                              //
 // Author: Anders Rundgren (anders.rundgren.net@gmail.com)      //
 // Repository: https://github.com/cyberphone/CBOR.js#cborjs     //
@@ -14,6 +14,25 @@
 
 // Single global static object.
 class CBOR {
+
+  static #MT_UNSIGNED      = 0x00;
+  static #MT_NEGATIVE      = 0x20;
+  static #MT_BYTES         = 0x40;
+  static #MT_STRING        = 0x60;
+  static #MT_ARRAY         = 0x80;
+  static #MT_MAP           = 0xa0;
+  static #MT_TAG           = 0xc0;
+  static #MT_SIMPLE        = 0xe0;
+
+  static #TAG_BIG_UNSIGNED = 0xc2;
+  static #TAG_BIG_NEGATIVE = 0xc3;
+
+  static #SIMPLE_FALSE     = 0xf4;
+  static #SIMPLE_TRUE      = 0xf5;
+  static #SIMPLE_NULL      = 0xf6;
+  static #SIMPLE_FLOAT16   = 0xf9;
+  static #SIMPLE_FLOAT32   = 0xfa;
+  static #SIMPLE_FLOAT64   = 0xfb;
 
   // Super class for all CBOR wrappers.
   static #CborObject = class {
@@ -284,23 +303,6 @@ class CBOR {
     throw new CBOR.CborException(message);
   }
 
-  static #MT_UNSIGNED     = 0x00;
-  static #MT_NEGATIVE     = 0x20;
-  static #MT_BYTES        = 0x40;
-  static #MT_STRING       = 0x60;
-  static #MT_ARRAY        = 0x80;
-  static #MT_MAP          = 0xa0;
-  static #MT_SIMPLE       = 0xe0;
-  static #MT_TAG          = 0xc0;
-  static #MT_BIG_UNSIGNED = 0xc2;
-  static #MT_BIG_NEGATIVE = 0xc3;
-  static #MT_FALSE        = 0xf4;
-  static #MT_TRUE         = 0xf5;
-  static #MT_NULL         = 0xf6;
-  static #MT_FLOAT16      = 0xf9;
-  static #MT_FLOAT32      = 0xfa;
-  static #MT_FLOAT64      = 0xfb;
-
   static #ESCAPE_CHARACTERS = [
   //  0    1    2    3    4    5    6    7    8    9    A    B    C    D    E    F
       1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 , 'b', 't', 'n',  1 , 'f', 'r',  1 ,  1 ,
@@ -482,7 +484,7 @@ class CBOR {
     }
     
     encode() {
-      return CBOR.addArrays(new Uint8Array([(this.#encoded.length >> 2) + CBOR.#MT_FLOAT16]),
+      return CBOR.addArrays(new Uint8Array([(this.#encoded.length >> 2) + CBOR.#SIMPLE_FLOAT16]),
                             this.#encoded);
     }
 
@@ -617,7 +619,7 @@ class CBOR {
     }
     
     encode() {
-      return new Uint8Array([this.#value ? CBOR.#MT_TRUE : CBOR.#MT_FALSE]);
+      return new Uint8Array([this.#value ? CBOR.#SIMPLE_TRUE : CBOR.#SIMPLE_FALSE]);
     }
 
     internalToString(cborPrinter) {
@@ -636,7 +638,7 @@ class CBOR {
   static Null = class extends CBOR.#CborObject {
     
     encode() {
-      return new Uint8Array([CBOR.#MT_NULL]);
+      return new Uint8Array([CBOR.#SIMPLE_NULL]);
     }
 
     internalToString(cborPrinter) {
@@ -1378,7 +1380,7 @@ class CBOR {
 
     printFloatDetErr(decoded) {
       CBOR.#error("Non-deterministic encoding of floating-point value: " + 
-        CBOR.#twoHex((decoded.length >> 2) + CBOR.#MT_FLOAT16) + 
+        CBOR.#twoHex((decoded.length >> 2) + CBOR.#SIMPLE_FLOAT16) + 
         CBOR.toHex(decoded));
     } 
 
@@ -1456,30 +1458,30 @@ class CBOR {
 
       // Begin with CBOR types that are uniquely defined by the tag byte.
       switch (tag) {
-        case CBOR.#MT_BIG_NEGATIVE:
-        case CBOR.#MT_BIG_UNSIGNED:
+        case CBOR.#TAG_BIG_NEGATIVE:
+        case CBOR.#TAG_BIG_UNSIGNED:
           let byteArray = this.getObject().getBytes();
           if (this.strictNumbers && (byteArray.length <= 8 || !byteArray[0])) {
             CBOR.#error("Non-deterministic bigint encoding");
           }
           let value = CBOR.toBigInt(byteArray);
-          return CBOR.Int(tag == CBOR.#MT_BIG_NEGATIVE ? ~value : value);
+          return CBOR.Int(tag == CBOR.#TAG_BIG_NEGATIVE ? ~value : value);
 
-        case CBOR.#MT_FLOAT16:
+        case CBOR.#SIMPLE_FLOAT16:
            return this.decodeF16();
 
-        case CBOR.#MT_FLOAT32:
+        case CBOR.#SIMPLE_FLOAT32:
            return this.decodeF32();
 
-        case CBOR.#MT_FLOAT64:
+        case CBOR.#SIMPLE_FLOAT64:
            return this.decodeF64();
 
-        case CBOR.#MT_NULL:
+        case CBOR.#SIMPLE_NULL:
           return CBOR.Null();
  
-        case CBOR.#MT_TRUE:
-        case CBOR.#MT_FALSE:
-          return CBOR.Boolean(tag == CBOR.#MT_TRUE);
+        case CBOR.#SIMPLE_TRUE:
+        case CBOR.#SIMPLE_FALSE:
+          return CBOR.Boolean(tag == CBOR.#SIMPLE_TRUE);
       }
       // Then decode CBOR types that blend length of data in the tag byte.
       let n = tag & 0x1f;
@@ -2302,7 +2304,7 @@ class CBOR {
     }
     // It is a "bigint".
     return CBOR.addArrays(new Uint8Array([tag == CBOR.#MT_NEGATIVE ?
-                                             CBOR.#MT_BIG_NEGATIVE : CBOR.#MT_BIG_UNSIGNED]), 
+                                             CBOR.#TAG_BIG_NEGATIVE : CBOR.#TAG_BIG_UNSIGNED]), 
                           CBOR.Bytes(byteArray).encode());
   }
   
