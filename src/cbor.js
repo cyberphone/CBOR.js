@@ -2303,8 +2303,7 @@ class CBOR {
       return CBOR.addArrays(new Uint8Array([tag | modifier]), byteArray);
     }
     // It is a "bigint".
-    return CBOR.addArrays(new Uint8Array([tag == CBOR.#MT_NEGATIVE ?
-                                             CBOR.#TAG_BIG_NEGATIVE : CBOR.#TAG_BIG_UNSIGNED]), 
+    return CBOR.addArrays(new Uint8Array([tag ? CBOR.#TAG_BIG_NEGATIVE : CBOR.#TAG_BIG_UNSIGNED]), 
                           CBOR.Bytes(byteArray).encode());
   }
   
