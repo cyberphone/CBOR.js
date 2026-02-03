@@ -1210,7 +1210,7 @@ class CBOR {
         CBOR.#error("Payload out of range: " + payload);
       }
       let left64 = (payload & 0x10000000000000n) ? 0xfff0000000000000n : 0x7ff0000000000000n;
-      return CBOR.NonFinite(left64 + CBOR.#reverseBits(payload & 0xfffffffffffffn, 52));
+      return CBOR.NonFinite(left64 + CBOR.#reversePayload(payload & 0xfffffffffffffn));
     }
 
     getNonFinite() {
@@ -1229,7 +1229,7 @@ class CBOR {
     }
 
     getPayload() {
-      return CBOR.#reverseBits(this.getNonFinite64() & 0xfffffffffffffn, 52);
+      return CBOR.#reversePayload(this.getNonFinite64() & 0xfffffffffffffn);
     }
 
     encode() {
@@ -2365,6 +2365,19 @@ class CBOR {
     return time % 1000 ? millis : false;
   }
 
+  static #reversePayload(b51b0) {
+    let reversed = 0n;
+    let bitCount = 0;
+    while (b51b0 > 0n) {
+      bitCount++;
+      reversed <<= 1n;
+      if ((b51b0 & 1n) == 1n)
+        reversed |= 1n;
+      b51b0 >>= 1n;
+    }
+    return reversed << BigInt(52 - bitCount);
+  }
+
   static #timeRound(time, millis) {
     if (!millis) {
       let reminder = time % 1000;
@@ -2380,22 +2393,6 @@ class CBOR {
       time -= reminder;
     }
     return time;
-  }
-
-  static #reverseBits(bits, fieldWidth) {
-    let reversed = 0n;
-    let bitCount = 0;
-    while (bits > 0n) {
-      bitCount++;
-      reversed <<= 1n;
-      if ((bits & 1n) == 1n)
-        reversed |= 1n;
-      bits >>= 1n;
-    }
-    if (bitCount > fieldWidth) {
-      CBOR.#error("Field exceeds fieldWidth");
-    }
-    return reversed << BigInt(fieldWidth - bitCount);
   }
 
 //================================//
