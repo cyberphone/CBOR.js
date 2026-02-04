@@ -1181,7 +1181,8 @@ export default class CBOR {
 
     setSign(sign) {
       let mask = 1n << BigInt((this.#ieee754.length * 8) - 1);
-      this.#createDetEnc((this.#value & (mask - 1n)) | (sign ? mask : 0n));
+      this.#createDetEnc((this.#value & (mask - 1n)) | 
+                         (CBOR.#typeCheck(sign, 'boolean') ? mask : 0n));
       return this;
     }
 

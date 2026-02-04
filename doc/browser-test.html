@@ -398,8 +398,8 @@ function payloadOneTurn(payload, hex, dn) {
   nonFinite.setSign(true);
   assertTrue("plo7", nonFinite.getSign());
   assertTrue("plo8", CBOR.toHex(nonFinite.encode()) == signedHex);
-  nonFinite = CBOR.NonFinite.createPayload(payload).setSign(true);
-  assertTrue("plo9", CBOR.toHex(nonFinite.encode()) == signedHex);
+  nonFinite = CBOR.NonFinite.createPayload(payload).setSign(false);
+  assertTrue("plo9", CBOR.toHex(nonFinite.encode()) == hex.substring(0, 2) + "7" +hex.substring(3));
 }
 
 function oneNonFiniteTurn(value, binexpect, textexpect) {
