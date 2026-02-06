@@ -203,12 +203,8 @@ class CBOR {
       return CBOR.decode(this.encode());
     }
 
-    #noSuchMethod(method) {
-      CBOR.#error(method + '() not available in: CBOR.' + this.constructor.name); 
-    }
-
     get() {
-      this.#noSuchMethod("get");
+      CBOR.#error('get() not available in: CBOR.' + this.constructor.name); 
     }
 
     toDiagnostic(prettyPrint) {
