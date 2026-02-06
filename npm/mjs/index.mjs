@@ -2151,7 +2151,7 @@ export default class CBOR {
         if (arraysInArrays) {
             return true;
         }
-        if (this.buffer.length - this.startOfLine + // Where we are staing at the moment.
+        if (this.buffer.length - this.startOfLine + // Where we are standing at the moment.
           array.length +                            // space after comma.
           2 +                                       // [] 
           array.toDiagnostic(false).length > 70) {
