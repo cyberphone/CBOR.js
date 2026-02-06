@@ -397,13 +397,13 @@ export default class CBOR {
     constructor(value) {
       super();
       this.#value = CBOR.#typeCheck(value, 'number');
-      // Get the full F64 binary.
-      const f64b = new Uint8Array(8);
-      new DataView(f64b.buffer, 0, 8).setFloat64(0, value, false);
-      // Begin catching the forbidden cases.
+      // Begin catching the forbidden use-case.
       if (!Number.isFinite(value)) {
         CBOR.#error("Not permitted: 'NaN/Infinity'");    
       }
+      // Get the full F64 binary.
+      const f64b = new Uint8Array(8);
+      new DataView(f64b.buffer, 0, 8).setFloat64(0, value, false);
       if (value == 0) { // True for -0.0 as well! 
         this.#encoded = f64b.slice(0, 2);
       } else {
