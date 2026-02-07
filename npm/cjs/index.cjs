@@ -1358,8 +1358,7 @@ class CBOR {
       return cborFloat;
     }
 
-    returnNonFinite (decoded) {
-      let value = CBOR.toBigInt(decoded);
+    returnNonFinite (decoded, value) {
       let nonFinite = CBOR.NonFinite(value);
       if (this.strictNumbers && nonFinite._getValue() != value) {
         this.printFloatDetErr(decoded);
@@ -1382,7 +1381,7 @@ class CBOR {
       // Is it a non-finite number?
       if (exponent == 0x7c00) {
         // Yes, deal with it separately.
-        return this.returnNonFinite(decoded);
+        return this.returnNonFinite(decoded, value);
       }
       // It is a "regular" number.
       if (exponent) {
@@ -1400,9 +1399,9 @@ class CBOR {
       let decoded = this.readBytes(4);
       let value = CBOR.toBigInt(decoded);
       // Is it a non-finite number?
-      if ((decoded[0] & 0x7f) == 0x7f && (decoded[1] & 0x80) == 0x80) {
+      if ((value & 0x7f800000n) == 0x7f800000n) {
         // Yes, deal with it separately.
-        return this.returnNonFinite(decoded);
+        return this.returnNonFinite(decoded, value);
       }
       // It is a "regular" number.
       return this.returnFloat(decoded, new DataView(decoded.buffer, 0, 4).getFloat32(0, false));
@@ -1410,10 +1409,11 @@ class CBOR {
 
     decodeF64() {
       let decoded = this.readBytes(8);
+      let value = CBOR.toBigInt(decoded);
       // Is it a non-finite number?
-      if ((decoded[0] & 0x7f) == 0x7f && (decoded[1] & 0xf0) == 0xf0) {
+      if ((value & 0x7ff0000000000000n) == 0x7ff0000000000000n) {
         // Yes, deal with it separately.
-        return this.returnNonFinite(decoded);
+        return this.returnNonFinite(decoded, value);
       }
       // It is a "regular" number.
       return this.returnFloat(decoded, new DataView(decoded.buffer, 0, 8).getFloat64(0, false));
