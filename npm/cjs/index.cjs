@@ -777,7 +777,8 @@ class CBOR {
     set(key, object) {
       CBOR.#checkArgs(arguments, 2);
       this._immutableTest();
-      let newEntry = new CBOR.Map.Entry(this.#getKey(key), CBOR.#cborArgumentCheck(object));
+      let newEntry = new CBOR.Map.Entry(CBOR.#cborArgumentCheck(key),
+                                        CBOR.#cborArgumentCheck(object));
       this.#makeImmutable(key);
       let insertIndex = this.#entries.length;
       if (insertIndex) {
@@ -816,12 +817,8 @@ class CBOR {
       return dynamic(this);
     }
 
-    #getKey(key) {
-      return CBOR.#cborArgumentCheck(key);
-    }
-
     #lookup(key, mustExist) {
-      let encodedKey = this.#getKey(key).encode();
+      let encodedKey = CBOR.#cborArgumentCheck(key).encode();
       let startIndex = 0;
       let endIndex = this.#entries.length - 1;
       while (startIndex <= endIndex) {
