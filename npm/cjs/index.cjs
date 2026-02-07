@@ -314,10 +314,9 @@ class CBOR {
     CBOR.#error("CBOR cannot be instantiated");
   }
 
-///////////////////////////
-//       CBOR.Int        //
-///////////////////////////
- 
+  ///////////////////////////
+  //       CBOR.Int        //
+  ///////////////////////////
   static Int = class extends CBOR.#CborObject {
 
     #value;
@@ -385,10 +384,9 @@ class CBOR {
     }
   }
 
-///////////////////////////
-//      CBOR.Float       //
-///////////////////////////
- 
+  ///////////////////////////
+  //      CBOR.Float       //
+  ///////////////////////////
   static Float = class extends CBOR.#CborObject {
 
     #value;
@@ -530,10 +528,9 @@ class CBOR {
     }
   }
 
-///////////////////////////
-//     CBOR.String       //
-///////////////////////////
- 
+  ///////////////////////////
+  //     CBOR.String       //
+  ///////////////////////////
   static String = class extends CBOR.#CborObject {
 
     #textString;
@@ -574,10 +571,9 @@ class CBOR {
     }
   }
 
-///////////////////////////
-//      CBOR.Bytes       //
-///////////////////////////
- 
+  ///////////////////////////
+  //      CBOR.Bytes       //
+  ///////////////////////////
   static Bytes = class extends CBOR.#CborObject {
 
     #byteString;
@@ -601,10 +597,9 @@ class CBOR {
     }
   }
 
-///////////////////////////
-//     CBOR.Boolean      //
-///////////////////////////
- 
+  ///////////////////////////
+  //     CBOR.Boolean      //
+  ///////////////////////////
   static Boolean = class extends CBOR.#CborObject {
 
     #value;
@@ -627,10 +622,9 @@ class CBOR {
     }
   }
 
-///////////////////////////
-//      CBOR.Null        //
-///////////////////////////
- 
+  ///////////////////////////
+  //      CBOR.Null        //
+  ///////////////////////////
   static Null = class extends CBOR.#CborObject {
     
     encode() {
@@ -642,10 +636,9 @@ class CBOR {
     }
   }
 
-///////////////////////////
-//      CBOR.Array       //
-///////////////////////////
-
+  ///////////////////////////
+  //      CBOR.Array       //
+  ///////////////////////////
   static Array = class extends CBOR.#CborObject {
 
     #objects = [];
@@ -743,10 +736,9 @@ class CBOR {
     }
   }
 
-///////////////////////////
-//       CBOR.Map        //
-///////////////////////////
-
+  ///////////////////////////
+  //       CBOR.Map        //
+  ///////////////////////////
   static Map = class extends CBOR.#CborObject {
 
     #entries = [];
@@ -757,8 +749,8 @@ class CBOR {
 
       constructor(key, object) {
         this.key = key;
+        this.encodedKey = key.encode(); // Right, keys are immutable.
         this.object = object;
-        this.encodedKey = key.encode();
       }
 
       compare(encodedKey) {
@@ -952,10 +944,9 @@ class CBOR {
     }
   }
 
-///////////////////////////
-//       CBOR.Tag        //
-///////////////////////////
-
+  ///////////////////////////
+  //       CBOR.Tag        //
+  ///////////////////////////
   static Tag = class extends CBOR.#CborObject {
 
     static TAG_DATE_TIME  = 0n;
@@ -1071,10 +1062,9 @@ class CBOR {
     }
   }
 
-///////////////////////////
-//      CBOR.Simple      //
-///////////////////////////
-
+  ///////////////////////////
+  //      CBOR.Simple      //
+  ///////////////////////////
   static Simple = class extends CBOR.#CborObject {
 
     #value;
@@ -1100,10 +1090,9 @@ class CBOR {
     }
   }
 
-///////////////////////////
-//    CBOR.NonFinite     //
-///////////////////////////
-
+  ///////////////////////////
+  //    CBOR.NonFinite     //
+  ///////////////////////////
   static NonFinite = class extends CBOR.#CborObject {
 
     #value;
@@ -1258,12 +1247,11 @@ class CBOR {
     }
   }
 
-///////////////////////////
-//        Proxy          //
-///////////////////////////
-
-  // The Proxy concept enables checks for invocation by "new" and number of arguments.
-  static #handler = class {
+  //////////////////////////////////////////////////
+  // The Proxy concept enables checks for invalid //
+  // invocation by "new" and number of arguments. //
+  //////////////////////////////////////////////////
+  static #Proxy = class {
 
     constructor(numberOfArguments) {
       this.numberOfArguments = numberOfArguments;
@@ -1281,35 +1269,21 @@ class CBOR {
     }
   }
 
-  static Int = new Proxy(CBOR.Int, new CBOR.#handler(1));
-  static Float = new Proxy(CBOR.Float, new CBOR.#handler(1));
-  static String = new Proxy(CBOR.String, new CBOR.#handler(1));
-  static Bytes = new Proxy(CBOR.Bytes, new CBOR.#handler(1));
-  static Boolean = new Proxy(CBOR.Boolean, new CBOR.#handler(1));
-  static Null = new Proxy(CBOR.Null, new CBOR.#handler(0));
-  static Array = new Proxy(CBOR.Array, new CBOR.#handler(0));
-  static Map = new Proxy(CBOR.Map, new CBOR.#handler(0));
-  static Tag = new Proxy(CBOR.Tag, new CBOR.#handler(2));
-  static Simple = new Proxy(CBOR.Simple, new CBOR.#handler(1));
-  static NonFinite = new Proxy(CBOR.NonFinite, new CBOR.#handler(1));
+  static Int = new Proxy(CBOR.Int, new CBOR.#Proxy(1));
+  static Float = new Proxy(CBOR.Float, new CBOR.#Proxy(1));
+  static String = new Proxy(CBOR.String, new CBOR.#Proxy(1));
+  static Bytes = new Proxy(CBOR.Bytes, new CBOR.#Proxy(1));
+  static Boolean = new Proxy(CBOR.Boolean, new CBOR.#Proxy(1));
+  static Null = new Proxy(CBOR.Null, new CBOR.#Proxy(0));
+  static Array = new Proxy(CBOR.Array, new CBOR.#Proxy(0));
+  static Map = new Proxy(CBOR.Map, new CBOR.#Proxy(0));
+  static Tag = new Proxy(CBOR.Tag, new CBOR.#Proxy(2));
+  static Simple = new Proxy(CBOR.Simple, new CBOR.#Proxy(1));
+  static NonFinite = new Proxy(CBOR.NonFinite, new CBOR.#Proxy(1));
 
-
-///////////////////////////
-//     Decoder Core      //
-///////////////////////////
-
-  static get SEQUENCE_MODE() {
-    return 0x1;
-  }
-
-  static get LENIENT_MAP_DECODING() {
-    return 0x2;
-  }
-
-  static get LENIENT_NUMBER_DECODING() {
-    return 0x4;
-  }
-
+  ///////////////////////////
+  //     Decoder Core      //
+  ///////////////////////////
   static Decoder = class {
 
     constructor(cbor, options) {
@@ -1548,10 +1522,6 @@ class CBOR {
       }
     }
 
-    //////////////////////////////
-    // Decoder.* public methods //
-    //////////////////////////////
-
     decodeWithOptions() {
       this.atFirstByte = true;
       let object = this.getObject();
@@ -1570,27 +1540,29 @@ class CBOR {
     }
   }
 
-///////////////////////////
-//     CBOR.decode()     //
-///////////////////////////
-
   static decode(cbor) {
     return CBOR.initDecoder(cbor, 0).decodeWithOptions();
   }
-
-///////////////////////////
-//  CBOR.initDecoder()  //
-///////////////////////////
 
   static initDecoder(cbor, options) {
     return new CBOR.Decoder(cbor, options);
   }
 
+  static get SEQUENCE_MODE() {
+    return 0x1;
+  }
 
-//================================//
-//   Diagnostic Notation Support  //
-//================================//
+  static get LENIENT_MAP_DECODING() {
+    return 0x2;
+  }
 
+  static get LENIENT_NUMBER_DECODING() {
+    return 0x4;
+  }
+
+  //================================//
+  //   Diagnostic Notation Support  //
+  //================================//
   static DiagnosticNotation = class {
 
     static ParserError = class extends Error {
@@ -1609,7 +1581,6 @@ class CBOR {
       this.index = 0;
     }
  
-  
     parserError(error) {
       // Unsurprisingly, error handling turned out to be the most complex part...
       let start = this.index - 100;
