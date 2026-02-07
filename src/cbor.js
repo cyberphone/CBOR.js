@@ -1226,7 +1226,8 @@ class CBOR {
     }
 
     getPayload() {
-      return CBOR.#reversePayload(this.getNonFinite64() & 0xfffffffffffffn);
+      return (this.getSign() ? 0x10000000000000n : 0n) +
+             CBOR.#reversePayload(this.getNonFinite64() & 0xfffffffffffffn);
     }
 
     encode() {

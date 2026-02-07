@@ -393,7 +393,7 @@ function payloadOneTurn(payload, hex, dn) {
   assertTrue("plo3", CBOR.toHex(cbor) == hex);
   assertTrue("plo4", nonFinite.toString() == dn);
   assertTrue("plo5", nonFinite.getNonFinite() == CBOR.toBigInt(CBOR.fromHex(hex.substring(2), 16)));
-  assertFalse("plo6", nonFinite.getSign());
+  assertFalse("plo6", nonFinite.getSign() ^ (hex.substring(2,3) == "f"));
   let signedHex = hex.substring(0, 2) + "f" +hex.substring(3);
   nonFinite.setSign(true);
   assertTrue("plo7", nonFinite.getSign());
@@ -532,14 +532,16 @@ assertTrue("cbor", CBOR.toHex(nonFinite.encode()) == "f97e00");              // 
 assertTrue("combined", Number.isNaN(nonFinite.getExtendedFloat64()));        // Returns "Number"
 assertTrue("nan", nonFinite.isNaN(false));                                   // Indeed it is
 
-payloadOneTurn(0n,               "f97c00",       "Infinity");
-payloadOneTurn(1n,               "f97e00",            "NaN");
-payloadOneTurn(2n,               "f97d00",             null);
-payloadOneTurn((1n << 10n) - 1n, "f97fff",             null);
-payloadOneTurn(1n << 10n,        "fa7f801000",         null);
-payloadOneTurn((1n << 23n) - 1n, "fa7fffffff",         null);
-payloadOneTurn(1n << 23n,        "fb7ff0000010000000", null);
-payloadOneTurn((1n << 52n) - 1n, "fb7fffffffffffffff", null);
+payloadOneTurn(0n,               "f97c00",              "Infinity");
+payloadOneTurn(1n,               "f97e00",                   "NaN");
+payloadOneTurn(2n,               "f97d00",                    null);
+payloadOneTurn((1n << 10n) - 1n, "f97fff",                    null);
+payloadOneTurn(1n << 10n,        "fa7f801000",                null);
+payloadOneTurn((1n << 23n) - 1n, "fa7fffffff",                null);
+payloadOneTurn(1n << 23n,        "fb7ff0000010000000",        null);
+payloadOneTurn((1n << 52n) - 1n, "fb7fffffffffffffff",        null);
+payloadOneTurn(1n << 52n,        "f9fc00",             "-Infinity");
+payloadOneTurn((1n << 52n) + 1n, "f9fe00",                    null);
 
 [-1n, 1n << 53n].forEach(payload => { 
   try {
