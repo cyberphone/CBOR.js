@@ -308,8 +308,6 @@ class CBOR {
       0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
       0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 , '\\'];
 
-  static #F64_NAN = new Uint8Array([0x7f, 0xf8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
-
   constructor() {
     CBOR.#error("CBOR cannot be instantiated");
   }
@@ -745,32 +743,10 @@ class CBOR {
     #preSortedKeys = false;
     #lastLookup = 0;
 
-    static Entry = class {
-
-      constructor(key, object) {
-        this.key = key;
-        this.encodedKey = key.encode(); // Right, keys are immutable.
-        this.object = object;
-      }
-
-      compare(encodedKey) {
-        return CBOR.compareArrays(this.encodedKey, encodedKey);
-      }
-
-      compareAndTest(entry) {
-        let diff = this.compare(entry.encodedKey);
-        if (diff == 0) {
-          CBOR.#error("Duplicate key: " + this.key);
-        }
-        return diff > 0;
-      }
-    }
-
     set(key, object) {
       CBOR.#checkArgs(arguments, 2);
       this._immutableTest();
-      let newEntry = new CBOR.Map.Entry(CBOR.#cborArgumentCheck(key),
-                                        CBOR.#cborArgumentCheck(object));
+      let newEntry = new CBOR.#Entry(key, object);
       this.#makeImmutable(key);
       let insertIndex = this.#entries.length;
       if (insertIndex) {
@@ -941,6 +917,27 @@ class CBOR {
           this.#makeImmutable(value);
         });
       }
+    }
+  }
+
+  static #Entry = class {
+
+    constructor(key, object) {
+      this.key = CBOR.#cborArgumentCheck(key);
+      this.encodedKey = key.encode(); // Right, keys are immutable.
+      this.object = CBOR.#cborArgumentCheck(object);
+    }
+
+    compare(encodedKey) {
+      return CBOR.compareArrays(this.encodedKey, encodedKey);
+    }
+
+    compareAndTest(entry) {
+      let diff = this.compare(entry.encodedKey);
+      if (diff == 0) {
+        CBOR.#error("Duplicate key: " + this.key);
+      }
+      return diff > 0;
     }
   }
 
