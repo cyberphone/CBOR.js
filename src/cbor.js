@@ -15,6 +15,10 @@
 // Single global static object.
 class CBOR {
 
+  static get version() {
+    return "1.0.21";
+  }
+
   static #MT_UNSIGNED      = 0x00;
   static #MT_NEGATIVE      = 0x20;
   static #MT_BYTES         = 0x40;
@@ -283,7 +287,6 @@ class CBOR {
       this.#readFlag = true;
       return this._get();
     }
-
   }
 
   static CborException = class extends Error {
@@ -2199,7 +2202,7 @@ class CBOR {
 
   static #returnConverted(converted, original, type) {
     if (Number.isFinite(converted)) {
-        return CBOR.Float(converted);
+      return CBOR.Float(converted);
     }
     CBOR.#rangeError(type, CBOR.Float.createExtendedFloat(original));
   }
@@ -2475,9 +2478,5 @@ class CBOR {
     millis = CBOR.#millisCheck(epochMillis, millis);
     let epochSeconds = CBOR.#timeRound(epochMillis, millis) / 1000;
     return millis ? CBOR.Float(epochSeconds) : CBOR.Int(Math.floor(epochSeconds));
-  }
-
-  static get version() {
-    return "1.0.21";
   }
 }
