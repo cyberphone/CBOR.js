@@ -143,7 +143,7 @@ export default class CBOR {
     #rangeFloat(max) {
       let value = this.getFloat64();
       if (this.length > max) {
-        CBOR.#rangeError('Float' + (max * 8), this);
+        CBOR.#rangeError('Float' + (max * 8), this.toString());
       }
       return value;
     }
@@ -2196,15 +2196,15 @@ export default class CBOR {
     return cborInt;
   }
 
-  static #rangeError(type, value) {
-    CBOR.#error('Value out of range for "' + type + '": ' + value.toString());
+  static #rangeError(type, valueString) {
+    CBOR.#error('Value out of range for "' + type + '": ' + valueString);
   }
 
   static #returnConverted(converted, original, type) {
     if (Number.isFinite(converted)) {
       return CBOR.Float(converted);
     }
-    CBOR.#rangeError(type, CBOR.Float.createExtendedFloat(original));
+    CBOR.#rangeError(type, CBOR.Float(original).toString());
   }
 
   static #rangeCheck(value, min, max) {
@@ -2217,7 +2217,7 @@ export default class CBOR {
         max >>= 1n;
         bits++;
       }
-      CBOR.#rangeError((min ? "Int" : "Uint") + bits, value);
+      CBOR.#rangeError((min ? "Int" : "Uint") + bits, value.toString());
     }
   }
 
