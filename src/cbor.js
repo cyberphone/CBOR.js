@@ -1642,7 +1642,7 @@ class CBOR {
         return sequence;
       } catch (e) {
         if (e instanceof CBOR.DiagnosticNotation.ParserError) {
-          throw e;
+          CBOR.#error(e.toString());
         }
         // The exception apparently came from a deeper layer.
         // Make it a parser error and remove the original error name.
