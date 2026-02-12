@@ -1808,7 +1808,7 @@ export default class CBOR {
           default:
             token += this.readChar();
             continue;
-          }
+        }
         break;
       }
       this.readChar();
