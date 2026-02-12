@@ -2019,7 +2019,6 @@ class CBOR {
 
           default:
             token += c;
-            continue;
         }
       }
     }

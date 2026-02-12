@@ -2019,7 +2019,6 @@ export default class CBOR {
 
           default:
             token += c;
-            continue;
         }
       }
     }
