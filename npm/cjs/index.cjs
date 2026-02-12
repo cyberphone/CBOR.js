@@ -1576,7 +1576,7 @@ class CBOR {
     sequence;
   
     constructor(cborText, sequenceMode) {
-      this.cborText = cborText;
+      this.cborText = CBOR.#typeCheck(cborText, 'string');
       this.sequenceMode = sequenceMode;
       this.index = 0;
     }
