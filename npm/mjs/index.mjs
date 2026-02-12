@@ -1809,7 +1809,7 @@ export default class CBOR {
             token += this.readChar();
             continue;
           }
-          break;
+        break;
       }
       this.readChar();
       // clone() converts a numerical Simple into Boolean etc. if applicable. 
