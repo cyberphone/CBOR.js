@@ -2009,7 +2009,7 @@ export default class CBOR {
         let c;
         switch (c = this.readChar()) {
           case '\'':
-            break;
+            return CBOR.Bytes(b64 ? CBOR.fromBase64Url(token) : CBOR.fromHex(token));
          
           case ' ':
           case '\r':
@@ -2021,9 +2021,7 @@ export default class CBOR {
             token += c;
             continue;
         }
-        break;
       }
-      return CBOR.Bytes(b64 ? CBOR.fromBase64Url(token) : CBOR.fromHex(token));
     }
 
     readChar() {

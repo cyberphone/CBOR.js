@@ -262,7 +262,7 @@ try {
   CBOR.fromDiagnostic("float'000000'");
   fail("bugf");
 } catch (error) {
-  assertTrue("fp", error.toString().includes('floating-point'));
+  assertTrue("fp", error.toString().includes('Argument must be a 16, 32, or 64-bit floating'));
 }
 
 success();
