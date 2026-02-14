@@ -1,6 +1,6 @@
 // Testing range-constrained integers
 import CBOR from '../npm/mjs/index.mjs';
-import { assertTrue, assertFalse, fail, success } from './assertions.js';
+import { assertTrue, assertFalse, fail, success, checkException } from './assertions.js';
 
 function goodRun(type, value) {
   let bigFlag = type.indexOf("64") > 0 || type.indexOf("128") > 0;
@@ -21,19 +21,15 @@ function badRun(type, value) {
   try {
     eval(test);
     fail("Should fail");
-  } catch (error) {
-    if (!error.toString().includes('Value out of range for ')) {
-      throw error;
-    }
+  } catch (e) {
+    checkException(e, 'Value out of range for ');
   }
   test = 'CBOR.Int.create' + type + '(' + value + 'n)';
   try {
     eval(test);
     fail("Should fail");
-  } catch (error) {
-    if (!error.toString().includes('Value out of range for ')) {
-      throw error;
-    }
+  } catch (e) {
+    checkException(e, 'Value out of range for ');
   }
 }
 

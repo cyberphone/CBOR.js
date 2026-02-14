@@ -1,6 +1,6 @@
 // Testing "diagnostic notation"
 import CBOR from '../npm/mjs/index.mjs';
-import { assertTrue, assertFalse, success } from './assertions.js';
+import { assertTrue, assertFalse, success, checkException } from './assertions.js';
 
 function oneTurn(cborText, ok, compareWithOrNull) {
   try {
@@ -74,8 +74,8 @@ assertTrue("seq4", sequence[1].equals(CBOR.Map().set(CBOR.Int(4),CBOR.Int(7))));
 try {
   CBOR.fromDiagnostic("float'000000'");
   fail("bugf");
-} catch (error) {
-  assertTrue("fp", error.toString().includes('Argument must be a 16, 32, or 64-bit floating'));
+} catch (e) {
+  checkException(e, 'Argument must be a 16, 32, or 64-bit floating');
 }
 
 success();

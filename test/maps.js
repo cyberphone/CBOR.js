@@ -1,6 +1,6 @@
 // Testing map operations
 import CBOR from '../npm/mjs/index.mjs';
-import { fail, assertTrue, assertFalse, success } from './assertions.js';
+import { fail, assertTrue, assertFalse, success, checkException } from './assertions.js';
 
 let map = CBOR.Map()
               .set(CBOR.Int(3), CBOR.String("three"))
@@ -30,10 +30,8 @@ function badKey(js) {
   try {
     eval(js);
     fail("Must fail!");
-  } catch (error) {
-    if (!error.toString().includes('Map key')) {
-      throw error;
-    }
+  } catch (e) {
+    checkException(e, 'Map key');
   }
 }
 

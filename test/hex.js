@@ -1,6 +1,6 @@
 // Test of "hex" utility methods
 import CBOR from '../npm/mjs/index.mjs';
-import { assertTrue, assertFalse, success } from './assertions.js';
+import { assertTrue, assertFalse, success,checkException } from './assertions.js';
 
 const hex = '0123456789abcdefABCDEF';
 
@@ -12,19 +12,15 @@ assertFalse("bin", CBOR.compareArrays(bin, ref));
 try {
   CBOR.fromHex("AAA");
   throw Error("should not");
-} catch (error) {
-  if (!error.toString().includes("Unev")) {
-    console.log(error);
-  }
+} catch (e) {
+  checkException(e, "Unev");
 }
 
 try {
   CBOR.fromHex("Ag");
   throw Error("should not");
-} catch (error) {
-  if (!error.toString().includes("Bad hex")) {
-    console.log(error);
-  }
+} catch (e) {
+  checkException(e, "Bad hex");
 }
 // Zero hex is accepted as well...
 assertFalse("zero", CBOR.compareArrays(CBOR.fromHex(''), new Uint8Array()));

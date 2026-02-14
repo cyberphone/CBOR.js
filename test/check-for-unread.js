@@ -1,6 +1,6 @@
 // Testing the "checkForUnread()" feature
 import CBOR from '../npm/mjs/index.mjs';
-import { assertTrue, assertFalse, success } from './assertions.js';
+import { assertTrue, assertFalse, success, checkException } from './assertions.js';
 
 function oneTurn(create, access, errorString) {
   let res = eval(create);
@@ -9,20 +9,16 @@ function oneTurn(create, access, errorString) {
     if (errorString !== null) {
       throw Error("no way");      
     }
-  } catch (error) {
-    if (!error.toString().includes('never read')) {
-      throw error;
-    }
+  } catch (e) {
+    checkException(e, 'never read');
   }
   try {
     eval(access);
     res.checkForUnread();
     assertFalse("cfu1", errorString);
-  } catch (error) {
-    assertTrue("cfu2=" + error, errorString);
-    if (!error.toString().includes(errorString)) {
-      throw error;
-    }
+  } catch (e) {
+    assertTrue("cfu2=" + e, errorString);
+    checkException(e, errorString);
   }
   eval(create).scan().checkForUnread();
 }

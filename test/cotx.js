@@ -9,8 +9,8 @@ function oneTurn(hex, dn, ok) {
     if (object.toString() != dn.toString() || !object.equals(CBOR.decode(object.encode()))) {
       throw Error("non match:" + dn + " " + object.toString());
     }
-  } catch (error) {
-    if (ok) console.log(error.toString());
+  } catch (e) {
+    if (ok) console.log(e.toString());
     assertFalse("Must succeed", ok);
   }
 }

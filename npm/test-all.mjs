@@ -17,6 +17,14 @@ function success() {
   console.log('Test ' + name + ' was successful');
 }
 
+function checkException(exception, expected, check_only) {
+  if (exception.toString().includes(expected)) 
+    return true
+  if (!check_only)
+    throw Error(`Expected '${expected}', got '${exception.toString()}'`)
+  return false
+}
+
 let TESTS=[
 
 {name:'base64.js',
@@ -57,20 +65,16 @@ function oneTurn(create, access, errorString) {
     if (errorString !== null) {
       throw Error("no way");      
     }
-  } catch (error) {
-    if (!error.toString().includes('never read')) {
-      throw error;
-    }
+  } catch (e) {
+    checkException(e, 'never read');
   }
   try {
     eval(access);
     res.checkForUnread();
     assertFalse("cfu1", errorString);
-  } catch (error) {
-    assertTrue("cfu2=" + error, errorString);
-    if (!error.toString().includes(errorString)) {
-      throw error;
-    }
+  } catch (e) {
+    assertTrue("cfu2=" + e, errorString);
+    checkException(e, errorString);
   }
   eval(create).scan().checkForUnread();
 }
@@ -172,8 +176,8 @@ function oneTurn(hex, dn, ok) {
     if (object.toString() != dn.toString() || !object.equals(CBOR.decode(object.encode()))) {
       throw Error("non match:" + dn + " " + object.toString());
     }
-  } catch (error) {
-    if (ok) console.log(error.toString());
+  } catch (e) {
+    if (ok) console.log(e.toString());
     assertFalse("Must succeed", ok);
   }
 }
@@ -261,8 +265,8 @@ assertTrue("seq4", sequence[1].equals(CBOR.Map().set(CBOR.Int(4),CBOR.Int(7))));
 try {
   CBOR.fromDiagnostic("float'000000'");
   fail("bugf");
-} catch (error) {
-  assertTrue("fp", error.toString().includes('Argument must be a 16, 32, or 64-bit floating'));
+} catch (e) {
+  checkException(e, 'Argument must be a 16, 32, or 64-bit floating');
 }
 
 success();
@@ -597,19 +601,15 @@ assertFalse("bin", CBOR.compareArrays(bin, ref));
 try {
   CBOR.fromHex("AAA");
   throw Error("should not");
-} catch (error) {
-  if (!error.toString().includes("Unev")) {
-    console.log(error);
-  }
+} catch (e) {
+  checkException(e, "Unev");
 }
 
 try {
   CBOR.fromHex("Ag");
   throw Error("should not");
-} catch (error) {
-  if (!error.toString().includes("Bad hex")) {
-    console.log(error);
-  }
+} catch (e) {
+  checkException(e, "Bad hex");
 }
 // Zero hex is accepted as well...
 assertFalse("zero", CBOR.compareArrays(CBOR.fromHex(''), new Uint8Array()));
@@ -656,26 +656,26 @@ oneTurn(-18446744073709551617n, 'c349010000000000000000');
 try {
   CBOR.Int(1.1);
   fail("Should not");
-} catch (error) {
-  assertTrue("msg1", error.toString().includes("Invalid integer: 1.1"));
+} catch (e) {
+  checkException(e, "Invalid integer: 1.1");
 }
 try {
   CBOR.Int(Number.MAX_SAFE_INTEGER + 1);
   fail("Should not");
-} catch (error) {
-  assertTrue("msg1", error.toString().includes("Invalid integer: " + (Number.MAX_SAFE_INTEGER + 1)));
+} catch (e) {
+  checkException(e, "Invalid integer: " + (Number.MAX_SAFE_INTEGER + 1));
 }
 try {
   CBOR.Int("10");
   fail("Should not");
-} catch (error) {
-  assertTrue("msg2", error.toString().includes("Argument is not a 'number'"));
+} catch (e) {
+  checkException(e, "Argument is not a 'number'");
 }
 try {
   CBOR.Int(1, 7);
   fail("Should not");
-} catch (error) {
-  assertTrue("msg4", error.toString().includes("CBOR.Int expects 1 argument(s)"));
+} catch (e) {
+  checkException(e, "CBOR.Int expects 1 argument(s)");
 }
 
 success();
@@ -703,19 +703,15 @@ function badRun(type, value) {
   try {
     eval(test);
     fail("Should fail");
-  } catch (error) {
-    if (!error.toString().includes('Value out of range for ')) {
-      throw error;
-    }
+  } catch (e) {
+    checkException(e, 'Value out of range for ');
   }
   test = 'CBOR.Int.create' + type + '(' + value + 'n)';
   try {
     eval(test);
     fail("Should fail");
-  } catch (error) {
-    if (!error.toString().includes('Value out of range for ')) {
-      throw error;
-    }
+  } catch (e) {
+    checkException(e, 'Value out of range for ');
   }
 }
 
@@ -781,10 +777,8 @@ function badKey(js) {
   try {
     eval(js);
     fail("Must fail!");
-  } catch (error) {
-    if (!error.toString().includes('Map key')) {
-      throw error;
-    }
+  } catch (e) {
+    checkException(e, 'Map key');
   }
 }
 
@@ -901,16 +895,14 @@ file:String.raw`// Testing "deterministic" code checks
 function oneTurn(hex, dn) {
   try {
     CBOR.decode(CBOR.fromHex(hex));
-    throw Error("Should not fail on: " + dn);
-  } catch (error) {
-    if (!error.toString().includes("Non-d")) {
-      throw error;
-    }
+    fail("Should not fail on: " + dn);
+  } catch (e) {
+    checkException(e, "Non-d");
   }
   let object = CBOR.initDecoder(CBOR.fromHex(hex), 
       dn.includes("{") ? CBOR.LENIENT_MAP_DECODING : CBOR.LENIENT_NUMBER_DECODING).decodeWithOptions();
   if (object.toString() != dn || !object.equals(CBOR.decode(object.encode()))) {
-    throw Error("non match:" + dn);
+    fail("non match:" + dn);
   }
 }
 
@@ -927,16 +919,14 @@ oneTurn('c240', '0');
 // This one is actually deterministic...
 try {
   oneTurn('fa7f7fffff', '3.4028234663852886e+38');
-} catch (error) {
-  if (!error.toString().includes('Should not')) {
-    throw error;
-  }
+} catch (e) {
+  checkException(e, 'Should not');
 }
 
 success();
 `}
 ,
-{name:'out-of-range.js',
+{name:'js-int53-limits.js',
 file:String.raw`// Number overflow tests.
 
 const TOO_BIG = Number.MAX_SAFE_INTEGER + 1;
@@ -944,20 +934,16 @@ const IN_RANGE =  Number.MAX_SAFE_INTEGER;
 
 try {
   CBOR.Int(TOO_BIG);
-  throw Error('Should not');
-} catch (error) {
-  if (error.toString().includes('Should not')) {
-    throw error;
-  }
+  fail('Should not');
+} catch (e) {
+  checkException(e, 'Invalid integer');
 }
 let cbor = CBOR.Int(BigInt(TOO_BIG)).encode();
 try {
   CBOR.decode(cbor).getInt53();
-  throw Error('Should not');
-} catch (error) {
-  if (error.toString().includes('Should not')) {
-    throw error;
-  }
+  fail('Should not');
+} catch (e) {
+  checkException(e, 'Value out of range');
 }
 assertTrue("big", BigInt(TOO_BIG) == CBOR.decode(cbor).getBigInt());
 
@@ -1095,10 +1081,8 @@ function badDate(hexBor, err) {
   try {
     CBOR.decode(CBOR.fromHex(hexBor));
     fail("must not");
-  } catch (error) {
-    if (!error.toString().includes(err)) {
-      throw error;
-    }
+  } catch (e) {
+    checkException(e, err);
   }
 }
 
@@ -1134,10 +1118,8 @@ function oneGetEpochTime(hexBor, epoch, err) {
   try {
     instant.checkForUnread();
     fail("must not");
-  } catch (error) {
-    if (!error.toString().includes(err)) {
-      throw error;
-    }
+  } catch (e) {
+    checkException(e, err);
   }
   instant.getEpochTime();
   instant.checkForUnread();
@@ -1211,30 +1193,24 @@ try {
   // Z or -+local offset needed.
   CBOR.Tag(0n, CBOR.String("2023-06-22T00:01:43"));
   throw Error("Should not");
-} catch (error) {
-  if (!error.toString().includes("ISO")) {
-    throw error;
-  }
+} catch (e) {
+  checkException(e, "ISO");
 }
 
 try {
   // Beyond nano-seconds
   CBOR.Tag(0n, CBOR.String("2023-06-22T00:01:43.6666666666Z"));
   throw Error("Should not");
-} catch (error) {
-  if (!error.toString().includes("ISO")) {
-    throw error;
-  }
+} catch (e) {
+  checkException(e, "ISO");
 }
 
 try {
   // 24 hour is incorrect.
   CBOR.Tag(0n, CBOR.String("2023-06-22T24:01:43Z"));
   throw Error("Should not");
-} catch (error) {
-  if (!error.toString().includes("ISO")) {
-    throw error;
-  }
+} catch (e) {
+  checkException(e, "ISO");
 }
 
 [-1, 253402300800].forEach(epoch => { 
@@ -1242,10 +1218,8 @@ try {
     // Out of range for Date().
     CBOR.Tag(1n, CBOR.Int(epoch));
     throw Error("Should not");
-  } catch (error) {
-    if (!error.toString().includes("Epoch out of")) {
-      throw error;
-    }
+  } catch (e) {
+    checkException(e, "Epoch out of");
   }
   try {
     // Out of range for Date().
@@ -1253,10 +1227,8 @@ try {
     instant.setTime(epoch * 1000);
     CBOR.createEpochTime(instant, true);
     throw Error("Should not");
-  } catch (error) {
-    if (!error.toString().includes("Epoch out of")) {
-      throw error;
-    }
+  } catch (e) {
+    checkException(e, "Epoch out of");
   }
 });
 
@@ -1276,10 +1248,8 @@ function oneCreateDateTime(dateOrTime, utc, millis, bad) {
     try {
       CBOR.createDateTime(instant, millis, utc);
       throw Error("Should not");
-    } catch (error) {
-      if (!error.toString().includes("Date object out of range")) {
-        throw error;
-      }
+    } catch (e) {
+      checkException(e, "Date object out of range");
     }
   } else {
     let dateTime = CBOR.createDateTime(instant, millis, utc);

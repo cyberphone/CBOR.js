@@ -17,6 +17,14 @@ function success() {
   console.log('Test ' + name + ' was successful');
 }
 
+function checkException(exception, expected, check_only) {
+  if (exception.toString().includes(expected)) 
+    return true
+  if (!check_only)
+    throw Error(`Expected '${expected}', got '${exception.toString()}'`)
+  return false
+}
+
 let TESTS=[
 
 ];

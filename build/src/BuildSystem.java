@@ -37,7 +37,7 @@ public class BuildSystem {
     addFile("arrays.js");
     addFile("miscellaneous.js");
     addFile("nondeterministic.js");
-    addFile("out-of-range.js");
+    addFile("js-int53-limits.js");
     addFile("sequence.js");
     addFile("tags.js");
     addFile("simple.js");

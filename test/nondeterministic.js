@@ -1,20 +1,18 @@
 // Testing "deterministic" code checks
 import CBOR from '../npm/mjs/index.mjs';
-import { assertTrue, assertFalse, success } from './assertions.js';
+import { fail, assertTrue, assertFalse, success, checkException } from './assertions.js';
 
 function oneTurn(hex, dn) {
   try {
     CBOR.decode(CBOR.fromHex(hex));
-    throw Error("Should not fail on: " + dn);
-  } catch (error) {
-    if (!error.toString().includes("Non-d")) {
-      throw error;
-    }
+    fail("Should not fail on: " + dn);
+  } catch (e) {
+    checkException(e, "Non-d");
   }
   let object = CBOR.initDecoder(CBOR.fromHex(hex), 
       dn.includes("{") ? CBOR.LENIENT_MAP_DECODING : CBOR.LENIENT_NUMBER_DECODING).decodeWithOptions();
   if (object.toString() != dn || !object.equals(CBOR.decode(object.encode()))) {
-    throw Error("non match:" + dn);
+    fail("non match:" + dn);
   }
 }
 
@@ -31,10 +29,8 @@ oneTurn('c240', '0');
 // This one is actually deterministic...
 try {
   oneTurn('fa7f7fffff', '3.4028234663852886e+38');
-} catch (error) {
-  if (!error.toString().includes('Should not')) {
-    throw error;
-  }
+} catch (e) {
+  checkException(e, 'Should not');
 }
 
 success();

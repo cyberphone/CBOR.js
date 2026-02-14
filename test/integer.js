@@ -1,6 +1,6 @@
 // Test program for integer "edge cases"
 import CBOR from '../npm/mjs/index.mjs';
-import { assertTrue, assertFalse, fail, success } from './assertions.js';
+import { assertTrue, assertFalse, fail, success, checkException } from './assertions.js';
 
 function oneTurn(value, expected) {
   let text = value.toString();
@@ -39,26 +39,26 @@ oneTurn(-18446744073709551617n, 'c349010000000000000000');
 try {
   CBOR.Int(1.1);
   fail("Should not");
-} catch (error) {
-  assertTrue("msg1", error.toString().includes("Invalid integer: 1.1"));
+} catch (e) {
+  checkException(e, "Invalid integer: 1.1");
 }
 try {
   CBOR.Int(Number.MAX_SAFE_INTEGER + 1);
   fail("Should not");
-} catch (error) {
-  assertTrue("msg1", error.toString().includes("Invalid integer: " + (Number.MAX_SAFE_INTEGER + 1)));
+} catch (e) {
+  checkException(e, "Invalid integer: " + (Number.MAX_SAFE_INTEGER + 1));
 }
 try {
   CBOR.Int("10");
   fail("Should not");
-} catch (error) {
-  assertTrue("msg2", error.toString().includes("Argument is not a 'number'"));
+} catch (e) {
+  checkException(e, "Argument is not a 'number'");
 }
 try {
   CBOR.Int(1, 7);
   fail("Should not");
-} catch (error) {
-  assertTrue("msg4", error.toString().includes("CBOR.Int expects 1 argument(s)"));
+} catch (e) {
+  checkException(e, "CBOR.Int expects 1 argument(s)");
 }
 
 success();

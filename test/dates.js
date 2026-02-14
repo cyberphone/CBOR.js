@@ -1,6 +1,6 @@
 // Testing instant methods
 import CBOR from '../npm/mjs/index.mjs';
-import { assertTrue, assertFalse, success } from './assertions.js';
+import { assertTrue, assertFalse, success, checkException } from './assertions.js';
 
 function oneGetDateTime(epoch, isoString) {
   assertTrue("date1", CBOR.String(isoString).getDateTime().getTime() == epoch);
@@ -13,10 +13,8 @@ function badDate(hexBor, err) {
   try {
     CBOR.decode(CBOR.fromHex(hexBor));
     fail("must not");
-  } catch (error) {
-    if (!error.toString().includes(err)) {
-      throw error;
-    }
+  } catch (e) {
+    checkException(e, err);
   }
 }
 
@@ -52,10 +50,8 @@ function oneGetEpochTime(hexBor, epoch, err) {
   try {
     instant.checkForUnread();
     fail("must not");
-  } catch (error) {
-    if (!error.toString().includes(err)) {
-      throw error;
-    }
+  } catch (e) {
+    checkException(e, err);
   }
   instant.getEpochTime();
   instant.checkForUnread();
@@ -129,30 +125,24 @@ try {
   // Z or -+local offset needed.
   CBOR.Tag(0n, CBOR.String("2023-06-22T00:01:43"));
   throw Error("Should not");
-} catch (error) {
-  if (!error.toString().includes("ISO")) {
-    throw error;
-  }
+} catch (e) {
+  checkException(e, "ISO");
 }
 
 try {
   // Beyond nano-seconds
   CBOR.Tag(0n, CBOR.String("2023-06-22T00:01:43.6666666666Z"));
   throw Error("Should not");
-} catch (error) {
-  if (!error.toString().includes("ISO")) {
-    throw error;
-  }
+} catch (e) {
+  checkException(e, "ISO");
 }
 
 try {
   // 24 hour is incorrect.
   CBOR.Tag(0n, CBOR.String("2023-06-22T24:01:43Z"));
   throw Error("Should not");
-} catch (error) {
-  if (!error.toString().includes("ISO")) {
-    throw error;
-  }
+} catch (e) {
+  checkException(e, "ISO");
 }
 
 [-1, 253402300800].forEach(epoch => { 
@@ -160,10 +150,8 @@ try {
     // Out of range for Date().
     CBOR.Tag(1n, CBOR.Int(epoch));
     throw Error("Should not");
-  } catch (error) {
-    if (!error.toString().includes("Epoch out of")) {
-      throw error;
-    }
+  } catch (e) {
+    checkException(e, "Epoch out of");
   }
   try {
     // Out of range for Date().
@@ -171,10 +159,8 @@ try {
     instant.setTime(epoch * 1000);
     CBOR.createEpochTime(instant, true);
     throw Error("Should not");
-  } catch (error) {
-    if (!error.toString().includes("Epoch out of")) {
-      throw error;
-    }
+  } catch (e) {
+    checkException(e, "Epoch out of");
   }
 });
 
@@ -194,10 +180,8 @@ function oneCreateDateTime(dateOrTime, utc, millis, bad) {
     try {
       CBOR.createDateTime(instant, millis, utc);
       throw Error("Should not");
-    } catch (error) {
-      if (!error.toString().includes("Date object out of range")) {
-        throw error;
-      }
+    } catch (e) {
+      checkException(e, "Date object out of range");
     }
   } else {
     let dateTime = CBOR.createDateTime(instant, millis, utc);
