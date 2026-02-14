@@ -1,6 +1,6 @@
 // Testing "tag"
 import CBOR from '../npm/mjs/index.mjs';
-import { assertTrue, assertFalse, success } from './assertions.js';
+import { assertTrue, assertFalse, success, checkException } from './assertions.js';
 
 let object = CBOR.Array().add(CBOR.String("https://example.com/myobject")).add(CBOR.Int(6));
 let cbor = CBOR.Tag(CBOR.Tag.TAG_COTX, object).encode();
@@ -17,11 +17,9 @@ assertTrue("t5", CBOR.toHex(cbor) ==
 [-1n, 0x10000000000000000n].forEach(tagNumber => { 
   try {
     CBOR.Tag(tagNumber, CBOR.String("any"));
-    throw Error("Should not");
-  } catch (error) {
-    if (!error.toString().includes("out of range")) {
-      throw error;
-    }
+    fail("Should not");
+  } catch (e) {
+    checkException(e, "out of range");
   }
 });
 
@@ -29,10 +27,8 @@ assertTrue("t5", CBOR.toHex(cbor) ==
   try {
     CBOR.Tag(tagNumber, CBOR.String("any"));
     throw Error("Should not");
-  } catch (error) {
-    if (!error.toString().includes("'bigint'")) {
-      throw error;
-    }
+  } catch (e) {
+    checkException(e, "'bigint'");
   }
 });
 
@@ -40,10 +36,8 @@ assertTrue("t5", CBOR.toHex(cbor) ==
   try {
     CBOR.Tag(tagNumber, CBOR.Boolean(true));
     throw Error("Should not");
-  } catch (error) {
-    if (!error.toString().includes("got: CBOR.Boolean")) {
-      throw error;
-    }
+  } catch (e) {
+     checkException(e, "got: CBOR.Boolean");
   }
 });
 

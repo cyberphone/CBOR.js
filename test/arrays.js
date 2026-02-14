@@ -43,13 +43,4 @@ aBadOne("remove(array.length)");
 aBadOne("remove(array.length - 1, 'hi')");
 aBadOne("get(0, 6)");
 
-/*
-assertTrue("rem-0", map.remove(CBOR.Int(4)).getString() == "four");
-assertTrue("size-2", map.length == 1);
-assertTrue("avail-0", map.containsKey(CBOR.Int(3)));
-assertFalse("avail-1", map.containsKey(CBOR.Int(4)));
-assertTrue("cond-0", map.getConditionally(CBOR.Int(3), CBOR.String("k3")).getString() == "three");
-assertTrue("cond-1", map.getConditionally(CBOR.Int(4), CBOR.String("k4")).getString() == "k4");
-*/
-
 success();

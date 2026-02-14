@@ -1,16 +1,14 @@
 // Test program for floating-point "edge cases"
 import CBOR from '../npm/mjs/index.mjs';
-import { assertTrue, assertFalse, fail, success } from './assertions.js';
+import { assertTrue, assertFalse, fail, success, checkException } from './assertions.js';
 
 function overflow(decodedValue, length) {
   let test = 'decodedValue.getFloat' + length + '()';
   try {
     eval(test);
     assertTrue("Should fail", false);
-  } catch (error) {
-    if (!error.toString().includes('Value out of range for "Float')) {
-      throw error;
-    }
+  } catch (e) {
+    checkException(e, 'Value out of range for "Float');
   }  
 }
 
@@ -32,8 +30,8 @@ function oneTurn(valueText, expected) {
     try {
       CBOR.NonFinite(value);
       fail("f1");
-    } catch (error) {
-      assertTrue("f2", error.toString().includes("bigint"));
+    } catch (e) {
+      checkException(e, "bigint");
     }
     let cbor = CBOR.Float(value).encode();
     assertTrue("f3", CBOR.toHex(cbor) == expected);
@@ -64,8 +62,8 @@ function oneTurn(valueText, expected) {
     try {
       CBOR.Float(value);
       fail('Should not execute');
-    } catch (error) {
-        assertTrue("nf1", error.toString().includes("Not permitted: 'NaN/Infinity'"));
+    } catch (e) {
+        checkException(e, "Not permitted: 'NaN/Infinity'");
     }
     let decodedValue = CBOR.Float.createExtendedFloat(value);
     assertTrue("nf2", decodedValue.getExtendedFloat64().toString() == value.toString());
@@ -138,8 +136,8 @@ function oneNonFiniteTurn(value, binexpect, textexpect) {
     try {
       CBOR.decode(rawcbor);
       fail("d1");
-    } catch(error) {
-      assertTrue("d2", error.toString().includes("Non-deterministic"));
+    } catch(e) {
+      checkException(e, "Non-deterministic");
     }
   } else {
     CBOR.decode(rawcbor);
@@ -155,8 +153,8 @@ function oneNonFiniteTurn(value, binexpect, textexpect) {
     try {
       object.getExtendedFloat64();
       fail("d7");
-    } catch (error) {
-      assertTrue("d8", error.toString().includes("7e00"));
+    } catch (e) {
+      checkException(e, "7e00");
     }
     assertFalse("d9", object.isSimple());
   }
@@ -236,8 +234,8 @@ try {
   let nanWithPayload = new Uint8Array([0x7f, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01]);
   CBOR.Float.createExtendedFloat(new DataView(nanWithPayload.buffer, 0, 8).getFloat64(0, false));
   assertFalse("must not", supportNanWithPayloads);
-} catch (error) {
-  assertTrue("not", error.toString().includes("payloads"));
+} catch (e) {
+  checkException(e, "payloads");
 }
 let nonFinite = CBOR.Float.createExtendedFloat(Number.NaN);
 assertTrue("conv", nonFinite instanceof CBOR.NonFinite);
@@ -261,8 +259,8 @@ payloadOneTurn((1n << 52n) + 1n, "f9fe00",                    null);
   try {
     CBOR.NonFinite.createPayload(payload).encode();
     fail("pl8");
-  } catch(error) {
-    assertTrue("p18a", error.toString().includes("Payload out of range"));
+  } catch(e) {
+    checkException(e, "Payload out of range");
   }
 });
 
@@ -276,11 +274,11 @@ function reducedOneTurn(f16, length, value, result) {
     assertTrue("len", reduced.length == length);
     assertTrue("equi", CBOR.decode(reduced.encode()).equals(reduced));
 //    console.log("Hi=" + result + " j=" + reduced + " l=" + reduced.length);
-  } catch (error) {
+  } catch (e) {
 //    console.log("EHi=" + result + " r=" + reduced + " v=" + value);
 //    console.log(error.toString());
-    assertFalse("should" + error.toString(), ok);
-    assertTrue("errtype", error.toString().includes( Number.isFinite(value) ? "out of range" : "NaN/"));
+    assertFalse("should" + e.toString(), ok);
+    checkException(e,  Number.isFinite(value) ? "out of range" : "NaN/");
   }
 }
 

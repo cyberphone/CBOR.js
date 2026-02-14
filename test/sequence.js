@@ -1,13 +1,13 @@
 // Testing the "sequence" option
 import CBOR from '../npm/mjs/index.mjs';
-import { assertTrue, assertFalse, success } from './assertions.js';
+import { assertTrue, assertFalse, success, checkException } from './assertions.js';
 
 let cbor = new Uint8Array([0x05, 0xa1, 0x05, 0x42, 0x6a, 0x6a])
 try {
   CBOR.decode(cbor);
   throw Error("Should not");
-} catch (error) {
-  if (!error.toString().includes('Unexpected')) console.log(error);
+} catch (e) {
+  checkException(e, 'Unexpected');
 }
 let decoder = CBOR.initDecoder(cbor, CBOR.SEQUENCE_MODE);
 let total = new Uint8Array();

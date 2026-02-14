@@ -1,15 +1,13 @@
 // Testing "simple"
 import CBOR from '../npm/mjs/index.mjs';
-import { assertTrue, assertFalse, success } from './assertions.js';
+import { assertTrue, assertFalse, success, checkException } from './assertions.js';
 
 [-1, 256, 24, 31].forEach(value => { 
   try {
     CBOR.Simple(value);
-    throw Error("Should not");
-  } catch (error) {
-    if (!error.toString().includes("out of range")) {
-      throw error;
-    }
+    fail("Should not");
+  } catch (e) {
+    checkException(e,"out of range");
   }
 });
 

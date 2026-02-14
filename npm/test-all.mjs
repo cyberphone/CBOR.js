@@ -280,10 +280,8 @@ function overflow(decodedValue, length) {
   try {
     eval(test);
     assertTrue("Should fail", false);
-  } catch (error) {
-    if (!error.toString().includes('Value out of range for "Float')) {
-      throw error;
-    }
+  } catch (e) {
+    checkException(e, 'Value out of range for "Float');
   }  
 }
 
@@ -305,8 +303,8 @@ function oneTurn(valueText, expected) {
     try {
       CBOR.NonFinite(value);
       fail("f1");
-    } catch (error) {
-      assertTrue("f2", error.toString().includes("bigint"));
+    } catch (e) {
+      checkException(e, "bigint");
     }
     let cbor = CBOR.Float(value).encode();
     assertTrue("f3", CBOR.toHex(cbor) == expected);
@@ -337,8 +335,8 @@ function oneTurn(valueText, expected) {
     try {
       CBOR.Float(value);
       fail('Should not execute');
-    } catch (error) {
-        assertTrue("nf1", error.toString().includes("Not permitted: 'NaN/Infinity'"));
+    } catch (e) {
+        checkException(e, "Not permitted: 'NaN/Infinity'");
     }
     let decodedValue = CBOR.Float.createExtendedFloat(value);
     assertTrue("nf2", decodedValue.getExtendedFloat64().toString() == value.toString());
@@ -411,8 +409,8 @@ function oneNonFiniteTurn(value, binexpect, textexpect) {
     try {
       CBOR.decode(rawcbor);
       fail("d1");
-    } catch(error) {
-      assertTrue("d2", error.toString().includes("Non-deterministic"));
+    } catch(e) {
+      checkException(e, "Non-deterministic");
     }
   } else {
     CBOR.decode(rawcbor);
@@ -428,8 +426,8 @@ function oneNonFiniteTurn(value, binexpect, textexpect) {
     try {
       object.getExtendedFloat64();
       fail("d7");
-    } catch (error) {
-      assertTrue("d8", error.toString().includes("7e00"));
+    } catch (e) {
+      checkException(e, "7e00");
     }
     assertFalse("d9", object.isSimple());
   }
@@ -509,8 +507,8 @@ try {
   let nanWithPayload = new Uint8Array([0x7f, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01]);
   CBOR.Float.createExtendedFloat(new DataView(nanWithPayload.buffer, 0, 8).getFloat64(0, false));
   assertFalse("must not", supportNanWithPayloads);
-} catch (error) {
-  assertTrue("not", error.toString().includes("payloads"));
+} catch (e) {
+  checkException(e, "payloads");
 }
 let nonFinite = CBOR.Float.createExtendedFloat(Number.NaN);
 assertTrue("conv", nonFinite instanceof CBOR.NonFinite);
@@ -534,8 +532,8 @@ payloadOneTurn((1n << 52n) + 1n, "f9fe00",                    null);
   try {
     CBOR.NonFinite.createPayload(payload).encode();
     fail("pl8");
-  } catch(error) {
-    assertTrue("p18a", error.toString().includes("Payload out of range"));
+  } catch(e) {
+    checkException(e, "Payload out of range");
   }
 });
 
@@ -549,11 +547,11 @@ function reducedOneTurn(f16, length, value, result) {
     assertTrue("len", reduced.length == length);
     assertTrue("equi", CBOR.decode(reduced.encode()).equals(reduced));
 //    console.log("Hi=" + result + " j=" + reduced + " l=" + reduced.length);
-  } catch (error) {
+  } catch (e) {
 //    console.log("EHi=" + result + " r=" + reduced + " v=" + value);
 //    console.log(error.toString());
-    assertFalse("should" + error.toString(), ok);
-    assertTrue("errtype", error.toString().includes( Number.isFinite(value) ? "out of range" : "NaN/"));
+    assertFalse("should" + e.toString(), ok);
+    checkException(e,  Number.isFinite(value) ? "out of range" : "NaN/");
   }
 }
 
@@ -839,15 +837,6 @@ aBadOne("remove(array.length)");
 aBadOne("remove(array.length - 1, 'hi')");
 aBadOne("get(0, 6)");
 
-/*
-assertTrue("rem-0", map.remove(CBOR.Int(4)).getString() == "four");
-assertTrue("size-2", map.length == 1);
-assertTrue("avail-0", map.containsKey(CBOR.Int(3)));
-assertFalse("avail-1", map.containsKey(CBOR.Int(4)));
-assertTrue("cond-0", map.getConditionally(CBOR.Int(3), CBOR.String("k3")).getString() == "three");
-assertTrue("cond-1", map.getConditionally(CBOR.Int(4), CBOR.String("k4")).getString() == "k4");
-*/
-
 success();
 `}
 ,
@@ -962,8 +951,8 @@ let cbor = new Uint8Array([0x05, 0xa1, 0x05, 0x42, 0x6a, 0x6a])
 try {
   CBOR.decode(cbor);
   throw Error("Should not");
-} catch (error) {
-  if (!error.toString().includes('Unexpected')) console.log(error);
+} catch (e) {
+  checkException(e, 'Unexpected');
 }
 let decoder = CBOR.initDecoder(cbor, CBOR.SEQUENCE_MODE);
 let total = new Uint8Array();
@@ -1004,11 +993,9 @@ assertTrue("t5", CBOR.toHex(cbor) ==
 [-1n, 0x10000000000000000n].forEach(tagNumber => { 
   try {
     CBOR.Tag(tagNumber, CBOR.String("any"));
-    throw Error("Should not");
-  } catch (error) {
-    if (!error.toString().includes("out of range")) {
-      throw error;
-    }
+    fail("Should not");
+  } catch (e) {
+    checkException(e, "out of range");
   }
 });
 
@@ -1016,10 +1003,8 @@ assertTrue("t5", CBOR.toHex(cbor) ==
   try {
     CBOR.Tag(tagNumber, CBOR.String("any"));
     throw Error("Should not");
-  } catch (error) {
-    if (!error.toString().includes("'bigint'")) {
-      throw error;
-    }
+  } catch (e) {
+    checkException(e, "'bigint'");
   }
 });
 
@@ -1027,10 +1012,8 @@ assertTrue("t5", CBOR.toHex(cbor) ==
   try {
     CBOR.Tag(tagNumber, CBOR.Boolean(true));
     throw Error("Should not");
-  } catch (error) {
-    if (!error.toString().includes("got: CBOR.Boolean")) {
-      throw error;
-    }
+  } catch (e) {
+     checkException(e, "got: CBOR.Boolean");
   }
 });
 
@@ -1043,11 +1026,9 @@ file:String.raw`// Testing "simple"
 [-1, 256, 24, 31].forEach(value => { 
   try {
     CBOR.Simple(value);
-    throw Error("Should not");
-  } catch (error) {
-    if (!error.toString().includes("out of range")) {
-      throw error;
-    }
+    fail("Should not");
+  } catch (e) {
+    checkException(e,"out of range");
   }
 });
 
