@@ -515,7 +515,7 @@ assertTrue("conv", nonFinite instanceof CBOR.NonFinite);
 assertTrue("truncated", nonFinite.getNonFinite64() == 0x7ff8000000000000n);  // Returns "quiet" NaN
 assertTrue("cbor", CBOR.toHex(nonFinite.encode()) == "f97e00");              // Encoded as it should
 assertTrue("combined", Number.isNaN(nonFinite.getExtendedFloat64()));        // Returns "Number"
-assertTrue("nan", nonFinite.isNaN(false));                                   // Indeed it is
+assertTrue("nan", nonFinite.isNaN());                                        // Indeed it is
 
 payloadOneTurn(0n,               "f97c00",              "Infinity");
 payloadOneTurn(1n,               "f97e00",                   "NaN");
