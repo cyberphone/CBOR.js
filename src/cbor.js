@@ -848,7 +848,7 @@ class CBOR {
     getConditionally(key, defaultObject) {
       CBOR.#checkArgs(arguments, 2);
       let entry = this.#lookup(key, false);
-      // Note: defaultValue may be 'null'
+      // Note: defaultObject may be 'null'
       defaultObject = defaultObject ? CBOR.#cborArgumentCheck(defaultObject) : null;
       return entry ? entry.object : defaultObject;
     }
