@@ -2318,7 +2318,7 @@ class CBOR {
   }
 
   static #dateCheck(time, instant) {
-    if (time < -62167219200000 || time > 253402300799000) {
+    if (time < 0 || time > 253402300799000) {
       CBOR.#error("Date object out of range: " + instant.toISOString());
     }
     return time;

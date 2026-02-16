@@ -7,6 +7,10 @@ function oneGetDateTime(epoch, isoString) {
   let cbor = CBOR.decode(CBOR.String(isoString).encode());
   assertTrue("date2", cbor.getDateTime().getTime() == epoch);
   assertTrue("date3", CBOR.Tag(0n, CBOR.String(isoString)).getDateTime().getTime() == epoch);
+  let timestamp = CBOR.String(isoString).getDateTime();
+  assertTrue("date4", timestamp.getTime() ==
+    CBOR.createDateTime(timestamp, isoString.includes("."), 
+      isoString.includes("Z")).getDateTime().getTime())
 }
 
 function badDate(hexBor, err) {
@@ -65,9 +69,14 @@ oneGetDateTime(1740060548000, "2025-02-20T12:09:08-02:00");
 oneGetDateTime(1740060548000, "2025-02-20T11:39:08-02:30");
 oneGetDateTime(1740060548123, "2025-02-20T11:39:08.123-02:30");
 oneGetDateTime(1740060548930, "2025-02-20T14:09:08.930Z");
+// Date change!
+oneGetDateTime(1771200348000, "2026-02-15T23:05:48-01:00");
+oneGetDateTime(1771200348000, "2026-02-16T01:05:48+01:00");
+oneGetDateTime(1771200348000, "2026-02-16T00:05:48Z");
 // Next: Truncates!
 oneGetDateTime(1740060548930, "2025-02-20T14:09:08.9305Z");
-oneGetDateTime(-62167219200000, "0000-01-01T00:00:00Z");
+// Limits
+oneGetDateTime(0,             "1970-01-01T00:00:00Z");
 oneGetDateTime(253402300799000, "9999-12-31T23:59:59Z");
 
 badDate("c001", "got: CBOR.Int");
@@ -113,13 +122,6 @@ truncateDateTime("2025-07-10T23:12:27.1233Z", 1752189147123, 1752189147);
 truncateDateTime("2025-07-10T23:12:27.1235Z", 1752189147123, 1752189147);
 truncateDateTime("2025-07-10T23:12:27.523Z", 1752189147523, 1752189148);
 
-truncateDateTime("1925-07-10T23:12:27Z", -1403570853000, -1403570853);
-truncateDateTime("1925-07-10T23:12:27.1Z", -1403570852900, -1403570853);
-truncateDateTime("1925-07-10T23:12:27.12Z", -1403570852880, -1403570853);
-truncateDateTime("1925-07-10T23:12:27.123Z", -1403570852877, -1403570853);
-truncateDateTime("1925-07-10T23:12:27.499Z", -1403570852501, -1403570853);
-truncateDateTime("1925-07-10T23:12:27.500Z", -1403570852500, -1403570852);
-truncateDateTime("1925-07-10T23:12:27.700Z", -1403570852300, -1403570852);
 
 try {
   // Z or -+local offset needed.
@@ -164,8 +166,6 @@ try {
   }
 });
 
-assertTrue("zero", CBOR.String("0000-01-01T00:00:00Z").getDateTime().getTime() == -62167219200000);
-
 let now = new Date();
 /*
 console.log("Now=" + now.getTime() + " iso=" + now.toISOString() + 
@@ -204,8 +204,8 @@ oneCreateDateTime(1740060548501, true, false);
 oneCreateDateTime(1740060548501, true, true);
 oneCreateDateTime(1740060548000.3, true, true);
 oneCreateDateTime(1740060548000.5, true, true);
-oneCreateDateTime(-62167219200000, true, true);
-oneCreateDateTime(-62167219200001, true, true, true);
+oneCreateDateTime(0,               true, true);
+oneCreateDateTime(-1,              true, true, true);
 oneCreateDateTime(253402300799000, true, true);
 oneCreateDateTime(253402300799001, true, true, true);
 
