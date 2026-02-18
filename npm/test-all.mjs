@@ -1,5 +1,5 @@
 // Testing CBOR.js API
-import CBOR from 'cbor-object';
+import CBOR from 'cbor-core';
 
 let failures = 0;
 let test = 0;

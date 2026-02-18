@@ -27,7 +27,7 @@ The sample code below shows how `payload.bin` could be processed by a receiver:
 ```javascript
 // largefile.mjs
 
-import CBOR from 'cbor-object';
+import CBOR from 'cbor-core';
 const crypto = await import('node:crypto');
 
 const FILE_KEY = CBOR.String("file");

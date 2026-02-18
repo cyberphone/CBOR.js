@@ -1,22 +1,22 @@
-## cbor-object
+## cbor-core
 Core Description: https://github.com/cyberphone/CBOR.js#cborjs
 
 ### Nodejs Installation
 ```code
-npm install cbor-object
+npm install cbor-core
 ```
 
-If `cbor-object` is to be installed as a **global** package, perform the following:
+If `cbor-core` is to be installed as a **global** package, perform the following:
 ```code
-npm install cbor-object -g
+npm install cbor-core -g
 cd "to local work directory"
-npm link cbor-object
+npm link cbor-core
 ```
 ### Usage in Node.js
 The above works for both CJS and MJS (ESM) applications.  MJS example:
 ```cbor
 // test.mjs
-import CBOR from 'cbor-object';
+import CBOR from 'cbor-core';
 
 let cbor = CBOR.Map()
                .set(CBOR.Int(1), CBOR.Float(45.7))
