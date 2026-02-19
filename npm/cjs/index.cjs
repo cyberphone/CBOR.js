@@ -1058,6 +1058,7 @@ class CBOR {
     }
 
     get cotxObject() {
+      this._checkCotx();
       return this.#cotxObject;
     }
   }
