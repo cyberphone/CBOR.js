@@ -12,7 +12,7 @@ public class CreateDocument {
     <b style='color:red'>NOT READY NOT READY NOT READY</b>
     """;
   static final String WRAPPER_RETURN_DESCR = """
-      Object.""";
+      Instantiated wrapper object.""";
 
   static final String CURRENT_RETURN_DESCR = """
       Current object.""";
@@ -67,8 +67,8 @@ public class CreateDocument {
       Creates a CBOR <code>float</code> object.
       <div style='margin-top:0.5em'>
       Unlike <a href='#wrapper.cbor.float'>CBOR.Float()</a>,
-      this method also supports one of
-      the non-finite values, <kbd>Number.NaN</kbd>,
+      this method also supports
+      the specific non-finite values, <kbd>Number.NaN</kbd>,
       <kbd>Number.POSITIVE_INFINITY</kbd>,
       and <kbd>Number.NEGATIVE_INFINITY</kbd>.</div>
       <div style='margin-top:0.5em'>
@@ -875,7 +875,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       CBOR binary data <i>holding exactly one CBOR object</i>.""";
 
   static final String DECODE_RETURN_DESCR = """
-      Object.""";
+      Decoded object.""";
 
   // CBOR.initDecoder()
 
@@ -984,8 +984,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
   static final String DIAGDEC_P1_DESCR = """
       CBOR in textual format.""";
 
-  static final String DIAGDEC_RETURN_DESCR = """
-      Object.""";
+  static final String DIAGDEC_RETURN_DESCR = DECODE_RETURN_DESCR;
 
   // CBOR.fromDiagnosticSeq()
 

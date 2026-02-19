@@ -22,7 +22,7 @@
 <body>
   <a href='https://github.com/cyberphone/CBOR.js#cborjs'>
   <img style="max-width:30%" src="cbor.js.svg" alt="logo" title="CBOR.js logotype"></a>
-  <div style="text-align:center;font-weight:normal;font-size:1.8em;margin-top:0.5em">CBOR.js - JavaScript API</div>
+  <div style="text-align:center;font-weight:normal;font-size:1.8em;margin-top:0.5em">CBOR.js - JavaScript API for CBOR</div>
   <h3 id='toc'>Table of Contents</h3>
   <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#main.intro'>1.&nbsp;&nbsp;Introduction</a></div>
 <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.wrappers'>2.&nbsp;&nbsp;CBOR Wrapper Objects</a></div><div style='display:none'>
@@ -205,10 +205,8 @@
   <p>
   Note: in this specification CBOR data items are subsequently referred to as "CBOR objects".
 </p>
-  <div id='cross-platform' class='webpkicomment' style='margin:0.5em 2em'>
-    Although this document describes a JavaScript API, it may also serve
-    as a guide for <code>CBOR::Core</code> implementations for other software platforms.
-  </div>
+  Although this document describes a JavaScript API, it may also serve
+  as a guide for <code>CBOR::Core</code> implementations for other software platforms.
   <h3 id='main.wrappers'>2.&nbsp;&nbsp;CBOR Wrapper Objects</h3>
 
   This section describes the wrapper objects and their specific methods.
@@ -320,7 +318,7 @@ finish the operation using the standard constructor.</div></td></tr>
 <tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd>&nbsp;<code>/</code>&nbsp;<kbd>BigInt</kbd></td><td style='width:100%'>Integer to be wrapped.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.Int</kbd></td><td colspan='2' style='width:100%'>Object.</td></tr>
+<tr><td style='text-align:center'><kbd>CBOR.Int</kbd></td><td colspan='2' style='width:100%'>Instantiated wrapper object.</td></tr>
 </table></div>
 <h4 id='methods.cbor.int'>2.1.1.&nbsp;&nbsp;CBOR.Int Methods</h4>
 <h4 id='cbor.int.getint8'>2.1.1.1.&nbsp;&nbsp;getInt8()</h4>
@@ -580,7 +578,7 @@ For supporting <code>NaN</code> and <code>Infinity</code>, see
 <tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Floating-point number to be wrapped.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.Float</kbd></td><td colspan='2' style='width:100%'>Object.</td></tr>
+<tr><td style='text-align:center'><kbd>CBOR.Float</kbd></td><td colspan='2' style='width:100%'>Instantiated wrapper object.</td></tr>
 </table></div>
 <h4 id='methods.cbor.float'>2.2.1.&nbsp;&nbsp;CBOR.Float Methods</h4>
 <h4 id='cbor.float.getfloat16'>2.2.1.1.&nbsp;&nbsp;getFloat16()</h4>
@@ -617,8 +615,8 @@ For supporting <code>NaN</code> and <code>Infinity</code>, see
 <tr><th>Description</th><td colspan='2' style='width:100%'>Creates a CBOR <code>float</code> object.
 <div style='margin-top:0.5em'>
 Unlike <a href='#wrapper.cbor.float'>CBOR.Float()</a>,
-this method also supports one of
-the non-finite values, <kbd>Number.NaN</kbd>,
+this method also supports
+the specific non-finite values, <kbd>Number.NaN</kbd>,
 <kbd>Number.POSITIVE_INFINITY</kbd>,
 and <kbd>Number.NEGATIVE_INFINITY</kbd>.</div>
 <div style='margin-top:0.5em'>
@@ -716,7 +714,7 @@ See also <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</div></td></t
 <tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Non-finite floating-point number to be wrapped.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.NonFinite</kbd></td><td colspan='2' style='width:100%'>Object.</td></tr>
+<tr><td style='text-align:center'><kbd>CBOR.NonFinite</kbd></td><td colspan='2' style='width:100%'>Instantiated wrapper object.</td></tr>
 </table></div>
 <h4 id='methods.cbor.nonfinite'>2.3.1.&nbsp;&nbsp;CBOR.NonFinite Methods</h4>
 <h4 id='cbor.nonfinite.getnonfinite'>2.3.1.1.&nbsp;&nbsp;getNonFinite()</h4>
@@ -849,7 +847,7 @@ object.</td></tr>
 <tr><td style='text-align:center'><kbd><i>textString</i></kbd></td><td style='text-align:center'><kbd>String</kbd></td><td style='width:100%'>String to be wrapped.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.String</kbd></td><td colspan='2' style='width:100%'>Object.</td></tr>
+<tr><td style='text-align:center'><kbd>CBOR.String</kbd></td><td colspan='2' style='width:100%'>Instantiated wrapper object.</td></tr>
 </table></div>
 <h4 id='methods.cbor.string'>2.4.1.&nbsp;&nbsp;CBOR.String Methods</h4>
 <h4 id='cbor.string.getstring'>2.4.1.1.&nbsp;&nbsp;getString()</h4>
@@ -871,7 +869,7 @@ object.</td></tr>
 <tr><td style='text-align:center'><kbd><i>byteString</i></kbd></td><td style='text-align:center'><kbd>Uint8Array</kbd></td><td style='width:100%'>Binary data to be wrapped.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.Bytes</kbd></td><td colspan='2' style='width:100%'>Object.</td></tr>
+<tr><td style='text-align:center'><kbd>CBOR.Bytes</kbd></td><td colspan='2' style='width:100%'>Instantiated wrapper object.</td></tr>
 </table></div>
 <h4 id='methods.cbor.bytes'>2.5.1.&nbsp;&nbsp;CBOR.Bytes Methods</h4>
 <h4 id='cbor.bytes.getbytes'>2.5.1.1.&nbsp;&nbsp;getBytes()</h4>
@@ -893,7 +891,7 @@ object.</td></tr>
 <tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Boolean</kbd></td><td style='width:100%'>Boolean to be wrapped.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.Boolean</kbd></td><td colspan='2' style='width:100%'>Object.</td></tr>
+<tr><td style='text-align:center'><kbd>CBOR.Boolean</kbd></td><td colspan='2' style='width:100%'>Instantiated wrapper object.</td></tr>
 </table></div>
 <h4 id='methods.cbor.boolean'>2.6.1.&nbsp;&nbsp;CBOR.Boolean Methods</h4>
 <h4 id='cbor.boolean.getboolean'>2.6.1.1.&nbsp;&nbsp;getBoolean()</h4>
@@ -913,7 +911,7 @@ object.</td></tr>
 See also <a href='#common.isnull'>isNull()</a>.</td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.Null</kbd></td><td style='width:100%'>Object.</td></tr>
+<tr><td style='text-align:center'><kbd>CBOR.Null</kbd></td><td style='width:100%'>Instantiated wrapper object.</td></tr>
 </table></div>
 <h4 id='wrapper.cbor.array'>2.8.&nbsp;&nbsp;CBOR.Array</h4>
 <div class='webpkifloat'>
@@ -922,7 +920,7 @@ See also <a href='#common.isnull'>isNull()</a>.</td></tr>
 <tr><th>Description</th><td style='width:100%'>Constructor.  Creates an empty CBOR <code>array</code> object.</td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.Array</kbd></td><td style='width:100%'>Object.</td></tr>
+<tr><td style='text-align:center'><kbd>CBOR.Array</kbd></td><td style='width:100%'>Instantiated wrapper object.</td></tr>
 </table></div>
 <h4 id='methods.cbor.array'>2.8.1.&nbsp;&nbsp;CBOR.Array Methods</h4>
 <h4 id='cbor.array.add'>2.8.1.1.&nbsp;&nbsp;add()</h4>
@@ -1024,7 +1022,7 @@ using <a href='#main.deterministic'>Deterministic&nbsp;Encoding</a>.
 <tr><th>Description</th><td style='width:100%'>Constructor.  Creates an empty CBOR <code>map</code> object.</td></tr>
 <tr><td colspan='2' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.Map</kbd></td><td style='width:100%'>Object.</td></tr>
+<tr><td style='text-align:center'><kbd>CBOR.Map</kbd></td><td style='width:100%'>Instantiated wrapper object.</td></tr>
 </table></div>
 <h4 id='methods.cbor.map'>2.9.1.&nbsp;&nbsp;CBOR.Map Methods</h4>
 <h4 id='cbor.map.set'>2.9.1.1.&nbsp;&nbsp;set()</h4>
@@ -1212,7 +1210,7 @@ and tag&nbsp;<code>1010</code> <span style='white-space:nowrap'>[<a href='https:
 <tr><td style='text-align:center'><kbd><i>object</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Object to be wrapped in a tag.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.Tag</kbd></td><td colspan='2' style='width:100%'>Object.</td></tr>
+<tr><td style='text-align:center'><kbd>CBOR.Tag</kbd></td><td colspan='2' style='width:100%'>Instantiated wrapper object.</td></tr>
 </table></div>
 <h4 id='methods.cbor.tag'>2.10.1.&nbsp;&nbsp;CBOR.Tag Methods</h4>
 <h4 id='cbor.tag.gettagnumber'>2.10.1.1.&nbsp;&nbsp;getTagNumber()</h4>
@@ -1269,7 +1267,7 @@ in CBOR maps.</div></td></tr>
 <tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>Number</kbd></td><td style='width:100%'>Simple value.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.Simple</kbd></td><td colspan='2' style='width:100%'>Object.</td></tr>
+<tr><td style='text-align:center'><kbd>CBOR.Simple</kbd></td><td colspan='2' style='width:100%'>Instantiated wrapper object.</td></tr>
 </table></div>
 <h4 id='methods.cbor.simple'>2.11.1.&nbsp;&nbsp;CBOR.Simple Methods</h4>
 <h4 id='cbor.simple.getsimple'>2.11.1.1.&nbsp;&nbsp;getSimple()</h4>
@@ -1494,7 +1492,7 @@ Unsupported or malformed CBOR data cause a <a href='#main.errors'>CborException<
 <tr><td style='text-align:center'><kbd><i>cbor</i></kbd></td><td style='text-align:center'><kbd>Uint8Array</kbd></td><td style='width:100%'>CBOR binary data <i>holding exactly one CBOR object</i>.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Object.</td></tr>
+<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Decoded object.</td></tr>
 </table></div>
 <h4 id='decoder.cbor.initdecoder'>5.2.&nbsp;&nbsp;CBOR.initDecoder()</h4>
 <div class='webpkifloat'>
@@ -1611,7 +1609,7 @@ JSON data.</div></td></tr>
 <tr><td style='text-align:center'><kbd><i>cborText</i></kbd></td><td style='text-align:center'><kbd>String</kbd></td><td style='width:100%'>CBOR in textual format.</td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Object.</td></tr>
+<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Decoded object.</td></tr>
 </table></div>
 <h4 id='decoder.cbor.fromdiagnosticseq'>5.7.&nbsp;&nbsp;CBOR.fromDiagnosticSeq()</h4>
 <div class='webpkifloat'>
@@ -2203,6 +2201,6 @@ here using the result of the previous encoding example:
 
   API version: 1.0.21.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2026-02-16
+  Document version: 2026-02-19
 </body>
 </html>
