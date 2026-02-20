@@ -1,7 +1,7 @@
 <a id="cborjs"></a><br>![CBOR is great](https://cyberphone.github.io/CBOR.js/doc/cbor.js.svg)
 
 This repository contains a
-[CBOR JavaScript API](https://cyberphone.github.io/CBOR.js/doc/)
+[JavaScript API for CBOR](https://cyberphone.github.io/CBOR.js/doc/)
 and an associated _reference implementation_.
 The API loosely mimics the JavaScript "JSON" object by _exposing a single global object_,
 unsurprisingly named "CBOR".  To shield application developers 
@@ -109,6 +109,7 @@ while remaining faithful to the native CBOR representation.
 |Android/Java|https://github.com/cyberphone/android-cbor|
 
 Updated: 2025-12-18
+
 
 
 
