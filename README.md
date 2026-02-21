@@ -33,7 +33,7 @@ See also [CBOR&nbsp;Everywhere](https://github.com/cyberphone/cbor-everywhere/).
 ### "CBOR" Components
 - Self-encoding wrapper objects
 - Decoder
-- Diagnostic Notation decoder
+- Diagnostic Notation encoder/decoder
 - Utility methods
 
 ### Encoding Example
