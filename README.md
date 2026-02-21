@@ -1,4 +1,10 @@
-<a id="cborjs"></a><br>![CBOR is great](https://cyberphone.github.io/CBOR.js/doc/cbor.js.svg)
+<a id="cborjs"></a>
+&nbsp;
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="doc/cbor.js.dark.svg">
+  <img alt="CBOR is Great!'" src="doc/cbor.js.svg">
+</picture>
 
 This repository contains a
 [JavaScript API for CBOR](https://cyberphone.github.io/CBOR.js/doc/)
