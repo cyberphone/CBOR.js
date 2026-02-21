@@ -25,7 +25,7 @@ The concatnation of `metadata.cbor` and `shanty-the-cat.jpg` is subsequently sto
 
 The sample code below shows how `payload.bin` could be processed by a receiver:
 ```javascript
-// largefile.mjs
+// large-payload.mjs
 
 import CBOR from 'cbor-core';
 const crypto = await import('node:crypto');
