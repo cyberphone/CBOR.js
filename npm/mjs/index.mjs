@@ -288,6 +288,7 @@ export default class CBOR {
     // Top-level Array, Map, and Tag container object marked as read.
       this._markAsRead(this);
       this.#traverse(null, null, true);
+      return this;
     }
 
     get length() {
@@ -868,8 +869,11 @@ export default class CBOR {
       CBOR.#checkArgs(arguments, 2);
       let entry = this.#lookup(key, false);
       // Note: defaultObject may be 'null'
-      defaultObject = defaultObject ? CBOR.#cborArgumentCheck(defaultObject) : null;
-      return entry ? entry.object : defaultObject;
+      if (defaultObject) CBOR.#cborArgumentCheck(defaultObject);
+      if (entry) {
+        return this._markAsRead(entry.object);
+      }
+      return defaultObject;
     }
 
     getKeys() {
