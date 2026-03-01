@@ -39,6 +39,7 @@ function truncateEpochTime(float, millis, seconds) {
 function oneGetEpochTime(hexBor, epoch, err) {
   let time = Math.floor((epoch * 1000) + 0.5);
   let instant = CBOR.decode(CBOR.fromHex(hexBor)).getEpochTime();
+  // console.log("v=" + CBOR.decode(CBOR.fromHex(hexBor)) + " getTime=" + instant.getTime() + " time=" + time);
   assertTrue("epoch1", instant.getTime() == time);
   let cborObject = CBOR.createEpochTime(instant, time % 1000);
   // console.log("E=" + cborObject.toString());
@@ -83,14 +84,11 @@ badDate("c001", "got: CBOR.Int");
 badDate("c06135", "Invalid ISO date string: 5");
 badDate("c16135", "got: CBOR.String");
 
-oneGetEpochTime("1A67B73784", 1740060548, "Data of type=CBOR.Int");
-oneGetEpochTime("FB41D9EDCDE113645A", 1740060548.303, "Data of type=CBOR.Float with value=174");
-oneGetEpochTime("c1FB41D9EDCDE113645A", 1740060548.303, "Tagged object 1 of type=CBOR.Float");
-// Next: Truncates!
-// oneGetEpochTime("c1fb41d9edcde1136c8b", 1740060548.3035, "Tagged object 1 of type=CBOR.Float");
-// oneGetEpochTime("c1fb41d9edcde1204189", 1740060548.5045, "Tagged object 1 of type=CBOR.Float");
-oneGetEpochTime("c11b0000003afff4417f", 253402300799, "Tagged object 1 of type=CBOR.Int");
-oneGetEpochTime("00", 0, "Data of type=CBOR.Int");
+oneGetEpochTime("1A67B73784", 1740060548, "Int with value=1740060548 was never read");
+oneGetEpochTime("FB41D9EDCDE113645A", 1740060548.303, "Float with value=1740060548.303 was never read");
+oneGetEpochTime("c1FB41D9EDCDE113645A", 1740060548.303, "Tagged object 1 of type Float with value=1740060548.303 was never read");
+oneGetEpochTime("c11b0000003afff4417f", 253402300799, "Tagged object 1 of type Int with value=253402300799 was never read");
+oneGetEpochTime("00", 0, "Int with value=0 was never read");
 
 function oneMillis(time, iso) {
   let instant = new Date();

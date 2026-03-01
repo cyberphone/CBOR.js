@@ -16,7 +16,7 @@
 export default class CBOR {
 
   static get version() {
-    return "1.0.21";
+    return "1.0.22";
   }
 
   static #MT_UNSIGNED      = 0x00;
@@ -227,50 +227,67 @@ export default class CBOR {
       }
     }
 
-    _markAsRead() {
-      this.#readFlag = true;
+    _markAsRead(object) {
+      if (!object._isPrimitive()) object.#readFlag = true
+      return object;
     }
 
-    #traverse = function(holderObject, check) {
+    _isPrimitive() {
+      return true;  // Overridden by Array, Map, and Tag
+    }
+
+    #traverse = function(holderObject, mapKey, check) {
       switch (this.constructor.name) {
         case "Map":
-          this.getKeys().forEach(key => {
-            this.get(key).#traverse(key, check);
+          this._entries.forEach(entry => {
+            entry.object.#traverse(this, entry.key, check);
           });
           break;
         
         case "Array":
-          this.toArray().forEach(object => {
-            object.#traverse(this, check);
+          this._objects.forEach(object => {
+            object.#traverse(this, null, check);
           });
           break;
         
         case "Tag":
-          this.get().#traverse(this, check);
+          this._object.#traverse(this, null, check);
           break;
       }
       if (check) {
         if (!this.#readFlag) {
-          CBOR.#error((holderObject == null ? "Data" : 
-            holderObject instanceof CBOR.Array ? "Array element" :
-              holderObject instanceof CBOR.Tag ?
-              "Tagged object " + holderObject.getTagNumber().toString() : 
-              "Map key " + holderObject.toDiagnostic(false) + " with argument") +                    
-            " of type=CBOR." + this.constructor.name + 
-            " with value=" + this.toDiagnostic(false) + " was never read");
-        }
+          let problemItem = this.constructor.name;
+          if (this._isPrimitive()) { 
+              problemItem += " with value=" + this.toDiagnostic(false);
+          }
+          problemItem += " was never read";
+          let holder;
+          if (holderObject) {
+              if (holderObject instanceof CBOR.Array) {
+                  holder = "Array element of type";
+              } else if (holderObject instanceof CBOR.Tag) {
+                  holder = "Tagged object " + holderObject._tagNumber + " of type";
+              } else {
+                  holder = "Map key " + mapKey.toDiagnostic(false) + " with argument";
+              }
+              problemItem = holder + " " + problemItem;
+          }
+          CBOR.#error(problemItem);
+        }  
       } else {
         this.#readFlag = true;
       }
     }
 
     scan() {
-      this.#traverse(null, false);
+      this.#traverse(null, null, false);
       return this;
     }
 
     checkForUnread() {
-      this.#traverse(null, true);
+    // Top-level Array, Map, and Tag container object marked as read.
+      this._markAsRead(this);
+      this.#traverse(null, null, true);
     }
 
     get length() {
@@ -642,18 +659,18 @@ export default class CBOR {
   ///////////////////////////
   static Array = class extends CBOR.#CborObject {
 
-    #objects = [];
+    _objects = [];
 
     add(object) {
       CBOR.#checkArgs(arguments, 1);
       this._immutableTest();
-      this.#objects.push(CBOR.#cborArgumentCheck(object));
+      this._objects.push(CBOR.#cborArgumentCheck(object));
       return this;
     }
 
     #getIndex(index, offset) {
       index = CBOR.#intCheck(index);
-      if (index < 0 || index >= this.#objects.length + offset) {
+      if (index < 0 || index >= this._objects.length + offset) {
         CBOR.#error("Array index out of range: " + index);
       }
       return index;
@@ -661,37 +678,36 @@ export default class CBOR {
 
     get(index) {
       CBOR.#checkArgs(arguments, 1);
-      this._markAsRead();
-      return this.#objects[this.#getIndex(index, 0)];
+      return this._markAsRead(this._objects[this.#getIndex(index, 0)]);
     }
 
     insert(index, object) {
       CBOR.#checkArgs(arguments, 2);
       this._immutableTest();
-      this.#objects.splice(this.#getIndex(index, 1), 0, CBOR.#cborArgumentCheck(object));
+      this._objects.splice(this.#getIndex(index, 1), 0, CBOR.#cborArgumentCheck(object));
       return this;
     }
 
     update(index, object) {
       CBOR.#checkArgs(arguments, 2);
       this._immutableTest();
-      return this.#objects.splice(this.#getIndex(index, 0), 1, CBOR.#cborArgumentCheck(object))[0];
+      return this._objects.splice(this.#getIndex(index, 0), 1, CBOR.#cborArgumentCheck(object))[0];
     }
 
     remove(index) {
       CBOR.#checkArgs(arguments, 1);
       this._immutableTest();
-      return this.#objects.splice(this.#getIndex(index, 0), 1)[0]; 
+      return this._objects.splice(this.#getIndex(index, 0), 1)[0]; 
     }
 
     toArray() {
       let array = [];
-      this.#objects.forEach(object => array.push(object));
+      this._objects.forEach(object => array.push(object));
       return array;
     }
 
     #encodeBody(header) {
-      this.#objects.forEach(object => {
+      this._objects.forEach(object => {
         header = CBOR.addArrays(header, object.encode());
       });
       return header;
@@ -702,14 +718,14 @@ export default class CBOR {
     }
 
     encode() {
-      return this.#encodeBody(CBOR.#encodeTagAndN(CBOR.#MT_ARRAY, this.#objects.length));
+      return this.#encodeBody(CBOR.#encodeTagAndN(CBOR.#MT_ARRAY, this._objects.length));
     }
 
     internalToString(cborPrinter) {
       if (cborPrinter.arrayFolding(this)) {
         cborPrinter.beginList('[');
         let notFirst = false;
-        this.#objects.forEach(object => {
+        this._objects.forEach(object => {
           if (notFirst) {
             cborPrinter.append(',');
           }
@@ -721,7 +737,7 @@ export default class CBOR {
       } else {
         cborPrinter.append('[');
         let notFirst = false;
-        this.#objects.forEach(object => {
+        this._objects.forEach(object => {
           if (notFirst) {
             cborPrinter.append(',').space();
           }
@@ -733,7 +749,11 @@ export default class CBOR {
     }
 
     _getLength() {
-      return this.#objects.length;
+      return this._objects.length;
+    }
+
+    _isPrimitive() {
+      return false;
     }
   }
 
@@ -742,7 +762,7 @@ export default class CBOR {
   ///////////////////////////
   static Map = class extends CBOR.#CborObject {
 
-    #entries = [];
+    _entries = [];
     #preSortedKeys = false;
     #lastLookup = 0;
 
@@ -751,12 +771,12 @@ export default class CBOR {
       this._immutableTest();
       let newEntry = new CBOR.#Entry(key, object);
       this.#makeImmutable(key);
-      let insertIndex = this.#entries.length;
+      let insertIndex = this._entries.length;
       if (insertIndex) {
         let endIndex = insertIndex - 1;
         if (this.#preSortedKeys) {
           // Normal case for deterministic decoding.
-          if (this.#entries[endIndex].compareAndTest(newEntry)) {
+          if (this._entries[endIndex].compareAndTest(newEntry)) {
             CBOR.#error("Non-deterministic order for key: " + key);
           }
         } else {
@@ -767,7 +787,7 @@ export default class CBOR {
           let startIndex = 0;
           while (startIndex <= endIndex) {
             let midIndex = (endIndex + startIndex) >> 1;
-            if (newEntry.compareAndTest(this.#entries[midIndex])) {
+            if (newEntry.compareAndTest(this._entries[midIndex])) {
               // New key is bigger than the looked up entry.
               // Preliminary assumption: this is the one, but continue.
               insertIndex = startIndex = midIndex + 1;
@@ -778,9 +798,9 @@ export default class CBOR {
           }
         }
       }
-      // If insertIndex == this.#entries.length, the key will be appended.
+      // If insertIndex == this._entries.length, the key will be appended.
       // If insertIndex == 0, the key will be first in the list.
-      this.#entries.splice(insertIndex, 0, newEntry);
+      this._entries.splice(insertIndex, 0, newEntry);
       return this;
     }
 
@@ -791,10 +811,10 @@ export default class CBOR {
     #lookup(key, mustExist) {
       let encodedKey = CBOR.#cborArgumentCheck(key).encode();
       let startIndex = 0;
-      let endIndex = this.#entries.length - 1;
+      let endIndex = this._entries.length - 1;
       while (startIndex <= endIndex) {
         let midIndex = (endIndex + startIndex) >> 1;
-        let entry = this.#entries[midIndex];
+        let entry = this._entries[midIndex];
         let diff = entry.compare(encodedKey);
         if (diff == 0) {
           this.#lastLookup = midIndex;
@@ -833,7 +853,7 @@ export default class CBOR {
       if (!(map instanceof CBOR.Map)) {
         CBOR.#error("Argument must be of type CBOR.Map");
       }
-      map.#entries.forEach(entry => {
+      map._entries.forEach(entry => {
         this.set(entry.key, entry.object);
       });
       return this;
@@ -841,8 +861,7 @@ export default class CBOR {
 
     get(key) {
       CBOR.#checkArgs(arguments, 1);
-      this._markAsRead();
-      return this.#lookup(key, true).object;
+      return this._markAsRead(this.#lookup(key, true).object);
     }
 
     getConditionally(key, defaultObject) {
@@ -855,7 +874,7 @@ export default class CBOR {
 
     getKeys() {
       let keys = [];
-      this.#entries.forEach(entry => {
+      this._entries.forEach(entry => {
         keys.push(entry.key);
       });
       return keys;
@@ -865,12 +884,12 @@ export default class CBOR {
       CBOR.#checkArgs(arguments, 1);
       this._immutableTest();
       let targetEntry = this.#lookup(key, true);
-      this.#entries.splice(this.#lastLookup, 1);
+      this._entries.splice(this.#lastLookup, 1);
       return targetEntry.object;
     }
 
     _getLength() {
-      return this.#entries.length;
+      return this._entries.length;
     }
 
     containsKey(key) {
@@ -879,8 +898,8 @@ export default class CBOR {
     }
 
     encode() {
-      let encoded = CBOR.#encodeTagAndN(CBOR.#MT_MAP, this.#entries.length);
-      this.#entries.forEach(entry => {
+      let encoded = CBOR.#encodeTagAndN(CBOR.#MT_MAP, this._entries.length);
+      this._entries.forEach(entry => {
         encoded = CBOR.addArrays(encoded, 
                                  CBOR.addArrays(entry.encodedKey, entry.object.encode()));
       });
@@ -890,7 +909,7 @@ export default class CBOR {
     internalToString(cborPrinter) {
       let notFirst = false;
       cborPrinter.beginList('{');
-      this.#entries.forEach(entry => {
+      this._entries.forEach(entry => {
         if (notFirst) {
           cborPrinter.append(',');
         }
@@ -907,6 +926,10 @@ export default class CBOR {
       CBOR.#checkArgs(arguments, 1);
       this.#preSortedKeys = preSortedKeys;
       return this;
+    }
+
+    _isPrimitive() {
+      return false;
     }
 
     #makeImmutable(object) {
@@ -960,8 +983,8 @@ export default class CBOR {
     static __ERR_DATE     = "Invalid ISO date/time object: ";
     static __ERR_EPOCH    = "Invalid Epoch time object: ";
 
-    #tagNumber;
-    #object;
+    _tagNumber;
+    _object;
 
     #dateTime;
     #epochTime;
@@ -971,12 +994,12 @@ export default class CBOR {
 
     constructor(tagNumber, object) {
       super();
-      this.#tagNumber = CBOR.#unifiedInt(tagNumber);
-      this.#object = CBOR.#cborArgumentCheck(object);
-      if (this.#tagNumber < 0n || this.#tagNumber >= 0x10000000000000000n) {
+      this._tagNumber = CBOR.#unifiedInt(tagNumber);
+      this._object = CBOR.#cborArgumentCheck(object);
+      if (this._tagNumber < 0n || this._tagNumber >= 0x10000000000000000n) {
         CBOR.#error("Tag number is out of range");
       }
-      switch (this.#tagNumber) {
+      switch (this._tagNumber) {
         case CBOR.Tag.__TAG_BIG_POS:
         case CBOR.Tag.__TAG_BIG_NEG:
           CBOR.#error("Tag number reserved for 'bigint'");
@@ -989,11 +1012,14 @@ export default class CBOR {
           this.#epochTime = object.clone().getEpochTime();
           break;
         case CBOR.Tag.TAG_COTX:
-          if (!(object instanceof CBOR.Array) || object.length != 2) {
-            this.#errorInObject(CBOR.Tag.__ERR_COTX);
+          if (object instanceof CBOR.Array && object.length == 2) {
+            this.#cotxId = object._objects[0];
+            if (this.#cotxId instanceof CBOR.String) {
+              this.#cotxObject = object._objects[1];
+              return;
+            }
           }
-          this.#cotxId = object.get(0).getString();
-          this.#cotxObject = object.get(1);
+          this.#errorInObject(CBOR.Tag.__ERR_COTX);
       }
     }
 
@@ -1001,7 +1027,7 @@ export default class CBOR {
       if (!this.#dateTime) {
         this.#errorInObject(CBOR.Tag.__ERR_DATE);
       }
-      this.#object.scan();
+      this._object.scan();
       return this.#dateTime;
     }
 
@@ -1009,7 +1035,7 @@ export default class CBOR {
       if (!this.#epochTime) {
         this.#errorInObject(CBOR.Tag.__ERR_EPOCH);
       }
-      this.#object.scan();
+      this._object.scan();
       return this.#epochTime;
     }
 
@@ -1018,48 +1044,52 @@ export default class CBOR {
     }
 
     encode() {
-      return CBOR.addArrays(CBOR.#encodeIntegerOrTag(CBOR.#MT_TAG, this.#tagNumber),
-                            this.#object.encode());
+      return CBOR.addArrays(CBOR.#encodeIntegerOrTag(CBOR.#MT_TAG, this._tagNumber),
+                            this._object.encode());
     }
 
     internalToString(cborPrinter) {
-      cborPrinter.append(this.#tagNumber.toString()).append('(');
+      cborPrinter.append(this._tagNumber.toString()).append('(');
       if (this.#cotxObject == null) {
-        this.#object.internalToString(cborPrinter);
+        this._object.internalToString(cborPrinter);
       } else {
         cborPrinter.append('[');
-        this.#object.get(0).internalToString(cborPrinter);
+        this._object.get(0).internalToString(cborPrinter);
         cborPrinter.append(',').space();
-        this.#object.get(1).internalToString(cborPrinter);
+        this._object.get(1).internalToString(cborPrinter);
         cborPrinter.append(']');
       }
       cborPrinter.append(')');
     }
 
     getTagNumber() {
-      return this.#tagNumber;
+      return this._tagNumber;
     }
     
     get() {
       CBOR.#checkArgs(arguments, 0);
-      this._markAsRead();
-      return this.#object;
+      return this._markAsRead(this._object);
     }
 
     _checkCotx() {
       if (!this.#cotxObject) {
         this.#errorInObject(CBOR.Tag.__ERR_COTX);
       }
+      this.get();
     }
 
     get cotxId() {
       this._checkCotx();
-      return this.#cotxId;
+      return this.#cotxId.getString();
     }
 
     get cotxObject() {
       this._checkCotx();
-      return this.#cotxObject;
+      return this._markAsRead(this.#cotxObject);
+    }
+
+    _isPrimitive() {
+      return false;
     }
   }
 
