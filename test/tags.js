@@ -26,7 +26,7 @@ assertTrue("t5", CBOR.toHex(cbor) ==
 [2n, 3n, 2, 3].forEach(tagNumber => { 
   try {
     CBOR.Tag(tagNumber, CBOR.String("any"));
-    throw Error("Should not");
+    fail("Should not");
   } catch (e) {
     checkException(e, "'bigint'");
   }
@@ -35,7 +35,7 @@ assertTrue("t5", CBOR.toHex(cbor) ==
 [0n, 1n].forEach(tagNumber => { 
   try {
     CBOR.Tag(tagNumber, CBOR.Boolean(true));
-    throw Error("Should not");
+    fail("Should not");
   } catch (e) {
      checkException(e, "got: CBOR.Boolean");
   }
