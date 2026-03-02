@@ -1976,20 +1976,6 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
         .addParameter("object", DataTypes.CBOR_Any, OBJECT_PARAMETER_DESCR)
         .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR)
 
-        .addMethod("setDynamic", W_MAP_SET_DYN_DESCR)
-        .addParameter("dynamic", DataTypes.JS_DYNAMIC, W_MAP_SET_DYN_PARAMETER_DESCR)
-        .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR)
-
-        .addMethod("merge", W_MAP_MERGE_DESCR)
-        .addParameter("map", DataTypes.CBOR_MAP, W_MAP_MERGE_P1_DESCR)
-        .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR)
-
-        .addMethod("update", W_MAP_UPDATE_DESCR)
-        .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
-        .addParameter("object", DataTypes.CBOR_Any, OBJECT_PARAMETER_DESCR)
-        .addParameter("existing", DataTypes.JS_BOOLEAN, W_MAP_UPDATE_P3_DESCR)
-        .setReturn(DataTypes.CBOR_Any, W_MAP_UPDATE_RETURN_DESCR)
-
         .addMethod("get", W_MAP_GET_DESCR)
         .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
         .setReturn(DataTypes.CBOR_Any, W_MAP_GET_RETURN_DESCR)
@@ -2006,6 +1992,20 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
         .addMethod("remove", W_MAP_REMOVE_DESCR)
         .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
         .setReturn(DataTypes.CBOR_Any, W_MAP_REMOVE_RETURN_DESCR)
+
+        .addMethod("setDynamic", W_MAP_SET_DYN_DESCR)
+        .addParameter("dynamic", DataTypes.JS_DYNAMIC, W_MAP_SET_DYN_PARAMETER_DESCR)
+        .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR)
+
+        .addMethod("merge", W_MAP_MERGE_DESCR)
+        .addParameter("map", DataTypes.CBOR_MAP, W_MAP_MERGE_P1_DESCR)
+        .setReturn(DataTypes.JS_THIS, CURRENT_RETURN_DESCR)
+
+        .addMethod("update", W_MAP_UPDATE_DESCR)
+        .addParameter("key", DataTypes.CBOR_Any, KEY_PARAMETER_DESCR)
+        .addParameter("object", DataTypes.CBOR_Any, OBJECT_PARAMETER_DESCR)
+        .addParameter("existing", DataTypes.JS_BOOLEAN, W_MAP_UPDATE_P3_DESCR)
+        .setReturn(DataTypes.CBOR_Any, W_MAP_UPDATE_RETURN_DESCR)
 
         .addMethod("getKeys", W_MAP_GETKEYS_DESCR)
         .setReturn(DataTypes.JS_ARRAY, W_MAP_GETKEYS_RETURN_DESCR)

@@ -105,13 +105,13 @@
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#wrapper.cbor.map'>2.9.&nbsp;&nbsp;CBOR.Map</a></div><div style='display:none'>
 <div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#methods.cbor.map'>2.9.1.&nbsp;&nbsp;CBOR.Map Methods</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.set'>2.9.1.1.&nbsp;&nbsp;set()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.setdynamic'>2.9.1.2.&nbsp;&nbsp;setDynamic()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.merge'>2.9.1.3.&nbsp;&nbsp;merge()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.update'>2.9.1.4.&nbsp;&nbsp;update()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.get'>2.9.1.5.&nbsp;&nbsp;get()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.getconditionally'>2.9.1.6.&nbsp;&nbsp;getConditionally()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.containskey'>2.9.1.7.&nbsp;&nbsp;containsKey()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.remove'>2.9.1.8.&nbsp;&nbsp;remove()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.get'>2.9.1.2.&nbsp;&nbsp;get()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.getconditionally'>2.9.1.3.&nbsp;&nbsp;getConditionally()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.containskey'>2.9.1.4.&nbsp;&nbsp;containsKey()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.remove'>2.9.1.5.&nbsp;&nbsp;remove()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.setdynamic'>2.9.1.6.&nbsp;&nbsp;setDynamic()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.merge'>2.9.1.7.&nbsp;&nbsp;merge()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.update'>2.9.1.8.&nbsp;&nbsp;update()</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.getkeys'>2.9.1.9.&nbsp;&nbsp;getKeys()</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.map.setsortingmode'>2.9.1.10.&nbsp;&nbsp;setSortingMode()</a></div>
 <div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#properties.cbor.map'>2.9.2.&nbsp;&nbsp;CBOR.Map Properties</a></div>
@@ -1052,7 +1052,60 @@ of <i>any</i> complexity can be used.</div></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>this</kbd></td><td colspan='2' style='width:100%'>Current object.</td></tr>
 </table></div>
-<h4 id='cbor.map.setdynamic'>2.9.1.2.&nbsp;&nbsp;setDynamic()</h4>
+<h4 id='cbor.map.get'>2.9.1.2.&nbsp;&nbsp;get()</h4>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>get(<i>key</i>)</kbd></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Get map entry.
+If <kbd><i>key</i></kbd> is undefined, a <a href='#main.errors'>CborException</a> is thrown.</td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><kbd><i>key</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Key (name).</td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Retrieved object.</td></tr>
+</table></div>
+<h4 id='cbor.map.getconditionally'>2.9.1.3.&nbsp;&nbsp;getConditionally()</h4>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>getConditionally(<i>key</i>, <i>defaultObject</i>)</kbd></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Get map entry conditionally.</td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><kbd><i>key</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Key (name).</td></tr>
+<tr><td style='text-align:center'><kbd><i>defaultObject</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Object to return if <kbd><i>key</i></kbd> is undefined.
+<div style='margin-top:0.5em'>Note:
+<kbd><i>defaultObject</i></kbd> may be <code>null</code>.</div></td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Retrieved or default object.</td></tr>
+</table></div>
+<h4 id='cbor.map.containskey'>2.9.1.4.&nbsp;&nbsp;containsKey()</h4>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>containsKey(<i>key</i>)</kbd></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Check map for key presence.</td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><kbd><i>key</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Key (name).</td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><kbd>Boolean</kbd></td><td colspan='2' style='width:100%'><code>true</code> or <code>false</code>.</td></tr>
+</table></div>
+<h4 id='cbor.map.remove'>2.9.1.5.&nbsp;&nbsp;remove()</h4>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>remove(<i>key</i>)</kbd></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Remove map entry.
+If <kbd><i>key</i></kbd> is undefined, a <a href='#main.errors'>CborException</a> is thrown.</td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><kbd><i>key</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Key (name).</td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Removed object (value).</td></tr>
+</table></div>
+<h4 id='cbor.map.setdynamic'>2.9.1.6.&nbsp;&nbsp;setDynamic()</h4>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>setDynamic(<i>dynamic</i>)</kbd></td></tr>
@@ -1067,7 +1120,7 @@ Consult test file <code>dynamic.js</code> for examples.</div></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>this</kbd></td><td colspan='2' style='width:100%'>Current object.</td></tr>
 </table></div>
-<h4 id='cbor.map.merge'>2.9.1.3.&nbsp;&nbsp;merge()</h4>
+<h4 id='cbor.map.merge'>2.9.1.7.&nbsp;&nbsp;merge()</h4>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>merge(<i>map</i>)</kbd></td></tr>
@@ -1081,7 +1134,7 @@ for each member of the <kbd><i>map</i></kbd> argument.</td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>this</kbd></td><td colspan='2' style='width:100%'>Current object.</td></tr>
 </table></div>
-<h4 id='cbor.map.update'>2.9.1.4.&nbsp;&nbsp;update()</h4>
+<h4 id='cbor.map.update'>2.9.1.8.&nbsp;&nbsp;update()</h4>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>update(<i>key</i>, <i>object</i>, <i>existing</i>)</kbd></td></tr>
@@ -1097,59 +1150,6 @@ a <code>map</code> entry will be created for <kbd><i>key</i></kbd> if not alread
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Previous object.  May be <code>null</code>.</td></tr>
-</table></div>
-<h4 id='cbor.map.get'>2.9.1.5.&nbsp;&nbsp;get()</h4>
-<div class='webpkifloat'>
-<table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>get(<i>key</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Get map entry.
-If <kbd><i>key</i></kbd> is undefined, a <a href='#main.errors'>CborException</a> is thrown.</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>key</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Key (name).</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Retrieved object.</td></tr>
-</table></div>
-<h4 id='cbor.map.getconditionally'>2.9.1.6.&nbsp;&nbsp;getConditionally()</h4>
-<div class='webpkifloat'>
-<table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>getConditionally(<i>key</i>, <i>defaultObject</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Get map entry conditionally.</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>key</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Key (name).</td></tr>
-<tr><td style='text-align:center'><kbd><i>defaultObject</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Object to return if <kbd><i>key</i></kbd> is undefined.
-<div style='margin-top:0.5em'>Note:
-<kbd><i>defaultObject</i></kbd> may be <code>null</code>.</div></td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Retrieved or default object.</td></tr>
-</table></div>
-<h4 id='cbor.map.containskey'>2.9.1.7.&nbsp;&nbsp;containsKey()</h4>
-<div class='webpkifloat'>
-<table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>containsKey(<i>key</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Check map for key presence.</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>key</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Key (name).</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>Boolean</kbd></td><td colspan='2' style='width:100%'><code>true</code> or <code>false</code>.</td></tr>
-</table></div>
-<h4 id='cbor.map.remove'>2.9.1.8.&nbsp;&nbsp;remove()</h4>
-<div class='webpkifloat'>
-<table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>remove(<i>key</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Remove map entry.
-If <kbd><i>key</i></kbd> is undefined, a <a href='#main.errors'>CborException</a> is thrown.</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>key</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Key (name).</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Removed object (value).</td></tr>
 </table></div>
 <h4 id='cbor.map.getkeys'>2.9.1.9.&nbsp;&nbsp;getKeys()</h4>
 <div class='webpkifloat'>
