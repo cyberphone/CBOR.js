@@ -1,5 +1,5 @@
 ## cbor-core
-Core Description: https://github.com/cyberphone/CBOR.js#cborjs
+Core Description: https://github.com/cyberphone/CBOR.js#main
 
 ### Nodejs Installation
 ```code

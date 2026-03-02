@@ -3,7 +3,7 @@
 //                CBOR::Core API for JavaScript                 //
 //                                                              //
 // Author: Anders Rundgren (anders.rundgren.net@gmail.com)      //
-// Repository: https://github.com/cyberphone/CBOR.js#cborjs     //
+// Repository: https://github.com/cyberphone/CBOR.js#main     //
 //                                                              //
 // Note: this is a "Reference Implementation", not optimized    //
 // for maximum performance.  It is assumed that a productified  //

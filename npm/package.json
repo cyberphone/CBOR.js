@@ -2,7 +2,7 @@
   "name": "cbor-core",
   "version": "1.0.22",
   "description": "CBOR: deterministic encoder/decoder, diagnostic notation encoder/decoder, and utilities",
-  "homepage": "https://github.com/cyberphone/CBOR.js#cborjs",
+  "homepage": "https://github.com/cyberphone/CBOR.js#main",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cyberphone/CBOR.js.git#main"
