@@ -1,6 +1,6 @@
 // Testing "tag"
 import CBOR from '../npm/mjs/index.mjs';
-import { assertTrue, assertFalse, success, checkException } from './assertions.js';
+import { assertTrue, fail, assertFalse, success, checkException } from './assertions.js';
 
 let object = CBOR.Array().add(CBOR.String("https://example.com/myobject")).add(CBOR.Int(6));
 let cbor = CBOR.Tag(CBOR.Tag.TAG_COTX, object).encode();
