@@ -143,7 +143,7 @@ oneTurn("CBOR.Tag(0, CBOR.String(\"2025-02-20T14:09:08Z\"))",
 
 // COTX
 oneTurn("CBOR.Tag(1010, CBOR.Array().add(CBOR.String(\"uri\")).add(CBOR.Map()))", "get()",
-    "Array element of type String with value=\"uri\" was never read");
+        "Array element of type Map with value={} was never read");
 
 let res = CBOR.Tag(1010, CBOR.Array().add(CBOR.String("uri")).add(CBOR.Boolean(true)));
 assertTrue("String problems", res.cotxId == "uri");
@@ -207,6 +207,11 @@ oneTurn('d903f2623737', '1010("77")', false);
 oneTurn('d903f281623737', '1010(["77"])', false);
 oneTurn('d903f28206623737', '1010([6, "77"])', false);
 oneTurn('d903f28262373707', '1010(["77", 7])', true);
+
+const t = CBOR.Tag(1010, CBOR.Array().add(CBOR.String("uri")).add(CBOR.Array().add(CBOR.Map())));
+assertTrue("objectId", t.cotxId == "uri");
+assertTrue("Object", t.cotxObject.get(0).toString() == "{}");
+t.checkForUnread();
 
 success();
 `}
@@ -1156,8 +1161,8 @@ badDate("c16135", "got: CBOR.String");
 
 oneGetEpochTime("1A67B73784", 1740060548, "Int with value=1740060548 was never read");
 oneGetEpochTime("FB41D9EDCDE113645A", 1740060548.303, "Float with value=1740060548.303 was never read");
-oneGetEpochTime("c1FB41D9EDCDE113645A", 1740060548.303, "Tagged object 1 of type Float with value=1740060548.303 was never read");
-oneGetEpochTime("c11b0000003afff4417f", 253402300799, "Tagged object 1 of type Int with value=253402300799 was never read");
+oneGetEpochTime("c1FB41D9EDCDE113645A", 1740060548.303, "Tag object 1 of type Float with value=1740060548.303 was never read");
+oneGetEpochTime("c11b0000003afff4417f", 253402300799, "Tag object 1 of type Int with value=253402300799 was never read");
 oneGetEpochTime("00", 0, "Int with value=0 was never read");
 
 function oneMillis(time, iso) {

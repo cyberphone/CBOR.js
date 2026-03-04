@@ -86,8 +86,8 @@ badDate("c16135", "got: CBOR.String");
 
 oneGetEpochTime("1A67B73784", 1740060548, "Int with value=1740060548 was never read");
 oneGetEpochTime("FB41D9EDCDE113645A", 1740060548.303, "Float with value=1740060548.303 was never read");
-oneGetEpochTime("c1FB41D9EDCDE113645A", 1740060548.303, "Tagged object 1 of type Float with value=1740060548.303 was never read");
-oneGetEpochTime("c11b0000003afff4417f", 253402300799, "Tagged object 1 of type Int with value=253402300799 was never read");
+oneGetEpochTime("c1FB41D9EDCDE113645A", 1740060548.303, "Tag object 1 of type Float with value=1740060548.303 was never read");
+oneGetEpochTime("c11b0000003afff4417f", 253402300799, "Tag object 1 of type Int with value=253402300799 was never read");
 oneGetEpochTime("00", 0, "Int with value=0 was never read");
 
 function oneMillis(time, iso) {

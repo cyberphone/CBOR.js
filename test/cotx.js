@@ -20,4 +20,9 @@ oneTurn('d903f281623737', '1010(["77"])', false);
 oneTurn('d903f28206623737', '1010([6, "77"])', false);
 oneTurn('d903f28262373707', '1010(["77", 7])', true);
 
+const t = CBOR.Tag(1010, CBOR.Array().add(CBOR.String("uri")).add(CBOR.Array().add(CBOR.Map())));
+assertTrue("objectId", t.cotxId == "uri");
+assertTrue("Object", t.cotxObject.get(0).toString() == "{}");
+t.checkForUnread();
+
 success();

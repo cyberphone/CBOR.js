@@ -1013,8 +1013,9 @@ class CBOR {
           break;
         case CBOR.Tag.TAG_COTX:
           if (object instanceof CBOR.Array && object.length == 2) {
-            this.#cotxId = object._objects[0];
-            if (this.#cotxId instanceof CBOR.String) {
+            let array = object._objects
+            if (array[0] instanceof CBOR.String) {
+              this.#cotxId = array[0].getString();
               this.#cotxObject = object._objects[1];
               return;
             }
@@ -1080,7 +1081,7 @@ class CBOR {
 
     get cotxId() {
       this._checkCotx();
-      return this.#cotxId.getString();
+      return this.#cotxId;
     }
 
     get cotxObject() {
