@@ -45,12 +45,12 @@ oneTurn("CBOR.Tag(45, CBOR.Map().set(MAP_KEY_1, CBOR.Int(6)))", "get().get(MAP_K
 
 oneTurn("CBOR.Tag(45, CBOR.Map().set(MAP_KEY_1, CBOR.Int(6)))", "get().get(MAP_KEY_1).getInt64()");
 oneTurn("CBOR.Array().add(CBOR.Tag(45, CBOR.Map()))", "get(0)",
-    "Tagged object 45 of type Map was never read");
+    "Tag object 45 of type Map with value={} was never read");
 
 oneTurn("CBOR.Array().add(CBOR.Tag(45, CBOR.Map()))", "get(0).get()");
 
 oneTurn("CBOR.Array().add(CBOR.Tag(45, CBOR.Int(6)))", "get(0).get()",
-    "Tagged object 45 of type Int with value=6 was never read");
+    "Tag object 45 of type Int with value=6 was never read");
 
 oneTurn("CBOR.Array().add(CBOR.Tag(45, CBOR.Int(6)))", "get(0).get().getInt64()");
 
@@ -60,7 +60,7 @@ oneTurn("CBOR.Array().add(CBOR.String('Hi!'))", "get(0)",
 oneTurn("CBOR.Array().add(CBOR.Int(6))", "get(0).getInt64()");
 
 oneTurn("CBOR.Map().set(MAP_KEY_1, CBOR.Array())", null,
-    "Map key 1 with argument Array was never read");
+    "Map key 1 with argument Array with value=[] was never read");
 
 oneTurn("CBOR.Map().set(MAP_KEY_1, CBOR.Array())", "get(MAP_KEY_1)");
 
@@ -69,7 +69,7 @@ oneTurn("CBOR.Tag(45, CBOR.Map().set(MAP_KEY_1, CBOR.Int(6)))", "get().get(MAP_K
 oneTurn("CBOR.Array().add(CBOR.Array())", "get(0)");
 
 oneTurn("CBOR.Array().add(CBOR.Array())", null,
-    "Array element of type Array was never read");
+    "Array element of type Array with value=[] was never read");
 
 oneTurn("CBOR.Array().add(CBOR.Array())", "scan()");
 
@@ -80,7 +80,7 @@ oneTurn("CBOR.Simple(8)", "getSimple()");
 // Date time specials
 oneTurn("CBOR.Tag(0, CBOR.String(\"2025-02-20T14:09:08Z\"))",
         "get()",
-        "Tagged object 0 of type String with value=\"2025-02-20T14:09:08Z\" was never read");
+        "Tag object 0 of type String with value=\"2025-02-20T14:09:08Z\" was never read");
 
 oneTurn("CBOR.Tag(0, CBOR.String(\"2025-02-20T14:09:08Z\"))",
         "getDateTime()");

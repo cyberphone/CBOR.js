@@ -256,23 +256,19 @@ class CBOR {
       }
       if (check) {
         if (!this.#readFlag) {
-          let problemItem = this.constructor.name;
-          if (this._isPrimitive()) { 
-              problemItem += " with value=" + this.toDiagnostic(false);
-          }
-          problemItem += " was never read";
+          let problemItem = this.constructor.name + 
+            " with value=" + this.toDiagnostic(false) + " was never read";
           let holder;
           if (holderObject) {
-              if (holderObject instanceof CBOR.Array) {
-                  holder = "Array element of type";
-              } else if (holderObject instanceof CBOR.Tag) {
-                  holder = "Tagged object " + holderObject._tagNumber + " of type";
-              } else {
-                  holder = "Map key " + mapKey.toDiagnostic(false) + " with argument";
-              }
-              problemItem = holder + " " + problemItem;
-          }
-          CBOR.#error(problemItem);
+            if (holderObject instanceof CBOR.Array) {
+                holder = "Array element of type ";
+            } else if (holderObject instanceof CBOR.Tag) {
+                holder = "Tag object " + holderObject._tagNumber + " of type ";
+            } else {
+                holder = "Map key " + mapKey.toDiagnostic(false) + " with argument ";
+            }
+          } else holder = ""
+          CBOR.#error(holder + problemItem);
         }  
       } else {
         this.#readFlag = true;
