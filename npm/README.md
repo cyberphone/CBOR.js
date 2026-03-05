@@ -10,7 +10,6 @@ If `cbor-core` is to be installed as a **global** package, perform the following
 ```code
 npm install cbor-core -g
 cd "to local work directory"
-npm link cbor-core
 ```
 ### Usage in Node.js
 The above works for both CJS and MJS (ESM) applications.  MJS example:
