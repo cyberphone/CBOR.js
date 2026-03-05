@@ -24,5 +24,6 @@ const t = CBOR.Tag(1010, CBOR.Array().add(CBOR.String("uri")).add(CBOR.Array().a
 assertTrue("objectId", t.cotxId == "uri");
 assertTrue("Object", t.cotxObject.get(0).toString() == "{}");
 t.checkForUnread();
+assertTrue("COTX", t.equals(CBOR.createCotxTag("uri", CBOR.Array().add(CBOR.Map()))));
 
 success();

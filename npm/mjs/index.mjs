@@ -2508,4 +2508,8 @@ export default class CBOR {
     let epochSeconds = CBOR.#timeRound(epochMillis, millis) / 1000;
     return millis ? CBOR.Float(epochSeconds) : CBOR.Int(Math.floor(epochSeconds));
   }
+
+  static createCotxTag(id, object) {
+    return CBOR.Tag(CBOR.Tag.TAG_COTX, CBOR.Array().add(CBOR.String(id)).add(object));
+  }
 }
