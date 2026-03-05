@@ -119,8 +119,9 @@
 </div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#wrapper.cbor.tag'>2.10.&nbsp;&nbsp;CBOR.Tag</a></div><div style='display:none'>
 <div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#methods.cbor.tag'>2.10.1.&nbsp;&nbsp;CBOR.Tag Methods</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.tag.gettagnumber'>2.10.1.1.&nbsp;&nbsp;getTagNumber()</a></div>
-<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.tag.get'>2.10.1.2.&nbsp;&nbsp;get()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.tag.get'>2.10.1.1.&nbsp;&nbsp;get()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.tag.gettagnumber'>2.10.1.2.&nbsp;&nbsp;getTagNumber()</a></div>
+<div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.tag.createcotxtag'>2.10.1.3.&nbsp;&nbsp;CBOR.Tag.createCotxTag()</a></div>
 <div style='margin:0 0 0.4em 6em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#properties.cbor.tag'>2.10.2.&nbsp;&nbsp;CBOR.Tag Properties</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.tag.cotxid'>2.10.2.1.&nbsp;&nbsp;cotxId</a></div>
 <div style='margin:0 0 0.4em 8em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#cbor.tag.cotxobject'>2.10.2.2.&nbsp;&nbsp;cotxObject</a></div>
@@ -164,7 +165,6 @@
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.frombigint'>6.8.&nbsp;&nbsp;CBOR.fromBigInt()</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.createdatetime'>6.9.&nbsp;&nbsp;CBOR.createDateTime()</a></div>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.createepochtime'>6.10.&nbsp;&nbsp;CBOR.createEpochTime()</a></div>
-<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.createcotxtag'>6.11.&nbsp;&nbsp;CBOR.createCotxTag()</a></div>
 </div>
 <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.numbers'>7.&nbsp;&nbsp;CBOR Numbers</a></div><div style='display:none'>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#numbers.integers'>7.1.&nbsp;&nbsp;Integers</a></div>
@@ -1205,7 +1205,7 @@ tag&nbsp;<code>1</code>
 (<a href='#time.getepochtime'>CBOR&nbsp;epoch&nbsp;time</a>),
 and tag&nbsp;<code>1010</code> <span style='white-space:nowrap'>[<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/' title='COTX'>COTX<img src='xtl.svg' alt='link'></a>]</span>.
 </div><div style='margin-top:0.5em'>
-See also <a href='#utility.cbor.createcotxtag'>CBOR.createCotxTag()</a>.</div></td></tr>
+See also <a href='#cbor.tag.createcotxtag'>CBOR.Tag.createCotxTag()</a>.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd><i>tagNumber</i></kbd></td><td style='text-align:center'><kbd>Number</kbd>&nbsp;<code>/</code>&nbsp;<kbd>BigInt</kbd></td><td style='width:100%'>Tag number.</td></tr>
@@ -1215,7 +1215,16 @@ See also <a href='#utility.cbor.createcotxtag'>CBOR.createCotxTag()</a>.</div></
 <tr><td style='text-align:center'><kbd>CBOR.Tag</kbd></td><td colspan='2' style='width:100%'>Instantiated wrapper object.</td></tr>
 </table></div>
 <h4 id='methods.cbor.tag'>2.10.1.&nbsp;&nbsp;CBOR.Tag Methods</h4>
-<h4 id='cbor.tag.gettagnumber'>2.10.1.1.&nbsp;&nbsp;getTagNumber()</h4>
+<h4 id='cbor.tag.get'>2.10.1.1.&nbsp;&nbsp;get()</h4>
+<div class='webpkifloat'>
+<table class='webpkitable' style='margin-left:2em;width:50em'>
+<tr><th>Syntax</th><td style='width:100%'><kbd>get()</kbd></td></tr>
+<tr><th>Description</th><td style='width:100%'>Get tagged CBOR object.</td></tr>
+<tr><td colspan='2' class='webpkidiv'></td></tr>
+<tr><th>Returns</th><th>Description</th></tr>
+<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Retrieved object.</td></tr>
+</table></div>
+<h4 id='cbor.tag.gettagnumber'>2.10.1.2.&nbsp;&nbsp;getTagNumber()</h4>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td style='width:100%'><kbd>getTagNumber()</kbd></td></tr>
@@ -1224,14 +1233,21 @@ See also <a href='#utility.cbor.createcotxtag'>CBOR.createCotxTag()</a>.</div></
 <tr><th>Returns</th><th>Description</th></tr>
 <tr><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Decoded tag number.</td></tr>
 </table></div>
-<h4 id='cbor.tag.get'>2.10.1.2.&nbsp;&nbsp;get()</h4>
+<h4 id='cbor.tag.createcotxtag'>2.10.1.3.&nbsp;&nbsp;CBOR.Tag.createCotxTag()</h4>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td style='width:100%'><kbd>get()</kbd></td></tr>
-<tr><th>Description</th><td style='width:100%'>Get tagged CBOR object.</td></tr>
-<tr><td colspan='2' class='webpkidiv'></td></tr>
-<tr><th>Returns</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Retrieved object.</td></tr>
+<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.Tag.createCotxTag(<i>id</i>, <i>object</i>)</kbd></td></tr>
+<tr><th>Description</th><td colspan='2' style='width:100%'>Conveniance method for creating a <span style='white-space:nowrap'>[<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/' title='COTX'>COTX<img src='xtl.svg' alt='link'></a>]</span> compatible tag.
+<div style='margin-top:0.5em'>See also
+<a href='#cbor.tag.cotxid'>cotxId</a> and
+<a href='#cbor.tag.cotxobject'>cotxObject</a>.</div></td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><td style='text-align:center'><kbd><i>id</i></kbd></td><td style='text-align:center'><kbd>String</kbd></td><td style='width:100%'>URL or other suitable identfier.</td></tr>
+<tr><td style='text-align:center'><kbd><i>object</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Tagged object.</td></tr>
+<tr><td colspan='3' class='webpkidiv'></td></tr>
+<tr><th>Returns</th><th colspan='2'>Description</th></tr>
+<tr><td style='text-align:center'><kbd>CBOR.Tag</kbd></td><td colspan='2' style='width:100%'>Wrapper holding a <code>COTX</code> object.</td></tr>
 </table></div>
 <h4 id='properties.cbor.tag'>2.10.2.&nbsp;&nbsp;CBOR.Tag Properties</h4>
 <h4 id='cbor.tag.cotxid'>2.10.2.1.&nbsp;&nbsp;cotxId</h4>
@@ -1241,7 +1257,7 @@ See also <a href='#utility.cbor.createcotxtag'>CBOR.createCotxTag()</a>.</div></
 <tr><td style='text-align:center'><kbd><i>cotxId</i></kbd></td><td style='text-align:center'><kbd>String</kbd></td><td style='width:100%'>COTX <span style='white-space:nowrap'>[<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/' title='COTX'>COTX<img src='xtl.svg' alt='link'></a>]</span> support:
 object ID string.<div style='margin-top:0.5em'>
 Only valid for COTX tags.
-See also <a href='#utility.cbor.createcotxtag'>CBOR.createCotxTag()</a>.</div></td></tr>
+See also <a href='#cbor.tag.createcotxtag'>CBOR.Tag.createCotxTag()</a>.</div></td></tr>
 </table></div>
 <h4 id='cbor.tag.cotxobject'>2.10.2.2.&nbsp;&nbsp;cotxObject</h4>
 <div class='webpkifloat'>
@@ -1250,7 +1266,7 @@ See also <a href='#utility.cbor.createcotxtag'>CBOR.createCotxTag()</a>.</div></
 <tr><td style='text-align:center'><kbd><i>cotxObject</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>COTX <span style='white-space:nowrap'>[<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/' title='COTX'>COTX<img src='xtl.svg' alt='link'></a>]</span> support:
 wrapped object.<div style='margin-top:0.5em'>
 Only valid for COTX tags.
-See also <a href='#utility.cbor.createcotxtag'>CBOR.createCotxTag()</a>.</div></td></tr>
+See also <a href='#cbor.tag.createcotxtag'>CBOR.Tag.createCotxTag()</a>.</div></td></tr>
 </table></div>
 <h4 id='wrapper.cbor.simple'>2.11.&nbsp;&nbsp;CBOR.Simple</h4>
 <div class='webpkifloat'>
@@ -1822,22 +1838,6 @@ add a second to the created time object.</div></td></tr>
 <tr><td colspan='3' class='webpkidiv'></td></tr>
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td colspan='2' style='width:100%'>Wrapper holding an <code>EpochTime</code> object.</td></tr>
-</table></div>
-<h4 id='utility.cbor.createcotxtag'>6.11.&nbsp;&nbsp;CBOR.createCotxTag()</h4>
-<div class='webpkifloat'>
-<table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.createCotxTag(<i>id</i>, <i>object</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Conveniance method for creating a <span style='white-space:nowrap'>[<a href='https://datatracker.ietf.org/doc/draft-rundgren-cotx/' title='COTX'>COTX<img src='xtl.svg' alt='link'></a>]</span> compatible tag.
-<div style='margin-top:0.5em'>See also
-<a href='#cbor.tag.cotxid'>cotxId</a> and
-<a href='#cbor.tag.cotxobject'>cotxObject</a>.</div></td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>id</i></kbd></td><td style='text-align:center'><kbd>String</kbd></td><td style='width:100%'>URL or other suitable identfier.</td></tr>
-<tr><td style='text-align:center'><kbd><i>object</i></kbd></td><td style='text-align:center'><kbd>CBOR.<i>Wrapper</i></kbd></td><td style='width:100%'>Tagged object.</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>CBOR.Tag</kbd></td><td colspan='2' style='width:100%'>Wrapper holding a <code>COTX</code> object.</td></tr>
 </table></div>
 
   <h3 id='main.numbers'>7.&nbsp;&nbsp;CBOR Numbers</h3>

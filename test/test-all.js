@@ -216,7 +216,8 @@ const t = CBOR.Tag(1010, CBOR.Array().add(CBOR.String("uri")).add(CBOR.Array().a
 assertTrue("Object", t.cotxObject.get(0).toString() == "{}");
 t.checkForUnread();
 assertTrue("objectId", t.cotxId == "uri");  // cotxId is excluded from the checkForUnread() test.
-assertTrue("COTX", t.equals(CBOR.createCotxTag("uri", CBOR.Array().add(CBOR.Map()))));
+assertTrue("COTX", t.equals(
+  CBOR.Tag.createCotxTag("uri", CBOR.Array().add(CBOR.Map()))));
 
 success();
 `}

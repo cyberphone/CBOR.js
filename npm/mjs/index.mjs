@@ -1092,6 +1092,11 @@ export default class CBOR {
     _isPrimitive() {
       return false;
     }
+
+    static createCotxTag(id, object) {
+      return CBOR.Tag(CBOR.Tag.TAG_COTX, 
+        CBOR.Array().add(CBOR.String(id)).add(object));
+    }
   }
 
   ///////////////////////////
@@ -2507,9 +2512,5 @@ export default class CBOR {
     millis = CBOR.#millisCheck(epochMillis, millis);
     let epochSeconds = CBOR.#timeRound(epochMillis, millis) / 1000;
     return millis ? CBOR.Float(epochSeconds) : CBOR.Int(Math.floor(epochSeconds));
-  }
-
-  static createCotxTag(id, object) {
-    return CBOR.Tag(CBOR.Tag.TAG_COTX, CBOR.Array().add(CBOR.String(id)).add(object));
   }
 }

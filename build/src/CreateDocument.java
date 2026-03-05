@@ -526,7 +526,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       (<a href='#time.getepochtime'>CBOR&nbsp;epoch&nbsp;time</a>),
       and tag&nbsp;<code>1010</code> ${COTX}.
       </div><div style='margin-top:0.5em'>
-      See also <a href='#utility.cbor.createcotxtag'>CBOR.createCotxTag()</a>.</div>""";
+      See also <a href='#cbor.tag.createcotxtag'>CBOR.Tag.createCotxTag()</a>.</div>""";
 
   static final String W_TAG_P1_DESCR = """
       Tag number.""";
@@ -550,13 +550,13 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       COTX ${COTX} support:
       object ID string.<div style='margin-top:0.5em'>
       Only valid for COTX tags.
-      See also <a href='#utility.cbor.createcotxtag'>CBOR.createCotxTag()</a>.</div>""";
+      See also <a href='#cbor.tag.createcotxtag'>CBOR.Tag.createCotxTag()</a>.</div>""";
 
   static final String W_TAG_PROP_COTX_OBJECT_DESCR = """
       COTX ${COTX} support:
       wrapped object.<div style='margin-top:0.5em'>
       Only valid for COTX tags.
-      See also <a href='#utility.cbor.createcotxtag'>CBOR.createCotxTag()</a>.</div>""";
+      See also <a href='#cbor.tag.createcotxtag'>CBOR.Tag.createCotxTag()</a>.</div>""";
 
   // CBOR.Simple
 
@@ -2040,11 +2040,16 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
         .addWrapperParameter("tagNumber", DataTypes.JS_NUMBER_BIGINT, W_TAG_P1_DESCR)
         .addWrapperParameter("object", DataTypes.CBOR_Any, W_TAG_P2_DESCR)
 
+        .addMethod("get", W_TAG_GET_DESCR)
+        .setReturn(DataTypes.CBOR_Any, W_TAG_GET_RETURN_DESCR)
+
         .addMethod("getTagNumber", W_TAG_GETNUM_DESCR)
         .setReturn(DataTypes.JS_BIGINT, W_TAG_GETNUM_RETURN_DESCR)
 
-        .addMethod("get", W_TAG_GET_DESCR)
-        .setReturn(DataTypes.CBOR_Any, W_TAG_GET_RETURN_DESCR)
+        .addMethod("CBOR.Tag.createCotxTag", CREATE_COTX_TAG_DESCR)
+        .addParameter("id", DataTypes.JS_STRING, CREATE_COTX_TAG_P_ID)
+        .addParameter("object", DataTypes.CBOR_Any, CREATE_COTX_TAG_P_OBJECT)
+        .setReturn(DataTypes.CBOR_TAG, CREATE_COTX_TAG_RETURN_DESCR)
 
         .setProperty("cotxId", DataTypes.JS_STRING, W_TAG_PROP_COTX_ID_DESCR)
         .setProperty("cotxObject", DataTypes.CBOR_Any, W_TAG_PROP_COTX_OBJECT_DESCR);
@@ -2198,13 +2203,6 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
         .addParameter("instant", DataTypes.JS_DATE, CREATE_TIME_P_DATE)
         .addParameter("millis", DataTypes.JS_BOOLEAN, CREATE_TIME_P_MILLIS)
         .setReturn(DataTypes.CBOR_Any, CREATE_EPOCHTIME_RETURN_DESCR);
-
-    // CBOR.createCotxTag()
-
-    addUtilityMethod("CBOR.createCotxTag", CREATE_COTX_TAG_DESCR)
-        .addParameter("id", DataTypes.JS_STRING, CREATE_COTX_TAG_P_ID)
-        .addParameter("object", DataTypes.CBOR_Any, CREATE_COTX_TAG_P_OBJECT)
-        .setReturn(DataTypes.CBOR_TAG, CREATE_COTX_TAG_RETURN_DESCR);
 
     replace(INTRO, printMainHeader("intro", "Introduction"));
     outline.increment();
