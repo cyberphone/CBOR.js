@@ -90,5 +90,6 @@ Changed CBOR.NonFinite.createPayload() to use 53 bits
 Decoder.setMaxNestingLevel() added
 Lowest time set to epoch 0 (1970-01-01T00:00:00Z) for both DateTime and EpochTime
 
-2026-03-01 1.0.22
+2026-03-05 1.0.22
 Bug fixes in checkForUnread()
+Added CBOR.createCotxTag()
