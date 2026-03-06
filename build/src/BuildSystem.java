@@ -43,6 +43,7 @@ public class BuildSystem {
     addFile("simple.js");
     addFile("dates.js");
     addFile("dynamic.js");
+    addFile("exceptions.js");
     addFile("utf8.js");
     addFile("nesting.js");
     addFile("xyz-encoder.js");

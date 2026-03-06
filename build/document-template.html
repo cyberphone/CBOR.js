@@ -134,7 +134,7 @@
   <p>
     The wrapper concept adds strict <i>type checking</i> to the API.
     That is, if an application expects a CBOR integer and calls 
-    <a href='#cbor.int.getint32'>getInt32()</a>, a <a href='#main.errors'>CborException</a> will
+    <a href='#cbor.int.getint32'>getInt32()</a>, a <a href='#main.errors'>CBOR.Exception</a> will
     be thrown if the referenced object is not an instance of
     <a href='#wrapper.cbor.int'>CBOR.Int</a> or if the CBOR integer
     is out of range for signed 32-bit objects.
@@ -170,7 +170,7 @@ ${INTEGERS}
   Due to the <kbd>Number.MAX_SAFE_INTEGER</kbd> limitation,
   in all places in the <code>CBOR.js</code> API where an integer
   in the form of a JavaScript <kbd>Number</kbd> is expected, <kbd>Number.isInteger(<i>value</i>)</kbd>
-  must be <code>true</code>, else a <a href='#main.errors'>CborException</a> will be thrown.
+  must be <code>true</code>, else a <a href='#main.errors'>CBOR.Exception</a> will be thrown.
 </p>
 The following table holds additional CDDL defintions ${CDDL-EXT}
 and their API counterparts:
@@ -337,11 +337,11 @@ and their API counterparts:
   ${EXAMPLES_SEQ_ENC}
   ${EXAMPLES_SEQ_DEC}
   ${ERROR_HANDLING}
-  Encoding and decoding errors throw <code>CborException</code>,
+  Encoding and decoding errors throw <code>CBOR.Exception</code>,
   derived from the JavaScript <code>Error</code> object.
   ${VERSION_INFO}
   API version: 1.0.22.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2026-03-05
+  Document version: 2026-03-06
 </body>
 </html>

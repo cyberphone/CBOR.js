@@ -1309,6 +1309,20 @@ assertTrue("dyn", CBOR.Map().setDynamic(lambda).get(CBOR.Int(1)).getBoolean());
 success();
 `}
 ,
+{name:'exceptions.js',
+file:String.raw`// Testing exceptions
+
+try {
+    CBOR.decode(new Uint8Array([0xff]));
+    fail("Should not")
+} catch (e) {
+    if (e instanceof CBOR.Exception) {
+        checkException(e, "Unsupported tag: ff");
+    } else fail("Unexpected exception");
+}
+
+success();`}
+,
 {name:'utf8.js',
 file:String.raw`// Test of "utf8" converters
 

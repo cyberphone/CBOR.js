@@ -303,7 +303,7 @@ class CBOR {
     }
   }
 
-  static CborException = class extends Error {
+  static Exception = class extends Error {
     constructor(message) {
       super(message);
     }
@@ -313,7 +313,7 @@ class CBOR {
     if (message.length > 100) {
       message = message.substring(0, 100) + ' ...';
     }
-    throw new CBOR.CborException(message);
+    throw new CBOR.Exception(message);
   }
 
   static #ESCAPE_CHARACTERS = [
