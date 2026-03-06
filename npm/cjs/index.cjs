@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //                                                              //
-//                CBOR::Core API for JavaScript                 //
+//                JavaScript API for CBOR::Core                 //
 //                                                              //
 // Author: Anders Rundgren (anders.rundgren.net@gmail.com)      //
 // Repository: https://github.com/cyberphone/CBOR.js#main       //
@@ -41,11 +41,11 @@ class CBOR {
   // Super class for all CBOR wrappers.
   static #CborObject = class {
 
-    #readFlag;
+    _readFlag;
     _immutableFlag;
 
     constructor() {
-      this.#readFlag = false;
+      this._readFlag = false;
       this._immutableFlag = false;
     }
 
@@ -186,7 +186,7 @@ class CBOR {
 
     isNull() {
       if (this instanceof CBOR.Null) {
-        this.#readFlag = true;
+        this._readFlag = true;
         return true;
       }
       return false;
@@ -228,7 +228,7 @@ class CBOR {
     }
 
     _markAsRead(object) {
-      if (!object._isPrimitive()) object.#readFlag = true
+      if (!object._isPrimitive()) object._readFlag = true
       return object;
     }
 
@@ -255,7 +255,7 @@ class CBOR {
           break;
       }
       if (check) {
-        if (!this.#readFlag) {
+        if (!this._readFlag) {
           let problemItem = this.constructor.name + 
             " with value=" + this.toDiagnostic(false) + " was never read";
           let holder;
@@ -271,7 +271,7 @@ class CBOR {
           CBOR.#error(holder + problemItem);
         }  
       } else {
-        this.#readFlag = true;
+        this._readFlag = true;
       }
     }
 
@@ -298,7 +298,7 @@ class CBOR {
       if (!(this instanceof className)) {
         CBOR.#error("Expected CBOR." + className.name + ", got: CBOR." + this.constructor.name);
       }
-      this.#readFlag = true;
+      this._readFlag = true;
       return this._get();
     }
   }
@@ -1004,12 +1004,14 @@ class CBOR {
         case CBOR.Tag.__TAG_BIG_NEG:
           CBOR.#error("Tag number reserved for 'bigint'");
         case CBOR.Tag.TAG_DATE_TIME:
-          // Note: clone() because we have mot read it really.
-          this.#dateTime = object.clone().getDateTime();
+          this.#dateTime = object.getDateTime();
+          // We have mot read it...really.
+          object._readFlag = false;
           break;
         case CBOR.Tag.TAG_EPOCH_TIME:
-          // Note: clone() because we have mot read it really.
-          this.#epochTime = object.clone().getEpochTime();
+          this.#epochTime = object.getEpochTime();
+          // We have mot read it...really.
+          object._readFlag = false;
           break;
         case CBOR.Tag.TAG_COTX:
           if (object instanceof CBOR.Array && object.length == 2) {
