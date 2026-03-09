@@ -267,7 +267,7 @@ export default class CBOR {
             } else {
                 holder = `Map key ${mapKey.toDiagnostic(false)} with argument `;
             }
-          } else holder = ""
+          } else holder = "";
           CBOR.#error(holder + problemItem);
         }  
       } else {
