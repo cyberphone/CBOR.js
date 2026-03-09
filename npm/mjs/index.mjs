@@ -125,7 +125,7 @@ export default class CBOR {
           return dateTime;
         }
       }
-      CBOR.#error("Invalid ISO date string: " + iso);
+      CBOR.#error(`Invalid ISO date string: ${iso}`);
     }
 
     getEpochTime() {
@@ -208,7 +208,7 @@ export default class CBOR {
     }
 
     get() {
-      CBOR.#error('get() not available in: CBOR.' + this.constructor.name); 
+      CBOR.#error(`get() not available in: CBOR.${this.constructor.name}`); 
     }
 
     toDiagnostic(prettyPrint) {
@@ -257,15 +257,15 @@ export default class CBOR {
       if (check) {
         if (!this._readFlag) {
           let problemItem = this.constructor.name + 
-            " with value=" + this.toDiagnostic(false) + " was never read";
+            ` with value=${this.toDiagnostic(false)} was never read`;
           let holder;
           if (holderObject) {
             if (holderObject instanceof CBOR.Array) {
                 holder = "Array element of type ";
             } else if (holderObject instanceof CBOR.Tag) {
-                holder = "Tag object " + holderObject._tagNumber + " of type ";
+                holder = `Tag object ${holderObject._tagNumber} of type `;
             } else {
-                holder = "Map key " + mapKey.toDiagnostic(false) + " with argument ";
+                holder = `Map key ${mapKey.toDiagnostic(false)} with argument `;
             }
           } else holder = ""
           CBOR.#error(holder + problemItem);
@@ -289,14 +289,14 @@ export default class CBOR {
 
     get length() {
       if (!this._getLength) {
-        CBOR.#error("CBOR." + this.constructor.name + " does not have a 'length' property");
+        CBOR.#error(`CBOR.${this.constructor.name} does not have a 'length' property`);
       }
       return this._getLength();
     }
  
     #checkTypeAndGetValue(className) {
       if (!(this instanceof className)) {
-        CBOR.#error("Expected CBOR." + className.name + ", got: CBOR." + this.constructor.name);
+        CBOR.#error(`Expected CBOR.${className.name}, got: CBOR.${this.constructor.name}`);
       }
       this._readFlag = true;
       return this._get();
@@ -604,7 +604,7 @@ export default class CBOR {
     }
 
     internalToString(cborPrinter) {
-      cborPrinter.append("h'" + CBOR.toHex(this.#byteString) + "'");
+      cborPrinter.append(`h'${CBOR.toHex(this.#byteString)}'`);
     }
 
     _get() {
@@ -668,7 +668,7 @@ export default class CBOR {
     #getIndex(index, offset) {
       index = CBOR.#intCheck(index);
       if (index < 0 || index >= this._objects.length + offset) {
-        CBOR.#error("Array index out of range: " + index);
+        CBOR.#error(`Array index out of range: ${index}`);
       }
       return index;
     }
@@ -774,7 +774,7 @@ export default class CBOR {
         if (this.#preSortedKeys) {
           // Normal case for deterministic decoding.
           if (this._entries[endIndex].compareAndTest(newEntry)) {
-            CBOR.#error("Non-deterministic order for key: " + key);
+            CBOR.#error(`Non-deterministic order for key: ${key}`);
           }
         } else {
           // Programmatically created key or the result of unconstrained decoding.
@@ -824,7 +824,7 @@ export default class CBOR {
         }
       }
       if (mustExist) {
-        CBOR.#error("Missing key: " + key);
+        CBOR.#error(`Missing key: ${key}`);
       }
       return null;
     }
@@ -961,7 +961,7 @@ export default class CBOR {
     compareAndTest(entry) {
       let diff = this.compare(entry.encodedKey);
       if (diff == 0) {
-        CBOR.#error("Duplicate key: " + this.key);
+        CBOR.#error(`Duplicate key: ${this.key}`);
       }
       return diff > 0;
     }
@@ -996,8 +996,8 @@ export default class CBOR {
       super();
       this._tagNumber = CBOR.#unifiedInt(tagNumber);
       this._object = CBOR.#cborArgumentCheck(object);
-      if (this._tagNumber < 0n || this._tagNumber >= 0x10000000000000000n) {
-        CBOR.#error("Tag number is out of range");
+      if (tagNumber < 0n || tagNumber >= 0x10000000000000000n) {
+        CBOR.#error(`Tag number is out of range: ${tagNumber}`);
       }
       switch (this._tagNumber) {
         case CBOR.Tag.__TAG_BIG_POS:
@@ -1112,7 +1112,7 @@ export default class CBOR {
       super();
       this.#value = CBOR.#intCheck(value);
       if (value < 0 || value > 255 || (value > 23 && value < 32)) {
-        CBOR.#error("Simple value out of range: " + value);
+        CBOR.#error(`Simple value out of range: ${value}`);
       }
     }
 
@@ -1121,7 +1121,7 @@ export default class CBOR {
     }
 
     internalToString(cborPrinter) {
-      cborPrinter.append('simple(' + this.#value.toString() + ')');
+      cborPrinter.append(`simple(${this.#value.toString()})`);
     }
 
     _get() {
@@ -1185,7 +1185,7 @@ export default class CBOR {
           this.#value = value;
           return;
         }
-        CBOR.#error("Not a non-finite number: " + this.#original);
+        CBOR.#error(`Not a non-finite number: ${this.#original}`);
     }
 
     isSimple() {
@@ -1229,7 +1229,7 @@ export default class CBOR {
     static createPayload(payload) {
       CBOR.#typeCheck(payload, 'bigint');
       if ((payload & 0x1fffffffffffffn) != payload) {
-        CBOR.#error("Payload out of range: " + payload);
+        CBOR.#error(`Payload out of range: ${payload}`);
       }
       let left64 = (payload & 0x10000000000000n) ? 0xfff0000000000000n : 0x7ff0000000000000n;
       return CBOR.NonFinite(left64 + CBOR.#reversePayload(payload & 0xfffffffffffffn));
@@ -1298,13 +1298,13 @@ export default class CBOR {
 
     apply(target, thisArg, argumentsList) {
       if (argumentsList.length != this.numberOfArguments) {
-        CBOR.#error("CBOR." + target.name + " expects " + this.numberOfArguments + " argument(s)");
+        CBOR.#error(`CBOR.${target.name} expects ${this.numberOfArguments} argument(s)`);
       }
       return new target(...argumentsList);
     }
 
     construct(target, args) {
-      CBOR.#error("CBOR." + target.name + " does not permit \"new\"");
+      CBOR.#error(`CBOR.${target.name} does not permit "new"`);
     }
   }
 
@@ -1343,7 +1343,7 @@ export default class CBOR {
 
     enterLevel() {
       if (++this.nestingLevel > this.maxNestingLevel) {
-        CBOR.#error("Structure nesting level exceeding: " + this.maxNestingLevel);
+        CBOR.#error(`Structure nesting level exceeding: ${this.maxNestingLevel}`);
       }
     }
 
@@ -1376,7 +1376,7 @@ export default class CBOR {
     }
 
     unsupportedTag(tag) {
-      CBOR.#error("Unsupported tag: " + CBOR.#twoHex(tag));
+      CBOR.#error(`Unsupported tag: 0x${CBOR.#twoHex(tag)}`);
     }
 
     rangeLimitedBigInt(value) {
@@ -1510,7 +1510,7 @@ export default class CBOR {
         // N is zero, a shorter variant should have been used.
         // In addition, N must be > 23. 
         if (this.strictNumbers && (bigN < 24n || !(mask & bigN))) {
-          CBOR.#error("Non-deterministic N encoding for tag: 0x" + CBOR.#twoHex(tag));
+          CBOR.#error(`Non-deterministic N encoding for tag: 0x${CBOR.#twoHex(tag)}`);
         }
       }
       // N successfully decoded, now switch on major type (upper three bits).
@@ -1656,8 +1656,8 @@ export default class CBOR {
           lineNumber++;
         }
       }
-      throw new CBOR.DiagnosticNotation.ParserError("\n" + complete +
-                "^\n\nError in line " + lineNumber + ". " + error);
+      throw new CBOR.DiagnosticNotation.ParserError(`\n${complete}` +
+                `^\n\nError in line ${lineNumber}. ${error}`);
     }
  
     readSequenceToEOF() {
@@ -1704,7 +1704,7 @@ export default class CBOR {
       let actual = this.readChar();
       if (actual != validStop) {
         this.parserError(
-          "Expected: ',' or '" + validStop + "' actual: " + this.toReadableChar(actual));
+          `Expected: ',' or '${validStop}' actual: ${this.toReadableChar(actual)}`);
       }
       this.index--;
       return false;
@@ -1827,7 +1827,7 @@ export default class CBOR {
         
         default:
           this.index--;
-          this.parserError("Unexpected character: " + this.toReadableChar(this.readChar()));
+          this.parserError(`Unexpected character: ${this.toReadableChar(this.readChar())}`);
       }
     }
 
@@ -1949,14 +1949,14 @@ export default class CBOR {
 
     toReadableChar(c) {
       let charCode = c.charCodeAt(0); 
-      return charCode < 0x20 ? "\\u00" + CBOR.#twoHex(charCode) : "'" + c + "'";
+      return charCode < 0x20 ? `\\u00${CBOR.#twoHex(charCode)}` : `'${c}'`;
     }
 
     scanFor(expected) {
       [...expected].forEach(c => {
         let actual = this.readChar(); 
         if (c != actual) {
-          this.parserError("Expected: '" + c + "' actual: " + this.toReadableChar(actual));
+          this.parserError(`Expected: '${c}' actual: ${this.toReadableChar(actual)}`);
         }
       });
     }
@@ -2016,7 +2016,7 @@ export default class CBOR {
                 break;
   
               default:
-                this.parserError("Invalid escape character " + this.toReadableChar(c));
+                this.parserError(`Invalid escape character: ${this.toReadableChar(c)}`);
             }
             break;
  
@@ -2034,7 +2034,7 @@ export default class CBOR {
           
           default:
             if (c.charCodeAt(0) < 0x20) {
-              this.parserError("Unexpected control character: " + this.toReadableChar(c));
+              this.parserError(`Unexpected control character: ${this.toReadableChar(c)}`);
             }
         }
         s += c;
@@ -2208,7 +2208,7 @@ export default class CBOR {
   }
 
   static #argTypeError(object, type) {
-    CBOR.#error(object === undefined ? "Undefined argument" : "Argument is not a '" + type + "'");
+    CBOR.#error(object === undefined ? "Undefined argument" : `Argument is not a '${type}'`);
   }
 
   static #bytesCheck(byteArray) {
@@ -2233,7 +2233,7 @@ export default class CBOR {
   }
 
   static #rangeError(type, valueString) {
-    CBOR.#error('Value out of range for "' + type + '": ' + valueString);
+    CBOR.#error(`Value out of range for "${type}": ${valueString}`);
   }
 
   static #returnConverted(converted, original, type) {
@@ -2266,7 +2266,7 @@ export default class CBOR {
     if (Number.isSafeInteger(value)) {
       return value;
     } else {
-      CBOR.#error("Invalid integer: " + value.toString());
+      CBOR.#error(`Invalid integer: ${value.toString()}`);
     }
   }
 
@@ -2325,40 +2325,40 @@ export default class CBOR {
     if (object instanceof CBOR.#CborObject) {
       return object;
     }
-    CBOR.#error("Argument is not a CBOR.* object: " + (object ? object.constructor.name : 'null'));
+    CBOR.#error(`Argument is not a CBOR.* object: ${object ? object.constructor.name : 'null'}`);
   }
 
   static #getInstant(date) {
     if (date instanceof Date) {
       return date.getTime();
     }
-    CBOR.#error("Argument is not a Date object: " + date);
+    CBOR.#error(`Argument is not a Date object: ${date}`);
   }
 
   static #decodeOneHex(charCode) {
     if (charCode >= 0x30 && charCode <= 0x39) return charCode - 0x30;
     if (charCode >= 0x61 && charCode <= 0x66) return charCode - 0x57;
     if (charCode >= 0x41 && charCode <= 0x46) return charCode - 0x37;
-    CBOR.#error("Bad hex character: " + String.fromCharCode(charCode));
+    CBOR.#error(`Bad hex character: ${String.fromCharCode(charCode)}`);
   }
 
   static #checkArgs(list, expected)  {
     if (list.length != expected) {
-      CBOR.#error('Expected number of arguments: ' + expected);
+      CBOR.#error(`Expected number of arguments: ${expected}`);
     }
   }
 
   static #epochCheck(epochMillis) {
     if (!Number.isFinite(epochMillis) ||
         epochMillis < 0 || epochMillis > 253402300799000 /* "9999-12-31T23:59:59Z" */) {
-      CBOR.#error("Epoch out of range: " + epochMillis);
+      CBOR.#error(`Epoch out of range: ${epochMillis}`);
     }
     return epochMillis;
   }
 
   static #dateCheck(time, instant) {
     if (time < 0 || time > 253402300799000) {
-      CBOR.#error("Date object out of range: " + instant.toISOString());
+      CBOR.#error(`Date object out of range: ${instant.toISOString()}`);
     }
     return time;
   }
@@ -2464,7 +2464,7 @@ export default class CBOR {
 
   static fromBigInt(bigint) {
     if (bigint < 0n) {
-      CBOR.#error("Argument out of range: " + bigint);
+      CBOR.#error(`Argument out of range: ${bigint}`);
     }
     let array = [];
     do {

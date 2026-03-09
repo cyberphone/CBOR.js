@@ -1321,7 +1321,7 @@ try {
     fail("Should not")
 } catch (e) {
     if (e instanceof CBOR.Exception) {
-        checkException(e, "Unsupported tag: ff");
+        checkException(e, "Unsupported tag: 0xff");
     } else fail("Unexpected exception");
 }
 
