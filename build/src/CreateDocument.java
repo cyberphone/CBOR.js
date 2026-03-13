@@ -90,12 +90,18 @@ public class CreateDocument {
       <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> conversion rules),
       is out of range, or is <i>non-finite</i>, a <a href='#main.errors'>CBOR.Exception</a> is thrown.</div>
       <div style='margin-top:0.5em'>
+      If the <kbd><i>exact</i></kbd> flag is set, the conversion must be loss-less, else
+      a <a href='#main.errors'>CBOR.Exception</a> is thrown.</div>
+      <div style='margin-top:0.5em'>
       See also <a href='#cbor.float.getfloat16'>getFloat16()</a>.</div>""";
 
-  static final String W_CREFLOAT16_P1_DESCR = """
+  static final String W_CREFLOAT1632_P1_DESCR = """
       Floating-point number to be wrapped.""";
 
-  static final String W_CREFLOAT16_RETURN_DESCR = """
+  static final String W_CREFLOAT1632_P2_DESCR = """
+      If <code>true</code> the conversion must be loss-less.""";
+
+  static final String W_CREFLOAT1632_RETURN_DESCR = """
       Instantiated <a href='#wrapper.cbor.float'>CBOR.Float</a> object.""";
 
   static final String W_CREFLOAT32_DESCR = """
@@ -106,17 +112,14 @@ public class CreateDocument {
       <span style='white-space:nowrap'><code>IEEE</code> <code>754</code></span> conversion rules),
       is out of range, or is <i>non-finite</i>, a <a href='#main.errors'>CBOR.Exception</a> is thrown.</div>
       <div style='margin-top:0.5em'>
+      If the <kbd><i>exact</i></kbd> flag is set, the conversion must be loss-less, else
+      a <a href='#main.errors'>CBOR.Exception</a> is thrown.</div>
+      <div style='margin-top:0.5em'>
       Note that this method returns a <code>float16</code> compatible object
       If <kbd><i>value</i></kbd> and precision is <i>equivalent</i> to the <code>float32</code>
       representation (e.g. <code>2.5</code>).</div>
       <div style='margin-top:0.5em'>
       See also <a href='#cbor.float.getfloat32'>getFloat32()</a>.</div>""";
-
-  static final String W_CREFLOAT32_P1_DESCR = """
-      Floating-point number to be wrapped.""";
-
-  static final String W_CREFLOAT32_RETURN_DESCR = """
-      Instantiated <a href='#wrapper.cbor.float'>CBOR.Float</a> object.""";
 
   static final String W_GETFLOAT_DESCR = """
       Get CBOR floating-point object.""";
@@ -1881,12 +1884,14 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
         .setReturn(DataTypes.JS_NUMBER, W_GETEXTFLOAT_RETURN_DESCR)
         
         .addMethod("CBOR.Float.createFloat16", W_CREFLOAT16_DESCR)
-        .addParameter("value", DataTypes.JS_NUMBER, W_CREFLOAT16_P1_DESCR)
-        .setReturn(DataTypes.CBOR_FLOAT, W_CREFLOAT16_RETURN_DESCR)
+        .addParameter("value", DataTypes.JS_NUMBER, W_CREFLOAT1632_P1_DESCR)
+        .addParameter("exact", DataTypes.JS_BOOLEAN, W_CREFLOAT1632_P2_DESCR)
+        .setReturn(DataTypes.CBOR_FLOAT, W_CREFLOAT1632_RETURN_DESCR)
 
         .addMethod("CBOR.Float.createFloat32", W_CREFLOAT32_DESCR)
-        .addParameter("value", DataTypes.JS_NUMBER, W_CREFLOAT32_P1_DESCR)
-        .setReturn(DataTypes.CBOR_FLOAT, W_CREFLOAT32_RETURN_DESCR)
+        .addParameter("value", DataTypes.JS_NUMBER, W_CREFLOAT1632_P1_DESCR)
+        .addParameter("exact", DataTypes.JS_BOOLEAN, W_CREFLOAT1632_P2_DESCR)
+        .setReturn(DataTypes.CBOR_FLOAT, W_CREFLOAT1632_RETURN_DESCR)
 
         .setProperty("length", DataTypes.JS_NUMBER, W_FLOAT_PROP_DESCR);
 

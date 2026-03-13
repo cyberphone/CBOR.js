@@ -212,7 +212,7 @@ export default class CBOR {
     }
 
     toDiagnostic(prettyPrint) {
-      let cborPrinter = new CBOR.#CborPrinter(CBOR.#typeCheck(prettyPrint, 'boolean'));
+      let cborPrinter = new CBOR.#CborPrinter(CBOR.#boolCheck(prettyPrint));
       this.internalToString(cborPrinter);
       return cborPrinter.buffer;
     }
@@ -534,12 +534,12 @@ export default class CBOR {
       return nf;
     }
 
-    static createFloat32(value) {
-      return CBOR.#returnConverted(CBOR.#reduce32(value), value, 'Float32');
+    static createFloat32(value, exact) {
+      return CBOR.#returnConverted(false, value, exact);
     }
 
-    static createFloat16(value) {
-      return CBOR.#returnConverted(Math.f16round(CBOR.#reduce32(value)), value, 'Float16');
+    static createFloat16(value, exact) {
+      return CBOR.#returnConverted(true, value, exact);
     }
   }
 
@@ -621,7 +621,7 @@ export default class CBOR {
 
     constructor(value) {
       super();
-      this.#value = CBOR.#typeCheck(value, 'boolean');
+      this.#value = CBOR.#boolCheck(value);
     }
     
     encode() {
@@ -1203,7 +1203,7 @@ export default class CBOR {
     setSign(sign) {
       let mask = 1n << BigInt((this.#ieee754.length * 8) - 1);
       this.#createDetEnc((this.#value & (mask - 1n)) | 
-                         (CBOR.#typeCheck(sign, 'boolean') ? mask : 0n));
+                         (CBOR.#boolCheck(sign) ? mask : 0n));
       return this;
     }
 
@@ -2236,11 +2236,28 @@ export default class CBOR {
     CBOR.#error(`Value out of range for "${type}": ${valueString}`);
   }
 
-  static #returnConverted(converted, original, type) {
-    if (Number.isFinite(converted)) {
-      return CBOR.Float(converted);
+  static #returnConverted(float16Flag, value, exact) {
+    let type = CBOR.#boolCheck(float16Flag) ? "float16" : "float32";
+    let reduced;
+    if (Number.isFinite(value)) {
+      reduced = Math.fround(value);
+      let success;
+      if (success = Number.isFinite(reduced)) {
+        if (float16Flag) {
+          reduced = Math.f16round(reduced);
+          success = Number.isFinite(reduced);
+        }
+      }
+      if (!success) {
+        CBOR.#error(`Not possible reducing ${value} into a "${type}"`);
+      }
+      if (CBOR.#boolCheck(exact) && value != reduced) {
+        CBOR.#error(`${value} cannot be exactly represented by "${type}"`);
+      }
+    } else {
+      reduced = value;
     }
-    CBOR.#rangeError(type, CBOR.Float(original).toString());
+    return CBOR.Float(reduced);
   }
 
   static #rangeCheck(value, min, max) {
@@ -2270,12 +2287,8 @@ export default class CBOR {
     }
   }
 
-  static #reduce32(value) {
-    value = CBOR.#typeCheck(value, 'number');
-    if (!Number.isFinite(value)) {
-      CBOR.#error("Not permitted: 'NaN/Infinity'");
-    }
-    return Math.fround(value);
+  static #boolCheck(value) {
+    return CBOR.#typeCheck(value, 'boolean');
   }
 
   static #encodeIntegerOrTag(tag, value) {
