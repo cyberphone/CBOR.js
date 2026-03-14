@@ -275,7 +275,7 @@ function reducedOneTurn(length, value, result, exact) {
     assertTrue("equi", CBOR.decode(reduced.encode()).equals(reduced));
   } catch (e) {
     assertFalse("should" + e.toString(), ok)
-    checkException(e, Number,isFinite(value) ? "Not possible reducing" : "NaN/");
+    checkException(e, Number,isFinite(value) ? "out of range for" : "NaN/");
   }
 }
 
@@ -300,5 +300,12 @@ reducedOneTurn(4,    1.401298464324817e-45,  1.401298464324817e-45,  true);
 reducedOneTurn(4,    3.4028234663852886e+38, 3.4028234663852886e+38, true);
 reducedOneTurn(4,    3.4028235e+38,          3.4028234663852886e+38, false);
 reducedOneTurn(null, 3.40282358e+38,         3.4028234663852886e+38, false);
+
+try {
+  CBOR.Int(6).getFloat64();
+  fail("should not");
+} catch(e) {
+  checkException(e, "Expected CBOR.Float, got CBOR.Int");
+}
 
 success();

@@ -80,9 +80,9 @@ oneGetDateTime(1740060548930, "2025-02-20T14:09:08.9305Z");
 oneGetDateTime(0,             "1970-01-01T00:00:00Z");
 oneGetDateTime(253402300799000, "9999-12-31T23:59:59Z");
 
-badDate("c001", "got: CBOR.Int");
+badDate("c001", "got CBOR.Int");
 badDate("c06135", "Invalid ISO date string: 5");
-badDate("c16135", "got: CBOR.String");
+badDate("c16135", "got CBOR.String");
 
 oneGetEpochTime("1A67B73784", 1740060548, "Int with value=1740060548 was never read");
 oneGetEpochTime("FB41D9EDCDE113645A", 1740060548.303, "Float with value=1740060548.303 was never read");

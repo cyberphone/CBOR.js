@@ -37,7 +37,7 @@ assertTrue("t5", CBOR.toHex(cbor) ==
     CBOR.Tag(tagNumber, CBOR.Boolean(true));
     fail("Should not");
   } catch (e) {
-     checkException(e, "got: CBOR.Boolean");
+     checkException(e, "got CBOR.Boolean");
   }
 });
 

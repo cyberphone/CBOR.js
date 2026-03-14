@@ -288,15 +288,17 @@ class CBOR {
     }
 
     get length() {
-      if (!this._getLength) {
-        CBOR.#error(`CBOR.${this.constructor.name} does not have a 'length' property`);
-      }
       return this._getLength();
+    }
+
+    // Overridden.
+    _getLength() {
+      CBOR.#error(`CBOR.${this.constructor.name} does not have a 'length' property`);
     }
  
     #checkTypeAndGetValue(className) {
       if (!(this instanceof className)) {
-        CBOR.#error(`Expected CBOR.${className.name}, got: CBOR.${this.constructor.name}`);
+        CBOR.#error(`Expected CBOR.${className.name}, got CBOR.${this.constructor.name}`);
       }
       this._readFlag = true;
       return this._get();
@@ -2238,26 +2240,26 @@ class CBOR {
 
   static #returnConverted(float16Flag, value, exact) {
     let type = CBOR.#boolCheck(float16Flag) ? "float16" : "float32";
-    let reduced;
+    let converted;
     if (Number.isFinite(value)) {
-      reduced = Math.fround(value);
+      converted = Math.fround(value);
       let success;
-      if (success = Number.isFinite(reduced)) {
+      if (success = Number.isFinite(converted)) {
         if (float16Flag) {
-          reduced = Math.f16round(reduced);
-          success = Number.isFinite(reduced);
+          converted = Math.f16round(converted);
+          success = Number.isFinite(converted);
         }
       }
       if (!success) {
-        CBOR.#error(`Not possible reducing ${value} into a "${type}"`);
+        CBOR.#error(`${value} out of range for "${type}"`);
       }
-      if (CBOR.#boolCheck(exact) && value != reduced) {
+      if (CBOR.#boolCheck(exact) && value != converted) {
         CBOR.#error(`${value} cannot be exactly represented by "${type}"`);
       }
     } else {
-      reduced = value;
+      converted = value;
     }
-    return CBOR.Float(reduced);
+    return CBOR.Float(converted);
   }
 
   static #rangeCheck(value, min, max) {
