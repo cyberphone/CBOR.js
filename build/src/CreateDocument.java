@@ -55,7 +55,7 @@ public class CreateDocument {
   static final String W_FLOAT_DESCR = """
       Constructor.  Creates a CBOR <code>float</code> object.
       <div style='margin-top:0.5em'>
-      See also <a href='#jsnumbers.fp'>Floating-Point Numbers</a>.</div>
+      See also <a href='#numbers.floating-point'>Floating-Point Numbers</a>.</div>
       <div style='margin-top:0.5em'>
       For supporting <code>NaN</code> and <code>Infinity</code>, see
       <a href='non-finite-numbers.html'>Non-Finite Numbers</a>.</div>""";
