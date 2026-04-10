@@ -18,14 +18,21 @@ function getRadioValue(name) {
 }
 
 function getBytesFromCborHex(hexAndOptionalComments) {
-  return CBOR.fromHex(hexAndOptionalComments.replaceAll(/#.*(\r|\n|$)/g, '')
-                                            .replaceAll(/( |\n|\r)/g, ''));
+  return Uint8Array.fromHex(hexAndOptionalComments.replaceAll(/#.*(\r|\n|$)/g, '')
+                                                  .replaceAll(/( |\n|\r)/g, ''));
+}
+
+function addArrays(a, b) {
+  let result = new Uint8Array(a.length + b.length);
+  result.set(a);
+  result.set(b, a.length);
+  return result;
 }
 
 function getBytesFromCborSequence(cborObjects) {
   let cborBytes = new Uint8Array();
   cborObjects.forEach(o => {
-    cborBytes = CBOR.addArrays(cborBytes, o.encode());
+    cborBytes = addArrays(cborBytes, o.encode());
   });
   return cborBytes;
 }
@@ -56,10 +63,10 @@ function getFormattedCbor(selected, sequenceBuilder) {
       return htmlSanitize(diagnosticNotation);
 
     case 'hexa':
-      return CBOR.toHex(cborBytes);
+      return cborBytes.toHex();
 
     case 'cstyle':
-      let hex = CBOR.toHex(cborBytes);
+      let hex = cborBytes.toHex();
       let cstyle = '';
       for (let i = 0; i < hex.length; ) {
         if (i > 0) {
@@ -70,7 +77,7 @@ function getFormattedCbor(selected, sequenceBuilder) {
       return cstyle;
 
     default:
-      return CBOR.toBase64Url(cborBytes);
+      return cborBytes.toBase64({alphabet:'base64url', omitPadding:true});
   }
 }
 
@@ -128,7 +135,7 @@ async function doProcess() {
         break;
 
       default:
-        cborBytes = CBOR.fromBase64Url(inData);
+        cborBytes = Uint8Array.fromBase64(inData, {alphabet:'base64url'});
     }
     let sequenceBuilder = CBOR.Array();
     let decoder = CBOR.initDecoder(cborBytes, 
