@@ -11,7 +11,7 @@ assertTrue("t3.2", tag.cotxId == "https://example.com/myobject");
 assertTrue("t3.3", tag.cotxObject.equals(CBOR.Int(6)));
 cbor = CBOR.Tag(0xf0123456789abcden, object).encode();
 assertTrue("t14", CBOR.decode(cbor).getTagNumber()== 0xf0123456789abcden);
-assertTrue("t5", CBOR.toHex(cbor) == 
+assertTrue("t5", cbor.toHex() == 
     "dbf0123456789abcde82781c68747470733a2f2f6578616d706c652e636f6d2f6d796f626a65637406");
 
 [-1n, 0x10000000000000000n].forEach(tagNumber => { 

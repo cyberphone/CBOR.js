@@ -2,6 +2,14 @@
 import CBOR from '../npm/mjs/index.mjs';
 import { assertTrue, assertFalse, success } from './assertions.js';
 
+function compareArrays(a, b) {
+  let minIndex = Math.min(a.length, b.length);
+  for (let i = 0; i < minIndex; i++) {
+    let diff = a[i] - b[i];
+  }
+  return a.length - b.length;
+}
+
 function utf8EncoderTest(string, ok) {
   try {
     CBOR.String(string).encode();
@@ -9,11 +17,10 @@ function utf8EncoderTest(string, ok) {
   } catch (error) {
     assertFalse("No good", ok);
   }
-
 }
 
 function utf8DecoderTest(hex, ok) {
-  let cbor = CBOR.fromHex(hex);
+  let cbor = Uint8Array.fromHex(hex);
   let roundTrip;
   try {
     roundTrip = CBOR.decode(cbor).encode();
@@ -22,7 +29,7 @@ function utf8DecoderTest(hex, ok) {
     return;
   }
   assertTrue("OK", ok);
-  assertFalse("Conv", CBOR.compareArrays(cbor, roundTrip));
+  assertFalse("Conv", compareArrays(cbor, roundTrip));
 }
 
 utf8DecoderTest("62c328", false);

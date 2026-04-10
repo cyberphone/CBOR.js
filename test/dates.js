@@ -15,7 +15,7 @@ function oneGetDateTime(epoch, isoString) {
 
 function badDate(hexBor, err) {
   try {
-    CBOR.decode(CBOR.fromHex(hexBor));
+    CBOR.decode(Uint8Array.fromHex(hexBor));
     fail("must not");
   } catch (e) {
     checkException(e, err);
@@ -38,8 +38,8 @@ function truncateEpochTime(float, millis, seconds) {
 
 function oneGetEpochTime(hexBor, epoch, err) {
   let time = Math.floor((epoch * 1000) + 0.5);
-  let instant = CBOR.decode(CBOR.fromHex(hexBor)).getEpochTime();
-  // console.log("v=" + CBOR.decode(CBOR.fromHex(hexBor)) + " getTime=" + instant.getTime() + " time=" + time);
+  let instant = CBOR.decode(Uint8Array.fromHex(hexBor)).getEpochTime();
+  // console.log("v=" + CBOR.decode(Uint8Array.fromHex(hexBor)) + " getTime=" + instant.getTime() + " time=" + time);
   assertTrue("epoch1", instant.getTime() == time);
   let cborObject = CBOR.createEpochTime(instant, time % 1000);
   // console.log("E=" + cborObject.toString());
@@ -51,7 +51,7 @@ function oneGetEpochTime(hexBor, epoch, err) {
     // console.log("r1=" + cborObject.getEpochTime().getTime() + " r2=" + p1);
     assertTrue("epoch3", cborObject.getEpochTime().getTime() == p1);
   }
-  instant = CBOR.decode(CBOR.fromHex(hexBor));
+  instant = CBOR.decode(Uint8Array.fromHex(hexBor));
   try {
     instant.checkForUnread();
     fail("must not");

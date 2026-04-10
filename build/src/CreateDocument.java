@@ -690,108 +690,6 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
       Equivalent to calling <a href='#common.todiagnostic'>toDiagnostic()</a>
       with a <code>true</code> argument.""";
 
-  // CBOR.addArrays()
-
-  static final String ADDARRAYS_DESCR = """
-      Add two arrays.""";
-
-  static final String ADDARRAYS_P1_DESCR = """
-      First array.""";
-
-  static final String ADDARRAYS_P2_DESCR = """
-      Second array.""";
-
-  static final String ADDARRAYS_RETURN_DESCR = """
-      Concatenation of array <kbd><i>a</i></kbd> and <kbd><i>b</i></kbd>.""";
-
-  // CBOR.compareArrays()
-
-  static final String CMPARRAYS_DESCR = """
-      Compare two arrays lexicographically.""";
-
-  static final String CMPARRAYS_P1_DESCR = """
-      First array.""";
-
-  static final String CMPARRAYS_P2_DESCR = """
-      Second array.""";
-
-  static final String CMPARRAYS_RETURN_DESCR = """
-      If <kbd><i>a</i></kbd> and <kbd><i>b</i></kbd> are identical,
-      <kbd>0</kbd> is retuned.
-      If <kbd><i>a</i>&nbsp;&gt;&nbsp;<i>b</i></kbd>,
-      a positive number is returned.
-      If <kbd><i>a</i>&nbsp;&lt;&nbsp;<i>b</i></kbd>,
-      a negative number is returned.""";
-
-  // CBOR.toHex()
-
-  static final String TOHEX_DESCR = """
-      Encode binary string to hexadecimal.""";
-
-  static final String TOHEX_P1_DESCR = """
-      Zero or more bytes to be encoded.""";
-
-  static final String TOHEX_RETURN_DESCR = """
-      Hexadecimal encoded data.""";
-
-  // CBOR.fromHex()
-
-  static final String FROMHEX_DESCR = """
-      Decode hexadecimal data into binary.""";
-
-  static final String FROMHEX_P1_DESCR = """
-      String with zero or more hexadecimal pairs. Each pair represents one byte.""";
-
-  static final String FROMHEX_RETURN_DESCR = """
-      The resulting binary (bytes).""";
-
-  // CBOR.toBase64Url()
-
-  static final String TOB64U_DESCR = """
-      Encode binary string to base64Url.""";
-
-  static final String TOB64U_P1_DESCR = """
-      Zero or more bytes to be encoded.""";
-
-  static final String TOB64U_RETURN_DESCR = """
-      Base64Url encoded data.""";
-
-  // CBOR.fromBase64Url()
-
-  static final String FROMB64U_DESCR = """
-      Decode base64Url encoded data into binary.
-      Note that this method is <i>permissive</i>; it accepts
-      base64 encoded data as well as data with or without
-      <kbd>'='</kbd> padding.""";
-
-  static final String FROMB64U_P1_DESCR = """
-      String in base64Url notation.  The string may be empty.""";
-
-  static final String FROMB64U_RETURN_DESCR = """
-      The resulting binary (bytes).""";
-
-  // CBOR.toBigInt()
-
-  static final String TOBIGINT_DESCR = """
-      Convert binary string to BigInt.""";
-
-  static final String TOBIGINT_P1_DESCR = """
-      Zero or more bytes representing an <i>unsigned</i> number.""";
-
-  static final String TOBIGINT_RETURN_DESCR = """
-      Resulting BigInt number.""";
-
-  // CBOR.fromBigInt()
-
-  static final String FROMBIGINT_DESCR = """
-      Convert BigInt into binary string.""";
-
-  static final String FROMBIGINT_P1_DESCR = """
-      Value to be converted must be greater or equal to zero.""";
-
-  static final String FROMBIGINT_RETURN_DESCR = """
-      The resulting binary (one or more bytes).""";
-
   // CBOR.createEpochTime()
 
   static final String CREATE_EPOCHTIME_DESCR = """
@@ -1607,7 +1505,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
                            .set(CBOR.Int(1), CBOR.Float(45.7))
                            .set(CBOR.Int(2), CBOR.String("Hi there!")).encode();
 
-            console.log(CBOR.toHex(cbor));
+            console.log(cbor.toHex());
             %%a201fb4046d9999999999a0269486920746865726521%%
                   """);
   }
@@ -1660,7 +1558,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
               2: "Hi there!"
             }`).encode();
 
-            console.log(CBOR.toHex(cbor));
+            console.log(cbor.toHex());
             %%a201fb4046d9999999999a0269486920746865726521%%
                   """);
   }
@@ -1675,7 +1573,7 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
               .add(CBOR.Float(4.5))
               .encodeAsSequence();
 
-            console.log(CBOR.toHex(cbor));
+            console.log(cbor.toHex());
             %%a10763486921f94480%%
                   """);
   }
@@ -2143,56 +2041,6 @@ CBOR.NonFinite.createPayload()</a>.</div>""";
     addDecoderMethod("CBOR.fromDiagnosticSeq", DIAGDECSEQ_DESCR)
         .addParameter("cborText", DataTypes.JS_STRING, DIAGDECSEQ_P1_DESCR)
         .setReturn(DataTypes.JS_ARRAY, DIAGDECSEQ_RETURN_DESCR);
-
-    // CBOR.addArrays()
-
-    addUtilityMethod("CBOR.addArrays", ADDARRAYS_DESCR)
-        .addParameter("a", DataTypes.JS_UINT8ARRAY, ADDARRAYS_P1_DESCR)
-        .addParameter("b", DataTypes.JS_UINT8ARRAY, ADDARRAYS_P2_DESCR)
-        .setReturn(DataTypes.JS_UINT8ARRAY, ADDARRAYS_RETURN_DESCR);
-
-    // CBOR.compareArrays()
-
-    addUtilityMethod("CBOR.compareArrays", CMPARRAYS_DESCR)
-        .addParameter("a", DataTypes.JS_UINT8ARRAY, CMPARRAYS_P1_DESCR)
-        .addParameter("b", DataTypes.JS_UINT8ARRAY, CMPARRAYS_P2_DESCR)
-        .setReturn(DataTypes.JS_NUMBER, CMPARRAYS_RETURN_DESCR);
-
-    // CBOR.toHex()
-
-    addUtilityMethod("CBOR.toHex", TOHEX_DESCR)
-        .addParameter("byteArray", DataTypes.JS_UINT8ARRAY, TOHEX_P1_DESCR)
-        .setReturn(DataTypes.JS_STRING, TOHEX_RETURN_DESCR);
-
-    // CBOR.fromHex()
-
-    addUtilityMethod("CBOR.fromHex", FROMHEX_DESCR)
-        .addParameter("hexString", DataTypes.JS_STRING, FROMHEX_P1_DESCR)
-        .setReturn(DataTypes.JS_UINT8ARRAY, FROMHEX_RETURN_DESCR);
-
-    // CBOR.toBase64Url()
-
-    addUtilityMethod("CBOR.toBase64Url", TOB64U_DESCR)
-        .addParameter("byteArray", DataTypes.JS_UINT8ARRAY, TOB64U_P1_DESCR)
-        .setReturn(DataTypes.JS_STRING, TOB64U_RETURN_DESCR);
-
-    // CBOR.fromBase64Url()
-
-    addUtilityMethod("CBOR.fromBase64Url", FROMB64U_DESCR)
-        .addParameter("base64", DataTypes.JS_STRING, FROMB64U_P1_DESCR)
-        .setReturn(DataTypes.JS_UINT8ARRAY, FROMB64U_RETURN_DESCR);
-
-    // CBOR.toBigInt()
-
-    addUtilityMethod("CBOR.toBigInt", TOBIGINT_DESCR)
-        .addParameter("byteArray", DataTypes.JS_UINT8ARRAY, TOBIGINT_P1_DESCR)
-        .setReturn(DataTypes.JS_BIGINT, TOBIGINT_RETURN_DESCR);
-
-    // CBOR.fromBigInt()
-
-    addUtilityMethod("CBOR.fromBigInt", FROMBIGINT_DESCR)
-        .addParameter("value", DataTypes.JS_BIGINT, FROMBIGINT_P1_DESCR)
-        .setReturn(DataTypes.JS_UINT8ARRAY, FROMBIGINT_RETURN_DESCR);
 
      // CBOR.createDateTime()
 

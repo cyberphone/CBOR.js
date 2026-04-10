@@ -4,12 +4,12 @@ import { fail, assertTrue, assertFalse, success, checkException } from './assert
 
 function oneTurn(hex, dn) {
   try {
-    CBOR.decode(CBOR.fromHex(hex));
+    CBOR.decode(Uint8Array.fromHex(hex));
     fail("Should not fail on: " + dn);
   } catch (e) {
     checkException(e, "Non-d");
   }
-  let object = CBOR.initDecoder(CBOR.fromHex(hex), 
+  let object = CBOR.initDecoder(Uint8Array.fromHex(hex), 
       dn.includes("{") ? CBOR.LENIENT_MAP_DECODING : CBOR.LENIENT_NUMBER_DECODING).decodeWithOptions();
   if (object.toString() != dn || !object.equals(CBOR.decode(object.encode()))) {
     fail("non match:" + dn);

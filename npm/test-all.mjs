@@ -30,12 +30,22 @@ let TESTS=[
 {name:'base64.js',
 file:String.raw`// Testing the B64U/B64 converters
 
+function compareArrays(a, b) {
+  let minIndex = Math.min(a.length, b.length);
+  for (let i = 0; i < minIndex; i++) {
+    let diff = a[i] - b[i];
+  }
+  return a.length - b.length;
+}
+
 let bin = new Uint8Array(256);
 for (let i = 0; i < bin.length; i++) {
   bin[i] = i;
 }
-let b64U = CBOR.toBase64Url(bin);
-assertFalse("cmp1", CBOR.compareArrays(bin, CBOR.fromBase64Url(b64U)));
+let b64U = bin.toBase64({alphabet: 'base64url', omitPadding: true});
+// console.log(b64U);
+// b64'' is "permissive" and takes Base64Url as well...
+assertFalse("cmp1", compareArrays(bin, CBOR.fromDiagnostic("b64'" + b64U + "'").getBytes()));
 
 // This is what "btoa" returns for bin:
 let b64 = 'AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissL\
@@ -44,14 +54,21 @@ S4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY\
 ZqbnJ2en6ChoqOkpaanqKmqq6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz\
 9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/w==';
 
-// fromBase64Url is "permissive" and takes Base64 with padding as well...
-assertFalse("cmp2", CBOR.compareArrays(bin, CBOR.fromBase64Url(b64)));
+// b64'' is "permissive" and takes Base64 with padding as well...
+assertFalse("cmp2", compareArrays(bin, CBOR.fromDiagnostic("b64'" + b64 + "'").getBytes()));
 
-assertFalse("cmp3", CBOR.compareArrays(CBOR.fromBase64Url('oQVkZGF0YQ'), 
-                                       CBOR.fromHex('a1056464617461')));
 // Zero data is compliant
-assertFalse("cmp4", CBOR.compareArrays(CBOR.fromBase64Url(''), new Uint8Array()));
-assertTrue("cmp4", CBOR.toBase64Url(new Uint8Array()) == "");
+assertFalse("cmp3", compareArrays(CBOR.fromDiagnostic("b64''").getBytes(), new Uint8Array()));
+
+['8/T19vf4+fr7/P3+/w=', '8/T19vf4?fr7/P3+/w'].forEach(value => {
+  try {
+    CBOR.fromDiagnostic("b64'" + value + "'");
+    fail("Shouldn't");
+  } catch(e) {
+    checkException(e, 'Error in line 1');
+  }
+});
+
 success();
 `}
 ,
@@ -192,7 +209,7 @@ file:String.raw`// Testing the COTX identifier
 
 function oneTurn(hex, dn, ok) {
   try {
-    let object = CBOR.decode(CBOR.fromHex(hex));
+    let object = CBOR.decode(Uint8Array.fromHex(hex));
     assertTrue("Should not execute", ok);
     if (object.toString() != dn.toString() || !object.equals(CBOR.decode(object.encode()))) {
       throw Error("non match:" + dn + " " + object.toString());
@@ -240,7 +257,7 @@ function oneTurn(cborText, ok, compareWithOrNull) {
 }
 
 function oneBinaryTurn(diag, hex) {
-  assertTrue("bin", CBOR.toHex(CBOR.fromDiagnostic(diag).encode()) == hex);
+  assertTrue("bin", CBOR.fromDiagnostic(diag).encode().toHex() == hex);
 }
 
 oneTurn("2", true, null);
@@ -266,7 +283,7 @@ oneBinaryTurn('"\\ud800\\udd51"', "64f0908591");
 oneBinaryTurn("'\\u20ac'", "43e282ac");
 oneBinaryTurn('"\\"\\\\\\b\\f\\n\\r\\t"', "67225c080c0a0d09");
 
-let cborObject = CBOR.decode(CBOR.fromHex('a20169746578740a6e6578740284fa3380000147a10564646\
+let cborObject = CBOR.decode(Uint8Array.fromHex('a20169746578740a6e6578740284fa3380000147a10564646\
 17461a1f5f4c074323032332d30362d30325430373a35333a31395a'));
 
 let cborText = '{\n' +
@@ -303,6 +320,30 @@ success();
 {name:'float.js',
 file:String.raw`// Test program for floating-point "edge cases"
 
+function toBigInt(byteArray) {
+  let value = 0n;
+  byteArray.forEach(byte => {
+    value <<= 8n;
+    value += BigInt(byte);
+  });
+  return value;
+}
+
+function fromBigInt(bigint) {
+  let array = [];
+  do {
+    array.push(Number(bigint & 0xffn));
+  } while (bigint >>= 8n);
+  return new Uint8Array(array.reverse());
+}
+
+function addArrays(a, b) {
+  let result = new Uint8Array(a.length + b.length);
+  result.set(a);
+  result.set(b, a.length);
+  return result;
+}
+
 function overflow(decodedValue, length) {
   let test = 'decodedValue.getFloat' + length + '()';
   try {
@@ -335,7 +376,7 @@ function oneTurn(valueText, expected) {
       checkException(e, "bigint");
     }
     let cbor = CBOR.Float(value).encode();
-    assertTrue("f3", CBOR.toHex(cbor) == expected);
+    assertTrue("f3", cbor.toHex() == expected);
     let decodedValue = CBOR.decode(cbor);
     switch (cbor.length) {
       case 3:
@@ -370,13 +411,13 @@ function oneTurn(valueText, expected) {
     assertTrue("nf2", decodedValue.getExtendedFloat64().toString() == value.toString());
     assertTrue("nf3", decodedValue.toString() == value.toString());
     let cbor = decodedValue.encode();
-    assertTrue("nf4", CBOR.toHex(cbor) == expected);
+    assertTrue("nf4", cbor.toHex() == expected);
     assertTrue("nf5", CBOR.decode(cbor).equals(decodedValue));
     let buf = new Uint8Array(8);
     new DataView(buf.buffer, 0, 8).setFloat64(0, value, false);
-    assertTrue("nf6", decodedValue.getNonFinite64() == CBOR.toBigInt(buf));
+    assertTrue("nf6", decodedValue.getNonFinite64() == toBigInt(buf));
   }
-  assertTrue("d10", CBOR.toHex(CBOR.Float.createExtendedFloat(value).encode()) == expected);
+  assertTrue("d10", CBOR.Float.createExtendedFloat(value).encode().toHex() == expected);
 }
 
 const inNanWithPayload = new Uint8Array([0x7f, 0xf8, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00]);
@@ -403,16 +444,16 @@ function payloadOneTurn(payload, hex, dn) {
   assertTrue("plo1", object instanceof CBOR.NonFinite);
   let nonFinite = object;
   assertTrue("plo2", nonFinite.getPayload() == payload);
-  assertTrue("plo3", CBOR.toHex(cbor) == hex);
+  assertTrue("plo3", cbor.toHex() == hex);
   assertTrue("plo4", nonFinite.toString() == dn);
-  assertTrue("plo5", nonFinite.getNonFinite() == CBOR.toBigInt(CBOR.fromHex(hex.substring(2), 16)));
+  assertTrue("plo5", nonFinite.getNonFinite() == toBigInt(Uint8Array.fromHex(hex.substring(2), 16)));
   assertFalse("plo6", nonFinite.getSign() ^ (hex.substring(2,3) == "f"));
-  let signedHex = hex.substring(0, 2) + "f" +hex.substring(3);
+  let signedHex = hex.substring(0, 2) + "f" + hex.substring(3);
   nonFinite.setSign(true);
   assertTrue("plo7", nonFinite.getSign());
-  assertTrue("plo8", CBOR.toHex(nonFinite.encode()) == signedHex);
+  assertTrue("plo8", nonFinite.encode().toHex() == signedHex);
   nonFinite = CBOR.NonFinite.createPayload(payload).setSign(false);
-  assertTrue("plo9", CBOR.toHex(nonFinite.encode()) == hex.substring(0, 2) + "7" +hex.substring(3));
+  assertTrue("plo9", nonFinite.encode().toHex() == hex.substring(0, 2) + "7" + hex.substring(3));
 }
 
 function oneNonFiniteTurn(value, binexpect, textexpect) {
@@ -422,17 +463,17 @@ function oneNonFiniteTurn(value, binexpect, textexpect) {
   let returnValue64 = nonfinite.getNonFinite64();
   let textdecode = CBOR.fromDiagnostic(textexpect);
   let cbor = nonfinite.encode();
-  let refcbor = CBOR.fromHex(binexpect);
-  let hexbin = CBOR.toHex(cbor);
+  let refcbor = Uint8Array.fromHex(binexpect);
+  let hexbin = cbor.toHex();
   assertTrue("eq1", text == textexpect);
   assertTrue("eq2", hexbin == binexpect);
   assertTrue("eq3", returnValue == CBOR.decode(cbor).getNonFinite());
   assertTrue("eq4", returnValue == textdecode.getNonFinite());
-  assertTrue("eq5", CBOR.fromBigInt(returnValue).length == nonfinite.length);
-  assertTrue("eq7", CBOR.fromBigInt(returnValue64).length == 8);
+  assertTrue("eq5", fromBigInt(returnValue).length == nonfinite.length);
+  assertTrue("eq7", fromBigInt(returnValue64).length == 8);
   assertTrue("eq8", nonfinite.equals(CBOR.decode(cbor)));
-  let rawcbor = CBOR.fromBigInt(value);
-  rawcbor = CBOR.addArrays(new Uint8Array([0xf9 + (rawcbor.length >> 2)]), rawcbor);
+  let rawcbor = fromBigInt(value);
+  rawcbor = addArrays(new Uint8Array([0xf9 + (rawcbor.length >> 2)]), rawcbor);
   if (rawcbor.length > refcbor.length) {
     try {
       CBOR.decode(rawcbor);
@@ -541,7 +582,7 @@ try {
 let nonFinite = CBOR.Float.createExtendedFloat(Number.NaN);
 assertTrue("conv", nonFinite instanceof CBOR.NonFinite);
 assertTrue("truncated", nonFinite.getNonFinite64() == 0x7ff8000000000000n);  // Returns "quiet" NaN
-assertTrue("cbor", CBOR.toHex(nonFinite.encode()) == "f97e00");              // Encoded as it should
+assertTrue("cbor", nonFinite.encode().toHex() == "f97e00");              // Encoded as it should
 assertTrue("combined", Number.isNaN(nonFinite.getExtendedFloat64()));        // Returns "Number"
 assertTrue("nan", nonFinite.isNaN());                                        // Indeed it is
 
@@ -615,28 +656,39 @@ success();
 {name:'hex.js',
 file:String.raw`// Test of "hex" utility methods
 
+function compareArrays(a, b) {
+  let minIndex = Math.min(a.length, b.length);
+  for (let i = 0; i < minIndex; i++) {
+    let diff = a[i] - b[i];
+    if (diff != 0) {
+      return diff;
+    }
+  }
+  return a.length - b.length;
+}
+
 const hex = '0123456789abcdefABCDEF';
 
-let bin = CBOR.fromHex(hex);
-let cnv = CBOR.toHex(bin);
-assertFalse("hex", CBOR.compareArrays(bin, CBOR.fromHex(cnv)));
+let bin = Uint8Array.fromHex(hex);
+let cnv = bin.toHex();
+assertFalse("hex", compareArrays(bin, Uint8Array.fromHex(cnv)));
 let ref = new Uint8Array([0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef, 0xab, 0xcd, 0xef]);
-assertFalse("bin", CBOR.compareArrays(bin, ref));
+assertFalse("bin", compareArrays(bin, ref));
 try {
-  CBOR.fromHex("AAA");
+  Uint8Array.fromHex("AAA");
   throw Error("should not");
 } catch (e) {
-  checkException(e, "Unev");
+  checkException(e, "SyntaxError");
 }
 
 try {
-  CBOR.fromHex("Ag");
+  Uint8Array.fromHex("Ag");
   throw Error("should not");
 } catch (e) {
-  checkException(e, "Bad hex");
+  checkException(e, "SyntaxError");
 }
 // Zero hex is accepted as well...
-assertFalse("zero", CBOR.compareArrays(CBOR.fromHex(''), new Uint8Array()));
+assertFalse("zero", compareArrays(Uint8Array.fromHex(''), new Uint8Array()));
 success();
 `}
 ,
@@ -649,7 +701,7 @@ function oneTurn(value, expected) {
     text += ' ';
   }
   let cbor = CBOR.Int(value).encode();
-  let got = CBOR.toHex(cbor);
+  let got = cbor.toHex();
   if (got != expected) {
     got = '***=' + got;
   } else {
@@ -664,7 +716,7 @@ function oneTurn(value, expected) {
   }
 }
 // -0 is treated as 0 for integers
-assertTrue("minus-0", CBOR.toHex(CBOR.Int(-0).encode()) == "00");
+assertTrue("minus-0", CBOR.Int(-0).encode().toHex() == "00");
 oneTurn(0n, '00');
 oneTurn(-1n, '20');
 oneTurn(255n, '18ff');
@@ -869,6 +921,17 @@ success();
 {name:'miscellaneous.js',
 file:String.raw`// miscellaneous tests
 
+function compareArrays(a, b) {
+  let minIndex = Math.min(a.length, b.length);
+  for (let i = 0; i < minIndex; i++) {
+    let diff = a[i] - b[i];
+    if (diff != 0) {
+      return diff;
+    }
+  }
+  return a.length - b.length;
+}
+
 let bin = new Uint8Array([0xa5, 0x01, 0xd9, 0x01, 0xf4, 0x81, 0x18, 0x2d, 0x02, 0xf9, 0x80, 0x10,
                           0x04, 0x64, 0x53, 0x75, 0x72, 0x65, 0x05, 0xa2, 0x08, 0x69, 0x59, 0x65,
                           0x0a, 0x01, 0x61, 0x68, 0xe2, 0x82, 0xac, 0x09, 0x85, 0x66, 0x42, 0x79,
@@ -891,13 +954,13 @@ let cbor = CBOR.Map()
                .set(CBOR.Int(2), CBOR.Float(-9.5367431640625e-7))
                .set(CBOR.Int(6), CBOR.Int(123456789123456789123456789n))
                .set(CBOR.Int(1), CBOR.Tag(500n, CBOR.Array().add(CBOR.Int(45)))).encode();
-assertFalse("cmp1", CBOR.compareArrays(bin, cbor));
+assertFalse("cmp1", compareArrays(bin, cbor));
 let array = CBOR.decode(cbor).get(CBOR.Int(5)).get(CBOR.Int(9));
 assertTrue("bool1", array.get(2).getBoolean());
 assertFalse("bool1", array.get(3).getBoolean());
 assertFalse("null1", array.get(3).isNull());
 assertTrue("null2", array.get(4).isNull());
-assertFalse("cmp2", CBOR.compareArrays(CBOR.fromDiagnostic(CBOR.decode(cbor).toString()).encode(), bin));
+assertFalse("cmp2", compareArrays(CBOR.fromDiagnostic(CBOR.decode(cbor).toString()).encode(), bin));
 
 assertTrue("version", CBOR.version == "1.0.22");
 
@@ -909,12 +972,12 @@ file:String.raw`// Testing "deterministic" code checks
 
 function oneTurn(hex, dn) {
   try {
-    CBOR.decode(CBOR.fromHex(hex));
+    CBOR.decode(Uint8Array.fromHex(hex));
     fail("Should not fail on: " + dn);
   } catch (e) {
     checkException(e, "Non-d");
   }
-  let object = CBOR.initDecoder(CBOR.fromHex(hex), 
+  let object = CBOR.initDecoder(Uint8Array.fromHex(hex), 
       dn.includes("{") ? CBOR.LENIENT_MAP_DECODING : CBOR.LENIENT_NUMBER_DECODING).decodeWithOptions();
   if (object.toString() != dn || !object.equals(CBOR.decode(object.encode()))) {
     fail("non match:" + dn);
@@ -973,6 +1036,21 @@ success();
 {name:'sequence.js',
 file:String.raw`// Testing the "sequence" option
 
+function compareArrays(a, b) {
+  let minIndex = Math.min(a.length, b.length);
+  for (let i = 0; i < minIndex; i++) {
+    let diff = a[i] - b[i];
+  }
+  return a.length - b.length;
+}
+
+function addArrays(a, b) {
+  let result = new Uint8Array(a.length + b.length);
+  result.set(a);
+  result.set(b, a.length);
+  return result;
+}
+
 let cbor = new Uint8Array([0x05, 0xa1, 0x05, 0x42, 0x6a, 0x6a])
 try {
   CBOR.decode(cbor);
@@ -984,9 +1062,9 @@ let decoder = CBOR.initDecoder(cbor, CBOR.SEQUENCE_MODE);
 let total = new Uint8Array();
 let object;
 while (object = decoder.decodeWithOptions()) {
-  total = CBOR.addArrays(total, object.encode());
+  total = addArrays(total, object.encode());
 }
-assertFalse("Comp", CBOR.compareArrays(total, cbor));
+assertFalse("Comp", compareArrays(total, cbor));
 assertTrue("Comp2", total.length == decoder.getByteCount());
 decoder = CBOR.initDecoder(new Uint8Array(), CBOR.SEQUENCE_MODE);
 assertFalse("Comp3", decoder.decodeWithOptions());
@@ -996,7 +1074,7 @@ decoder = CBOR.initDecoder(cbor, CBOR.SEQUENCE_MODE);
 while (object = decoder.decodeWithOptions()) {
   arraySequence.add(object);
 }
-assertFalse("Comp5", CBOR.compareArrays(arraySequence.encodeAsSequence(), cbor));
+assertFalse("Comp5", compareArrays(arraySequence.encodeAsSequence(), cbor));
 
 success();
 `}
@@ -1013,7 +1091,7 @@ assertTrue("t3.2", tag.cotxId == "https://example.com/myobject");
 assertTrue("t3.3", tag.cotxObject.equals(CBOR.Int(6)));
 cbor = CBOR.Tag(0xf0123456789abcden, object).encode();
 assertTrue("t14", CBOR.decode(cbor).getTagNumber()== 0xf0123456789abcden);
-assertTrue("t5", CBOR.toHex(cbor) == 
+assertTrue("t5", cbor.toHex() == 
     "dbf0123456789abcde82781c68747470733a2f2f6578616d706c652e636f6d2f6d796f626a65637406");
 
 [-1n, 0x10000000000000000n].forEach(tagNumber => { 
@@ -1063,7 +1141,7 @@ function oneTurn(value, hex) {
   let s2 = CBOR.decode(s.encode());
   assertTrue("v", s.getSimple() == value);
   assertTrue("v2", s2.getSimple() == value);
-  assertTrue("b", CBOR.toHex(s2.encode()) == hex);
+  assertTrue("b", s2.encode().toHex() == hex);
 }
 
 oneTurn(0, "e0");
@@ -1090,7 +1168,7 @@ function oneGetDateTime(epoch, isoString) {
 
 function badDate(hexBor, err) {
   try {
-    CBOR.decode(CBOR.fromHex(hexBor));
+    CBOR.decode(Uint8Array.fromHex(hexBor));
     fail("must not");
   } catch (e) {
     checkException(e, err);
@@ -1113,8 +1191,8 @@ function truncateEpochTime(float, millis, seconds) {
 
 function oneGetEpochTime(hexBor, epoch, err) {
   let time = Math.floor((epoch * 1000) + 0.5);
-  let instant = CBOR.decode(CBOR.fromHex(hexBor)).getEpochTime();
-  // console.log("v=" + CBOR.decode(CBOR.fromHex(hexBor)) + " getTime=" + instant.getTime() + " time=" + time);
+  let instant = CBOR.decode(Uint8Array.fromHex(hexBor)).getEpochTime();
+  // console.log("v=" + CBOR.decode(Uint8Array.fromHex(hexBor)) + " getTime=" + instant.getTime() + " time=" + time);
   assertTrue("epoch1", instant.getTime() == time);
   let cborObject = CBOR.createEpochTime(instant, time % 1000);
   // console.log("E=" + cborObject.toString());
@@ -1126,7 +1204,7 @@ function oneGetEpochTime(hexBor, epoch, err) {
     // console.log("r1=" + cborObject.getEpochTime().getTime() + " r2=" + p1);
     assertTrue("epoch3", cborObject.getEpochTime().getTime() == p1);
   }
-  instant = CBOR.decode(CBOR.fromHex(hexBor));
+  instant = CBOR.decode(Uint8Array.fromHex(hexBor));
   try {
     instant.checkForUnread();
     fail("must not");
@@ -1324,6 +1402,14 @@ success();`}
 {name:'utf8.js',
 file:String.raw`// Test of "utf8" converters
 
+function compareArrays(a, b) {
+  let minIndex = Math.min(a.length, b.length);
+  for (let i = 0; i < minIndex; i++) {
+    let diff = a[i] - b[i];
+  }
+  return a.length - b.length;
+}
+
 function utf8EncoderTest(string, ok) {
   try {
     CBOR.String(string).encode();
@@ -1331,11 +1417,10 @@ function utf8EncoderTest(string, ok) {
   } catch (error) {
     assertFalse("No good", ok);
   }
-
 }
 
 function utf8DecoderTest(hex, ok) {
-  let cbor = CBOR.fromHex(hex);
+  let cbor = Uint8Array.fromHex(hex);
   let roundTrip;
   try {
     roundTrip = CBOR.decode(cbor).encode();
@@ -1344,7 +1429,7 @@ function utf8DecoderTest(hex, ok) {
     return;
   }
   assertTrue("OK", ok);
-  assertFalse("Conv", CBOR.compareArrays(cbor, roundTrip));
+  assertFalse("Conv", compareArrays(cbor, roundTrip));
 }
 
 utf8DecoderTest("62c328", false);
@@ -1430,7 +1515,7 @@ let cbor = new XYZEncoder()
     .setTemperature(53.0001)
     .build();
 
-assertTrue("bad code", CBOR.toHex(cbor) == 'a3010202fb404a800346dc5d640363486921');
+assertTrue("bad code", cbor.toHex() == 'a3010202fb404a800346dc5d640363486921');
 
 success();
 `}
@@ -1476,7 +1561,7 @@ class XYZDecoder {
 
 }
 
-let cbor = CBOR.fromHex('a3010202fb404a800346dc5d640363486921');
+let cbor = Uint8Array.fromHex('a3010202fb404a800346dc5d640363486921');
 
 let xyz = new XYZDecoder(cbor);
 

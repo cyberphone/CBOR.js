@@ -40,7 +40,7 @@ class XYZDecoder {
 
 }
 
-let cbor = CBOR.fromHex('a3010202fb404a800346dc5d640363486921');
+let cbor = Uint8Array.fromHex('a3010202fb404a800346dc5d640363486921');
 
 let xyz = new XYZDecoder(cbor);
 

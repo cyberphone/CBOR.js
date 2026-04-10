@@ -2,6 +2,30 @@
 import CBOR from '../npm/mjs/index.mjs';
 import { assertTrue, assertFalse, fail, success, checkException } from './assertions.js';
 
+function toBigInt(byteArray) {
+  let value = 0n;
+  byteArray.forEach(byte => {
+    value <<= 8n;
+    value += BigInt(byte);
+  });
+  return value;
+}
+
+function fromBigInt(bigint) {
+  let array = [];
+  do {
+    array.push(Number(bigint & 0xffn));
+  } while (bigint >>= 8n);
+  return new Uint8Array(array.reverse());
+}
+
+function addArrays(a, b) {
+  let result = new Uint8Array(a.length + b.length);
+  result.set(a);
+  result.set(b, a.length);
+  return result;
+}
+
 function overflow(decodedValue, length) {
   let test = 'decodedValue.getFloat' + length + '()';
   try {
@@ -34,7 +58,7 @@ function oneTurn(valueText, expected) {
       checkException(e, "bigint");
     }
     let cbor = CBOR.Float(value).encode();
-    assertTrue("f3", CBOR.toHex(cbor) == expected);
+    assertTrue("f3", cbor.toHex() == expected);
     let decodedValue = CBOR.decode(cbor);
     switch (cbor.length) {
       case 3:
@@ -69,13 +93,13 @@ function oneTurn(valueText, expected) {
     assertTrue("nf2", decodedValue.getExtendedFloat64().toString() == value.toString());
     assertTrue("nf3", decodedValue.toString() == value.toString());
     let cbor = decodedValue.encode();
-    assertTrue("nf4", CBOR.toHex(cbor) == expected);
+    assertTrue("nf4", cbor.toHex() == expected);
     assertTrue("nf5", CBOR.decode(cbor).equals(decodedValue));
     let buf = new Uint8Array(8);
     new DataView(buf.buffer, 0, 8).setFloat64(0, value, false);
-    assertTrue("nf6", decodedValue.getNonFinite64() == CBOR.toBigInt(buf));
+    assertTrue("nf6", decodedValue.getNonFinite64() == toBigInt(buf));
   }
-  assertTrue("d10", CBOR.toHex(CBOR.Float.createExtendedFloat(value).encode()) == expected);
+  assertTrue("d10", CBOR.Float.createExtendedFloat(value).encode().toHex() == expected);
 }
 
 const inNanWithPayload = new Uint8Array([0x7f, 0xf8, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00]);
@@ -102,16 +126,16 @@ function payloadOneTurn(payload, hex, dn) {
   assertTrue("plo1", object instanceof CBOR.NonFinite);
   let nonFinite = object;
   assertTrue("plo2", nonFinite.getPayload() == payload);
-  assertTrue("plo3", CBOR.toHex(cbor) == hex);
+  assertTrue("plo3", cbor.toHex() == hex);
   assertTrue("plo4", nonFinite.toString() == dn);
-  assertTrue("plo5", nonFinite.getNonFinite() == CBOR.toBigInt(CBOR.fromHex(hex.substring(2), 16)));
+  assertTrue("plo5", nonFinite.getNonFinite() == toBigInt(Uint8Array.fromHex(hex.substring(2), 16)));
   assertFalse("plo6", nonFinite.getSign() ^ (hex.substring(2,3) == "f"));
-  let signedHex = hex.substring(0, 2) + "f" +hex.substring(3);
+  let signedHex = hex.substring(0, 2) + "f" + hex.substring(3);
   nonFinite.setSign(true);
   assertTrue("plo7", nonFinite.getSign());
-  assertTrue("plo8", CBOR.toHex(nonFinite.encode()) == signedHex);
+  assertTrue("plo8", nonFinite.encode().toHex() == signedHex);
   nonFinite = CBOR.NonFinite.createPayload(payload).setSign(false);
-  assertTrue("plo9", CBOR.toHex(nonFinite.encode()) == hex.substring(0, 2) + "7" +hex.substring(3));
+  assertTrue("plo9", nonFinite.encode().toHex() == hex.substring(0, 2) + "7" + hex.substring(3));
 }
 
 function oneNonFiniteTurn(value, binexpect, textexpect) {
@@ -121,17 +145,17 @@ function oneNonFiniteTurn(value, binexpect, textexpect) {
   let returnValue64 = nonfinite.getNonFinite64();
   let textdecode = CBOR.fromDiagnostic(textexpect);
   let cbor = nonfinite.encode();
-  let refcbor = CBOR.fromHex(binexpect);
-  let hexbin = CBOR.toHex(cbor);
+  let refcbor = Uint8Array.fromHex(binexpect);
+  let hexbin = cbor.toHex();
   assertTrue("eq1", text == textexpect);
   assertTrue("eq2", hexbin == binexpect);
   assertTrue("eq3", returnValue == CBOR.decode(cbor).getNonFinite());
   assertTrue("eq4", returnValue == textdecode.getNonFinite());
-  assertTrue("eq5", CBOR.fromBigInt(returnValue).length == nonfinite.length);
-  assertTrue("eq7", CBOR.fromBigInt(returnValue64).length == 8);
+  assertTrue("eq5", fromBigInt(returnValue).length == nonfinite.length);
+  assertTrue("eq7", fromBigInt(returnValue64).length == 8);
   assertTrue("eq8", nonfinite.equals(CBOR.decode(cbor)));
-  let rawcbor = CBOR.fromBigInt(value);
-  rawcbor = CBOR.addArrays(new Uint8Array([0xf9 + (rawcbor.length >> 2)]), rawcbor);
+  let rawcbor = fromBigInt(value);
+  rawcbor = addArrays(new Uint8Array([0xf9 + (rawcbor.length >> 2)]), rawcbor);
   if (rawcbor.length > refcbor.length) {
     try {
       CBOR.decode(rawcbor);
@@ -240,7 +264,7 @@ try {
 let nonFinite = CBOR.Float.createExtendedFloat(Number.NaN);
 assertTrue("conv", nonFinite instanceof CBOR.NonFinite);
 assertTrue("truncated", nonFinite.getNonFinite64() == 0x7ff8000000000000n);  // Returns "quiet" NaN
-assertTrue("cbor", CBOR.toHex(nonFinite.encode()) == "f97e00");              // Encoded as it should
+assertTrue("cbor", nonFinite.encode().toHex() == "f97e00");              // Encoded as it should
 assertTrue("combined", Number.isNaN(nonFinite.getExtendedFloat64()));        // Returns "Number"
 assertTrue("nan", nonFinite.isNaN());                                        // Indeed it is
 

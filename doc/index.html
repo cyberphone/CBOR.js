@@ -155,16 +155,8 @@
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#decoder.cbor.fromdiagnosticseq'>5.7.&nbsp;&nbsp;CBOR.fromDiagnosticSeq()</a></div>
 </div>
 <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.utility'>6.&nbsp;&nbsp;Utility Methods</a></div><div style='display:none'>
-<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.addarrays'>6.1.&nbsp;&nbsp;CBOR.addArrays()</a></div>
-<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.comparearrays'>6.2.&nbsp;&nbsp;CBOR.compareArrays()</a></div>
-<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.tohex'>6.3.&nbsp;&nbsp;CBOR.toHex()</a></div>
-<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.fromhex'>6.4.&nbsp;&nbsp;CBOR.fromHex()</a></div>
-<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.tobase64url'>6.5.&nbsp;&nbsp;CBOR.toBase64Url()</a></div>
-<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.frombase64url'>6.6.&nbsp;&nbsp;CBOR.fromBase64Url()</a></div>
-<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.tobigint'>6.7.&nbsp;&nbsp;CBOR.toBigInt()</a></div>
-<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.frombigint'>6.8.&nbsp;&nbsp;CBOR.fromBigInt()</a></div>
-<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.createdatetime'>6.9.&nbsp;&nbsp;CBOR.createDateTime()</a></div>
-<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.createepochtime'>6.10.&nbsp;&nbsp;CBOR.createEpochTime()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.createdatetime'>6.1.&nbsp;&nbsp;CBOR.createDateTime()</a></div>
+<div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#utility.cbor.createepochtime'>6.2.&nbsp;&nbsp;CBOR.createEpochTime()</a></div>
 </div>
 <div style='margin:0 0 0.4em 2em'><img alt='n/a' src='closed.svg' onclick='tocSwitch(this)' style='height:1em;margin-right:1em;cursor:pointer'><a href='#main.numbers'>7.&nbsp;&nbsp;CBOR Numbers</a></div><div style='display:none'>
 <div style='margin:0 0 0.4em 4em'><img alt='n/a' src='empty.svg' style='height:1em;margin-right:1em'><a href='#numbers.integers'>7.1.&nbsp;&nbsp;Integers</a></div>
@@ -1657,113 +1649,7 @@ character (<kbd>','</kbd>) as a separator.
   <h3 id='main.utility'>6.&nbsp;&nbsp;Utility Methods</h3>
 
   The CBOR.js implementation supports a set of utility methods.
-  <h4 id='utility.cbor.addarrays'>6.1.&nbsp;&nbsp;CBOR.addArrays()</h4>
-<div class='webpkifloat'>
-<table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.addArrays(<i>a</i>, <i>b</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Add two arrays.</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>a</i></kbd></td><td style='text-align:center'><kbd>Uint8Array</kbd></td><td style='width:100%'>First array.</td></tr>
-<tr><td style='text-align:center'><kbd><i>b</i></kbd></td><td style='text-align:center'><kbd>Uint8Array</kbd></td><td style='width:100%'>Second array.</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>Uint8Array</kbd></td><td colspan='2' style='width:100%'>Concatenation of array <kbd><i>a</i></kbd> and <kbd><i>b</i></kbd>.</td></tr>
-</table></div>
-<h4 id='utility.cbor.comparearrays'>6.2.&nbsp;&nbsp;CBOR.compareArrays()</h4>
-<div class='webpkifloat'>
-<table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.compareArrays(<i>a</i>, <i>b</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Compare two arrays lexicographically.</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>a</i></kbd></td><td style='text-align:center'><kbd>Uint8Array</kbd></td><td style='width:100%'>First array.</td></tr>
-<tr><td style='text-align:center'><kbd><i>b</i></kbd></td><td style='text-align:center'><kbd>Uint8Array</kbd></td><td style='width:100%'>Second array.</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>Number</kbd></td><td colspan='2' style='width:100%'>If <kbd><i>a</i></kbd> and <kbd><i>b</i></kbd> are identical,
-<kbd>0</kbd> is retuned.
-If <kbd><i>a</i>&nbsp;&gt;&nbsp;<i>b</i></kbd>,
-a positive number is returned.
-If <kbd><i>a</i>&nbsp;&lt;&nbsp;<i>b</i></kbd>,
-a negative number is returned.</td></tr>
-</table></div>
-<h4 id='utility.cbor.tohex'>6.3.&nbsp;&nbsp;CBOR.toHex()</h4>
-<div class='webpkifloat'>
-<table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.toHex(<i>byteArray</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Encode binary string to hexadecimal.</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>byteArray</i></kbd></td><td style='text-align:center'><kbd>Uint8Array</kbd></td><td style='width:100%'>Zero or more bytes to be encoded.</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>String</kbd></td><td colspan='2' style='width:100%'>Hexadecimal encoded data.</td></tr>
-</table></div>
-<h4 id='utility.cbor.fromhex'>6.4.&nbsp;&nbsp;CBOR.fromHex()</h4>
-<div class='webpkifloat'>
-<table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.fromHex(<i>hexString</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Decode hexadecimal data into binary.</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>hexString</i></kbd></td><td style='text-align:center'><kbd>String</kbd></td><td style='width:100%'>String with zero or more hexadecimal pairs. Each pair represents one byte.</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>Uint8Array</kbd></td><td colspan='2' style='width:100%'>The resulting binary (bytes).</td></tr>
-</table></div>
-<h4 id='utility.cbor.tobase64url'>6.5.&nbsp;&nbsp;CBOR.toBase64Url()</h4>
-<div class='webpkifloat'>
-<table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.toBase64Url(<i>byteArray</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Encode binary string to base64Url.</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>byteArray</i></kbd></td><td style='text-align:center'><kbd>Uint8Array</kbd></td><td style='width:100%'>Zero or more bytes to be encoded.</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>String</kbd></td><td colspan='2' style='width:100%'>Base64Url encoded data.</td></tr>
-</table></div>
-<h4 id='utility.cbor.frombase64url'>6.6.&nbsp;&nbsp;CBOR.fromBase64Url()</h4>
-<div class='webpkifloat'>
-<table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.fromBase64Url(<i>base64</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Decode base64Url encoded data into binary.
-Note that this method is <i>permissive</i>; it accepts
-base64 encoded data as well as data with or without
-<kbd>'='</kbd> padding.</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>base64</i></kbd></td><td style='text-align:center'><kbd>String</kbd></td><td style='width:100%'>String in base64Url notation.  The string may be empty.</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>Uint8Array</kbd></td><td colspan='2' style='width:100%'>The resulting binary (bytes).</td></tr>
-</table></div>
-<h4 id='utility.cbor.tobigint'>6.7.&nbsp;&nbsp;CBOR.toBigInt()</h4>
-<div class='webpkifloat'>
-<table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.toBigInt(<i>byteArray</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Convert binary string to BigInt.</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>byteArray</i></kbd></td><td style='text-align:center'><kbd>Uint8Array</kbd></td><td style='width:100%'>Zero or more bytes representing an <i>unsigned</i> number.</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>BigInt</kbd></td><td colspan='2' style='width:100%'>Resulting BigInt number.</td></tr>
-</table></div>
-<h4 id='utility.cbor.frombigint'>6.8.&nbsp;&nbsp;CBOR.fromBigInt()</h4>
-<div class='webpkifloat'>
-<table class='webpkitable' style='margin-left:2em;width:50em'>
-<tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.fromBigInt(<i>value</i>)</kbd></td></tr>
-<tr><th>Description</th><td colspan='2' style='width:100%'>Convert BigInt into binary string.</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td style='text-align:center'><kbd><i>value</i></kbd></td><td style='text-align:center'><kbd>BigInt</kbd></td><td style='width:100%'>Value to be converted must be greater or equal to zero.</td></tr>
-<tr><td colspan='3' class='webpkidiv'></td></tr>
-<tr><th>Returns</th><th colspan='2'>Description</th></tr>
-<tr><td style='text-align:center'><kbd>Uint8Array</kbd></td><td colspan='2' style='width:100%'>The resulting binary (one or more bytes).</td></tr>
-</table></div>
-<h4 id='utility.cbor.createdatetime'>6.9.&nbsp;&nbsp;CBOR.createDateTime()</h4>
+  <h4 id='utility.cbor.createdatetime'>6.1.&nbsp;&nbsp;CBOR.createDateTime()</h4>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.createDateTime(<i>instant</i>, <i>millis</i>, <i>utc</i>)</kbd></td></tr>
@@ -1807,7 +1693,7 @@ else the local time followed by the <code>UTC</code> offset
 <tr><th>Returns</th><th colspan='2'>Description</th></tr>
 <tr><td style='text-align:center'><kbd>CBOR.String</kbd></td><td colspan='2' style='width:100%'>Wrapper holding a <code>DateTime</code> object.</td></tr>
 </table></div>
-<h4 id='utility.cbor.createepochtime'>6.10.&nbsp;&nbsp;CBOR.createEpochTime()</h4>
+<h4 id='utility.cbor.createepochtime'>6.2.&nbsp;&nbsp;CBOR.createEpochTime()</h4>
 <div class='webpkifloat'>
 <table class='webpkitable' style='margin-left:2em;width:50em'>
 <tr><th>Syntax</th><td colspan='2' style='width:100%'><kbd>CBOR.createEpochTime(<i>instant</i>, <i>millis</i>)</kbd></td></tr>
@@ -2200,7 +2086,7 @@ and their API counterparts:
   This section provides a few examples on how to use the CBOR API.
   <h4 id='examples.encoding'>10.1.&nbsp;&nbsp;Encode CBOR Data</h4>
 The following code shows how you can create CBOR-encoded data:
-<div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>let&nbsp;cbor&nbsp;=&nbsp;CBOR.Map()<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.set(CBOR.Int(1),&nbsp;CBOR.Float(45.7))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.set(CBOR.Int(2),&nbsp;CBOR.String(&quot;Hi&nbsp;there!&quot;)).encode();<br><br>console.log(CBOR.toHex(cbor));<br><span style='color:#007fdd'>a201fb4046d9999999999a0269486920746865726521</span><br></div></div>
+<div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>let&nbsp;cbor&nbsp;=&nbsp;CBOR.Map()<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.set(CBOR.Int(1),&nbsp;CBOR.Float(45.7))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.set(CBOR.Int(2),&nbsp;CBOR.String(&quot;Hi&nbsp;there!&quot;)).encode();<br><br>console.log(cbor.toHex());<br><span style='color:#007fdd'>a201fb4046d9999999999a0269486920746865726521</span><br></div></div>
   <h4 id='examples.decoding'>10.2.&nbsp;&nbsp;Decode CBOR Data</h4>
 The following code shows how you can decode CBOR-encoded data,
 here using the result of the previous encoding example:
@@ -2211,10 +2097,10 @@ The following code shows how you can decode variant CBOR-encoded data:
   <h4 id='examples.dn-decoding'>10.4.&nbsp;&nbsp;Decode CBOR Diagnostic Notation</h4>
 The following code shows how you can decode CBOR provided in
 <a href='#main.diagnostic'>Diagnostic&nbsp;Notation</a>:
-<div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>let&nbsp;cbor&nbsp;=&nbsp;CBOR.fromDiagnostic(`{<br>#&nbsp;Comments&nbsp;are&nbsp;also&nbsp;permitted<br>&nbsp;&nbsp;1:&nbsp;45.7,<br>&nbsp;&nbsp;2:&nbsp;&quot;Hi&nbsp;there!&quot;<br>}`).encode();<br><br>console.log(CBOR.toHex(cbor));<br><span style='color:#007fdd'>a201fb4046d9999999999a0269486920746865726521</span><br></div></div>
+<div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>let&nbsp;cbor&nbsp;=&nbsp;CBOR.fromDiagnostic(`{<br>#&nbsp;Comments&nbsp;are&nbsp;also&nbsp;permitted<br>&nbsp;&nbsp;1:&nbsp;45.7,<br>&nbsp;&nbsp;2:&nbsp;&quot;Hi&nbsp;there!&quot;<br>}`).encode();<br><br>console.log(cbor.toHex());<br><span style='color:#007fdd'>a201fb4046d9999999999a0269486920746865726521</span><br></div></div>
   <h4 id='examples.seq-encoding'>10.5.&nbsp;&nbsp;Encode CBOR Sequence</h4>
 The following code shows how you can create CBOR sequences:
-<div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>let&nbsp;cbor&nbsp;=&nbsp;CBOR.Array()<br>&nbsp;&nbsp;.add(CBOR.Map().set(CBOR.Int(7),&nbsp;CBOR.String(&quot;Hi!&quot;)))<br>&nbsp;&nbsp;.add(CBOR.Float(4.5))<br>&nbsp;&nbsp;.encodeAsSequence();<br><br>console.log(CBOR.toHex(cbor));<br><span style='color:#007fdd'>a10763486921f94480</span><br></div></div>
+<div class='webpkifloat'><div class='webpkibox' style='margin-left:2em;width:50em'>let&nbsp;cbor&nbsp;=&nbsp;CBOR.Array()<br>&nbsp;&nbsp;.add(CBOR.Map().set(CBOR.Int(7),&nbsp;CBOR.String(&quot;Hi!&quot;)))<br>&nbsp;&nbsp;.add(CBOR.Float(4.5))<br>&nbsp;&nbsp;.encodeAsSequence();<br><br>console.log(cbor.toHex());<br><span style='color:#007fdd'>a10763486921f94480</span><br></div></div>
   <h4 id='examples.seq-decoding'>10.6.&nbsp;&nbsp;Decode CBOR Sequence</h4>
 The following code shows how you can decode CBOR sequences,
 here using the result of the previous encoding example:
@@ -2227,6 +2113,6 @@ here using the result of the previous encoding example:
 
   API version: 1.0.22.  Note that the current API version is accessible through
   the static property <kbd>CBOR.version</kbd>.<br>
-  Document version: 2026-03-13
+  Document version: 2026-04-10
 </body>
 </html>

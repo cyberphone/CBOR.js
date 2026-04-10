@@ -43,7 +43,7 @@ let cbor = CBOR.Map()
                .set(CBOR.Int(1), CBOR.Float(45.7))
                .set(CBOR.Int(2), CBOR.String("Hi there!")).encode();
 
-console.log(CBOR.toHex(cbor));
+console.log(cbor.toHex());
 ------------------------------
 a201fb4046d9999999999a0269486920746865726521
 ```
@@ -100,7 +100,7 @@ let cbor = CBOR.fromDiagnostic(`{
   2: "Hi there!"
 }`).encode();
 
-console.log(CBOR.toHex(cbor));
+console.log(cbor.toHex());
 ------------------------------
 a201fb4046d9999999999a0269486920746865726521
 ```
@@ -115,7 +115,7 @@ while remaining faithful to the native CBOR representation.
 |Android/Java|https://github.com/cyberphone/android-cbor|
 |Python 3|https://github.com/cyberphone/CBOR.py#main
 
-Updated: 2026-03-02
+Updated: 2026-04-09
 
 
 

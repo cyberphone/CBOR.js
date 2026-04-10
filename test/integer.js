@@ -8,7 +8,7 @@ function oneTurn(value, expected) {
     text += ' ';
   }
   let cbor = CBOR.Int(value).encode();
-  let got = CBOR.toHex(cbor);
+  let got = cbor.toHex();
   if (got != expected) {
     got = '***=' + got;
   } else {
@@ -23,7 +23,7 @@ function oneTurn(value, expected) {
   }
 }
 // -0 is treated as 0 for integers
-assertTrue("minus-0", CBOR.toHex(CBOR.Int(-0).encode()) == "00");
+assertTrue("minus-0", CBOR.Int(-0).encode().toHex() == "00");
 oneTurn(0n, '00');
 oneTurn(-1n, '20');
 oneTurn(255n, '18ff');

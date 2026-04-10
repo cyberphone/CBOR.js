@@ -42,6 +42,6 @@ let cbor = new XYZEncoder()
     .setTemperature(53.0001)
     .build();
 
-assertTrue("bad code", CBOR.toHex(cbor) == 'a3010202fb404a800346dc5d640363486921');
+assertTrue("bad code", cbor.toHex() == 'a3010202fb404a800346dc5d640363486921');
 
 success();

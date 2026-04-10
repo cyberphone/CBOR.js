@@ -11,7 +11,7 @@ let cbor = CBOR.Map()
                .set(TEMPERATURE_KEY, CBOR.Float(45.7))
                .set(GREETINGS_KEY, CBOR.String("Hi there!")).encode();
 
-console.log(CBOR.toHex(cbor));
+console.log((cbor.toHex());
 
 //////////////////////////////
 //        Decoding          //
@@ -30,5 +30,5 @@ cbor = CBOR.fromDiagnostic(`{
   2: "Hi there!"
 }`).encode();
 
-console.log(CBOR.toHex(cbor));
+console.log((cbor.toHex());
 

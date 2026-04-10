@@ -198,7 +198,7 @@ class CBOR {
 
     equals(object) {
       if (object instanceof CBOR.#CborObject) {
-        return CBOR.compareArrays(this.encode(), object.encode()) == 0;
+        return CBOR.#compareArrays(this.encode(), object.encode()) == 0;
       }
       return false;
     }
@@ -489,14 +489,14 @@ class CBOR {
             (f32exp * 0x800000) +
             // Significand.
             f32signif;
-            this.#encoded = CBOR.addArrays(CBOR.#int16ToByteArray(f32bin / 0x10000), 
-                                           CBOR.#int16ToByteArray(f32bin % 0x10000));
+            this.#encoded = CBOR.#addArrays(CBOR.#int16ToByteArray(f32bin / 0x10000), 
+                                            CBOR.#int16ToByteArray(f32bin % 0x10000));
       }
     }
     
     encode() {
-      return CBOR.addArrays(new Uint8Array([(this.#encoded.length >> 2) + CBOR.#SIMPLE_FLOAT16]),
-                            this.#encoded);
+      return CBOR.#addArrays(new Uint8Array([(this.#encoded.length >> 2) + CBOR.#SIMPLE_FLOAT16]),
+                             this.#encoded);
     }
 
     internalToString(cborPrinter) {
@@ -512,7 +512,7 @@ class CBOR {
     }
 
     _compare(decoded) {
-      return CBOR.compareArrays(this.#encoded, decoded);
+      return CBOR.#compareArrays(this.#encoded, decoded);
     }
 
     _getLength() {
@@ -529,7 +529,7 @@ class CBOR {
       }
       let f64b = new Uint8Array(8);
       new DataView(f64b.buffer, 0, 8).setFloat64(0, value, false);
-      let nf = CBOR.NonFinite(CBOR.toBigInt(f64b));
+      let nf = CBOR.NonFinite(CBOR.#toBigInt(f64b));
       if (!nf.isSimple()) {
         CBOR.#error("createExtendedFloat() does not support NaN with payloads");
       }
@@ -559,7 +559,7 @@ class CBOR {
     
     encode() {
       let utf8 = new TextEncoder().encode(this.#textString);
-      return CBOR.addArrays(CBOR.#encodeTagAndN(CBOR.#MT_STRING, utf8.length), utf8);
+      return CBOR.#addArrays(CBOR.#encodeTagAndN(CBOR.#MT_STRING, utf8.length), utf8);
     }
 
     internalToString(cborPrinter) {
@@ -601,12 +601,12 @@ class CBOR {
     }
     
     encode() {
-      return CBOR.addArrays(CBOR.#encodeTagAndN(CBOR.#MT_BYTES, this.#byteString.length), 
-                            this.#byteString);
+      return CBOR.#addArrays(CBOR.#encodeTagAndN(CBOR.#MT_BYTES, this.#byteString.length), 
+                             this.#byteString);
     }
 
     internalToString(cborPrinter) {
-      cborPrinter.append(`h'${CBOR.toHex(this.#byteString)}'`);
+      cborPrinter.append(`h'${this.#byteString.toHex()}'`);
     }
 
     _get() {
@@ -707,7 +707,7 @@ class CBOR {
 
     #encodeBody(header) {
       this._objects.forEach(object => {
-        header = CBOR.addArrays(header, object.encode());
+        header = CBOR.#addArrays(header, object.encode());
       });
       return header;
     }
@@ -902,8 +902,8 @@ class CBOR {
     encode() {
       let encoded = CBOR.#encodeTagAndN(CBOR.#MT_MAP, this._entries.length);
       this._entries.forEach(entry => {
-        encoded = CBOR.addArrays(encoded, 
-                                 CBOR.addArrays(entry.encodedKey, entry.object.encode()));
+        encoded = CBOR.#addArrays(encoded, 
+                                  CBOR.#addArrays(entry.encodedKey, entry.object.encode()));
       });
       return encoded;
     }
@@ -957,7 +957,7 @@ class CBOR {
     }
 
     compare(encodedKey) {
-      return CBOR.compareArrays(this.encodedKey, encodedKey);
+      return CBOR.#compareArrays(this.encodedKey, encodedKey);
     }
 
     compareAndTest(entry) {
@@ -1049,8 +1049,8 @@ class CBOR {
     }
 
     encode() {
-      return CBOR.addArrays(CBOR.#encodeIntegerOrTag(CBOR.#MT_TAG, this._tagNumber),
-                            this._object.encode());
+      return CBOR.#addArrays(CBOR.#encodeIntegerOrTag(CBOR.#MT_TAG, this._tagNumber),
+                             this._object.encode());
     }
 
     internalToString(cborPrinter) {
@@ -1149,7 +1149,7 @@ class CBOR {
     #createDetEnc(value) {
       badValue:
         while (true) {
-          this.#ieee754 = CBOR.fromBigInt(value);
+          this.#ieee754 = CBOR.#fromBigInt(value);
           let exponent;
           switch (this.#ieee754.length) {
             case 2:
@@ -1258,14 +1258,14 @@ class CBOR {
     }
 
     encode() {
-      return CBOR.addArrays(new Uint8Array([0xf9 + (this.#ieee754.length >> 2)]), this.#ieee754);
+      return CBOR.#addArrays(new Uint8Array([0xf9 + (this.#ieee754.length >> 2)]), this.#ieee754);
     }
 
     internalToString(cborPrinter) {  
       if (this.isSimple()) {
         cborPrinter.append(this.isNaN() ? "NaN" : this.getSign() ? "-Infinity" : "Infinity");
       } else {
-        cborPrinter.append("float'").append(CBOR.toHex(this.#ieee754)).append("'");
+        cborPrinter.append("float'").append(this.#ieee754.toHex()).append("'");
       }
     }
   
@@ -1390,8 +1390,7 @@ class CBOR {
 
     printFloatDetErr(decoded) {
       CBOR.#error("Non-deterministic encoding of floating-point value: " + 
-        CBOR.#twoHex((decoded.length >> 2) + CBOR.#SIMPLE_FLOAT16) + 
-        CBOR.toHex(decoded));
+        CBOR.#twoHex((decoded.length >> 2) + CBOR.#SIMPLE_FLOAT16) + decoded.toHex());
     } 
 
     returnFloat(decoded, f64) {
@@ -1419,7 +1418,7 @@ class CBOR {
     // Maybe not the most performant solution, but hey, this is a "Reference Implementation" :)
     decodeF16() {
       let decoded = this.readBytes(2);
-      let value = CBOR.toBigInt(decoded);
+      let value = CBOR.#toBigInt(decoded);
       let exponent = Number(value & 0x7c00n);
       let significand = Number(value & 0x3ffn);
       // Is it a non-finite number?
@@ -1441,7 +1440,7 @@ class CBOR {
 
     decodeF32() {
       let decoded = this.readBytes(4);
-      let value = CBOR.toBigInt(decoded);
+      let value = CBOR.#toBigInt(decoded);
       // Is it a non-finite number?
       if ((value & 0x7f800000n) == 0x7f800000n) {
         // Yes, deal with it separately.
@@ -1453,7 +1452,7 @@ class CBOR {
 
     decodeF64() {
       let decoded = this.readBytes(8);
-      let value = CBOR.toBigInt(decoded);
+      let value = CBOR.#toBigInt(decoded);
       // Is it a non-finite number?
       if ((value & 0x7ff0000000000000n) == 0x7ff0000000000000n) {
         // Yes, deal with it separately.
@@ -1474,7 +1473,7 @@ class CBOR {
           if (this.strictNumbers && (byteArray.length <= 8 || !byteArray[0])) {
             CBOR.#error("Non-deterministic bigint encoding");
           }
-          let value = CBOR.toBigInt(byteArray);
+          let value = CBOR.#toBigInt(byteArray);
           return CBOR.Int(tag == CBOR.#TAG_BIG_NEGATIVE ? ~value : value);
 
         case CBOR.#SIMPLE_FLOAT16:
@@ -1722,7 +1721,7 @@ class CBOR {
           while (this.readChar() != '>') {
             this.index--;
             do {
-              sequence = CBOR.addArrays(sequence, this.getObject().encode());
+              sequence = CBOR.#addArrays(sequence, this.getObject().encode());
             } while (this.continueList('>'));
           }
           this.scanFor(">");
@@ -1789,7 +1788,7 @@ class CBOR {
               this.parserError("Argument must be a 16, 32, or 64-bit floating-point number");
           }
           return CBOR.initDecoder(
-            CBOR.addArrays(new Uint8Array([0xf9 + (floatBytes.length >> 2)]), floatBytes),
+            CBOR.#addArrays(new Uint8Array([0xf9 + (floatBytes.length >> 2)]), floatBytes),
             CBOR.LENIENT_NUMBER_DECODING).decodeWithOptions();
      
         case 'n':
@@ -2012,7 +2011,7 @@ class CBOR {
               case 'u':
                 let u16 = 0;
                 for (let i = 0; i < 4; i++) {
-                  u16 = (u16 << 4) + CBOR.#decodeOneHex(this.readChar().charCodeAt(0));
+                  u16 = (u16 << 4) + Uint8Array.fromHex("0" + this.readChar())[0];
                 }
                 c = String.fromCharCode(u16);
                 break;
@@ -2050,7 +2049,10 @@ class CBOR {
         let c;
         switch (c = this.readChar()) {
           case '\'':
-            return CBOR.Bytes(b64 ? CBOR.fromBase64Url(token) : CBOR.fromHex(token));
+            return CBOR.Bytes(b64 ? 
+              Uint8Array.fromBase64(token.replace(/-/g, '+').replace(/_/g, '/'))
+                                  :
+              Uint8Array.fromHex(token));
          
           case ' ':
           case '\r':
@@ -2300,11 +2302,11 @@ class CBOR {
       tag = CBOR.#MT_NEGATIVE;
     }
     // Convert BigInt to Uint8Array (but with a twist).
-    let byteArray = CBOR.fromBigInt(value);
+    let byteArray = CBOR.#fromBigInt(value);
     let length = byteArray.length;
     // Prepare for "integer" encoding (1, 2, 4, 8).  Only 3, 5, 6, and 7 need an action.
     while (length < 8 && length > 2 && length != 4) {
-      byteArray = CBOR.addArrays(new Uint8Array([0]), byteArray);
+      byteArray = CBOR.#addArrays(new Uint8Array([0]), byteArray);
       length++;
     }
     // Does this number qualify as a "bigint"?
@@ -2317,23 +2319,19 @@ class CBOR {
       while (length >>= 1) {
           modifier++;
       }
-      return CBOR.addArrays(new Uint8Array([tag | modifier]), byteArray);
+      return CBOR.#addArrays(new Uint8Array([tag | modifier]), byteArray);
     }
     // It is a "bigint".
-    return CBOR.addArrays(new Uint8Array([tag ? CBOR.#TAG_BIG_NEGATIVE : CBOR.#TAG_BIG_UNSIGNED]), 
-                          CBOR.Bytes(byteArray).encode());
+    return CBOR.#addArrays(new Uint8Array([tag ? CBOR.#TAG_BIG_NEGATIVE : CBOR.#TAG_BIG_UNSIGNED]), 
+                           CBOR.Bytes(byteArray).encode());
   }
   
   static #int16ToByteArray(int16) {
     return new Uint8Array([int16 / 256, int16 % 256]);
   }
 
-  static #oneHex(digit) {
-    return String.fromCharCode(digit < 10 ? (0x30 + digit) : (0x57 + digit));
-  }
-
   static #twoHex(byte) {
-    return CBOR.#oneHex(byte / 16) + CBOR.#oneHex(byte % 16);
+    return new Uint8Array([byte]).toHex();
   }
 
   static #cborArgumentCheck(object) {
@@ -2348,13 +2346,6 @@ class CBOR {
       return date.getTime();
     }
     CBOR.#error(`Argument is not a Date object: ${date}`);
-  }
-
-  static #decodeOneHex(charCode) {
-    if (charCode >= 0x30 && charCode <= 0x39) return charCode - 0x30;
-    if (charCode >= 0x61 && charCode <= 0x66) return charCode - 0x57;
-    if (charCode >= 0x41 && charCode <= 0x46) return charCode - 0x37;
-    CBOR.#error(`Bad hex character: ${String.fromCharCode(charCode)}`);
   }
 
   static #checkArgs(list, expected)  {
@@ -2412,18 +2403,14 @@ class CBOR {
     return time;
   }
 
-//================================//
-//     Public Support Methods     //
-//================================//
-
-  static addArrays(a, b) {
+  static #addArrays(a, b) {
     let result = new Uint8Array(a.length + b.length);
     result.set(a);
     result.set(b, a.length);
     return result;
   }
 
-  static compareArrays(a, b) {
+  static #compareArrays(a, b) {
     let minIndex = Math.min(a.length, b.length);
     for (let i = 0; i < minIndex; i++) {
       let diff = a[i] - b[i];
@@ -2433,42 +2420,8 @@ class CBOR {
     }
     return a.length - b.length;
   }
-  
-  static toHex(byteArray) {
-    let result = '';
-    CBOR.#bytesCheck(byteArray).forEach((element) => {
-      result += CBOR.#twoHex(element);
-    });
-    return result;
-  }
 
-  static fromHex(hexString) {
-    let length = hexString.length;
-    if (length & 1) {
-      CBOR.#error("Uneven number of characters in hex string");
-    }
-    let result = new Uint8Array(length >> 1);
-    for (let q = 0; q < length; q += 2) {
-      result[q >> 1] = (CBOR.#decodeOneHex(hexString.charCodeAt(q)) << 4) +
-                        CBOR.#decodeOneHex(hexString.charCodeAt(q + 1));
-    }
-    return result;
-  }
-
-  static toBase64Url(byteArray) {
-    return btoa(String.fromCharCode.apply(null, new Uint8Array(CBOR.#bytesCheck(byteArray))))
-               .replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
-  }
-
-  static fromBase64Url(base64) {
-    if (!base64.includes('=')) {
-      base64 = base64 +  '===='.substring(0, (4 - (base64.length % 4)) % 4);
-    }
-    return Uint8Array.from(atob(base64.replace(/-/g, '+').replace(/_/g, '/')),
-                           c => c.charCodeAt(0));
-  }
-
-  static toBigInt(byteArray) {
+  static #toBigInt(byteArray) {
     let value = 0n;
     CBOR.#bytesCheck(byteArray).forEach(byte => {
       value <<= 8n;
@@ -2477,7 +2430,7 @@ class CBOR {
     return value;
   }
 
-  static fromBigInt(bigint) {
+  static #fromBigInt(bigint) {
     if (bigint < 0n) {
       CBOR.#error(`Argument out of range: ${bigint}`);
     }
@@ -2487,6 +2440,10 @@ class CBOR {
     } while (bigint >>= 8n);
     return new Uint8Array(array.reverse());
   }
+
+//================================//
+//     Public Support Methods     //
+//================================//
 
   static createDateTime(instant, millis, utc) {
     let time = CBOR.#getInstant(instant);

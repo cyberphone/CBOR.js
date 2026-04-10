@@ -23,7 +23,7 @@ function convert(f32) {
         simple = nf.isSimple();
         cbor = nf.encode();
     }
-    console.log(CBOR.toHex(CBOR.fromBigInt(f32)) + " V=" + (regular ? "G" : simple ? "S" : "X"));
+    console.log(CBOR.fromBigInt(f32).toHex() + " V=" + (regular ? "G" : simple ? "S" : "X"));
     if (simple) {
         cbor = CBOR.Float.createExtendedFloat(getF32(f32)).encode();
     }
@@ -69,7 +69,7 @@ let f = 0n;
 while (f < 0x800000) {
   let e = 0n;
   while (e < 0x100000000n) {
-//    console.log(CBOR.toHex(CBOR.fromBigInt(f)));
+//    console.log(CBOR.fromBigInt(f).toHex());
     convert(e + f);
     e += 0x800000n;
   }

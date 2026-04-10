@@ -2,6 +2,17 @@
 import CBOR from '../npm/mjs/index.mjs';
 import { assertTrue, assertFalse, success } from './assertions.js';
 
+function compareArrays(a, b) {
+  let minIndex = Math.min(a.length, b.length);
+  for (let i = 0; i < minIndex; i++) {
+    let diff = a[i] - b[i];
+    if (diff != 0) {
+      return diff;
+    }
+  }
+  return a.length - b.length;
+}
+
 let bin = new Uint8Array([0xa5, 0x01, 0xd9, 0x01, 0xf4, 0x81, 0x18, 0x2d, 0x02, 0xf9, 0x80, 0x10,
                           0x04, 0x64, 0x53, 0x75, 0x72, 0x65, 0x05, 0xa2, 0x08, 0x69, 0x59, 0x65,
                           0x0a, 0x01, 0x61, 0x68, 0xe2, 0x82, 0xac, 0x09, 0x85, 0x66, 0x42, 0x79,
@@ -24,13 +35,13 @@ let cbor = CBOR.Map()
                .set(CBOR.Int(2), CBOR.Float(-9.5367431640625e-7))
                .set(CBOR.Int(6), CBOR.Int(123456789123456789123456789n))
                .set(CBOR.Int(1), CBOR.Tag(500n, CBOR.Array().add(CBOR.Int(45)))).encode();
-assertFalse("cmp1", CBOR.compareArrays(bin, cbor));
+assertFalse("cmp1", compareArrays(bin, cbor));
 let array = CBOR.decode(cbor).get(CBOR.Int(5)).get(CBOR.Int(9));
 assertTrue("bool1", array.get(2).getBoolean());
 assertFalse("bool1", array.get(3).getBoolean());
 assertFalse("null1", array.get(3).isNull());
 assertTrue("null2", array.get(4).isNull());
-assertFalse("cmp2", CBOR.compareArrays(CBOR.fromDiagnostic(CBOR.decode(cbor).toString()).encode(), bin));
+assertFalse("cmp2", compareArrays(CBOR.fromDiagnostic(CBOR.decode(cbor).toString()).encode(), bin));
 
 assertTrue("version", CBOR.version == "1.0.22");
 

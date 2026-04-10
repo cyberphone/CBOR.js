@@ -16,7 +16,7 @@ function oneTurn(value, hex) {
   let s2 = CBOR.decode(s.encode());
   assertTrue("v", s.getSimple() == value);
   assertTrue("v2", s2.getSimple() == value);
-  assertTrue("b", CBOR.toHex(s2.encode()) == hex);
+  assertTrue("b", s2.encode().toHex() == hex);
 }
 
 oneTurn(0, "e0");

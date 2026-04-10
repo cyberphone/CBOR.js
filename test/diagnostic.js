@@ -21,7 +21,7 @@ function oneTurn(cborText, ok, compareWithOrNull) {
 }
 
 function oneBinaryTurn(diag, hex) {
-  assertTrue("bin", CBOR.toHex(CBOR.fromDiagnostic(diag).encode()) == hex);
+  assertTrue("bin", CBOR.fromDiagnostic(diag).encode().toHex() == hex);
 }
 
 oneTurn("2", true, null);
@@ -47,7 +47,7 @@ oneBinaryTurn('"\\ud800\\udd51"', "64f0908591");
 oneBinaryTurn("'\\u20ac'", "43e282ac");
 oneBinaryTurn('"\\"\\\\\\b\\f\\n\\r\\t"', "67225c080c0a0d09");
 
-let cborObject = CBOR.decode(CBOR.fromHex('a20169746578740a6e6578740284fa3380000147a10564646\
+let cborObject = CBOR.decode(Uint8Array.fromHex('a20169746578740a6e6578740284fa3380000147a10564646\
 17461a1f5f4c074323032332d30362d30325430373a35333a31395a'));
 
 let cborText = '{\n' +

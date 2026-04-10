@@ -4,7 +4,7 @@ import { assertTrue, assertFalse, success } from './assertions.js';
 
 function oneTurn(hex, dn, ok) {
   try {
-    let object = CBOR.decode(CBOR.fromHex(hex));
+    let object = CBOR.decode(Uint8Array.fromHex(hex));
     assertTrue("Should not execute", ok);
     if (object.toString() != dn.toString() || !object.equals(CBOR.decode(object.encode()))) {
       throw Error("non match:" + dn + " " + object.toString());
