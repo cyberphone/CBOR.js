@@ -27,7 +27,8 @@ The sample code below shows how `payload.bin` could be processed by a receiver:
 ```javascript
 // large-payload.mjs
 
-import CBOR from 'cbor-core';
+// Test program for large payloads
+import CBOR from '../npm/mjs/index.mjs';
 const crypto = await import('node:crypto');
 
 const FILE_KEY = CBOR.String("file");
@@ -36,7 +37,7 @@ const BYOB_LENGTH = 1000;
 const CBOR_MAX_LENGTH = 500;
 const hashFunction = crypto.createHash('sha256');
 
-const response = await fetch('https://cyberphone.github.io/CBOR.js/doc/app-notes/large-payloads/payload.bin');
+const response = await fetch('https://cyberphone.github.io/cbor-core/large-payload/payload.bin');
 if (!response.ok) {
   throw new Error("Failed request, status=" + response.status);
 }
@@ -49,12 +50,23 @@ let cborBuffer;
 let fileSze = 0;
 let outputBuffer = null;
 
+function compareArrays(a, b) {
+  let minIndex = Math.min(a.length, b.length);
+  for (let i = 0; i < minIndex; i++) {
+    let diff = a[i] - b[i];
+    if (diff != 0) {
+      return diff;
+    }
+  }
+  return a.length - b.length;
+}
+
 reader.read(new Uint8Array(byobBuffer))
       .then(function processBytes({ done, value }) {
 
   if (done) {
     let sha256 = hashFunction.digest();
-    if (CBOR.compareArrays(metaData.get(SHA256_KEY).getBytes(), sha256)) {
+    if (compareArrays(metaData.get(SHA256_KEY).getBytes(), sha256)) {
       throw new Error("Failed on SHA256");
     }
     console.log(`Successfully received: ${metaData.get(FILE_KEY).getString()} (${fileSze})`);
@@ -84,9 +96,9 @@ reader.read(new Uint8Array(byobBuffer))
   if (outputBuffer) {
     fileSze += outputBuffer.length;
     hashFunction.update(outputBuffer);
-    /////////////////////////////////////////////////////
-    // Store the chunk in an application-specific way. //
-    /////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    // Store the chunk (outputBuffer) in an application-specific way. //
+    ////////////////////////////////////////////////////////////////////
   }
 
   return reader.read(new Uint8Array(value.buffer))
