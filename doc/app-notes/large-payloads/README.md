@@ -1,5 +1,5 @@
 # Application note: Combining CBOR and Large Files
-This note shows how you can combine CBOR with large files without embedding the files in CBOR.  The primary goal is to use as little RAM as possible.
+This note shows how you can combine CBOR with _arbitrary_ large files without embedding the files in CBOR.  The primary goal is to use as little RAM as possible.
 
 The sample builds on using a CBOR sequence permitting succeeding data to be non-CBOR as outlined in 
 [CBOR::Core](https://www.ietf.org/archive/id/draft-rundgren-cbor-core-25.html).
