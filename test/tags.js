@@ -13,6 +13,11 @@ cbor = CBOR.Tag(0xf0123456789abcden, object).encode();
 assertTrue("t14", CBOR.decode(cbor).getTagNumber()== 0xf0123456789abcden);
 assertTrue("t5", cbor.toHex() == 
     "dbf0123456789abcde82781c68747470733a2f2f6578616d706c652e636f6d2f6d796f626a65637406");
+let tagClone = tag.clone();
+assertTrue("t6", tagClone.equals(tag));
+tagClone.get().update(1, CBOR.String("hi"));
+assertTrue("t7", tagClone.cotxObject.equals(CBOR.String("hi")));
+assertFalse("t8", tagClone.equals(tag));
 
 [-1n, 0x10000000000000000n].forEach(tagNumber => { 
   try {

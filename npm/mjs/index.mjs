@@ -1020,7 +1020,7 @@ export default class CBOR {
             let array = object._objects
             if (array[0] instanceof CBOR.String) {
               this.#cotxId = array[0].getString();
-              this.#cotxObject = object._objects[1];
+              this.#cotxObject = array;
               return;
             }
           }
@@ -1090,7 +1090,7 @@ export default class CBOR {
 
     get cotxObject() {
       this._checkCotx();
-      return this._markAsRead(this.#cotxObject);
+      return this._markAsRead(this.#cotxObject[1]);
     }
 
     _isPrimitive() {
