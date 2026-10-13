@@ -992,7 +992,7 @@ class CBOR {
     #epochTime;
 
     #cotxId;
-    #cotxObject;
+    #cotxArgument;
 
     constructor(tagNumber, object) {
       super();
@@ -1019,8 +1019,10 @@ class CBOR {
           if (object instanceof CBOR.Array && object.length == 2) {
             let array = object._objects
             if (array[0] instanceof CBOR.String) {
+              // Note: _readFlag is by default set to true for the id.
               this.#cotxId = array[0].getString();
-              this.#cotxObject = array;
+              // Note: the argument remains untouched.
+              this.#cotxArgument = array;
               return;
             }
           }
@@ -1055,7 +1057,7 @@ class CBOR {
 
     internalToString(cborPrinter) {
       cborPrinter.append(this._tagNumber.toString()).append('(');
-      if (this.#cotxObject == null) {
+      if (this.#cotxArgument == null) {
         this._object.internalToString(cborPrinter);
       } else {
         cborPrinter.append('[');
@@ -1077,7 +1079,7 @@ class CBOR {
     }
 
     _checkCotx() {
-      if (!this.#cotxObject) {
+      if (!this.#cotxArgument) {
         this.#errorInObject(CBOR.Tag.__ERR_COTX);
       }
       this.get();
@@ -1090,7 +1092,7 @@ class CBOR {
 
     get cotxObject() {
       this._checkCotx();
-      return this._markAsRead(this.#cotxObject[1]);
+      return this._markAsRead(this.#cotxArgument[1]);
     }
 
     _isPrimitive() {
