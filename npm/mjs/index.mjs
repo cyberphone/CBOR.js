@@ -1503,7 +1503,7 @@ export default class CBOR {
       if (n > 23) {
         // For 1, 2, 4, and 8 byte N.
         let q = 1 << (n - 24);
-        let mask = 0xffffffffn << BigInt((q >> 1) * 8);
+        let mask = 0xffffffffn << BigInt(q * 4);
         bigN = 0n;
         while (--q >= 0) {
           bigN <<= 8n;
