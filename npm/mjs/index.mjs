@@ -53,59 +53,58 @@ export default class CBOR {
       return this.#checkTypeAndGetValue(CBOR.Int);
     }
 
-    #rangeBigInt(min, max) {
+    #rangeBigInt(limit) {
       let value = this.getBigInt();
-      CBOR.#rangeCheck(value, min, max);
+      CBOR.#rangeCheck(value, limit);
       return value;
     }
 
-    #rangeNumber(min, max) {
-      return Number(this.#rangeBigInt(min, max));
+    #rangeNumber(limit) {
+      return Number(this.#rangeBigInt(limit));
     } 
 
     getInt8() {
-      return this.#rangeNumber(-0x80n, 0x7fn);
+      return this.#rangeNumber(-0x80n);
     }
 
     getUint8() {
-      return this.#rangeNumber(0n, 0xffn);
+      return this.#rangeNumber(0xffn);
     }
 
     getInt16() {
-      return this.#rangeNumber(-0x8000n, 0x7fffn);
+      return this.#rangeNumber(-0x8000n);
     }
 
     getUint16() {
-      return this.#rangeNumber(0n, 0xffffn);
+      return this.#rangeNumber(0xffffn);
     }
 
     getInt32() {
-      return this.#rangeNumber(-0x80000000n, 0x7fffffffn);
+      return this.#rangeNumber(-0x80000000n);
     }
 
     getUint32() {
-      return this.#rangeNumber(0n, 0xffffffffn);
+      return this.#rangeNumber(0xffffffffn);
     }
 
     getInt53() {
-      return this.#rangeNumber(-9007199254740991n, 9007199254740991n);
+      return this.#rangeNumber(0n);
     }
 
     getInt64() {
-      return this.#rangeBigInt(-0x8000000000000000n, 0x7fffffffffffffffn);
+      return this.#rangeBigInt(-0x8000000000000000n);
     }
 
     getUint64() {
-      return this.#rangeBigInt(0n, 0xffffffffffffffffn);
+      return this.#rangeBigInt(0xffffffffffffffffn);
     }
 
     getInt128() {
-      return this.#rangeBigInt(-0x80000000000000000000000000000000n,
-        0x7fffffffffffffffffffffffffffffffn);
+      return this.#rangeBigInt(-0x80000000000000000000000000000000n);
     }
 
     getUint128() {
-      return this.#rangeBigInt(0n, 0xffffffffffffffffffffffffffffffffn);
+      return this.#rangeBigInt(0xffffffffffffffffffffffffffffffffn);
     }
 
     getString() {
@@ -356,48 +355,47 @@ export default class CBOR {
     }
 
     static createInt8(value) {
-      return CBOR.#createInt(value, -0x80n, 0x7fn);
+      return CBOR.#createInt(value, -0x80n);
     }
 
     static createUint8(value) {
-      return CBOR.#createInt(value, 0n, 0xffn);
+      return CBOR.#createInt(value, 0xffn);
     }
 
     static createInt16(value) {
-      return CBOR.#createInt(value, -0x8000n, 0x7fffn);
+      return CBOR.#createInt(value, -0x8000n);
     }
 
     static createUint16(value) {
-      return CBOR.#createInt(value, 0n, 0xffffn);
+      return CBOR.#createInt(value, 0xffffn);
     }
 
     static createInt32(value) {
-      return CBOR.#createInt(value, -0x80000000n, 0x7fffffffn);
+      return CBOR.#createInt(value, -0x80000000n);
     }
 
     static createUint32(value) {
-      return CBOR.#createInt(value, 0n, 0xffffffffn);
+      return CBOR.#createInt(value, 0xffffffffn);
     }
 
     static createInt53(value) {
-      return CBOR.#createInt(value, -9007199254740991n, 9007199254740991n);
+      return CBOR.#createInt(value, 0n);
     }
 
     static createInt64(value) {
-      return CBOR.#createInt(value, -0x8000000000000000n, 0x7fffffffffffffffn);
+      return CBOR.#createInt(value, -0x8000000000000000n);
     }
 
     static createUint64(value) {
-      return CBOR.#createInt(value, 0n, 0xffffffffffffffffn);
+      return CBOR.#createInt(value, 0xffffffffffffffffn);
     }
       
     static createInt128(value) {
-      return CBOR.#createInt(value, 
-        -0x80000000000000000000000000000000n, 0x7fffffffffffffffffffffffffffffffn);
+      return CBOR.#createInt(value, -0x80000000000000000000000000000000n);
     }
 
     static createUint128(value) {
-      return CBOR.#createInt(value, 0n, 0xffffffffffffffffffffffffffffffffn);
+      return CBOR.#createInt(value, 0xffffffffffffffffffffffffffffffffn);
     }
   }
 
@@ -2231,10 +2229,10 @@ export default class CBOR {
     return object;
   }
 
-  static #createInt(value, min, max) {
+  static #createInt(value, limit) {
     value = CBOR.#unifiedInt(value);
     let cborInt = CBOR.Int(value);
-    CBOR.#rangeCheck(value, min, max);
+    CBOR.#rangeCheck(value, limit);
     return cborInt;
   }
 
@@ -2266,17 +2264,27 @@ export default class CBOR {
     return CBOR.Float(converted);
   }
 
-  static #rangeCheck(value, min, max) {
-    if (value < min || value > max) {
-      if (min < 0n && max != 9007199254740991n) {
-        max++;
+  static #rangeCheck(value, limit) {
+    let upper;
+    if (limit < 0n) {
+      upper = ~limit; // two's complement 
+    } else if (limit) {
+      upper = limit;
+      limit = 0n;
+    } else {
+      upper = 9007199254740991n;
+      limit = -9007199254740991n;
+    }
+    if (value < limit || value > upper) {
+      if (limit < 0n && upper != 9007199254740991n) {
+        upper++;
       }
       let bits = 0;
-      while (max) {
-        max >>= 1n;
+      while (upper) {
+        upper >>= 1n;
         bits++;
       }
-      CBOR.#rangeError((min ? "Int" : "Uint") + bits, value.toString());
+      CBOR.#rangeError((limit ? "Int" : "Uint") + bits, value.toString());
     }
   }
 
