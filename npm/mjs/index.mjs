@@ -16,7 +16,7 @@
 export default class CBOR {
 
   static get version() {
-    return "1.0.22";
+    return "1.0.23";
   }
 
   static #MT_UNSIGNED      = 0x00;

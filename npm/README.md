@@ -1,4 +1,7 @@
 ## cbor-core
+
+Note: `cbor-core` is an update of the deprecated package `cbor-object`.
+
 Core Description: https://github.com/cyberphone/CBOR.js#main
 
 ### Nodejs Installation
@@ -21,7 +24,7 @@ let cbor = CBOR.Map()
                .set(CBOR.Int(1), CBOR.Float(45.7))
                .set(CBOR.Int(2), CBOR.String("Hi there!")).encode();
 
-console.log(CBOR.toHex(cbor));
+console.log(cbor.toHex());
 ```
 ### Usage in Browsers
 Copy the file https://github.com/cyberphone/CBOR.js/blob/main/src/cbor.js to your application and include it in HTML with the `<script src='...'></script>` tag.

@@ -966,7 +966,7 @@ assertFalse("null1", array.get(3).isNull());
 assertTrue("null2", array.get(4).isNull());
 assertFalse("cmp2", compareArrays(CBOR.fromDiagnostic(CBOR.decode(cbor).toString()).encode(), bin));
 
-assertTrue("version", CBOR.version == "1.0.22");
+assertTrue("version", CBOR.version == "1.0.23");
 
 success();
 `}

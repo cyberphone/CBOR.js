@@ -104,3 +104,6 @@ Removed the following utility methods:
    CBOR.toBigInt()
    CBOR.fromBigInt()
 (they appear to belong to JavaScript, like toHex() already do).
+
+2026-11-25 1.0.23
+Fixed a regression bug in README.md due to chnges in 1.0.22
